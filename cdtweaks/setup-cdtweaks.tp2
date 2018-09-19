@@ -74,7 +74,7 @@ LANGUAGE
   ~cdtweaks/languages/english/description_updates.tra~
   ~cdtweaks/languages/english/setup.tra~
 LANGUAGE
-  ~Czech (Translation by Razfallow and Vlas·k)~
+  ~Czech (Translation by Razfallow and Vlas√°k)~
   ~czech~
   ~cdtweaks/languages/english/setup.tra~
   ~cdtweaks/languages/czech/setup.tra~
@@ -13883,7 +13883,7 @@ COPY_EXISTING_REGEXP GLOB ~^_?xan[46]?\.cre$~ ~override~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-BEGIN @501000 DESIGNATED 4150
+BEGIN @503000 DESIGNATED 4150
 GROUP @0
 REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25 // Tutu or BGT only
 
