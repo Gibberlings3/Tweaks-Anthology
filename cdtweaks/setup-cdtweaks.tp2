@@ -80,7 +80,7 @@ LANGUAGE
   ~cdtweaks/languages/english/description_updates.tra~
   ~cdtweaks/languages/english/setup.tra~
 LANGUAGE
-  ~Czech (Translation by Razfallow and Vlas·k)~
+  ~Czech (Translation by Razfallow and Vlas√°k)~
   ~czech~
   ~cdtweaks/languages/english/setup.tra~
   ~cdtweaks/languages/czech/setup.tra~
@@ -6983,9 +6983,13 @@ END
 
 BEGIN @224000 DESIGNATED 2240
 GROUP @9
+
+ACTION_IF (!GAME_IS ~eet bg2ee~) BEGIN
 REQUIRE_PREDICATE NOT FILE_EXISTS_IN_GAME ~bpduearc.spl~ @16      // non-BP
 REQUIRE_PREDICATE NOT FILE_EXISTS         ~data/rot-rule.bif~ @16 // non-RoT
 REQUIRE_PREDICATE NOT FILE_EXISTS         ~data/tdd-rule.bif~ @16 // non-TDD
+END
+
 REQUIRE_PREDICATE NOT GAME_IS ~iwd2~ @25
 
 ACTION_IF GAME_IS ~iwd2~ THEN BEGIN
