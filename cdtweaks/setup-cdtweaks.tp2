@@ -80,7 +80,7 @@ LANGUAGE
   ~cdtweaks/languages/english/description_updates.tra~
   ~cdtweaks/languages/english/setup.tra~
 LANGUAGE
-  ~Czech (Translation by Razfallow and Vlas·k)~
+  ~Czech (Translation by Razfallow and Vlas√°k)~
   ~czech~
   ~cdtweaks/languages/english/setup.tra~
   ~cdtweaks/languages/czech/setup.tra~
@@ -4429,6 +4429,10 @@ END ELSE BEGIN // bgt
   EXTEND_BOTTOM ~%NorthNashkelRoad_BCS%.bcs~           ~cdtweaks/baf/bgt_spawn_sharteel.baf~
 
 END
+
+/* Missing component elements 
+A) In BGEE and EET Shar-Teel's fighting duel script is in the area script and must be moved as well.
+B) During the fight she changes to override script Shartel2.bcs that also contains area references 
 
 /////                                                  \\\\\
 ///// Move NPCs From Baldur's Gate: tiax               \\\\\
