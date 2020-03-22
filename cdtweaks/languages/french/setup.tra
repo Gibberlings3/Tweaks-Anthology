@@ -50,7 +50,7 @@
   @4000 = ~Peau bleue pour Viconia~
   @5000 = ~Script de changement d'avatar~
   @5001 = ~SCRIPT DE CHANGEMENT D'AVATAR :~
-  @5002 = ~Ce script permet à l'utilisateur d'avoir un contrôle sur l'avatar du personnage. Enfoncez 'S' pour activer l'écran de sélection d'un avatar. (<script>)~
+  @5002 = ~Ce script permet Ã  l'utilisateur d'avoir un contrÃ´le sur l'avatar du personnage. Enfoncez 'S' pour activer l'Ã©cran de sÃ©lection d'un avatar. (<script>)~
   @6000 = ~Animation des armes amelioree~
   @7000 = ~Incantation des sorts style Icewind Dale (Andyr)~
   @7020 = ~Incantation des sorts style Baldur's Gate II (Andyr)~
@@ -99,70 +99,70 @@
  @18025 = ~Boutique de Lis Noir~
  @18026 = ~Produits de Perter~
  @18027 = ~un casier~
- @18028 = ~un endroit sûr~
+ @18028 = ~un endroit sÃ»r~
  @18029 = ~le sac~
  @18030 = ~ce sac~
  @18031 = ~le molleton~
  @18032 = ~la malle~
  @18033 = ~cette malle~
  @18034 = ~Articles de Contrebande de Selence Hillstar~
- @18100 = ~Sac à gemmes bronze~
- @18101 = ~Sac à gemmes noir-vert~
- @18102 = ~Sac à gemmes vert~
- @18103 = ~Sac à gemmes turquoise~
- @18104 = ~Sac à gemmes indigo~
- @18105 = ~Sac à gemmes pourpre~
- @18106 = ~Sac à gemmes noir-or~
- @18107 = ~Sac à gemmes bleu~
- @18108 = ~Sac à gemmes noir~
- @18109 = ~Sac à gemmes noir-rouge~
- @18110 = ~Sac à gemmes bordeaux~
- @18111 = ~Sac à gemmes argent~
- @18112 = ~Sac à gemmes cuivre~
- @18113 = ~Sac à gemmes or~
- @18114 = ~Sac à gemmes rouge~
- @18115 = ~Sac à gemmes verdâtre~
- @18116 = ~Sac à gemmes marron~
- @18117 = ~Sac à gemmes rouge-or~
- @18118 = ~Sac à gemmes rouge-violet~
- @18119 = ~Sac à gemmes velours~
- @18120 = ~Vieux sac à gemmes~
- @18121 = ~Sac à gemmes cyan~
- @18122 = ~Sac à gemmes or-rouge~
- @18123 = ~Sac à gemmes argenté~
- @18124 = ~Sac à gemmes feu sombre~
- @18125 = ~Sac à gemmes vert marin~
- @18126 = ~Sac à gemmes drow~
- @18127 = ~Sac à gemmes émeraude~
- @18128 = ~Sac à gemmes de couleur sombre~
- @18200 = ~Etui à parchemin bronze~
- @18201 = ~Etui à parchemin noir-vert~
- @18202 = ~Etui à parchemin vert~
- @18203 = ~Etui à parchemin turquoise~
- @18204 = ~Etui à parchemin indigo~
- @18205 = ~Etui à parchemin pourpre~
- @18206 = ~Etui à parchemin noir~
- @18207 = ~Etui à parchemin bleu~
- @18208 = ~Etui à parchemin noir-rouge~
- @18209 = ~Etui à parchemin argent~
- @18210 = ~Etui à parchemin cuivre~
- @18211 = ~Etui à parchemin or~
- @18212 = ~Etui à parchemin rouge~
- @18213 = ~Etui à parchemin jaunâtre~
- @18214 = ~Etui à parchemin bordeaux~
- @18215 = ~Etui à parchemin rubis~
- @18216 = ~Etui à parchemin marron~
- @18217 = ~Etui à parchemin améthyste~
- @18218 = ~Etui à parchemin ancien~
- @18219 = ~Vieil étui à parchemin~
- @18220 = ~Etui à parchemin argenté~
- @18221 = ~Etui à parchemin feu sombre~
- @18222 = ~Etui à parchemin vert marin~
- @18223 = ~Etui à parchemin drow~
- @18224 = ~Etui à parchemin émeraude~
+ @18100 = ~Sac Ã  gemmes bronze~
+ @18101 = ~Sac Ã  gemmes noir-vert~
+ @18102 = ~Sac Ã  gemmes vert~
+ @18103 = ~Sac Ã  gemmes turquoise~
+ @18104 = ~Sac Ã  gemmes indigo~
+ @18105 = ~Sac Ã  gemmes pourpre~
+ @18106 = ~Sac Ã  gemmes noir-or~
+ @18107 = ~Sac Ã  gemmes bleu~
+ @18108 = ~Sac Ã  gemmes noir~
+ @18109 = ~Sac Ã  gemmes noir-rouge~
+ @18110 = ~Sac Ã  gemmes bordeaux~
+ @18111 = ~Sac Ã  gemmes argent~
+ @18112 = ~Sac Ã  gemmes cuivre~
+ @18113 = ~Sac Ã  gemmes or~
+ @18114 = ~Sac Ã  gemmes rouge~
+ @18115 = ~Sac Ã  gemmes verdÃ¢tre~
+ @18116 = ~Sac Ã  gemmes marron~
+ @18117 = ~Sac Ã  gemmes rouge-or~
+ @18118 = ~Sac Ã  gemmes rouge-violet~
+ @18119 = ~Sac Ã  gemmes velours~
+ @18120 = ~Vieux sac Ã  gemmes~
+ @18121 = ~Sac Ã  gemmes cyan~
+ @18122 = ~Sac Ã  gemmes or-rouge~
+ @18123 = ~Sac Ã  gemmes argentÃ©~
+ @18124 = ~Sac Ã  gemmes feu sombre~
+ @18125 = ~Sac Ã  gemmes vert marin~
+ @18126 = ~Sac Ã  gemmes drow~
+ @18127 = ~Sac Ã  gemmes Ã©meraude~
+ @18128 = ~Sac Ã  gemmes de couleur sombre~
+ @18200 = ~Etui Ã  parchemin bronze~
+ @18201 = ~Etui Ã  parchemin noir-vert~
+ @18202 = ~Etui Ã  parchemin vert~
+ @18203 = ~Etui Ã  parchemin turquoise~
+ @18204 = ~Etui Ã  parchemin indigo~
+ @18205 = ~Etui Ã  parchemin pourpre~
+ @18206 = ~Etui Ã  parchemin noir~
+ @18207 = ~Etui Ã  parchemin bleu~
+ @18208 = ~Etui Ã  parchemin noir-rouge~
+ @18209 = ~Etui Ã  parchemin argent~
+ @18210 = ~Etui Ã  parchemin cuivre~
+ @18211 = ~Etui Ã  parchemin or~
+ @18212 = ~Etui Ã  parchemin rouge~
+ @18213 = ~Etui Ã  parchemin jaunÃ¢tre~
+ @18214 = ~Etui Ã  parchemin bordeaux~
+ @18215 = ~Etui Ã  parchemin rubis~
+ @18216 = ~Etui Ã  parchemin marron~
+ @18217 = ~Etui Ã  parchemin amÃ©thyste~
+ @18218 = ~Etui Ã  parchemin ancien~
+ @18219 = ~Vieil Ã©tui Ã  parchemin~
+ @18220 = ~Etui Ã  parchemin argentÃ©~
+ @18221 = ~Etui Ã  parchemin feu sombre~
+ @18222 = ~Etui Ã  parchemin vert marin~
+ @18223 = ~Etui Ã  parchemin drow~
+ @18224 = ~Etui Ã  parchemin Ã©meraude~
  @18225 = ~Sacoche de livres rouge~
  @18226 = ~Sacoche de livres orange~
- @18227 = ~Sacoche de livres dorée~
+ @18227 = ~Sacoche de livres dorÃ©e~
  @18228 = ~Sacoche de livres verte~
  @18229 = ~Sacoche de livres verte canard~
  @18230 = ~Sacoche de livres bleue~
@@ -178,7 +178,7 @@
  @18240 = ~Rouleau de parchemins indigo~
  @18241 = ~Rouleau de parchemins violet~
  @18242 = ~Rouleau de parchemins noir~
- @18243 = ~Etui à parchemin de couleur sombre~
+ @18243 = ~Etui Ã  parchemin de couleur sombre~
  @18300 = ~Sac de contenance bronze~
  @18301 = ~Sac de contenance vert malachite~
  @18302 = ~Sac de contenance vert~
@@ -194,9 +194,9 @@
  @18312 = ~Sac de contenance or~
  @18313 = ~Sac de contenance rouge~
  @18314 = ~Sac de contenance cuivre~
- @18315 = ~Sac de contenance verdâtre~
+ @18315 = ~Sac de contenance verdÃ¢tre~
  @18316 = ~Sac de contenance sombre~
- @18317 = ~Nécessaire de camping~
+ @18317 = ~NÃ©cessaire de camping~
  @18318 = ~Sac de contenance marron-bleu~
  @18319 = ~Sac de contenance marron-vert~
  @18320 = ~Sac de contenance marron-rouge~
@@ -216,11 +216,11 @@
  @18334 = ~Sac de contenance argent-or~
  @18335 = ~Sac de contenance bleu-violet~
  @18336 = ~Sac de contenance bleu~
- @18337 = ~Sac de contenance argenté~
+ @18337 = ~Sac de contenance argentÃ©~
  @18338 = ~Sac de contenance feu sombre~
  @18339 = ~Sac de contenance vert marin~
  @18340 = ~Sac de contenance drow~
- @18341 = ~Sac de contenance émeraude~
+ @18341 = ~Sac de contenance Ã©meraude~
  @18342 = ~Sac de contenance de couleur sombre~
  @18400 = ~Ceinture de munitions blanche-or~
  @18401 = ~Ceinture de munitions rouge-noire~
@@ -234,17 +234,17 @@
  @18409 = ~Ceinture de munitions rougeoyante~
  @18410 = ~Ceinture de munitions verte~
  @18411 = ~Ceinture de munitions rubis~
- @18412 = ~Ceinture de munitions dorée~
+ @18412 = ~Ceinture de munitions dorÃ©e~
  @18413 = ~Ceinture de munitions de cuir~
  @18414 = ~Ceinture de munitions rustique~
- @18415 = ~Ceinture de munitions argenté~
+ @18415 = ~Ceinture de munitions argentÃ©~
  @18416 = ~Ceinture de munitions feu sombre~
  @18417 = ~Ceinture de munitions vert marin~
  @18418 = ~Ceinture de munitions drow~
- @18419 = ~Ceinture de munitions émeraude~
+ @18419 = ~Ceinture de munitions Ã©meraude~
  @18420 = ~Carquois rouge~
  @18421 = ~Carquois marron~
- @18422 = ~Carquois doré~
+ @18422 = ~Carquois dorÃ©~
  @18423 = ~Carquois vert~
  @18424 = ~Carquois vert canard~
  @18425 = ~Carquois bleu~
@@ -253,7 +253,7 @@
  @18428 = ~Carquois noir~
  @18429 = ~Trousse de carreaux rouge~
  @18430 = ~Trousse de carreaux marron~
- @18431 = ~Trousse de carreaux dorée~
+ @18431 = ~Trousse de carreaux dorÃ©e~
  @18432 = ~Trousse de carreaux verte~
  @18433 = ~Trousse de carreaux vert canard~
  @18434 = ~Trousse de carreaux bleue~
@@ -270,39 +270,39 @@
  @18445 = ~Ceinture de munitions violette ferraille~
  @18446 = ~Ceinture de munitions noire ferraille~
  @18447 = ~Ceinture de munitions de couleur sombre~
- @18500 = ~Boîte à potions cuivre~
- @18501 = ~Boîte à potions noire-verte~
- @18502 = ~Boîte à potions verte~
- @18503 = ~Boîte à potions turquoise~
- @18504 = ~Boîte à potions indigo~
- @18505 = ~Boîte à potions pourpre~
- @18506 = ~Boîte à potions noire~
- @18507 = ~Boîte à potions de nuit~
- @18508 = ~Boîte à potions verte-or~
- @18509 = ~Boîte à potions rouille~
- @18510 = ~Boîte à potions rubis~
- @18511 = ~Boîte à potions or~
- @18512 = ~Boîte à potions rouge~
- @18513 = ~Boîte à potions noir-or~
- @18514 = ~Boîte à potions rose~
- @18515 = ~Boîte à potions blanche~
- @18516 = ~Boîte à potions rustique~
- @18517 = ~Vieille boîte à potions~
- @18518 = ~Boîte à potions argentée~
- @18519 = ~Boîte à potions feu sombre~
- @18520 = ~Boîte à potions vert marin~
- @18521 = ~Boîte à potions drow~
- @18522 = ~Boîte à potions émeraude~
- @18523 = ~Sac à potions bordé de rouge~
- @18524 = ~Sac à potions bordé de bronze~
- @18525 = ~Sac à potions bordé d'or~
- @18526 = ~Sac à potions bordé de vert~
- @18527 = ~Sac à potions bordé de vert canard~
- @18528 = ~Sac à potions bordé de bleu~
- @18529 = ~Sac à potions bordé d'indigo~
- @18530 = ~Sac à potions bordé de violet~
- @18531 = ~Sac à potions bordé de noir~
- @18532 = ~Boîte à potions de couleur sombre~
+ @18500 = ~BoÃ®te Ã  potions cuivre~
+ @18501 = ~BoÃ®te Ã  potions noire-verte~
+ @18502 = ~BoÃ®te Ã  potions verte~
+ @18503 = ~BoÃ®te Ã  potions turquoise~
+ @18504 = ~BoÃ®te Ã  potions indigo~
+ @18505 = ~BoÃ®te Ã  potions pourpre~
+ @18506 = ~BoÃ®te Ã  potions noire~
+ @18507 = ~BoÃ®te Ã  potions de nuit~
+ @18508 = ~BoÃ®te Ã  potions verte-or~
+ @18509 = ~BoÃ®te Ã  potions rouille~
+ @18510 = ~BoÃ®te Ã  potions rubis~
+ @18511 = ~BoÃ®te Ã  potions or~
+ @18512 = ~BoÃ®te Ã  potions rouge~
+ @18513 = ~BoÃ®te Ã  potions noir-or~
+ @18514 = ~BoÃ®te Ã  potions rose~
+ @18515 = ~BoÃ®te Ã  potions blanche~
+ @18516 = ~BoÃ®te Ã  potions rustique~
+ @18517 = ~Vieille boÃ®te Ã  potions~
+ @18518 = ~BoÃ®te Ã  potions argentÃ©e~
+ @18519 = ~BoÃ®te Ã  potions feu sombre~
+ @18520 = ~BoÃ®te Ã  potions vert marin~
+ @18521 = ~BoÃ®te Ã  potions drow~
+ @18522 = ~BoÃ®te Ã  potions Ã©meraude~
+ @18523 = ~Sac Ã  potions bordÃ© de rouge~
+ @18524 = ~Sac Ã  potions bordÃ© de bronze~
+ @18525 = ~Sac Ã  potions bordÃ© d'or~
+ @18526 = ~Sac Ã  potions bordÃ© de vert~
+ @18527 = ~Sac Ã  potions bordÃ© de vert canard~
+ @18528 = ~Sac Ã  potions bordÃ© de bleu~
+ @18529 = ~Sac Ã  potions bordÃ© d'indigo~
+ @18530 = ~Sac Ã  potions bordÃ© de violet~
+ @18531 = ~Sac Ã  potions bordÃ© de noir~
+ @18532 = ~BoÃ®te Ã  potions de couleur sombre~
  @19000 = ~Pour tous les boucliers et casques~
  @19001 = ~Utiliser les couleurs du personnage plutot que les couleurs de l'objet~
  @19100 = ~Pour tous les boucliers et casques non magiques~
@@ -327,186 +327,186 @@
 @103600  = ~Tout Bois-Manteau sauf les mines~
 @104000 = ~Ameliorer les gardes d'Athkatla~
 @104001 = ~Soldat Amnien~
-@104002 = ~Mage autorisé~
+@104002 = ~Mage autorisÃ©~
 @104003 = ~Clerc militaire~
 @105000 = ~Transformation progressive des objets des Elfes Noirs en poussiere~
-@105001 = ~Votre objet Elfe Noir s'est transformé en poussière~
+@105001 = ~Votre objet Elfe Noir s'est transformÃ© en poussiÃ¨re~
 @106000 = ~Casques, Boucliers et Armures de fer cassables~
-@106001 = ~Votre armure s'est brisée~
-@106002 = ~Votre bouclier s'est brisé~
-@106003 = ~Votre casque s'est brisé~
+@106001 = ~Votre armure s'est brisÃ©e~
+@106002 = ~Votre bouclier s'est brisÃ©~
+@106003 = ~Votre casque s'est brisÃ©~
 @107000 = ~Amelioration du dialogue d'ejection pour les PNJs multijoueurs~
-@107001 = ~Va nous attendre à l'auberge du Bras Amical. Si les choses changent, nous irons te chercher là-bas.~
-@107002 = ~Rejoins le groupe s'il te plaît.~
-@107003 = ~Je vais te renvoyer dans l'Antichambre... attends-moi là-bas.~
+@107001 = ~Va nous attendre Ã  l'auberge du Bras Amical. Si les choses changent, nous irons te chercher lÃ -bas.~
+@107002 = ~Rejoins le groupe s'il te plaÃ®t.~
+@107003 = ~Je vais te renvoyer dans l'Antichambre... attends-moi lÃ -bas.~
 // Isaya : lieux d'Icewind Dale
-@107004 = ~Va nous attendre à la taverne du Berceau de l'Hiver. Si les choses changent, nous irons te chercher là-bas.~
-@107005 = ~Va nous attendre à la taverne de La Cave aux Racines. Si les choses changent, nous irons te chercher là-bas.~
-@107006 = ~Va nous attendre à la taverne du Gibet Siffleur. Si les choses changent, nous irons te chercher là-bas.~
+@107004 = ~Va nous attendre Ã  la taverne du Berceau de l'Hiver. Si les choses changent, nous irons te chercher lÃ -bas.~
+@107005 = ~Va nous attendre Ã  la taverne de La Cave aux Racines. Si les choses changent, nous irons te chercher lÃ -bas.~
+@107006 = ~Va nous attendre Ã  la taverne du Gibet Siffleur. Si les choses changent, nous irons te chercher lÃ -bas.~
 // Nouveaux textes de Tweaks Anthology
 @107007 = ~Rebonjour. C'est toujours un plaisir de te voir.~
 @107008 = ~Tu devras attendre ici. Je n'ai pas de place pour toi en ce moment.~ // bg2 strref 27251
-@107009 = ~Cela a été un vrai plaisir de partir à l'aventure avec toi. Heureux de t'avoir rencontré et au revoir.~ // bg2 strref 43200, adapté au tutoiement
+@107009 = ~Cela a Ã©tÃ© un vrai plaisir de partir Ã  l'aventure avec toi. Heureux de t'avoir rencontrÃ© et au revoir.~ // bg2 strref 43200, adaptÃ© au tutoiement
 @107010 = ~Salut.~ [genmg05] // bg2 strref 11082
 @107011 = ~Salut.~ [genfg12] // bg2 strref 11119
-@107012 = ~Hélas, nous devons nous séparer. Jusqu'à la prochaine fois.~ // bg2 strref 43202
-@107013 = ~Attends-moi à Nashkel. Si les choses changent, je te retrouverai au temple de Heaum.~
-@107014 = ~Au cas où j'ai de nouveau besoin de tes services, retrouve-moi à la taverne du Chant de l'Elfe à la Porte de Baldur.~
-@107015 = ~Nos chemins vont se séparer pour l'instant. Attends-moi au Jongleur jovial à Bérégost.~
+@107012 = ~HÃ©las, nous devons nous sÃ©parer. Jusqu'Ã  la prochaine fois.~ // bg2 strref 43202
+@107013 = ~Attends-moi Ã  Nashkel. Si les choses changent, je te retrouverai au temple de Heaum.~
+@107014 = ~Au cas oÃ¹ j'ai de nouveau besoin de tes services, retrouve-moi Ã  la taverne du Chant de l'Elfe Ã  la Porte de Baldur.~
+@107015 = ~Nos chemins vont se sÃ©parer pour l'instant. Attends-moi au Jongleur jovial Ã  BÃ©rÃ©gost.~
 @107500 = ~Envoyer les PNJs de BioWare dans une auberge (DavidW/Zed Nocear)~
-// Isaya : les 4 textes suivants proviennent de SCS (@20801 à @20804)
-@107501 = ~Je n'ai pas besoin de ton aide pour l'instant, mais nous voyagerons ensemble à nouveau, bientôt. D'ici là, attends-moi à l'auberge de Brasamical.~
-@107502 = ~Nos chemins doivent se séparer pour un temps. Si j'ai à nouveau besoin de ton aide, cependant, nous devrions nous donner rendez-vous au Jongleur Jovial à Bérégost.~
-@107503 = ~Pour l'instant, nous devrions chercher chacun notre destinée. J'aurai bientôt besoin de ton aide, à nouveau, cependant ; si tu t'établis à l'auberge de Nashkel, je t'y reverrai quand je repasserai dans le sud.~
-@107504 = ~Nous devrions nous séparer maintenant. Je chercherai après toi la prochaine fois que je serai à la Porte – rencontrons-nous à la taverne du Chant de l'Elfe.~
-// Isaya : les textes suivants proviennent de SCS (@20810 à @20826, @20831 à ), corrections pour tutoiement/vouvoiement comme dans BG1 NPC
+// Isaya : les 4 textes suivants proviennent de SCS (@20801 Ã  @20804)
+@107501 = ~Je n'ai pas besoin de ton aide pour l'instant, mais nous voyagerons ensemble Ã  nouveau, bientÃ´t. D'ici lÃ , attends-moi Ã  l'auberge de Brasamical.~
+@107502 = ~Nos chemins doivent se sÃ©parer pour un temps. Si j'ai Ã  nouveau besoin de ton aide, cependant, nous devrions nous donner rendez-vous au Jongleur Jovial Ã  BÃ©rÃ©gost.~
+@107503 = ~Pour l'instant, nous devrions chercher chacun notre destinÃ©e. J'aurai bientÃ´t besoin de ton aide, Ã  nouveau, cependant ; si tu t'Ã©tablis Ã  l'auberge de Nashkel, je t'y reverrai quand je repasserai dans le sud.~
+@107504 = ~Nous devrions nous sÃ©parer maintenant. Je chercherai aprÃ¨s toi la prochaine fois que je serai Ã  la Porte Â– rencontrons-nous Ã  la taverne du Chant de l'Elfe.~
+// Isaya : les textes suivants proviennent de SCS (@20810 Ã  @20826, @20831 Ã  ), corrections pour tutoiement/vouvoiement comme dans BG1 NPC
 // Ajantis
 @107510 = ~Ce serait un honneur.~
 // Imoen
-@107511 = ~Bien sûr. Je ne m'impliquerai dans aucun trouble pendant ton absence, non monsieur.~ ~Bien sûr. Je ne m'impliquerai dans aucun trouble pendant ton absence, non madame.~
+@107511 = ~Bien sÃ»r. Je ne m'impliquerai dans aucun trouble pendant ton absence, non monsieur.~ ~Bien sÃ»r. Je ne m'impliquerai dans aucun trouble pendant ton absence, non madame.~
 // Kagain
-@107512 = ~Il s'avère que j'ai des choses à faire dans ce coin. Cherche après moi là-bas si jamais tu as encore besoin de muscles nains.~
+@107512 = ~Il s'avÃ¨re que j'ai des choses Ã  faire dans ce coin. Cherche aprÃ¨s moi lÃ -bas si jamais tu as encore besoin de muscles nains.~
 // Edwin
-@107513 = ~Très bien, j'accepte, selon les termes de notre accord. (Mieux vaut en rire, ils ne sont pas assez intelligents pour comprendre les arguments contre.)~
+@107513 = ~TrÃ¨s bien, j'accepte, selon les termes de notre accord. (Mieux vaut en rire, ils ne sont pas assez intelligents pour comprendre les arguments contre.)~
 // Branwen - Modif : tutoiement
-@107514 = ~Je vais ronger mon frein dans l'inaction, mais je vous suis hautement reconnaissante. Revenez bientôt voir la prêtresse guerrière.~
+@107514 = ~Je vais ronger mon frein dans l'inaction, mais je vous suis hautement reconnaissante. Revenez bientÃ´t voir la prÃªtresse guerriÃ¨re.~
 // Safana - Modif : tutoiement, amusement au singulier
-@107515 = ~Bien sûr, chéri. Je suis sûre que je pourrai trouver de l'amusement ici pendant ton absence.~ ~Bien sûr, chérie. Je suis sûre que je pourrai trouver de l'amusement ici pendant ton absence.~
+@107515 = ~Bien sÃ»r, chÃ©ri. Je suis sÃ»re que je pourrai trouver de l'amusement ici pendant ton absence.~ ~Bien sÃ»r, chÃ©rie. Je suis sÃ»re que je pourrai trouver de l'amusement ici pendant ton absence.~
 // Garrick - Modif : reprise de traduction
-@107516 = ~Eh bien, ma chanson pourrait profiter de quelques jours de travail au calme. Revenez vite, cela dit ; il y a tant à voir, j'en suis sûr !~
+@107516 = ~Eh bien, ma chanson pourrait profiter de quelques jours de travail au calme. Revenez vite, cela dit ; il y a tant Ã  voir, j'en suis sÃ»r !~
 // Coran
-@107517 = ~Même les meilleures choses ont une fin, qu'ils disent, mais peut-être peuvent-elles repasser ? J'attendrai que nos chemins se croisent à nouveau.~
+@107517 = ~MÃªme les meilleures choses ont une fin, qu'ils disent, mais peut-Ãªtre peuvent-elles repasser ? J'attendrai que nos chemins se croisent Ã  nouveau.~
 // Kivan
-@107518 = ~Je ferai cela, mais tant reste à faire. Ne retardez pas votre retour.~
+@107518 = ~Je ferai cela, mais tant reste Ã  faire. Ne retardez pas votre retour.~
 // Yeslick
-@107519 = ~C'était bien d'être avec vous. Mais je suis sûr que vous agissez sagement... Mais il y a tant à faire, alors, ne tardons pas à retravailler ensemble.~
+@107519 = ~C'Ã©tait bien d'Ãªtre avec vous. Mais je suis sÃ»r que vous agissez sagement... Mais il y a tant Ã  faire, alors, ne tardons pas Ã  retravailler ensemble.~
 // Xan - Modif : reprise de traduction
-@107520 = ~Cela ne fait aucune différence de toute façon. Je peux attendre la mort aussi bien à un endroit qu'à un autre.~
+@107520 = ~Cela ne fait aucune diffÃ©rence de toute faÃ§on. Je peux attendre la mort aussi bien Ã  un endroit qu'Ã  un autre.~
 // Alora
-@107521 = ~Aouh... le dois-je vraiment ? Je ne veux pas aller là... mais je suppose que je ferai c'que tu dis. Je vais bouder jusqu'à ton retour, cela dit !~
+@107521 = ~Aouh... le dois-je vraiment ? Je ne veux pas aller lÃ ... mais je suppose que je ferai c'que tu dis. Je vais bouder jusqu'Ã  ton retour, cela dit !~
 // Faldorn - Modif : tutoiement
-@107522 = ~Je vois peu de perspectives de protéger la Nature en me fourrant sous un toit de bois mort, entourée par toute la misère de l'Homme. C'est une marque de ma confiance en toi que je fasse comme tu le voulais.~
+@107522 = ~Je vois peu de perspectives de protÃ©ger la Nature en me fourrant sous un toit de bois mort, entourÃ©e par toute la misÃ¨re de l'Homme. C'est une marque de ma confiance en toi que je fasse comme tu le voulais.~
 // Quayle - Modif : tutoiement
-@107523 = ~Cela semble être une idée remarquablement stupide. Mais je suppose que la seule façon de t'en convaincre est d'entrer dans ton jeu.~
+@107523 = ~Cela semble Ãªtre une idÃ©e remarquablement stupide. Mais je suppose que la seule faÃ§on de t'en convaincre est d'entrer dans ton jeu.~
 // Shar-Teel - Modif : tutoiement
-@107524 = ~Je ferai comme tel, mais j'espère te rejoindre bientôt. Je ne laisserai pas ma dette impayée.~
+@107524 = ~Je ferai comme tel, mais j'espÃ¨re te rejoindre bientÃ´t. Je ne laisserai pas ma dette impayÃ©e.~
 // Tiax - Modif : tutoiement, reprise de traduction
-@107525 = ~Ton obséquiosité créative plaît à Tiax. Lorsque tu reviendras, les misérables occupants de cette taverne adoreront la gloire de Tiax !~
+@107525 = ~Ton obsÃ©quiositÃ© crÃ©ative plaÃ®t Ã  Tiax. Lorsque tu reviendras, les misÃ©rables occupants de cette taverne adoreront la gloire de Tiax !~
 // Viconia
-@107526 = ~Je ferai cela, mais pas volontiers. Je suis loin d'être en sécurité dans ces habitations de la surface.~
+@107526 = ~Je ferai cela, mais pas volontiers. Je suis loin d'Ãªtre en sÃ©curitÃ© dans ces habitations de la surface.~
 // Jaheira
-@107531 = ~Oui, Ô figure autoritaire omniprésente.~
+@107531 = ~Oui, Ã” figure autoritaire omniprÃ©sente.~
 // Khalid
-@107532 = ~T-t-t-très bien, alors. Bonne chance pour votre voyage.~
-// Dynahéir - Modif : reprise de traduction
-@107533 = ~Si vous désirez cela, ainsi en sera-t-il. Vous avez prouvé que vous étiez un meneur, et maintenant j'ai confiance en vos décisions.~
+@107532 = ~T-t-t-trÃ¨s bien, alors. Bonne chance pour votre voyage.~
+// DynahÃ©ir - Modif : reprise de traduction
+@107533 = ~Si vous dÃ©sirez cela, ainsi en sera-t-il. Vous avez prouvÃ© que vous Ã©tiez un meneur, et maintenant j'ai confiance en vos dÃ©cisions.~
 // Minsc - Modif : reprise de traduction
-@107534 = ~Es-tu sûr ? Bouh ne pense pas qu'il y ait beaucoup de mal à botter sans pitié dans une taverne. Cela dit le mal est très malin, et souvent bien éduqué, et peut se cacher n'importe où. Nous te reverrons bientôt.~ ~Es-tu sûre ? Bouh ne pense pas qu'il y ait beaucoup de mal à botter sans pitié dans une taverne. Cela dit le mal est très malin, et souvent bien éduqué, et peut se cacher n'importe où. Nous te reverrons bientôt.~
+@107534 = ~Es-tu sÃ»r ? Bouh ne pense pas qu'il y ait beaucoup de mal Ã  botter sans pitiÃ© dans une taverne. Cela dit le mal est trÃ¨s malin, et souvent bien Ã©duquÃ©, et peut se cacher n'importe oÃ¹. Nous te reverrons bientÃ´t.~ ~Es-tu sÃ»re ? Bouh ne pense pas qu'il y ait beaucoup de mal Ã  botter sans pitiÃ© dans une taverne. Cela dit le mal est trÃ¨s malin, et souvent bien Ã©duquÃ©, et peut se cacher n'importe oÃ¹. Nous te reverrons bientÃ´t.~
 // Xzar - Modif : reprise de traduction
-@107535 = ~Hourra ! Une occasion d'être utile à notre joyeuse famille ! Et sans avoir à passer plus de temps en compagnie d'imbéciles.~
+@107535 = ~Hourra ! Une occasion d'Ãªtre utile Ã  notre joyeuse famille ! Et sans avoir Ã  passer plus de temps en compagnie d'imbÃ©ciles.~
 // Montaron - Modif : tutoiement, reprise de traduction
 @107536 = ~Comme tu voudras. Un peu de temps loin de toi sera bon pour nous tous, en tout cas.~
 // Skie - Modif : reprise de traduction (style)
-@107537 = ~D'accord ; je suppose que les aventuriers font aussi ce genre de choses, bien que cela n'ait pas l’air intéressant...~
+@107537 = ~D'accord ; je suppose que les aventuriers font aussi ce genre de choses, bien que cela n'ait pas lÂ’air intÃ©ressant...~
 // Eldoth
-@107538 = ~Une chance d'avoir un peu de luxe et de se reposer de la route ? Je ne la gâcherai pas.~
+@107538 = ~Une chance d'avoir un peu de luxe et de se reposer de la route ? Je ne la gÃ¢cherai pas.~
 @108000 = ~Ajouter des sacs de contenance~
-@108001 = ~Ceinture à munitions~
-@108002 = ~Cette sangle est idéale pour stocker sur l'épaule des billes de fronde, des fléchettes, des flèches ou des carreaux.
-PARAMÈTRES :
-Capacité : 2 000 billes de fronde, fléchettes, flèches ou carreaux en tout
+@108001 = ~Ceinture Ã  munitions~
+@108002 = ~Cette sangle est idÃ©ale pour stocker sur l'Ã©paule des billes de fronde, des flÃ©chettes, des flÃ¨ches ou des carreaux.
+PARAMÃˆTRES :
+CapacitÃ© : 2 000 billes de fronde, flÃ©chettes, flÃ¨ches ou carreaux en tout
 Poids : 2~
-@108003 = ~Boîte à potions~
+@108003 = ~BoÃ®te Ã  potions~
 // Reprise de la correction de CorrecFr
-@108004 = ~Généralement utilisée par les guérisseurs itinérants, cette boite de cuir s'ouvre en se dépliant et permet à l'utilisateur de sangler sur ses côtés matelassés les bouteilles de potion fragiles, au moyen de nombreuses lanières de cuir, afin d'offrir un stockage sûr pendant un voyage. Quel que soit le nombre de potions contenues, la boîte pèse toujours un poids fixe.
-PARAMÈTRES :
-Capacité : 100 bouteilles
+@108004 = ~GÃ©nÃ©ralement utilisÃ©e par les guÃ©risseurs itinÃ©rants, cette boite de cuir s'ouvre en se dÃ©pliant et permet Ã  l'utilisateur de sangler sur ses cÃ´tÃ©s matelassÃ©s les bouteilles de potion fragiles, au moyen de nombreuses laniÃ¨res de cuir, afin d'offrir un stockage sÃ»r pendant un voyage. Quel que soit le nombre de potions contenues, la boÃ®te pÃ¨se toujours un poids fixe.
+PARAMÃˆTRES :
+CapacitÃ© : 100 bouteilles
 Poids : 2~
 @108005 = ~Sac de contenance~
-@108006 = ~Comme d'autres sacs magiques, celui-ci ressemble à un sac de tissu classique, d'environ 60 cm sur 1,20 m. Ce sac sans fond ouvre sur un espace non dimensionnel, et l'intérieur est plus grand que l'extérieur. Le poids du sac reste inchangé, quels que soient les objets qui y sont déposés.~
+@108006 = ~Comme d'autres sacs magiques, celui-ci ressemble Ã  un sac de tissu classique, d'environ 60 cm sur 1,20 m. Ce sac sans fond ouvre sur un espace non dimensionnel, et l'intÃ©rieur est plus grand que l'extÃ©rieur. Le poids du sac reste inchangÃ©, quels que soient les objets qui y sont dÃ©posÃ©s.~
 // Manifestement pour BG1
 @108500 = ~Conteneurs transportables (Zed Nocear)~
 @108501 = ~Sac~
-@108502 = ~Sac à gemmes~
+@108502 = ~Sac Ã  gemmes~
 @108503 = ~Un petit sac.~
-@108504 = ~Un sac de contenance possède une place infinie pour stocker des objets. Cette bourse solide est particulièrement adaptée au stockage de toutes sortes de gemmes et de bijoux. Il n'accepte rien d'autre que vous pourriez essayer d'y mettre.
-PARAMÈTRES :
-Spécial : peut contenir des gemmes, des anneaux, des amulettes et des colliers.
+@108504 = ~Un sac de contenance possÃ¨de une place infinie pour stocker des objets. Cette bourse solide est particuliÃ¨rement adaptÃ©e au stockage de toutes sortes de gemmes et de bijoux. Il n'accepte rien d'autre que vous pourriez essayer d'y mettre.
+PARAMÃˆTRES :
+SpÃ©cial : peut contenir des gemmes, des anneaux, des amulettes et des colliers.
 Poids : 1
 Placez-le dans un emplacement d'objet rapide pour l'ouvrir.~
-@108505 = ~Ouverture du sac à gemmes en cours. Veuillez patienter.~
-@108506 = ~Boîte~
-@108507 = ~Boîte à potions~
-@108508 = ~Une boîte rectangulaire.~
-@108509 = ~Un sac de contenance possède une place infinie pour stocker des objets. Généralement utilisée par les guérisseurs itinérants, cette boite de cuir s'ouvre en se dépliant et permet à l'utilisateur de sangler sur ses côtés matelassés les bouteilles de potion fragiles, au moyen de nombreuses lanières de cuir, afin d'offrir un stockage sûr pendant un voyage. La magie de l'objet rejettera toute autre chose.
-PARAMÈTRES :
-Spécial : peut contenir des potions et des bouteilles.
+@108505 = ~Ouverture du sac Ã  gemmes en cours. Veuillez patienter.~
+@108506 = ~BoÃ®te~
+@108507 = ~BoÃ®te Ã  potions~
+@108508 = ~Une boÃ®te rectangulaire.~
+@108509 = ~Un sac de contenance possÃ¨de une place infinie pour stocker des objets. GÃ©nÃ©ralement utilisÃ©e par les guÃ©risseurs itinÃ©rants, cette boite de cuir s'ouvre en se dÃ©pliant et permet Ã  l'utilisateur de sangler sur ses cÃ´tÃ©s matelassÃ©s les bouteilles de potion fragiles, au moyen de nombreuses laniÃ¨res de cuir, afin d'offrir un stockage sÃ»r pendant un voyage. La magie de l'objet rejettera toute autre chose.
+PARAMÃˆTRES :
+SpÃ©cial : peut contenir des potions et des bouteilles.
 Poids : 3
 Placez-la dans un emplacement d'objet rapide pour l'ouvrir.~
-@108510 = ~Ouverture de la boîte à potions en cours. Veuillez patienter.~
-@108511 = ~Boîte~
-@108512 = ~Etui à parchemin~
-@108513 = ~Une boîte.~
-@108514 = ~Un sac de contenance possède une place infinie pour stocker des objets. Cette boîte solide permet de ranger des douzaines de parchemins à l'intérieur, à l'abri du feu, de la pluie ou des éclairs - dangers fréquents pour les aventuriers magiciens. Elle n'acceptera rien d'autre.
-PARAMÈTRES :
-Spécial : peut contenir un grand nombre de parchemins.
+@108510 = ~Ouverture de la boÃ®te Ã  potions en cours. Veuillez patienter.~
+@108511 = ~BoÃ®te~
+@108512 = ~Etui Ã  parchemin~
+@108513 = ~Une boÃ®te.~
+@108514 = ~Un sac de contenance possÃ¨de une place infinie pour stocker des objets. Cette boÃ®te solide permet de ranger des douzaines de parchemins Ã  l'intÃ©rieur, Ã  l'abri du feu, de la pluie ou des Ã©clairs - dangers frÃ©quents pour les aventuriers magiciens. Elle n'acceptera rien d'autre.
+PARAMÃˆTRES :
+SpÃ©cial : peut contenir un grand nombre de parchemins.
 Poids : 2
 Placez-la dans un emplacement d'objet rapide pour l'ouvrir.~
-@108525 = ~Ouverture de l'étui à parchemin en cours. Veuillez patienter.~
+@108525 = ~Ouverture de l'Ã©tui Ã  parchemin en cours. Veuillez patienter.~
 @108515 = ~Ceinture~
-@108516 = ~Ceinture à munitions~
+@108516 = ~Ceinture Ã  munitions~
 @108517 = ~Une ceinture.~
-@108518 = ~Un sac de contenance possède une place infinie pour stocker des objets. Grâce à ses nombreux rangements, cette ceinture est idéale pour stocker des billes de fronde, des fléchettes, des flèches ou des carreaux. Rien d'autre ne pourra y entrer.
-PARAMÈTRES :
-Spécial : peut contenir un grand nombre de munitions (carreaux, flèches, billes et fléchettes).
+@108518 = ~Un sac de contenance possÃ¨de une place infinie pour stocker des objets. GrÃ¢ce Ã  ses nombreux rangements, cette ceinture est idÃ©ale pour stocker des billes de fronde, des flÃ©chettes, des flÃ¨ches ou des carreaux. Rien d'autre ne pourra y entrer.
+PARAMÃˆTRES :
+SpÃ©cial : peut contenir un grand nombre de munitions (carreaux, flÃ¨ches, billes et flÃ©chettes).
 Poids : 2
-Portez cette ceinture pour accéder à sa capacité spéciale.~
-@108519 = ~Ouverture des poches de la ceinture à munitions en cours. Veuillez patienter.~
+Portez cette ceinture pour accÃ©der Ã  sa capacitÃ© spÃ©ciale.~
+@108519 = ~Ouverture des poches de la ceinture Ã  munitions en cours. Veuillez patienter.~
 @108520 = ~Sac~
 @108521 = ~Sac de contenance~
 @108522 = ~Un sac.~
-@108523 = ~Comme d'autres sacs magiques, celui-ci ressemble à un sac de tissu classique, d'environ 60 cm sur 1,20 m. Ce sac sans fond ouvre sur un espace non dimensionnel, et l'intérieur est plus grand que l'extérieur. Le poids du sac reste inchangé, quels que soient les objets qui y sont déposés.
-PARAMÈTRES :
-Spécial : peut contenir des objets de toute taille sans limites.
+@108523 = ~Comme d'autres sacs magiques, celui-ci ressemble Ã  un sac de tissu classique, d'environ 60 cm sur 1,20 m. Ce sac sans fond ouvre sur un espace non dimensionnel, et l'intÃ©rieur est plus grand que l'extÃ©rieur. Le poids du sac reste inchangÃ©, quels que soient les objets qui y sont dÃ©posÃ©s.
+PARAMÃˆTRES :
+SpÃ©cial : peut contenir des objets de toute taille sans limites.
 Poids : 10
 Placez-le dans un emplacement d'objet rapide pour l'ouvrir.~
 @108524 = ~Ouverture du sac de contenance en cours. Veuillez patienter.~
 @109000 = ~Pack d'objets exotiques~
 @109001 = ~Carquois d'abondance~
-@109002 = ~Les origines de ce carquois ont été oubliées depuis longtemps, mais on peut supposer sans trop de risques qu'il existe un lien entre lui et l'étrange pénurie de fabricants de flèches au cours du Temps des Troubles.
+@109002 = ~Les origines de ce carquois ont Ã©tÃ© oubliÃ©es depuis longtemps, mais on peut supposer sans trop de risques qu'il existe un lien entre lui et l'Ã©trange pÃ©nurie de fabricants de flÃ¨ches au cours du Temps des Troubles.
 PARAMETRES :
-Quantité illimitée de flèches~
+QuantitÃ© illimitÃ©e de flÃ¨ches~
 @109003 = ~Etui d'abondance~
-@109004 = ~L'histoire de cet étui magique s'est perdue dans le brouillard du passé, mais elle doit sans aucun doute être liée à l'inexplicable pénurie de fabricants de carreaux au cours du Temps des Troubles.
+@109004 = ~L'histoire de cet Ã©tui magique s'est perdue dans le brouillard du passÃ©, mais elle doit sans aucun doute Ãªtre liÃ©e Ã  l'inexplicable pÃ©nurie de fabricants de carreaux au cours du Temps des Troubles.
 PARAMETRES :
-Quantité illimitée de carreaux~
+QuantitÃ© illimitÃ©e de carreaux~
 @109005 = ~Sac d'abondance~
-@109006 = ~Cette petite poche de tissu est vide, mais cela ne l'empêche pas de rayonner d'une puissane aura magique.
+@109006 = ~Cette petite poche de tissu est vide, mais cela ne l'empÃªche pas de rayonner d'une puissane aura magique.
 PARAMETRES :
-Quantité illimité de billes.~
+QuantitÃ© illimitÃ© de billes.~
 @109007 = ~Pierre ionique violette~
 @109008 = ~Pierre ionique violette
-Cette pierre ionique, de couleur violette, autorise son porteur à voir dans l'obscurité.
+Cette pierre ionique, de couleur violette, autorise son porteur Ã  voir dans l'obscuritÃ©.
 PARAMETRES :
-Spécial : le porteur est doté du don d'infravision sur 36 mètres.
+SpÃ©cial : le porteur est dotÃ© du don d'infravision sur 36 mÃ¨tres.
 Poids: 2~
 @109009 = ~Pierre ionique blanche scintillante~
 @109010 = ~Pierre ionique blanche scintillante
-Cette pierre ionique est froide au toucher et rayonne d'énergie.
+Cette pierre ionique est froide au toucher et rayonne d'Ã©nergie.
 PARAMETRES :
-Bonus: +10% de résistance au froid
+Bonus: +10% de rÃ©sistance au froid
 Poids: 2~
 @109011 = ~Katana~
 @109012 = ~Katana
-Le katana est une épée légèrement courbée à simple tranchant, dont la lame se termine en pointe. C'est probablement une des meilleures épées jamais conçues. Les étapes de sa fabrication constituent un procédé long et secret qui est considéré plus comme un art que comme une technique. Cette lame représente un aspect important de la culture de Kara-Tur. C'est faire insulte à un samouraï et provoquer sa colère que d'utiliser ou même de toucher son katana. Il est très rare pour un gaïjin, un étranger, de posséder une telle lame. Cela implique que le gaïjin soit l'ami estimé d'un personnage important, ou bien qu'il ait assassiné un samouraï.
+Le katana est une Ã©pÃ©e lÃ©gÃ¨rement courbÃ©e Ã  simple tranchant, dont la lame se termine en pointe. C'est probablement une des meilleures Ã©pÃ©es jamais conÃ§ues. Les Ã©tapes de sa fabrication constituent un procÃ©dÃ© long et secret qui est considÃ©rÃ© plus comme un art que comme une technique. Cette lame reprÃ©sente un aspect important de la culture de Kara-Tur. C'est faire insulte Ã  un samouraÃ¯ et provoquer sa colÃ¨re que d'utiliser ou mÃªme de toucher son katana. Il est trÃ¨s rare pour un gaÃ¯jin, un Ã©tranger, de possÃ©der une telle lame. Cela implique que le gaÃ¯jin soit l'ami estimÃ© d'un personnage important, ou bien qu'il ait assassinÃ© un samouraÃ¯.
 PARAMETRES :
-Dégâts : 1D10
-Type de dégât : tranchant
+DÃ©gÃ¢ts : 1D10
+Type de dÃ©gÃ¢t : tranchant
 Poids : 6
 Facteur de vitesse : 4
-Type de compétence : Katana
-Type : arme à 1 main
-Force nécessaire : 6
+Type de compÃ©tence : Katana
+Type : arme Ã  1 main
+Force nÃ©cessaire : 6
 Inutilisable par :
  Druide
  Clerc
@@ -514,17 +514,17 @@ Inutilisable par :
  Belluaire~
 @109013 = ~Katana +2, Tsu-O-Shi~
 @109014 = ~Katana +2, Tsu-O-Shi
-Tsu-O-Shi, aussi connue sous le nom de la Lame Convoitée, fut forgée dans la nation de Wa il y a plus de cinq siècles, par le forgeron Murakaken Shinji, dont le talent était si réputé que la rumeur disait qu'il était capable de réveiller l'esprit même du métal. Tsu-O-Shi est passé entre les mains de différents héritiers de la famille Kasune (famille tout à fait ordinaire sinon), jusqu'à ce que le puissant daimyo et bien connu pour son amour des épées, Fushima Takagi, la vit. Takagi devint obsédé par cette lame et fit plusieurs tentatives frustrantes pour l'acquérir. Finalement, il engagea un groupe de ninja pour voler la lame pour lui, vengeant ses pertes en brûlant le quartier général de la famille Kasune. Lorsque le ninja présenta la lame à son employeur, elle fut utilisée pour les découper en morceaux, permettant ainsi de retirer définitivement tout lien entre Tagaki et les légitimes propriétaires de l'épée. Tagaki cacha l'épée, la sortant souvent de sa cachette pour admirer sa beauté et sa perfection. Le jour où Tagaki mourut, son esprit refusa de quitter Toril et de laisser l'épée derrière, donc il resta avec Tsu-O-Shi, faisant part intégrante avec elle. Depuis ce jour, toute personne qui utilise Tsu-O-Shi doit faire attention à l'esprit de Fushima Tagaki, qui boit l'essence vitale de ceux qui touchent à l'arme, pour que son âme reste sur Toril avec l'objet de son désir. En résultat, cette lame maudite peut absorber l'énergie de son porteur à chaque fois qu'elle est utilisée.
+Tsu-O-Shi, aussi connue sous le nom de la Lame ConvoitÃ©e, fut forgÃ©e dans la nation de Wa il y a plus de cinq siÃ¨cles, par le forgeron Murakaken Shinji, dont le talent Ã©tait si rÃ©putÃ© que la rumeur disait qu'il Ã©tait capable de rÃ©veiller l'esprit mÃªme du mÃ©tal. Tsu-O-Shi est passÃ© entre les mains de diffÃ©rents hÃ©ritiers de la famille Kasune (famille tout Ã  fait ordinaire sinon), jusqu'Ã  ce que le puissant daimyo et bien connu pour son amour des Ã©pÃ©es, Fushima Takagi, la vit. Takagi devint obsÃ©dÃ© par cette lame et fit plusieurs tentatives frustrantes pour l'acquÃ©rir. Finalement, il engagea un groupe de ninja pour voler la lame pour lui, vengeant ses pertes en brÃ»lant le quartier gÃ©nÃ©ral de la famille Kasune. Lorsque le ninja prÃ©senta la lame Ã  son employeur, elle fut utilisÃ©e pour les dÃ©couper en morceaux, permettant ainsi de retirer dÃ©finitivement tout lien entre Tagaki et les lÃ©gitimes propriÃ©taires de l'Ã©pÃ©e. Tagaki cacha l'Ã©pÃ©e, la sortant souvent de sa cachette pour admirer sa beautÃ© et sa perfection. Le jour oÃ¹ Tagaki mourut, son esprit refusa de quitter Toril et de laisser l'Ã©pÃ©e derriÃ¨re, donc il resta avec Tsu-O-Shi, faisant part intÃ©grante avec elle. Depuis ce jour, toute personne qui utilise Tsu-O-Shi doit faire attention Ã  l'esprit de Fushima Tagaki, qui boit l'essence vitale de ceux qui touchent Ã  l'arme, pour que son Ã¢me reste sur Toril avec l'objet de son dÃ©sir. En rÃ©sultat, cette lame maudite peut absorber l'Ã©nergie de son porteur Ã  chaque fois qu'elle est utilisÃ©e.
 PARAMETRES :
 TAC0 : +2
-Dégâts : 1D10 + 2
-Type de dégâts : tranchant
+DÃ©gÃ¢ts : 1D10 + 2
+Type de dÃ©gÃ¢ts : tranchant
 Poids : 4
 Facteur de vitesse : 2
-Type de compétence : Katana
-Type : arme à 1 main
-Force nécessaire : 6
-Possibilité d'absorber de manière permanente les points de vie ou les caractéristiques de son porteur lorsqu'elle est utilisée.
+Type de compÃ©tence : Katana
+Type : arme Ã  1 main
+Force nÃ©cessaire : 6
+PossibilitÃ© d'absorber de maniÃ¨re permanente les points de vie ou les caractÃ©ristiques de son porteur lorsqu'elle est utilisÃ©e.
 Inutilisable par :
 Druide
 Clerc
@@ -532,51 +532,51 @@ Mage
 Belluaire~
 @109015 = ~Modification de la sagesse~
 @109016 = ~Modification de la constitution~
-@109017 = ~Modification de la dextérité~
+@109017 = ~Modification de la dextÃ©ritÃ©~
 @109018 = ~Modification du charisme~
 @109019 = ~Modification des points de vie~
 @109020 = ~Modification de l'intelligence~
 @109021 = ~Modification de la force~
 @109022 = ~Temple de Gullykin~
 @109023 = ~Pierre ionique~
-@109024 = ~Cette petite pierre flotte autour de la tête de son possesseur quand on la place dans son inventaire. Ces pierres évidemment magiques ont des propriétés différentes en fonction de leur couleur.~
+@109024 = ~Cette petite pierre flotte autour de la tÃªte de son possesseur quand on la place dans son inventaire. Ces pierres Ã©videmment magiques ont des propriÃ©tÃ©s diffÃ©rentes en fonction de leur couleur.~
 @109025 = ~Katana
-Le katana est une épée légèrement courbée à simple tranchant, dont la lame se termine en pointe. C'est probablement une des meilleures épées jamais conçues. Les étapes de sa fabrication constituent un procédé long et secret qui est considéré plus comme un art que comme une technique. Cette lame représente un aspect important de la culture de Kara-Tur. C'est faire insulte à un samouraï et provoquer sa colère que d'utiliser ou même de toucher son katana. Il est très rare pour un gaïjin, un étranger, de posséder une telle lame. Cela implique que le gaïjin soit l'ami estimé d'un personnage important, ou bien qu'il ait assassiné un samouraï.
+Le katana est une Ã©pÃ©e lÃ©gÃ¨rement courbÃ©e Ã  simple tranchant, dont la lame se termine en pointe. C'est probablement une des meilleures Ã©pÃ©es jamais conÃ§ues. Les Ã©tapes de sa fabrication constituent un procÃ©dÃ© long et secret qui est considÃ©rÃ© plus comme un art que comme une technique. Cette lame reprÃ©sente un aspect important de la culture de Kara-Tur. C'est faire insulte Ã  un samouraÃ¯ et provoquer sa colÃ¨re que d'utiliser ou mÃªme de toucher son katana. Il est trÃ¨s rare pour un gaÃ¯jin, un Ã©tranger, de possÃ©der une telle lame. Cela implique que le gaÃ¯jin soit l'ami estimÃ© d'un personnage important, ou bien qu'il ait assassinÃ© un samouraÃ¯.
 PARAMETRES :
-Dégâts : 1D10
-Type de dégât : tranchant
+DÃ©gÃ¢ts : 1D10
+Type de dÃ©gÃ¢t : tranchant
 Poids : 6
 Facteur de vitesse : 4
-Type de compétence : Katana
-Type : arme à 1 main
-Force nécessaire : 6
+Type de compÃ©tence : Katana
+Type : arme Ã  1 main
+Force nÃ©cessaire : 6
 ~
 @109026 = ~Katana +2, Tsu-O-Shi
-Tsu-O-Shi, aussi connue sous le nom de la Lame Convoitée, fut forgée dans la nation de Wa il y a plus de cinq siècles, par le forgeron Murakaken Shinji, dont le talent était si réputé que la rumeur disait qu'il était capable de réveiller l'esprit même du métal. Tsu-O-Shi est passé entre les mains de différents héritiers de la famille Kasune (famille tout à fait ordinaire sinon), jusqu'à ce que le puissant daimyo et bien connu pour son amour des épées, Fushima Takagi, la vit. Takagi devint obsédé par cette lame et fit plusieurs tentatives frustrantes pour l'acquérir. Finalement, il engagea un groupe de ninja pour voler la lame pour lui, vengeant ses pertes en brûlant le quartier général de la famille Kasune. Lorsque le ninja présenta la lame à son employeur, elle fut utilisée pour les découper en morceaux, permettant ainsi de retirer définitivement tout lien entre Tagaki et les légitimes propriétaires de l'épée. Tagaki cacha l'épée, la sortant souvent de sa cachette pour admirer sa beauté et sa perfection. Le jour où Tagaki mourut, son esprit refusa de quitter Toril et de laisser l'épée derrière, donc il resta avec Tsu-O-Shi, faisant part intégrante avec elle. Depuis ce jour, toute personne qui utilise Tsu-O-Shi doit faire attention à l'esprit de Fushima Tagaki, qui boit l'essence vitale de ceux qui touchent à l'arme, pour que son âme reste sur Toril avec l'objet de son désir. En résultat, cette lame maudite peut absorber l'énergie de son porteur à chaque fois qu'elle est utilisée.
+Tsu-O-Shi, aussi connue sous le nom de la Lame ConvoitÃ©e, fut forgÃ©e dans la nation de Wa il y a plus de cinq siÃ¨cles, par le forgeron Murakaken Shinji, dont le talent Ã©tait si rÃ©putÃ© que la rumeur disait qu'il Ã©tait capable de rÃ©veiller l'esprit mÃªme du mÃ©tal. Tsu-O-Shi est passÃ© entre les mains de diffÃ©rents hÃ©ritiers de la famille Kasune (famille tout Ã  fait ordinaire sinon), jusqu'Ã  ce que le puissant daimyo et bien connu pour son amour des Ã©pÃ©es, Fushima Takagi, la vit. Takagi devint obsÃ©dÃ© par cette lame et fit plusieurs tentatives frustrantes pour l'acquÃ©rir. Finalement, il engagea un groupe de ninja pour voler la lame pour lui, vengeant ses pertes en brÃ»lant le quartier gÃ©nÃ©ral de la famille Kasune. Lorsque le ninja prÃ©senta la lame Ã  son employeur, elle fut utilisÃ©e pour les dÃ©couper en morceaux, permettant ainsi de retirer dÃ©finitivement tout lien entre Tagaki et les lÃ©gitimes propriÃ©taires de l'Ã©pÃ©e. Tagaki cacha l'Ã©pÃ©e, la sortant souvent de sa cachette pour admirer sa beautÃ© et sa perfection. Le jour oÃ¹ Tagaki mourut, son esprit refusa de quitter Toril et de laisser l'Ã©pÃ©e derriÃ¨re, donc il resta avec Tsu-O-Shi, faisant part intÃ©grante avec elle. Depuis ce jour, toute personne qui utilise Tsu-O-Shi doit faire attention Ã  l'esprit de Fushima Tagaki, qui boit l'essence vitale de ceux qui touchent Ã  l'arme, pour que son Ã¢me reste sur Toril avec l'objet de son dÃ©sir. En rÃ©sultat, cette lame maudite peut absorber l'Ã©nergie de son porteur Ã  chaque fois qu'elle est utilisÃ©e.
 PARAMETRES :
 TAC0 : +2
-Dégâts : 1D10 + 2
-Type de dégâts : tranchant
+DÃ©gÃ¢ts : 1D10 + 2
+Type de dÃ©gÃ¢ts : tranchant
 Poids : 4
 Facteur de vitesse : 2
-Type de compétence : Katana
-Type : arme à 1 main
-Force nécessaire : 6
-Possibilité d'absorber de manière permanente les points de vie ou les caractéristiques de son porteur lorsqu'elle est utilisée.
+Type de compÃ©tence : Katana
+Type : arme Ã  1 main
+Force nÃ©cessaire : 6
+PossibilitÃ© d'absorber de maniÃ¨re permanente les points de vie ou les caractÃ©ristiques de son porteur lorsqu'elle est utilisÃ©e.
 ~
 @110000 = ~Exploration automatique des villes~
 @110100 = ~Ne pas explorer automatiquement les villes~
 @111000 = ~Ajouter des annotations aux cartes~
-@111001 = ~Auberge de Château-Suif~
-@111002 = ~Quartiers du prêtre~
+@111001 = ~Auberge de ChÃ¢teau-Suif~
+@111002 = ~Quartiers du prÃªtre~
 @111003 = ~Temple d'Oghma~
-@111004 = ~Entrepôt~
-@111005 = ~Porte extérieure~
-@111006 = ~Bibliothèque de Château-Suif~
+@111004 = ~EntrepÃ´t~
+@111005 = ~Porte extÃ©rieure~
+@111006 = ~BibliothÃ¨que de ChÃ¢teau-Suif~
 @111007 = ~Dortoir~
 @111008 = ~Caserne~
 @111009 = ~Infirmerie~
-@111010 = ~Propriété d'Entar Ecudargent~
+@111010 = ~PropriÃ©tÃ© d'Entar Ecudargent~
 @111011 = ~Le Heaume et la Cape~
 @111012 = ~Taverne~
 @111013 = ~Temple de Heaum~
@@ -584,7 +584,7 @@ Possibilité d'absorber de manière permanente les points de vie ou les caractéris
 @111015 = ~Tour de Ramazith~
 @111016 = ~Palais Ducal~
 @111017 = ~Trois Vieilles Chopes~
-@111018 = ~La Sirène Rougissante~
+@111018 = ~La SirÃ¨ne Rougissante~
 @111019 = ~L'Esturgeon Sautillant~
 @111020 = ~Sanctuaire d'Ilmater~
 @111021 = ~Bureau des comptes~
@@ -608,28 +608,28 @@ Possibilité d'absorber de manière permanente les points de vie ou les caractéris
 @111039 = ~Manoir~
 @111040 = ~Garnison~
 @111041 = ~Forteresse des gnolls~
-@111042 = ~Entrée des mines~
+@111042 = ~EntrÃ©e des mines~
 @111043 = ~Cabane~
 @111044 = ~Sculpture~
-@111045 = ~Maison abandonnée~
+@111045 = ~Maison abandonnÃ©e~
 @111046 = ~Vestibule~
 @111047 = ~Temple de la Chanson du Matin~
 @111048 = ~Ruines d'Ulcaster~
 @111049 = ~Sortie~
-@111050 = ~Vers le niveau inférieur~
-@111051 = ~Vers le niveau supérieur~
+@111050 = ~Vers le niveau infÃ©rieur~
+@111051 = ~Vers le niveau supÃ©rieur~
 @111052 = ~Sortie vers la surface~
 @111053 = ~Village de Gullykin~
-@111054 = ~Entrée des ruines du pont de Flammevin~
+@111054 = ~EntrÃ©e des ruines du pont de Flammevin~
 @111055 = ~Naufrage~
-@111056 = ~Phare abandonné~
+@111056 = ~Phare abandonnÃ©~
 @111057 = ~Trou~
 @111058 = ~Ferme~
 @111059 = ~Travers du Ver~
 @111060 = ~Grande tente~
-@111061 = ~Nid d'araignées~
+@111061 = ~Nid d'araignÃ©es~
 @111062 = ~Arbre-Maison~
-@111063 = ~Bouchon de la rivière~
+@111063 = ~Bouchon de la riviÃ¨re~
 @111064 = ~Ascenseur de la mine~
 @111065 = ~Taverne du Chant de l'Elfe~
 @111066 = ~Objets magiques~
@@ -638,15 +638,15 @@ Possibilité d'absorber de manière permanente les points de vie ou les caractéris
 @111069 = ~Taverne de Keexie~
 @111070 = ~Magasin du Silence~
 @111071 = ~Lame et Etoiles~
-@111072 = ~Boutique généraliste~
+@111072 = ~Boutique gÃ©nÃ©raliste~
 @111073 = ~Auberge~
-@111074 = ~Bâtiment du Maître du Port~
+@111074 = ~BÃ¢timent du MaÃ®tre du Port~
 @111075 = ~Lanterne Assourdie~
 @111076 = ~Maison de la Reine des Eaux~
-@111077 = ~Trône de Fer~
+@111077 = ~TrÃ´ne de Fer~
 @111078 = ~Taverne de Jopalin~
 @111079 = ~Sept Soleils~
-@111080 = ~Poing Enflammé~
+@111080 = ~Poing EnflammÃ©~
 @111081 = ~Ligue des Marchands~
 @111082 = ~La Vieille Auberge~
 @111083 = ~Maison de la Dame~
@@ -658,23 +658,23 @@ Possibilité d'absorber de manière permanente les points de vie ou les caractéris
 @111089 = ~Taverne de Drakon~
 @111090 = ~Manoir de Felonius Gist~
 @111091 = ~Auberge de Barbe d'Ulgoth~
-@111092 = ~Tour déserte~
-@111093 = ~Entrée de la Tour de Durlag~
+@111092 = ~Tour dÃ©serte~
+@111093 = ~EntrÃ©e de la Tour de Durlag~
 @111094 = ~Sortie de la mine~
 @111095 = ~Sortie~
 @111096 = ~Temple de Bhaal~
-/// @todo A relire pour IWDEE (pas dans IWD tweaks, pertinence de certains noms VF à vérifier par un connaisseur du jeu)
+/// @todo A relire pour IWDEE (pas dans IWD tweaks, pertinence de certains noms VF Ã  vÃ©rifier par un connaisseur du jeu)
 @111097 = ~Autel de Waukyne~
 @111098 = ~Fabricant d'arc~
-@111099 = ~Entrepôt de marchand~ // vérifier le lieu
+@111099 = ~EntrepÃ´t de marchand~ // vÃ©rifier le lieu
 @111100 = ~Temple de Tempus~
 @111101 = ~Maison de Hrothgar~
 @111102 = ~Taverne du Berceau de l'Hiver~
-@111103 = ~Auberge des Congères~
-@111104 = ~Comptoir de négoce de Pomab~
+@111103 = ~Auberge des CongÃ¨res~
+@111104 = ~Comptoir de nÃ©goce de Pomab~
 @111105 = ~Maison du Vieux Jed~
 @111106 = ~Maison d'Apsel~
-@111107 = ~Entrepôt~
+@111107 = ~EntrepÃ´t~
 @111108 = ~Poissonnier~
 @111109 = ~Tour d'Orrick le Gris~
 @111110 = ~Maison d'Arundel~
@@ -687,16 +687,16 @@ Possibilité d'absorber de manière permanente les points de vie ou les caractéris
 @111117 = ~Temple d'Ilmater~
 @111118 = ~Dirigeable d'Oswald Tordviolon~
 @111119 = ~Statue de Tolben~
-@111120 = ~Cabane des frères~ // Vérifier le lieu concerné
+@111120 = ~Cabane des frÃ¨res~ // VÃ©rifier le lieu concernÃ©
 @111121 = ~Fabricant de chariots~
 @111122 = ~Tonnelier~
-@111123 = ~Hangar à bateau~
+@111123 = ~Hangar Ã  bateau~
 @111124 = ~Auberge du Gibet Siffleur~
 @111125 = ~Cabane de Purvis~
 @112000 = ~Plus de munitions dans les boutiques~
 @113000 = ~Reinitialisation de la reputation dans BG2 (BGT uniquement)~
 @114000 = ~Identification obligatoire des gemmes et potions~
-@114001 = ~Une gemme est un minéral qui a été découpé ou façonné et poli. Il peut être collectionné ou utilisé dans des bijoux.~
+@114001 = ~Une gemme est un minÃ©ral qui a Ã©tÃ© dÃ©coupÃ© ou faÃ§onnÃ© et poli. Il peut Ãªtre collectionnÃ© ou utilisÃ© dans des bijoux.~
 @114002 = ~Pour gemmes et potions~
 @114100 = ~Juste pour les gemmes~
 @114200 = ~Juste pour les potions~
@@ -704,94 +704,94 @@ Possibilité d'absorber de manière permanente les points de vie ou les caractéris
 @115001 = ~Conjuration d'Animaux
 (Conjuration / Convocation)
 Niveau : 6
-Sphère : Convocation
-Portée : 60 mètres
-Durée : 4 tours
+SphÃ¨re : Convocation
+PortÃ©e : 60 mÃ¨tres
+DurÃ©e : 4 tours
 Temps d'incantation : 9
-Zone d'effet : Spéciale
+Zone d'effet : SpÃ©ciale
 Jet de sauvegarde : Aucun
-Ce sort permet de convoquer et de contrôleur deux ours-garous de 20 Dés de Vie. Les ours répondront aux désirs du lanceur de sort pendant toute la durée du sort. Les ours-garous sont plus lents que les loups-garous majeurs mais ils sont aussi plus puissants. Les ours-garous sont résistants aux dégâts élémentaires et magiques et regénèrent rapidement.~
+Ce sort permet de convoquer et de contrÃ´leur deux ours-garous de 20 DÃ©s de Vie. Les ours rÃ©pondront aux dÃ©sirs du lanceur de sort pendant toute la durÃ©e du sort. Les ours-garous sont plus lents que les loups-garous majeurs mais ils sont aussi plus puissants. Les ours-garous sont rÃ©sistants aux dÃ©gÃ¢ts Ã©lÃ©mentaires et magiques et regÃ©nÃ¨rent rapidement.~
 @115002 = ~Ours-garou majeur~
 @115003 = ~Ours-garou~
-@115004 = ~Cette patte représente la capacité de contrôle du druide métamorphe sur sa lycanthropie. Lorsque la patte est équipée, le métamorphe devient un loup-garou. Lorsque la patte est retirée, le métamorphe revient en forme humaine. Les pattes du loup-garou sont considérées comme étant des armes +2.
+@115004 = ~Cette patte reprÃ©sente la capacitÃ© de contrÃ´le du druide mÃ©tamorphe sur sa lycanthropie. Lorsque la patte est Ã©quipÃ©e, le mÃ©tamorphe devient un loup-garou. Lorsque la patte est retirÃ©e, le mÃ©tamorphe revient en forme humaine. Les pattes du loup-garou sont considÃ©rÃ©es comme Ã©tant des armes +2.
 PARAMETRES :
-Caractéristiques : 19 Force, 16 Dextérité, 15 Constitution
+CaractÃ©ristiques : 19 Force, 16 DextÃ©ritÃ©, 15 Constitution
 Classe d'armure de base : 1
-Résistances : 20% de résistance à la magie, immunité aux armes non-magiques
+RÃ©sistances : 20% de rÃ©sistance Ã  la magie, immunitÃ© aux armes non-magiques
 Attaques par round : 2
-Dégâts : 1D12
-Type de dégâts : tranchants
+DÃ©gÃ¢ts : 1D12
+Type de dÃ©gÃ¢ts : tranchants
 Facteur de vitesse : 3
-Type de compétence : Dague
-Type : arme à 1 main
+Type de compÃ©tence : Dague
+Type : arme Ã  1 main
 ~ 
-@115005 = ~Cette patte représente la capacité de contrôle ultime du druide métamorphe sur sa lycanthropie. Lorsque la patte est équipée, le métamorphe devient un loup-garou majeur. Lorsque la patte est retirée, le métamorphe revient en forme humaine. Les pattes du loup-garou majeur sont considérées comme étant des armes +3.
+@115005 = ~Cette patte reprÃ©sente la capacitÃ© de contrÃ´le ultime du druide mÃ©tamorphe sur sa lycanthropie. Lorsque la patte est Ã©quipÃ©e, le mÃ©tamorphe devient un loup-garou majeur. Lorsque la patte est retirÃ©e, le mÃ©tamorphe revient en forme humaine. Les pattes du loup-garou majeur sont considÃ©rÃ©es comme Ã©tant des armes +3.
 PARAMETRES :
-Caractéristiques : 21 Force, 20 Dextérité, 25 Constitution
+CaractÃ©ristiques : 21 Force, 20 DextÃ©ritÃ©, 25 Constitution
 Classe d'armure de base : -6
 Jets de sauvegarde de base : 1 / 1 / 1 / 2 / 1
-Résistances : 40% de résistance à la magie, 50% de résistance aux dégâts élémentaires, immunité aux armes non-magiques
-Regénération : 3 points de vie par seconde
+RÃ©sistances : 40% de rÃ©sistance Ã  la magie, 50% de rÃ©sistance aux dÃ©gÃ¢ts Ã©lÃ©mentaires, immunitÃ© aux armes non-magiques
+RegÃ©nÃ©ration : 3 points de vie par seconde
 Attaques par round : 3
 TAC0 de base : 6
-Dégâts : 2D8
-Type de dégâts : tranchants
+DÃ©gÃ¢ts : 2D8
+Type de dÃ©gÃ¢ts : tranchants
 Facteur de vitesse : 3
-Type de compétence : Dague
-Type : arme à 1 main
+Type de compÃ©tence : Dague
+Type : arme Ã  1 main
 ~
-// BGEE @32328, version 1.3 plutôt que 2.3
-@115006 = ~Métamorphose en loup-garou
+// BGEE @32328, version 1.3 plutÃ´t que 2.3
+@115006 = ~MÃ©tamorphose en loup-garou
 Force : 19
-Dextérité : 16
+DextÃ©ritÃ© : 16
 Constitution : 15
 Classe d'Armure de base : 1
 Attaques par round : 2
-Dégâts : 1d12 (tranchant), touche comme une arme +2
-Capacités spéciales :
-- résistance à la magie : 20 %
-- immunité aux armes non-magiques~
+DÃ©gÃ¢ts : 1d12 (tranchant), touche comme une arme +2
+CapacitÃ©s spÃ©ciales :
+- rÃ©sistance Ã  la magieÂ : 20Â %
+- immunitÃ© aux armes non-magiques~
 // BGEE @32329
-@115007 = ~Métamorphose en loup-garou majeur
+@115007 = ~MÃ©tamorphose en loup-garou majeur
 Force : 21
-Dextérité : 20
+DextÃ©ritÃ© : 20
 Constitution : 25
 Classe d'Armure de base : -6
 Attaques par round : 3
-Dégâts : 2d8 (tranchant)
-Capacités spéciales :
-- résistance au feu : 50 %
-- résistance au froid : 50 %
-- résistance à l'électricité : 50 %
-- résistance à l'acide : 50 %
-- résistance à la magie : 40 %
-- immunité aux armes non-magiques~
+DÃ©gÃ¢ts : 2d8 (tranchant)
+CapacitÃ©s spÃ©ciales :
+- rÃ©sistance au feu : 50 %
+- rÃ©sistance au froid : 50 %
+- rÃ©sistance Ã  l'Ã©lectricitÃ© : 50 %
+- rÃ©sistance Ã  l'acide : 50 %
+- rÃ©sistance Ã  la magie : 40 %
+- immunitÃ© aux armes non-magiques~
 @115008 = ~Patte de loup-garou~
 @115009 = ~Patte de loup-garou majeur~
 @116000 = ~Forteresses pour toutes les classes~
 @116001 = ~Pas de restrictions (Baldurdash)~
-@116002 = ~J'ai l'acte de propriété du théâtre, si vous souhaitez en profiter pour y exercer vos talents. Samuel est un homme bon et il remettra le théâtre entre vos mains.~
-@116003 = ~Je suis désolé Raelis, mais je n'ai tout simplement pas le temps.~ ~Je suis désolée Raelis, mais je n'ai tout simplement pas le temps.~
-@116004 = ~Merci pour cette gentille offre, mais je dois refuser. Je ne sais même pas où je pourrais établir un théâtre.~
-@116005 = ~Votre théâtre sous les Cinq Chopes ? Je serais honoré qu'il soit mien.~ ~Votre théâtre sous les Cinq Chopes ? Je serais honorée qu'il soit mien.~
-@116006 = ~D'accord, tu feras ce que bon te semble, je ne pourrais pas t'en empêcher. Cependant, pour notre sauvetage, je vous dois plus que des mots de séparation.~
-@116007 = ~J'ai l'acte de propriété du théâtre, si vous souhaitez en profiter pour y exercer vos talents. Samuel est un homme bon et il remettra le théâtre entre vos mains.~
-@116008 = ~Alors vous devrez vous satisfaire de ma gratitude. A moi, Garde noire, nous devons partir sans délai. Nous nous reverrons peut-être, <CHARNAME>.~
-@116009 = ~Je suis désolé, mais je ne peux pas. Je recherche une amie et je ne pense pas que je puisse me permettre d'être loin d'Athkatla souvent.~ ~Je suis désolée, mais je ne peux pas. Je recherche une amie et je ne pense pas que je puisse me permettre d'être loin d'Athkatla souvent.~
-@116010 = ~Je ne peux pas, ministre. Je suis à la poursuite d'un mage puissant et mes meilleures pistes sont toutes à Athkatla.~
-@116011 = ~Je dois refuser. Des événements à Athkatla requièrent ma présence et je ne peux pas me permettre d'être si loin de là régulièrement.~
-@116012 = ~Cela serait un honneur pour moi. J'accepte, et je vais faire de mon mieux pour être ici et protéger le village.~
-@116013 = ~Désolé maire, je ne suis pas intéressé. Je m'attends à être payé !~ ~Désolée maire, je ne suis pas intéressée. Je m'attends à être payée !~
-@116014 = ~Je dois admettre que je suis déçu, mais je comprend les épreuves de votre profession, <CHARNAME>. Je n'envie pas le chemin que vous avez choisi.~
-@116015 = ~Vous, monsieur, êtes un vrai ami de la terre. Cette terre pourrait être restaurée avec votre aide.~ ~Vous, madame, êtes une vraie amie de la terre. Cette terre pourrait être restaurée avec votre aide.~
+@116002 = ~J'ai l'acte de propriÃ©tÃ© du thÃ©Ã¢tre, si vous souhaitez en profiter pour y exercer vos talents. Samuel est un homme bon et il remettra le thÃ©Ã¢tre entre vos mains.~
+@116003 = ~Je suis dÃ©solÃ© Raelis, mais je n'ai tout simplement pas le temps.~ ~Je suis dÃ©solÃ©e Raelis, mais je n'ai tout simplement pas le temps.~
+@116004 = ~Merci pour cette gentille offre, mais je dois refuser. Je ne sais mÃªme pas oÃ¹ je pourrais Ã©tablir un thÃ©Ã¢tre.~
+@116005 = ~Votre thÃ©Ã¢tre sous les Cinq Chopes ? Je serais honorÃ© qu'il soit mien.~ ~Votre thÃ©Ã¢tre sous les Cinq Chopes ? Je serais honorÃ©e qu'il soit mien.~
+@116006 = ~D'accord, tu feras ce que bon te semble, je ne pourrais pas t'en empÃªcher. Cependant, pour notre sauvetage, je vous dois plus que des mots de sÃ©paration.~
+@116007 = ~J'ai l'acte de propriÃ©tÃ© du thÃ©Ã¢tre, si vous souhaitez en profiter pour y exercer vos talents. Samuel est un homme bon et il remettra le thÃ©Ã¢tre entre vos mains.~
+@116008 = ~Alors vous devrez vous satisfaire de ma gratitude. A moi, Garde noire, nous devons partir sans dÃ©lai. Nous nous reverrons peut-Ãªtre, <CHARNAME>.~
+@116009 = ~Je suis dÃ©solÃ©, mais je ne peux pas. Je recherche une amie et je ne pense pas que je puisse me permettre d'Ãªtre loin d'Athkatla souvent.~ ~Je suis dÃ©solÃ©e, mais je ne peux pas. Je recherche une amie et je ne pense pas que je puisse me permettre d'Ãªtre loin d'Athkatla souvent.~
+@116010 = ~Je ne peux pas, ministre. Je suis Ã  la poursuite d'un mage puissant et mes meilleures pistes sont toutes Ã  Athkatla.~
+@116011 = ~Je dois refuser. Des Ã©vÃ©nements Ã  Athkatla requiÃ¨rent ma prÃ©sence et je ne peux pas me permettre d'Ãªtre si loin de lÃ  rÃ©guliÃ¨rement.~
+@116012 = ~Cela serait un honneur pour moi. J'accepte, et je vais faire de mon mieux pour Ãªtre ici et protÃ©ger le village.~
+@116013 = ~DÃ©solÃ© maire, je ne suis pas intÃ©ressÃ©. Je m'attends Ã  Ãªtre payÃ© !~ ~DÃ©solÃ©e maire, je ne suis pas intÃ©ressÃ©e. Je m'attends Ã  Ãªtre payÃ©e !~
+@116014 = ~Je dois admettre que je suis dÃ©Ã§u, mais je comprend les Ã©preuves de votre profession, <CHARNAME>. Je n'envie pas le chemin que vous avez choisi.~
+@116015 = ~Vous, monsieur, Ãªtes un vrai ami de la terre. Cette terre pourrait Ãªtre restaurÃ©e avec votre aide.~ ~Vous, madame, Ãªtes une vraie amie de la terre. Cette terre pourrait Ãªtre restaurÃ©e avec votre aide.~
 @116016 = ~Pouvez-vous guider ce bosquet le temps de sa renaissance ?~
 @116017 = ~Je ferai de mon mieux pour restaurer la balance sur cette terre.~
-@116018 = ~Cette terre a souffert, et je vais m'efforcer d'effacer les dommages causés par les méfaits de Faldorn.~
-@116019 = ~Je serai un bien piètre Grand Druide. Mes affaires sont à Athkatla, je dois donc refuser.~ ~Je serai une bien piètre Grand Druide. Mes affaires sont à Athkatla, je dois donc refuser.~
-@116020 = ~Je suis à la recherche d'un mage puissant, et je ne peux pas être distrait par d'autres préoccupations.~ ~Je suis à la recherche d'un mage puissant, et je ne peux pas être distraite par d'autres préoccupations.~
-@116021 = ~Mon amie a été kidnappée. Bien que ça me fasse mal de refuser, je ne peux pas mettre de côté mes recherches pour aider le bosquet.~
-@116022 = ~Vous avez gagné la bénédiction du Bosquet, et je vous offre le Bâton de Foudre et Tonnerre.~
-@116023 = ~Très bien. Je vais continuer de faire office de Maître des Défis et de Grand Druide jusqu'à ce que les rituels de l'Ascension soient accomplis.~
+@116018 = ~Cette terre a souffert, et je vais m'efforcer d'effacer les dommages causÃ©s par les mÃ©faits de Faldorn.~
+@116019 = ~Je serai un bien piÃ¨tre Grand Druide. Mes affaires sont Ã  Athkatla, je dois donc refuser.~ ~Je serai une bien piÃ¨tre Grand Druide. Mes affaires sont Ã  Athkatla, je dois donc refuser.~
+@116020 = ~Je suis Ã  la recherche d'un mage puissant, et je ne peux pas Ãªtre distrait par d'autres prÃ©occupations.~ ~Je suis Ã  la recherche d'un mage puissant, et je ne peux pas Ãªtre distraite par d'autres prÃ©occupations.~
+@116021 = ~Mon amie a Ã©tÃ© kidnappÃ©e. Bien que Ã§a me fasse mal de refuser, je ne peux pas mettre de cÃ´tÃ© mes recherches pour aider le bosquet.~
+@116022 = ~Vous avez gagnÃ© la bÃ©nÃ©diction du Bosquet, et je vous offre le BÃ¢ton de Foudre et Tonnerre.~
+@116023 = ~TrÃ¨s bien. Je vais continuer de faire office de MaÃ®tre des DÃ©fis et de Grand Druide jusqu'Ã  ce que les rituels de l'Ascension soient accomplis.~
 @116100 = ~Conserver les restrictions des classes~
 @117000 = ~Marchands bonus (Baldurdash)~
 @118000 = ~Portrait feminin pour Edwina~
@@ -799,131 +799,131 @@ Capacités spéciales :
 @120000 = ~Correction du dialogue d'Imoen dans ToB~
 @121000 = ~Utiliser les vitesses de deplacement de BG1 (BETA)~
 @122000 = ~Permettre a Cromwell d'ameliorer les objets de la Tour de Garde~
-@122001 = ~Ah, un Etui d'Abondance. Je peux l'enchanter pour produire des carreaux encore plus puissants, mais il me faudra 5 000 pièces d'or pour ce travail.~
+@122001 = ~Ah, un Etui d'Abondance. Je peux l'enchanter pour produire des carreaux encore plus puissants, mais il me faudra 5 000 piÃ¨ces d'or pour ce travail.~
 @122002 = ~Bon, voyons ce que vous avez d'autres.~
 @122003 = ~Une cagoule de voleur, n'est-ce pas ?~
-@122004 = ~Avec une potion d'antidote et un anneau d'invisibilité, cela pourrait être mortellement efficace.~
-@122005 = ~Il y a un anneau d'invisibilité, ainsi qu'un antidote. Vous avez tout ce que dont j'ai besoin. Pour 10 000 pièces d'or, je peux vous le rendre bien plus puissant.~
+@122004 = ~Avec une potion d'antidote et un anneau d'invisibilitÃ©, cela pourrait Ãªtre mortellement efficace.~
+@122005 = ~Il y a un anneau d'invisibilitÃ©, ainsi qu'un antidote. Vous avez tout ce que dont j'ai besoin. Pour 10 000 piÃ¨ces d'or, je peux vous le rendre bien plus puissant.~
 @122006 = ~Qu'est-ce que c'est que cela, alors ?~
-@122007 = ~J'ai une recette pour attacher deux cornes à votre Heaume de Granit, le rendant ainsi plus puissant. Quand vous aurez trouvé les deux pièces, je pourrai le faire pour vous.~
-@122008 = ~Vous avez le Heaume de Granit, ainsi que les deux cornes prévues pour s'y attacher. Pour 5 000 pièces d'or, je peux attacher les cornes, vous permettant d'avoir un excellent casque pour un guerrier.~
+@122007 = ~J'ai une recette pour attacher deux cornes Ã  votre Heaume de Granit, le rendant ainsi plus puissant. Quand vous aurez trouvÃ© les deux piÃ¨ces, je pourrai le faire pour vous.~
+@122008 = ~Vous avez le Heaume de Granit, ainsi que les deux cornes prÃ©vues pour s'y attacher. Pour 5 000 piÃ¨ces d'or, je peux attacher les cornes, vous permettant d'avoir un excellent casque pour un guerrier.~
 @122009 = ~Ce sont les Gants du Barde.~
-@122010 = ~Avec quelques gemmes écrasées, ils peuvent être améliorés. Apportez-moi un diamant, une émeraude, une esseulite et un saphir étoilé et je pourrai le faire pour vous.~
-@122011 = ~En broyant un diamant, une émeraude, un saphir étoilé et une esseulite, je peux vous les améliorer. Cela va vous coûter 5 000 pièces d'or.~
+@122010 = ~Avec quelques gemmes Ã©crasÃ©es, ils peuvent Ãªtre amÃ©liorÃ©s. Apportez-moi un diamant, une Ã©meraude, une esseulite et un saphir Ã©toilÃ© et je pourrai le faire pour vous.~
+@122011 = ~En broyant un diamant, une Ã©meraude, un saphir Ã©toilÃ© et une esseulite, je peux vous les amÃ©liorer. Cela va vous coÃ»ter 5 000 piÃ¨ces d'or.~
 @122012 = ~Ce sont des bracelets pour un paladin.~
-@122013 = ~Pour 10 000 pièces d'or, je peux vous les reforger dans quelque chose de bien meilleur.~
-@122014 = ~Hmm, un étrange manuel magique de fabrication de golem.~
-@122015 = ~Avec certaines pages supplémentaires, vous pouvez améliorer les golems créés par ce manuel.~
-@122016 = ~Avec cette page de golem d'argile et 5 000 pièces d'or, je peux améliorer votre manuel pour qu'il puisse créer des golems d'argile.~
-@122017 = ~Ah, voici une réelle cape de protection.~
-@122018 = ~Avec des parchemins d'invisibilité et de hâte améliorée, je peux vous la rendre encore plus efficace.~
-@122019 = ~Je peux utiliser ces parchemins d'invisibilité et de hâte améliorée pour rendre cette cape encore plus efficace. C'est un processus délicat et cela va vous coûter 20 000 pièces d'or.~
-@122020 = ~Ah, les écailles d'un dragon blanc. Je peux vous faire une armure avec ces écailles si vous le souhaitez, pour seulement 5 000 pièces d'or.~
-@122021 = ~Voilà une cotte de maille elfique de bonne facture qui pourrait rivaliser avec la qualité de fabrication naine.~
-@122022 = ~Mais il y a encore quelques astuces naines que nous pourrions utiliser pour augmenter sa puissance. Avec un parchemin de protection contre les armes normales, il faudra à vos ennemis une arme magique pour pouvoir vaincre sa résistance.~
-@122023 = ~Avec ce parchemin de protection contre les armes normales, je peux enchanter cette armure pour résister à toutes les armes ordinaires. Ce n'est pas évident d'ajouter de la magie naine à une cotte de maille elfique, et donc cela va vous coûter pas moins de 40 000 pièces d'or.~
-@122024 = ~Ceci est une fronde conçue par des gnomes. Pour 5 000 pièces d'or, je pourrais encore améliorer sa précision.~
-@122025 = ~Qu'est-ce que c'est que ce carquois, là ? Ah, je vois, il produit des flèches magiques en quantité illimitée.~
-@122026 = ~Si jamais vous trouvez une esseulite, je pourrais améliorer les flèches produites par ce carquois.~
-@122027 = ~Avec cette esseulite et 10 000 pièces d'or, je peux enchanter davantage les flèches produites par ce carquois.~
-@122028 = ~Ah, voici quelque chose de beau à voir ! Le Fléau de l'Eternité !~
-@122029 = ~Il y a des rumeurs prétendant qu'il existe d'autres têtes pour ce fléau. Si vous en trouviez, je pourrais tenter de les rajouter au Fléau.~
-@122030 = ~Je vois que vous avez trouvé une autre tête pour ce fléau. On dirait que c'est une tête de poison. Pour 5 000 pièces d'or, je peux l'attacher à l'arme.~
-@122031 = ~Oh... serait-ce... ? Si, c'est bien un Gourdin de Détonation.~
-@122032 = ~Si vous trouvez un anneau de résistance au feu, je peux vous en faire un gourdin de première classe.~
-@122033 = ~Pour 5 000 pièces d'or, je peux le combiner avec votre anneau de résistance au feu pour en faire un gourdin bien meilleur.~
-@122034 = ~Ah, ceci ressemble à quelque chose d'Ixil.~
+@122013 = ~Pour 10 000 piÃ¨ces d'or, je peux vous les reforger dans quelque chose de bien meilleur.~
+@122014 = ~Hmm, un Ã©trange manuel magique de fabrication de golem.~
+@122015 = ~Avec certaines pages supplÃ©mentaires, vous pouvez amÃ©liorer les golems crÃ©Ã©s par ce manuel.~
+@122016 = ~Avec cette page de golem d'argile et 5 000 piÃ¨ces d'or, je peux amÃ©liorer votre manuel pour qu'il puisse crÃ©er des golems d'argile.~
+@122017 = ~Ah, voici une rÃ©elle cape de protection.~
+@122018 = ~Avec des parchemins d'invisibilitÃ© et de hÃ¢te amÃ©liorÃ©e, je peux vous la rendre encore plus efficace.~
+@122019 = ~Je peux utiliser ces parchemins d'invisibilitÃ© et de hÃ¢te amÃ©liorÃ©e pour rendre cette cape encore plus efficace. C'est un processus dÃ©licat et cela va vous coÃ»ter 20 000 piÃ¨ces d'or.~
+@122020 = ~Ah, les Ã©cailles d'un dragon blanc. Je peux vous faire une armure avec ces Ã©cailles si vous le souhaitez, pour seulement 5 000 piÃ¨ces d'or.~
+@122021 = ~VoilÃ  une cotte de maille elfique de bonne facture qui pourrait rivaliser avec la qualitÃ© de fabrication naine.~
+@122022 = ~Mais il y a encore quelques astuces naines que nous pourrions utiliser pour augmenter sa puissance. Avec un parchemin de protection contre les armes normales, il faudra Ã  vos ennemis une arme magique pour pouvoir vaincre sa rÃ©sistance.~
+@122023 = ~Avec ce parchemin de protection contre les armes normales, je peux enchanter cette armure pour rÃ©sister Ã  toutes les armes ordinaires. Ce n'est pas Ã©vident d'ajouter de la magie naine Ã  une cotte de maille elfique, et donc cela va vous coÃ»ter pas moins de 40 000 piÃ¨ces d'or.~
+@122024 = ~Ceci est une fronde conÃ§ue par des gnomes. Pour 5 000 piÃ¨ces d'or, je pourrais encore amÃ©liorer sa prÃ©cision.~
+@122025 = ~Qu'est-ce que c'est que ce carquois, lÃ  ? Ah, je vois, il produit des flÃ¨ches magiques en quantitÃ© illimitÃ©e.~
+@122026 = ~Si jamais vous trouvez une esseulite, je pourrais amÃ©liorer les flÃ¨ches produites par ce carquois.~
+@122027 = ~Avec cette esseulite et 10 000 piÃ¨ces d'or, je peux enchanter davantage les flÃ¨ches produites par ce carquois.~
+@122028 = ~Ah, voici quelque chose de beau Ã  voir ! Le FlÃ©au de l'EternitÃ© !~
+@122029 = ~Il y a des rumeurs prÃ©tendant qu'il existe d'autres tÃªtes pour ce flÃ©au. Si vous en trouviez, je pourrais tenter de les rajouter au FlÃ©au.~
+@122030 = ~Je vois que vous avez trouvÃ© une autre tÃªte pour ce flÃ©au. On dirait que c'est une tÃªte de poison. Pour 5 000 piÃ¨ces d'or, je peux l'attacher Ã  l'arme.~
+@122031 = ~Oh... serait-ce... ? Si, c'est bien un Gourdin de DÃ©tonation.~
+@122032 = ~Si vous trouvez un anneau de rÃ©sistance au feu, je peux vous en faire un gourdin de premiÃ¨re classe.~
+@122033 = ~Pour 5 000 piÃ¨ces d'or, je peux le combiner avec votre anneau de rÃ©sistance au feu pour en faire un gourdin bien meilleur.~
+@122034 = ~Ah, ceci ressemble Ã  quelque chose d'Ixil.~
 @122035 = ~C'est un morceau de la lance d'Ixil. Si vous trouvez l'autre morceau, je pourrais reforger l'arme.~
-@122036 = ~Vous avez trouvé les deux morceaux de la lance d'Ixil. Pour 5 000 pièces d'or, je peux les combiner et reforger l'arme d'origine.~
-@122037 = ~Ah, voilà une Dague étoilée.~
-@122038 = ~Si je la combine avec cinq saphirs étoilés, je pourrais l'enchanter davantage.~
-@122039 = ~Avec ces cinq saphirs étoilés, et 5 000 pièces d'or, nous pouvons la rendre bien plus puissante.~
-@122040 = ~Vous avez trois têtes ici... Je peux ajouter la tête de poison et la tête électrique en même temps, ce qui ferait cinq têtes, vous voyez ? 10 000 pièces d'or et je vous le fais. C'est d'accord ?~
-@122041 = ~Pourriez-vous juste attacher la tête électrique pour le moment ? Nous vous donnerons 5 000 pièces d'or pour ça.~
-@122042 = ~Pourriez-vous juste attacher la tête de poison pour le moment ? Nous vous donnerons 5 000 pièces d'or pour ça.~
-@122043 = ~Je connais des recettes pour deux têtes du Fléau de l'Eternité. Vous pouvez ajouter la tête de poison... ou la tête électrique. Ce sont les seules recettes que j'ai, désolé.~
-@122044 = ~Vous avez trois têtes ici... Je peux ajouter la tête électrique, ce qui ferait quatre têtes, vous voyez ? 5 000 pièces d'or et je vous le fais. C'est d'accord ?~
-@122045 = ~Oh ! Vous avez quatre têtes ici et je peux ajouter la dernière tête ! 5 000 pièces d'or et je vous le fais. C'est d'accord ?~
-@122046 = ~C'est une fronde gnome. J'ai plusieurs trucs dans mon escarcelle qui peuvent la rendre plus précise.~
-@122047 = ~Si vous tombez sur un Anneau d'énergie, je peux vous arranger ça très vite.~
-@122048 = ~Donnez-moi votre Anneau d'énergie et 5000 po et nous pouvons commencer.~
+@122036 = ~Vous avez trouvÃ© les deux morceaux de la lance d'Ixil. Pour 5 000 piÃ¨ces d'or, je peux les combiner et reforger l'arme d'origine.~
+@122037 = ~Ah, voilÃ  une Dague Ã©toilÃ©e.~
+@122038 = ~Si je la combine avec cinq saphirs Ã©toilÃ©s, je pourrais l'enchanter davantage.~
+@122039 = ~Avec ces cinq saphirs Ã©toilÃ©s, et 5 000 piÃ¨ces d'or, nous pouvons la rendre bien plus puissante.~
+@122040 = ~Vous avez trois tÃªtes ici... Je peux ajouter la tÃªte de poison et la tÃªte Ã©lectrique en mÃªme temps, ce qui ferait cinq tÃªtes, vous voyez ? 10 000 piÃ¨ces d'or et je vous le fais. C'est d'accord ?~
+@122041 = ~Pourriez-vous juste attacher la tÃªte Ã©lectrique pour le moment ? Nous vous donnerons 5 000 piÃ¨ces d'or pour Ã§a.~
+@122042 = ~Pourriez-vous juste attacher la tÃªte de poison pour le moment ? Nous vous donnerons 5 000 piÃ¨ces d'or pour Ã§a.~
+@122043 = ~Je connais des recettes pour deux tÃªtes du FlÃ©au de l'EternitÃ©. Vous pouvez ajouter la tÃªte de poison... ou la tÃªte Ã©lectrique. Ce sont les seules recettes que j'ai, dÃ©solÃ©.~
+@122044 = ~Vous avez trois tÃªtes ici... Je peux ajouter la tÃªte Ã©lectrique, ce qui ferait quatre tÃªtes, vous voyez ? 5 000 piÃ¨ces d'or et je vous le fais. C'est d'accord ?~
+@122045 = ~Oh ! Vous avez quatre tÃªtes ici et je peux ajouter la derniÃ¨re tÃªte ! 5 000 piÃ¨ces d'or et je vous le fais. C'est d'accord ?~
+@122046 = ~C'est une fronde gnome. J'ai plusieurs trucs dans mon escarcelle qui peuvent la rendre plus prÃ©cise.~
+@122047 = ~Si vous tombez sur un Anneau d'Ã©nergie, je peux vous arranger Ã§a trÃ¨s vite.~
+@122048 = ~Donnez-moi votre Anneau d'Ã©nergie et 5000 po et nous pouvons commencer.~
 @122500 = ~Ajuster le temps de forgeage de Cromwell~
 @122501 = ~Forgeage instantane (reglage BG2 original)~
 @122600 = ~Huit heures~
 @122700 = ~Un jour entier (reglage BG2EE, inclut un repos)~
 @123000 = ~Permettre a Cespenar d'utiliser les recettes de Cromwell~
-@123001 = ~Oh, des écailles rouges luisantes, hein ? Ça fait une bonne armure d'écailles, pour protéger du feu vraiment bien.~
+@123001 = ~Oh, des Ã©cailles rouges luisantes, hein ? Ã‡a fait une bonne armure d'Ã©cailles, pour protÃ©ger du feu vraiment bien.~
 @123002 = ~C'est quoi ce tas brillant ? Ooh, de l'illithium !~
-@123003 = ~Ça fait une belle couche brillante pour les masses de Destruction. Reviens si tu en trouves une.~
-@123004 = ~Oh, et une masse de Destruction ! Ça rend la masse encore plus effrayante pour seulement 7500 po !~
+@123003 = ~Ã‡a fait une belle couche brillante pour les masses de Destruction. Reviens si tu en trouves une.~
+@123004 = ~Oh, et une masse de Destruction ! Ã‡a rend la masse encore plus effrayante pour seulement 7500 po !~
 @123005 = ~Beurk ! Il faudrait que tu laves ce sac.~
-@123006 = ~Ouah, une quantité d'argent brillant, brillant !~
-@123007 = ~Aïe ! De l'argent brillant, coupant. Avec la garde, je peux faire une belle épée d'argent brillante.~
+@123006 = ~Ouah, une quantitÃ© d'argent brillant, brillant !~
+@123007 = ~AÃ¯e ! De l'argent brillant, coupant. Avec la garde, je peux faire une belle Ã©pÃ©e d'argent brillante.~
 @123008 = ~Une belle garde brillante, mais il te faut le bout pointu.~
-@123009 = ~Tu as une lame d'argent et la garde correspondante. Pour 7500 po, je peux les assembler en une épée.~
+@123009 = ~Tu as une lame d'argent et la garde correspondante. Pour 7500 po, je peux les assembler en une Ã©pÃ©e.~
 @123010 = ~Entendu, je regarde encore.~
-@123011 = ~Bonjour ! Fais signe à la Vague !~
+@123011 = ~Bonjour ! Fais signe Ã  la Vague !~
 @123012 = ~Tu as une belle lame de hallebarde mais j'ai besoin du reste.~
-@123013 = ~Pourquoi gardes-tu ce bâton ? Il pourrait faire une belle hallebarde si tu pouvais trouver la lame qui va avec.~
+@123013 = ~Pourquoi gardes-tu ce bÃ¢ton ? Il pourrait faire une belle hallebarde si tu pouvais trouver la lame qui va avec.~
 @123014 = ~Le manche et la lame de la Vague. Je pourrais les assembler en une belle hallebarde brillante pour 7500 po.~
-@123015 = ~Alors je continue à chercher... oups. C'était déjà comme ça !~
-@123016 = ~Hé, ça ressemble à quelque chose de Gesen.~
+@123015 = ~Alors je continue Ã  chercher... oups. C'Ã©tait dÃ©jÃ  comme Ã§a !~
+@123016 = ~HÃ©, Ã§a ressemble Ã  quelque chose de Gesen.~
 @123017 = ~On dirait un bel arc de Gesen, mais il te faut une corde.~
 @123018 = ~Ooh, et une corde luisante. Avec 7500 po tu peux avoir un bel arc court.~
-@123019 = ~Je me demande pourquoi ils disent court ? Toujours trop grand pour moi ! Je continue à chercher.~
+@123019 = ~Je me demande pourquoi ils disent court ? Toujours trop grand pour moi ! Je continue Ã  chercher.~
 @123020 = ~Ooh, des parties brillantes de l'Egaliseur. Pourquoi ne pas les rassembler ?~
-@123021 = ~Oh, parce que tu n'as pas toutes les parties de l'épée. Je pourrai t'aider plus tard si tu les as.~
+@123021 = ~Oh, parce que tu n'as pas toutes les parties de l'Ã©pÃ©e. Je pourrai t'aider plus tard si tu les as.~
 // Typo "yo udon't" in English
-@123022 = ~Peut-être que tu ne sais pas comment faire ? Cespenar sait, oh oui, et pour seulement 7500 po.~
-@123023 = ~Entendu, je vérifie encore ton sac.~
+@123022 = ~Peut-Ãªtre que tu ne sais pas comment faire ? Cespenar sait, oh oui, et pour seulement 7500 po.~
+@123023 = ~Entendu, je vÃ©rifie encore ton sac.~
 @123024 = ~Ooh, un grand marteau du tonnerre. Bzzt ! Bzzt !~
-@123025 = ~Tu trouves le parchemin adéquat, les gantelets d'ogre et un ceinturon de géant du froid, et Cespenar te le rend encore mieux !~
-@123026 = ~Tu n'as peut-être pas remarqué, mais Cespenar n'est pas un nain. Néanmoins Cespenar connaît quand même quelques trucs de nain.~
-@123027 = ~Je te prends ce marteau, ce parchemin, ces gantelets d'ogre, 10000 po et le ceinturon de géant du froid et je te fabrique Crom Faeyr. Gros marteau brillant !~
-@123028 = ~Alors Cespenar continue à chercher.~
-@123029 = ~Une affreuse carapace d'ankheg qui pue ! Pour seulement 5000 po, je fais une armure de plates, qui protège bien contre l'acide, qui brille et très verte. Tu en veux ?~
+@123025 = ~Tu trouves le parchemin adÃ©quat, les gantelets d'ogre et un ceinturon de gÃ©ant du froid, et Cespenar te le rend encore mieux !~
+@123026 = ~Tu n'as peut-Ãªtre pas remarquÃ©, mais Cespenar n'est pas un nain. NÃ©anmoins Cespenar connaÃ®t quand mÃªme quelques trucs de nain.~
+@123027 = ~Je te prends ce marteau, ce parchemin, ces gantelets d'ogre, 10000 po et le ceinturon de gÃ©ant du froid et je te fabrique Crom Faeyr. Gros marteau brillant !~
+@123028 = ~Alors Cespenar continue Ã  chercher.~
+@123029 = ~Une affreuse carapace d'ankheg qui pue ! Pour seulement 5000 po, je fais une armure de plates, qui protÃ¨ge bien contre l'acide, qui brille et trÃ¨s verte. Tu en veux ?~
 @123030 = ~D'accord, Cespenar regarde encore.~
-@123031 = ~Du dragon d'ombre ? Ça fait du bon bagage. Une armure, aussi. Les deux protègent contre l'acide.~
-@123032 = ~Oh, c'est des écailles de dragon bleu. Ça pue. Je peux faire une bonne armure de plate, néanmoins... très légère, très luisante.~
-@123033 = ~Oh, c'est des écailles de dragon blanc, pas vrai ? Je peux faire une bonne armure d'écailles, pour te protéger du froid peut-être.~
+@123031 = ~Du dragon d'ombre ? Ã‡a fait du bon bagage. Une armure, aussi. Les deux protÃ¨gent contre l'acide.~
+@123032 = ~Oh, c'est des Ã©cailles de dragon bleu. Ã‡a pue. Je peux faire une bonne armure de plate, nÃ©anmoins... trÃ¨s lÃ©gÃ¨re, trÃ¨s luisante.~
+@123033 = ~Oh, c'est des Ã©cailles de dragon blanc, pas vrai ? Je peux faire une bonne armure d'Ã©cailles, pour te protÃ©ger du froid peut-Ãªtre.~
 @123034 = ~N'importe quelle armure de dragon juste 5000 po. Tu veux ?~
-@123035 = ~Fabrique l'armure d'écailles de dragon d'ombre.~
-@123036 = ~Fabrique l'armure d'écailles de dragon rouge.~
+@123035 = ~Fabrique l'armure d'Ã©cailles de dragon d'ombre.~
+@123036 = ~Fabrique l'armure d'Ã©cailles de dragon rouge.~
 @124000 = ~Restaurer le conteneur cache de l'auberge de Brasamical (plainab)~
 @125000 = ~Deplacer les PNJ de la Porte de Baldur~
 @125001 = ~Vous devez commencer une nouvelle partie pour que ce composant fasse effet.~
 // @2 de x#aloran.tra de BG1 NPC
-@125002 = ~Va-t-en petite-femme, tes bavardages m'exaspèrent !~
+@125002 = ~Va-t-en petite-femme, tes bavardages m'exaspÃ¨rent !~
 // @3 de x#aloran.tra de BG1 NPC
 @125003 = ~Il se trouve que oui. Pourquoi me demandes-tu cela ?~
 // @4 de x#aloran.tra de BG1 NPC
-@125004 = ~J'ai déjà visité ces ruines et je dois dire que leur réputation est surfaite.~
-// @5 de x#aloran.tra de BG1 NPC, traduction corrigée
-@125005 = ~Attends d'avoir entendu ce que j'ai à dire. Ces ruines, elles sont à point pour être pillées et il y a beaucoup à ramasser sans trop de bleus. Peut-être qu'on devrait s'associer. Vu que je vis ici avec ma tante, je connais bien cet endroit ; quelques-uns de ses secrets, comment crocheter une serrure ou bien détecter un piège. Cela pourrait être amusant. T'en dis quoi ?~
+@125004 = ~J'ai dÃ©jÃ  visitÃ© ces ruines et je dois dire que leur rÃ©putation est surfaite.~
+// @5 de x#aloran.tra de BG1 NPC, traduction corrigÃ©e
+@125005 = ~Attends d'avoir entendu ce que j'ai Ã  dire. Ces ruines, elles sont Ã  point pour Ãªtre pillÃ©es et il y a beaucoup Ã  ramasser sans trop de bleus. Peut-Ãªtre qu'on devrait s'associer. Vu que je vis ici avec ma tante, je connais bien cet endroit ; quelques-uns de ses secrets, comment crocheter une serrure ou bien dÃ©tecter un piÃ¨ge. Cela pourrait Ãªtre amusant. T'en dis quoi ?~
 // @6 de x#aloran.tra de BG1 NPC
-@125006 = ~Une excellente idée ! Bienvenue à bord !~
-// @7 de x#aloran.tra de BG1 NPC, traduction corrigée
+@125006 = ~Une excellente idÃ©e ! Bienvenue Ã  bord !~
+// @7 de x#aloran.tra de BG1 NPC, traduction corrigÃ©e
 @125007 = ~Je regrette vraiment, mais nous avons tout ce dont nous avons besoin.~
 // @8 de x#aloran.tra de BG1 NPC
 @125008 = ~C'est ridicule ! Pourquoi aurais-je besoin de toi ? Tu m'as fait perdre assez de temps, maintenant file !~
 // @9 de x#aloran.tra de BG1 NPC
-@125009 = ~Bon ! Pas besoin de me traiter de la sorte ! Pfff ! Les gens sont pas sympas dans ce métier ! Pas étonnant que les gens détestent les aventuriers ! Au revoir !~
-// @10 de x#aloran.tra de BG1 NPC, traduction corrigée
-@125010 = ~Bravo ! Oh, c'est plus marrant d'avoir quelqu'un du métier à qui parler ! Je vis ici avec ma tante, les bonnes manières et tout ça... mais je commence à m'ennuyer un peu. Peut-être qu'on devrait s'associer. Je connais bien cet endroit ; quelques-uns de ses secrets, comment crocheter une serrure ou bien détecter un piège. Cela pourrait être amusant. T'en dis quoi ?~
+@125009 = ~Bon ! Pas besoin de me traiter de la sorte ! Pfff ! Les gens sont pas sympas dans ce mÃ©tier ! Pas Ã©tonnant que les gens dÃ©testent les aventuriers ! Au revoir !~
+// @10 de x#aloran.tra de BG1 NPC, traduction corrigÃ©e
+@125010 = ~Bravo ! Oh, c'est plus marrant d'avoir quelqu'un du mÃ©tier Ã  qui parler ! Je vis ici avec ma tante, les bonnes maniÃ¨res et tout Ã§a... mais je commence Ã  m'ennuyer un peu. Peut-Ãªtre qu'on devrait s'associer. Je connais bien cet endroit ; quelques-uns de ses secrets, comment crocheter une serrure ou bien dÃ©tecter un piÃ¨ge. Cela pourrait Ãªtre amusant. T'en dis quoi ?~
 // @11 de x#aloran.tra de BG1 NPC
-@125011 = ~Niquedouille, surfaite ?! Là, ça devient excitant ! Nous devrions... nous devrions faire équipe ! Ouais ! Tu pourrais m'aider... enfin... je veux dire, nous pourrions nous entraider. Je peux chercher de jolies choses. Tu pourras même garder la plus grosse part ! Qu'est-ce que tu en dis ?~
+@125011 = ~Niquedouille, surfaite ?! LÃ , Ã§a devient excitant ! Nous devrions... nous devrions faire Ã©quipe ! Ouais ! Tu pourrais m'aider... enfin... je veux dire, nous pourrions nous entraider. Je peux chercher de jolies choses. Tu pourras mÃªme garder la plus grosse part ! Qu'est-ce que tu en dis ?~
 // @12 de x#aloran.tra de BG1 NPC
 @125012 = ~Nous sommes camarades ! Un pour tous et tous pour un, Je CONNAIS le refrain ! On va bien s'amuser !~
-// @13 de x#aloran.tra de BG1 NPC, traduction corrigée
-@125013 = ~Ah bon, tant pis. J'arrive jamais à me faire des amis dans ce milieu. Surtout les plus sympas. Salut alors.~
+// @13 de x#aloran.tra de BG1 NPC, traduction corrigÃ©e
+@125013 = ~Ah bon, tant pis. J'arrive jamais Ã  me faire des amis dans ce milieu. Surtout les plus sympas. Salut alors.~
 // @14 de x#aloran.tra de BG1 NPC
-@125014 = ~Alors je resterai à traîner dans le coin jusqu'à ce que tu reprennes tes esprits et reviennes me chercher.~
+@125014 = ~Alors je resterai Ã  traÃ®ner dans le coin jusqu'Ã  ce que tu reprennes tes esprits et reviennes me chercher.~
 // @15 de x#aloran.tra de BG1 NPC
-@125015 = ~Bon, si tu comptes me suivre sans arrêt comme un petit chien, autant travailler ensemble.~
+@125015 = ~Bon, si tu comptes me suivre sans arrÃªt comme un petit chien, autant travailler ensemble.~
 // = @1 de x#aloran.tra de BG1 NPC
-@125016 = ~Non, les ruines ne m'intéressent pas.~
+@125016 = ~Non, les ruines ne m'intÃ©ressent pas.~
 // = @0 de x#aloran.tra de BG1 NPC
-@125017 = ~Hé, vous n'êtes pas du coin ! Vouiii ! Pas de cirage sur vos bottes, pas de bouton sur vos bretelles. Vous n'êtes pas des marchands. Ils sont toujours beaucoup plus présentables. Oh ma parole, des aventuriers à Gullykin ! Vous êtes venus piller les ruines de Flammevin ?~
+@125017 = ~HÃ©, vous n'Ãªtes pas du coin ! Vouiii ! Pas de cirage sur vos bottes, pas de bouton sur vos bretelles. Vous n'Ãªtes pas des marchands. Ils sont toujours beaucoup plus prÃ©sentables. Oh ma parole, des aventuriers Ã  Gullykin ! Vous Ãªtes venus piller les ruines de Flammevin ?~
 @125100 = ~Deplacer les personnages non-joueurs a des endroits plus accessibles : Deplacer Alora a Gullykin~
 @125200 = ~Deplacer les personnages non-joueurs a des endroits plus accessibles : Deplacer Eldoth sur la Voie Cotiere~
 @125300 = ~Deplacer les personnages non-joueurs a des endroits plus accessibles : Deplacer Quayle au Carnaval de Nashkel~
@@ -931,11 +931,11 @@ Capacités spéciales :
 @125500 = ~Deplacer les personnages non-joueurs a des endroits plus accessibles : Deplacer Tiax a Beregost~
 @125600 = ~Deplacer les personnages non-joueurs a des endroits plus accessibles : Deplacer Viconia sur la route au Sud de Beregost~
 @126000 = ~Ajustement de reputation grace a des bardes~
-@126001  = ~Sam le Poète Lakiste~
+@126001  = ~Sam le PoÃ¨te Lakiste~
 @126002  = ~Sam~
-@126003  = ~Rob le Poète Lakiste~
+@126003  = ~Rob le PoÃ¨te Lakiste~
 @126004  = ~Rob~
-@126005  = ~Willy le Poète Lakiste~
+@126005  = ~Willy le PoÃ¨te Lakiste~
 @126006  = ~Willy~
 @127000 = ~Changer le declencheur de fin de chapitre des mines de Bois-Manteau pour la methode sans TotSC (plainab) (BETA)~
 @128000 = ~Le jeu se termine lorsque le personnage principal meurt~
@@ -947,11 +947,11 @@ Capacités spéciales :
 @134000 = ~Rendre la forteresse de la Sphere planaire accessible a toutes les classes~
 @134100 = ~Rendre la forteresse du Chateau de'Arnise accessible a toutes les classes~
 @134200 = ~Rendre la forteresse du Temple accessible a toutes les classes~
-@134300 = ~Rendre la forteresse de la Guilde des Voleurs de l'Ombre a pour toutes les classes~
-@134400 = ~Rendre la forteresse du Theatre des 5 Chopes a toutes les classes~
+@134300 = ~Rendre la forteresse de la Guilde des Voleurs de l'Ombre accessible a pour toutes les classes~
+@134400 = ~Rendre la forteresse du Theatre des 5 Chopes accessible a toutes les classes~
 @134500 = ~Rendre la forteresse du Tres Noble Ordre du Coeur Radieux accessible a toutes les classes~
 @134600 = ~Rendre la forteresse du Bosquet des Druides accessible a toutes les classes~
-@134700 = ~Rendre la forteresse de la Cabane des Collines d'Umar a toutes les classes~
+@134700 = ~Rendre la forteresse de la Cabane des Collines d'Umar accessible a toutes les classes~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -961,14 +961,14 @@ Capacités spéciales :
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 @201000 = ~Progression des sorts style P&P~
 @202000 = ~Epees batardes a deux mains~
-@202001 = ~Manipuler à une main~
-@202002 = ~Manipuler à deux mains~
-// BG II "Type : arme à 1 main" / "Type d'arme : à une main"
-// Isaya : traite aussi l'espace insécable de BGEE avant ":" (deuxième caractère entre [], encodé ici en CP1252)
-@202003 = ~^[ %TAB%]*Type\( d'arme\)?[ %TAB% ]*:[ %TAB%]*\([Aa]rme \)?à \(1\|une\) main.*~
+@202001 = ~Manipuler Ã  une main~
+@202002 = ~Manipuler Ã  deux mains~
+// BG II "Type : arme Ã  1 main" / "Type d'arme : Ã  une main"
+// Isaya : traite aussi l'espace insÃ©cable de BGEE avant ":" (deuxiÃ¨me caractÃ¨re entre [], encodÃ© ici en CP1252)
+@202003 = ~^[ %TAB%]*Type\( d'arme\)?[ %TAB%Â ]*:[ %TAB%]*\([Aa]rme \)?Ã  \(1\|une\) main.*~
 //@202003 = ~^[ %TAB%]*Type[ %TAB%]*:[ %TAB%]*\(1\|one\)[- %TAB%]*handed.*~
 // Arbitrairement la forme de BG II avec 2 en chiffre
-@202004 = ~Type : arme à 2 mains~
+@202004 = ~Type : arme Ã  2 mains~
 @203000 = ~Katanas a deux mains~
 @203500 = ~Haches a deux mains~
 @204000 = ~Gourdins universels~
@@ -991,49 +991,49 @@ Capacités spéciales :
 @210000 = ~Autoriser l'utilisation des competences de voleur en armure lourde~
 // Moved from thieving_descripts.tpa
 // Nota : textes repris de l'armure de peau, puisque c'est elle pour laquelle il faut remplacer les mentions existantes
-// Nota : l'expression régulière pour l'espace avant les deux points inclut aussi un espace insécable (code 0xA0, Alt 0160 au clavier)
-// en raison de l'utilisation de ce caractère dans les textes de BGEE en français
+// Nota : l'expression rÃ©guliÃ¨re pour l'espace avant les deux points inclut aussi un espace insÃ©cable (code 0xA0, Alt 0160 au clavier)
+// en raison de l'utilisation de ce caractÃ¨re dans les textes de BGEE en franÃ§ais
 // Typical weight line for an item, used for a search matching the whole line
-@210001  = ~\(Poids[ %TAB% ]*:[ %TAB%]*[0-9]+\)~
+@210001  = ~\(Poids[ %TAB%Â ]*:[ %TAB%]*[0-9]+\)~
 // Typical lock picking penalty line in original armors
 // BGEE 22716, 25552 ; BGEE "- crochetage des serrures', BG II "Crochetage"
-@210002 = ~^[ %TAB%]*.?.?.?[ %TAB%]*[Cc]rochetage\(\| des serrures\)[ %TAB% ]*:.+$[%MNL%%LNL%%WNL%]+~ // lone . at front to catch EE emdash
+@210002 = ~^[ %TAB%]*.?.?.?[ %TAB%]*[Cc]rochetage\(\| des serrures\)[ %TAB%Â ]*:.+$[%MNL%%LNL%%WNL%]+~ // lone . at front to catch EE emdash
 // Title for lock picking added after Weight line, penalty is added after this text
 // Isaya : il faut choisir une forme, arbitrairement on conserve celle de BG II
 @210003 = ~Crochetage :~
 // Typical find trap penalty line in original armors
-// BGEE "- détection des pièges", BG II "Pièges"
-@210004 = ~^[ %TAB%]*.?.?.?[ %TAB%]*\([Dd]étection des \|\)[Pp]ièges[ %TAB% ]*:.+$[%MNL%%LNL%%WNL%]+~ // lone . at front to catch EE emdash
+// BGEE "- dÃ©tection des piÃ¨ges", BG II "PiÃ¨ges"
+@210004 = ~^[ %TAB%]*.?.?.?[ %TAB%]*\([Dd]Ã©tection des \|\)[Pp]iÃ¨ges[ %TAB%Â ]*:.+$[%MNL%%LNL%%WNL%]+~ // lone . at front to catch EE emdash
 // Title for find trap added after Weight line, penalty is added after this text
-// Isaya : il faut choisir une forme, on conserve celle de BG II, plus générale
-@210005 = ~Pièges :~
+// Isaya : il faut choisir une forme, on conserve celle de BG II, plus gÃ©nÃ©rale
+@210005 = ~PiÃ¨ges :~
 // Typical pick pocket penalty line in original armors
-// BGEE "- vol à la tire", BG II : "Vol à la tire"
-@210006 = ~^[ %TAB%]*.?.?.?[ %TAB%]*[Vv]ol à la tire[ %TAB% ]*:.+$[%MNL%%LNL%%WNL%]+~ // lone . at front to catch EE emdash
+// BGEE "- vol Ã  la tire", BG II : "Vol Ã  la tire"
+@210006 = ~^[ %TAB%]*.?.?.?[ %TAB%]*[Vv]ol Ã  la tire[ %TAB%Â ]*:.+$[%MNL%%LNL%%WNL%]+~ // lone . at front to catch EE emdash
 // Title for pick pocket added after Weight line, penalty is added after this text
-@210007 = ~Vol à la tire :~
+@210007 = ~Vol Ã  la tire :~
 // Typical hide en shadow penalty line in original armors
 // BGEE "- se cacher dans l'ombre", BG II "Se cacher dans l'ombre/les ombres"
-@210008 = ~^[ %TAB%]*.?.?.?[ %TAB%]*[Ss]e cacher dans \(l'ombre\|les ombres\)[ %TAB% ]*:.+$[%MNL%%LNL%%WNL%]+~ // lone . at front to catch EE emdash
+@210008 = ~^[ %TAB%]*.?.?.?[ %TAB%]*[Ss]e cacher dans \(l'ombre\|les ombres\)[ %TAB%Â ]*:.+$[%MNL%%LNL%%WNL%]+~ // lone . at front to catch EE emdash
 // Title for hide in shadow added after Weight line, penalty is added after this text
 @210009 = ~Se cacher dans l'ombre :~
 // Typical move silently penalty line in original armors
-// BGEE "- déplacement silencieux", BG II "Déplacement [Ss]ilencieux"
-@210010 = ~^[ %TAB%]*.?.?.?[ %TAB%]*[Dd]éplacement [Ss]ilencieux[ %TAB% ]*:.+$[%MNL%%LNL%%WNL%]+~ // lone . at front to catch EE emdash
+// BGEE "- dÃ©placement silencieux", BG II "DÃ©placement [Ss]ilencieux"
+@210010 = ~^[ %TAB%]*.?.?.?[ %TAB%]*[Dd]Ã©placement [Ss]ilencieux[ %TAB%Â ]*:.+$[%MNL%%LNL%%WNL%]+~ // lone . at front to catch EE emdash
 // Title for move silently added after Weight line, penalty is added after this text
-@210011 = ~Déplacement Silencieux :~
+@210011 = ~DÃ©placement Silencieux :~
 // Typical move silently penalty line in original armors
-// BGEE / BG II : 7362 (pas une armure), BGEE "- furtivité", BG II "Furtivité"
-@210012 = ~^[ %TAB%]*.?.?.?[ %TAB%]*[Ff]urtivité[ %TAB% ]*:.+$[%MNL%%LNL%%WNL%]+~ // lone . at front to catch EE emdash
+// BGEE / BG II : 7362 (pas une armure), BGEE "- furtivitÃ©", BG II "FurtivitÃ©"
+@210012 = ~^[ %TAB%]*.?.?.?[ %TAB%]*[Ff]urtivitÃ©[ %TAB%Â ]*:.+$[%MNL%%LNL%%WNL%]+~ // lone . at front to catch EE emdash
 // Title for move silently added after Weight line, penalty is added after this text
-@210013 = ~Furtivité :~
+@210013 = ~FurtivitÃ© :~
 @211000 = ~Modifier la description des objets pour le composant "Autoriser l'utilisation des competences de voleur en armure lourde"~
 @212000 = ~Autoriser le lancement des sorts profanes en armure~
 // Moved from arcane_descripts.tpa
 // Typical weight line for an item, used for a search matching the whole line
-@212001 = ~\(Poids[ %tab% ]*:[ %tab%]*[0-9]+\)~
+@212001 = ~\(Poids[ %tab%Â ]*:[ %tab%]*[0-9]+\)~
 // Title for miscast chance added after Weight line, value is added after this text
-@212002 = ~Échec d'incantation des sorts profanes :~
+@212002 = ~Ã‰chec d'incantation des sorts profanes :~
 @213000 = ~Modifier la description des objets pour le composant "Autoriser le lancement des sorts profanes en armure"~
 @214000 = ~Options de jumelage etendues~
 @214001 = ~barbare / mage~
@@ -1043,67 +1043,67 @@ Capacités spéciales :
 @215000 = ~Port de plusieurs objets de protection~
 @215001 = ~Restrictions style P&P~
 // Objet : retirer le bonus de CA des objets avec protection (anneau, cape, ..., hors armure) et donc la description du bonus
-// Isaya : traite aussi l'espace insécable de BGEE avant ":" (deuxième caractère entre [], encodé ici en CP1252)
-// BGEE "- classe d'armure :", BG II "Classe d'Armure :" / "Bonus à la Classe d'Armure :" / "CA +x"
-@215002 = ~[%LNL%%MNL%%WNL%][ %TAB%]*.?.?.?[ %TAB%]*\(\([Bb]onus à la \)?[Cc]lasse d'[Aa]rmure[ %TAB% ]*:\|CA[ %TAB% ]*\).*$~ // lone . at front to catch EE emdash
+// Isaya : traite aussi l'espace insÃ©cable de BGEE avant ":" (deuxiÃ¨me caractÃ¨re entre [], encodÃ© ici en CP1252)
+// BGEE "- classe d'armureÂ :", BG II "Classe d'Armure :" / "Bonus Ã  la Classe d'Armure :" / "CA +x"
+@215002 = ~[%LNL%%MNL%%WNL%][ %TAB%]*.?.?.?[ %TAB%]*\(\([Bb]onus Ã  la \)?[Cc]lasse d'[Aa]rmure[ %TAB%Â ]*:\|CA[ %TAB%Â ]*\).*$~ // lone . at front to catch EE emdash
 @215100 = ~Pas de restrictions~
 @215200 = ~Autorise une armure plus un objet de protection (Angel)~
 @216000 = ~Reequilibrage des competences martiales~
-@216001 = ~EPEE COURTE / NINJA-TO : L'arme préférée de nombreux voleurs et petites personnes, les épées courtes et les ninja-to sont des épées légères mais utiles.
+@216001 = ~EPEE COURTE / NINJA-TO : L'arme prÃ©fÃ©rÃ©e de nombreux voleurs et petites personnes, les Ã©pÃ©es courtes et les ninja-to sont des Ã©pÃ©es lÃ©gÃ¨res mais utiles.
 <DOTS1>
 <DOTS2>
 <DOTS3>
 <DOTS4>
 <DOTS5>~
-@216002 = ~KATANA / WAKIZASHI : Les Katana et les Wakizashis sont les meilleurs exemples du talent des forgerons mais ils demandent une grande habileté pour être utilisés correctement. Au fil du temps, le porteur de l'arme et l'arme elle-même finissent par former une entité unique entièrement dédiée à l'art de la guerre. Ces armes étant difficiles à trouver hors de Kara-Tur, il convient de choisir cette compétence avec prudence. Après tout, savoir se servir d'un Katana ou d'un Wakizashi est chose utile à partir du moment où on en possède un.
-AVERTISSEMENT : Les katanas magiques sont très rares en dehors de Kara-Tur !
+@216002 = ~KATANA / WAKIZASHI : Les Katana et les Wakizashis sont les meilleurs exemples du talent des forgerons mais ils demandent une grande habiletÃ© pour Ãªtre utilisÃ©s correctement. Au fil du temps, le porteur de l'arme et l'arme elle-mÃªme finissent par former une entitÃ© unique entiÃ¨rement dÃ©diÃ©e Ã  l'art de la guerre. Ces armes Ã©tant difficiles Ã  trouver hors de Kara-Tur, il convient de choisir cette compÃ©tence avec prudence. AprÃ¨s tout, savoir se servir d'un Katana ou d'un Wakizashi est chose utile Ã  partir du moment oÃ¹ on en possÃ¨de un.
+AVERTISSEMENT : Les katanas magiques sont trÃ¨s rares en dehors de Kara-Tur !
 <DOTS1>
 <DOTS2>
 <DOTS3>
 <DOTS4>
 <DOTS5>~
-@216003 = ~CIMETERRE : Cette classe d'arme permet au personnage d'utiliser les larmes incurvées telles que les cimeterres.
+@216003 = ~CIMETERRE : Cette classe d'arme permet au personnage d'utiliser les larmes incurvÃ©es telles que les cimeterres.
 <DOTS1>
 <DOTS2>
 <DOTS3>
 <DOTS4>
 <DOTS5>~
-@216004 = ~FLEAU : Les fléaux sont des armes contondantes utilisées pour assomer les ennemis. Ils sont difficiles à utiliser mais avec du talent et de l'entraînement, ces armes sont très utiles.
+@216004 = ~FLEAU : Les flÃ©aux sont des armes contondantes utilisÃ©es pour assomer les ennemis. Ils sont difficiles Ã  utiliser mais avec du talent et de l'entraÃ®nement, ces armes sont trÃ¨s utiles.
 <DOTS1>
 <DOTS2>
 <DOTS3>
 <DOTS4>
 <DOTS5>~
-@216005 = ~MASSE / ETOILE DU MATIN : La masse est le plus souvent associée aux clercs. C'est une arme contondante puissante, similaire au gourdin, mais conçue pour faire davantage de dégâts. Une étoile du matin est similaire à une masse, mais avec des pointes.
+@216005 = ~MASSE / ETOILE DU MATIN : La masse est le plus souvent associÃ©e aux clercs. C'est une arme contondante puissante, similaire au gourdin, mais conÃ§ue pour faire davantage de dÃ©gÃ¢ts. Une Ã©toile du matin est similaire Ã  une masse, mais avec des pointes.
 <DOTS1>
 <DOTS2>
 <DOTS3>
 <DOTS4>
 <DOTS5>~
 @216006 = ~Modifier le systeme des competences martiales~
-@216007 = ~Type de compétence[ %TAB% ][:-] *~
-@216008 = ~Type de compétence :~
-@216009 = ~Epée courte/Ninja-To~
+@216007 = ~Type de compÃ©tence[ %TAB%Â ][:-] *~
+@216008 = ~Type de compÃ©tence :~
+@216009 = ~EpÃ©e courte/Ninja-To~
 @216010 = ~Katana/Wakizashi~
-@216011 = ~Masse/Étoile du matin~
+@216011 = ~Masse/Ã‰toile du matin~
 @216100 = ~Competences style BG1, avec les styles de combat (the bigg)~
-@216101 = ~Petite épée~
+@216101 = ~Petite Ã©pÃ©e~
 @216200 = ~Competences style BG1, sans les styles de combat (the bigg)~
 @216300 = ~Competences style IWD, avec les styles de combat~
-@216301 = ~Epée de grande taille~
-@216302 = ~EPEE DE GRANDE TAILLE : cette compétence permet d'utiliser l'épée à deux mains et l'épée bâtarde.
+@216301 = ~EpÃ©e de grande taille~
+@216302 = ~EPEE DE GRANDE TAILLE : cette compÃ©tence permet d'utiliser l'Ã©pÃ©e Ã  deux mains et l'Ã©pÃ©e bÃ¢tarde.
 <DOTS1>
 <DOTS2>
 <DOTS3>
 <DOTS4>
 <DOTS5>~
-@216303 = ~GRANDE EPEE : cette compétence permet au personnage de manier l'épée longue, l'épée large et le cimeterre. Les voleurs peuvent choisir cette compétence, mais ils n'ont le droit de manier que l'épée longue. Les druides peuvent également la choisir, mais ils sont limités au cimeterre.
+@216303 = ~GRANDE EPEE : cette compÃ©tence permet au personnage de manier l'Ã©pÃ©e longue, l'Ã©pÃ©e large et le cimeterre. Les voleurs peuvent choisir cette compÃ©tence, mais ils n'ont le droit de manier que l'Ã©pÃ©e longue. Les druides peuvent Ã©galement la choisir, mais ils sont limitÃ©s au cimeterre.
 <DOTS1>
 <DOTS2>
 <DOTS3>
 <DOTS4>
 <DOTS5>~
-@216304 = ~ARMES À PROJECTILES : cette compétence permet de manier frondes et fléchettes. Les clercs peuvent la choisir, mais ils sont limités à la fronde.
+@216304 = ~ARMES Ã€ PROJECTILES : cette compÃ©tence permet de manier frondes et flÃ©chettes. Les clercs peuvent la choisir, mais ils sont limitÃ©s Ã  la fronde.
 <DOTS1>
 <DOTS2>
 <DOTS3>
@@ -1114,79 +1114,79 @@ AVERTISSEMENT : Les katanas magiques sont très rares en dehors de Kara-Tur !
 @218000 = ~Veritables tables de TAC0, jets de sauvegarde, grande maitrise, et progression des sorts divins et profanes (Blucher)~
 // ^^ this component deprecated, but the strings below still needed for the components that replace it
 @218001 = ~Alchimie (Mage)~
-@218002 = ~Alchimie (Prêtre)~
+@218002 = ~Alchimie (PrÃªtre)~
 @218003 = ~Alchimie (Roublard)~
 @218004 = ~Alchimie (Mage)
-Cette capacité permet au mage de créer des potions. Les potions que le mage peut créer sont choisies aléatoirement dans la liste suivante :
+Cette capacitÃ© permet au mage de crÃ©er des potions. Les potions que le mage peut crÃ©er sont choisies alÃ©atoirement dans la liste suivante :
 1)  Potion d'absorption
-2)  Potion de résistance au feu
-3)  Potion de résistance au froid
-4)  Potion d'invisibilité
+2)  Potion de rÃ©sistance au feu
+3)  Potion de rÃ©sistance au froid
+4)  Potion d'invisibilitÃ©
 5)  Potion de statue
 6)  Potion de force
-7)  Potion d'agilité
+7)  Potion d'agilitÃ©
 8)  Potion d'haleine ardente
-9)  Huile de rapidité
+9)  Huile de rapiditÃ©
 10) Huile de feux ardents~
-@218005 = ~Alchimie (Prêtre)
-Cette capacité permet au prêtre de créer des potions. Les potions que le prêtre peut créer sont choisies aléatoirement dans la liste suivante :
+@218005 = ~Alchimie (PrÃªtre)
+Cette capacitÃ© permet au prÃªtre de crÃ©er des potions. Les potions que le prÃªtre peut crÃ©er sont choisies alÃ©atoirement dans la liste suivante :
 1)  Potion de soins
 2)  Potion de grands soins
 3)  Potion de soins majeurs
-4)  Élixir de santé
-5)  Potion de perspicacité
-6)  Potion de régénération
-7)  Potion de clarté
+4)  Ã‰lixir de santÃ©
+5)  Potion de perspicacitÃ©
+6)  Potion de rÃ©gÃ©nÃ©ration
+7)  Potion de clartÃ©
 8)  Antidote
 9)  Potion de focalisation mentale
-10) Potion de génie~
+10) Potion de gÃ©nie~
 @218006 = ~Alchimie (Roublard)
-Avec l'ingéniosité naturelle de cette classe, un roublard expérimenté a vu suffisamment de potions dans sa vie aventureuse pour simuler la création d'une de de ces potions. Avec le don d'Alchimie, le roublard peut créer une potion parmi huit, une fois par jour.
-Les potions que le roublard peut créer sont choisies aléatoirement dans la liste suivante :
+Avec l'ingÃ©niositÃ© naturelle de cette classe, un roublard expÃ©rimentÃ© a vu suffisamment de potions dans sa vie aventureuse pour simuler la crÃ©ation d'une de de ces potions. Avec le don d'Alchimie, le roublard peut crÃ©er une potion parmi huit, une fois par jour.
+Les potions que le roublard peut crÃ©er sont choisies alÃ©atoirement dans la liste suivante :
 1) Potion de focalisation mentale
 2) Potion de perception
-3) Potion d'invisibilité
+3) Potion d'invisibilitÃ©
 4) Potion de soins majeurs
-5) Potion de régénération
+5) Potion de rÃ©gÃ©nÃ©ration
 6) Antidote
-7) Huile de rapidité
-8) Potion de force de géant du froid (spécifique aux roublards)~
+7) Huile de rapiditÃ©
+8) Potion de force de gÃ©ant du froid (spÃ©cifique aux roublards)~
 @218007 = ~Ecriture de parchemins (Mage)~
-@218008 = ~Ecriture de parchemins (Prêtre)~
+@218008 = ~Ecriture de parchemins (PrÃªtre)~
 @218009 = ~Ecriture de parchemins (Roublard)~
 @218010 = ~Ecriture de parchemins (Mage)
-Cette capacité permet au mage de créer des parchemins de faible et moyen niveau. Les parchemins que le mage peut créer sont choisis aléatoirement dans la liste suivante :
+Cette capacitÃ© permet au mage de crÃ©er des parchemins de faible et moyen niveau. Les parchemins que le mage peut crÃ©er sont choisis alÃ©atoirement dans la liste suivante :
 1)  Projectile magique
 2)  Bouclier
-3)  Flèche acide de Melf
+3)  FlÃ¨che acide de Melf
 4)  Image miroir
-5)  Minuscules météores de Melf
-6)  Déflection des sorts mineurs
-7)  Invisibilité améliorée
-8)  Tempête glaciale
+5)  Minuscules mÃ©tÃ©ores de Melf
+6)  DÃ©flection des sorts mineurs
+7)  InvisibilitÃ© amÃ©liorÃ©e
+8)  TempÃªte glaciale
 9)  Oracle
 10) Chaos~
-@218011 = ~Ecriture de parchemins (Prêtre)
-Cette capacité permet au prêtre de créer des parchemins de magie divine. Les parchemins que le prêtre peut créer sont choisis aléatoirement dans la liste suivante :
+@218011 = ~Ecriture de parchemins (PrÃªtre)
+Cette capacitÃ© permet au prÃªtre de crÃ©er des parchemins de magie divine. Les parchemins que le prÃªtre peut crÃ©er sont choisis alÃ©atoirement dans la liste suivante :
 1)  Soins des blessures critiques
 2)  Colonne de feu
-3)  Rappel à la vie
+3)  Rappel Ã  la vie
 4)  Restauration
 5)  Protection contre l'acide
 6)  Protection contre le froid
-7)  Protection contre l'électricité
+7)  Protection contre l'Ã©lectricitÃ©
 8)  Protection contre le feu
 9)  Force du champion
 10) Domination mentale~
 @218012 = ~Ecriture de parchemins (Roublard)
-Cette capacité permet au mage de créer des parchemins de faible et moyen niveau. Les parchemins que le mage peut créer sont choisis aléatoirement dans la liste suivante :
+Cette capacitÃ© permet au mage de crÃ©er des parchemins de faible et moyen niveau. Les parchemins que le mage peut crÃ©er sont choisis alÃ©atoirement dans la liste suivante :
 1) Projectile magique 
-2) Hâte
+2) HÃ¢te
 3) Boule de feu
 4) Dissipation de la magie
-5) Charme néfaste
-6) Invisibilité
-7) Cône de froid
+5) Charme nÃ©faste
+6) InvisibilitÃ©
+7) CÃ´ne de froid
 8) Convocation de monstres II
 9) Convocation de monstres III~
 @219000 = ~Limiter la capacite des vendeurs a identifier les objets~
@@ -1247,10 +1247,10 @@ Cette capacité permet au mage de créer des parchemins de faible et moyen niveau.
 @244000 = ~Tout le monde obtient le bonus d'attaque par round de specialisation~
 // translators - the next three strings are used to replace game text, so they need to be copied from the game itself
 // get @244001 and @244002 from strref 9588 in bgee/bg2ee/iwdee, 24315 for bgee V2.3
-@244001 = ~\* Les attaques supplémentaires ne sont disponibles que pour les classes de combattants\.~ // last line; if there's a * included then add \ in front of it
-@244002 = ~Table des niveaux de compétence~                                     // line before <DOTS1>, exclude the * if present
+@244001 = ~\* Les attaques supplÃ©mentaires ne sont disponibles que pour les classes de combattants\.~ // last line; if there's a * included then add \ in front of it
+@244002 = ~Table des niveaux de compÃ©tence~                                     // line before <DOTS1>, exclude the * if present
 // get @244003 from string 32117-32120 (bg2ee/iwdee) or 24220-24223 (bgee)
-@244003 = ~(\. S'il a une classe de combattant|s'il appartient à une classe de combattant)~
+@244003 = ~(\. S'il a une classe de combattant|s'il appartient Ã  une classe de combattant)~
 @245000 = ~Imposer les regles de competences du jeu Papier pour les personnages jumeles~
 @250000 = ~Modification de la limite de poids de la force exceptionnelle~
 @251000 = ~Parchemins de sort avec restriction de niveau (Angel)~
@@ -1269,7 +1269,7 @@ Cette capacité permet au mage de créer des parchemins de faible et moyen niveau.
 @300001 = ~Maximum~
 @300100 = ~Style NWN~
 @300200 = ~Tirages moyens~
-@300300 = ~Tirages à faible variation~ // Désactivé
+@300300 = ~Tirages Ã  faible variation~ // DÃ©sactivÃ©
 @300800 = ~Autoriser le tirage des PV jusqu'au niveau 20 (Angel)~
 @301000 = ~Points de vie maximum pour les PNJs (the bigg)~
 @301001 = ~Pour toutes les creatures du jeu~
@@ -1347,15 +1347,15 @@ Indiquez un pourcentage entre 20 et 500 : ~
   1) Demarrer pour les nouvelles parties ToB
   2) Pas de changements~
 @318312 = ~  * Demarrer les romances pour les nouvelles parties ToB~
-@318313 = ~Amène-moi mon amour, Aerie.~
-@318314 = ~Amène-moi mon amour, Jaheira.~
-@318315 = ~Amène-moi mon amour, Anomen, Chevalier de l'Ordre.~
-@318316 = ~Amène-moi mon amour, Anomen, Prêtre de Helm.~
-@318317 = ~Amène-moi mon amour, Viconia.~
-@318318 = ~Amène-moi mon amour, Dorn.~
-@318319 = ~Amène-moi mon amour, Hexxat.~
-@318320 = ~Amène-moi mon amour, Neera.~
-@318321 = ~Amène-moi mon amour, Rasaad.~
+@318313 = ~AmÃ¨ne-moi mon amour, Aerie.~
+@318314 = ~AmÃ¨ne-moi mon amour, Jaheira.~
+@318315 = ~AmÃ¨ne-moi mon amour, Anomen, Chevalier de l'Ordre.~
+@318316 = ~AmÃ¨ne-moi mon amour, Anomen, PrÃªtre de Helm.~
+@318317 = ~AmÃ¨ne-moi mon amour, Viconia.~
+@318318 = ~AmÃ¨ne-moi mon amour, Dorn.~
+@318319 = ~AmÃ¨ne-moi mon amour, Hexxat.~
+@318320 = ~AmÃ¨ne-moi mon amour, Neera.~
+@318321 = ~AmÃ¨ne-moi mon amour, Rasaad.~
 @319000 = ~Repos possible partout (Japheth)~
 @319100 = ~Desactiver les interruptions du repos non-hostiles~
 @319400 = ~Alterer les interruptions du repos hostiles~
@@ -1388,61 +1388,61 @@ Indiquez un pourcentage entre 20 et 500 : ~
 @324000 = ~Butin aleatoire sympathique~
 @324001 = ~Rendre aleatoire au rechargement~
 @324100 = ~Choisir son butin~
-@324101 = ~Génie des jetons~
+@324101 = ~GÃ©nie des jetons~
 @324102 = ~Jeton~
 @324103 = ~Un jeton quelconque sans la moindre marque.~
-@324104 = ~Salutations ! Choisir l'objet que vous voudriez échanger contre votre jeton, s'il vous plaît :~
+@324104 = ~Salutations ! Choisir l'objet que vous voudriez Ã©changer contre votre jeton, s'il vous plaÃ®t :~
 @324200 = ~Echange avec des marchands~
 @324201 = ~Flynn~
 @324202 = ~Marchand ambulant~
 @324203 = ~Harrold~
 @324204 = ~Bonjour voyageurs ! Pouvez-vous m'accorder un peu de votre temps ?~
-@324205 = ~Je suis désolé, je n'ai pas le temps pour l'instant.~
-          ~Je suis désolée, je n'ai pas le temps pour l'instant.~
-@324206 = ~Désolé pour la confusion mais je n'ai pas de marchandises à vous montrer. Je suis ici pour acquérir des objets exotiques, bien que je n'ai pas d'or à vous donner.~
+@324205 = ~Je suis dÃ©solÃ©, je n'ai pas le temps pour l'instant.~
+          ~Je suis dÃ©solÃ©e, je n'ai pas le temps pour l'instant.~
+@324206 = ~DÃ©solÃ© pour la confusion mais je n'ai pas de marchandises Ã  vous montrer. Je suis ici pour acquÃ©rir des objets exotiques, bien que je n'ai pas d'or Ã  vous donner.~
 @324207 = ~Tout ceci... contre une petite commission, bien entendu.~
 @324208 = ~Ce sera pour une autre fois dans ce cas.~
 @324209 = ~Quel genre de commission ?~
-@324210 = ~Mon tarif habituel est de 1000 pièces d'or mais je peux vous procurer une quantité d'options pour vos échanges.~
-@324211 = ~C'est extrêmement élevé !~
-@324212 = ~Très bien. Ai-je quelque chose qui vous intéresse ?~
-@324213 = ~C'est vrai, mais ma sélection n'a pas sa pareille. Et regarder ne coûte rien.~
+@324210 = ~Mon tarif habituel est de 1000 piÃ¨ces d'or mais je peux vous procurer une quantitÃ© d'options pour vos Ã©changes.~
+@324211 = ~C'est extrÃªmement Ã©levÃ© !~
+@324212 = ~TrÃ¨s bien. Ai-je quelque chose qui vous intÃ©resse ?~
+@324213 = ~C'est vrai, mais ma sÃ©lection n'a pas sa pareille. Et regarder ne coÃ»te rien.~
 @324214 = ~Au revoir et voyagez en paix.~
-@324215 = ~C'est bien d'entendre qu'il y est bien arrivé. Alors vous savez déjà comment ça marche ?~
-@324216 = ~En effet. Pourriez-vous regarder dans mes affaires pour voir si j'ai quelque chose de valeur pour un échange ?~
+@324215 = ~C'est bien d'entendre qu'il y est bien arrivÃ©. Alors vous savez dÃ©jÃ  comment Ã§a marche ?~
+@324216 = ~En effet. Pourriez-vous regarder dans mes affaires pour voir si j'ai quelque chose de valeur pour un Ã©change ?~
 @324217 = ~A vrai dire, non.~
-@324218 = ~Je suis prêt à échanger mon propre stock exotique contre ce que vous pouvez trouver ; peut-être que j'ai quelque chose de plus utile pour un homme de votre profession.~
-          ~Je suis prêt à échanger mon propre stock exotique contre ce que vous pouvez trouver ; peut-être que j'ai quelque chose de plus utile pour une femme de votre profession.~
+@324218 = ~Je suis prÃªt Ã  Ã©changer mon propre stock exotique contre ce que vous pouvez trouver ; peut-Ãªtre que j'ai quelque chose de plus utile pour un homme de votre profession.~
+          ~Je suis prÃªt Ã  Ã©changer mon propre stock exotique contre ce que vous pouvez trouver ; peut-Ãªtre que j'ai quelque chose de plus utile pour une femme de votre profession.~
 @324219 = ~Bien, laissez-moi voir...~
 @324220 = ~Content de vous revoir, voyageurs.~
-@324221 = ~Non, j'ai bien peur de ne rien voir d'intéressant.~
-@324222 = ~J'aimerais acquérir ces objets. Voudriez-vous savoir ce que j'ai à échanger contre eux ?~
-@324223 = ~Je n'ai envie d'échanger aucun d'entre eux.~
+@324221 = ~Non, j'ai bien peur de ne rien voir d'intÃ©ressant.~
+@324222 = ~J'aimerais acquÃ©rir ces objets. Voudriez-vous savoir ce que j'ai Ã  Ã©changer contre eux ?~
+@324223 = ~Je n'ai envie d'Ã©changer aucun d'entre eux.~
 @324224 = ~Oh... on dirait que vous n'avez pas l'or pour payer ma commission.~
-@324225 = ~D'accord. Est-ce qu'un de ces objets vous intéresse ?~
-@324226 = ~Non, je crains que non. Que pouvons-nous échanger d'autre ?~
-@324227 = ~Très bien.~
+@324225 = ~D'accord. Est-ce qu'un de ces objets vous intÃ©resse ?~
+@324226 = ~Non, je crains que non. Que pouvons-nous Ã©changer d'autre ?~
+@324227 = ~TrÃ¨s bien.~
 @324228 = ~Merci. Au revoir.~
 // 60 and 80 strings are identical, just with Flynn/Harrold and Lonelywood/Kuldahar exchanged
-@324260 = ~Je m'appelle Flynn et je suis un agent de la bourse de commerce de Calimport, envoyé ici à la recherche d'objets exotiques et uniques.~
-@324261 = ~Je crois que j'ai rencontré votre homologue, Harrold, au Bois Isolé.~
+@324260 = ~Je m'appelle Flynn et je suis un agent de la bourse de commerce de Calimport, envoyÃ© ici Ã  la recherche d'objets exotiques et uniques.~
+@324261 = ~Je crois que j'ai rencontrÃ© votre homologue, Harrold, au Bois IsolÃ©.~
 @324262 = ~Bonne rencontre Flynn. Puis-je voir vos marchandises ?~
-@324263 = ~Merci Flynn. Je penserai à vous si je trouve quelque chose.~
-@324264 = ~Rebonjour Flynn. Avez-vous envie d'échanger quelque chose parmi ceci ?~
-@324265 = ~Non, je ne suis pas intéressé par tout cela. Au revoir Flynn.~
-          ~Non, je ne suis pas intéressée par tout cela. Au revoir Flynn.~
-@324266 = ~Merci Flynn. Y a-t-il autre chose que vous voudriez échanger ?~
-@324280 = ~Je m'appelle Harrold et je suis un agent de la bourse de commerce de Calimport, envoyé ici à la recherche d'objets exotiques et uniques.~
-@324281 = ~Je crois que j'ai rencontré votre homologue, Flynn, à Kuldahar.~
+@324263 = ~Merci Flynn. Je penserai Ã  vous si je trouve quelque chose.~
+@324264 = ~Rebonjour Flynn. Avez-vous envie d'Ã©changer quelque chose parmi ceci ?~
+@324265 = ~Non, je ne suis pas intÃ©ressÃ© par tout cela. Au revoir Flynn.~
+          ~Non, je ne suis pas intÃ©ressÃ©e par tout cela. Au revoir Flynn.~
+@324266 = ~Merci Flynn. Y a-t-il autre chose que vous voudriez Ã©changer ?~
+@324280 = ~Je m'appelle Harrold et je suis un agent de la bourse de commerce de Calimport, envoyÃ© ici Ã  la recherche d'objets exotiques et uniques.~
+@324281 = ~Je crois que j'ai rencontrÃ© votre homologue, Flynn, Ã  Kuldahar.~
 @324282 = ~Bonne rencontre Harrold. Puis-je voir vos marchandises ?~
-@324283 = ~Merci Harrold. Je penserai à vous si je trouve quelque chose.~
-@324284 = ~Rebonjour Harrold. Avez-vous envie d'échanger quelque chose parmi ceci ?~
-@324285 = ~Non, je ne suis pas intéressé par tout cela. Au revoir Harrold.~
-          ~Non, je ne suis pas intéressée par tout cela. Au revoir Harrold.~
-@324286 = ~Merci Harrold. Y a-t-il autre chose que vous voudriez échanger ?~
+@324283 = ~Merci Harrold. Je penserai Ã  vous si je trouve quelque chose.~
+@324284 = ~Rebonjour Harrold. Avez-vous envie d'Ã©changer quelque chose parmi ceci ?~
+@324285 = ~Non, je ne suis pas intÃ©ressÃ© par tout cela. Au revoir Harrold.~
+          ~Non, je ne suis pas intÃ©ressÃ©e par tout cela. Au revoir Harrold.~
+@324286 = ~Merci Harrold. Y a-t-il autre chose que vous voudriez Ã©changer ?~
 @325000 = ~Ne jamais perdre l'acces aux marchandises du commerce d'Orrick le Gris~
-@325001 = ~En fait, pouvons-nous voir les objets que vous proposiez lorsque nous sommes arrivés à Kuldahar ?~
-@325002 = ~Pouvons-nous jeter un nouveau coup d'œil aux objets que vous proposiez au milieu de notre séjour ici ?~
+@325001 = ~En fait, pouvons-nous voir les objets que vous proposiez lorsque nous sommes arrivÃ©s Ã  Kuldahar ?~
+@325002 = ~Pouvons-nous jeter un nouveau coup d'Âœil aux objets que vous proposiez au milieu de notre sÃ©jour ici ?~
 @326000 = ~Munitions recuperables~
 @326001 = ~25% de chance de recuperer apres une attaque reussie~
 @326100 = ~50% de chance de recuperer apres une attaque reussie~
@@ -1468,16 +1468,16 @@ Indiquez un pourcentage entre 20 et 500 : ~
 @333001 = ~De 50 pourcent~
 @333002 = ~De 100 pourcent~
 @333003 = ~De 150 pourcent~
-@333010 = ~Désactiver la Hâte automatique~
-@333011 = ~Désactiver la Hâte automatique
+@333010 = ~DÃ©sactiver la HÃ¢te automatique~
+@333011 = ~DÃ©sactiver la HÃ¢te automatique
 
-Cette compétence permet aux membres du groupe de se déplacer plus rapidement en dehors des combats. Cliquez sur la compétence pour la désactiver.~
+Cette compÃ©tence permet aux membres du groupe de se dÃ©placer plus rapidement en dehors des combats. Cliquez sur la compÃ©tence pour la dÃ©sactiver.~
 
-@333012 = ~Activer la Hâte automatique~
-@333013 = ~Activer la Hâte automatique
+@333012 = ~Activer la HÃ¢te automatique~
+@333013 = ~Activer la HÃ¢te automatique
 
-Cette compétence permet aux membres du groupe de se déplacer plus rapidement en dehors des combats. Cliquez sur la compétence pour l'activer.~
-@333020 = ~Bonus de vitesse de déplacement désactivé~
+Cette compÃ©tence permet aux membres du groupe de se dÃ©placer plus rapidement en dehors des combats. Cliquez sur la compÃ©tence pour l'activer.~
+@333020 = ~Bonus de vitesse de dÃ©placement dÃ©sactivÃ©~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -1496,7 +1496,7 @@ Cette compétence permet aux membres du groupe de se déplacer plus rapidement en 
 @406000 = ~Caracteristiques coherentes : Minsc~
 @407000 = ~Caracteristiques coherentes : Viconia~
 @408000 = ~Transformer Khalid en Guerrier / Mage (Domi)~
-@408001 = ~Interrogé sur son passé, c'est un KHALID visiblement nerveux qui avoue être né et avoir été élevé en Calimshan. Il ne parle guère de ses parents, mais on sent que son marchand de père n'avait pas une haute opinion de lui et se consacrait davantage à ses demi-frères. Sans l'aide de son père, Khalid n'a pas pu payer pour avoir l'enseignement d'un mage, donc il s'engagea dans la milice de sa ville dans l'espoir de gagner suffisamment d'argent. Et même s'il reste dans le vague quant aux circonstances de sa rencontre avec Jaheira, il est visible qu'il l'adore. Quand on lui demande comment il se fait qu'il ait connu Gorion, il se borne à dire qu'ils étaient amis de longue date et que beaucoup de leurs amis communs vont pleurer sa perte sur leur harpe.~
+@408001 = ~InterrogÃ© sur son passÃ©, c'est un KHALID visiblement nerveux qui avoue Ãªtre nÃ© et avoir Ã©tÃ© Ã©levÃ© en Calimshan. Il ne parle guÃ¨re de ses parents, mais on sent que son marchand de pÃ¨re n'avait pas une haute opinion de lui et se consacrait davantage Ã  ses demi-frÃ¨res. Sans l'aide de son pÃ¨re, Khalid n'a pas pu payer pour avoir l'enseignement d'un mage, donc il s'engagea dans la milice de sa ville dans l'espoir de gagner suffisamment d'argent. Et mÃªme s'il reste dans le vague quant aux circonstances de sa rencontre avec Jaheira, il est visible qu'il l'adore. Quand on lui demande comment il se fait qu'il ait connu Gorion, il se borne Ã  dire qu'ils Ã©taient amis de longue date et que beaucoup de leurs amis communs vont pleurer sa perte sur leur harpe.~
 @409000 = ~Transformer Montaron en Assassin (Andyr)~
 @410000 = ~Changer l'alignement de Korgan en "Neutre Mauvais"~
 @411000 = ~Donner a Kagain une valeur reglementaire de 19 en constitution~
