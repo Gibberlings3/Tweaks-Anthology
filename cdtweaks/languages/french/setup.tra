@@ -36,7 +36,7 @@
     @25 = ~Ce composant n'est pas disponible pour votre jeu.~
     @26 = ~Utilisation des valeurs du fichier de config cdtweaks.txt pour ce composant...~
     @27 = ~Il est necessaire d'utiliser Modmerge avant d'installer des mods pour ce jeu. Consultez le readme pour plus d'informations et pour trouver un lien pour telecharger Modmerge.~
-	@28 = ~Nombre d'emplacements disponibles de spellstates ou d'ecoles de magie secondaire insuffisant pour installer ce composant.~
+	@28 = ~Nombre d'emplacements disponibles de "spellstates" ou d'ecoles de magie secondaire insuffisant pour installer ce composant (trop de mods installes).~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -924,12 +924,12 @@ Capacités spéciales :
 @125016 = ~Non, les ruines ne m'intéressent pas.~
 // = @0 de x#aloran.tra de BG1 NPC
 @125017 = ~Hé, vous n'êtes pas du coin ! Vouiii ! Pas de cirage sur vos bottes, pas de bouton sur vos bretelles. Vous n'êtes pas des marchands. Ils sont toujours beaucoup plus présentables. Oh ma parole, des aventuriers à Gullykin ! Vous êtes venus piller les ruines de Flammevin ?~
-@125100 = ~Deplacer les personnages non-joueurs a des endroits plus accessibles : Deplacer Alora a Gullykin~
-@125200 = ~Deplacer les personnages non-joueurs a des endroits plus accessibles : Deplacer Eldoth sur la Voie Cotiere~
-@125300 = ~Deplacer les personnages non-joueurs a des endroits plus accessibles : Deplacer Quayle au Carnaval de Nashkel~
-@125400 = ~Deplacer les personnages non-joueurs a des endroits plus accessibles : Deplacer Shar-Teel sur la route au Nord de Nashkel~
-@125500 = ~Deplacer les personnages non-joueurs a des endroits plus accessibles : Deplacer Tiax a Beregost~
-@125600 = ~Deplacer les personnages non-joueurs a des endroits plus accessibles : Deplacer Viconia sur la route au Sud de Beregost~
+@125100 = ~Deplacer les PNJ a des endroits plus accessibles : Deplacer Alora a Gullykin~
+@125200 = ~Deplacer les PNJ a des endroits plus accessibles : Deplacer Eldoth sur la Voie cotiere~
+@125300 = ~Deplacer les PNJ a des endroits plus accessibles : Deplacer Quayle au festival de Nashkel~
+@125400 = ~Deplacer les PNJ a des endroits plus accessibles : Deplacer Shar-Teel sur la route au Nord de Nashkel~
+@125500 = ~Deplacer les PNJ a des endroits plus accessibles : Deplacer Tiax a Beregost~
+@125600 = ~Deplacer les PNJ a des endroits plus accessibles : Deplacer Viconia sur la route au Sud de Beregost~
 @126000 = ~Ajustement de reputation grace a des bardes~
 @126001  = ~Sam le Poète Lakiste~
 @126002  = ~Sam~
@@ -944,14 +944,14 @@ Capacités spéciales :
 @131000 = ~Retablir (la plupart) des sorts de BG2 et rendre leurs parchemins disponibles - ATTENTION : ils vont jurer~
 @132000 = ~Journal style BG II [travail en cours]~
 @133000 = ~Les PNJ ne peuvent pas franchir les portes~
-@134000 = ~Rendre la forteresse de la Sphere planaire accessible a toutes les classes~
-@134100 = ~Rendre la forteresse du Chateau de'Arnise accessible a toutes les classes~
-@134200 = ~Rendre la forteresse du Temple accessible a toutes les classes~
-@134300 = ~Rendre la forteresse de la Guilde des Voleurs de l'Ombre accessible a toutes les classes~
-@134400 = ~Rendre la forteresse du Theatre des 5 Chopes accessible a toutes les classes~
-@134500 = ~Rendre la forteresse du Tres Noble Ordre du Coeur Radieux accessible a toutes les classes~
-@134600 = ~Rendre la forteresse du Bosquet des Druides accessible a toutes les classes~
-@134700 = ~Rendre la forteresse de la Cabane des Collines d'Umar accessible a toutes les classes~
+@134000 = ~Rendre le bastion du mage (Sphere planaire) accessible a toutes les classes~
+@134100 = ~Rendre le bastion du combattant (Chateau de'Arnise) accessible a toutes les classes~
+@134200 = ~Rendre le bastion du clerc (Temple) accessible a toutes les classes~
+@134300 = ~Rendre le bastion du voleur (Guilde des voleurs) accessible a toutes les classes~
+@134400 = ~Rendre le bastion du barde (Theatre des 5 chopes) accessible a toutes les classes~
+@134500 = ~Rendre le bastion du paladin (Tres noble ordre du coeur radieux) accessible a toutes les classes~
+@134600 = ~Rendre le bastion du druide (Bosquet des druides) accessible a toutes les classes~
+@134700 = ~Rendre le bastion du rodeur (Cabane des collines d'Umar) accessible a toutes les classes~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -1465,9 +1465,9 @@ Indiquez un pourcentage entre 20 et 500 : ~
 @331000 = ~Demarrer les nouvelles parties avec l'IA de groupe desactivee~
 @332000 = ~Pas de depreciation dans les magasins~
 @333000 = ~Augmenter la vitesse de deplacement du groupe en dehors des combats~
-@333001 = ~De 50 pourcent~
-@333002 = ~De 100 pourcent~
-@333003 = ~De 150 pourcent~
+@333001 = ~De 50 pour cent~
+@333002 = ~De 100 pour cent~
+@333003 = ~De 150 pour cent~
 @333010 = ~Désactiver la Hâte automatique~
 @333011 = ~Désactiver la Hâte automatique
 
@@ -1478,6 +1478,28 @@ Cette compétence permet aux membres du groupe de se déplacer plus rapidement en 
 
 Cette compétence permet aux membres du groupe de se déplacer plus rapidement en dehors des combats. Cliquez sur la compétence pour l'activer.~
 @333020 = ~Bonus de vitesse de déplacement désactivé~
+@335000 = ~Creer des sauvegardes periodiques~
+@335001 = ~Toutes les 15 minutes (un emplacement de sauvegarde seulement)~
+@335002 = ~Toutes les 30 minutes (un emplacement de sauvegarde seulement)~
+@335003 = ~Toutes les 60 minutes (un emplacement de sauvegarde seulement)~
+@335004 = ~Toutes les 120 minutes (un emplacement de sauvegarde seulement)~
+@335005 = ~Toutes les 15 minutes (cycle de quatre emplacements de sauvegarde)~
+@335006 = ~Toutes les 30 minutes (cycle de quatre emplacements de sauvegarde)~
+@335007 = ~Toutes les 60 minutes (cycle de quatre emplacements de sauvegarde)~
+@335008 = ~Toutes les 120 minutes (cycle de quatre emplacements de sauvegarde)~
+@335009 = ~Personnaliser (via cdtweaks.txt)~
+@335100 = ~Sauvegarde-Périodique~
+@335101 = ~Sauvegarde périodique créée~
+@335102 = ~Sauvegarde périodique (emplacement %slot_index%) créée~
+@335103 = ~Parametres des sauvegardes periodiques :
+Activer les sauvegardes periodiques :        a7_interval_enable
+Periode entre les sauvegardes :              a7_interval_delay seconds
+Sauvegarde pendant le combat :               a7_interval_combat
+Nombre d'emplacements de sauvegarde :        a7_interval_slots
+Utiliser un nom de sauvegarde personnalise : a7_interval_custom
+Afficher le message d'information :          a7_interval_feedback
+Utiliser les parametres de Baldur.lua :      a7_interval_ini
+~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
