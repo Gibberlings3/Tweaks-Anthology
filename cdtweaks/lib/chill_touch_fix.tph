@@ -1,0 +1,84 @@
+DEFINE_ACTION_FUNCTION "CHILL_TOUCH_FIX"
+BEGIN
+	LAF "RES_NUM_OF_SPELL_NAME"
+	STR_VAR
+		"spell_name" = "WIZARD_CHILL_TOUCH"
+	RET
+		"spell_res"
+	END
+
+	////////////////////////////////////////////////////////////////////
+	//// Magically created weapon
+	////////////////////////////////////////////////////////////////////
+
+	WITH_SCOPE BEGIN
+		COPY_EXISTING "CTOUCH.ITM" "override"
+			// op337 always acts as permanent
+			LPF "DELETE_EFFECT"
+			INT_VAR
+				"check_globals" = 0
+				"match_opcode" = 326 // Apply effects list
+			STR_VAR
+				"match_resource" = EVALUATE_BUFFER "%spell_res%C"
+			END
+			LPF "ALTER_EFFECT"
+			INT_VAR
+				"check_globals" = 0
+				"match_opcode" = 326 // Apply effects list
+				"timing" = 1 // Permanent until death
+				"duration" = 0
+				"resist_dispel" = 2 // Remember that the Magic Resistance field is checked BEFORE the splprot/IDS filter, so it's usually better to not have Magic Resistance on op326, to avoid unnecessary feedback.
+				"savingthrow" = 0 // Remember that the Saving Throw field is checked BEFORE the splprot/IDS filter, so it's usually better to not have Saving Throws on op326, to avoid unnecessary feedback.
+			STR_VAR
+				"match_resource" = EVALUATE_BUFFER "%spell_res%A"
+			END
+			LPF "ALTER_EFFECT"
+			INT_VAR
+				"check_globals" = 0
+				"match_opcode" = 326 // Apply effects list
+				"timing" = 1 // Permanent until death
+				"duration" = 0
+				"resist_dispel" = 2 // Remember that the Magic Resistance field is checked BEFORE the splprot/IDS filter, so it's usually better to not have Magic Resistance on op326, to avoid unnecessary feedback.
+				"savingthrow" = 0 // Remember that the Saving Throw field is checked BEFORE the splprot/IDS filter, so it's usually better to not have Saving Throws on op326, to avoid unnecessary feedback.
+			STR_VAR
+				"match_resource" = EVALUATE_BUFFER "%spell_res%B"
+			END
+		BUT_ONLY_IF_IT_CHANGES
+	END
+
+	////////////////////////////////////////////////////////////////////
+	//// Subspell affecting GENERAL = UNDEAD
+	////////////////////////////////////////////////////////////////////
+
+	WITH_SCOPE BEGIN
+		COPY_EXISTING "%spell_res%a.spl" "override"
+			LPF "ALTER_EFFECT"
+			INT_VAR
+				"check_globals" = 0
+				"resist_dispel" = 1 // Dispel/Not bypass MR
+				"savingthrow" = BIT0 // Save vs. Spell
+			END
+			LPF "ALTER_EFFECT"
+			INT_VAR
+				"check_globals" = 0
+				"match_opcode" = 24 // Panic
+				"parameter2" = 1 // Panic type => Bypass op101
+			END
+		BUT_ONLY_IF_IT_CHANGES
+	END
+
+	////////////////////////////////////////////////////////////////////
+	//// Subspell affecting GENERAL != UNDEAD
+	////////////////////////////////////////////////////////////////////
+
+	WITH_SCOPE BEGIN
+		COPY_EXISTING "%spell_res%b.spl" "override"
+			LPF "ALTER_EFFECT"
+			INT_VAR
+				"check_globals" = 0
+				"resist_dispel" = 1 // Dispel/Not bypass MR
+				"savingthrow" = BIT0 // Save vs. Spell
+			END
+		BUT_ONLY_IF_IT_CHANGES
+	END
+END

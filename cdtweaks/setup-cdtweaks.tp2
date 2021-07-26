@@ -80,7 +80,7 @@ LANGUAGE
   ~cdtweaks/languages/english/description_updates.tra~
   ~cdtweaks/languages/english/setup.tra~
 LANGUAGE
-  ~Czech (Translation by Razfallow and Vlasák)~
+  ~Czech (Translation by Razfallow and Vlasï¿½k)~
   ~czech~
   ~cdtweaks/languages/english/setup.tra~
   ~cdtweaks/languages/czech/setup.tra~
@@ -1131,7 +1131,22 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.cre$~ ~override~
   LPF cd_apply_batch STR_VAR array_name = cd_fire_icons END
   BUT_ONLY
 
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
+///// Fix IWDEE Chill Touch                                      \\\\\
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
+BEGIN @21001 DESIGNATED 202
+GROUP @11
+REQUIRE_PREDICATE GAME_IS ~iwdee~ @25
+
+WITH_SCOPE BEGIN
+  INCLUDE ~cdtweaks/lib/chill_touch_fix.tph~
+  LAF "CHILL_TOUCH_FIX" END
+END
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
