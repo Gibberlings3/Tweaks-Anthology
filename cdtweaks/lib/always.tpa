@@ -33,7 +33,8 @@ ACTION_IF game_is_bgee OR game_is_bg2ee OR game_is_iwdee OR game_is_eet OR game_
 
   // convert strings to UTF-8 for BGEE/BG2EE
   ACTION_DEFINE_ARRAY cdnoconvert BEGIN weidu ee END // List of tra files that contain ONLY strings for the WeiDU installer and NOT game content
-  LAF HANDLE_CHARSETS INT_VAR infer_charsets = 1 STR_VAR tra_path = ~cdtweaks/languages~ noconvert_array = cdnoconvert END
+  ACTION_DEFINE_ARRAY cdreload BEGIN weidu ee END
+  LAF HANDLE_CHARSETS INT_VAR infer_charsets = 1 STR_VAR tra_path = ~cdtweaks/languages~ noconvert_array = cdnoconvert reload_array = cdreload END
   
   LOAD_TRA ~cdtweaks/languages/%LANGUAGE%/ee.tra~
 
