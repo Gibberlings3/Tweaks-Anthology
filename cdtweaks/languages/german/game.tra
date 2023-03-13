@@ -89,6 +89,11 @@ Gewicht: 2~
 EIGENSCHAFTEN:
 Kapazität: 100 Tränke
 Gewicht: 2~
+@108005 = ~Nimmervoller Beutel~
+@108006 = ~Auch dieser magische Beutel wirkt, wie alle magischen Beutel, wie ein einfacher Stoffsack von ungefähr 60 cm x 120 cm Größe. Der Nimmervolle Beutel öffnet sich in einen außerdimensionalen Raum und ist innen wesentlich größer als außen. Unabhängig davon, was man hineintut, wiegt der Beutel immer das Gleiche.
+EIGENSCHAFTEN:
+Kapazität: 100 Gegenstände
+Gewicht: 5~
 @111001 = ~Wirtshaus in Kerzenburg~
 @111002 = ~Priesterquartiere~
 @111003 = ~Tempel von Oghma~
@@ -457,46 +462,75 @@ Diese Fertigkeit erlaubt es einem Schurken, Schriftrollen mit Zaubern niederer b
 @223001 = ~EIGENSCHAFTEN:~ // this is used for mataching in the item descripiton, so copy this from an oBG2 item description
 @223002 = ~Gilt immer als eine magische Waffe +%ench%, wenn es darum geht, was es verletzten kann.~
 
-@315000 = ~Die schrecklichen Animationen von Spiegelumhang, Zauberfalle und Physischer Spiegel ausschalten~
+@235002 = ~, jedoch keine Klassenkombinationen wählen~ // from strref #9550
+
+@237002 = ~ und eine doppelte Klassenzugehörigkeit besitzen~ // from strref #9550
+@237003 = ~Eine doppelte Klassenzugehörigkeit ist eine Eigenart, die nur Menschen besitzen können. ~ // from strref #10811
+@237004 = ~menschlichen ~ // BG tutorial monk dialogue monktu4 - 32540 in BGEE/SoD 
+
+@244001 = ~\* Alle zusätzlichen Angriffe sind nur für Krieger-Klassen verfügbar.~ // last line; if there's a * included then add \ in front of it
+@244002 = ~Tabelle für Waffenfertigkeiten:~ // line before <DOTS1>, exclude the * if present
+@244003 = ~(nur für Krieger)~
+
 @318313 = ~Bring mir meine Geliebte, Aerie.~
 @318314 = ~Bring mir meine Geliebte, Jaheira.~
 @318315 = ~Bring mir meinen Geliebten, Sir Anomen, Ritter des Ordens.~
 @318316 = ~Bring mir meinen Geliebten, Anomen, Priester von Helm.~
 @318317 = ~Bring mir meine Geliebte, Viconia.~
-@321001 = ~Waehle den minimalen Wert der Eigenschaften, zwischen 6 und 15:~
+@318318 = ~Bring mir meinen Geliebten, Dorn.~
+@318319 = ~Bring mir meine Geliebte, Hexxat.~
+@318320 = ~Bring mir meine Geliebte, Neera.~
+@318321 = ~Bring mir meinen Geliebten, Rasaad.~
+
+@322001 = ~Pferd~
+@322002 = ~Pferd~
+
+
+
+@333050 = ~Deaktiviere Automatische Hast~
+@333051 = ~Deaktiviere Automatische Hast
+
+Diese Fähigkeit steuert, ob das Bewegungstempo für Gruppenmitglieder außerhalb des Kampfes erhöht wird. Durch Klicken wird diese Fähigkeit deaktiviert.~
+@333052 = ~Deaktiviere Automatische Hast
+
+Diese Fähigkeit steuert, ob das Bewegungstempo und die Zauberzeit für Gruppenmitglieder außerhalb des Kampfes erhöht wird. Durch Klicken wird diese Fähigkeit deaktiviert.~
+@333053 = ~Deaktiviere Automatische Hast
+
+Diese Fähigkeit steuert, ob die Zauberzeit für Gruppenmitglieder außerhalb des Kampfes erhöht wird. Durch Klicken wird diese Fähigkeit deaktiviert.~
+@333054 = ~Automatische Hast~
+@333055 = ~Verbesserte Hast~ // bg2 strref #63217
+@333060 = ~Aktiviere Automatische Hast~
+@333061 = ~Aktiviere Automatische Hast
+
+Diese Fähigkeit steuert, ob das Bewegungstempo für Gruppenmitglieder außerhalb des Kampfes erhöht wird. Durch Klicken wird diese Fähigkeit aktiviert.~
+@333062 = ~Aktiviere Automatische Hast
+
+Diese Fähigkeit steuert, ob das Bewegungstempo und die Zauberzeit für Gruppenmitglieder außerhalb des Kampfes erhöht wird. Durch Klicken wird diese Fähigkeit aktiviert.~
+@333063 = ~Aktiviere Automatische Hast
+
+Diese Fähigkeit steuert, ob die Zauberzeit für Gruppenmitglieder außerhalb des Kampfes erhöht wird. Durch Klicken wird diese Fähigkeit aktiviert.~
+@333070 = ~Boni von Automatischer Hast entfernt~
+
+@335100 = ~Speicherstand~
+@335101 = ~Speicherstand angelegt~
+@335102 = ~Speicherstand %slot_index% angelegt~
+
 @337001 = ~000000003-Leichenhalle~
 @337002 = ~000000004-Handelsbezirk~
 @337003 = ~000000005-Zu Ravels Irrgarten~
+
+// these two strings will be combined as a prefix and suffix to write "Casting Grease..." to the combat log
+// adjust as needed for your grammar, e.g. if you don't need a prefix then make @341002 = ~~
+// note that you need to include spaces, if needed
+@341002 = ~Wirke ~
+@341003 = ~...~
+
 @408001 = ~Als er nach seiner Vergangenheit gefragt wird, enthüllt KHALID nervös, dass er in der Nation von Calimshan geboren wurde und dort aufgewachsen ist. Er redet nicht viel über seine Eltern, aber Ihr erhaltet das Gefühl, dass sein Vater, ein Händler, wenig an ihn dachte und er viel mehr Aufmerksamkeit Khalids Halbbrüdern widmete. Ohne Unterstützung seines Vaters war Khalid nicht imstande das Lehrgeld zu bezahlen, um Magier zu werden. Deshalb trat er in die Stadtmiliz ein, in der Hoffnung, dadurch genügend Geld zu verdienen. Er geht nicht ins Detail, wie er Jaheira kennen gelernt hat, aber seine Verehrung für sie liegt auf der Hand. Wenn er danach gefragt wird, wie er Gorion kennen lernte, sagt er nur, dass sie lange Freunde waren und dass viele gemeinsame Bekannte seinen Verlust in einem Harfenlied beklagen.~
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-/////                                                  \\\\\
-///// Ex-SCS components                                \\\\\
-///// Automatically copied over from SCS TRA files     \\\\\
-/////                                                  \\\\\
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-@506000 = ~Animation vom Spiegelumhang entfernen (belasst ihn für andere Zauber und Wirkungen, die dieselbe Graphik verwenden)~
-@507001 = ~Macht den Anfangs-Kerker ein bisschen schwerer~
-@507002 = ~Macht die Bardenfestung für alle Klassen zugänglich~
-@507003 = ~Macht die Klerikerfestung für alle Klassen zugänglich~
-@507004 = ~Macht die Druidenfestung für alle Klassen zugänglich~
-@507005 = ~Macht die Kämpferfestung für alle Klassen zugänglich~
-@507006 = ~Macht die Paladinfestung für alle Klassen zugänglich~
-@507007 = ~Macht die Waldläuferfestung für alle Klassen zugänglich~
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-/////                                                  \\\\\
-///// Ex-SCS components                                \\\\\
-///// Automatically copied over from SCS TRA files     \\\\\
-/////                                                  \\\\\
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-@506000 = ~Animation vom Spiegelumhang entfernen (belasst ihn für andere Zauber und Wirkungen, die dieselbe Graphik verwenden)~
-@507001 = ~Macht die Bardenfestung für alle Klassen zugänglich~
-@507002 = ~Macht die Klerikerfestung für alle Klassen zugänglich~
-@507003 = ~Macht die Druidenfestung für alle Klassen zugänglich~
-@507004 = ~Macht die Kämpferfestung für alle Klassen zugänglich~
-@507005 = ~Macht die Paladinfestung für alle Klassen zugänglich~
-@507007 = ~Macht die Waldläuferfestung für alle Klassen zugänglich~
-@507008 = ~Macht die Diebesfestung für alle Klassen zugänglich~
+
+@418001 = ~Dies ist Edwins Geburtsrecht, in das der Familienstein eingelegt ist.
+
+EIGENSCHAFTEN:
+
+Gewicht: 1~
+@418002 = ~Siegelring der de'Arnise
+Der Vater von Nalia hat ihr diesen Ring zu ihrem 18. Geburtstag überreicht. Der Ring ist auf magischem Weg an sie gebunden und auch seine Kräfte können nur von ihr genutzt werden. Durch den Ring erhält sie +2 auf alle Rettungswürfe, -2 auf RK und +50% Feuerresistenz.~
