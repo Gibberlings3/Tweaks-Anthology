@@ -1,14 +1,7 @@
-ACTION_IF game_includes_pst THEN BEGIN
+ACTION_IF game_is_pst THEN BEGIN // pst but not pstee
 
-  ACTION_IF game_is_pst THEN BEGIN // pst but not pstee
-  
-    ACTION_IF stack > 255 BEGIN OUTER_SET stack = 255 END
-  
-  END
+  ACTION_IF stack > 255 BEGIN OUTER_SET stack = 255 END
 
-  OUTER_SPRINT scrollpattern ~^sp\(pr\|wi\)[0-9]+\.itm$~
-END ELSE BEGIN
-  OUTER_SPRINT scrollpattern ~^.+\.itm$~
 END
 
 ACTION_CLEAR_ARRAY cd_stackables
@@ -19,23 +12,36 @@ END ELSE BEGIN
   OUTER_SET needs_header = 0
 END
 
-PRINT @1
-COPY_EXISTING_REGEXP GLOB ~%scrollpattern%~ ~override~ // looking for scrolls
-  READ_SHORT  0x1c "type" ELSE 0
-  PATCH_IF ("%type%" = 11) BEGIN // scrolls
-    READ_SHORT 0x38 current
-    PATCH_IF (stack > current) BEGIN
-      WRITE_SHORT  0x38 stack
-      DEFINE_ASSOCIATIVE_ARRAY cd_stackables BEGIN ~%SOURCE_RES%~ => ~%current%~ END
-    END
-    READ_SHORT 0x68 abil_num ELSE 1
-    PATCH_IF ((needs_header = 1) AND (abil_num = 0)) BEGIN // old engines need a header to be able to stack items
-      WRITE_SHORT  0x68 1 // one ability
-      WRITE_LONG   0x6a (THIS + 0x38) // fx offset
-      READ_LONG    0x64 abil_off
-      INSERT_BYTES abil_off 0x38 // inserts new ability of type default (0)
-    END
+INCLUDE ~cdtweaks/lib/regexp_itm.tpa~ // build regexp array if it doesn't exist
+
+ACTION_PHP_EACH cd_itm_type AS item => type BEGIN
+  
+  ACTION_IF (
+             ($cd_itm_stack("%item%") > 1) AND     // if item can already stack...
+             (stack > $cd_itm_stack("%item%")) AND // and the stack size would increase, and is of the type...
+             (type = 11) AND                       // scrolls
+             (
+               (!game_includes_pst) OR // check all files if not pst
+               ("%item%" STRING_COMPARE_REGEXP "^[Ss][Pp][PpWw][RrIi][0-9]+$" = 0) // only check sppr/spwiXXX files on pst
+             )  
+           ) BEGIN
+
+ACTION_IF regexp_debug BEGIN PRINT ~ == check passed, working on %item%~ END
+           
+    COPY_EXISTING ~%item%.itm~ ~override~
+      SET $cd_stackables("%item%") = $cd_itm_stack("%item%")
+      SET $cd_itm_stack("%item%") = stack
+      WRITE_SHORT 0x38 $cd_itm_stack("%item%")
+      READ_SHORT 0x68 abil_num
+      PATCH_IF ((needs_header = 1) AND (abil_num = 0)) BEGIN // old engines need a header to be able to stack items
+        WRITE_SHORT  0x68 1             // add one ability
+        WRITE_LONG   0x6a (THIS + 0x38) // push back fx offset for new ability
+        INSERT_BYTES 0x72 0x38          // inserts new ability of type default (0)
+      END
+      BUT_ONLY
+      
   END
-  BUT_ONLY
+
+END  
 
 INCLUDE ~cdtweaks/lib/increase_scripts.tpa~

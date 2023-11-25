@@ -1,0 +1,11 @@
+// rather than running 43 regexps across various components, run once, note critical info, and push into array
+// *most* subsequent components can simply access array to see if an item needs adjustment
+ACTION_IF NOT VARIABLE_IS_SET cd_regexp_itm BEGIN
+
+  OUTER_SET cd_regexp_itm = 1
+  COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
+    SPRINT vl_item ~%SOURCE_RES%~
+    LPM cd_item_info
+    BUT_ONLY
+
+END    

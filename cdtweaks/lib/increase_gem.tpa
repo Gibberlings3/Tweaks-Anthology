@@ -28,9 +28,9 @@ ACTION_IF game_includes_pst THEN BEGIN
                 ~silring.itm~  ~override~ // silver ring
                 ~tail.itm~     ~override~ // cranium rat tail
                 ~tsilbra.itm~  ~override~ // tarnished silver bracelet
-    READ_SHORT 0x38 current
-    PATCH_IF (stack > current) BEGIN
-      WRITE_SHORT  0x38 stack
+    PATCH_IF (stack > $cd_itm_stack("%item%")) BEGIN
+      SET $cd_itm_stack("%item%") = stack
+      WRITE_SHORT  0x38 $cd_itm_stack("%item%")
     END
     BUT_ONLY
 
@@ -72,40 +72,48 @@ END ELSE BEGIN
     OUTER_SET needs_header = 0
   END
 
-  PRINT @1
-  COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~ // looking for gems and jewelry
-    READ_SHORT 0x1c type     ELSE 0
-    READ_SHORT 0x70 fx_num   ELSE 1
-    PATCH_IF (((type =  1) OR      // amulets
+  INCLUDE ~cdtweaks/lib/regexp_itm.tpa~ // build regexp array if it doesn't exist
+
+  ACTION_PHP_EACH cd_itm_type AS item => type BEGIN
+    
+    ACTION_IF ((type =  1) OR      // amulets
                (type = 10) OR      // rings
                (type = 33) OR      // gold
                (type = 34) OR      // gems
-               (type = 59)) AND    // furs or pelts
-              (fx_num = 0)) BEGIN  // with no global effects
-      SET add = 1
-      READ_SHORT 0x68 abil_num ELSE 0
-      READ_LONG  0x64 abil_off ELSE 0
-      FOR (index = 0 ; index < abil_num ; ++index) BEGIN
-        READ_SHORT (abil_off + 0x1e + (0x38 * index)) abil_fx_num
-        PATCH_IF ("%abil_fx_num%" > 0) BEGIN
-          SET add = 0
-          SET index = abil_num // kill loop
+               (type = 59)) BEGIN  // furs or pelts
+
+ACTION_IF regexp_debug BEGIN PRINT ~ == check passed, working on %item%~ END
+
+      COPY_EXISTING ~%item%.itm~ ~override~
+        READ_SHORT 0x70 fx_num   ELSE 1
+        PATCH_IF !fx_num BEGIN  // with no global effects
+          SET add = 1
+          READ_SHORT 0x68 abil_num ELSE 0
+          READ_LONG  0x64 abil_off ELSE 0
+          FOR (index = 0 ; index < abil_num ; ++index) BEGIN
+            READ_SHORT (abil_off + 0x1e + (0x38 * index)) abil_fx_num
+            PATCH_IF ("%abil_fx_num%" > 0) BEGIN
+              SET add = 0
+              SET index = abil_num // kill loop
+            END
+          END
+          PATCH_IF add BEGIN // if no effects, add to array
+            DEFINE_ASSOCIATIVE_ARRAY cd_stackables BEGIN ~%SOURCE_RES%~ => 1 END
+          END  
         END
-      END
-      PATCH_IF add BEGIN // if no effects, add to array
-        DEFINE_ASSOCIATIVE_ARRAY cd_stackables BEGIN ~%SOURCE_RES%~ => 1 END
-      END  
-    END
-    BUT_ONLY
+        BUT_ONLY
+    END // type check
+
+  END // action_php_each cd_itm_type    
     
   ACTION_PHP_EACH cd_stackables AS item => foo BEGIN  
 
     COPY_EXISTING ~%item%.itm~ ~override~ 
-      READ_SHORT 0x38 current
-      PATCH_IF (stack > current) BEGIN
-        WRITE_SHORT  0x38 stack
-      END
-      DEFINE_ASSOCIATIVE_ARRAY cd_stackables BEGIN ~%SOURCE_RES%~ => ~%current%~ END // redefine array with original stack
+      SET $cd_stackables("%item%") = $cd_itm_stack("%item%") // redefine array with original stack
+      PATCH_IF (stack > $cd_itm_stack("%item%")) BEGIN
+        SET $cd_itm_stack("%item%") = stack
+        WRITE_SHORT  0x38 $cd_itm_stack("%item%")
+      END  
       READ_SHORT 0x68 abil_num ELSE 1
       PATCH_IF ((needs_header = 1) AND (abil_num = 0)) BEGIN // old engines need a header to be able to stack items
         WRITE_SHORT  0x68 1             // add one ability

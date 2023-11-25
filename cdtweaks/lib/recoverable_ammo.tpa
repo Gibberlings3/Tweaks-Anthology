@@ -1,0 +1,22 @@
+INCLUDE ~cdtweaks/lib/regexp_itm.tpa~ // build regexp array if it doesn't exist
+
+OUTER_SET valid_flags = BIT2 | BIT3
+ACTION_PHP_EACH cd_itm_type AS item => type BEGIN
+     
+  ACTION_IF ((type = 5 OR type = 14 OR type = 31) AND (($cd_itm_flags("%item%") BAND valid_flags) = valid_flags)) BEGIN 
+
+ACTION_IF regexp_debug BEGIN PRINT ~ == check passed, working on %item%~ END
+           
+    COPY_EXISTING ~%item%.itm~ ~override~
+      LPF ADD_RECOVERABLE_EFFECT
+        INT_VAR
+          probability = probability
+          ids_target  = ids_target
+          ids_value   = ids_value
+        STR_VAR
+          eff_template_file = EVAL ~%eff_template_file%~
+      END
+      
+  END //flag/item type check
+  
+END // action_php_each 

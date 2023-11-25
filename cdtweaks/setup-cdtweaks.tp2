@@ -4,6 +4,15 @@ AUTO_EVAL_STRINGS
 
 ALWAYS
 
+  OUTER_SET regexp_debug = 0
+  
+/* using this for testing:
+setup-cdtweaks.exe --language 0 --force-install-list 10 60 90 160 190 1080 1140 2020 2030 2035 2040 2140 2163 2420 2430 2510 2560 2590 3020 3080 3090 3100 3110 3151 3200 3260 3270 3380 4160
+time with this: 27.60
+without this:   32.76
+*/
+  
+
   ACTION_IF ((FILE_EXISTS ~dlc/sod-dlc.zip~) OR (FILE_EXISTS ~sod-dlc.zip~)) THEN BEGIN FAIL @27 END // DLC Merger check
   ACTION_IF NOT VARIABLE_IS_SET cd_tweaks_always THEN BEGIN // check to make this happen only once per install
     OUTER_SET cd_tweaks_always = 1
@@ -159,25 +168,22 @@ ACTION_IF enhanced_edition BEGIN
 
 END ELSE BEGIN
 
-  ACTION_IF game_includes_soa OR game_is_ca OR tutu_gen OR game_is_iwd-in-bg2 BEGIN
-    OUTER_SET check_anim = 1
-  END ELSE BEGIN
-    OUTER_SET check_anim = 0
-  END
+  INCLUDE ~cdtweaks/lib/regexp_itm.tpa~ // build regexp array if it doesn't exist
 
-  COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
-    READ_SHORT 0x1c itemtype ELSE 0
-    PATCH_IF (itemtype = 7) BEGIN
-      PATCH_IF check_anim = 1 BEGIN
-        READ_SHORT 0x22 anim ELSE 0
-        PATCH_IF NOT ((anim = 0x5759) OR (anim = 0x575a)) BEGIN // exclude zw, yw for 1pp Wings
-          WRITE_SHORT 0x22 0
-        END  
-      END ELSE BEGIN
+  ACTION_PHP_EACH cd_itm_anim AS item => anim BEGIN
+       
+    ACTION_IF (($cd_itm_type("%item%") = 7) AND // helmet
+               ("%anim%" STRING_COMPARE_REGEXP ~[ZzYy][Ww]~)) BEGIN // exclude zw, yw for 1pp Wings
+
+ACTION_IF regexp_debug BEGIN PRINT ~ == check passed, working on %item%~ END
+             
+      COPY_EXISTING ~%item%.itm~ ~override~
         WRITE_SHORT 0x22 0
-      END
-    END
-    BUT_ONLY
+        BUT_ONLY
+        
+    END // item type check
+
+  END // action_php_each    
   
 END
 
@@ -293,56 +299,73 @@ END ELSE BEGIN
   OUTER_SET use_type = 0
 END
 
-PRINT @1
-COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~ // animation adjustments
-  PATCH_IF (SOURCE_SIZE > 0x71) THEN BEGIN // protects against invalid files
-    READ_BYTE  0x18 flags
-    READ_SHORT 0x1c type
-    READ_ASCII 0x22 anim (2)
-    READ_BYTE  0x31 prof
-    READ_LONG  0x64 abil_off
-    READ_SHORT 0x68 abil_num
-    PATCH_IF ((((use_type = 0) AND ((prof = 100) OR (prof = 101))) OR // for bg2-based games w/ proficiencies
-               ((use_type = 1) AND (type = 22))) AND                  // otherwise use item type
-               ("%anim%" STRING_COMPARE_CASE "ms" = 0)) BEGIN         // and has the morningstar animation
-      WRITE_ASCII 0x22 "MC" // change morningstars to mace animations
-    END
-    SET overhead = 0 
-    PATCH_IF (((flags & BIT1) = 0) AND                         // one-handed...
-              (("%anim%" STRING_COMPARE_CASE "cl" = 0) OR      // club
-               ("%anim%" STRING_COMPARE_CASE "mc" = 0) OR      // mace
-               ("%anim%" STRING_COMPARE_CASE "ms" = 0))) BEGIN // or morningstar
-      SET overhead  = 50
-      SET backhand  = 50
-      SET thrusting =  0
-    END ELSE
-    PATCH_IF (("%anim%" STRING_COMPARE_CASE "sp" = 0) AND ((flags & BIT1) = BIT1)) BEGIN  // two-handed spears
-      SET overhead  = 10
-      SET backhand  = 10
-      SET thrusting = 80
-    END ELSE
-    PATCH_IF (("%anim%" STRING_COMPARE_CASE "ss" = 0) AND ((flags & BIT1) = 0)) BEGIN // one-handed short swords
-      SET overhead  = 10
-      SET backhand  = 20
-      SET thrusting = 70
-    END ELSE
-    PATCH_IF (("%anim%" STRING_COMPARE_CASE "qs" = 0) AND ((flags & BIT1) = BIT1)) BEGIN // two-handed staves
-      SET overhead  = 20
-      SET backhand  = 10
-      SET thrusting = 70
-    END 
-    PATCH_IF overhead BEGIN    
-      FOR (index = 0 ; index < abil_num ; ++index) BEGIN
-        READ_BYTE (abil_off + (index * 0x38)) type
-        PATCH_IF (type = 1) BEGIN
-          WRITE_SHORT (abil_off + 0x2c + (index * 0x38)) overhead
-          WRITE_SHORT (abil_off + 0x2e + (index * 0x38)) backhand
-          WRITE_SHORT (abil_off + 0x30 + (index * 0x38)) thrusting
+INCLUDE ~cdtweaks/lib/regexp_itm.tpa~ // build regexp array if it doesn't exist
+
+ACTION_PHP_EACH cd_itm_anim AS item => anim BEGIN
+  
+  ACTION_IF ((((use_type = 0) AND (($cd_itm_prof("%item%") = 100) OR ($cd_itm_prof("%item%") = 101))) OR // for bg2-based games w/ proficiencies
+             ((use_type = 1) AND ($cd_itm_type("%item%") = 22))) AND                                     // otherwise use item type
+             ("%anim%" STRING_COMPARE_CASE "ms" = 0)) OR                                                 // and has the morningstar animation
+             
+             (((($cd_itm_flags("%item%") & BIT1) = 0) AND    // one-handed...
+              (("%anim%" STRING_COMPARE_CASE "cl" = 0) OR    // club
+               ("%anim%" STRING_COMPARE_CASE "mc" = 0) OR    // mace
+               ("%anim%" STRING_COMPARE_CASE "ms" = 0)))) OR // or morningstar
+             
+             (("%anim%" STRING_COMPARE_CASE "sp" = 0) AND (($cd_itm_flags("%item%") & BIT1) = BIT1)) OR    // two-handed spears
+             (("%anim%" STRING_COMPARE_CASE "ss" = 0) AND (($cd_itm_flags("%item%") & BIT1) = 0)) OR       // one-handed short swords
+             (("%anim%" STRING_COMPARE_CASE "qs" = 0) AND (($cd_itm_flags("%item%") & BIT1) = BIT1)) BEGIN // two-handed staves
+
+ACTION_IF regexp_debug BEGIN PRINT ~ == check passed, working on %item%~ END
+             
+    COPY_EXISTING ~%item%.itm~ ~override~
+      READ_LONG  0x64 abil_off
+      READ_SHORT 0x68 abil_num
+      PATCH_IF ((((use_type = 0) AND (($cd_itm_prof("%item%") = 100) OR ($cd_itm_prof("%item%") = 101))) OR // for bg2-based games w/ proficiencies
+                 ((use_type = 1) AND ($cd_itm_type("%item%") = 22))) AND                                    // otherwise use item type
+                 ("%anim%" STRING_COMPARE_CASE "ms" = 0)) BEGIN                                             // and has the morningstar animation
+        SPRINT $cd_itm_anim("%item%") mc
+        WRITE_ASCII 0x22 "MC" // change morningstars to mace animations
+      END
+      SET overhead = 0 
+      PATCH_IF (((($cd_itm_flags("%item%") & BIT1) = 0) AND         // one-handed...
+                  (("%anim%" STRING_COMPARE_CASE "cl" = 0) OR       // club
+                   ("%anim%" STRING_COMPARE_CASE "mc" = 0) OR       // mace
+                   ("%anim%" STRING_COMPARE_CASE "ms" = 0)))) BEGIN // or morningstar
+        SET overhead  = 50
+        SET backhand  = 50
+        SET thrusting =  0
+      END ELSE
+      PATCH_IF (("%anim%" STRING_COMPARE_CASE "sp" = 0) AND (($cd_itm_flags("%item%") & BIT1) = BIT1)) BEGIN  // two-handed spears
+        SET overhead  = 10
+        SET backhand  = 10
+        SET thrusting = 80
+      END ELSE
+      PATCH_IF (("%anim%" STRING_COMPARE_CASE "ss" = 0) AND (($cd_itm_flags("%item%") & BIT1) = 0)) BEGIN // one-handed short swords
+        SET overhead  = 10
+        SET backhand  = 20
+        SET thrusting = 70
+      END ELSE
+      PATCH_IF (("%anim%" STRING_COMPARE_CASE "qs" = 0) AND (($cd_itm_flags("%item%") & BIT1) = BIT1)) BEGIN // two-handed staves
+        SET overhead  = 20
+        SET backhand  = 10
+        SET thrusting = 70
+      END 
+      PATCH_IF overhead BEGIN    
+        FOR (index = 0 ; index < abil_num ; ++index) BEGIN
+          READ_BYTE (abil_off + (index * 0x38)) type
+          PATCH_IF (type = 1) BEGIN
+            WRITE_SHORT (abil_off + 0x2c + (index * 0x38)) overhead
+            WRITE_SHORT (abil_off + 0x2e + (index * 0x38)) backhand
+            WRITE_SHORT (abil_off + 0x30 + (index * 0x38)) thrusting
+          END
         END
       END
-    END
-  END
-  BUT_ONLY
+      BUT_ONLY
+    
+  END // item check
+  
+END // action_php_each
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -490,10 +513,21 @@ BEGIN @9000 DESIGNATED 90
 GROUP @11
 LABEL ~cd_tweaks_remove_portrait_icons~
 
-PRINT @1
-COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
-  LPF DELETE_ITEM_EQEFFECT INT_VAR opcode_to_delete = 142 END
-  BUT_ONLY
+INCLUDE ~cdtweaks/lib/regexp_itm.tpa~ // build regexp array if it doesn't exist
+
+ACTION_PHP_EACH cd_itm_eicon AS item => icon BEGIN
+     
+  ACTION_IF icon BEGIN // 
+
+ACTION_IF regexp_debug BEGIN PRINT ~ == check passed, working on %item%~ END
+           
+    COPY_EXISTING ~%item%.itm~ ~override~
+      LPF DELETE_ITEM_EQEFFECT INT_VAR opcode_to_delete = 142 END
+      BUT_ONLY
+      
+  END 
+
+END
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -807,11 +841,16 @@ ACTION_IF original_iwd THEN BEGIN // swap primary/secondary for iwd
 
 END
 
-COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
-  READ_SHORT 0x1c type
-  PATCH_IF ((type = 12) OR (type = 41) OR (type = 47) OR (type = 49) OR (type = 53)) BEGIN // 12 is bg shield type, all others are iwd
-    READ_BYTE 0x18 flags
-    PATCH_IF ((flags & BIT6) = BIT6) BEGIN // magical
+INCLUDE ~cdtweaks/lib/regexp_itm.tpa~ // build regexp array if it doesn't exist
+
+ACTION_PHP_EACH cd_itm_type AS item => type BEGIN
+     
+  ACTION_IF ((($cd_itm_flags("%item%") & BIT6) = BIT6) AND                                    // magical AND 
+             ((type = 12) OR (type = 41) OR (type = 47) OR (type = 49) OR (type = 53))) BEGIN // 12 is bg shield type, all others are iwd
+
+ACTION_IF regexp_debug BEGIN PRINT ~ == check passed, working on %item%~ END
+           
+    COPY_EXISTING ~%item%.itm~ ~override~
       SET color_primary = "-1"
       SET color_secondary = "-1"
       SET color_tertiary = "-1"
@@ -871,9 +910,11 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
           LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 9 target = 1 parameter1 = color_pulse parameter2 = (primary + (40 << 16)) timing = 2 END // now actually add pulse effect
         END
       END
-    END
-  END
-  BUT_ONLY
+      BUT_ONLY
+      
+  END // item check
+  
+END // action_php_each
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -976,16 +1017,25 @@ GROUP @11
 REQUIRE_PREDICATE NOT GAME_IS ~pst pstee~ @25
 LABEL ~cd_tweaks_char_colors_all_helms_shields~
 
-COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
-  READ_SHORT 0x1c type
-  PATCH_IF ((type = 7) OR (type = 12) OR (type = 41) OR (type = 47) OR (type = 49) OR (type = 53)) BEGIN // item type helm or shield
-    PATCH_FOR_EACH loc IN 33 34 49 50 BEGIN // 33 - shield interior, 34 - shield panel, 49 - helm detail/plume, 50 - helm wings
-      LPF DELETE_EFFECT INT_VAR match_opcode = 7 match_timing = 2 match_parameter2 = loc END                                    // delete color effect
-      LPF ALTER_EFFECT  INT_VAR match_opcode = 8 match_timing = 2 match_parameter2 = loc parameter1 = 0x64646400 silent = 1 END // change to generic white glow
-      LPF ALTER_EFFECT  INT_VAR match_opcode = 9 match_timing = 2 match_parameter2 = loc parameter1 = 0x64646400 silent = 1 END // change to generic white pulse
-    END
-  END
-  BUT_ONLY
+INCLUDE ~cdtweaks/lib/regexp_itm.tpa~ // build regexp array if it doesn't exist
+
+ACTION_PHP_EACH cd_itm_type AS item => type BEGIN
+     
+  ACTION_IF ((type = 7) OR (type = 12) OR (type = 41) OR (type = 47) OR (type = 49) OR (type = 53)) BEGIN // item type helm or shield
+
+ACTION_IF regexp_debug BEGIN PRINT ~ == check passed, working on %item%~ END
+           
+    COPY_EXISTING ~%item%.itm~ ~override~
+      PATCH_FOR_EACH loc IN 33 34 49 50 BEGIN // 33 - shield interior, 34 - shield panel, 49 - helm detail/plume, 50 - helm wings
+        LPF DELETE_EFFECT INT_VAR match_opcode = 7 match_timing = 2 match_parameter2 = loc END                                    // delete color effect
+        LPF ALTER_EFFECT  INT_VAR match_opcode = 8 match_timing = 2 match_parameter2 = loc parameter1 = 0x64646400 silent = 1 END // change to generic white glow
+        LPF ALTER_EFFECT  INT_VAR match_opcode = 9 match_timing = 2 match_parameter2 = loc parameter1 = 0x64646400 silent = 1 END // change to generic white pulse
+      END
+      BUT_ONLY
+      
+  END // item check
+  
+END // action_php_each
 
 /////                                                  \\\\\
 ///// non-magical helmets and shields                  \\\\\
@@ -997,17 +1047,25 @@ GROUP @11
 REQUIRE_PREDICATE NOT GAME_IS ~pst pstee~ @25
 LABEL ~cd_tweaks_char_colors_normal_helms_shields~
 
-COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
-  READ_SHORT 0x1c type
-  READ_LONG 0x18 flags
-  PATCH_IF (((flags & BIT6) = 0) AND ((type = 7) OR (type = 12) OR (type = 41) OR (type = 47) OR (type = 49) OR (type = 53))) BEGIN // item type helm or shield, flagged as non-magical
-    PATCH_FOR_EACH loc IN 33 34 49 50 BEGIN // 33 - shield interior, 34 - shield panel, 49 - helm detail/plume, 50 - helm wings
-      LPF DELETE_EFFECT INT_VAR match_opcode = 7 match_timing = 2 match_parameter2 = loc END                                    // delete color effect
-      LPF ALTER_EFFECT  INT_VAR match_opcode = 8 match_timing = 2 match_parameter2 = loc parameter1 = 0x64646400 silent = 1 END // change to generic white glow
-      LPF ALTER_EFFECT  INT_VAR match_opcode = 9 match_timing = 2 match_parameter2 = loc parameter1 = 0x64646400 silent = 1 END // change to generic white pulse
-    END
-  END
-  BUT_ONLY
+INCLUDE ~cdtweaks/lib/regexp_itm.tpa~ // build regexp array if it doesn't exist
+
+ACTION_PHP_EACH cd_itm_type AS item => type BEGIN
+     
+  ACTION_IF ((($cd_itm_flags("%item%") & BIT6) = 0) AND ((type = 7) OR (type = 12) OR (type = 41) OR (type = 47) OR (type = 49) OR (type = 53))) BEGIN // item type helm or shield, flagged as non-magical
+
+ACTION_IF regexp_debug BEGIN PRINT ~ == check passed, working on %item%~ END
+           
+    COPY_EXISTING ~%item%.itm~ ~override~
+      PATCH_FOR_EACH loc IN 33 34 49 50 BEGIN // 33 - shield interior, 34 - shield panel, 49 - helm detail/plume, 50 - helm wings
+        LPF DELETE_EFFECT INT_VAR match_opcode = 7 match_timing = 2 match_parameter2 = loc END                                    // delete color effect
+        LPF ALTER_EFFECT  INT_VAR match_opcode = 8 match_timing = 2 match_parameter2 = loc parameter1 = 0x64646400 silent = 1 END // change to generic white glow
+        LPF ALTER_EFFECT  INT_VAR match_opcode = 9 match_timing = 2 match_parameter2 = loc parameter1 = 0x64646400 silent = 1 END // change to generic white pulse
+      END
+      BUT_ONLY
+      
+  END // item check
+  
+END // action_php_each
 
 /////                                                  \\\\\
 ///// all helmets                                      \\\\\
@@ -1019,16 +1077,25 @@ GROUP @11
 REQUIRE_PREDICATE NOT GAME_IS ~pst pstee~ @25
 LABEL ~cd_tweaks_char_colors_all_helms~
 
-COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
-  READ_SHORT 0x1c type
-  PATCH_IF (type = 7) BEGIN // item type helm or shield
-    PATCH_FOR_EACH loc IN 49 50 BEGIN // 49 - helm detail/plume, 50 - helm wings
-      LPF DELETE_EFFECT INT_VAR match_opcode = 7 match_timing = 2 match_parameter2 = loc END                                    // delete color effect
-      LPF ALTER_EFFECT  INT_VAR match_opcode = 8 match_timing = 2 match_parameter2 = loc parameter1 = 0x64646400 silent = 1 END // change to generic white glow
-      LPF ALTER_EFFECT  INT_VAR match_opcode = 9 match_timing = 2 match_parameter2 = loc parameter1 = 0x64646400 silent = 1 END // change to generic white pulse
-    END
-  END
-  BUT_ONLY
+INCLUDE ~cdtweaks/lib/regexp_itm.tpa~ // build regexp array if it doesn't exist
+
+ACTION_PHP_EACH cd_itm_type AS item => type BEGIN
+     
+  ACTION_IF (type = 7) BEGIN // item type helm or shield
+
+ACTION_IF regexp_debug BEGIN PRINT ~ == check passed, working on %item%~ END
+           
+    COPY_EXISTING ~%item%.itm~ ~override~
+      PATCH_FOR_EACH loc IN 49 50 BEGIN // 49 - helm detail/plume, 50 - helm wings
+        LPF DELETE_EFFECT INT_VAR match_opcode = 7 match_timing = 2 match_parameter2 = loc END                                    // delete color effect
+        LPF ALTER_EFFECT  INT_VAR match_opcode = 8 match_timing = 2 match_parameter2 = loc parameter1 = 0x64646400 silent = 1 END // change to generic white glow
+        LPF ALTER_EFFECT  INT_VAR match_opcode = 9 match_timing = 2 match_parameter2 = loc parameter1 = 0x64646400 silent = 1 END // change to generic white pulse
+      END
+      BUT_ONLY
+      
+  END // item check
+  
+END // action_php_each
 
 /////                                                  \\\\\
 ///// non-magical helmets                              \\\\\
@@ -1040,17 +1107,25 @@ GROUP @11
 REQUIRE_PREDICATE NOT GAME_IS ~pst pstee~ @25
 LABEL ~cd_tweaks_char_colors_normal_helms~
 
-COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
-  READ_SHORT 0x1c type
-  READ_LONG 0x18 flags
-  PATCH_IF (((flags & BIT6) = 0) AND (type = 7)) BEGIN // item type helm, flagged as non-magical
-    PATCH_FOR_EACH loc IN 49 50 BEGIN // 49 - helm detail/plume, 50 - helm wings
-      LPF DELETE_EFFECT INT_VAR match_opcode = 7 match_timing = 2 match_parameter2 = loc END                                    // delete color effect
-      LPF ALTER_EFFECT  INT_VAR match_opcode = 8 match_timing = 2 match_parameter2 = loc parameter1 = 0x64646400 silent = 1 END // change to generic white glow
-      LPF ALTER_EFFECT  INT_VAR match_opcode = 9 match_timing = 2 match_parameter2 = loc parameter1 = 0x64646400 silent = 1 END // change to generic white pulse
-    END
-  END
-  BUT_ONLY
+INCLUDE ~cdtweaks/lib/regexp_itm.tpa~ // build regexp array if it doesn't exist
+
+ACTION_PHP_EACH cd_itm_type AS item => type BEGIN
+     
+  ACTION_IF ((($cd_itm_flags("%item%") & BIT6) = 0) AND (type = 7)) BEGIN // item type helm, flagged as non-magical
+
+ACTION_IF regexp_debug BEGIN PRINT ~ == check passed, working on %item%~ END
+           
+    COPY_EXISTING ~%item%.itm~ ~override~
+      PATCH_FOR_EACH loc IN 49 50 BEGIN // 49 - helm detail/plume, 50 - helm wings
+        LPF DELETE_EFFECT INT_VAR match_opcode = 7 match_timing = 2 match_parameter2 = loc END                                    // delete color effect
+        LPF ALTER_EFFECT  INT_VAR match_opcode = 8 match_timing = 2 match_parameter2 = loc parameter1 = 0x64646400 silent = 1 END // change to generic white glow
+        LPF ALTER_EFFECT  INT_VAR match_opcode = 9 match_timing = 2 match_parameter2 = loc parameter1 = 0x64646400 silent = 1 END // change to generic white pulse
+      END
+      BUT_ONLY
+      
+  END // item check
+  
+END // action_php_each
 
 /////                                                  \\\\\
 ///// all shields                                      \\\\\
@@ -1062,16 +1137,25 @@ GROUP @11
 REQUIRE_PREDICATE NOT GAME_IS ~pst pstee~ @25
 LABEL ~cd_tweaks_char_colors_all_shields~
 
-COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
-  READ_SHORT 0x1c type
-  PATCH_IF ((type = 12) OR (type = 41) OR (type = 47) OR (type = 49) OR (type = 53)) BEGIN // item type shield
-    PATCH_FOR_EACH loc IN 33 34 BEGIN // 33 - shield interior, 34 - shield panel
-      LPF DELETE_EFFECT INT_VAR match_opcode = 7 match_timing = 2 match_parameter2 = loc END                                    // delete color effect
-      LPF ALTER_EFFECT  INT_VAR match_opcode = 8 match_timing = 2 match_parameter2 = loc parameter1 = 0x64646400 silent = 1 END // change to generic white glow
-      LPF ALTER_EFFECT  INT_VAR match_opcode = 9 match_timing = 2 match_parameter2 = loc parameter1 = 0x64646400 silent = 1 END // change to generic white pulse
-    END
-  END
-  BUT_ONLY
+INCLUDE ~cdtweaks/lib/regexp_itm.tpa~ // build regexp array if it doesn't exist
+
+ACTION_PHP_EACH cd_itm_type AS item => type BEGIN
+     
+  ACTION_IF ((type = 12) OR (type = 41) OR (type = 47) OR (type = 49) OR (type = 53)) BEGIN // item type shield
+
+ACTION_IF regexp_debug BEGIN PRINT ~ == check passed, working on %item%~ END
+           
+    COPY_EXISTING ~%item%.itm~ ~override~
+      PATCH_FOR_EACH loc IN 33 34 BEGIN // 33 - shield interior, 34 - shield panel
+        LPF DELETE_EFFECT INT_VAR match_opcode = 7 match_timing = 2 match_parameter2 = loc END                                    // delete color effect
+        LPF ALTER_EFFECT  INT_VAR match_opcode = 8 match_timing = 2 match_parameter2 = loc parameter1 = 0x64646400 silent = 1 END // change to generic white glow
+        LPF ALTER_EFFECT  INT_VAR match_opcode = 9 match_timing = 2 match_parameter2 = loc parameter1 = 0x64646400 silent = 1 END // change to generic white pulse
+      END
+      BUT_ONLY
+      
+  END // item check
+  
+END // action_php_each
 
 /////                                                  \\\\\
 ///// non-magical shields                              \\\\\
@@ -1083,17 +1167,25 @@ GROUP @11
 REQUIRE_PREDICATE NOT GAME_IS ~pst pstee~ @25
 LABEL ~cd_tweaks_char_colors_normal_shields~
 
-COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
-  READ_SHORT 0x1c type
-  READ_LONG 0x18 flags
-  PATCH_IF (((flags & BIT6) = 0) AND ((type = 12) OR (type = 41) OR (type = 47) OR (type = 49) OR (type = 53))) BEGIN // item type shield, flagged as non-magical
-    PATCH_FOR_EACH loc IN 33 34 BEGIN // 33 - shield interior, 34 - shield panel
-      LPF DELETE_EFFECT INT_VAR match_opcode = 7 match_timing = 2 match_parameter2 = loc END                                    // delete color effect
-      LPF ALTER_EFFECT  INT_VAR match_opcode = 8 match_timing = 2 match_parameter2 = loc parameter1 = 0x64646400 silent = 1 END // change to generic white glow
-      LPF ALTER_EFFECT  INT_VAR match_opcode = 9 match_timing = 2 match_parameter2 = loc parameter1 = 0x64646400 silent = 1 END // change to generic white pulse
-    END
-  END
-  BUT_ONLY
+INCLUDE ~cdtweaks/lib/regexp_itm.tpa~ // build regexp array if it doesn't exist
+
+ACTION_PHP_EACH cd_itm_type AS item => type BEGIN
+     
+  ACTION_IF ((($cd_itm_flags("%item%") & BIT6) = 0) AND ((type = 12) OR (type = 41) OR (type = 47) OR (type = 49) OR (type = 53))) BEGIN // item type shield, flagged as non-magical
+
+ACTION_IF regexp_debug BEGIN PRINT ~ == check passed, working on %item%~ END
+           
+    COPY_EXISTING ~%item%.itm~ ~override~
+      PATCH_FOR_EACH loc IN 33 34 BEGIN // 33 - shield interior, 34 - shield panel
+        LPF DELETE_EFFECT INT_VAR match_opcode = 7 match_timing = 2 match_parameter2 = loc END                                    // delete color effect
+        LPF ALTER_EFFECT  INT_VAR match_opcode = 8 match_timing = 2 match_parameter2 = loc parameter1 = 0x64646400 silent = 1 END // change to generic white glow
+        LPF ALTER_EFFECT  INT_VAR match_opcode = 9 match_timing = 2 match_parameter2 = loc parameter1 = 0x64646400 silent = 1 END // change to generic white pulse
+      END
+      BUT_ONLY
+      
+  END // item check
+  
+END // action_php_each
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -2079,13 +2171,24 @@ ACTION_IF game_is_how OR game_is_totlm OR game_is_iwd-in-bg2 THEN BEGIN // iwd c
 
   ACTION_IF !game_is_iwd-in-bg2 THEN BEGIN
   
-    COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~ // allow sellable items in bags
-      READ_LONG 0x18 flags
-      PATCH_IF ((flags & BIT11) = BIT11) BEGIN // if bit11 set
-        WRITE_LONG 0x18 (THIS BAND `BIT11) // removes bit11
-        WRITE_LONG 0x34 0 // set price to zero, preventing selling
-      END
-      BUT_ONLY
+    INCLUDE ~cdtweaks/lib/regexp_itm.tpa~ // build regexp array if it doesn't exist
+
+    ACTION_PHP_EACH cd_itm_flags AS item => flags BEGIN
+         
+      ACTION_IF ((flags & BIT11) = BIT11) BEGIN // if bit11 set
+
+ACTION_IF regexp_debug BEGIN PRINT ~ == check passed, working on %item%~ END
+               
+        COPY_EXISTING ~%item%.itm~ ~override~
+          SET $cd_itm_price("%item%") = 0                                     // set price to zero, preventing selling
+          SET $cd_itm_flags("%item%") = ($cd_itm_flags("%item%") BAND `BIT11) // removes bit11
+          WRITE_LONG 0x18 $cd_itm_flags("%item%") 
+          WRITE_LONG 0x34 $cd_itm_price("%item%")
+          BUT_ONLY
+          
+      END // item check
+      
+    END // action_php_each
   
     OUTER_SET stor_off = 0x9c // for bottomless bags
   
@@ -3255,76 +3358,82 @@ COPY_EXISTING ~arow01.itm~ ~override~
   BUT_ONLY  
 
 // now insert ability to any launcher
-PRINT @1
-COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
-  READ_SHORT 0x1c item_type
-  PATCH_MATCH "%item_type%" WITH
-    15 BEGIN // bows
-      SPRINT ability "%arow01_ability%"
-      SPRINT imported_effects "%arow01_effects%" 
-      SET imported_fx_num = "%arow01_fx_num%"
-      SET name = "%arow01_name%"
-    END
-    18 BEGIN // sling   
-      SPRINT ability "%bull01_ability%"
-      SPRINT imported_effects "%bull01_effects%" 
-      SET imported_fx_num = "%bull01_fx_num%"
-      SET name = "%bull01_name%"
-    END
-    27 BEGIN // crossbows
-      SPRINT ability "%bolt01_ability%"
-      SPRINT imported_effects "%bolt01_effects%" 
-      SET imported_fx_num = "%bolt01_fx_num%"
-      SET name = "%bolt01_name%"
-    END
-    DEFAULT SET item_type = 0
-  END
-  PATCH_IF item_type BEGIN
-    READ_LONG   0x64 abil_off
-    READ_SHORT  0x68 abil_num
-    SET inserted = 0
-    SET new_fx = 0
-    FOR (index = 0 ; index < abil_num ; ++index) BEGIN
-      PATCH_IF inserted BEGIN 
-        WRITE_SHORT (abil_off + 0x20 + (index * 0x38)) (THIS + new_fx) // if already inserted, just correct the effect index
-      END ELSE BEGIN
-        READ_BYTE (abil_off +        (index * 0x38)) type
-        PATCH_IF type = 4 BEGIN // insert before first launcher type
-          READ_SHORT (abil_off + 0x1e + (index * 0x38)) abil_fx_num
-          READ_SHORT (abil_off + 0x20 + (index * 0x38)) abil_fx_idx
-          SET abil_num += 1
-          SET inserted = 1
-          SET new_fx = abil_fx_num + imported_fx_num
-          PATCH_IF (index < 2) BEGIN // for adjusting tooltip
-            DEFINE_ASSOCIATIVE_ARRAY cd_abil_table BEGIN "%SOURCE_RES%","%name%","%index%" => 0 END
-          END  
-          PATCH_IF new_fx BEGIN // if we also clone existing effects
-            READ_LONG 0x6a fx_off
-            PATCH_IF abil_fx_num BEGIN // if we also need to clone existing effects
-              READ_ASCII   (fx_off + (abil_fx_idx * 0x30)) effects (abil_fx_num * 0x30)
-              INSERT_BYTES (fx_off + (abil_fx_idx * 0x30)) (abil_fx_num * 0x30) // create new effect(s)
-              WRITE_ASCIIE (fx_off + (abil_fx_idx * 0x30)) "%effects%"          // write in info
-            END    
-            PATCH_IF imported_fx_num BEGIN // if we also clone existing effects
-              INSERT_BYTES (fx_off + (abil_fx_idx * 0x30)) (imported_fx_num * 0x30) // create new effect(s)
-              WRITE_ASCIIE (fx_off + (abil_fx_idx * 0x30)) "%imported_effects%"     // write in info
-            END     
-          END   
-          INSERT_BYTES (abil_off +        (index * 0x38)) 0x38        // create new ability
-          WRITE_ASCIIE (abil_off +        (index * 0x38)) "%ability%" // write in info
-          WRITE_BYTE   (abil_off + 0x10 + (index * 0x38)) 0           // no launcher required
-          WRITE_SHORT  (abil_off + 0x1e + (index * 0x38)) new_fx      // combine existing + imported effects
-          WRITE_SHORT  (abil_off + 0x20 + (index * 0x38)) abil_fx_idx // use correct index
-          WRITE_SHORT  (abil_off + 0x22 + (index * 0x38)) 0           // no charges             
-        END 
+INCLUDE ~cdtweaks/lib/regexp_itm.tpa~ // build regexp array if it doesn't exist
+
+ACTION_PHP_EACH cd_itm_type AS item => type BEGIN
+     
+  ACTION_IF ((type = 15) OR (type = 18) OR (type = 27)) BEGIN // exclude zw, yw for 1pp Wings
+
+ACTION_IF regexp_debug BEGIN PRINT ~ == check passed, working on %item%~ END
+           
+    COPY_EXISTING ~%item%.itm~ ~override~
+      PATCH_MATCH "%item_type%" WITH
+        15 BEGIN // bows
+          SPRINT ability "%arow01_ability%"
+          SPRINT imported_effects "%arow01_effects%" 
+          SET imported_fx_num = "%arow01_fx_num%"
+          SET name = "%arow01_name%"
+        END
+        18 BEGIN // sling   
+          SPRINT ability "%bull01_ability%"
+          SPRINT imported_effects "%bull01_effects%" 
+          SET imported_fx_num = "%bull01_fx_num%"
+          SET name = "%bull01_name%"
+        END
+        DEFAULT // crossbows
+          SPRINT ability "%bolt01_ability%"
+          SPRINT imported_effects "%bolt01_effects%" 
+          SET imported_fx_num = "%bolt01_fx_num%"
+          SET name = "%bolt01_name%"
       END
-    END
-    PATCH_IF inserted BEGIN
-      WRITE_SHORT 0x68 abil_num
-      WRITE_LONG  0x6a (THIS + 0x38)
-    END  
-  END
-  BUT_ONLY
+      READ_LONG   0x64 abil_off
+      READ_SHORT  0x68 abil_num
+      SET inserted = 0
+      SET new_fx = 0
+      FOR (index = 0 ; index < abil_num ; ++index) BEGIN
+        PATCH_IF inserted BEGIN 
+          WRITE_SHORT (abil_off + 0x20 + (index * 0x38)) (THIS + new_fx) // if already inserted, just correct the effect index
+        END ELSE BEGIN
+          READ_BYTE (abil_off +        (index * 0x38)) type
+          PATCH_IF type = 4 BEGIN // insert before first launcher type
+            READ_SHORT (abil_off + 0x1e + (index * 0x38)) abil_fx_num
+            READ_SHORT (abil_off + 0x20 + (index * 0x38)) abil_fx_idx
+            SET abil_num += 1
+            SET inserted = 1
+            SET new_fx = abil_fx_num + imported_fx_num
+            PATCH_IF (index < 2) BEGIN // for adjusting tooltip
+              DEFINE_ASSOCIATIVE_ARRAY cd_abil_table BEGIN "%SOURCE_RES%","%name%","%index%" => 0 END
+            END  
+            PATCH_IF new_fx BEGIN // if we also clone existing effects
+              READ_LONG 0x6a fx_off
+              PATCH_IF abil_fx_num BEGIN // if we also need to clone existing effects
+                READ_ASCII   (fx_off + (abil_fx_idx * 0x30)) effects (abil_fx_num * 0x30)
+                INSERT_BYTES (fx_off + (abil_fx_idx * 0x30)) (abil_fx_num * 0x30) // create new effect(s)
+                WRITE_ASCIIE (fx_off + (abil_fx_idx * 0x30)) "%effects%"          // write in info
+              END    
+              PATCH_IF imported_fx_num BEGIN // if we also clone existing effects
+                INSERT_BYTES (fx_off + (abil_fx_idx * 0x30)) (imported_fx_num * 0x30) // create new effect(s)
+                WRITE_ASCIIE (fx_off + (abil_fx_idx * 0x30)) "%imported_effects%"     // write in info
+              END     
+            END   
+            INSERT_BYTES (abil_off +        (index * 0x38)) 0x38        // create new ability
+            WRITE_ASCIIE (abil_off +        (index * 0x38)) "%ability%" // write in info
+            WRITE_BYTE   (abil_off + 0x10 + (index * 0x38)) 0           // no launcher required
+            WRITE_SHORT  (abil_off + 0x1e + (index * 0x38)) new_fx      // combine existing + imported effects
+            WRITE_SHORT  (abil_off + 0x20 + (index * 0x38)) abil_fx_idx // use correct index
+            WRITE_SHORT  (abil_off + 0x22 + (index * 0x38)) 0           // no charges             
+          END 
+        END
+      END
+      PATCH_IF inserted BEGIN
+        WRITE_SHORT 0x68 abil_num
+        WRITE_LONG  0x6a (THIS + 0x38)
+      END  
+      BUT_ONLY
+      
+  END // item check
+  
+END // action_php_each
 
 ACTION_IF FILE_EXISTS_IN_GAME ~tooltip.2da~ BEGIN
 
@@ -5240,18 +5349,20 @@ GROUP @9
 REQUIRE_PREDICATE NOT GAME_IS ~iwd2 pst pstee~ @25
 LABEL ~cd_tweaks_2h_bastard_swords~
 
-ACTION_IF original_bg1 OR original_iwd THEN BEGIN OUTER_SET use_type = 1 END ELSE BEGIN OUTER_SET use_type = 0 END
+OUTER_SET prof_check   = 89
+OUTER_SET bg1_type     = 20
+OUTER_SET overhead     = 60
+OUTER_SET slashing     = 40
+OUTER_SET thrusting    = 0
+OUTER_SPRINT 2da_file     cdbastrd
+OUTER_SPRINT prefix       bs
+OUTER_SPRINT 2h_bam       isw2h01
+OUTER_SPRINT 1h_bam       isw1h01
+OUTER_SPRINT 2h_paperdoll S2
+
+ACTION_IF original_iwd THEN BEGIN OUTER_SET bg1_type = 57 END // diff item type in iwd
 INCLUDE ~cdtweaks/lib/2h_weapons.tpa~  // text replacement macros
 
-ACTION_IF original_iwd THEN BEGIN
-
-  LAUNCH_ACTION_FUNCTION 2h_weapons INT_VAR bg1_type = 57 END // diff item type in iwd
-
-END ELSE BEGIN
-
-  LAUNCH_ACTION_FUNCTION 2h_weapons END // defaults are bastard sword settings
-
-END
 
 // if breakable weapons from tutufix installed or BGEE/BGT breakable weapons
 ACTION_IF ((game_is_eet = 0) AND ((FILE_EXISTS_IN_GAME ~_sw1h01.spl~) OR (FILE_EXISTS_IN_GAME ~sw1h01.spl~))) THEN BEGIN
@@ -5305,17 +5416,18 @@ GROUP @9
 REQUIRE_PREDICATE NOT GAME_IS ~bg1 totsc iwd how totlm iwd2 pst pstee~ @25
 LABEL ~cd_tweaks_2h_katanas~
 
-ACTION_IF original_bg1 OR original_iwd THEN BEGIN OUTER_SET use_type = 1 END ELSE BEGIN OUTER_SET use_type = 0 END
-INCLUDE ~cdtweaks/lib/2h_weapons.tpa~  // text replacement macros
+OUTER_SET prof_check   = 94
+OUTER_SET bg1_type     = 20
+OUTER_SET overhead     = 60
+OUTER_SET slashing     = 40
+OUTER_SET thrusting    = 0
+OUTER_SPRINT 2da_file     cdkatana
+OUTER_SPRINT prefix       kt
+OUTER_SPRINT 2h_bam       isw2h01
+OUTER_SPRINT 1h_bam       isw1h43
+OUTER_SPRINT 2h_paperdoll S2
 
-LAUNCH_ACTION_FUNCTION 2h_weapons // defaults are bastard sword settings
-  INT_VAR prof_check   = 94
-  STR_VAR 2da_file     = cdkatana
-          prefix       = kt
-          2h_bam       = isw2h01
-          1h_bam       = isw1h43
-          2h_paperdoll = S2
-END
+INCLUDE ~cdtweaks/lib/2h_weapons.tpa~  // text replacement macros
 
 // if breakable weapons from tutufix installed or BGEE/BGT breakable weapons
 ACTION_IF ((game_is_eet = 0) AND (FILE_EXISTS_IN_GAME ~sw1h43.spl~)) THEN BEGIN
@@ -5368,21 +5480,18 @@ GROUP @9
 REQUIRE_PREDICATE NOT GAME_IS ~iwd2 pst pstee~ @25
 LABEL ~cd_tweaks_2h_axes~
 
-ACTION_IF original_bg1 OR original_iwd THEN BEGIN OUTER_SET use_type = 1 END ELSE BEGIN OUTER_SET use_type = 0 END
-INCLUDE ~cdtweaks/lib/2h_weapons.tpa~  // text replacement macros
+OUTER_SET prof_check   = 92
+OUTER_SET bg1_type     = 25
+OUTER_SET overhead     = 0
+OUTER_SET slashing     = 35
+OUTER_SET thrusting    = 65
+OUTER_SPRINT 2da_file     cdaxe
+OUTER_SPRINT prefix       ax
+OUTER_SPRINT 2h_bam       ihalb01
+OUTER_SPRINT 1h_bam       iax1h01
+OUTER_SPRINT 2h_paperdoll hb
 
-LAUNCH_ACTION_FUNCTION 2h_weapons // defaults are bastard sword settings
-  INT_VAR prof_check   = 92
-          bg1_type     = 25
-          overhead     = 0
-          slashing     = 35
-          thrusting    = 65
-  STR_VAR 2da_file     = cdaxe
-          prefix       = ax
-          2h_bam       = ihalb01
-          1h_bam       = iax1h01
-          2h_paperdoll = hb
-END
+INCLUDE ~cdtweaks/lib/2h_weapons.tpa~  // text replacement macros
 
 // if breakable weapons from tutufix installed or BGEE/BGT breakable weapons
 ACTION_IF ((game_is_eet = 0) AND ((FILE_EXISTS_IN_GAME ~_ax1h01.spl~) OR (FILE_EXISTS_IN_GAME ~ax1h01.spl~))) THEN BEGIN
@@ -5476,17 +5585,20 @@ ACTION_IF !enhanced_edition BEGIN
 
 END
 
-PRINT @1
-COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
-  READ_BYTE  0x31 prof ELSE 0
-  READ_SHORT 0x1c type
-  READ_ASCII 0x22 anim (2)
-  PATCH_IF ((((type_match = 0) AND (prof = 115)) OR          // for bg2-based games w/ proficiencies
-              (type = type_match)) AND                       // games w/o profs
-              ("%anim%" STRING_COMPARE_CASE "cl" = 0)) BEGIN // animation must match
-    READ_BYTE 0x1f fighter
-    PATCH_IF ((fighter BAND BIT3) = 0) BEGIN // if usable by single-class fighter
-      WRITE_BYTE 0x20 (THIS BAND `BIT2)      // make usable by single-class mages
+INCLUDE ~cdtweaks/lib/regexp_itm.tpa~ // build regexp array if it doesn't exist
+
+ACTION_PHP_EACH cd_itm_anim AS item => anim BEGIN
+     
+  ACTION_IF ((((type_match = 0) AND ($cd_itm_prof("%item%") = 115)) OR // for bg2-based games w/ proficiencies
+               ($cd_itm_type("%item%") = type_match)) AND              // games w/o profs
+               ("%anim%" STRING_COMPARE_CASE "cl" = 0)) AND            // animation must match
+              (($cd_itm_use("%item%") BAND BIT11) = 0) BEGIN           // if usable by single-class fighter
+
+ACTION_IF regexp_debug BEGIN PRINT ~ == check passed, working on %item%~ END
+           
+    COPY_EXISTING ~%item%.itm~ ~override~
+      SET $cd_itm_use("%item%") = ($cd_itm_use("%item%") BAND `BIT18) // make usable by single-class mages
+      WRITE_LONG 0x1e $cd_itm_use("%item%")
       PATCH_IF modify_descript BEGIN // skip this junk for EEs or if translation not available
 
         // update descriptions
@@ -5532,9 +5644,11 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
         END
         
       END
-    END
-  END
-  BUT_ONLY
+      BUT_ONLY
+      
+  END // item check
+  
+END // action_php_each
 
 ACTION_IF FILE_EXISTS_IN_GAME ~weapprof.2da~ THEN BEGIN
 
@@ -6307,18 +6421,23 @@ APPEND ~abdcdsrq.2da~ ~BARBARIAN               17      0       0       0       0
 APPEND ~abdcscrq.2da~ ~BARBARIAN               15      0       0       0       0       0~
   UNLESS ~\bBARBARIAN\b~
 
-PRINT @1
-COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
-  PATCH_IF (SOURCE_SIZE > 0x71) THEN BEGIN // protects against invalid files
-    READ_BYTE 0x1f "usa2"
-    READ_BYTE 0x29 "kit1"
-    PATCH_IF ((("%kit1%" BAND 0b01000000) = 0b01000000) AND // if unusable by fighters and barbarians
-              (("%usa2%" BAND 0b00001000) = 0b00001000)) THEN BEGIN
-      WRITE_BYTE 0x29 ("%kit1%" BAND 0b10111111) //remove redundant barb flag
-    END
-  END
-  BUT_ONLY
+INCLUDE ~cdtweaks/lib/regexp_itm.tpa~ // build regexp array if it doesn't exist
 
+ACTION_PHP_EACH cd_itm_use AS item => use BEGIN
+     
+  ACTION_IF ((($cd_itm_kit1("%item%") BAND 0b01000000) = 0b01000000) AND // if unusable by barbarians
+              ((use BAND 0b00001000) = 0b00001000)) BEGIN                // and fighters
+
+ACTION_IF regexp_debug BEGIN PRINT ~ == check passed, working on %item%~ END
+           
+    COPY_EXISTING ~%item%.itm~ ~override~
+      SET $cd_itm_kit1("%item%") = ($cd_itm_kit1("%item%") BAND 0b10111111) //remove redundant barb flag
+      WRITE_BYTE 0x29 $cd_itm_kit1("%item%")
+      BUT_ONLY
+      
+  END // item check
+  
+END // action_php_each
 
 ACTION_IF FILE_EXISTS ~refinements/hlab/thief/clab/clabempt.2da~ AND NOT FILE_EXISTS ~refinements/lib/kit.tpa~ THEN BEGIN
 
@@ -6769,7 +6888,7 @@ LABEL ~cd_tweaks_item_spells_at_char_level~
 
 COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
   PATCH_FOR_EACH op IN 146 148 BEGIN
-    LPF ALTER_EFFECT INT_VAR headers = 1 check_globals = 0 header_type = 3 match_opcode = op parameter1 = 0 silent = 1 END
+    LPF ALTER_EFFECT INT_VAR check_headers = 1 check_globals = 0 header_type = 3 match_opcode = op parameter1 = 0 silent = 1 END
   END
   BUT_ONLY
 
@@ -8741,43 +8860,46 @@ ACTION_IF FILE_EXISTS_IN_GAME ~kitlist.2da~ BEGIN
 
 END
 
-//Alignment changes
-COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
-  READ_BYTE 0x1f "use2"
-  READ_BYTE 0x20 "use3"
-  SET patched = 0
-  PATCH_IF (("%use2%" BAND 0b00001000) = 0b00000000) BEGIN // if usable by single-class fighters...
-    SET "use2" = ("%use2%" BAND 0b00111111) // make usable by fc, fmc
-    SET patched = 1
-  END
-  PATCH_IF (("%use3%" BAND 0b00000100) = 0b00000000) BEGIN // if usable by single-class mages...
-    SET "use2" = ("%use2%" BAND 0b01111110) // make usable by mc, fmc
-    SET patched = 1
-  END
-  PATCH_IF (("%use3%" BAND 0b01000000) = 0b00000000) BEGIN // if usable by single-class thieves...
-    SET "use2" = ("%use2%" BAND 0b11111101) // make usable by ct
-    SET patched = 1
-  END
-  PATCH_IF (("%use3%" BAND 0b00100000) = 0b00000000) BEGIN // if usable by single-class rangers...
-    SET "use2" = ("%use2%" BAND 0b11111011) // make usable by cr
-    SET patched = 1
-  END
-  WRITE_BYTE 0x1f "%use2%"
-  WRITE_BYTE 0x20 "%use3%"
-  PATCH_IF (patched AND (lathander OR helm OR talos)) BEGIN
-    READ_BYTE 0x29 use4
-    PATCH_IF lathander BEGIN
-      SET use4 = (use4 BAND `BIT2)
-    END  
-    PATCH_IF helm BEGIN
-      SET use4 = (use4 BAND `BIT1)
-    END  
-    PATCH_IF talos BEGIN
-      SET use4 = (use4 BAND `BIT0)
-    END  
-    WRITE_BYTE 0x29 use4
+INCLUDE ~cdtweaks/lib/regexp_itm.tpa~ // build regexp array if it doesn't exist
+
+ACTION_PHP_EACH cd_itm_use AS item => use BEGIN
+     
+  OUTER_SET working_use = use   
+  ACTION_IF ((use BAND BIT11) = 0) BEGIN // if usable by single-class fighters...
+    OUTER_SET working_use = (working_use BAND `(BIT14 + BIT15)) // make usable by fc, fmc
   END  
-  BUT_ONLY
+  ACTION_IF ((use BAND BIT18) = 0) BEGIN // if usable by single-class mages...
+    OUTER_SET working_use = (working_use BAND `(BIT15)) // make usable by fmc
+  END
+  ACTION_IF ((use BAND BIT22) = 0) BEGIN // if usable by single-class thieves...
+    OUTER_SET working_use = (working_use BAND `(BIT9)) // make usable by ct
+  END
+  ACTION_IF ((use BAND BIT21) = 0) BEGIN // if usable by single-class rangers...
+    OUTER_SET working_use = (working_use BAND `(BIT10)) // make usable by cr
+  END
+  
+  ACTION_IF use != working_use BEGIN
+
+ACTION_IF regexp_debug BEGIN PRINT ~ == check passed, working on %item%~ END
+           
+    COPY_EXISTING ~%item%.itm~ ~override~
+      SET $cd_itm_use("%item%") = working_use
+      WRITE_LONG 0x1e $cd_itm_use("%item%")
+      PATCH_IF lathander BEGIN
+        SET $cd_itm_kit1("%item%") = ($cd_itm_kit1("%item%") BAND `(BIT2)) 
+      END  
+      PATCH_IF helm BEGIN
+        SET $cd_itm_kit1("%item%") = ($cd_itm_kit1("%item%") BAND `(BIT1)) 
+      END  
+      PATCH_IF talos BEGIN
+        SET $cd_itm_kit1("%item%") = ($cd_itm_kit1("%item%") BAND `(BIT0)) 
+      END  
+      WRITE_BYTE 0x29 $cd_itm_kit1("%item%")
+      BUT_ONLY
+      
+  END // item check
+  
+END // action_php_each
 
 COPY_EXISTING ~clasweap.2da~ ~override~
   PATCH_IF original_iwd BEGIN
@@ -8878,12 +9000,22 @@ SUBCOMPONENT @243001
 REQUIRE_PREDICATE NOT GAME_IS ~iwd2 pst pstee~ @25
 LABEL ~cd_tweaks_druid_multis_loosen_equipment_restrictions~
   
-COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
-  READ_BYTE 0x1f use
-  PATCH_IF ((use BAND BIT3) = 0) BEGIN // if usable by single-class fighters...
-    WRITE_BYTE 0x1f (THIS BAND `BIT4)  // removes f/d flag
-  END
-  BUT_ONLY
+INCLUDE ~cdtweaks/lib/regexp_itm.tpa~ // build regexp array if it doesn't exist
+
+ACTION_PHP_EACH cd_itm_use AS item => use BEGIN
+     
+  ACTION_IF ((use BAND BIT11) = 0) BEGIN // if usable by single-class fighters...
+
+ACTION_IF regexp_debug BEGIN PRINT ~ == check passed, working on %item%~ END
+           
+    COPY_EXISTING ~%item%.itm~ ~override~
+      SET $cd_itm_use("%item%") = ($cd_itm_use("%item%") BAND `BIT12)
+      WRITE_LONG 0x1e $cd_itm_use("%item%")
+      BUT_ONLY
+      
+  END // item check
+  
+END // action_php_each
 
 COPY_EXISTING ~clasweap.2da~ ~override~
   PATCH_IF original_iwd BEGIN
@@ -8937,46 +9069,62 @@ GROUP @9
 SUBCOMPONENT @243001
 REQUIRE_PREDICATE NOT GAME_IS ~iwd2 pst pstee~ @25
 LABEL ~cd_tweaks_druid_multis_tighten_equipment_restrictions~
-  
-COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
-  PATCH_IF (("%SOURCE_RES%" STRING_COMPARE_CASE "cdrelm") AND
-            ("%SOURCE_RES%" STRING_COMPARE_CASE "d1brac02") AND
-            ("%SOURCE_RES%" STRING_COMPARE_CASE "dstdruid") AND // dsotsc: tiara of the chanah'rea
-            ("%SOURCE_RES%" STRING_COMPARE_CASE "dscdruid") AND // dsotsc: crown of the archdruid
-            ("%SOURCE_RES%" STRING_COMPARE_CASE "gauntem") AND
-            ("%SOURCE_RES%" STRING_COMPARE_CASE "helm34") AND
-            ("%SOURCE_RES%" STRING_COMPARE_CASE "mh#ioun1") AND
-            ("%SOURCE_RES%" STRING_COMPARE_CASE "misc5x")) BEGIN // exclude jaheira's harper pin
-    READ_SHORT 0x1c type
-    READ_LONG  0x1e use
-    PATCH_IF type = 7 BEGIN // helmets
-      PATCH_IF ((use BAND BIT6) = BIT6) BEGIN        // if unusable by bards (regular helmet)...
-        WRITE_LONG 0x1e ((THIS BOR BIT12) BOR BIT30) // adds f/d, druid flags
-      END ELSE BEGIN                                 // if not helmet, assume ioun stone
-        PATCH_IF ((use BAND BIT30) = BIT30) BEGIN    // if unusable by druids...
-          WRITE_LONG 0x1e (THIS BOR BIT12)           // adds f/d flag
+
+INCLUDE ~cdtweaks/lib/regexp_itm.tpa~ // build regexp array if it doesn't exist
+
+ACTION_PHP_EACH cd_itm_type AS item => type BEGIN
+
+  ACTION_IF (("%item%" STRING_COMPARE_CASE "cdrelm") AND // screen out items explicitly for druids
+             ("%item%" STRING_COMPARE_CASE "d1brac02") AND
+             ("%item%" STRING_COMPARE_CASE "dstdruid") AND // dsotsc: tiara of the chanah'rea
+             ("%item%" STRING_COMPARE_CASE "dscdruid") AND // dsotsc: crown of the archdruid
+             ("%item%" STRING_COMPARE_CASE "gauntem") AND
+             ("%item%" STRING_COMPARE_CASE "helm34") AND
+             ("%item%" STRING_COMPARE_CASE "mh#ioun1") AND
+             ("%item%" STRING_COMPARE_CASE "misc5x")) BEGIN
+    
+    OUTER_SET working_use = $cd_itm_use("%item%")    
+    ACTION_IF type = 7 BEGIN // helmets
+      ACTION_IF (($cd_itm_use("%item%") BAND BIT6) = BIT6) BEGIN     // if unusable by bards (regular helmet)...
+        OUTER_SET working_use = ((working_use BOR BIT12) BOR BIT30)  // adds f/d, druid flags
+      END ELSE BEGIN                                                 // if not helmet, assume ioun stone
+        ACTION_IF (($cd_itm_use("%item%") BAND BIT30) = BIT30) BEGIN // if unusable by druids...
+          OUTER_SET working_use = (working_use BOR BIT12)            // adds f/d flag
         END 
       END
     END ELSE
-    PATCH_IF ((type = 1) OR      // amulets
-              (type = 3) OR      // belts
-              (type = 4) OR      // boots
-              (type = 6) OR      // bracers
-              (type = 9) OR      // potions
-              (type = 10) OR     // rings
-              (type = 32) OR     // cloaks
-              (type = 35)) BEGIN // wands
-      PATCH_IF (((use BAND BIT30) = BIT30) AND    // if unusable by druids...
-                ((use BAND BIT11) = BIT11)) BEGIN // ...and unusable by fighters...
-        WRITE_LONG 0x1e (THIS BOR BIT12)          // adds f/d flag
+    ACTION_IF ((type = 1) OR      // amulets
+               (type = 3) OR      // belts
+               (type = 4) OR      // boots
+               (type = 6) OR      // bracers
+               (type = 9) OR      // potions
+               (type = 10) OR     // rings
+               (type = 32) OR     // cloaks
+               (type = 35)) BEGIN // wands
+      ACTION_IF ((($cd_itm_use("%item%") BAND BIT30) = BIT30) AND    // if unusable by druids...
+                 (($cd_itm_use("%item%") BAND BIT11) = BIT11)) BEGIN // ...and unusable by fighters...
+        OUTER_SET working_use = (working_use BOR BIT12)              // adds f/d flag
       END
-    END ELSE BEGIN // all other item types
-      PATCH_IF ((use BAND BIT30) = BIT30) BEGIN // if unusable by druids...
-        WRITE_LONG 0x1e (THIS BOR BIT12)        // adds f/d flag
+    END ELSE BEGIN                                                 // all other item types
+      ACTION_IF (($cd_itm_use("%item%") BAND BIT30) = BIT30) BEGIN // if unusable by druids...
+        OUTER_SET working_use = (working_use BOR BIT12)            // adds f/d flag
       END
     END
-  END
-  BUT_ONLY
+    
+    ACTION_IF (working_use != $cd_itm_use("%item%")) BEGIN
+
+ACTION_IF regexp_debug BEGIN PRINT ~ == check passed, working on %item%~ END
+             
+      COPY_EXISTING ~%item%.itm~ ~override~
+        SET $cd_itm_use("%item%") = working_use
+        WRITE_LONG 0x1e $cd_itm_use("%item%") 
+        BUT_ONLY
+        
+    END // use check
+    
+  END // druid item check  
+  
+END // action_php_each
 
 COPY_EXISTING ~clasweap.2da~ ~override~
   PATCH_IF original_iwd BEGIN
@@ -9369,39 +9517,47 @@ LABEL ~cd_tweaks_level_locked_scrolls~
 OUTER_SET freedom_num = IDS_OF_SYMBOL (~spell~ ~WIZARD_FREEDOM~) - 2000
 ACTION_IF freedom_num > 0 BEGIN OUTER_SPRINT freedom ~spwi%freedom_num%~ END ELSE BEGIN OUTER_SPRINT freedom ~not_murica~ END
 
-COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
-  READ_SHORT 0x1c type
-  READ_SHORT 0x24 level
-  PATCH_IF ((type = 11) AND (level = 0)) BEGIN // scrolls w/o a min requirement already
-    READ_LONG  0x64 abil_off ELSE 0
-    READ_SHORT 0x68 abil_num ELSE 0
-    READ_LONG  0x6a fx_off   ELSE 0
-    FOR (index = 0 ; index < abil_num ; ++index) BEGIN
-      READ_SHORT  (abil_off + 0x1e + (0x38 * index)) abil_fx_num
-      READ_SHORT  (abil_off + 0x20 + (0x38 * index)) abil_fx_idx
-      FOR (index2 = 0 ; index2 < abil_fx_num ; ++index2) BEGIN
-        READ_SHORT (fx_off +        (0x30 * (abil_fx_idx + index2))) opcode
-        PATCH_IF ((opcode = 146) OR (opcode = 148)) BEGIN // cast spell
-          READ_ASCII (fx_off + 0x14 + (0x30 * (abil_fx_idx + index2))) spell
-          PATCH_IF (("%spell%" STRING_COMPARE_REGEXP ~^[Ss][Pp][Ww][Ii][3-9][0-9][0-9]$~ = 0) OR
-                    ("%spell%" STRING_COMPARE_REGEXP ~^[Ss][Pp][Pp][Rr][3-7][0-9][0-9]$~ = 0)) BEGIN // levels 1&2 usable by level 0/1, so no need for level requirements
-            PATCH_IF ("%spell%" STRING_COMPARE_REGEXP ~^[Ss][Pp][Ww][Ii][3-9][0-9][0-9]$~ = 0) BEGIN SET level_break = 11 END ELSE BEGIN SET level_break = 13 END // account for extra level for priest 6>7 and wizard 5>6
-            PATCH_IF ("%spell%" STRING_COMPARE_CASE "%freedom%" = 0) BEGIN // exclude freedom scrolls
-              SET level = 0
-            END ELSE BEGIN  
-              READ_BYTE  (fx_off + 0x18 + (0x30 * (abil_fx_idx + index2))) level
-              SET level = ((level - 0x31) * 2) // 0x31 is ascii 1, 0x32 is ascii 2, etc. This basically uses a level one below the numerical value and then doubles it
-              PATCH_IF level < level_break BEGIN
-                SET level -= 1
-              END
-            END  
+INCLUDE ~cdtweaks/lib/regexp_itm.tpa~ // build regexp array if it doesn't exist
+
+ACTION_PHP_EACH cd_itm_type AS item => type BEGIN
+     
+  ACTION_IF ((type = 11) AND ($cd_itm_lvl("%item%") = 0)) BEGIN // scrolls w/o a min requirement already
+
+ACTION_IF regexp_debug BEGIN PRINT ~ == check passed, working on %item%~ END
+           
+    COPY_EXISTING ~%item%.itm~ ~override~
+      READ_LONG  0x64 abil_off ELSE 0
+      READ_SHORT 0x68 abil_num ELSE 0
+      READ_LONG  0x6a fx_off   ELSE 0
+      FOR (index = 0 ; index < abil_num ; ++index) BEGIN
+        READ_SHORT  (abil_off + 0x1e + (0x38 * index)) abil_fx_num
+        READ_SHORT  (abil_off + 0x20 + (0x38 * index)) abil_fx_idx
+        FOR (index2 = 0 ; index2 < abil_fx_num ; ++index2) BEGIN
+          READ_SHORT (fx_off +        (0x30 * (abil_fx_idx + index2))) opcode
+          PATCH_IF ((opcode = 146) OR (opcode = 148)) BEGIN // cast spell
+            READ_ASCII (fx_off + 0x14 + (0x30 * (abil_fx_idx + index2))) spell
+            PATCH_IF (("%spell%" STRING_COMPARE_REGEXP ~^[Ss][Pp][Ww][Ii][3-9][0-9][0-9]$~ = 0) OR
+                      ("%spell%" STRING_COMPARE_REGEXP ~^[Ss][Pp][Pp][Rr][3-7][0-9][0-9]$~ = 0)) BEGIN // levels 1&2 usable by level 0/1, so no need for level requirements
+              PATCH_IF ("%spell%" STRING_COMPARE_REGEXP ~^[Ss][Pp][Ww][Ii][3-9][0-9][0-9]$~ = 0) BEGIN SET level_break = 11 END ELSE BEGIN SET level_break = 13 END // account for extra level for priest 6>7 and wizard 5>6
+              PATCH_IF ("%spell%" STRING_COMPARE_CASE "%freedom%" = 0) BEGIN // exclude freedom scrolls
+                SET $cd_itm_lvl("%item%") = 0
+              END ELSE BEGIN  
+                READ_BYTE  (fx_off + 0x18 + (0x30 * (abil_fx_idx + index2))) $cd_itm_lvl("%item%")
+                SET $cd_itm_lvl("%item%") = (($cd_itm_lvl("%item%") - 0x31) * 2) // 0x31 is ascii 1, 0x32 is ascii 2, etc. This basically uses a level one below the numerical value and then doubles it
+                PATCH_IF $cd_itm_lvl("%item%") < level_break BEGIN
+                  SET $cd_itm_lvl("%item%") -= 1
+                END
+              END  
+            END
           END
         END
       END
-    END
-    WRITE_SHORT 0x24 level // still 0 if no match found, otherwise new value
-  END
-  BUT_ONLY
+      WRITE_SHORT 0x24 $cd_itm_lvl("%item%") // still 0 if no match found, otherwise new value
+      BUT_ONLY
+      
+  END // item check
+  
+END // action_php_each
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -9644,16 +9800,23 @@ GROUP @9
 REQUIRE_PREDICATE GAME_IS ~soa tob bgt bg2ee eet bgee iwdee tutu tutu_totsc~ @25
 LABEL ~cd_tweaks_allow_monks_to_wear_helmets~
 
-// monks generally not listed in unusability block, so skip description updates for oBG2
-COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
-  READ_SHORT 0x1c type
-  PATCH_IF type = 7 BEGIN // headgear
-    READ_LONG 0x1e flags
-    PATCH_IF (((flags & BIT7) = 0) AND ((flags & BIT11) = 0)) BEGIN // if usable by single-class clerics and fighters
-      WRITE_LONG 0x1e (flags BAND `BIT29) // removes monk flag
-    END
-  END
-  BUT_ONLY
+INCLUDE ~cdtweaks/lib/regexp_itm.tpa~ // build regexp array if it doesn't exist
+
+ACTION_PHP_EACH cd_itm_type AS item => type BEGIN
+     
+  ACTION_IF ((type = 7) AND // helmet
+             ((($cd_itm_use("%item%") & BIT7) = 0) AND (($cd_itm_use("%item%") & BIT11) = 0))) BEGIN // if usable by single-class clerics and fighters
+
+ACTION_IF regexp_debug BEGIN PRINT ~ == check passed, working on %item%~ END
+           
+    COPY_EXISTING ~%item%.itm~ ~override~
+      SET $cd_itm_use("%item%") = ($cd_itm_use("%item%") BAND `BIT29) // removes monk flag
+      WRITE_LONG 0x1e $cd_itm_use("%item%")
+      BUT_ONLY
+      
+  END // item check
+  
+END // action_php_each
 
 ACTION_IF !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~10~ THEN BEGIN // skip if 'no helmet animations' installed
 
@@ -9709,36 +9872,42 @@ ACTION_IF ((MOD_IS_INSTALLED ~cdtweaks.tp2~ ~2163~) OR
   OUTER_SET alt_profs = 2           
 END
 
-COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
-  READ_SHORT 0x1c type
-  READ_ASCII 0x22 anim (2)
-  READ_BYTE  0x31 prof
-  PATCH_IF ((type =  16) OR                                                                                         // daggers (all cases)
-            (type =  26) OR                                                                                         // staves (all cases)
-            ((prof =  90) AND                                                               (alt_profs = 0)) OR     // long swords (base, rebalanced)
-            ((type =  20) AND (prof =  103) AND ("%anim%" STRING_COMPARE_CASE "s1" = 0) AND (alt_profs = 1)) OR     // long swords, ninjato (bg)
-            ((type =  20) AND (prof =  102) AND ("%anim%" STRING_COMPARE_CASE "s1" = 0) AND (alt_profs = 2)) OR     // long swords, ninjato (iwd)
-            ((prof =  91) AND                                                               (alt_profs = 0)) OR     // short swords (base, rebalanced)
-            ((type =  19) AND (prof =  102) AND                                             (alt_profs = 1)) OR     // short swords (bg)
-            ((type =  19) AND (prof =  105) AND                                             (alt_profs = 2)) OR     // short swords (iwd)
-            ((prof =  94) AND                                                               (alt_profs = 0)) OR     // katanas (base, rebalanced) + wakizashi (rebalanced)
-            ((type =  20) AND (prof =  103) AND ("%anim%" STRING_COMPARE_CASE "s3" = 0) AND (alt_profs = 1)) OR     // katanas (bg)
-            ((type =  20) AND (prof =  102) AND ("%anim%" STRING_COMPARE_CASE "s3" = 0) AND (alt_profs = 2)) OR     // katanas (iwd)
-            ((prof =  95) AND                                                               (alt_profs = 0)) OR     // scimitar/ninjato (base, rebalanced) + wakizashi (base)
-            ((type =  19) AND (prof =  103) AND ("%anim%" STRING_COMPARE_CASE "ss" = 0) AND (alt_profs = 1)) OR     // wakizashi (bg)
-            ((type =  19) AND (prof =  102) AND ("%anim%" STRING_COMPARE_CASE "ss" = 0) AND (alt_profs = 2)) OR     // wakizashi (iwd)
-            ((type =  20) AND (prof =  103) AND ("%anim%" STRING_COMPARE_CASE "sc" = 0) AND (alt_profs = 1)) OR     // scimitar (bg)
-            ((type =  20) AND (prof =  102) AND ("%anim%" STRING_COMPARE_CASE "sc" = 0) AND (alt_profs = 2)) OR     // scimitar (iwd)
-            ((prof = 115) AND                                                               (alt_profs = 0)) OR     // club (base, rebalanced)
-            ((type =  17) AND (prof =  105) AND ("%anim%" STRING_COMPARE_CASE "cl" = 0) AND (alt_profs = 1)) OR     // club (bg)
-            ((type =  17) AND (prof =   96) AND ("%anim%" STRING_COMPARE_CASE "cl" = 0) AND (alt_profs = 2))) BEGIN // club (iwd)
-    READ_LONG 0x1e usability
-    PATCH_IF ((usability & BIT22) = BIT22) BEGIN // if unusable by thieves
-      WRITE_LONG 0x1e (THIS BAND `BIT22) // remove thief flag
+INCLUDE ~cdtweaks/lib/regexp_itm.tpa~ // build regexp array if it doesn't exist
+
+ACTION_PHP_EACH cd_itm_anim AS item => anim BEGIN
+     
+  ACTION_IF ((($cd_itm_use("%item%") & BIT22) = BIT22) AND // if unusable by thieves and one of the following:
+            ((($cd_itm_type("%item%") =  16) OR                                                                                                             // daggers (all cases)
+              ($cd_itm_type("%item%") =  26) OR                                                                                                             // staves (all cases)
+              (($cd_itm_prof("%item%") =  90) AND                                                                                 (alt_profs = 0)) OR       // long swords (base, rebalanced)
+              (($cd_itm_type("%item%") =  20) AND ($cd_itm_prof("%item%") =  103) AND ("%anim%" STRING_COMPARE_CASE "s1" = 0) AND (alt_profs = 1)) OR       // long swords, ninjato (bg)
+              (($cd_itm_type("%item%") =  20) AND ($cd_itm_prof("%item%") =  102) AND ("%anim%" STRING_COMPARE_CASE "s1" = 0) AND (alt_profs = 2)) OR       // long swords, ninjato (iwd)
+              (($cd_itm_prof("%item%") =  91) AND                                                                                 (alt_profs = 0)) OR       // short swords (base, rebalanced)
+              (($cd_itm_type("%item%") =  19) AND ($cd_itm_prof("%item%") =  102) AND                                             (alt_profs = 1)) OR       // short swords (bg)
+              (($cd_itm_type("%item%") =  19) AND ($cd_itm_prof("%item%") =  105) AND                                             (alt_profs = 2)) OR       // short swords (iwd)
+              (($cd_itm_prof("%item%") =  94) AND                                                                                 (alt_profs = 0)) OR       // katanas (base, rebalanced) + wakizashi (rebalanced)
+              (($cd_itm_type("%item%") =  20) AND ($cd_itm_prof("%item%") =  103) AND ("%anim%" STRING_COMPARE_CASE "s3" = 0) AND (alt_profs = 1)) OR       // katanas (bg)
+              (($cd_itm_type("%item%") =  20) AND ($cd_itm_prof("%item%") =  102) AND ("%anim%" STRING_COMPARE_CASE "s3" = 0) AND (alt_profs = 2)) OR       // katanas (iwd)
+              (($cd_itm_prof("%item%") =  95) AND                                                                                 (alt_profs = 0)) OR       // scimitar/ninjato (base, rebalanced) + wakizashi (base)
+              (($cd_itm_type("%item%") =  19) AND ($cd_itm_prof("%item%") =  103) AND ("%anim%" STRING_COMPARE_CASE "ss" = 0) AND (alt_profs = 1)) OR       // wakizashi (bg)
+              (($cd_itm_type("%item%") =  19) AND ($cd_itm_prof("%item%") =  102) AND ("%anim%" STRING_COMPARE_CASE "ss" = 0) AND (alt_profs = 2)) OR       // wakizashi (iwd)
+              (($cd_itm_type("%item%") =  20) AND ($cd_itm_prof("%item%") =  103) AND ("%anim%" STRING_COMPARE_CASE "sc" = 0) AND (alt_profs = 1)) OR       // scimitar (bg)
+              (($cd_itm_type("%item%") =  20) AND ($cd_itm_prof("%item%") =  102) AND ("%anim%" STRING_COMPARE_CASE "sc" = 0) AND (alt_profs = 2)) OR       // scimitar (iwd)
+              (($cd_itm_prof("%item%") = 115) AND                                                                                 (alt_profs = 0)) OR       // club (base, rebalanced)
+              (($cd_itm_type("%item%") =  17) AND ($cd_itm_prof("%item%") =  105) AND ("%anim%" STRING_COMPARE_CASE "cl" = 0) AND (alt_profs = 1)) OR       // club (bg)
+              (($cd_itm_type("%item%") =  17) AND ($cd_itm_prof("%item%") =   96) AND ("%anim%" STRING_COMPARE_CASE "cl" = 0) AND (alt_profs = 2))))) BEGIN // club (iwd) BEGIN // exclude zw, yw for 1pp Wings
+
+ACTION_IF regexp_debug BEGIN PRINT ~ == check passed, working on %item%~ END
+            
+    COPY_EXISTING ~%item%.itm~ ~override~
+      SET $cd_itm_use("%item%") = ($cd_itm_use("%item%") BAND `BIT22) // remove thief flag
+      WRITE_LONG 0x1e $cd_itm_use("%item%")
       LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 319 target = 1 parameter1 = 4 parameter2 = 5 timing = 2 special = 1082 END // add back as 319
-    END
-  END  
-  BUT_ONLY  
+      BUT_ONLY
+      
+  END // item check
+  
+END // action_php_each
   
 ACTION_IF game_is_bg2ee OR game_is_eet BEGIN // to try and prevent staff of the magi backstab abuse
 
@@ -10374,30 +10543,22 @@ GROUP @4
 REQUIRE_PREDICATE !MOD_IS_INSTALLED ~setup-iwd2-ease.tp2~ ~15~ @16 // iwd2 eou All Items Identified
 LABEL ~cd_tweaks_id_all_items~
 
-// SoS item needs to be un-ID'd for one quest - part 1
-ACTION_IF FILE_EXISTS_IN_GAME ~cbltcnt2.itm~ THEN BEGIN
+INCLUDE ~cdtweaks/lib/regexp_itm.tpa~ // build regexp array if it doesn't exist
 
-  COPY_EXISTING ~cbltcnt2.itm~ ~override~
-    READ_SHORT 0x42 "sos_lore"
-    BUT_ONLY
+ACTION_PHP_EACH cd_itm_lore AS item => lore BEGIN
+     
+  ACTION_IF (lore AND ("%item%" STRING_COMPARE_CASE "cbltcnt2")) BEGIN // if lore !0, but exclude sos item that needs to be unidentified for quest
 
-END
-
-PRINT @1
-COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
-  PATCH_IF (SOURCE_SIZE > 0x71) THEN BEGIN // protects against invalid files
-    WRITE_SHORT 0x42 0
-  END
-  BUT_ONLY
-
-// SoS item needs to be un-ID'd for one quest - part 2
-ACTION_IF FILE_EXISTS_IN_GAME ~cbltcnt2.itm~ THEN BEGIN
-
-  COPY_EXISTING ~cbltcnt2.itm~ ~override~
-    WRITE_SHORT 0x42 "%sos_lore%"
-    BUT_ONLY
-
-END
+ACTION_IF regexp_debug BEGIN PRINT ~ == check passed, working on %item%~ END
+           
+    COPY_EXISTING ~%item%.itm~ ~override~
+      SET $cd_itm_lore("%item%") = 0
+      WRITE_SHORT 0x42 $cd_itm_lore("%item%")
+      BUT_ONLY
+      
+  END // item check
+  
+END // action_php_each
 
 // i've learned that GAME_IS checks in a regexp copy are very slooooow, so...
 OUTER_SET itm_off_are = 0x078 // are v1.0
@@ -11698,14 +11859,23 @@ BEGIN @320000 DESIGNATED 3200
 GROUP @4
 LABEL ~cd_tweaks_sellable_items~
 
-PRINT @1
-COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
-  READ_SHORT 0x1c "type"  ELSE 0 // 17 - mace, 18 - sling, 26 - staff, 37 - book
-  READ_LONG  0x34 "price" ELSE 0
-  PATCH_IF ((("%type%" = 17) OR ("%type%" = 18) OR ("%type%" = 26) OR ("%type%" = 37)) AND ("%price%" = 0)) BEGIN
-    WRITE_LONG 0x34 1 // set price to 1 gp
-  END
-  BUT_ONLY
+INCLUDE ~cdtweaks/lib/regexp_itm.tpa~ // build regexp array if it doesn't exist
+
+ACTION_PHP_EACH cd_itm_type AS item => type BEGIN
+     
+  ACTION_IF (($cd_itm_price("%item%") = 0) AND // zero price and
+             (type = 17 OR type = 18 OR type = 26 OR type = 37)) BEGIN // 17 - mace, 18 - sling, 26 - staff, 37 - book
+
+ACTION_IF regexp_debug BEGIN PRINT ~ == check passed, working on %item%~ END
+           
+    COPY_EXISTING ~%item%.itm~ ~override~
+      SET $cd_itm_price("%item%") = 1
+      WRITE_LONG 0x34 $cd_itm_price("%item%")
+      BUT_ONLY
+      
+  END // item check
+  
+END // action_php_each
 
 // stores which buy arrows now buy bolts (mainly affects BGT/Tutu)
 COPY_EXISTING_REGEXP GLOB ~^.+\.sto$~ ~override~
@@ -12898,16 +13068,12 @@ SUBCOMPONENT @326000 // Recoverable ammunition
 REQUIRE_PREDICATE NOT GAME_IS ~bg1 iwd how totlm iwd2 pst~ @25 // no eff files
 LABEL ~cd_tweaks_recover_ammo_25~
 
-INCLUDE ~cdtweaks/lib/recoverable_weapons.tpa~
-
-LAF MAKE_AMMO_RECOVERABLE
-  INT_VAR
-    probability       = 25
-    ids_target        = 2
-    ids_value         = 0
-  STR_VAR
-    eff_template_file = ~cdtweaks/eff/a7_hitfx.eff~
-END
+INCLUDE ~cdtweaks/lib/recoverable_functions.tpa~
+OUTER_SET probability = 25
+OUTER_SET ids_target = 2
+OUTER_SET ids_value = 0
+OUTER_SPRINT eff_template_file ~cdtweaks/eff/a7_hitfx.eff~
+INCLUDE ~cdtweaks/lib/recoverable_ammo.tpa~
 
 /////                                                  \\\\\
 ///// 50% chance to recover after a successful hit     \\\\\
@@ -12919,16 +13085,12 @@ SUBCOMPONENT @326000 // Recoverable ammunition
 REQUIRE_PREDICATE NOT GAME_IS ~bg1 iwd how totlm iwd2 pst~ @25 // no eff files
 LABEL ~cd_tweaks_recover_ammo_50~
 
-INCLUDE ~cdtweaks/lib/recoverable_weapons.tpa~
-
-LAF MAKE_AMMO_RECOVERABLE
-  INT_VAR
-    probability       = 50
-    ids_target        = 2
-    ids_value         = 0
-  STR_VAR
-    eff_template_file = ~cdtweaks/eff/a7_hitfx.eff~
-END
+INCLUDE ~cdtweaks/lib/recoverable_functions.tpa~
+OUTER_SET probability = 50
+OUTER_SET ids_target = 2
+OUTER_SET ids_value = 0
+OUTER_SPRINT eff_template_file ~cdtweaks/eff/a7_hitfx.eff~
+INCLUDE ~cdtweaks/lib/recoverable_ammo.tpa~
 
 /////                                                  \\\\\
 ///// 75% chance to recover after a successful hit     \\\\\
@@ -12940,16 +13102,12 @@ SUBCOMPONENT @326000 // Recoverable ammunition
 REQUIRE_PREDICATE NOT GAME_IS ~bg1 iwd how totlm iwd2 pst~ @25 // no eff files
 LABEL ~cd_tweaks_recover_ammo_75~
 
-INCLUDE ~cdtweaks/lib/recoverable_weapons.tpa~
-
-LAF MAKE_AMMO_RECOVERABLE
-  INT_VAR
-    probability       = 75
-    ids_target        = 2
-    ids_value         = 0
-  STR_VAR
-    eff_template_file = ~cdtweaks/eff/a7_hitfx.eff~
-END
+INCLUDE ~cdtweaks/lib/recoverable_functions.tpa~
+OUTER_SET probability = 75
+OUTER_SET ids_target = 2
+OUTER_SET ids_value = 0
+OUTER_SPRINT eff_template_file ~cdtweaks/eff/a7_hitfx.eff~
+INCLUDE ~cdtweaks/lib/recoverable_ammo.tpa~
 
 /////                                                  \\\\\
 ///// 100% chance to recover after a successful hit    \\\\\
@@ -12961,16 +13119,12 @@ SUBCOMPONENT @326000 // Recoverable ammunition
 REQUIRE_PREDICATE NOT GAME_IS ~bg1 iwd how totlm iwd2 pst~ @25 // no eff files
 LABEL ~cd_tweaks_recover_ammo_100~
 
-INCLUDE ~cdtweaks/lib/recoverable_weapons.tpa~
-
-LAF MAKE_AMMO_RECOVERABLE
-  INT_VAR
-    probability       = 100
-    ids_target        = 2
-    ids_value         = 0
-  STR_VAR
-    eff_template_file = ~cdtweaks/eff/a7_hitfx.eff~
-END
+INCLUDE ~cdtweaks/lib/recoverable_functions.tpa~
+OUTER_SET probability = 100
+OUTER_SET ids_target = 2
+OUTER_SET ids_value = 0
+OUTER_SPRINT eff_template_file ~cdtweaks/eff/a7_hitfx.eff~
+INCLUDE ~cdtweaks/lib/recoverable_ammo.tpa~
 
 /////                                                  \\\\\
 ///// 25% chance to recover after a successful hit,    \\\\\
@@ -12983,16 +13137,12 @@ SUBCOMPONENT @326000 // Recoverable ammunition
 REQUIRE_PREDICATE NOT GAME_IS ~bg1 iwd how totlm iwd2 pst~ @25 // no eff files
 LABEL ~cd_tweaks_recover_ammo_25_enemy_only~
 
-INCLUDE ~cdtweaks/lib/recoverable_weapons.tpa~
-
-LAF MAKE_AMMO_RECOVERABLE
-  INT_VAR
-    probability       = 25
-    ids_target        = 2
-    ids_value         = 200
-  STR_VAR
-    eff_template_file = ~cdtweaks/eff/a7_hitfx.eff~
-END
+INCLUDE ~cdtweaks/lib/recoverable_functions.tpa~
+OUTER_SET probability = 25
+OUTER_SET ids_target = 2
+OUTER_SET ids_value = 200
+OUTER_SPRINT eff_template_file ~cdtweaks/eff/a7_hitfx.eff~
+INCLUDE ~cdtweaks/lib/recoverable_ammo.tpa~
 
 /////                                                  \\\\\
 ///// 50% chance to recover after a successful hit,    \\\\\
@@ -13005,16 +13155,12 @@ SUBCOMPONENT @326000 // Recoverable ammunition
 REQUIRE_PREDICATE NOT GAME_IS ~bg1 iwd how totlm iwd2 pst~ @25 // no eff files
 LABEL ~cd_tweaks_recover_ammo_50_enemy_only~
 
-INCLUDE ~cdtweaks/lib/recoverable_weapons.tpa~
-
-LAF MAKE_AMMO_RECOVERABLE
-  INT_VAR
-    probability       = 50
-    ids_target        = 2
-    ids_value         = 200
-  STR_VAR
-    eff_template_file = ~cdtweaks/eff/a7_hitfx.eff~
-END
+INCLUDE ~cdtweaks/lib/recoverable_functions.tpa~
+OUTER_SET probability = 50
+OUTER_SET ids_target = 2
+OUTER_SET ids_value = 200
+OUTER_SPRINT eff_template_file ~cdtweaks/eff/a7_hitfx.eff~
+INCLUDE ~cdtweaks/lib/recoverable_ammo.tpa~
 
 /////                                                  \\\\\
 ///// 75% chance to recover after a successful hit,    \\\\\
@@ -13027,16 +13173,12 @@ SUBCOMPONENT @326000 // Recoverable ammunition
 REQUIRE_PREDICATE NOT GAME_IS ~bg1 iwd how totlm iwd2 pst~ @25 // no eff files
 LABEL ~cd_tweaks_recover_ammo_75_enemy_only~
 
-INCLUDE ~cdtweaks/lib/recoverable_weapons.tpa~
-
-LAF MAKE_AMMO_RECOVERABLE
-  INT_VAR
-    probability       = 75
-    ids_target        = 2
-    ids_value         = 200
-  STR_VAR
-    eff_template_file = ~cdtweaks/eff/a7_hitfx.eff~
-END
+INCLUDE ~cdtweaks/lib/recoverable_functions.tpa~
+OUTER_SET probability = 75
+OUTER_SET ids_target = 2
+OUTER_SET ids_value = 200
+OUTER_SPRINT eff_template_file ~cdtweaks/eff/a7_hitfx.eff~
+INCLUDE ~cdtweaks/lib/recoverable_ammo.tpa~
 
 /////                                                  \\\\\
 ///// 100% chance to recover after a successful hit,   \\\\\
@@ -13049,16 +13191,12 @@ SUBCOMPONENT @326000 // Recoverable ammunition
 REQUIRE_PREDICATE NOT GAME_IS ~bg1 iwd how totlm iwd2 pst~ @25 // no eff files
 LABEL ~cd_tweaks_recover_ammo_100_enemy_only~
 
-INCLUDE ~cdtweaks/lib/recoverable_weapons.tpa~
-
-LAF MAKE_AMMO_RECOVERABLE
-  INT_VAR
-    probability       = 100
-    ids_target        = 2
-    ids_value         = 200
-  STR_VAR
-    eff_template_file = ~cdtweaks/eff/a7_hitfx.eff~
-END
+INCLUDE ~cdtweaks/lib/recoverable_functions.tpa~
+OUTER_SET probability = 100
+OUTER_SET ids_target = 2
+OUTER_SET ids_value = 200
+OUTER_SPRINT eff_template_file ~cdtweaks/eff/a7_hitfx.eff~
+INCLUDE ~cdtweaks/lib/recoverable_ammo.tpa~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -13078,16 +13216,12 @@ SUBCOMPONENT @327000 // Recoverable ammunition
 REQUIRE_PREDICATE NOT GAME_IS ~bg1 iwd how totlm iwd2 pst~ @25 // no eff files
 LABEL ~cd_tweaks_recover_throwing_weapons_25~
 
+INCLUDE ~cdtweaks/lib/recoverable_functions.tpa~
+OUTER_SET probability = 25
+OUTER_SET ids_target = 2
+OUTER_SET ids_value = 0
+OUTER_SPRINT eff_template_file ~cdtweaks/eff/a7_hitfx.eff~
 INCLUDE ~cdtweaks/lib/recoverable_weapons.tpa~
-
-LAF MAKE_WEAPONS_RECOVERABLE
-  INT_VAR
-    probability       = 25
-    ids_target        = 2
-    ids_value         = 0
-  STR_VAR
-    eff_template_file = ~cdtweaks/eff/a7_hitfx.eff~
-END
 
 /////                                                  \\\\\
 ///// 50% chance to recover after a successful hit     \\\\\
@@ -13099,16 +13233,12 @@ SUBCOMPONENT @327000 // Recoverable ammunition
 REQUIRE_PREDICATE NOT GAME_IS ~bg1 iwd how totlm iwd2 pst~ @25 // no eff files
 LABEL ~cd_tweaks_recover_throwing_weapons_50~
 
+INCLUDE ~cdtweaks/lib/recoverable_functions.tpa~
+OUTER_SET probability = 50
+OUTER_SET ids_target = 2
+OUTER_SET ids_value = 0
+OUTER_SPRINT eff_template_file ~cdtweaks/eff/a7_hitfx.eff~
 INCLUDE ~cdtweaks/lib/recoverable_weapons.tpa~
-
-LAF MAKE_WEAPONS_RECOVERABLE
-  INT_VAR
-    probability       = 50
-    ids_target        = 2
-    ids_value         = 0
-  STR_VAR
-    eff_template_file = ~cdtweaks/eff/a7_hitfx.eff~
-END
 
 /////                                                  \\\\\
 ///// 75% chance to recover after a successful hit     \\\\\
@@ -13120,16 +13250,12 @@ SUBCOMPONENT @327000 // Recoverable ammunition
 REQUIRE_PREDICATE NOT GAME_IS ~bg1 iwd how totlm iwd2 pst~ @25 // no eff files
 LABEL ~cd_tweaks_recover_throwing_weapons_75~
 
+INCLUDE ~cdtweaks/lib/recoverable_functions.tpa~
+OUTER_SET probability = 75
+OUTER_SET ids_target = 2
+OUTER_SET ids_value = 0
+OUTER_SPRINT eff_template_file ~cdtweaks/eff/a7_hitfx.eff~
 INCLUDE ~cdtweaks/lib/recoverable_weapons.tpa~
-
-LAF MAKE_WEAPONS_RECOVERABLE
-  INT_VAR
-    probability       = 75
-    ids_target        = 2
-    ids_value         = 0
-  STR_VAR
-    eff_template_file = ~cdtweaks/eff/a7_hitfx.eff~
-END
 
 /////                                                  \\\\\
 ///// 100% chance to recover after a successful hit    \\\\\
@@ -13141,16 +13267,12 @@ SUBCOMPONENT @327000 // Recoverable ammunition
 REQUIRE_PREDICATE NOT GAME_IS ~bg1 iwd how totlm iwd2 pst~ @25 // no eff files
 LABEL ~cd_tweaks_recover_throwing_weapons_100~
 
+INCLUDE ~cdtweaks/lib/recoverable_functions.tpa~
+OUTER_SET probability = 100
+OUTER_SET ids_target = 2
+OUTER_SET ids_value = 0
+OUTER_SPRINT eff_template_file ~cdtweaks/eff/a7_hitfx.eff~
 INCLUDE ~cdtweaks/lib/recoverable_weapons.tpa~
-
-LAF MAKE_WEAPONS_RECOVERABLE
-  INT_VAR
-    probability       = 100
-    ids_target        = 2
-    ids_value         = 0
-  STR_VAR
-    eff_template_file = ~cdtweaks/eff/a7_hitfx.eff~
-END
 
 /////                                                  \\\\\
 ///// 25% chance to recover after a successful hit,    \\\\\
@@ -13163,16 +13285,12 @@ SUBCOMPONENT @327000 // Recoverable ammunition
 REQUIRE_PREDICATE NOT GAME_IS ~bg1 iwd how totlm iwd2 pst~ @25 // no eff files
 LABEL ~cd_tweaks_recover_throwing_weapons_25_enemy_only~
 
+INCLUDE ~cdtweaks/lib/recoverable_functions.tpa~
+OUTER_SET probability = 25
+OUTER_SET ids_target = 2
+OUTER_SET ids_value = 200
+OUTER_SPRINT eff_template_file ~cdtweaks/eff/a7_hitfx.eff~
 INCLUDE ~cdtweaks/lib/recoverable_weapons.tpa~
-
-LAF MAKE_WEAPONS_RECOVERABLE
-  INT_VAR
-    probability       = 25
-    ids_target        = 2
-    ids_value         = 200
-  STR_VAR
-    eff_template_file = ~cdtweaks/eff/a7_hitfx.eff~
-END
 
 /////                                                  \\\\\
 ///// 50% chance to recover after a successful hit,    \\\\\
@@ -13185,16 +13303,12 @@ SUBCOMPONENT @327000 // Recoverable ammunition
 REQUIRE_PREDICATE NOT GAME_IS ~bg1 iwd how totlm iwd2 pst~ @25 // no eff files
 LABEL ~cd_tweaks_recover_throwing_weapons_50_enemy_only~
 
+INCLUDE ~cdtweaks/lib/recoverable_functions.tpa~
+OUTER_SET probability = 50
+OUTER_SET ids_target = 2
+OUTER_SET ids_value = 200
+OUTER_SPRINT eff_template_file ~cdtweaks/eff/a7_hitfx.eff~
 INCLUDE ~cdtweaks/lib/recoverable_weapons.tpa~
-
-LAF MAKE_WEAPONS_RECOVERABLE
-  INT_VAR
-    probability       = 50
-    ids_target        = 2
-    ids_value         = 200
-  STR_VAR
-    eff_template_file = ~cdtweaks/eff/a7_hitfx.eff~
-END
 
 /////                                                  \\\\\
 ///// 75% chance to recover after a successful hit,    \\\\\
@@ -13207,16 +13321,12 @@ SUBCOMPONENT @327000 // Recoverable ammunition
 REQUIRE_PREDICATE NOT GAME_IS ~bg1 iwd how totlm iwd2 pst~ @25 // no eff files
 LABEL ~cd_tweaks_recover_throwing_weapons_75_enemy_only~
 
+INCLUDE ~cdtweaks/lib/recoverable_functions.tpa~
+OUTER_SET probability = 75
+OUTER_SET ids_target = 2
+OUTER_SET ids_value = 200
+OUTER_SPRINT eff_template_file ~cdtweaks/eff/a7_hitfx.eff~
 INCLUDE ~cdtweaks/lib/recoverable_weapons.tpa~
-
-LAF MAKE_WEAPONS_RECOVERABLE
-  INT_VAR
-    probability       = 75
-    ids_target        = 2
-    ids_value         = 200
-  STR_VAR
-    eff_template_file = ~cdtweaks/eff/a7_hitfx.eff~
-END
 
 /////                                                  \\\\\
 ///// 100% chance to recover after a successful hit,   \\\\\
@@ -13229,16 +13339,12 @@ SUBCOMPONENT @327000 // Recoverable ammunition
 REQUIRE_PREDICATE NOT GAME_IS ~bg1 iwd how totlm iwd2 pst~ @25 // no eff files
 LABEL ~cd_tweaks_recover_throwing_weapons_100_enemy_only~
 
+INCLUDE ~cdtweaks/lib/recoverable_functions.tpa~
+OUTER_SET probability = 100
+OUTER_SET ids_target = 2
+OUTER_SET ids_value = 200
+OUTER_SPRINT eff_template_file ~cdtweaks/eff/a7_hitfx.eff~
 INCLUDE ~cdtweaks/lib/recoverable_weapons.tpa~
-
-LAF MAKE_WEAPONS_RECOVERABLE
-  INT_VAR
-    probability       = 100
-    ids_target        = 2
-    ids_value         = 200
-  STR_VAR
-    eff_template_file = ~cdtweaks/eff/a7_hitfx.eff~
-END
 
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -13964,27 +14070,20 @@ LABEL ~cd_tweaks_sensible_regeneration_when_traveling~
 OUTER_SET regen_items = 0
 OUTER_SPRINT items_yes ~~
 OUTER_SPRINT items_no ~~
-COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
-  READ_BYTE 0x18 flags
-  PATCH_IF ((flags & BIT2) = BIT2) BEGIN // droppable
-    READ_LONG  0x6a fx_off
-    READ_SHORT 0x70 fx_num
-    FOR (index = 0 ; index < fx_num ; ++index) BEGIN
-      READ_SHORT (fx_off +        (index * 0x30)) opcode
-      PATCH_IF opcode = 98 BEGIN
-        READ_LONG  (fx_off + 0x04 + (index * 0x30)) parameter1
-        READ_LONG  (fx_off + 0x08 + (index * 0x30)) parameter2
-        PATCH_IF ((parameter2 < 3) OR                             // any HP per second OR
-                  ((parameter2 = 3) AND (parameter1 < 10))) BEGIN // 1 HP per 9 seconds or better
-          SET regen_items += 1 // up the count
-          DEFINE_ASSOCIATIVE_ARRAY cd_regen_items BEGIN ~%SOURCE_RES%~ => 0 END
-          SPRINT items_yes ~%items_yes%%WNL%PartyHasItem("%SOURCE_RES%")~
-          SPRINT items_no ~%items_no%%WNL%!PartyHasItem("%SOURCE_RES%")~
-        END // param check
-      END // opcode check
-    END // fx loop
-  END // droppable
-  BUT_ONLY
+
+INCLUDE ~cdtweaks/lib/regexp_itm.tpa~ // build regexp array if it doesn't exist
+
+ACTION_PHP_EACH cd_itm_regen AS item => regen BEGIN
+     
+  ACTION_IF (regen AND (($cd_itm_flags("%item%") & BIT2) = BIT2)) BEGIN // has regeneration and is droppable
+    OUTER_SET regen_items += 1 // up the count
+    ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_regen_items BEGIN ~%SOURCE_RES%~ => 0 END
+    OUTER_SPRINT items_yes ~%items_yes%%WNL%PartyHasItem("%SOURCE_RES%")~
+    OUTER_SPRINT items_no ~%items_no%%WNL%!PartyHasItem("%SOURCE_RES%")~
+      
+  END // item check
+  
+END // action_php_each
 
 ACTION_IF !regen_items BEGIN // don't bother if no items
 

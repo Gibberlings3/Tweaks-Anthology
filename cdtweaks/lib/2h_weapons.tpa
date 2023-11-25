@@ -1,3 +1,5 @@
+ACTION_IF original_bg1 OR original_iwd THEN BEGIN OUTER_SET use_type = 1 OUTER_SET prof_check = bg1_type END ELSE BEGIN OUTER_SET use_type = 0 END
+
 DEFINE_PATCH_MACRO ~2h_descripts~ BEGIN
 
   SPRINT match_1h @202003
@@ -6,356 +8,345 @@ DEFINE_PATCH_MACRO ~2h_descripts~ BEGIN
 
 END
 
-
-
-DEFINE_ACTION_FUNCTION 2h_weapons
-  INT_VAR prof_check   = 89
-          bg1_type     = 20
-          overhead     = 60
-          slashing     = 40
-          thrusting    = 0
-  STR_VAR 2da_file     = cdbastrd
-          prefix       = bs
-          2h_bam       = isw2h01
-          1h_bam       = isw1h01
-          2h_paperdoll = S2
-BEGIN
-
-  ACTION_IF MOD_IS_INSTALLED ~amber.tp2~ ~0~ AND prof_check != 92 BEGIN // amber compat, but only for 2h bastard swords and 2h katanas
-    WITH_TRA ~amber/tra/english/dialogs.tra~ ~amber/tra/%LANGUAGE%/dialogs.tra~ BEGIN
-      OUTER_SET amber_name    = RESOLVE_STR_REF(@100)
-      OUTER_SET amber_2hsword = RESOLVE_STR_REF(@331)
-    END
-    ACTION_CLEAR_ARRAY cd_amber_restrictions
-  END ELSE BEGIN
-    OUTER_SET amber_name    = 0
-    OUTER_SET amber_2hsword = 0
+ACTION_IF MOD_IS_INSTALLED ~amber.tp2~ ~0~ AND prof_check != 92 BEGIN // amber compat, but only for 2h bastard swords and 2h katanas
+  WITH_TRA ~amber/tra/english/dialogs.tra~ ~amber/tra/%LANGUAGE%/dialogs.tra~ BEGIN
+    OUTER_SET amber_name    = RESOLVE_STR_REF(@100)
+    OUTER_SET amber_2hsword = RESOLVE_STR_REF(@331)
   END
+  ACTION_CLEAR_ARRAY cd_amber_restrictions
+END ELSE BEGIN
+  OUTER_SET amber_name    = 0
+  OUTER_SET amber_2hsword = 0
+END
 
-  ACTION_IF FILE_EXISTS_IN_GAME ~achand1a.itm~ BEGIN OUTER_SET braegar_compat = 1 END ELSE BEGIN OUTER_SET braegar_compat = 0 END // braegar compatability 
+ACTION_IF FILE_EXISTS_IN_GAME ~achand1a.itm~ BEGIN OUTER_SET braegar_compat = 1 END ELSE BEGIN OUTER_SET braegar_compat = 0 END // braegar compatability 
 
-  ACTION_IF use_type THEN BEGIN OUTER_SET prof_check = bg1_type END
-  
-  ACTION_CLEAR_ARRAY cd_bastard // this array used to give item charges
-  ACTION_CLEAR_ARRAY cd_2hweap  // used to rpevent dupe entries
+ACTION_CLEAR_ARRAY cd_bastard    // this array used to give item charges
+ACTION_CLEAR_ARRAY cd_2hweap     // used to prevent dupe entries
+ACTION_CLEAR_ARRAY cd_working_2h // array built from 2da file
 
-  // lookup table
-  ACTION_IF FILE_EXISTS ~weidu_external/cdtweaks/2da/%2da_file%_final.2da~ BEGIN
-    COPY ~weidu_external/cdtweaks/2da/%2da_file%_final.2da~ ~weidu_external/cdtweaks/2da/%2da_file%.2da~
-  END ELSE BEGIN
-    COPY ~cdtweaks/2da/%2da_file%.2da~ ~weidu_external/cdtweaks/2da/%2da_file%.2da~
+// lookup table
+ACTION_IF FILE_EXISTS ~weidu_external/cdtweaks/2da/%2da_file%_final.2da~ BEGIN
+  COPY ~weidu_external/cdtweaks/2da/%2da_file%_final.2da~ ~weidu_external/cdtweaks/2da/%2da_file%.2da~
+END ELSE BEGIN
+  COPY ~cdtweaks/2da/%2da_file%.2da~ ~weidu_external/cdtweaks/2da/%2da_file%.2da~
+END  
+
+COPY ~weidu_external/cdtweaks/2da/%2da_file%.2da~ ~weidu_external/cdtweaks/2da/%2da_file%.2da~
+  COUNT_2DA_ROWS 3 cd_count
+  FOR (row = 0 ; row < cd_count ; ++row) BEGIN // skip header
+    READ_2DA_ENTRY row 0 3 item
+    TO_LOWER item
+    SET $cd_2hweap("%item%") = 1
   END  
-  
-  COPY ~weidu_external/cdtweaks/2da/%2da_file%.2da~ ~weidu_external/cdtweaks/2da/%2da_file%.2da~
-    COUNT_2DA_ROWS 3 cd_count
-    FOR (row = 0 ; row < cd_count ; ++row) BEGIN // skip header
-      READ_2DA_ENTRY row 0 3 item
-      TO_LOWER item
-      SET $cd_2hweap("%item%") = 1
-    END  
-  
-  // this array used to give item charges
-  ACTION_CLEAR_ARRAY cd_bastard
-  
-  // search for items and push them into lookup table if not already listed
-  COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
-    SET prof_check_passed = 0
-    PATCH_IF (use_type = 1) BEGIN // only used for bastard swords & axes on oBG, so add extra checks
-      READ_SHORT 0x1c prof
-      PATCH_IF (prof = prof_check) BEGIN
-        PATCH_IF (prof_check = 25) BEGIN // axes are fine with simple check
-          SET prof_check_passed = 1 
-        END ELSE BEGIN                   // bastard swords need further checks
-          READ_LONG 0x08 gen_name
-          PATCH_IF gen_name = 6646 BEGIN // generic name is "bastard sword"
-            SET prof_check_passed = 1 
-          END ELSE BEGIN
-            PATCH_IF ((gen_name != 2893) AND (gen_name != 11052)) BEGIN // only proceed to usability check if generic name is not "Long Sword" or "Scimitar"
-              READ_LONG 0x1e usability
-              PATCH_IF (((usability & BIT22) = BIT22) AND    // unusable by thieves (excludes long swords)
-                        ((usability & BIT30) = BIT30)) BEGIN // unusable by druids (excludes scimitars)
-                SET prof_check_passed = 1 
-              END // usability check
-            END // gen_name != scimitar or long sword
-          END // gen_name = bastard
-        END // axe or bastard sword  
-      END // prof = prof_check
-    END ELSE BEGIN
-      READ_BYTE 0x31 prof
-      PATCH_IF prof = prof_check BEGIN SET prof_check_passed = 1 END
-    END
-    PATCH_IF prof_check_passed BEGIN
-      SPRINT item ~%SOURCE_RES%~
-      TO_LOWER item
-      PATCH_IF !VARIABLE_IS_SET $cd_2hweap("%item%") BEGIN // make sure not in array already
-        READ_BYTE 0x18 flags
-        PATCH_IF ((flags & 0b00000110) = BIT2) BEGIN // if droppable and one-handed
-          SET melee = 0
-          READ_LONG  0x64 abil_off
-          READ_SHORT 0x68 abil_num
-          FOR (index = 0 ; index < abil_num ; ++index) BEGIN
-            READ_SHORT (abil_off +        (index * 0x38)) type
-            PATCH_IF (type = 1) BEGIN
-              SET melee = 1
-            END
-            PATCH_IF (type = 2) BEGIN
-              SET melee = 0
-              SET index = abil_num // kills loop, prevents patching if ranged item
-            END
-          END
-          PATCH_IF melee BEGIN // if actual melee weapon
-            INNER_ACTION BEGIN
-        
-              OUTER_SET cd_count += 1
-              APPEND_OUTER ~weidu_external/cdtweaks/2da/%2da_file%.2da~ ~%item%  cd%prefix%%cd_count%  c!%prefix%%cd_count%~
 
-            END // inner_action
-          END // melee check
-        END // droppable/one-handed check
-      END // not already in array check
-    END // prof check      
-    BUT_ONLY
+INCLUDE ~cdtweaks/lib/regexp_itm.tpa~ // build regexp array if it doesn't exist
+
+ACTION_PHP_EACH cd_itm_prof AS item => prof BEGIN
+    
+  ACTION_IF (
+              (!VARIABLE_IS_SET $cd_2hweap("%item%")) AND         // make sure not in array already
+              (($cd_itm_flags("%item%") & 0b00000110) = BIT2) AND // if droppable and one-handed
+              (prof = prof_check) AND                             // prof check 
+              (
+                (use_type = 0) OR 
+                (
+                  (prof_check = 25) OR 
+                  ($cd_itm_name("%item%") = 6646) OR 
+                  (
+                    ($cd_itm_name("%item%") != 2893) AND 
+                    ($cd_itm_name("%item%") != 11052) AND 
+                    (($cd_itm_use("%item%")) = BIT22) AND
+                    (($cd_itm_use("%item%") & BIT30) = BIT30)
+                  )  
+                )
+              )  
+            ) BEGIN            
+
+ACTION_IF regexp_debug BEGIN PRINT ~ == check passed, working on %item%~ END   
+              
+           
+    COPY_EXISTING ~%item%.itm~ ~override~
+      SET melee = 0
+      READ_LONG  0x64 abil_off
+      READ_SHORT 0x68 abil_num
+      FOR (index = 0 ; index < abil_num ; ++index) BEGIN
+        READ_SHORT (abil_off +        (index * 0x38)) type
+        PATCH_IF (type = 1) BEGIN
+          SET melee = 1
+        END
+        PATCH_IF (type = 2) BEGIN
+          SET melee = 0
+          SET index = abil_num // kills loop, prevents patching if ranged item
+        END
+      END
+      PATCH_IF melee BEGIN // if actual melee weapon
+        INNER_ACTION BEGIN
+    
+          OUTER_SET cd_count += 1
+          APPEND_OUTER ~weidu_external/cdtweaks/2da/%2da_file%.2da~ ~%item%  cd%prefix%%cd_count%  c!%prefix%%cd_count%~
+
+        END // inner_action
+      END // melee check
+      BUT_ONLY
+      
+  END // crazy check
   
-  // copy lookup table w/o backup--this means further (re-)installs will
-  // keep the existing file names and prevent save breakage
-  COPY ~weidu_external/cdtweaks/2da/%2da_file%.2da~ ~weidu_external/cdtweaks/2da/%2da_file%.2da~
-    COUNT_2DA_ROWS 3 rows
-    FOR (index = 0 ; index < rows ; ++index) BEGIN
-      READ_2DA_ENTRY index 0 3 orig
-      READ_2DA_ENTRY index 1 3 1h
-      READ_2DA_ENTRY index 2 3 2h
-      INNER_ACTION BEGIN
-  
-        ACTION_IF FILE_EXISTS_IN_GAME ~%orig%.itm~ THEN BEGIN
-  
-          COPY_EXISTING ~%orig%.itm~ ~override~ // &$^*# CoM item names
-            SET prof_check_passed = 0
-            PATCH_IF (use_type = 1) BEGIN // only used for bastard swords & axes on oBG, so add extra checks
-              READ_SHORT 0x1c prof
-              PATCH_IF (prof_check = 25) BEGIN // axes
-                PATCH_IF (prof = prof_check) BEGIN
-                  SET prof_check_passed = 1 
-                END  
-              END ELSE BEGIN                   // bastard swords need further checks
-                READ_LONG 0x1e usability
-                PATCH_IF ((prof = prof_check) AND              // right type (large swords, 20)
-                          ((usability & BIT22) = BIT22) AND    // unusable by thieves (excludes long swords)
-                          ((usability & BIT30) = BIT30)) BEGIN // unusable by druids (excludes scimitars)
-                  SET prof_check_passed = 1 
-                END
-              END  
-            END ELSE BEGIN
-              READ_BYTE 0x31 prof
-              PATCH_IF prof = prof_check BEGIN SET prof_check_passed = 1 END
-            END
-          
-          ACTION_IF prof_check_passed = 1 THEN BEGIN
-  
-            COPY_EXISTING ~%orig%.itm~ ~override~
-              READ_SHORT  0x42 lore
-              PATCH_IF (lore = 0) BEGIN
-                SPRINT 1h ~%orig%~ // if original has no lore, don't bother with a second 1h item
-              END
-              READ_SHORT  0x68 abil_num
-              WRITE_SHORT 0x68 (abil_num + 1)
-              READ_LONG   0x6a fx_off
-              WRITE_LONG  0x6a (fx_off + 0x38)
-              PATCH_IF (abil_num > 0) BEGIN
-                READ_LONG   0x64 abil_off
-                READ_SHORT (abil_off + 0x1e + ((abil_num - 1) * 0x38)) last_fx_num
-                READ_SHORT (abil_off + 0x20 + ((abil_num - 1) * 0x38)) last_fx_idx
-                SET new_fx = (last_fx_idx + last_fx_num)
-              END ELSE BEGIN
-                READ_SHORT  0x70 new_fx
-              END
-              // because create inventory item doesn't have a way to set charges, create new and delete current
-              INSERT_BYTES   (fx_off +        (new_fx * 0x30)) 0x30 // new effect
-                WRITE_SHORT  (fx_off +        (new_fx * 0x30)) 122  // create inventory item
-                WRITE_BYTE   (fx_off + 0x02 + (new_fx * 0x30)) 1    // target: self
-                WRITE_BYTE   (fx_off + 0x0c + (new_fx * 0x30)) 1    // instant/permanent till death
-                WRITE_BYTE   (fx_off + 0x12 + (new_fx * 0x30)) 100  // probability
-                WRITE_ASCIIE (fx_off + 0x14 + (new_fx * 0x30)) ~%2h%~ #8
-              INSERT_BYTES   (fx_off       ) 0x38         // new ability
-                WRITE_BYTE   (fx_off       ) 3            // magical
-                WRITE_BYTE   (fx_off + 0x01) 1            // ID to use
-                WRITE_SHORT  (fx_off + 0x02) 3            // in item slots
-                WRITE_ASCIIE (fx_off + 0x04) ~%2h_bam%~ #8 // item bam
-                WRITE_SHORT  (fx_off + 0x0c) 5            // target: caster
-                WRITE_SHORT  (fx_off + 0x0e) 1            // range: 1
-                WRITE_SHORT  (fx_off + 0x1e) 1            // num effects: 1
-                WRITE_SHORT  (fx_off + 0x20) new_fx       // fx index
-                WRITE_SHORT  (fx_off + 0x22) 1            // num charges
-                WRITE_BYTE   (fx_off + 0x24) 1            // vanishes when drained
-                WRITE_LONG   (fx_off + 0x26) BIT11        // recharge after resting
-                WRITE_SHORT  (fx_off + 0x2a) 1            // projectile: none
-              BUT_ONLY
-  
-            ACTION_IF (abil_num > 3) BEGIN // don't worry about charges, just fix tooltips for loaded items
-  
-              ACTION_IF (FILE_CONTAINS_EVALUATED (~tooltip.2da~ ~^%SOURCE_RES% ~)) BEGIN
-  
-                COPY_EXISTING ~tooltip.2da~ ~override~
-                  REPLACE_TEXTUALLY ~^\(%orig%\)\([ %TAB%]+.+\)~ ~\1\2
+END // action_php_each 
+
+// copy lookup table w/o backup--this means further (re-)installs will
+// keep the existing file names and prevent save breakage
+COPY ~weidu_external/cdtweaks/2da/%2da_file%.2da~ ~weidu_external/cdtweaks/2da/%2da_file%.2da~
+  COUNT_2DA_ROWS 3 rows
+  FOR (index = 0 ; index < rows ; ++index) BEGIN
+    READ_2DA_ENTRY index 0 3 orig
+    READ_2DA_ENTRY index 1 3 1h
+    READ_2DA_ENTRY index 2 3 2h
+    DEFINE_ASSOCIATIVE_ARRAY cd_working_2h BEGIN ~%1h%~, ~%2h%~ => ~%orig%~ END
+  END
+  BUT_ONLY  
+
+ACTION_PHP_EACH cd_working_2h AS val => orig BEGIN
+
+  ACTION_IF FILE_EXISTS_IN_GAME ~%orig%.itm~ THEN BEGIN
+
+    COPY_EXISTING ~%orig%.itm~ ~override~ // &$^*# CoM item names
+      SET prof_check_passed = 0
+      PATCH_IF (use_type = 1) BEGIN // only used for bastard swords & axes on oBG, so add extra checks
+        READ_SHORT 0x1c prof
+        PATCH_IF (prof_check = 25) BEGIN // axes
+          PATCH_IF (prof = prof_check) BEGIN
+            SET prof_check_passed = 1 
+          END  
+        END ELSE BEGIN                   // bastard swords need further checks
+          READ_LONG 0x1e usability
+          PATCH_IF ((prof = prof_check) AND              // right type (large swords, 20)
+                    ((usability & BIT22) = BIT22) AND    // unusable by thieves (excludes long swords)
+                    ((usability & BIT30) = BIT30)) BEGIN // unusable by druids (excludes scimitars)
+            SET prof_check_passed = 1 
+          END
+        END  
+      END ELSE BEGIN
+        READ_BYTE 0x31 prof
+        PATCH_IF prof = prof_check BEGIN SET prof_check_passed = 1 END
+      END
+      BUT_ONLY
+    
+    ACTION_IF prof_check_passed = 1 THEN BEGIN
+
+      COPY_EXISTING ~%orig%.itm~ ~override~
+        READ_SHORT  0x42 lore
+        PATCH_IF (lore = 0) BEGIN
+          SPRINT 1h ~%orig%~ // if original has no lore, don't bother with a second 1h item
+        END ELSE BEGIN
+          SPRINT 1h ~%val_0%~
+        END  
+        SPRINT 2h ~%val_1%~
+        READ_SHORT  0x68 abil_num
+        WRITE_SHORT 0x68 (abil_num + 1)
+        READ_LONG   0x6a fx_off
+        WRITE_LONG  0x6a (fx_off + 0x38)
+        PATCH_IF (abil_num > 0) BEGIN
+          READ_LONG   0x64 abil_off
+          READ_SHORT (abil_off + 0x1e + ((abil_num - 1) * 0x38)) last_fx_num
+          READ_SHORT (abil_off + 0x20 + ((abil_num - 1) * 0x38)) last_fx_idx
+          SET new_fx = (last_fx_idx + last_fx_num)
+        END ELSE BEGIN
+          READ_SHORT  0x70 new_fx
+        END
+        // because create inventory item doesn't have a way to set charges, create new and delete current
+        INSERT_BYTES   (fx_off +        (new_fx * 0x30)) 0x30 // new effect
+          WRITE_SHORT  (fx_off +        (new_fx * 0x30)) 122  // create inventory item
+          WRITE_BYTE   (fx_off + 0x02 + (new_fx * 0x30)) 1    // target: self
+          WRITE_BYTE   (fx_off + 0x0c + (new_fx * 0x30)) 1    // instant/permanent till death
+          WRITE_BYTE   (fx_off + 0x12 + (new_fx * 0x30)) 100  // probability
+          WRITE_ASCIIE (fx_off + 0x14 + (new_fx * 0x30)) ~%2h%~ #8
+        INSERT_BYTES   (fx_off       ) 0x38         // new ability
+          WRITE_BYTE   (fx_off       ) 3            // magical
+          WRITE_BYTE   (fx_off + 0x01) 1            // ID to use
+          WRITE_SHORT  (fx_off + 0x02) 3            // in item slots
+          WRITE_ASCIIE (fx_off + 0x04) ~%2h_bam%~ #8 // item bam
+          WRITE_SHORT  (fx_off + 0x0c) 5            // target: caster
+          WRITE_SHORT  (fx_off + 0x0e) 1            // range: 1
+          WRITE_SHORT  (fx_off + 0x1e) 1            // num effects: 1
+          WRITE_SHORT  (fx_off + 0x20) new_fx       // fx index
+          WRITE_SHORT  (fx_off + 0x22) 1            // num charges
+          WRITE_BYTE   (fx_off + 0x24) 1            // vanishes when drained
+          WRITE_LONG   (fx_off + 0x26) BIT11        // recharge after resting
+          WRITE_SHORT  (fx_off + 0x2a) 1            // projectile: none
+        BUT_ONLY
+
+      ACTION_IF (abil_num > 2) BEGIN // don't worry about charges, just fix tooltips for loaded items
+
+        ACTION_IF (FILE_CONTAINS_EVALUATED (~tooltip.2da~ ~^%SOURCE_RES% ~)) BEGIN
+
+          COPY_EXISTING ~tooltip.2da~ ~override~
+            REPLACE_TEXTUALLY ~^\(%orig%\)\([ %TAB%]+.+\)~ ~\1\2
 %1h%\2
 %2h%\2~
 
-              END
+        END
 
-            END ELSE BEGIN // build charge array, add/fix tooltips
+      END ELSE BEGIN // build charge array, add/fix tooltips
 
-              ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_bastard BEGIN "%orig%" => "%abil_num%" END
+        ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_bastard BEGIN "%orig%" => "%abil_num%" END
 
-              ACTION_IF (FILE_CONTAINS_EVALUATED (~tooltip.2da~ ~^%orig% ~)) BEGIN // fix existing tooltips
+        ACTION_IF (FILE_CONTAINS_EVALUATED (~tooltip.2da~ ~^%orig% ~)) BEGIN // fix existing tooltips
 
-                COPY_EXISTING ~tooltip.2da~ ~override~
-                  PATCH_IF (abil_num = 0) BEGIN
-                    REPLACE_TEXTUALLY ~^\(%orig%\)\([ %TAB%]+\)\(-?[0-9]+\)\(.+\)~ ~\1\2CDTWOHANDED\3
+          COPY_EXISTING ~tooltip.2da~ ~override~
+            PATCH_IF (abil_num = 0) BEGIN
+              REPLACE_TEXTUALLY ~^\(%orig%\)\([ %TAB%]+\)\(-?[0-9]+\)\(.+\)~ ~\1\2CDTWOHANDED\3
 %1h%\2CDTWOHANDED\3
 %2h%\2CDONEHANDED\3~
-                  END ELSE
-                  PATCH_IF (abil_num = 1) BEGIN
-                    REPLACE_TEXTUALLY ~^\(%orig%\)\([ %TAB%]+-?[0-9]+[ %TAB%]+\)\(-?[0-9]+\)\(.+\)~ ~\1\2CDTWOHANDED\3
+            END ELSE
+            PATCH_IF (abil_num = 1) BEGIN
+              REPLACE_TEXTUALLY ~^\(%orig%\)\([ %TAB%]+-?[0-9]+[ %TAB%]+\)\(-?[0-9]+\)\(.+\)~ ~\1\2CDTWOHANDED\3
 %1h%\2CDTWOHANDED\3
 %2h%\2CDONEHANDED\3~
-                  END ELSE
-                  PATCH_IF (abil_num = 2) BEGIN
-                    REPLACE_TEXTUALLY ~^\(%orig%\)\([ %TAB%]+-?[0-9]+[ %TAB%]+-?[0-9]+[ %TAB%]+\)\(-?[0-9]+\)~ ~\1\2CDTWOHANDED
+            END ELSE
+            PATCH_IF (abil_num = 2) BEGIN
+              REPLACE_TEXTUALLY ~^\(%orig%\)\([ %TAB%]+-?[0-9]+[ %TAB%]+-?[0-9]+[ %TAB%]+\)\(-?[0-9]+\)~ ~\1\2CDTWOHANDED
 %1h%\2CDTWOHANDED
 %2h%\2CDONEHANDED~
-                  END
+            END
 
-              END ELSE BEGIN // or add as new tooltips
+        END ELSE BEGIN // or add as new tooltips
 
-                ACTION_IF (abil_num = 0) BEGIN
-                  APPEND ~tooltip.2da~ ~%orig% CDTWOHANDED -1 -1
+          ACTION_IF (abil_num = 0) BEGIN
+            APPEND ~tooltip.2da~ ~%orig% CDTWOHANDED -1 -1
 %2h% CDONEHANDED -1 -1~
-                  APPEND ~tooltip.2da~ ~%1h% CDTWOHANDED -1 -1~ UNLESS ~^%1h% ~ // separate to avoid duplicate entries for 0 lore
-                END
+            APPEND ~tooltip.2da~ ~%1h% CDTWOHANDED -1 -1~ UNLESS ~^%1h% ~ // separate to avoid duplicate entries for 0 lore
+          END
 
-                ACTION_IF (abil_num = 1) BEGIN
-                  APPEND ~tooltip.2da~ ~%orig% -1 CDTWOHANDED -1
+          ACTION_IF (abil_num = 1) BEGIN
+            APPEND ~tooltip.2da~ ~%orig% -1 CDTWOHANDED -1
 %2h% -1 CDONEHANDED -1~
-                  APPEND ~tooltip.2da~ ~%1h% -1 CDTWOHANDED -1~ UNLESS ~^%1h% ~
-                END
+            APPEND ~tooltip.2da~ ~%1h% -1 CDTWOHANDED -1~ UNLESS ~^%1h% ~
+          END
 
-                ACTION_IF (abil_num = 2) BEGIN
-                  APPEND ~tooltip.2da~ ~%orig% -1 -1 CDTWOHANDED
+          ACTION_IF (abil_num = 2) BEGIN
+            APPEND ~tooltip.2da~ ~%orig% -1 -1 CDTWOHANDED
 %2h% -1 -1 CDONEHANDED~
-                  APPEND ~tooltip.2da~ ~%1h% -1 -1 CDTWOHANDED~ UNLESS ~^%1h% ~
-                END
-  
-              END
-  
-            END
-  
-            COPY_EXISTING ~%orig%.itm~ ~override/%2h%.itm~
-                          ~%orig%.itm~ ~override/%1h%.itm~
-              WRITE_SHORT 0x42 0 // no lore
-              
-            ACTION_IF braegar_compat BEGIN
+            APPEND ~tooltip.2da~ ~%1h% -1 -1 CDTWOHANDED~ UNLESS ~^%1h% ~
+          END
 
-              COPY_EXISTING ~achand1a.itm~ ~override~
-                LPF CLONE_EFFECT INT_VAR multi_match = 1 match_opcode = 180 STR_VAR resource = EVAL ~%2h%~ END
-                BUT_ONLY 
-
-            END                
-  
-            COPY_EXISTING ~%2h%.itm~ ~override~
-              WRITE_ASCIIE (fx_off + 0x4c + (new_fx * 0x30)) ~%1h%~ #8 // exploit the fact that fx_off and new_fx carry over
-              WRITE_ASCIIE (fx_off + 0x04) ~%1h_bam%~ #8               // item bam
-              WRITE_BYTE  0x18 THIS | BIT1                             // add two-handed flag
-              WRITE_ASCIIE 0x22 ~%2h_paperdoll%~ #2                    // paperdoll animation
-              FOR (loops = 0; loops < abil_num; ++loops) BEGIN
-                READ_BYTE (abil_off + (loops * 0x38)) type
-                PATCH_IF (type = 1) BEGIN // adjust melee abilities to 2h sword mix of attacks
-                  WRITE_SHORT (abil_off + 0x2c + (loops * 0x38)) overhead  // overhand attacks
-                  WRITE_SHORT (abil_off + 0x2e + (loops * 0x38)) slashing  // slashing attacks
-                  WRITE_SHORT (abil_off + 0x30 + (loops * 0x38)) thrusting // thrusting attacks
-                END
-              END
-              // update descriptions
-              PATCH_FOR_EACH offset IN 0x50 0x54 BEGIN
-                READ_STRREF ~%offset%~ desc
-                PATCH_IF ("%desc%" STRING_COMPARE_REGEXP ~<Invalid Strref -?[0-9]+>~) BEGIN // checking for valid content in string
-                  INNER_PATCH_SAVE desc ~%desc%~ BEGIN
-                    LAUNCH_PATCH_MACRO ~2h_descripts~
-                  END
-                  SAY_EVALUATED ~%offset%~ ~%desc%~ // write changes
-                END
-              END
-              PATCH_IF amber_name BEGIN // compat: amber won't use 2h swords
-                PATCH_IF enhanced_edition BEGIN 
-                  LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 319 target = 1 parameter2 = 11 timing = 2 special = amber_name STR_VAR resource = ~m#amber~ END
-                END ELSE BEGIN
-                  DEFINE_ASSOCIATIVE_ARRAY cd_amber_restrictions BEGIN "%SOURCE_RES%" => 20 END // array handled below
-                END  
-              END  
-
-            ACTION_IF (game_is_eet) AND (FILE_CONTAINS_EVALUATED (~K#SHATWE.BCS~ ~"%1h%"~)) BEGIN
-              EXTEND_BOTTOM ~K#SHATWE.BCS~ ~cdtweaks/baf/eet_shattering.baf~ EVALUATE_BUFFER
-            END
-
-          END // prof sanity check
-  
-        END // action_if file_exists
-  
-      END
-    END
-
-  COPY_EXISTING ~tooltip.2da~ ~override~
-    REPLACE ~CDONEHANDED~ @202001
-    REPLACE ~CDTWOHANDED~ @202002
-    PRETTY_PRINT_2DA
-  
-  PRINT @1
-  COPY_EXISTING_REGEXP GLOB ~^.+\.[ac]re$~ ~override~
-    PATCH_IF ("%SOURCE_FILE%" STRING_COMPARE_REGEXP "^.+\.cre$" = 0) BEGIN // if creature
-      PATCH_IF original_iwd BEGIN
-        READ_LONG 0x324 itm_off ELSE 0
-        READ_LONG 0x328 itm_num ELSE 0
-      END ELSE BEGIN
-        READ_LONG 0x2bc itm_off ELSE 0
-        READ_LONG 0x2c0 itm_num ELSE 0
-      END  
-    END ELSE BEGIN
-      READ_LONG  0x78 itm_off ELSE 0
-      READ_SHORT 0x76 itm_num ELSE 0
-    END
-    FOR (index = 0 ; index < itm_num ; ++index) BEGIN
-      READ_ASCII (itm_off +        (0x14 * index)) item ELSE ""
-      PHP_EACH cd_bastard AS itemname => charge BEGIN
-        PATCH_IF ("%item%" STRING_COMPARE_CASE "%itemname%" = 0) BEGIN
-          WRITE_SHORT (itm_off + 0x0a + (charge * 0x02) + (0x14 * index)) 1 // add charge
         END
-      END
-    END
-    BUT_ONLY
-  
-  // add charges to items being sold
-  COPY_EXISTING_REGEXP GLOB ~^.+\.sto$~ ~override~
-    READ_LONG 0x34 sale_off  ELSE 0
-    READ_LONG 0x38 sale_num  ELSE 0
-    FOR (index = 0 ; index < sale_num ; ++index) BEGIN
-      READ_ASCII (sale_off +        (index * 0x1c)) item
-      PHP_EACH cd_bastard AS itemname => charge BEGIN
-        PATCH_IF ("%item%" STRING_COMPARE_CASE "%itemname%" = 0) BEGIN
-          WRITE_SHORT (sale_off + 0x0a + (charge * 0x02) + (0x1c * index)) 1 // add charge
-        END
-      END
-    END
-    BUT_ONLY
 
-  // wrap up amber compat for non-ee
-  ACTION_IF amber_name AND !enhanced_edition BEGIN // ees are done directly as 319s on the weapon
-  
-    COPY_EXISTING ~m#ear.itm~ ~override~ // add new 2h swords as restrictions to amber's earrings
-      PATCH_PHP_EACH cd_amber_restrictions AS item => type BEGIN
-        LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 180 parameter1 = amber_2hsword target = 1 timing = 2 STR_VAR resource = EVAL "%item%" END // 2h sword
+      END           
+
+      COPY_EXISTING ~%orig%.itm~ ~override/%2h%.itm~
+        WRITE_SHORT 0x42 0 // no lore
+        WRITE_ASCIIE (fx_off + 0x4c + (new_fx * 0x30)) ~%1h%~ #8 // exploit the fact that fx_off and new_fx carry over
+        WRITE_ASCIIE (fx_off + 0x04) ~%1h_bam%~ #8               // item bam
+        WRITE_BYTE  0x18 THIS | BIT1                             // add two-handed flag
+        WRITE_ASCIIE 0x22 ~%2h_paperdoll%~ #2                    // paperdoll animation
+        FOR (loops = 0; loops < abil_num; ++loops) BEGIN
+          READ_BYTE (abil_off + (loops * 0x38)) type
+          PATCH_IF (type = 1) BEGIN // adjust melee abilities to 2h sword mix of attacks
+            WRITE_SHORT (abil_off + 0x2c + (loops * 0x38)) overhead  // overhand attacks
+            WRITE_SHORT (abil_off + 0x2e + (loops * 0x38)) slashing  // slashing attacks
+            WRITE_SHORT (abil_off + 0x30 + (loops * 0x38)) thrusting // thrusting attacks
+          END
+        END
+        // update descriptions
+        PATCH_FOR_EACH offset IN 0x50 0x54 BEGIN
+          READ_STRREF ~%offset%~ desc
+          PATCH_IF ("%desc%" STRING_COMPARE_REGEXP ~<Invalid Strref -?[0-9]+>~) BEGIN // checking for valid content in string
+            INNER_PATCH_SAVE desc ~%desc%~ BEGIN
+              LAUNCH_PATCH_MACRO ~2h_descripts~
+            END
+            SAY_EVALUATED ~%offset%~ ~%desc%~ // write changes
+          END
+        END
+        PATCH_IF amber_name BEGIN // compat: amber won't use 2h swords
+          PATCH_IF enhanced_edition BEGIN 
+            LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 319 target = 1 parameter2 = 11 timing = 2 special = amber_name STR_VAR resource = ~m#amber~ END
+          END ELSE BEGIN
+            DEFINE_ASSOCIATIVE_ARRAY cd_amber_restrictions BEGIN "%SOURCE_RES%" => 20 END // array handled below
+          END  
+        END 
+        SPRINT vl_item ~%SOURCE_RES%~
+        LPM cd_item_info 
+
+      ACTION_IF (game_is_eet) AND (FILE_CONTAINS_EVALUATED (~K#SHATWE.BCS~ ~"%1h%"~)) BEGIN
+        EXTEND_BOTTOM ~K#SHATWE.BCS~ ~cdtweaks/baf/eet_shattering.baf~ EVALUATE_BUFFER
       END
-      BUT_ONLY
       
-  END    
+      ACTION_IF lore BEGIN 
 
-  COPY + ~weidu_external/cdtweaks/2da/%2da_file%.2da~ ~weidu_external/cdtweaks/2da/%2da_file%_final.2da~
-  
+        COPY_EXISTING ~%orig%.itm~ ~override/%1h%.itm~
+          WRITE_SHORT 0x42 0 // no lore
+          SPRINT vl_item ~%1h%~
+          LPM cd_item_info
+          
+      END    
+        
+      ACTION_IF braegar_compat BEGIN
+
+        COPY_EXISTING ~achand1a.itm~ ~override~
+          LPF CLONE_EFFECT INT_VAR multi_match = 1 match_opcode = 180 STR_VAR resource = EVAL ~%2h%~ END
+          BUT_ONLY 
+
+      END     
+
+    END // prof sanity check
+
+  END // action_if file_exists
+
 END
+
+COPY_EXISTING ~tooltip.2da~ ~override~
+  REPLACE ~CDONEHANDED~ @202001
+  REPLACE ~CDTWOHANDED~ @202002
+  PRETTY_PRINT_2DA
+
+PRINT @1
+COPY_EXISTING_REGEXP GLOB ~^.+\.[ac]re$~ ~override~
+  PATCH_IF ("%SOURCE_FILE%" STRING_COMPARE_REGEXP "^.+\.cre$" = 0) BEGIN // if creature
+    PATCH_IF original_iwd BEGIN
+      READ_LONG 0x324 itm_off ELSE 0
+      READ_LONG 0x328 itm_num ELSE 0
+    END ELSE BEGIN
+      READ_LONG 0x2bc itm_off ELSE 0
+      READ_LONG 0x2c0 itm_num ELSE 0
+    END  
+  END ELSE BEGIN
+    READ_LONG  0x78 itm_off ELSE 0
+    READ_SHORT 0x76 itm_num ELSE 0
+  END
+  FOR (index = 0 ; index < itm_num ; ++index) BEGIN
+    READ_ASCII (itm_off +        (0x14 * index)) item ELSE ""
+    PHP_EACH cd_bastard AS itemname => charge BEGIN
+      PATCH_IF ("%item%" STRING_COMPARE_CASE "%itemname%" = 0) BEGIN
+        WRITE_SHORT (itm_off + 0x0a + (charge * 0x02) + (0x14 * index)) 1 // add charge
+      END
+    END
+  END
+  BUT_ONLY
+
+// add charges to items being sold
+COPY_EXISTING_REGEXP GLOB ~^.+\.sto$~ ~override~
+  READ_LONG 0x34 sale_off  ELSE 0
+  READ_LONG 0x38 sale_num  ELSE 0
+  FOR (index = 0 ; index < sale_num ; ++index) BEGIN
+    READ_ASCII (sale_off +        (index * 0x1c)) item
+    PHP_EACH cd_bastard AS itemname => charge BEGIN
+      PATCH_IF ("%item%" STRING_COMPARE_CASE "%itemname%" = 0) BEGIN
+        WRITE_SHORT (sale_off + 0x0a + (charge * 0x02) + (0x1c * index)) 1 // add charge
+      END
+    END
+  END
+  BUT_ONLY
+
+// wrap up amber compat for non-ee
+ACTION_IF amber_name AND !enhanced_edition BEGIN // ees are done directly as 319s on the weapon
+
+  COPY_EXISTING ~m#ear.itm~ ~override~ // add new 2h swords as restrictions to amber's earrings
+    PATCH_PHP_EACH cd_amber_restrictions AS item => type BEGIN
+      LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 180 parameter1 = amber_2hsword target = 1 timing = 2 STR_VAR resource = EVAL "%item%" END // 2h sword
+    END
+    BUT_ONLY
+    
+END    
+
+COPY + ~weidu_external/cdtweaks/2da/%2da_file%.2da~ ~weidu_external/cdtweaks/2da/%2da_file%_final.2da~

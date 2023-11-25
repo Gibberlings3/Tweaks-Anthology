@@ -1,0 +1,104 @@
+
+/**
+ * This patch function analyzes ranged abilities of the current ITM V1 resource 
+ * and applies an effect that allows the user to recover the item.
+ * INT_VAR probability        The chance in percent to recover the item after thrown
+ * INT_VAR ids_target         Together with "ids_value" defines which targets are affected.
+ * INT_VAR ids_value          (Default: EA/ANYONE)
+ * STR_VAR eff_template_file  The EFF resource template containing the recreation effect.
+ *                            The base properties of the template file must be fully preconfigured.
+ *                            This function only updates resource to create and number of charges.
+ */
+DEFINE_PATCH_FUNCTION ADD_RECOVERABLE_EFFECT
+INT_VAR
+  probability       = 100   // probability to recover in percent
+  ids_target        = 2     // IDS target (default: EA)
+  ids_value         = 0     // IDS value (default: ANYONE)
+STR_VAR
+  eff_template_file = ~~    // EFF resource template to use
+BEGIN
+  PATCH_IF (FILE_EXISTS ~%eff_template_file%~ AND 
+            probability >= 0 AND 
+            (LONG_AT 0) = 0x204d5449 AND 
+            (LONG_AT 4) = 0x20203156) BEGIN // resource is "ITM V1  "
+    READ_LONG 0x60 enchantment
+    READ_LONG 0x64 ofs_abil
+    READ_SHORT 0x68 num_abil
+    PATCH_IF (num_abil > 2) BEGIN   // check only first two ability entries
+      SET num_abil = 2
+    END
+
+    PATCH_IF (enchantment = 0) BEGIN
+      // parsing through each ability entry
+      SET apply_effect = 0
+      TEXT_SPRINT itm_name ~%SOURCE_RES%~
+      SET param3 = 0
+      SET param4 = 0
+      FOR (i = 0; i < num_abil; i += 1) BEGIN
+        SET ofs_cur_abil = ofs_abil + i*0x38
+        PATCH_IF ((BYTE_AT ofs_cur_abil) = 2) BEGIN   // Ranged ability
+          READ_SHORT (ofs_cur_abil + 0x1e) num_effects
+          READ_SHORT (ofs_cur_abil + 0x22) num_charges
+          READ_SHORT (ofs_cur_abil + 0x24) drained
+          PATCH_IF (num_effects = 0 AND num_charges = 1 AND drained = 1) BEGIN
+            // determining effect filename
+            TEXT_SPRINT eff_name ~~
+            PATCH_FOR_EACH letter IN ~A~ ~B~ ~C~ ~D~ ~E~ ~F~ ~G~ ~H~ ~I~ ~J~ ~K~ ~L~ ~M~ ~N~ ~O~ ~P~ ~Q~ ~R~ ~S~ ~T~ ~U~ ~V~ ~W~ ~X~ ~Y~ ~Z~ BEGIN
+              INNER_PATCH_SAVE pattern ~%SOURCE_RES%~ BEGIN
+                // use up to seven letters plus special letter
+                REPLACE_TEXTUALLY EVALUATE_REGEXP ~\(..?.?.?.?.?.?\).*~ ~\1%letter%~
+              END
+              PATCH_IF (STRING_LENGTH ~%eff_name%~ = 0 AND NOT FILE_EXISTS_IN_GAME ~%pattern%.eff~) BEGIN
+                TEXT_SPRINT eff_name ~%pattern%~
+                SET apply_effect = 1
+                PATCH_IF (i = 0) BEGIN
+                  SET param3 = 1
+                END ELSE PATCH_IF (i = 1) BEGIN
+                  SET param4 = 1
+                END
+
+                // adding effect to ability
+                LPF ADD_ITEM_EFFECT
+                  INT_VAR
+                    opcode        = 177         // Use EFF file
+                    target        = 2           // Preset target
+                    timing        = 9           // Permanent
+                    parameter1    = ids_value
+                    parameter2    = ids_target
+                    probability1  = probability
+                    header        = (i + 1)     // current header only
+                    type          = 2           // ability type: ranged
+                  STR_VAR
+                    resource = EVAL ~%eff_name%~
+                END
+              END
+            END
+            PATCH_IF (apply_effect = 0) BEGIN
+              PATCH_LOG ~ADD_RECOVERABLE_EFFECT: No free EFF resource name found. Skipping file...~
+            END
+          END
+        END
+      END
+
+      // generating effect file
+      PATCH_IF (apply_effect = 1) BEGIN
+        INNER_ACTION BEGIN
+          COPY ~%eff_template_file%~ ~override/%eff_name%.eff~
+            WRITE_ASCIIE 0x30 ~%itm_name%~ #8
+            WRITE_LONG 0x60 param3
+            WRITE_LONG 0x64 param4
+        END
+      END
+    END
+  END ELSE BEGIN
+    PATCH_IF (NOT FILE_EXISTS ~%eff_template_file%~) BEGIN
+      PATCH_LOG ~ADD_RECOVERABLE_EFFECT: Invalid source EFF specified. Skipping file...~
+    END
+    PATCH_IF (probability < 0) BEGIN
+      PATCH_LOG ~ADD_RECOVERABLE_EFFECT: Negative probability specified. Skipping file...~
+    END
+    PATCH_IF ((LONG_AT 0) != 0x204d5449 OR (LONG_AT 4) != 0x20203156) BEGIN // resource is not "ITM V1  "
+      PATCH_LOG ~ADD_RECOVERABLE_EFFECT: Invalid or unsupported ITM resource. Skipping file...~
+    END
+  END
+END

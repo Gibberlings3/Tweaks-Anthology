@@ -75,38 +75,46 @@ OUTER_SET club_except = 96
 INCLUDE ~cdtweaks/lib/profs_common2.tpa~
 
 //item changes
-PRINT @1
-COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~ // item changes
-  READ_BYTE  0x31 current_prof ELSE 0
-  PATCH_IF ((current_prof = 115) OR ((current_prof > 88) AND (current_prof < 108))) BEGIN // sanity check
-    PATCH_IF (current_prof = 100) BEGIN
-      READ_ASCII 0x22 anim (2)
-      PATCH_IF (("%anim%" STRING_COMPARE_CASE "ms" = 0) OR ("%anim%" STRING_COMPARE_CASE "mc" = 0)) BEGIN // morningstars or maces
-        SET prof = 103
-      END ELSE BEGIN
-        SET prof = 98
-      END
-    END
-    PHP_EACH cd_prof_numeric_map AS old => new BEGIN
-      PATCH_IF (current_prof = old) BEGIN
-        SET prof = new
-      END
-    END
-    WRITE_BYTE 0x31 prof // new prof
-    PATCH_IF ((prof = 95) OR (prof = 98) OR (prof = 99) OR (prof = 102) OR (prof = 103) OR (prof = 104)) BEGIN
-      // update descriptions
-      PATCH_FOR_EACH offset IN 0x50 0x54 BEGIN
-        READ_STRREF ~%offset%~ desc
-        PATCH_IF ("%desc%" STRING_COMPARE_REGEXP ~<Invalid Strref -?[0-9]+>~) BEGIN // checking for valid content in string
-          INNER_PATCH_SAVE desc ~%desc%~ BEGIN
-            LAUNCH_PATCH_MACRO ~prof_descripts~
-          END
-          SAY_EVALUATED ~%offset%~ ~%desc%~ // write changes
+INCLUDE ~cdtweaks/lib/regexp_itm.tpa~ // build regexp array if it doesn't exist
+
+ACTION_PHP_EACH cd_itm_anim AS item => anim BEGIN
+
+  ACTION_IF (($cd_itm_prof("%item%") = 115) OR (($cd_itm_prof("%item%") > 88) AND ($cd_itm_prof("%item%") < 108))) BEGIN
+
+ACTION_IF regexp_debug BEGIN PRINT ~ == check passed, working on %item%~ END
+  
+    COPY_EXISTING ~%item%.itm~ ~override~
+      PATCH_IF ($cd_itm_prof("%item%") = 100) BEGIN
+        PATCH_IF (("%anim%" STRING_COMPARE_CASE "ms" = 0) OR ("%anim%" STRING_COMPARE_CASE "mc" = 0)) BEGIN // morningstars or maces
+          SET prof = 103
+        END ELSE BEGIN
+          SET prof = 98
         END
       END
-    END
+      PHP_EACH cd_prof_numeric_map AS old => new BEGIN
+        PATCH_IF ($cd_itm_prof("%item%") = old) BEGIN
+          SET prof = new
+        END
+      END
+      SET $cd_itm_prof("%item%") = prof
+      WRITE_BYTE 0x31 prof // set new proficiency
+      PATCH_IF ((prof = 95) OR (prof = 98) OR (prof = 99) OR (prof = 102) OR (prof = 103) OR (prof = 104)) BEGIN
+        // update descriptions
+        PATCH_FOR_EACH offset IN 0x50 0x54 BEGIN
+          READ_STRREF ~%offset%~ desc
+          PATCH_IF ("%desc%" STRING_COMPARE_REGEXP ~<Invalid Strref -?[0-9]+>~) BEGIN // checking for valid content in string
+            INNER_PATCH_SAVE desc ~%desc%~ BEGIN
+              LAUNCH_PATCH_MACRO ~prof_descripts~
+            END
+            SAY_EVALUATED ~%offset%~ ~%desc%~ // write changes
+          END
+        END
+      END
+      BUT_ONLY
+    
   END
-  BUT_ONLY
+
+END  
 
 PRINT @1
 ACTION_FOR_EACH file IN weapprof racethac BEGIN

@@ -1,43 +1,28 @@
-COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
-  READ_BYTE 0x18 flags
-  PATCH_IF ((flags & BIT2) = BIT2) BEGIN // don't care if not droppable
-    SET spelltrap = 0
-    SET fx_delta = 0
-    READ_LONG  0x6a fx_off
-    READ_SHORT 0x6e fx_idx
-    READ_SHORT 0x70 fx_num
-    FOR (index = 0 ; index < fx_num ; ++index) BEGIN
-      READ_BYTE  (fx_off + 0x0c + ((index + fx_idx) * 0x30)) timing
-      PATCH_IF timing = 2 BEGIN
-        READ_SHORT (fx_off + 0x00 + ((index + fx_idx) * 0x30)) opcode
-        PATCH_IF ((remove_blur) AND (opcode = 65)) BEGIN
-          DELETE_BYTES (fx_off + 0x00 + ((index + fx_idx) * 0x30)) 0x30 // delete the whole thing
-          SET fx_delta -= 1
-          SET index -= 1
-          SET fx_num -= 1
-        END  
-        PATCH_IF (opcode = 291) BEGIN SET spelltrap = 1 END // if 291 already present, don't bother
-        PATCH_IF ((remove_spelltrap) AND (spelltrap = 0) AND 
-          ((opcode = 197) OR (opcode = 198) OR ((opcode > 200) AND (opcode < 206)) OR (opcode = 207) OR (opcode = 223) OR ((opcode > 225) AND (opcode < 229)) OR (opcode = 259))) BEGIN
-          READ_ASCII   (fx_off + 0x00 + ((index + fx_idx) * 0x30)) copy (48)
-          INSERT_BYTES (fx_off + 0x00 + ((index + fx_idx) * 0x30)) 0x30
-          WRITE_ASCIIE (fx_off + 0x00 + ((index + fx_idx) * 0x30)) ~%copy%~ #48
-          WRITE_SHORT  (fx_off + 0x00 + ((index + fx_idx) * 0x30)) 291
-          WRITE_LONG   (fx_off + 0x08 + ((index + fx_idx) * 0x30)) 1
-          SET fx_delta += 1
-          SET index += 1
-          SET fx_num += 1
-          SET spelltrap = 1
-        END
-      END
-    END  
-    PATCH_IF fx_delta BEGIN
-      WRITE_SHORT 0x70 THIS + fx_delta
-      READ_LONG  0x64 abil_off
-      READ_SHORT 0x68 abil_num
-      FOR (index = 0 ; index < abil_num ; ++index) BEGIN
-        WRITE_SHORT (abil_off + 0x20 + (index * 0x38)) THIS + fx_delta // adjust indices
+INCLUDE ~cdtweaks/lib/regexp_itm.tpa~ // build regexp array if it doesn't exist
+
+ACTION_PHP_EACH cd_itm_flags AS item => flags BEGIN
+     
+  ACTION_IF (
+              ((flags & BIT2) = BIT2) AND // don't care if not droppable
+              ( 
+                ($cd_itm_blur("%item%") AND remove_blur) OR                                  // has blur that needs to be removed   
+                ($cd_itm_strap("%item%") AND remove_spelltrap AND NOT $cd_itm_291("%item%")) // has spell trap that needs removal and no existing 291
+              )
+            ) BEGIN     
+
+ACTION_IF regexp_debug BEGIN PRINT ~ == check passed, working on %item%~ END
+  
+    COPY_EXISTING ~%item%.itm~ ~override~
+      PATCH_IF ($cd_itm_blur("%item%") AND remove_blur) BEGIN 
+        SET $cd_itm_blur("%item%") = 0
+        LPF DELETE_EFFECT INT_VAR check_headers = 0 match_opcode = 65 END
+      END       
+      PATCH_IF ($cd_itm_strap("%item%") AND remove_spelltrap AND NOT $cd_itm_291("%item%")) BEGIN 
+        SET $cd_itm_291("%item%") = 1
+        LPF CLONE_EFFECT  INT_VAR check_headers = 0 multi_match = 1 match_opcode = $cd_itm_strap("%item%") opcode = 291 parameter2 = 1 END
       END  
-    END
-  END  
-  BUT_ONLY  
+      BUT_ONLY
+
+  END // item check
+  
+END // action_php_each

@@ -1,90 +1,100 @@
-COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
-  READ_SHORT 0x1c type ELSE 0
-  READ_SHORT 0x42 lore ELSE 1
-  PATCH_IF ((lore = 0) AND                                                          // no lore already AND
-           ((((type = 1) OR (type = 10) OR (type = 34)) AND (match_jewelry = 1)) OR // ring/amulet/gem & jewelry has been approved OR
-           ((type = 9) AND (match_potion = 1)))) BEGIN                              // potions & potions approved
-    READ_LONG  0x34 price
-    READ_LONG  0x64 abil_off
-    READ_SHORT 0x68 abil_num
-    // force them to be id'd before use
-    FOR (index = 0 ; index < abil_num ; ++index) BEGIN
-      READ_BYTE (abil_off +        (index * 0x38)) abil_type
-      PATCH_IF (abil_type = 3) BEGIN // if magical ability
-        WRITE_BYTE (abil_off + 0x01 + (index * 0x38)) 1 // force identification before use
+INCLUDE ~cdtweaks/lib/regexp_itm.tpa~ // build regexp array if it doesn't exist
+
+ACTION_PHP_EACH cd_itm_type AS item => type BEGIN
+  
+  ACTION_IF  (($cd_itm_lore("%item%") = 0) AND                                        // no lore already AND
+             ((((type = 1) OR (type = 10) OR (type = 34)) AND (match_jewelry = 1)) OR // ring/amulet/gem & jewelry has been approved OR
+             ((type = 9) AND (match_potion = 1)))) BEGIN                              // potion with potion approval 
+
+ACTION_IF regexp_debug BEGIN PRINT ~ == check passed, working on %item%~ END
+           
+    COPY_EXISTING ~%item%.itm~ ~override~
+      READ_LONG  0x64 abil_off
+      READ_SHORT 0x68 abil_num
+      // force them to be id'd before use
+      FOR (index = 0 ; index < abil_num ; ++index) BEGIN
+        READ_BYTE (abil_off +        (index * 0x38)) abil_type
+        PATCH_IF (abil_type = 3) BEGIN // if magical ability
+          WRITE_BYTE (abil_off + 0x01 + (index * 0x38)) 1 // force identification before use
+        END
       END
-    END
-    // identified strings
-    PATCH_FOR_EACH offset IN 0x0c 0x54 BEGIN
-      READ_LONG offset id_strref
-      PATCH_IF (id_strref > 2147483646) OR (id_strref < 1) THEN BEGIN // if no id'd strings, move un-id strings to identifed
-        READ_LONG  (offset - 0x04) unid_strref
-        WRITE_LONG (offset       ) unid_strref
+      // identified strings
+      PATCH_FOR_EACH offset IN 0x0c 0x54 BEGIN
+        READ_LONG offset id_strref
+        PATCH_IF (id_strref > 2147483646) OR (id_strref < 1) THEN BEGIN // if no id'd strings, move un-id strings to identifed
+          READ_LONG  (offset - 0x04) unid_strref
+          WRITE_LONG (offset       ) unid_strref
+        END
       END
-    END
-    PATCH_IF ((type = 1) OR (type = 10) OR (type = 34)) BEGIN // amulets or rings or gems
-      PATCH_IF (price > 19999) BEGIN
-        WRITE_SHORT 0x42 100
-      END ELSE
-      PATCH_IF (price > 4025) BEGIN
-        WRITE_SHORT 0x42 (50 + ((price - 4025) / 400))
-      END ELSE
-      PATCH_IF (price > 2025) BEGIN
-        WRITE_SHORT 0x42 (40 + ((price - 2025) / 200))
-      END ELSE
-      PATCH_IF (price > 1025) BEGIN
-        WRITE_SHORT 0x42 (30 + ((price - 1025) / 80))
-      END ELSE
-      PATCH_IF (price > 425) BEGIN
-        WRITE_SHORT 0x42 (20 + ((price - 425) / 40))
-      END ELSE
-      PATCH_IF (price > 175) BEGIN
-        WRITE_SHORT 0x42 (20 + ((price - 225) / 25))
-      END ELSE
-      PATCH_IF (price > 25) BEGIN
-        WRITE_SHORT 0x42 (5 + ((price - 50) / 10))
-      END ELSE
-      PATCH_IF (price > 5) BEGIN
-        WRITE_SHORT 0x42 (price / 5)
-      END ELSE BEGIN
-        WRITE_SHORT 0x42 1
+      PATCH_IF ((type = 1) OR (type = 10) OR (type = 34)) BEGIN // amulets or rings or gems
+        PATCH_IF ($cd_itm_price("%item%") > 19999) BEGIN
+          SET $cd_itm_lore("%item%") = 100
+        END ELSE
+        PATCH_IF ($cd_itm_price("%item%") > 4025) BEGIN
+          SET $cd_itm_lore("%item%") = (50 + (($cd_itm_price("%item%") - 4025) / 400))
+        END ELSE
+        PATCH_IF ($cd_itm_price("%item%") > 2025) BEGIN
+          SET $cd_itm_lore("%item%") = (40 + (($cd_itm_price("%item%") - 2025) / 200))
+        END ELSE
+        PATCH_IF ($cd_itm_price("%item%") > 1025) BEGIN
+          SET $cd_itm_lore("%item%") = (30 + (($cd_itm_price("%item%") - 1025) / 80))
+        END ELSE
+        PATCH_IF ($cd_itm_price("%item%") > 425) BEGIN
+          SET $cd_itm_lore("%item%") = (20 + (($cd_itm_price("%item%") - 425) / 40))
+        END ELSE
+        PATCH_IF ($cd_itm_price("%item%") > 175) BEGIN
+          SET $cd_itm_lore("%item%") = (20 + (($cd_itm_price("%item%") - 225) / 25))
+        END ELSE
+        PATCH_IF ($cd_itm_price("%item%") > 25) BEGIN
+          SET $cd_itm_lore("%item%") = (5 + (($cd_itm_price("%item%") - 50) / 10))
+        END ELSE
+        PATCH_IF ($cd_itm_price("%item%") > 5) BEGIN
+          SET $cd_itm_lore("%item%") = ($cd_itm_price("%item%") / 5)
+        END ELSE BEGIN
+          SET $cd_itm_lore("%item%") = 1
+        END
+        // set unidentifed strings
+        PATCH_IF (type = 34) BEGIN // gems
+          SET $cd_itm_name("%item%") = 7106
+          SET desc = RESOLVE_STR_REF(@114001)
+        END ELSE 
+        PATCH_IF (type = 10) BEGIN // rings
+          SET $cd_itm_name("%item%") =  6348
+          SET desc = 17054
+        END ELSE BEGIN             // amulets (type = 1)
+          SET $cd_itm_name("%item%") = 6913
+          SET desc = 6912
+        END
       END
-      // set unidentifed strings
-      PATCH_IF (type = 34) BEGIN // gems
-        SAY 0x08   #7106
-        SAY 0x50 @114001
-      END ELSE 
-      PATCH_IF (type = 10) BEGIN // rings
-        SAY 0x08  #6348
-        SAY 0x50 #17054
-      END ELSE BEGIN             // amulets (type = 1)
-        SAY 0x08 #6913
-        SAY 0x50 #6912
+      PATCH_IF (type = 9) BEGIN // potions
+        PATCH_IF ($cd_itm_price("%item%") > 6400) BEGIN
+          SET $cd_itm_lore("%item%") = 100
+        END ELSE
+        PATCH_IF ($cd_itm_price("%item%") > 1500) BEGIN
+          SET $cd_itm_lore("%item%") = (35 + (($cd_itm_price("%item%") - 1250) / 80))
+        END ELSE
+        PATCH_IF ($cd_itm_price("%item%") > 950) BEGIN
+          SET $cd_itm_lore("%item%") = (25 + (($cd_itm_price("%item%") - 950) / 40))
+        END ELSE
+        PATCH_IF ($cd_itm_price("%item%") > 450) BEGIN
+          SET $cd_itm_lore("%item%") = (13 + (($cd_itm_price("%item%") - 450) / 40))
+        END ELSE
+        PATCH_IF ($cd_itm_price("%item%") > 200) BEGIN
+          SET $cd_itm_lore("%item%") = (8 + (($cd_itm_price("%item%") - 250) / 40))
+        END ELSE
+        PATCH_IF ($cd_itm_price("%item%") > 100) BEGIN
+          SET $cd_itm_lore("%item%") = (4 + (($cd_itm_price("%item%") - 150) / 20))
+        END ELSE BEGIN
+          SET $cd_itm_lore("%item%") = 1
+        END
+        SET $cd_itm_name("%item%") =  6976 // set unidentifed strings
+        SET desc = 16264
       END
-    END
-    PATCH_IF (type = 9) BEGIN // potions
-      PATCH_IF (price > 6400) BEGIN
-        WRITE_SHORT 0x42 100
-      END ELSE
-      PATCH_IF (price > 1500) BEGIN
-        WRITE_SHORT 0x42 (35 + ((price - 1250) / 80))
-      END ELSE
-      PATCH_IF (price > 950) BEGIN
-        WRITE_SHORT 0x42 (25 + ((price - 950) / 40))
-      END ELSE
-      PATCH_IF (price > 450) BEGIN
-        WRITE_SHORT 0x42 (13 + ((price - 450) / 40))
-      END ELSE
-      PATCH_IF (price > 200) BEGIN
-        WRITE_SHORT 0x42 (8 + ((price - 250) / 40))
-      END ELSE
-      PATCH_IF (price > 100) BEGIN
-        WRITE_SHORT 0x42 (4 + ((price - 150) / 20))
-      END ELSE BEGIN
-        WRITE_SHORT 0x42 1
-      END
-      SAY 0x08  #6976 // set unidentifed strings
-      SAY 0x50 #16264
-    END
-  END
-  BUT_ONLY
+      WRITE_SHORT 0x42 $cd_itm_lore("%item%")
+      WRITE_LONG  0x08 $cd_itm_name("%item%")
+      WRITE_LONG  0x50 desc
+      BUT_ONLY
+
+  END // typle/lore check
+
+END // action_php_each

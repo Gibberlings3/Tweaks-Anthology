@@ -1,172 +1,28 @@
 /**
- * Patches ammunition, which includes arrows, bolts and bullets.
- */
-DEFINE_ACTION_FUNCTION MAKE_AMMO_RECOVERABLE
-INT_VAR
-  probability = 100
-  ids_target  = 2
-  ids_value   = 0
-STR_VAR
-  eff_template_file = ~~
-BEGIN
-  COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
-    PATCH_IF (SOURCE_SIZE >= 0x72) BEGIN
-      READ_LONG 0x18 flags
-      READ_SHORT 0x1c cat
-      SET valid_flags = BIT2 | BIT3   // droppable and displayable
-      PATCH_IF ((flags BAND valid_flags) = valid_flags) BEGIN 
-        PATCH_IF (cat = 5 OR cat = 14 OR cat = 31) BEGIN  // Arrows, Bullets or Bolts
-          LPF ADD_RECOVERABLE_EFFECT
-            INT_VAR
-              probability = probability
-              ids_target  = ids_target
-              ids_value   = ids_value
-            STR_VAR
-              eff_template_file = EVAL ~%eff_template_file%~
-          END
-        END
-      END
-    END
-    BUT_ONLY
-END
-
-
-/**
  * Patches regular thrown weapons that are not fired by a launcher.
  */
-DEFINE_ACTION_FUNCTION MAKE_WEAPONS_RECOVERABLE
-INT_VAR
-  probability = 100
-  ids_target  = 2
-  ids_value   = 0
-STR_VAR
-  eff_template_file = ~~
-BEGIN
-  COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
-    PATCH_IF (SOURCE_SIZE >= 0x72) BEGIN
-      READ_LONG 0x18 flags
-      READ_SHORT 0x1c cat
-      SET valid_flags = BIT2 | BIT3   // droppable and displayable
-      PATCH_IF ((flags BAND valid_flags) = valid_flags) BEGIN 
-        PATCH_IF (cat = 16 OR cat = 17 OR cat = 19 OR cat = 20 OR cat = 21 OR 
-                  cat = 22 OR cat = 23 OR cat = 24 OR cat = 25 OR cat = 26 OR 
-                  cat = 28 OR cat = 29 OR cat = 30 OR cat = 44 OR cat = 57 OR 
-                  cat = 69) BEGIN     // regular weapons
-          LPF ADD_RECOVERABLE_EFFECT
-            INT_VAR
-              probability = probability
-              ids_target  = ids_target
-              ids_value   = ids_value
-            STR_VAR
-              eff_template_file = EVAL ~%eff_template_file%~
-          END
-        END
+ INCLUDE ~cdtweaks/lib/regexp_itm.tpa~ // build regexp array if it doesn't exist
+
+OUTER_SET valid_flags = BIT2 | BIT3
+ACTION_PHP_EACH cd_itm_type AS item => type BEGIN
+     
+  ACTION_IF ((type = 16 OR type = 17 OR type = 19 OR type = 20 OR type = 21 OR 
+              type = 22 OR type = 23 OR type = 24 OR type = 25 OR type = 26 OR 
+              type = 28 OR type = 29 OR type = 30 OR type = 44 OR type = 57 OR 
+              type = 69) AND (($cd_itm_flags("%item%") BAND valid_flags) = valid_flags)) BEGIN 
+
+ACTION_IF regexp_debug BEGIN PRINT ~ == check passed, working on %item%~ END
+           
+    COPY_EXISTING ~%item%.itm~ ~override~
+      LPF ADD_RECOVERABLE_EFFECT
+        INT_VAR
+          probability = probability
+          ids_target  = ids_target
+          ids_value   = ids_value
+        STR_VAR
+          eff_template_file = EVAL ~%eff_template_file%~
       END
-    END
-    BUT_ONLY
-END
-
-
-/**
- * This patch function analyzes ranged abilities of the current ITM V1 resource 
- * and applies an effect that allows the user to recover the item.
- * INT_VAR probability        The chance in percent to recover the item after thrown
- * INT_VAR ids_target         Together with "ids_value" defines which targets are affected.
- * INT_VAR ids_value          (Default: EA/ANYONE)
- * STR_VAR eff_template_file  The EFF resource template containing the recreation effect.
- *                            The base properties of the template file must be fully preconfigured.
- *                            This function only updates resource to create and number of charges.
- */
-DEFINE_PATCH_FUNCTION ADD_RECOVERABLE_EFFECT
-INT_VAR
-  probability       = 100   // probability to recover in percent
-  ids_target        = 2     // IDS target (default: EA)
-  ids_value         = 0     // IDS value (default: ANYONE)
-STR_VAR
-  eff_template_file = ~~    // EFF resource template to use
-BEGIN
-  PATCH_IF (FILE_EXISTS ~%eff_template_file%~ AND 
-            probability >= 0 AND 
-            (LONG_AT 0) = 0x204d5449 AND 
-            (LONG_AT 4) = 0x20203156) BEGIN // resource is "ITM V1  "
-    READ_LONG 0x60 enchantment
-    READ_LONG 0x64 ofs_abil
-    READ_SHORT 0x68 num_abil
-    PATCH_IF (num_abil > 2) BEGIN   // check only first two ability entries
-      SET num_abil = 2
-    END
-
-    PATCH_IF (enchantment = 0) BEGIN
-      // parsing through each ability entry
-      SET apply_effect = 0
-      TEXT_SPRINT itm_name ~%SOURCE_RES%~
-      SET param3 = 0
-      SET param4 = 0
-      FOR (i = 0; i < num_abil; i += 1) BEGIN
-        SET ofs_cur_abil = ofs_abil + i*0x38
-        PATCH_IF ((BYTE_AT ofs_cur_abil) = 2) BEGIN   // Ranged ability
-          READ_SHORT (ofs_cur_abil + 0x1e) num_effects
-          READ_SHORT (ofs_cur_abil + 0x22) num_charges
-          READ_SHORT (ofs_cur_abil + 0x24) drained
-          PATCH_IF (num_effects = 0 AND num_charges = 1 AND drained = 1) BEGIN
-            // determining effect filename
-            TEXT_SPRINT eff_name ~~
-            PATCH_FOR_EACH letter IN ~A~ ~B~ ~C~ ~D~ ~E~ ~F~ ~G~ ~H~ ~I~ ~J~ ~K~ ~L~ ~M~ ~N~ ~O~ ~P~ ~Q~ ~R~ ~S~ ~T~ ~U~ ~V~ ~W~ ~X~ ~Y~ ~Z~ BEGIN
-              INNER_PATCH_SAVE pattern ~%SOURCE_RES%~ BEGIN
-                // use up to seven letters plus special letter
-                REPLACE_TEXTUALLY EVALUATE_REGEXP ~\(..?.?.?.?.?.?\).*~ ~\1%letter%~
-              END
-              PATCH_IF (STRING_LENGTH ~%eff_name%~ = 0 AND NOT FILE_EXISTS_IN_GAME ~%pattern%.eff~) BEGIN
-                TEXT_SPRINT eff_name ~%pattern%~
-                SET apply_effect = 1
-                PATCH_IF (i = 0) BEGIN
-                  SET param3 = 1
-                END ELSE PATCH_IF (i = 1) BEGIN
-                  SET param4 = 1
-                END
-
-                // adding effect to ability
-                LPF ADD_ITEM_EFFECT
-                  INT_VAR
-                    opcode        = 177         // Use EFF file
-                    target        = 2           // Preset target
-                    timing        = 9           // Permanent
-                    parameter1    = ids_value
-                    parameter2    = ids_target
-                    probability1  = probability
-                    header        = (i + 1)     // current header only
-                    type          = 2           // ability type: ranged
-                  STR_VAR
-                    resource = EVAL ~%eff_name%~
-                END
-              END
-            END
-            PATCH_IF (apply_effect = 0) BEGIN
-              PATCH_LOG ~ADD_RECOVERABLE_EFFECT: No free EFF resource name found. Skipping file...~
-            END
-          END
-        END
-      END
-
-      // generating effect file
-      PATCH_IF (apply_effect = 1) BEGIN
-        INNER_ACTION BEGIN
-          COPY ~%eff_template_file%~ ~override/%eff_name%.eff~
-            WRITE_ASCIIE 0x30 ~%itm_name%~ #8
-            WRITE_LONG 0x60 param3
-            WRITE_LONG 0x64 param4
-        END
-      END
-    END
-  END ELSE BEGIN
-    PATCH_IF (NOT FILE_EXISTS ~%eff_template_file%~) BEGIN
-      PATCH_LOG ~ADD_RECOVERABLE_EFFECT: Invalid source EFF specified. Skipping file...~
-    END
-    PATCH_IF (probability < 0) BEGIN
-      PATCH_LOG ~ADD_RECOVERABLE_EFFECT: Negative probability specified. Skipping file...~
-    END
-    PATCH_IF ((LONG_AT 0) != 0x204d5449 OR (LONG_AT 4) != 0x20203156) BEGIN // resource is not "ITM V1  "
-      PATCH_LOG ~ADD_RECOVERABLE_EFFECT: Invalid or unsupported ITM resource. Skipping file...~
-    END
-  END
-END
+      
+  END //flag/item type check
+  
+END // action_php_each 

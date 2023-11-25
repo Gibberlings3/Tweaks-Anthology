@@ -1,9 +1,19 @@
-COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
-  READ_SHORT 0x1c type
-  PATCH_IF type = 25 BEGIN
-    WRITE_LONG 0x1e (THIS BAND `BIT14) // removes f/c flag
-  END
-  BUT_ONLY
+INCLUDE ~cdtweaks/lib/regexp_itm.tpa~ // build regexp array if it doesn't exist
+
+ACTION_PHP_EACH cd_itm_type AS item => type BEGIN
+     
+  ACTION_IF ((type = 25) AND (($cd_itm_use("%item%") & BIT14) = BIT14)) BEGIN // axe unusable by f/c
+
+ACTION_IF regexp_debug BEGIN PRINT ~ == check passed, working on %item%~ END
+    
+    COPY_EXISTING ~%item%.itm~ ~override~
+      SET $cd_itm_use("%item%") = ($cd_itm_use("%item%") BAND `BIT14) // removes f/c flag
+      WRITE_LONG 0x1e $cd_itm_use("%item%")
+      BUT_ONLY
+        
+  END //flag/item type check
+  
+END // action_php_each 
 
 COPY_EXISTING ~clasweap.2da~ ~override~	//add axe general-weapon type to fighter-cleric
   REPLACE_TEXTUALLY ~^\(FIGHTER_CLERIC[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+\)[^ %TAB%]+~ ~\11~
