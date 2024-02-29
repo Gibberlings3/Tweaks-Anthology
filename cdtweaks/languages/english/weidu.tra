@@ -743,6 +743,8 @@ Use Baldur.lua options: a7_interval_ini
 @419700 = ~Also Color the PC's Name: Yellow~
 @419800 = ~Also Color the PC's Name: Orange~
 
+@420000 = "Make Rancor +1 a bit more reliable"
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\

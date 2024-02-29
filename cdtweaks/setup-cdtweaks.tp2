@@ -4605,3 +4605,17 @@ SUBCOMPONENT @419000 // Color NPC Names in Dialogues, Journal Entries, Etc.
 GROUP @0
 REQUIRE_PREDICATE GAME_IS ~bgee bg2ee iwdee eet~ @25
 LABEL ~cd_tweaks_color_npc_names_pc_orange~
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
+///// Make Rancor +1 a bit more reliable                         \\\\\
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @420000 DESIGNATED 4200
+GROUP @0
+REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ @25
+REQUIRE_PREDICATE MOD_IS_INSTALLED "EEex.tp2" 0 @29
+LABEL ~cd_tweaks_dorns_sword~

@@ -995,7 +995,7 @@
       <p> <strong>Weapon Finesse [Luke]</strong><br />
         <em><abbr title="Enhanced Edition">EEex</abbr></em>
       <p> This component aims at implementing 3E Weapon Finesse feat for Thieves.<br>
-        As a result, after installing it, every time a Thief is wielding a small blade (f.i. daggers, short swords, wakizashis, etc...), his/her THAC0 will scale with Dexterity (as per the <code>MISSILE</code> column of <a href="https://gibberlings3.github.io/iesdp/files/2da/2da_bgee/dexmod.htm"><code>dexmod.2da</code></a>) instead of Strength.<br>
+        As a result, after installing it, every time a Thief is wielding a small blade (f.i. daggers, short swords, wakizashis, etc...) or a club/mace, his/her THAC0 will scale with Dexterity (as per the <code>MISSILE</code> column of <a href="https://gibberlings3.github.io/iesdp/files/2da/2da_bgee/dexmod.htm"><code>dexmod.2da</code></a>) instead of Strength.<br>
         As a completely artificial example, suppose a Thief has 9 Strength and 18 Dexterity. Upon equipping a dagger, he/she will gain a THAC0 bonus of <code>2</code> (instead of <code>0</code>). Note that nothing happens if the bonus from Strength is better (or equal) than the bonus from Dexterity.
       </p>
       <p> <strong>Dual-Wield feat for Rangers [Luke]</strong><br />
@@ -1346,6 +1346,13 @@
       <p> <strong>Removable <abbr title="Non-Player Character">NPC</abbr> Items</strong><br />
         <em><abbr title="Baldur's Gate: Enhanced Edition">BGEE</abbr>, <abbr title="Baldur's Gate II: Enhanced Edition">BG2EE</abbr>, <abbr title="Enhanced Edition Trilogy">EET</abbr>, <abbr title="Baldur's Gate">BG</abbr>, <abbr title="Baldur's Gate II">BG2</abbr>, <abbr title="Baldur's Gate Trilogy">BGT</abbr>, Tutu</em> </p>
       <p> Alora, Edwin, Hexxat, and Nalia all have jewelry that cannot be removed. Except for Hexxat, this component allows you to remove these items (though they still cannot be used by other characters) so that you can use other items in these slots. Hexxat&#39;s Amulet is fairly integral to her powers and abilities and so she is not altered by this component. Note that while Edwin&#39;s amulet is actually the source of his extra spell slots, these effects are now applied directly to him so that you can remove his amulet without penalty. </p>
+
+      <p> <strong>Make Rancor +1 a bit more reliable [Luke]</strong><br />
+        <em><abbr title="Baldur's Gate: Enhanced Edition">EEex</abbr></em></p>
+      <p> Internally, Dorn's sword (Rancor +1) relies upon scripting. As modders know, items should not rely upon scripting to work correctly, since it is unreliable and may quickly become messy.
+        This component simply removes scripting from this weapon (the upshot of which is that the weapon should become a bit more reliable).
+      </p>
+
     </div>
     <div class="ribbon_rectangle_h2"> <a id="Contact" name="Contact"></a>
       <h2> Contact Information </h2>
