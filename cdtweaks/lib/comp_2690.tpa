@@ -1,0 +1,15 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
+///// NWN-ish Armor vs. Dexterity                                \\\\\
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+WITH_SCOPE BEGIN
+  INCLUDE "cdtweaks\luke\misc.tph"
+  INCLUDE "cdtweaks\lib\nwn-ish_armor_vs_dex.tph"
+  WITH_TRA "cdtweaks\languages\english\nwn-ish_armor_vs_dex.tra" "cdtweaks\languages\%LANGUAGE%\nwn-ish_armor_vs_dex.tra" BEGIN
+    LAF "NWN-ISH_ARMOR_VS_DEX" END
+  END
+END
