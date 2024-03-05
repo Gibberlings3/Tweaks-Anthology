@@ -409,6 +409,8 @@ o rimpiazzata da - un'altra facente parte di uno dei mods installati.~
 // @257000 = ~BGT: Limite di esperienza aggiuntivo mentre sei in BG~
 // @257100 = ~BGT: Limite di esperienza aggiuntivo in SoA~ 
 
+@267000 = "Aggiungi talento Doppia-Presa per i Ranger [Luke]"
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
