@@ -2764,6 +2764,20 @@ REQUIRE_PREDICATE MOD_IS_INSTALLED ~EEex.tp2~ 0 @29
 REQUIRE_PREDICATE FILE_EXISTS ~cdtweaks/languages/%LANGUAGE%/dual_wield.tra~ @7
 LABEL ~cd_tweaks_dual_wield~
 
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
+///// Defensive Roll feat for Thieves                            \\\\\
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @270000 DESIGNATED 2700
+GROUP @9
+REQUIRE_PREDICATE MOD_IS_INSTALLED ~EEex.tp2~ 0 @29
+REQUIRE_PREDICATE FILE_EXISTS ~cdtweaks/languages/%LANGUAGE%/defensive_roll.tra~ @7
+LABEL ~cd_tweaks_defensive_roll~
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\

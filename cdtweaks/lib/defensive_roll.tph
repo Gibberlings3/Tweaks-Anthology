@@ -1,0 +1,63 @@
+DEFINE_ACTION_FUNCTION "DEFENSIVE_ROLL"
+BEGIN
+	LAF "GET_CLAB_FILES" STR_VAR "class" = "thief" RET_ARRAY "clab_files" END
+	//
+	<<<<<<<< .../cdtweaks-inlined/empty
+	>>>>>>>>
+	//
+	WITH_SCOPE BEGIN
+		ACTION_IF !(FILE_EXISTS_IN_GAME "m_gt#403.lua") BEGIN
+			COPY ".../cdtweaks-inlined/empty" "override\m_gt#403.lua"
+				DELETE_BYTES 0x0 BUFFER_LENGTH
+				INSERT_BYTES 0x0 STRING_LENGTH "-- Functions to be invoked via op403 --%WNL%%WNL%"
+				WRITE_ASCII 0x0 "-- Functions to be invoked via op403 --%WNL%%WNL%"
+			BUT_ONLY_IF_IT_CHANGES
+		END
+		COPY_EXISTING "m_gt#403.lua" "override"
+			SET "feedback_strref" = RESOLVE_STR_REF (@0)
+			APPEND_FILE_EVALUATE TEXT "cdtweaks\luke\lua\defensive_roll.lua"
+		BUT_ONLY UNLESS "^function GTDEFRLL"
+	END
+	//
+	WITH_SCOPE BEGIN
+		CREATE "spl" "cddefrll"
+		COPY_EXISTING "cddefrll.spl" "override"
+			/* Header */
+			WRITE_LONG NAME1 "-1"
+			WRITE_LONG NAME2 ~-1~
+			WRITE_LONG 0x18 BIT14 // Ignore dead/wild magic
+			WRITE_SHORT 0x1C 4 // Type: Innate
+			WRITE_LONG UNIDENTIFIED_DESC "-1"
+			WRITE_LONG DESC ~-1~
+			WRITE_LONG 0x34 1 // Level
+			WRITE_LONG 0x64 0x72 // Extended Header offset
+			WRITE_SHORT 0x68 1 // Extended Header count
+			WRITE_LONG 0x6A 0x9A // Feature Block Table offset
+			INSERT_BYTES 0x72 0x28
+			/* Extended Header */
+			WRITE_SHORT 0x74 4 // Ability location: F12 (Special Ability)
+			WRITE_BYTE 0x7E 5 // Ability target: Caster
+			WRITE_SHORT 0x80 30 // Ability range
+			WRITE_SHORT 0x82 1 // Minimum level
+			WRITE_SHORT 0x98 IDS_OF_SYMBOL ("MISSILE" "None") // Projectile
+			/* Feature blocks */
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 403 "target" = 1 "timing" = 9 STR_VAR "resource" = "GTDEFRLL" END // Screen Effects
+		BUT_ONLY
+	END
+	//
+	LAF "ADD_EXTENDED_STAT" STR_VAR "identifier" = "CDTWEAKS_DEFENSIVE_ROLL" END
+	//
+	WITH_SCOPE BEGIN
+		ACTION_PHP_EACH "clab_files" AS "clab" => "" BEGIN
+			COPY_EXISTING "%clab%.2da" "override"
+				PATCH_MATCH "%DEST_RES%" WITH
+					"clabth05" BEGIN // Shadowdancer
+						LPF "ADD_CLAB_ABILITY" INT_VAR "level" = 5 STR_VAR "identifier" = "CDTWEAKS_DEFENSIVE_ROLL" "resref" = "cddefrll" END
+					END
+					DEFAULT // Not Shadowdancer
+						LPF "ADD_CLAB_ABILITY" INT_VAR "level" = 10 STR_VAR "identifier" = "CDTWEAKS_DEFENSIVE_ROLL" "resref" = "cddefrll" END
+				END
+			BUT_ONLY
+		END
+	END
+END
