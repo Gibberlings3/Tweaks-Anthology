@@ -1,24 +1,6 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
-///// Setup Messages                                   \\\\\
-/////                                                  \\\\\
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-//     @3 = ~需要安装“穿甲时可以施展奥术”组件~
-//     @6 = ~需要安装“穿重甲时可以使用盗贼技能”组件~
-//     @8 = ~这个组件只有BGT可用。~
-//    @10 = ~这个组件在Tutu不可用。~
-//     @12 = ~这组件需要安装巴尔王座。~
-//     @14 = ~这组件只有在Tutu或BGT可用。~
-//     @15 = ~这组件只有在Tutu可用。~
-//     @19 = ~Cam的收藏~
-//     @20 = ~阅读readme文件？
-//   a） 是
-//   b） 否~
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-/////                                                  \\\\\
 ///// Cosmetic Changes Components                      \\\\\
 /////                                                  \\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -203,6 +185,9 @@
 将其放在快速物品栏中打开。~
 @108524 = ~开启储藏宝袋。请稍等。~
 @108525 = ~开启卷轴盒。请稍等。~
+
+// @109001 through 109026 have been removed, as this component has moved to The Calling
+
 @111001 = ~烛堡酒店~
 @111002 = ~牧师区~
 @111003 = ~欧玛神殿~
@@ -549,8 +534,6 @@
 @204002 = ~无法使用的角色：~
 @204003 = ~[%LNL%%MNL%%WNL%].*法师.*~
  
-/* deprecated component
-*/
 // Moved from thieving_descripts.tpa
 // Typical weight line for an item, used for a search matching the whole line
 @210001 = ~\(重量[:：][ %TAB%]*[0-9]+\)~
@@ -765,8 +748,6 @@
 // next two strings used for matching and updating item descriptions
 @223001 = ~数据资料：~ // this is used for mataching in the item descripiton, so copy this from an oBG2 item description
 @223002 = ~在决定可以命中何物时，视为+%ench%武器~
-
-// translators - the next three strings are used to replace game text, so they need to be copied from the game itself
 
 // the next string should match content TO BE REMOVED from the racial description of humans and the help reference for dual-classing
 @235002 = ~人类不能兼职。~ // from strref #9550
