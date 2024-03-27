@@ -546,8 +546,6 @@
 @204002 = ~无法使用的角色：~
 @204003 = ~[%LNL%%MNL%%WNL%].*法师.*~
  
-/* deprecated component
-*/
 // Moved from thieving_descripts.tpa
 // Typical weight line for an item, used for a search matching the whole line
 @210001 = ~\(重量[:：][ %TAB%]*[0-9]+\)~
