@@ -38,23 +38,13 @@ ACTION_IF game_is_bgee OR game_is_bg2ee OR game_is_iwdee OR game_is_eet OR game_
   
   LOAD_TRA ~cdtweaks/languages/%LANGUAGE%/ee.tra~
 
-  // fix tokens if an EE game using schinese
-  ACTION_IF (~%LANGUAGE%~ STR_EQ ~schinese~) BEGIN
-    COPY ~%MOD_FOLDER%/languages/schinese/dw_components.tra~ ~%MOD_FOLDER%/languages/schinese/dw_components.tra~
-      REPLACE_TEXTUALLY ~<\([A-Z_]+\)>_~ ~<\1>~
-    LOAD_TRA ~%MOD_FOLDER%/languages/schinese/dw_components.tra~
-    
-    // and always load ANSI strings for WeiDU installer
-    LOAD_TRA ~%MOD_FOLDER%/languages/schinese_prompts/setup-%WEIDU_OS%.tra~
-  END  
-
 END ELSE BEGIN
 
   OUTER_SET enhanced_edition = 0
   OUTER_SPRINT ~tra_location~ ~weidu_external/cdtweaks/languages~
 
   // convert strings from UTF-8 for originals  
-  ACTION_DEFINE_ARRAY cdnoconvert BEGIN weidu ee END
+  ACTION_DEFINE_ARRAY cdnoconvert BEGIN weidu ee setup-osx setup-unix setup-win32 END
   ACTION_DEFINE_ARRAY cdreload BEGIN game END
   LAF HANDLE_CHARSETS INT_VAR from_utf8 = 1 infer_charsets = 1 
                       STR_VAR default_language = ~english~ tra_path = ~cdtweaks/languages~ out_path = ~weidu_external/cdtweaks/languages~ noconvert_array = cdnoconvert reload_array = cdreload END
