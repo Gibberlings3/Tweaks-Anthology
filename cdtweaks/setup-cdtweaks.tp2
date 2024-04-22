@@ -103,8 +103,10 @@ LANGUAGE
 LANGUAGE
   ~Simplified Chinese (Translation by c4_angel, distance20; oriignal BG2 Tweaks by Miranda; new string trans by Lewis Liu)~
   ~schinese~
+  ~cdtweaks/languages/english/game.tra~
+  ~cdtweaks/languages/english/weidu.tra~
   ~cdtweaks/languages/schinese/game.tra~
-  ~cdtweaks/languages/schinese/weidu.tra~
+  ~cdtweaks/languages/schinese/setup-%WEIDU_OS%.tra~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
