@@ -1,0 +1,189 @@
+@0 = "BEAST MASTER: This Ranger is a wanderer and is not comfortable in civilized lands. Therefore, <PRO_HESHE> maintains a natural affinity for animals; they are <PRO_HISHER> friends and comrades-in-arms, and the Beast Master has a limited form of telepathic communication with them.
+
+Advantages:
+– +15% to Move Silently and Hide In Shadows.
+– May use Summon Animal Companion ability to summon a special creature able to assist <PRO_HISHER> owner in combat or scouting.
+– 6th level: May cast Animal Summoning I.
+– 10th level: May cast Animal Summoning II.
+– 12th level: May cast Animal Summoning III.
+
+Disadvantages:
+– May not use any metal weapons (for example: swords, halberds, war hammers, or morning stars).
+– May not wear armor heavier than studded leather."
+
+@1 = "Summon Animal Companion"
+@2 = "Summon Animal Companion
+(Conjuration/Summoning)
+
+Level: 1
+Range: 0
+Duration: Permanent
+Casting Time: 1
+Area of Effect: Special
+Saving Throw: None
+
+This spell enables the Beast Master to attempt to summon an animal to act as <PRO_HISHER> aide and companion. A creature acting as an animal companion can benefit its master, conveying its sensory powers to <PRO_HIMHER>, conversing with <PRO_HIMHER>, and serving as a guard/scout/spy as well. A Beast Master can have only one animal companion at a time.
+
+Here is a list of the animal companions that the Beast Master can summon:
+
+
+
+CAVE BEAR
+
+Base Stats:
+– Hit Points: as per its master
+– Armor Class: 6 (+1 every 5 levels)
+– THAC0: as per a fighter of the same level (+1 every 5 levels, starting from level 10, capped at +3 at level 20)
+– Saves: as per a fighter of the same level
+– Str(18/100), Int(4), Wis(2), Dex(9), Con(16), Cha(3)
+– Combat: 3 attacks per round for 1d12 slashing damage (+1 every 5 levels, starting from level 10, capped at +3 at level 20)
+
+Special Abilities:
+– Critical Hit Chance: +10% (starting from level 5)
+– Deals an extra 2d8 points of piercing damage on a critical hit (starting from level 5)
+– After suffering fatal damage, the creature will continue fighting desperately for a short time, attacking friends and foes alike (will automatically die after 1d4 rounds)
+
+
+
+WINTER WOLF
+
+Base Stats:
+– Hit Points: as per its master
+– Armor Class: 5 (+1 every 5 levels)
+– THAC0: as per a fighter of the same level (+1 every 5 levels, starting from level 10, capped at +3 at level 20)
+– Saves: as per a fighter of the same level
+– Str(18), Int(10), Wis(8), Dex(12), Con(16), Cha(6)
+– Combat: 1 attack per round for 2d4 piercing damage (+1 every 5 levels, starting from level 10, capped at +3 at level 20)
+– Cold Resistance: 100%
+– Fire Resistance: -50%
+
+Special Abilities:
+– Can unleash a stream of frost, causing 6d4 points of cold damage (cone-shaped area originating at the creature's lungs and extending outward in a cone 17 ft. long with a 90-deg. arc). A save vs. breath weapon is allowed for half damage.
+
+
+
+SWORD SPIDER
+
+Base Stats:
+– Hit Points: as per its master
+– Armor Class: 3 (+1 every 5 levels)
+– THAC0: as per a fighter of the same level (+1 every 5 levels, starting from level 10, capped at +3 at level 20)
+– Saves: as per a fighter of the same level
+– Str(16), Int(10), Wis(2), Dex(14), Con(14), Cha(3)
+– Combat: 2 attacks per round for 2d6 piercing damage (+1 every 5 levels, starting from level 10, capped at +3 at level 20)
+
+Special Abilities:
+– Permanently (improved) hasted
+
+
+
+LEOPARD
+
+Base Stats:
+– Hit Points: as per its master
+– Armor Class: 6 (+1 every 5 levels)
+– THAC0: as per a fighter of the same level (+1 every 5 levels, starting from level 10, capped at +3 at level 20)
+– Saves: as per a fighter of the same level
+– Str(14), Int(4), Wis(12), Dex(15, +1 every 10 levels), Con(13), Cha(6)
+– Hide in Shadows: 10 (+5 every level)
+– Move Silently: 10 (+5 every level)
+– Combat: 3 attacks per round for 1d6 slashing damage (+1 every 5 levels, starting from level 10, capped at +3 at level 20)
+
+Special Abilities:
+– May Hide in Shadows
+– May perform sneak attacks
+
+
+
+DIRE BOAR
+
+Base Stats:
+– Hit Points: as per its master
+– Armor Class: 7 (+1 every 5 levels)
+– THAC0: as per a fighter of the same level (+1 every 5 levels, starting from level 10, capped at +3 at level 20)
+– Saves: as per a fighter of the same level
+– Str(16), Int(4), Wis(2), Dex(10), Con(16), Cha(3)
+– Combat: 1 attack per round for 3d4 piercing damage (+1 every 5 levels, starting from level 10, capped at +3 at level 20)
+
+Special Abilities:
+– Generates 5 Fury on each successful attack (+5 extra Fury on critical hits and each time it kills a creature). Upon getting 100, the next successful attack will consume all the Fury to cause bleeding damage (2d3 piercing damage per round, for 5 rounds, save vs. death for half damage). If there is no enemy within visual range, the boar loses 5 Fury per second.
+
+
+
+SPITTING SNAKE
+
+Base Stats:
+– Hit Points: as per its master
+– Armor Class: 5 (+1 every 5 levels)
+– THAC0: as per a fighter of the same level (+1 every 5 levels, starting from level 10, capped at +3 at level 20)
+– Saves: as per a fighter of the same level
+– Str(3), Int(1), Wis(2), Dex(16), Con(12), Cha(3)
+– Combat: 2 attacks per round for 1d3 piercing damage (+1 every 5 levels, starting from level 10, capped at +3 at level 20)
+
+Special Abilities:
+– Target must save vs. Death or lose 30% of its maximum Hit Points within 20 seconds
+– Can shoot poisonous spittle at a single target within 30 feet. Its spittle can blind victims that fail a saving throw vs. poison. The blindness wears off after 2d6 rounds (or until cured).
+
+
+
+BOMBARDIER BEETLE
+
+Base Stats:
+– Hit Points: as per its master
+– Armor Class: 4 (+1 every 5 levels)
+– THAC0: as per a fighter of the same level (+1 every 5 levels, starting from level 10, capped at +3 at level 20)
+– Saves: as per a fighter of the same level
+– Str(3), Int(1), Wis(1), Dex(10), Con(14), Cha(1)
+– Combat: 1 attack per round for 2d6 slashing damage (+1 every 5 levels, starting from level 10, capped at +3 at level 20)
+
+Special Abilities:
+– If it is attacked, there is a 50% chance each round that it will fire off a cloud of reeking, reddish, acidic vapor from its abdomen. This cloud causes 3d4 points of acid damage to any creature within range. Furthermore, the sound caused by the release of the vapor has a 20% chance of stunning, and a like chance for deafening. Stunning lasts for 2d4 rounds, Deafening lasts 2d6 rounds."
+
+@3 = "Animal Companion already summoned"
+
+@100 = "Summon Cave Bear"
+@101 = "Summon Winter Wolf"
+@102 = "Summon Sword Spider"
+@103 = "Summon Leopard"
+@104 = "Summon Dire Boar"
+@105 = "Summon Spitting Snake"
+@106 = "Summon Bombardier Beetle"
+
+@200 = "Unsummon Animal Companion"
+
+
+@1000 = "Cave Bear"
+@1001 = "Hug"
+@1002 = "After suffering fatal damage, the creature will continue fighting desperately for a short time, attacking friends and foes alike..."
+
+
+@2000 = "Winter Wolf"
+@2001 = "Frost Breath"
+@2002 = "Frost Breath
+
+The creature can unleash a stream of frost, causing 6d4 points of cold damage (cone-shaped area originating at the creature's lungs and extending outward in a cone 17 ft. long with a 90-deg. arc). A save vs. breath weapon is allowed for half damage."
+
+
+@3000 = "Sword Spider"
+
+
+@4000 = "Leopard"
+@4001 = "Sneak Attack"
+
+
+@5000 = "Dire Boar"
+@5001 = "Bleeding Wound"
+@5002 = "Suffers Bleeding Wound"
+
+
+@6000 = "Spitting Snake"
+@6001 = "Poisonous Spittle"
+@6002 = "Poisonous Spittle
+
+The creature can shoot poisonous spittle at a single target within 30 feet. Its spittle can blind victims that fail a saving throw vs. poison. The blindness wears off after 2d6 rounds (or until cured)."
+
+
+@7000 = "Bombardier Beetle"
+@7001 = "Releases Acidic Vapor"
+@7002 = "Stunned"
+@7003 = "Deafness"

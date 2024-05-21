@@ -83,6 +83,78 @@ BEGIN
 	END
 END
 
+/*
+==========================================================================================================================================================================================================
+**ADD_SPLPROT_ENTRY** - Adds a new entry to "SPLPROT.2DA" and returns its index. If an identical entry already exists it will return the index of that entry instead (borrowed from Argent77, tweaked by me)
+==========================================================================================================================================================================================================
+*/
+
+DEFINE_DIMORPHIC_FUNCTION "ADD_SPLPROT_ENTRY"
+INT_VAR
+	"stat"      = "-1" // a code from STATS.IDS or an extended stat code starting at 0x100 (256).
+STR_VAR
+	"value"     = "*" // either a numeric value that is evaluated by "stat", or a default value "*" for specific stats. Note: "-1" indicates a user-defined value.
+	"relation"  = "*" // specifies how to evaluate the value. Note: Not all extended stats require a relation code. Use "*" in this case.
+	"label"     = "" // user-friendly identifier
+RET
+	"index" // Entry number that can be used to refer to this operation in various effect opcodes. Returns "-1" on error.
+BEGIN
+	// Initialize
+	OUTER_SET "index" = "-1"
+	// Main
+	ACTION_IF ("%stat%" >= 0) BEGIN
+		OUTER_PATCH "" BEGIN
+			SPRINTF "valueHex" "%x" ("%stat%")
+		END
+		ACTION_IF (~%value%~ STRING_EQUAL ~~) BEGIN
+			OUTER_TEXT_SPRINT "value" ~*~
+		END
+		ACTION_IF (~%relation%~ STRING_EQUAL ~~) BEGIN
+			OUTER_TEXT_SPRINT "relation" ~*~
+		END
+		// Add the specified entry or return its index if already present
+		COPY_EXISTING ~splprot.2da~ ~override~
+			READ_2DA_ENTRIES_NOW "read_splprot" 4
+			// Search for identical entries
+			FOR ("idx" = 0; "%idx%" < "%read_splprot%"; "idx" += 1) BEGIN
+				READ_2DA_ENTRY_FORMER "read_splprot" "%idx%" 1 "curStat"
+				PATCH_IF (~%stat%~ STRING_EQUAL ~%curStat%~ OR ~%valueHex%~ STRING_EQUAL_CASE ~%curStat%~) BEGIN
+					READ_2DA_ENTRY_FORMER "read_splprot" "%idx%" 2 "curValue"
+					PATCH_IF (~%value%~ STRING_EQUAL ~%curValue%~) BEGIN
+						READ_2DA_ENTRY_FORMER "read_splprot" "%idx%" 3 "curRelation"
+						PATCH_IF (~%relation%~ STRING_EQUAL ~%curRelation%~) BEGIN
+							SET "index" = "%idx%" // If already present, return its index
+							SET "idx" = "%read_splprot%" // Kill FOR-loop
+						END
+					END
+				END
+			END
+			// If not already present, add it...
+			PATCH_IF ("%index%" < 0) BEGIN
+				// Make sure we provided an identifier!
+				PATCH_IF ("%label%" STRING_COMPARE_CASE "") BEGIN
+					// Sanity check
+					INNER_PATCH_SAVE "label" "%label%" BEGIN
+						REPLACE_TEXTUALLY CASE_INSENSITIVE EVALUATE_REGEXP "[ %TAB%%WNL%%MNL%%LNL%]" ""
+					END
+					// Add new entry
+					PATCH_IF ("%stat%" >= 0x100) BEGIN
+						TEXT_SPRINT "line" ~%read_splprot%_%label% %valueHex% %value% %relation%~
+					END ELSE BEGIN
+						TEXT_SPRINT "line" ~%read_splprot%_%label% %stat% %value% %relation%~
+					END
+					INSERT_2DA_ROW "%read_splprot%" 4 ~%line%~
+					// Prettify
+					PRETTY_PRINT_2DA
+					SET "index" = "%read_splprot%"
+				END ELSE BEGIN
+					PATCH_FAIL "ADD_SPLPROT_ENTRY: ~label~ cannot be empty. Please specify a human-friendly identifier (f.i. ~ALIGNMENTBITS!=MASK_LCNEUTRAL~)"
+				END
+			END
+		BUT_ONLY_IF_IT_CHANGES
+	END
+END
+
 ////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\
 // Add a new entry to "statdesc.2da" (tweaked from CamDawg) \\
 ////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\
@@ -185,40 +257,4 @@ BEGIN
 		END
 	BUT_ONLY_IF_IT_CHANGES
 
-END
-
-// Get the clab files of all kits whose base class is "%class%" \\
-////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\
-
-DEFINE_DIMORPHIC_FUNCTION "GET_CLAB_FILES"
-STR_VAR
-	"class" = ""
-RET_ARRAY
-	"clab_files"
-BEGIN
-	ACTION_MATCH "%class%" WITH
-		"thief" BEGIN
-			OUTER_TEXT_SPRINT $"clab_files"("clabth01") "" // unkitted thief
-		END
-		"ranger" BEGIN
-			OUTER_TEXT_SPRINT $"clab_files"("clabrn01") "" // unkitted ranger
-		END
-		"cleric" BEGIN
-			OUTER_TEXT_SPRINT $"clab_files"("clabpr01") "" // unkitted cleric
-		END
-		DEFAULT
-	END
-	//
-	COPY_EXISTING - "kitlist.2da" "override"
-		COUNT_2DA_COLS "cols"
-		READ_2DA_ENTRIES_NOW "read_kitlist" "%cols%"
-		FOR ("i" = 1 ; "%i%" < "%read_kitlist%" ; "i" += 1) BEGIN // skip RESERVE row...
-			READ_2DA_ENTRY_FORMER "read_kitlist" "%i%" 8 "class_here"
-			PATCH_IF ("%class_here%" == IDS_OF_SYMBOL ("class" "%class%")) BEGIN
-				READ_2DA_ENTRY_FORMER "read_kitlist" "%i%" 5 "abilities"
-				TEXT_SPRINT $"clab_files"("%abilities%") ""
-			END
-		END
-	BUT_ONLY
-  
 END

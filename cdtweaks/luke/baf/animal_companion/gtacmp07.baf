@@ -1,0 +1,20 @@
+IF
+	OR(3)
+		!InParty(LastSummonerOf(Myself))
+		EEex_LuaTrigger("return GT_AnimalCompanion_CheckIfIncompleteDualClass()")
+		TriggerOverride(LastSummonerOf(Myself), Die())
+THEN
+	RESPONSE #100
+		ApplySpellRES("GTACMP00", Myself)
+END
+
+IF
+	!HasItemSlot(Myself,SLOT_MISC19)
+	EEex_LuaTrigger("return GT_AnimalCompanion_CanLevelUp()")
+	CheckStat(Myself,0,LEVELDRAIN)
+THEN
+	RESPONSE #100
+		PlaySound("GAM_11")
+		EEex_LuaAction("GT_AnimalCompanion_Beetle_LevelUp()")
+END
+

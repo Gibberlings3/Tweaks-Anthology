@@ -1,0 +1,1160 @@
+DEFINE_ACTION_FUNCTION "GT_ANIMAL_COMPANION"
+BEGIN
+	// preamble \\
+
+	LAM "READ_SPELL_IDS"
+
+	// empty file \\
+
+	<<<<<<<< .../cdtweaks-inlined/empty
+	>>>>>>>>
+
+	// empty spl file \\
+
+	WITH_SCOPE BEGIN
+		ACTION_IF !(FILE_EXISTS_IN_GAME "gtempty.spl") BEGIN
+			CREATE "spl" "gtempty"
+			COPY_EXISTING "gtempty.spl" "override"
+				LPF ~ADD_SPELL_HEADER~ END
+				LPF ~ADD_SPELL_EFFECT~ INT_VAR "target" = 2 END
+			BUT_ONLY_IF_IT_CHANGES
+		END
+	END
+
+	// update kit description \\
+
+	WITH_SCOPE BEGIN
+		COPY_EXISTING "kitlist.2da" "override"
+			COUNT_2DA_COLS "cols"
+			READ_2DA_ENTRIES_NOW "read_kitlist" "%cols%"
+			FOR ("i" = 0 ; "%i%" < "%read_kitlist%" ; "i" += 1) BEGIN
+				READ_2DA_ENTRY_FORMER "read_kitlist" "%i%" 1 "symbol"
+				PATCH_IF ("%symbol%" STRING_EQUAL_CASE "BEASTMASTER") BEGIN
+					SET "strref" = RESOLVE_STR_REF (@0)
+					SET_2DA_ENTRY "%i%" 4 "%cols%" "%strref%"
+					SET "i" = "%read_kitlist%" // kill for-loop
+				END
+			END
+		BUT_ONLY
+	END
+
+	// update main ability \\
+
+	WITH_SCOPE BEGIN
+		COPY_EXISTING "%BEASTMASTER_FIND_FAMILIAR%.spl" "override"
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@1)
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC RESOLVE_STR_REF (@2)
+			WRITE_LONG DESC "-1"
+			//
+			LPF "ALTER_SPELL_HEADER" INT_VAR "target" = 5 END
+			//
+			LPF "DELETE_EFFECT" INT_VAR "check_globals" = 0 END
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 1 STR_VAR "resource" = "GTACMP00" END // Invoke lua
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 214 "target" = 1 "timing" = 1 STR_VAR "resource" = "GTACMP00" END // Select spell
+		BUT_ONLY
+		//
+		COPY "cdtweaks\luke\2da\gtacmp00.2da" "override" // 2da invoked by op214
+		//
+		ACTION_IF !(FILE_EXISTS_IN_GAME "m_gt#402.lua") BEGIN
+			COPY ".../cdtweaks-inlined/empty" "override\m_gt#402.lua"
+				DELETE_BYTES 0x0 BUFFER_LENGTH
+				INSERT_BYTES 0x0 STRING_LENGTH "-- Functions to be invoked via op402 --%WNL%%WNL%"
+				WRITE_ASCII 0x0 "-- Functions to be invoked via op402 --%WNL%%WNL%"
+			BUT_ONLY_IF_IT_CHANGES
+		END
+		COPY_EXISTING "m_gt#402.lua" "override"
+			SET "feedback_strref" = RESOLVE_STR_REF (@3)
+			APPEND_FILE_EVALUATE TEXT "cdtweaks\luke\lua\animal_companion\initialize.lua"
+		BUT_ONLY UNLESS "^function GTACMP00"
+	END
+
+	// make spl files (one for each creature) \\
+
+	WITH_SCOPE BEGIN
+		ACTION_DEFINE_ASSOCIATIVE_ARRAY "cdtweaksAnimalCompanion" BEGIN
+			"gtacmp01" => 100 // cave bear
+			"gtacmp02" => 101 // winter wolf
+			"gtacmp03" => 102 // sword spider
+			"gtacmp04" => 103 // leopard
+			"gtacmp05" => 104 // dire boar
+			"gtacmp06" => 105 // spitting snake
+			"gtacmp07" => 106 // bombardier beetle
+		END
+		ACTION_PHP_EACH "cdtweaksAnimalCompanion" AS "k" => "v" BEGIN
+			COPY "cdtweaks\luke\bam\%k%.bam" "override"
+			CREATE "spl" "%k%"
+			COPY_EXISTING "%k%.spl" "override"
+				/* Header */
+				WRITE_LONG NAME1 RESOLVE_STR_REF ((AT "%v%"))
+				WRITE_LONG NAME2 "-1"
+				WRITE_LONG UNIDENTIFIED_DESC "-1"
+				WRITE_LONG DESC "-1"
+				WRITE_LONG 0x18 BIT14 // Ignore dead/wild magic
+				WRITE_SHORT 0x1C 4 // Type: Innate
+				WRITE_LONG 0x34 1 // Level
+				WRITE_ASCII 0x3A ~%k%~ #8 // Icon
+				/* Extended Header */
+				LPF ~ADD_SPELL_HEADER~ INT_VAR "target" = 5 "range" = 0x7FFF STR_VAR "icon" = "%k%" END
+				/* Feature Blocks */
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 177 "target" = 1 "timing" = 1 "parameter2" = 2 STR_VAR "resource" = "GTACMP00" END // Use EFF file
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 177 "target" = 1 "timing" = 1 "parameter2" = 2 STR_VAR "resource" = "%k%" END // Use EFF file
+			BUT_ONLY
+			//
+			CREATE "eff" "%k%"
+			COPY_EXISTING "%k%.eff" "override"
+				WRITE_LONG 0x10 67 // Summon creature
+				WRITE_SHORT 0x2C 100 // prob1
+				WRITE_ASCII 0x30 "%k%" #8 // CRE resref
+				WRITE_ASCII 0x70 "SPANISUM" #8 // VVC resref
+			BUT_ONLY_IF_IT_CHANGES
+		END
+		//
+		CREATE "eff" "gtacmp00"
+		COPY_EXISTING "gtacmp00.eff" "override"
+			WRITE_LONG 0x10 187 // Set local int
+			WRITE_SHORT 0x2C 100 // prob1
+			WRITE_LONG 0x1C 1 // set to 1
+			WRITE_ASCII 0xA8 "gtAnimalCompanion" #32 // Var name
+		BUT_ONLY_IF_IT_CHANGES
+	END
+
+	// Banish creature (spl file) \\
+
+	WITH_SCOPE BEGIN
+		COPY "cdtweaks\luke\bam\gtacmp00.bam" "override"
+		//
+		CREATE "spl" "gtacmp00"
+		COPY_EXISTING "gtacmp00.spl" "override"
+			/* Header */
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@200)
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC "-1"
+			WRITE_LONG DESC "-1"
+			WRITE_LONG 0x18 (BIT14 BOR BIT25) // Ignore dead/wild magic, castable when silenced
+			WRITE_SHORT 0x1C 4 // Type: Innate
+			WRITE_LONG 0x34 1 // Level
+			WRITE_ASCII 0x3A "%DEST_RES%" #8 // icon
+			/* Extended Header */
+			LPF ~ADD_SPELL_HEADER~ INT_VAR "target" = 7 "range" = 0x7FFF STR_VAR "icon" = "%DEST_RES%" END
+			/* Feature Blocks */
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 68 "parameter1" = 1 "target" = 1 "timing" = 1 END // Unsummon creature (Display text?: Yes)
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 1 STR_VAR "resource" = "GTACP_00" END // invoke lua
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 13 "parameter1" = 1 "target" = 1 "timing" = 4 "parameter2" = BIT2 END // normal death, Display text?: No (0-second delay trick, so that it kicks in after op68 and 402)
+		BUT_ONLY
+		//
+		COPY_EXISTING "m_gt#402.lua" "override"
+			APPEND_FILE TEXT "cdtweaks\luke\lua\animal_companion\unsummon.lua"
+		BUT_ONLY UNLESS "^function GTACP_00"
+	END
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	/* CAVE BEAR */
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	WITH_SCOPE BEGIN
+		CREATE "cre" "gtacmp01" // bear
+		COPY_EXISTING "gtacmp01.cre" "override"
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@1000) // name
+			WRITE_LONG NAME2 RESOLVE_STR_REF (@1000) // tooltip
+			//
+			WRITE_LONG 0x10 BIT1 // flags: no corpse
+			//
+			WRITE_SHORT 0x24 1 // current HP
+			WRITE_SHORT 0x26 1 // max HP
+			//
+			WRITE_LONG 0x28 IDS_OF_SYMBOL ("animate" "bear_cave")
+			//
+			WRITE_BYTE 0x2C 20 // metal color
+			WRITE_BYTE 0x2D 31 // minor color
+			WRITE_BYTE 0x2E 31 // major color
+			WRITE_BYTE 0x2F 7 // skin color
+			WRITE_BYTE 0x30 14 // leather color
+			WRITE_BYTE 0x31 20 // armor color
+			WRITE_BYTE 0x32 0 // hair color
+			//
+			WRITE_SHORT 0x46 6 // natural AC
+			WRITE_SHORT 0x48 6 // effective AC
+			//
+			WRITE_BYTE 0x53 3 // # attacks/round
+			//
+			WRITE_BYTE 0x237 IDS_OF_SYMBOL ("gender" "male") // sex
+			// abilities
+			WRITE_BYTE 0x238 18 // STR
+			WRITE_BYTE 0x239 100 // STR Extra
+			WRITE_BYTE 0x23A 4 // INT
+			WRITE_BYTE 0x23B 2 // WIS
+			WRITE_BYTE 0x23C 9 // DEX
+			WRITE_BYTE 0x23D 16 // CON
+			WRITE_BYTE 0x23E 3 // CHA
+			//
+			WRITE_BYTE 0x23F 10 // morale
+			WRITE_BYTE 0x240 4 // morale break
+			WRITE_SHORT 0x242 30 // morale recovery
+			//
+			WRITE_ASCII SCRIPT_OVERRIDE "GTACMP00" #8
+			WRITE_ASCII SCRIPT_CLASS "%DEST_RES%" #8
+			WRITE_ASCII SCRIPT_DEFAULT "GTACMPAI" #8
+			//
+			WRITE_ASCII DEATHVAR "gtAnmlCompBear" #32
+			// IDS
+			WRITE_BYTE 0x270 IDS_OF_SYMBOL ("ea" "neutral")
+			WRITE_BYTE 0x271 IDS_OF_SYMBOL ("general" "animal")
+			WRITE_BYTE 0x272 IDS_OF_SYMBOL ("race" "bear")
+			WRITE_BYTE 0x273 IDS_OF_SYMBOL ("class" "bear_cave")
+			WRITE_BYTE 0x275 IDS_OF_SYMBOL ("gender" "male")
+			WRITE_BYTE 0x27B IDS_OF_SYMBOL ("align" "neutral")
+			// equipment
+			ADD_CRE_ITEM "gtacp01a" #0 #0 #0 "identified&unstealable&undroppable" "weapon" EQUIP
+			// passive traits
+			LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 268 "target" = 1 "timing" = 1 END // clear fog of war
+			LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 232 "target" = 1 "timing" = 1 "parameter2" = 16 "special" = BIT2 STR_VAR "resource" = "GTACMP00" END // cast spell onto myself upon death (suppress spell's name)
+			// spellbook
+			ADD_MEMORIZED_SPELL "gtacmp00" #0 "innate"
+		BUT_ONLY_IF_IT_CHANGES
+		//
+		CREATE "itm" "gtacp01a"
+		COPY_EXISTING "gtacp01a.itm" "override"
+			/* Header */
+			WRITE_LONG NAME1 "-1"
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC "-1"
+			WRITE_LONG DESC "-1"
+			WRITE_LONG 0x18 BIT5 // flags: not copyable (not needed...?)
+			WRITE_SHORT 0x38 1 // maximum in stack
+			WRITE_ASCII 0x3A "IBEAR" #8
+			/* Extended Header */
+			LPF ~ADD_ITEM_HEADER~ INT_VAR "type" = 1 "location" = 1 "range" = 1 "dicenumber" = 1 "dicesize" = 12 "damage_type" = 3 "depletion" = 1 "flags" = BIT0 "overhand" = 34 "backhand" = 33 "thrust" = 33 STR_VAR "icon" = "IBEAR" END // 1d12 (slashing)
+		BUT_ONLY_IF_IT_CHANGES
+		//
+		CREATE "spl" "gtacmp01"
+		COPY_EXISTING "gtacmp01.spl" "override"
+			/* Header */
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@1001)
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC "-1"
+			WRITE_LONG DESC "-1"
+			WRITE_LONG 0x18 BIT14 // Ignore dead/wild magic
+			WRITE_SHORT 0x1C 4 // Type: Innate
+			WRITE_LONG 0x34 1 // Level
+			WRITE_ASCII 0x3A ~IBEAR~ #8 // Icon
+			/* Extended Header */
+			LPF ~ADD_SPELL_HEADER~ INT_VAR "range" = 0x7FFF STR_VAR "icon" = "IBEAR" END
+			/* Feature Blocks */
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 12 "target" = 2 "timing" = 1 "parameter2" = IDS_OF_SYMBOL ("dmgtype" "slashing") "dicenumber" = 2 "dicesize" = 8 END // Damage (2d8)
+		BUT_ONLY
+		//
+		ACTION_DEFINE_ASSOCIATIVE_ARRAY "cdtweaksAnimalCompanion" BEGIN
+			// id => enchantment
+			"b" => 0 // magical (+0)
+			"c" => 1 // magical (+1)
+			"d" => 2 // magical (+2)
+			"e" => 3 // magical (+3)
+		END
+		ACTION_PHP_EACH "cdtweaksAnimalCompanion" AS "k" => "v" BEGIN
+			COPY_EXISTING "gtacp01a.itm" "override\gtacp01%k%.itm"
+				WRITE_LONG 0x18 (THIS BOR BIT6) // flags: magical
+				WRITE_LONG 0x60 "%v%" // enchantment
+				LPF "ALTER_ITEM_HEADER" INT_VAR "damage_bonus" = "%v%" "thac0_bonus" = "%v%" END
+				// equipped effects \\
+				LPF "ADD_ITEM_EQEFFECT" INT_VAR "insert_point" = "-1" "opcode" = 301 "target" = 1 "timing" = 2 "parameter1" = 2 "parameter2" = 1 END // Critical Hit Chance: +10%
+				LPF "ADD_ITEM_EQEFFECT" INT_VAR "insert_point" = "-1" "opcode" = 341 "target" = 1 "timing" = 2 "parameter2" = 1 STR_VAR "resource" = "gtacmp01" END // Deals an extra 2d8 points of slashing damage on a critical hit
+			BUT_ONLY_IF_IT_CHANGES
+		END
+		//
+		ACTION_IF !(FILE_EXISTS_IN_GAME "m_gt#403.lua") BEGIN
+			COPY ".../cdtweaks-inlined/empty" "override\m_gt#403.lua"
+				DELETE_BYTES 0x0 BUFFER_LENGTH
+				INSERT_BYTES 0x0 STRING_LENGTH "-- Functions to be invoked via op403 --%WNL%%WNL%"
+				WRITE_ASCII 0x0 "-- Functions to be invoked via op403 --%WNL%%WNL%"
+			BUT_ONLY_IF_IT_CHANGES
+		END
+		COPY_EXISTING "m_gt#403.lua" "override"
+			SET "feedback_strref" = RESOLVE_STR_REF (@1002)
+			APPEND_FILE_EVALUATE TEXT "cdtweaks\luke\lua\animal_companion\bear_last_stand.lua"
+		BUT_ONLY UNLESS "^function GTACMP01"
+	END
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	/* WINTER WOLF */
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	WITH_SCOPE BEGIN
+		CREATE "cre" "gtanml02"
+		COPY_EXISTING "gtanml02.cre" "override"
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@2000) // name
+			WRITE_LONG NAME2 RESOLVE_STR_REF (@2000) // tooltip
+			//
+			WRITE_LONG 0x10 BIT1 // flags: no corpse
+			//
+			WRITE_SHORT 0x24 1 // current HP
+			WRITE_SHORT 0x26 1 // max HP
+			//
+			WRITE_LONG 0x28 IDS_OF_SYMBOL ("animate" "wolf_winter")
+			//
+			WRITE_BYTE 0x2C 20 // metal color
+			WRITE_BYTE 0x2D 31 // minor color
+			WRITE_BYTE 0x2E 31 // major color
+			WRITE_BYTE 0x2F 7 // skin color
+			WRITE_BYTE 0x30 14 // leather color
+			WRITE_BYTE 0x31 20 // armor color
+			WRITE_BYTE 0x32 0 // hair color
+			//
+			WRITE_SHORT 0x46 5 // natural AC
+			WRITE_SHORT 0x48 5 // effective AC
+			//
+			WRITE_BYTE 0x53 1 // # attacks/round
+			// resistances
+			WRITE_BYTE 0x59 "-50" // fire
+			WRITE_BYTE 0x5A 100 // cold
+			//
+			WRITE_BYTE 0x237 IDS_OF_SYMBOL ("gender" "male") // sex
+			// abilities
+			WRITE_BYTE 0x238 18 // STR
+			WRITE_BYTE 0x23A 10 // INT
+			WRITE_BYTE 0x23B 8 // WIS
+			WRITE_BYTE 0x23C 12 // DEX
+			WRITE_BYTE 0x23D 16 // CON
+			WRITE_BYTE 0x23E 6 // CHA
+			//
+			WRITE_BYTE 0x23F 13 // morale
+			WRITE_BYTE 0x240 6 // morale break
+			WRITE_SHORT 0x242 30 // morale recovery
+			//
+			WRITE_ASCII SCRIPT_OVERRIDE "GTACMP00" #8
+			WRITE_ASCII SCRIPT_CLASS "%DEST_RES%" #8
+			WRITE_ASCII SCRIPT_DEFAULT "GTACMPAI" #8
+			//
+			WRITE_ASCII DEATHVAR "gtAnmlCompWolf" #32
+			// IDS
+			WRITE_BYTE 0x270 IDS_OF_SYMBOL ("ea" "neutral")
+			WRITE_BYTE 0x271 IDS_OF_SYMBOL ("general" "animal")
+			WRITE_BYTE 0x272 IDS_OF_SYMBOL ("race" "wolf")
+			WRITE_BYTE 0x273 IDS_OF_SYMBOL ("class" "wolf_winter")
+			WRITE_BYTE 0x275 IDS_OF_SYMBOL ("gender" "male")
+			WRITE_BYTE 0x27B IDS_OF_SYMBOL ("align" "neutral_evil")
+			// equipment
+			ADD_CRE_ITEM "gtacp02a" #0 #0 #0 "identified&unstealable&undroppable" "weapon" EQUIP
+			// passive traits
+			LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 268 "target" = 1 "timing" = 1 END // clear fog of war
+			LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 232 "target" = 1 "timing" = 1 "parameter2" = 16 "special" = BIT2 STR_VAR "resource" = "GTACMP00" END // cast spell onto myself upon death (suppress spell's name)
+			// spellbook
+			ADD_MEMORIZED_SPELL "gtacmp00" #0 "innate"
+		BUT_ONLY_IF_IT_CHANGES
+		//
+		CREATE "itm" "gtacp02a"
+		COPY_EXISTING "gtacp02a.itm" "override"
+			/* Header */
+			WRITE_LONG NAME1 "-1"
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC "-1"
+			WRITE_LONG DESC "-1"
+			WRITE_LONG 0x18 BIT5 // flags: not copyable (not needed...?)
+			WRITE_SHORT 0x38 1 // maximum in stack
+			WRITE_ASCII 0x3A "IWOLF" #8
+			/* Extended Header */
+			LPF ~ADD_ITEM_HEADER~ INT_VAR "type" = 1 "location" = 1 "range" = 1 "dicenumber" = 2 "dicesize" = 4 "damage_type" = 1 "depletion" = 1 "flags" = BIT0 "overhand" = 34 "backhand" = 33 "thrust" = 33 STR_VAR "icon" = "IWOLF" END // 2d4 (piercing)
+		BUT_ONLY_IF_IT_CHANGES
+		//
+		CREATE "spl" "gtacmp02"
+		COPY_EXISTING "gtacmp02.spl" "override"
+			/* Header */
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@2001)
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC RESOLVE_STR_REF (@2002)
+			WRITE_LONG DESC "-1"
+			WRITE_LONG 0x18 (BIT14 BOR BIT25) // Ignore dead/wild magic, Castable when silenced
+			WRITE_SHORT 0x1C 4 // Type: Innate
+			WRITE_LONG 0x34 1 // Level
+			WRITE_ASCII 0x3A ~%WIZARD_CONE_OF_COLD%C~ #8 // Icon
+			/* Extended Header */
+			PATCH_WITH_SCOPE BEGIN
+				FOR ("i" = 5 ; "%i%" <= 40 ; "i" += 5) BEGIN
+					LPF ~ADD_SPELL_HEADER~ INT_VAR "required_level" = ("%i%" == 5 ? 1 : "%i%") "range" = 30 "projectile" = IDS_OF_SYMBOL ("MISSILE" "New_Cone_Of_Cold") STR_VAR "icon" = ~%WIZARD_CONE_OF_COLD%B~ END
+					/* Feature Blocks */
+					LPF "ADD_SPELL_EFFECT" INT_VAR "header" = SHORT_AT 0x68 "opcode" = 12 "target" = 2 "timing" = 1 "parameter2" = IDS_OF_SYMBOL ("dmgtype" "cold") "dicenumber" = 6 "dicesize" = 4 "savingthrow" = BIT1 "savebonus" = "-1" * (("%i%" / 5) - 1) "special" = BIT8 END // Damage (6d4, save vs. breath for half)
+				END
+			END
+		BUT_ONLY
+		//
+		ACTION_DEFINE_ASSOCIATIVE_ARRAY "cdtweaksAnimalCompanion" BEGIN
+			// id => enchantment
+			"b" => 0 // magical (+0)
+			"c" => 1 // magical (+1)
+			"d" => 2 // magical (+2)
+			"e" => 3 // magical (+3)
+		END
+		ACTION_PHP_EACH "cdtweaksAnimalCompanion" AS "k" => "v" BEGIN
+			COPY_EXISTING "gtacp02a.itm" "override\gtacp02%k%.itm"
+				WRITE_LONG 0x18 (THIS BOR BIT6) // flags: magical
+				WRITE_LONG 0x60 "%v%" // enchantment
+				LPF "ALTER_ITEM_HEADER" INT_VAR "damage_bonus" = "%v%" "thac0_bonus" = "%v%" END
+			BUT_ONLY_IF_IT_CHANGES
+		END
+	END
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	/* SWORD SPIDER */
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	WITH_SCOPE BEGIN
+		CREATE "cre" "gtacmp03"
+		COPY_EXISTING "gtacmp03.cre" "override"
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@3000) // name
+			WRITE_LONG NAME2 RESOLVE_STR_REF (@3000) // tooltip
+			//
+			WRITE_LONG 0x10 BIT1 // flags: no corpse
+			//
+			WRITE_SHORT 0x24 1 // current HP
+			WRITE_SHORT 0x26 1 // max HP
+			//
+			WRITE_LONG 0x28 IDS_OF_SYMBOL ("animate" "spider_sword")
+			//
+			WRITE_BYTE 0x2C 20 // metal color
+			WRITE_BYTE 0x2D 31 // minor color
+			WRITE_BYTE 0x2E 31 // major color
+			WRITE_BYTE 0x2F 7 // skin color
+			WRITE_BYTE 0x30 14 // leather color
+			WRITE_BYTE 0x31 20 // armor color
+			WRITE_BYTE 0x32 0 // hair color
+			//
+			WRITE_SHORT 0x46 3 // natural AC
+			WRITE_SHORT 0x48 3 // effective AC
+			//
+			WRITE_BYTE 0x53 2 // # attacks/round
+			//
+			WRITE_BYTE 0x237 IDS_OF_SYMBOL ("gender" "male") // sex
+			// abilities
+			WRITE_BYTE 0x238 16 // STR
+			WRITE_BYTE 0x23A 10 // INT
+			WRITE_BYTE 0x23B 2 // WIS
+			WRITE_BYTE 0x23C 14 // DEX
+			WRITE_BYTE 0x23D 14 // CON
+			WRITE_BYTE 0x23E 3 // CHA
+			//
+			WRITE_BYTE 0x23F 13 // morale
+			WRITE_BYTE 0x240 3 // morale break
+			WRITE_SHORT 0x242 30 // morale recovery
+			//
+			WRITE_ASCII SCRIPT_OVERRIDE "GTACMP00" #8
+			WRITE_ASCII SCRIPT_CLASS "%DEST_RES%" #8
+			WRITE_ASCII SCRIPT_DEFAULT "GTACMPAI" #8
+			//
+			WRITE_ASCII DEATHVAR "gtAnmlCompSpider" #32
+			// IDS
+			WRITE_BYTE 0x270 IDS_OF_SYMBOL ("ea" "neutral")
+			WRITE_BYTE 0x271 IDS_OF_SYMBOL ("general" "monster")
+			WRITE_BYTE 0x272 IDS_OF_SYMBOL ("race" "spider")
+			WRITE_BYTE 0x273 IDS_OF_SYMBOL ("class" "spider_sword")
+			WRITE_BYTE 0x275 IDS_OF_SYMBOL ("gender" "male")
+			WRITE_BYTE 0x27B IDS_OF_SYMBOL ("align" "chaotic_evil")
+			// equipment
+			ADD_CRE_ITEM "gtacp03a" #0 #0 #0 "identified&unstealable&undroppable" "weapon" EQUIP
+			// passive traits
+			LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 16 "target" = 1 "timing" = 1 "parameter2" = 1 END // permanently (improved) hasted
+			LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 268 "target" = 1 "timing" = 1 END // clear fog of war
+			LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 232 "target" = 1 "timing" = 1 "parameter2" = 16 "special" = BIT2 STR_VAR "resource" = "GTACMP00" END // cast spell onto myself upon death (suppress spell's name)
+			// immunity to web-based attacks
+			LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 101 "target" = 1 "timing" = 9 "parameter2" = 157 END
+			LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 169 "target" = 1 "timing" = 9 "parameter2" = 129 END
+			LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 83 "target" = 1 "timing" = 9 "parameter2" = IDS_OF_SYMBOL ("projectl" "webtrav") END
+			LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 83 "target" = 1 "timing" = 9 "parameter2" = IDS_OF_SYMBOL ("projectl" "web1p") END
+		BUT_ONLY_IF_IT_CHANGES
+		//
+		CREATE "itm" "gtacp03a"
+		COPY_EXISTING "gtacp03a.itm" "override"
+			/* Header */
+			WRITE_LONG NAME1 "-1"
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC "-1"
+			WRITE_LONG DESC "-1"
+			WRITE_LONG 0x18 BIT5 // flags: not copyable (not needed...?)
+			WRITE_SHORT 0x38 1 // maximum in stack
+			WRITE_ASCII 0x3A "ISWOSPDR" #8
+			/* Extended Header */
+			LPF ~ADD_ITEM_HEADER~ INT_VAR "type" = 1 "location" = 1 "range" = 1 "dicenumber" = 2 "dicesize" = 6 "damage_type" = 1 "depletion" = 1 "flags" = BIT0 "overhand" = 34 "backhand" = 33 "thrust" = 33 STR_VAR "icon" = "ISWOSPDR" END // 2d6 (piercing)
+		BUT_ONLY_IF_IT_CHANGES
+		//
+		ACTION_DEFINE_ASSOCIATIVE_ARRAY "cdtweaksAnimalCompanion" BEGIN
+			// id => enchantment
+			"b" => 0 // magical (+0)
+			"c" => 1 // magical (+1)
+			"d" => 2 // magical (+2)
+			"e" => 3 // magical (+3)
+		END
+		ACTION_PHP_EACH "cdtweaksAnimalCompanion" AS "k" => "v" BEGIN
+			COPY_EXISTING "gtacp03a.itm" "override\gtacp03%k%.itm"
+				WRITE_LONG 0x18 (THIS BOR BIT6) // flags: magical
+				WRITE_LONG 0x60 "%v%" // enchantment
+				LPF "ALTER_ITEM_HEADER" INT_VAR "damage_bonus" = "%v%" "thac0_bonus" = "%v%" END
+			BUT_ONLY_IF_IT_CHANGES
+		END
+	END
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	/* LEOPARD */
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	WITH_SCOPE BEGIN
+		CREATE "cre" "gtacmp04"
+		COPY_EXISTING "gtacmp04.cre" "override"
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@4000) // name
+			WRITE_LONG NAME2 RESOLVE_STR_REF (@4000) // tooltip
+			//
+			WRITE_LONG 0x10 BIT1 // flags: no corpse
+			//
+			WRITE_SHORT 0x24 1 // current HP
+			WRITE_SHORT 0x26 1 // max HP
+			//
+			WRITE_LONG 0x28 IDS_OF_SYMBOL ("animate" "greatcat_leopard")
+			//
+			WRITE_BYTE 0x2C 20 // metal color
+			WRITE_BYTE 0x2D 31 // minor color
+			WRITE_BYTE 0x2E 31 // major color
+			WRITE_BYTE 0x2F 7 // skin color
+			WRITE_BYTE 0x30 14 // leather color
+			WRITE_BYTE 0x31 20 // armor color
+			WRITE_BYTE 0x32 0 // hair color
+			//
+			WRITE_SHORT 0x46 6 // natural AC
+			WRITE_SHORT 0x48 6 // effective AC
+			//
+			WRITE_BYTE 0x53 3 // # attacks/round
+			//
+			WRITE_BYTE 0x45 10 // Hide in Shadows
+			WRITE_BYTE 0x68 10 // Move Silently
+			//
+			WRITE_BYTE 0x237 IDS_OF_SYMBOL ("gender" "male") // sex
+			// abilities
+			WRITE_BYTE 0x238 14 // STR
+			WRITE_BYTE 0x23A 4 // INT
+			WRITE_BYTE 0x23B 12 // WIS
+			WRITE_BYTE 0x23C 15 // DEX
+			WRITE_BYTE 0x23D 13 // CON
+			WRITE_BYTE 0x23E 6 // CHA
+			//
+			WRITE_BYTE 0x23F 10 // morale
+			WRITE_BYTE 0x240 5 // morale break
+			WRITE_SHORT 0x242 60 // morale recovery
+			//
+			WRITE_ASCII SCRIPT_OVERRIDE "GTACMP00" #8
+			WRITE_ASCII SCRIPT_CLASS "%DEST_RES%" #8
+			WRITE_ASCII SCRIPT_DEFAULT "GTACMPAI" #8
+			// IDS
+			WRITE_BYTE 0x270 IDS_OF_SYMBOL ("ea" "neutral")
+			WRITE_BYTE 0x271 IDS_OF_SYMBOL ("general" "animal")
+			WRITE_BYTE 0x272 IDS_OF_SYMBOL ("race" "cat")
+			WRITE_BYTE 0x273 IDS_OF_SYMBOL ("class" "cat")
+			WRITE_BYTE 0x275 IDS_OF_SYMBOL ("gender" "male")
+			WRITE_BYTE 0x27B IDS_OF_SYMBOL ("align" "neutral")
+			//
+			WRITE_ASCII DEATHVAR "gtAnmlCompLeopard" #32
+			// equipment
+			ADD_CRE_ITEM "gtacp04a" #0 #0 #0 "identified&unstealable&undroppable" "weapon" EQUIP
+			ADD_CRE_ITEM "gtacp04a" #0 #0 #0 "identified&unstealable&undroppable" "weapon"
+			ADD_CRE_ITEM "gtacp04a" #0 #0 #0 "identified&unstealable&undroppable" "weapon"
+			ADD_CRE_ITEM "gtacp04a" #0 #0 #0 "identified&unstealable&undroppable" "weapon"
+			// passive traits
+			LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 268 "target" = 1 "timing" = 1 END // clear fog of war
+			LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 232 "target" = 1 "timing" = 1 "parameter2" = 16 "special" = BIT2 STR_VAR "resource" = "GTACMP00" END // cast spell onto myself upon death (suppress spell's name)
+		BUT_ONLY_IF_IT_CHANGES
+		//
+		CREATE "itm" "gtacp04a"
+		COPY_EXISTING "gtacp04a.itm" "override"
+			/* Header */
+			WRITE_LONG NAME1 "-1"
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC "-1"
+			WRITE_LONG DESC "-1"
+			WRITE_LONG 0x18 BIT5 // flags: not copyable (not needed...?)
+			WRITE_SHORT 0x38 1 // maximum in stack
+			WRITE_ASCII 0x3A "IWOLF" #8
+			/* Extended Header */
+			LPF ~ADD_ITEM_HEADER~ INT_VAR "type" = 1 "location" = 1 "range" = 1 "dicenumber" = 1 "dicesize" = 6 "damage_type" = 3 "depletion" = 1 "flags" = BIT0 "overhand" = 34 "backhand" = 33 "thrust" = 33 STR_VAR "icon" = "IWOLF" END // 1d6 (slashing)
+			/* Feature Blocks */
+			LPF "ADD_ITEM_EFFECT" INT_VAR "type" = 1 "target" = 1 "opcode" = 326 "timing" = 1 STR_VAR "resource" = "GTACP04A" END // Apply effects list
+		BUT_ONLY_IF_IT_CHANGES
+		//
+		ACTION_DEFINE_ASSOCIATIVE_ARRAY "cdtweaksAnimalCompanion" BEGIN
+			// id => enchantment
+			"b" => 0 // magical (+0)
+			"c" => 1 // magical (+1)
+			"d" => 2 // magical (+2)
+			"e" => 3 // magical (+3)
+		END
+		ACTION_PHP_EACH "cdtweaksAnimalCompanion" AS "k" => "v" BEGIN
+			COPY_EXISTING "gtacp04a.itm" "override\gtacp04%k%.itm"
+				WRITE_LONG 0x18 (THIS BOR BIT6) // flags: magical
+				WRITE_LONG 0x60 "%v%" // enchantment
+				LPF "ALTER_ITEM_HEADER" INT_VAR "damage_bonus" = "%v%" "thac0_bonus" = "%v%" END
+			BUT_ONLY_IF_IT_CHANGES
+		END
+		//
+		CREATE "spl" "gtacp04a"
+		COPY_EXISTING "gtacp04a.spl" "override"
+			/* Header */
+			WRITE_LONG NAME1 "-1"
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC "-1"
+			WRITE_LONG DESC "-1"
+			WRITE_LONG 0x18 BIT14 // Ignore dead/wild magic
+			WRITE_SHORT 0x1C 4 // Type: Innate
+			WRITE_LONG 0x34 1 // Level
+			/* Extended Header */
+			LPF ~ADD_SPELL_HEADER~ INT_VAR "range" = 30 END
+			/* Feature Blocks */
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 146 "target" = 2 "timing" = 1 "parameter2" = 1 STR_VAR "resource" = "GTACP04B" END // Cast spell (Cast instantly, ignore level)
+		BUT_ONLY
+		//
+		CREATE "spl" "gtacp04b"
+		COPY_EXISTING "gtacp04b.spl" "override"
+			/* Header */
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@4001)
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC "-1"
+			WRITE_LONG DESC "-1"
+			WRITE_LONG 0x18 BIT14 // Ignore dead/wild magic
+			WRITE_SHORT 0x1C 4 // Type: Innate
+			WRITE_LONG 0x34 1 // Level
+			/* Extended Header */
+			LPF ~ADD_SPELL_HEADER~ INT_VAR "range" = 30 END
+			/* Feature Blocks */
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 324 "target" = 2 "parameter1" = IDS_OF_SYMBOL ("kit" "barbarian") "parameter2" = 109 STR_VAR "resource" = "%DEST_RES%" END // Protection from resource
+			PATCH_WITH_SCOPE BEGIN
+				LPF "ADD_SPLPROT_ENTRY" INT_VAR "stat" = IDS_OF_SYMBOL ("STATS" "IMMUNITY_TO_BACKSTAB") STR_VAR "value" = "-1" "relation" = "4" "label" = "STAT(IMMUNITY_TO_BACKSTAB) >= n" RET "index" END
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 324 "target" = 2 "parameter1" = 1 "parameter2" = "%index%" STR_VAR "resource" = "%DEST_RES%" END // Protection from resource (IMMUNITY_TO_BACKSTAB >= 1)
+			END
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 324 "target" = 2 "parameter1" = IDS_OF_SYMBOL ("general" "plant") "parameter2" = 103 STR_VAR "resource" = "%DEST_RES%" END // Protection from resource
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 324 "target" = 2 "parameter2" = 55 STR_VAR "resource" = "%DEST_RES%" END // Protection from resource (RACE=GOLEM || GENERAL=UNDEAD)
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 324 "target" = 2 "parameter1" = IDS_OF_SYMBOL ("general" "plant") "parameter2" = 103 STR_VAR "resource" = "%DEST_RES%" END // Protection from resource
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 324 "target" = 2 "parameter1" = IDS_OF_SYMBOL ("general" "weapon") "parameter2" = 103 STR_VAR "resource" = "%DEST_RES%" END // Protection from resource (Animated weapons such as the Mordenkainen's Sword)
+			PATCH_WITH_SCOPE BEGIN
+				PATCH_FOR_EACH "race" IN "mist" "dragon" "beholder" "slime" "demonic" "mephit" "imp" "elemental" "salamander" "genie" "solar" "antisolar" "planatar" "darkplanatar" BEGIN
+					LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 324 "target" = 2 "parameter1" = IDS_OF_SYMBOL ("race" "%race%") "parameter2" = 104 STR_VAR "resource" = "%DEST_RES%" END // Protection from resource
+				END
+			END
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 STR_VAR "resource" = "GTACP04B" END // Invoke lua
+		BUT_ONLY
+		//
+		COPY_EXISTING "m_gt#402.lua" "override"
+			APPEND_FILE TEXT "cdtweaks\luke\lua\animal_companion\leopard_sneak_attack.lua"
+		BUT_ONLY UNLESS "^function GTACP04B"
+		//
+		ACTION_IF !(FILE_EXISTS_IN_GAME "m_gtlstn.lua") BEGIN
+			COPY ".../cdtweaks-inlined/empty" "override\m_gtlstn.lua"
+				DELETE_BYTES 0x0 BUFFER_LENGTH
+				INSERT_BYTES 0x0 STRING_LENGTH "-- Listeners --%WNL%%WNL%"
+				WRITE_ASCII 0x0 "-- Listeners --%WNL%%WNL%"
+			BUT_ONLY_IF_IT_CHANGES
+		END
+		COPY_EXISTING "m_gtlstn.lua" "override"
+			APPEND_FILE TEXT "cdtweaks\luke\lua\animal_companion\leopard_enable_disable_sneak_attack.lua"
+			APPEND_FILE TEXT "cdtweaks\luke\lua\animal_companion\custom_actionbar.lua"
+		BUT_ONLY UNLESS "gtAnmlCompLeopardVisible"
+	END
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	/* DIRE BOAR */
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	WITH_SCOPE BEGIN
+		CREATE "cre" "gtacmp05"
+		COPY_EXISTING "gtacmp05.cre" "override"
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@5000) // name
+			WRITE_LONG NAME2 RESOLVE_STR_REF (@5000) // tooltip
+			//
+			WRITE_LONG 0x10 BIT1 // flags: no corpse
+			//
+			WRITE_SHORT 0x24 1 // current HP
+			WRITE_SHORT 0x26 1 // max HP
+			//
+			WRITE_LONG 0x28 IDS_OF_SYMBOL ("animate" "boar_wild")
+			//
+			WRITE_BYTE 0x2C 30 // metal color
+			WRITE_BYTE 0x2D 37 // minor color
+			WRITE_BYTE 0x2E 1 // major color
+			WRITE_BYTE 0x2F 9 // skin color
+			WRITE_BYTE 0x30 23 // leather color
+			WRITE_BYTE 0x31 30 // armor color
+			WRITE_BYTE 0x32 1 // hair color
+			//
+			WRITE_SHORT 0x46 7 // natural AC
+			WRITE_SHORT 0x48 7 // effective AC
+			//
+			WRITE_BYTE 0x53 1 // # attacks/round
+			//
+			WRITE_BYTE 0x237 IDS_OF_SYMBOL ("gender" "female") // sex
+			// abilities
+			WRITE_BYTE 0x238 16 // STR
+			WRITE_BYTE 0x23A 4 // INT
+			WRITE_BYTE 0x23B 2 // WIS
+			WRITE_BYTE 0x23C 10 // DEX
+			WRITE_BYTE 0x23D 16 // CON
+			WRITE_BYTE 0x23E 3 // CHA
+			//
+			WRITE_BYTE 0x23F 10 // morale
+			WRITE_BYTE 0x240 5 // morale break
+			WRITE_SHORT 0x242 60 // morale recovery
+			//
+			WRITE_ASCII SCRIPT_OVERRIDE "GTACMP00" #8
+			WRITE_ASCII SCRIPT_CLASS "%DEST_RES%" #8
+			WRITE_ASCII SCRIPT_DEFAULT "GTACMPAI" #8
+			//
+			WRITE_ASCII DEATHVAR "gtAnmlCompBoar" #32
+			// IDS
+			WRITE_BYTE 0x270 IDS_OF_SYMBOL ("ea" "neutral")
+			WRITE_BYTE 0x271 IDS_OF_SYMBOL ("general" "animal")
+			WRITE_BYTE 0x272 IDS_OF_SYMBOL ("race" "mammal")
+			WRITE_BYTE 0x273 IDS_OF_SYMBOL ("class" "no_class")
+			WRITE_BYTE 0x275 IDS_OF_SYMBOL ("gender" "female")
+			WRITE_BYTE 0x27B IDS_OF_SYMBOL ("align" "neutral")
+			// equipment
+			ADD_CRE_ITEM "gtacp05a" #0 #0 #0 "identified&unstealable&undroppable" "weapon" EQUIP
+			// passive traits
+			LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 268 "target" = 1 "timing" = 1 END // clear fog of war
+			LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 232 "target" = 1 "timing" = 1 "parameter2" = 16 "special" = BIT2 STR_VAR "resource" = "GTACMP00" END // cast spell onto myself upon death (suppress spell's name)
+		BUT_ONLY_IF_IT_CHANGES
+		//
+		CREATE "itm" "gtacp05a"
+		COPY_EXISTING "gtacp05a.itm" "override"
+			/* Header */
+			WRITE_LONG NAME1 "-1"
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC "-1"
+			WRITE_LONG DESC "-1"
+			WRITE_LONG 0x18 BIT5 // flags: not copyable (not needed...?)
+			WRITE_SHORT 0x38 1 // maximum in stack
+			WRITE_ASCII 0x3A "IWOLF" #8
+			/* Extended Header */
+			LPF ~ADD_ITEM_HEADER~ INT_VAR "type" = 1 "location" = 1 "range" = 1 "dicenumber" = 3 "dicesize" = 4 "damage_type" = 1 "depletion" = 1 "flags" = BIT0 "overhand" = 34 "backhand" = 33 "thrust" = 33 STR_VAR "icon" = "IWOLF" END // 3d4 (piercing)
+		BUT_ONLY_IF_IT_CHANGES
+		//
+		ACTION_DEFINE_ASSOCIATIVE_ARRAY "cdtweaksAnimalCompanion" BEGIN
+			// id => enchantment
+			"b" => 0 // magical (+0)
+			"c" => 1 // magical (+1)
+			"d" => 2 // magical (+2)
+			"e" => 3 // magical (+3)
+		END
+		ACTION_PHP_EACH "cdtweaksAnimalCompanion" AS "k" => "v" BEGIN
+			COPY_EXISTING "gtacp05a.itm" "override\gtacp05%k%.itm"
+				WRITE_LONG 0x18 (THIS BOR BIT6) // flags: magical
+				WRITE_LONG 0x60 "%v%" // enchantment
+				LPF "ALTER_ITEM_HEADER" INT_VAR "damage_bonus" = "%v%" "thac0_bonus" = "%v%" END
+				LPF "ADD_ITEM_EQEFFECT" INT_VAR "opcode" = 341 "target" = 1 "timing" = 2 "parameter2" = 1 STR_VAR "resource" = "GTACP05A" END // +5 extra Fury per critical hit
+				LPF "ADD_ITEM_EFFECT" INT_VAR "type" = 1 "opcode" = 402 "target" = 1 STR_VAR "resource" = "GTACMP05" END // invoke lua: consume all fury to cause bleeding damage
+				LPF "ADD_ITEM_EFFECT" INT_VAR "type" = 1 "opcode" = 146 "target" = 1 "timing" = 1 "parameter1" = 1 STR_VAR "resource" = "GTACP05A" END // +5 Fury per successful hit
+				LPF "ADD_ITEM_EFFECT" INT_VAR "type" = 1 "opcode" = 326 "target" = 2 "timing" = 1 "parameter1" = IDS_OF_SYMBOL ("state" "state_dead") "parameter2" = 138 STR_VAR "resource" = "GTACP05A" END // +5 extra Fury per kill
+			BUT_ONLY_IF_IT_CHANGES
+		END
+		//
+		CREATE "spl" "gtacp05a"
+		COPY_EXISTING "gtacp05a.spl" "override"
+			/* Header */
+			WRITE_LONG NAME1 "-1"
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC "-1"
+			WRITE_LONG DESC "-1"
+			WRITE_LONG 0x18 BIT14 // Ignore dead/wild magic
+			WRITE_SHORT 0x1C 4 // Type: Innate
+			WRITE_LONG 0x34 1 // Level
+			/* Extended Header */
+			LPF ~ADD_SPELL_HEADER~ INT_VAR "range" = 30 END
+			/* Feature Blocks */
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 177 "target" = 9 "timing" = 1 "parameter2" = 2 STR_VAR "resource" = "GTACP05A" END // Use EFF file
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 9 "target" = 9 "parameter1" = (150 << 8) + (0 << 16) + (0 << 24) "parameter2" = 255 + (30 << 24) "duration" = 1 END // visual effect
+		BUT_ONLY
+		//
+		CREATE "eff" "gtacp05a"
+		COPY_EXISTING "gtacp05a.eff" "override"
+			WRITE_LONG 0x10 309 // Set local int
+			WRITE_SHORT 0x2C 100 // prob1
+			WRITE_LONG 0x20 1 // increment
+			WRITE_LONG 0x1C 5 // increment by 5
+			WRITE_ASCII 0x30 "gtAnmlCo" #8
+			WRITE_ASCII 0x70 "mpBoarFu" #8
+			WRITE_ASCII 0x78 "ryAmount" #8
+		BUT_ONLY_IF_IT_CHANGES
+		//
+		CREATE "spl" "gtacp05b"
+		COPY_EXISTING "gtacp05b.spl" "override"
+			/* Header */
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@5001)
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC "-1"
+			WRITE_LONG DESC "-1"
+			WRITE_LONG 0x18 BIT14 // Ignore dead/wild magic
+			WRITE_SHORT 0x1C 4 // Type: Innate
+			WRITE_LONG 0x34 1 // Level
+			/* Extended Header */
+			PATCH_WITH_SCOPE BEGIN
+				FOR ("i" = 5 ; "%i%" <= 40 ; "i" += 5) BEGIN
+					LPF ~ADD_SPELL_HEADER~ INT_VAR "range" = 30 "required_level" = ("%i%" == 5 ? 1 : "%i%") END
+					/* Feature Blocks */
+					LPF "ADD_SPELL_EFFECT" INT_VAR "header" = SHORT_AT 0x68 "opcode" = 324 "target" = 2 "parameter1" = IDS_OF_SYMBOL ("general" "plant") "parameter2" = 103 STR_VAR "resource" = "%DEST_RES%" END // Protection from resource
+					LPF "ADD_SPELL_EFFECT" INT_VAR "header" = SHORT_AT 0x68 "opcode" = 324 "target" = 2 "parameter1" = IDS_OF_SYMBOL ("general" "weapon") "parameter2" = 103 STR_VAR "resource" = "%DEST_RES%" END // Protection from resource (Animated weapons such as the Mordenkainen's Sword)
+					PATCH_WITH_SCOPE BEGIN
+						PATCH_FOR_EACH "race" IN "demonic" "mephit" "imp" "elemental" "salamander" "genie" "solar" "antisolar" "planatar" "darkplanatar" BEGIN
+							LPF "ADD_SPELL_EFFECT" INT_VAR "header" = SHORT_AT 0x68 "opcode" = 324 "target" = 2 "parameter1" = IDS_OF_SYMBOL ("race" "%race%") "parameter2" = 104 STR_VAR "resource" = "%DEST_RES%" END // Protection from resource (RACE=GOLEM || GENERAL=UNDEAD)
+						END
+					END
+					LPF "ADD_SPELL_EFFECT" INT_VAR "header" = SHORT_AT 0x68 "opcode" = 12 "target" = 2 "timing" = 1 "parameter2" = IDS_OF_SYMBOL ("dmgtype" "piercing") "dicenumber" = 2 "dicesize" = 3 "savingthrow" = BIT2 "savebonus" = "-1" * (("%i%" / 5) - 1) "special" = BIT8 END // Damage (2d3, save vs. death for half)
+					LPF "ADD_SPELL_EFFECT" INT_VAR "header" = SHORT_AT 0x68 "opcode" = 142 "target" = 2 "parameter2" = 137 "duration" = 30 "savingthrow" = BIT2 "savebonus" = "-1" * (("%i%" / 5) - 1) END // Bleeding icon
+					LPF "ADD_SPELL_EFFECT" INT_VAR "header" = SHORT_AT 0x68 "opcode" = 139 "target" = 2 "timing" = 1 "parameter1" = RESOLVE_STR_REF (@5002) "savingthrow" = BIT2 "savebonus" = "-1" * (("%i%" / 5) - 1) END // "Suffers Bleeding Wound" feedback string
+					PATCH_WITH_SCOPE BEGIN
+						FOR ("i" = 6 ; "%i%" <= 30 ; "i" += 6) BEGIN
+							LPF "CLONE_EFFECT" INT_VAR "multi_match" = 1 "header" = (SHORT_AT 0x68) - 1 "match_opcode" = 12 "timing" = 4 "duration" = "%i%" STR_VAR "insert" = "last" END
+							LPF "CLONE_EFFECT" INT_VAR "multi_match" = 1 "header" = (SHORT_AT 0x68) - 1 "match_opcode" = 139 "timing" = 4 "duration" = "%i%" STR_VAR "insert" = "last" END
+						END
+					END
+				END
+			END
+		BUT_ONLY
+		//
+		COPY_EXISTING "m_gtlstn.lua" "override"
+			APPEND_FILE TEXT "cdtweaks\luke\lua\animal_companion\boar_decrement_fury.lua"
+		BUT_ONLY UNLESS "gtAnmlCompBoarFuryAmount"
+		//
+		COPY_EXISTING "m_gt#402.lua" "override"
+			APPEND_FILE TEXT "cdtweaks\luke\lua\animal_companion\boar_consume_fury.lua"
+		BUT_ONLY UNLESS "^function GTACMP05"
+	END
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	/* SPITTING SNAKE */
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	WITH_SCOPE BEGIN
+		CREATE "cre" "gtacmp06"
+		COPY_EXISTING "gtacmp06.cre" "override"
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@6000) // name
+			WRITE_LONG NAME2 RESOLVE_STR_REF (@6000) // tooltip
+			//
+			WRITE_LONG 0x10 BIT1 // flags: no corpse
+			//
+			WRITE_SHORT 0x24 1 // current HP
+			WRITE_SHORT 0x26 1 // max HP
+			//
+			WRITE_LONG 0x28 IDS_OF_SYMBOL ("animate" "snake")
+			//
+			WRITE_BYTE 0x2C 94 // metal color
+			WRITE_BYTE 0x2D 94 // minor color
+			WRITE_BYTE 0x2E 94 // major color
+			WRITE_BYTE 0x2F 94 // skin color
+			WRITE_BYTE 0x30 94 // leather color
+			WRITE_BYTE 0x31 94 // armor color
+			WRITE_BYTE 0x32 94 // hair color
+			//
+			WRITE_SHORT 0x46 5 // natural AC
+			WRITE_SHORT 0x48 5 // effective AC
+			//
+			WRITE_BYTE 0x53 2 // # attacks/round
+			//
+			WRITE_BYTE 0x237 IDS_OF_SYMBOL ("gender" "female") // sex
+			// abilities
+			WRITE_BYTE 0x238 3 // STR
+			WRITE_BYTE 0x23A 1 // INT
+			WRITE_BYTE 0x23B 2 // WIS
+			WRITE_BYTE 0x23C 16 // DEX
+			WRITE_BYTE 0x23D 12 // CON
+			WRITE_BYTE 0x23E 3 // CHA
+			//
+			WRITE_BYTE 0x23F 9 // morale
+			WRITE_BYTE 0x240 3 // morale break
+			WRITE_SHORT 0x242 30 // morale recovery
+			//
+			WRITE_ASCII SCRIPT_OVERRIDE "GTACMP00" #8
+			WRITE_ASCII SCRIPT_CLASS "%DEST_RES%" #8
+			WRITE_ASCII SCRIPT_DEFAULT "GTACMPAI" #8
+			//
+			WRITE_ASCII DEATHVAR "gtAnmlCompSnake" #32
+			// IDS
+			WRITE_BYTE 0x270 IDS_OF_SYMBOL ("ea" "neutral")
+			WRITE_BYTE 0x271 IDS_OF_SYMBOL ("general" "animal")
+			WRITE_BYTE 0x272 IDS_OF_SYMBOL ("race" "reptile")
+			WRITE_BYTE 0x273 IDS_OF_SYMBOL ("class" "no_class")
+			WRITE_BYTE 0x275 IDS_OF_SYMBOL ("gender" "female")
+			WRITE_BYTE 0x27B IDS_OF_SYMBOL ("align" "neutral")
+			// equipment
+			ADD_CRE_ITEM "gtacp06a" #0 #0 #0 "identified&unstealable&undroppable" "weapon" EQUIP
+			// passive traits
+			LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 268 "target" = 1 "timing" = 1 END // clear fog of war
+			LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 232 "target" = 1 "timing" = 1 "parameter2" = 16 "special" = BIT2 STR_VAR "resource" = "GTACMP00" END // cast spell onto myself upon death (suppress spell's name)
+		BUT_ONLY_IF_IT_CHANGES
+		//
+		CREATE "itm" "gtacp06a"
+		COPY_EXISTING "gtacp06a.itm" "override"
+			/* Header */
+			WRITE_LONG NAME1 "-1"
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC "-1"
+			WRITE_LONG DESC "-1"
+			WRITE_LONG 0x18 BIT5 // flags: not copyable (not needed...?)
+			WRITE_SHORT 0x38 1 // maximum in stack
+			WRITE_ASCII 0x3A "SPIRITS" #8
+			/* Extended Header */
+			LPF ~ADD_ITEM_HEADER~ INT_VAR "type" = 1 "location" = 1 "range" = 1 "dicenumber" = 1 "dicesize" = 3 "damage_type" = 1 "depletion" = 1 "flags" = BIT0 "overhand" = 34 "backhand" = 33 "thrust" = 33 STR_VAR "icon" = "SPIRITS" END // 1d3 (piercing)
+			/* Feature Block(s) */
+			LPF "ADD_ITEM_EFFECT" INT_VAR "type" = 1 "opcode" = 318 "target" = 2 "parameter2" = 55 STR_VAR "resource" = "%DEST_RES%" END // Protection from resource (RACE=GOLEM || GENERAL=UNDEAD)
+			LPF "ADD_ITEM_EFFECT" INT_VAR "type" = 1 "opcode" = 318 "target" = 2 "parameter2" = 77 STR_VAR "resource" = "%DEST_RES%" END // Protection from resource (STAT RESISTPOISON >= 100)
+			LPF "ADD_ITEM_EFFECT" INT_VAR "type" = 1 "opcode" = 25 "target" = 2 "duration" = 20 "parameter1" = 30 "parameter2" = 1 "savingthrow" = BIT2 "savebonus" = 1 END // Poison (30% of total maximum Hit Points within 20 seconds after contact)
+		BUT_ONLY_IF_IT_CHANGES
+		//
+		ACTION_DEFINE_ASSOCIATIVE_ARRAY "cdtweaksAnimalCompanion" BEGIN
+			// id => enchantment
+			"b" => 0 // magical (+0)
+			"c" => 1 // magical (+1)
+			"d" => 2 // magical (+2)
+			"e" => 3 // magical (+3)
+		END
+		ACTION_PHP_EACH "cdtweaksAnimalCompanion" AS "k" => "v" BEGIN
+			COPY_EXISTING "gtacp06a.itm" "override\gtacp06%k%.itm"
+				WRITE_LONG 0x18 (THIS BOR BIT6) // flags: magical
+				WRITE_LONG 0x60 "%v%" // enchantment
+				LPF "ALTER_ITEM_HEADER" INT_VAR "damage_bonus" = "%v%" "thac0_bonus" = "%v%" END
+				LPF "ALTER_EFFECT" INT_VAR "match_savingthrow" = BIT2 "savebonus" = "%v%" * "-1" END
+			BUT_ONLY_IF_IT_CHANGES
+		END
+		//
+		CREATE "spl" "gtacmp06"
+		COPY_EXISTING "gtacmp06.spl" "override"
+			/* Header */
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@6001)
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC RESOLVE_STR_REF (@6002)
+			WRITE_LONG DESC "-1"
+			WRITE_LONG 0x18 (BIT14 BOR BIT25) // Ignore dead/wild magic, castable when silenced
+			WRITE_SHORT 0x1C 4 // Type: Innate
+			WRITE_LONG 0x34 1 // Level
+			/* Extended Header */
+			PATCH_WITH_SCOPE BEGIN
+				FOR ("i" = 5 ; "%i%" <= 40 ; "i" += 5) BEGIN
+					LPF ~ADD_SPELL_HEADER~ INT_VAR "range" = 30 "required_level" = ("%i%" == 5 ? 1 : "%i%") "projectile" = IDS_OF_SYMBOL ("projectl" "acidblob") + 1 END
+					/* Feature Blocks */
+					LPF "ADD_SPELL_EFFECT" INT_VAR "header" = SHORT_AT 0x68 "opcode" = 324 "target" = 2 "parameter2" = 55 STR_VAR "resource" = "%DEST_RES%" END // Immunity to resource and message (RACE=GOLEM || GENERAL=UNDEAD)
+					LPF "ADD_SPELL_EFFECT" INT_VAR "header" = SHORT_AT 0x68 "opcode" = 324 "target" = 2 "parameter2" = 77 STR_VAR "resource" = "%DEST_RES%" END // Immunity to resource and message (STAT RESISTPOISON >= 100)
+					LPF "ADD_SPELL_EFFECT" INT_VAR "header" = SHORT_AT 0x68 "opcode" = 402 "target" = 2 "savingthrow" = BIT2 "savebonus" = "-1" * (("%i%" / 5) - 1) STR_VAR "resource" = "GTACMP06" END // Invoke lua
+				END
+			END
+		BUT_ONLY
+		//
+		COPY_EXISTING "m_gt#402.lua" "override"
+			APPEND_FILE TEXT "cdtweaks\luke\lua\animal_companion\spitting_snake.lua"
+		BUT_ONLY UNLESS "^function GTACMP06"
+	END
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	/* BOMBARDIER BEETLE */
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	WITH_SCOPE BEGIN
+		CREATE "cre" "gtacmp07"
+		COPY_EXISTING "gtacmp07.cre" "override"
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@7000) // name
+			WRITE_LONG NAME2 RESOLVE_STR_REF (@7000) // tooltip
+			//
+			WRITE_LONG 0x10 BIT1 // flags: no corpse
+			//
+			WRITE_SHORT 0x24 1 // current HP
+			WRITE_SHORT 0x26 1 // max HP
+			//
+			WRITE_LONG 0x28 IDS_OF_SYMBOL ("animate" "beetle_black")
+			//
+			WRITE_BYTE 0x2C 30 // metal color
+			WRITE_BYTE 0x2D 28 // minor color
+			WRITE_BYTE 0x2E 103 // major color
+			WRITE_BYTE 0x2F 28 // skin color
+			WRITE_BYTE 0x30 30 // leather color
+			WRITE_BYTE 0x31 30 // armor color
+			WRITE_BYTE 0x32 28 // hair color
+			//
+			WRITE_SHORT 0x46 4 // natural AC
+			WRITE_SHORT 0x48 4 // effective AC
+			//
+			WRITE_BYTE 0x53 1 // # attacks/round
+			//
+			WRITE_BYTE 0x237 IDS_OF_SYMBOL ("gender" "female") // sex
+			// abilities
+			WRITE_BYTE 0x238 3 // STR
+			WRITE_BYTE 0x23A 1 // INT
+			WRITE_BYTE 0x23B 1 // WIS
+			WRITE_BYTE 0x23C 10 // DEX
+			WRITE_BYTE 0x23D 14 // CON
+			WRITE_BYTE 0x23E 1 // CHA
+			//
+			WRITE_BYTE 0x23F 13 // morale
+			WRITE_BYTE 0x240 3 // morale break
+			WRITE_SHORT 0x242 30 // morale recovery
+			//
+			WRITE_ASCII SCRIPT_OVERRIDE "GTACMP00" #8
+			WRITE_ASCII SCRIPT_CLASS "%DEST_RES%" #8
+			WRITE_ASCII SCRIPT_DEFAULT "GTACMPAI" #8
+			//
+			WRITE_ASCII DEATHVAR "gtAnmlCompBeetle" #32
+			// IDS
+			WRITE_BYTE 0x270 IDS_OF_SYMBOL ("ea" "neutral")
+			WRITE_BYTE 0x271 IDS_OF_SYMBOL ("general" "animal")
+			WRITE_BYTE 0x272 IDS_OF_SYMBOL ("race" "beetle")
+			WRITE_BYTE 0x273 IDS_OF_SYMBOL ("class" "no_class")
+			WRITE_BYTE 0x275 IDS_OF_SYMBOL ("gender" "female")
+			WRITE_BYTE 0x27B IDS_OF_SYMBOL ("align" "neutral")
+			// equipment
+			ADD_CRE_ITEM "gtacp07a" #0 #0 #0 "identified&unstealable&undroppable" "weapon" EQUIP
+			// passive traits
+			LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 268 "target" = 1 "timing" = 1 END // clear fog of war
+			LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 232 "target" = 1 "timing" = 1 "parameter2" = 16 "special" = BIT2 STR_VAR "resource" = "GTACMP00" END // cast spell onto myself upon death (suppress spell's name)
+			LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 232 "target" = 1 "timing" = 1 "parameter2" = 7 STR_VAR "resource" = "GTACP07A" END // Cast spell on condition (when attacked) -- NB.: ``timing=1`` instead of ``timing=9`` so that the fake contingency does not accidentally trigger if the creature is dead
+		BUT_ONLY_IF_IT_CHANGES
+		//
+		CREATE "itm" "gtacp07a"
+		COPY_EXISTING "gtacp07a.itm" "override"
+			/* Header */
+			WRITE_LONG NAME1 "-1"
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC "-1"
+			WRITE_LONG DESC "-1"
+			WRITE_LONG 0x18 BIT5 // flags: not copyable (not needed...?)
+			WRITE_SHORT 0x38 1 // maximum in stack
+			WRITE_ASCII 0x3A "PINCERS" #8
+			/* Extended Header */
+			LPF ~ADD_ITEM_HEADER~ INT_VAR "type" = 1 "location" = 1 "range" = 1 "dicenumber" = 2 "dicesize" = 6 "damage_type" = 3 "depletion" = 1 "flags" = BIT0 "overhand" = 34 "backhand" = 33 "thrust" = 33 STR_VAR "icon" = "PINCERS" END // 2d6 (Slashing)
+		BUT_ONLY_IF_IT_CHANGES
+		//
+		ACTION_DEFINE_ASSOCIATIVE_ARRAY "cdtweaksAnimalCompanion" BEGIN
+			// id => enchantment
+			"b" => 0 // magical (+0)
+			"c" => 1 // magical (+1)
+			"d" => 2 // magical (+2)
+			"e" => 3 // magical (+3)
+		END
+		ACTION_PHP_EACH "cdtweaksAnimalCompanion" AS "k" => "v" BEGIN
+			COPY_EXISTING "gtacp07a.itm" "override\gtacp07%k%.itm"
+				WRITE_LONG 0x18 (THIS BOR BIT6) // flags: magical
+				WRITE_LONG 0x60 "%v%" // enchantment
+				LPF "ALTER_ITEM_HEADER" INT_VAR "damage_bonus" = "%v%" "thac0_bonus" = "%v%" END
+			BUT_ONLY_IF_IT_CHANGES
+		END
+		//
+		CREATE "spl" "gtacp07a"
+		COPY_EXISTING "gtacp07a.spl" "override"
+			/* Header */
+			WRITE_LONG NAME1 "-1"
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC "-1"
+			WRITE_LONG DESC "-1"
+			WRITE_LONG 0x18 (BIT14 BOR BIT25) // Ignore dead/wild magic, castable when silenced
+			WRITE_SHORT 0x1C 4 // Type: Innate
+			WRITE_LONG 0x34 1 // Level
+			/* Extended Header */
+			LPF ~ADD_SPELL_HEADER~ INT_VAR "target" = 5 "range" = 30 END
+			/* Feature Blocks */
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 318 "target" = 1 "parameter1" = IDS_OF_SYMBOL ("state" "cd_state_notvalid") "parameter2" = 138 STR_VAR "resource" = "%DEST_RES%" END
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 146 "target" = 1 "timing" = 1 "parameter2" = 1 "probability1" = 50 "probability2" = 1 STR_VAR "resource" = "GTACP07B" END
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 206 "target" = 1 "parameter1" = "-1" "duration" = 6 STR_VAR "resource" = "%DEST_RES%" END
+		BUT_ONLY
+		//
+		ADD_PROJECTILE "cdtweaks\luke\pro\gtbeetbm.pro" "GT_Bombardier_Beetle_Cloud"
+		WITH_SCOPE BEGIN
+			ACTION_FOR_EACH "file" IN "#eff_m47.wav" "sclouda.bam" "scloudr.bam" BEGIN
+				ACTION_IF !(FILE_EXISTS_IN_GAME "%file%") BEGIN
+					OUTER_SNPRINT "-3" "ext" "%file%"
+					COPY "cdtweaks\luke\%ext%\%file%" "override"
+				END
+			END
+		END
+		//
+		CREATE "spl" "gtacp07b"
+		COPY_EXISTING "gtacp07b.spl" "override"
+			/* Header */
+			WRITE_LONG NAME1 "-1"
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC "-1"
+			WRITE_LONG DESC "-1"
+			WRITE_LONG 0x18 (BIT14 BOR BIT25) // Ignore dead/wild magic, castable when silenced
+			WRITE_SHORT 0x1C 4 // Type: Innate
+			WRITE_LONG 0x34 1 // Level
+			/* Extended Header */
+			LPF ~ADD_SPELL_HEADER~ INT_VAR "target" = 5 "range" = 30 "projectile" = IDS_OF_SYMBOL ("missile" "GT_Bombardier_Beetle_Cloud") END
+			/* Feature Blocks */
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 139 "target" = 1 "timing" = 1 "parameter1" = RESOLVE_STR_REF (@7001) END // feedback string
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 STR_VAR "resource" = "GTACMP07" END // Invoke lua
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 12 "target" = 2 "timing" = 1 "parameter2" = IDS_OF_SYMBOL ("dmgtype" "acid") "dicenumber" = 3 "dicesize" = 4 "savingthrow" = BIT24 END // 3d4 (bypass mirror image)
+		BUT_ONLY
+		//
+		COPY_EXISTING "m_gt#402.lua" "override"
+			SET "feedback_strref_stun" = RESOLVE_STR_REF (@7002)
+			SET "feedback_strref_deaf" = RESOLVE_STR_REF (@7003)
+			APPEND_FILE_EVALUATE TEXT "cdtweaks\luke\lua\animal_companion\bombardier_beetle.lua"
+		BUT_ONLY UNLESS "^function GTACMP07"
+	END
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Scripts \\
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	WITH_SCOPE BEGIN
+		COMPILE "cdtweaks\luke\baf\animal_companion"
+	END
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Lua \\
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	WITH_SCOPE BEGIN
+		ACTION_IF !(FILE_EXISTS_IN_GAME "m_gt#baf.lua") BEGIN
+			COPY ".../cdtweaks-inlined/empty" "override\m_gt#baf.lua"
+				DELETE_BYTES 0x0 BUFFER_LENGTH
+				INSERT_BYTES 0x0 STRING_LENGTH "-- Functions to be invoked via scripts --%WNL%%WNL%"
+				WRITE_ASCII 0x0 "-- Functions to be invoked via scripts --%WNL%%WNL%"
+			BUT_ONLY_IF_IT_CHANGES
+		END
+		COPY_EXISTING "m_gt#baf.lua" "override"
+			APPEND_FILE TEXT "cdtweaks\luke\lua\animal_companion\fix_general.lua"
+			//
+			PATCH_FOR_EACH "string" IN "bear" "wolf" "spider" "leopard" "boar" "snake" "beetle" BEGIN
+				APPEND_FILE TEXT "cdtweaks\luke\lua\animal_companion\%string%_level_up.lua"
+			END
+			//
+			APPEND_FILE TEXT "cdtweaks\luke\lua\animal_companion\can_level_up.lua"
+			APPEND_FILE TEXT "cdtweaks\luke\lua\animal_companion\dual_class_complete.lua"
+		BUT_ONLY
+		//
+		ACTION_IF !(FILE_EXISTS_IN_GAME "m_gtutil.lua") BEGIN
+			COPY ".../cdtweaks-inlined/empty" "override\m_gtutil.lua"
+				DELETE_BYTES 0x0 BUFFER_LENGTH
+				INSERT_BYTES 0x0 STRING_LENGTH "-- Utility Functions --%WNL%%WNL%"
+				WRITE_ASCII 0x0 "-- Utility Functions --%WNL%%WNL%"
+			BUT_ONLY_IF_IT_CHANGES
+			COPY_EXISTING "m_gtutil.lua" "override"
+				APPEND_FILE TEXT "cdtweaks\luke\lua\utility.lua"
+				APPEND_FILE TEXT "cdtweaks\luke\lua\ai\utility.lua"
+			BUT_ONLY
+		END
+		//
+		ACTION_IF !(FILE_EXISTS_IN_GAME "m_gt#ai.lua") BEGIN
+			COPY ".../cdtweaks-inlined/empty" "override\m_gt#ai.lua"
+				DELETE_BYTES 0x0 BUFFER_LENGTH
+				INSERT_BYTES 0x0 STRING_LENGTH "-- Combat AI Functions --%WNL%%WNL%"
+				WRITE_ASCII 0x0 "-- Combat AI Functions --%WNL%%WNL%"
+			BUT_ONLY_IF_IT_CHANGES
+			COPY_EXISTING "m_gt#ai.lua" "override"
+				APPEND_FILE TEXT "cdtweaks\luke\lua\ai\attack.lua"
+				APPEND_FILE TEXT "cdtweaks\luke\lua\ai\cast_spell.lua"
+			BUT_ONLY
+		END
+	END
+END
