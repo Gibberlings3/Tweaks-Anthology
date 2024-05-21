@@ -1,0 +1,278 @@
+DEFINE_ACTION_FUNCTION "GT_ANIMAL_COMPANION"
+BEGIN
+	// preamble \\
+
+	LAM "READ_SPELL_IDS"
+
+	// empty file \\
+
+	<<<<<<<< .../cdtweaks-inlined/empty
+	>>>>>>>>
+
+	// empty spl file \\
+
+	WITH_SCOPE BEGIN
+		ACTION_IF !(FILE_EXISTS_IN_GAME "gtempty.spl") BEGIN
+			CREATE "spl" "gtempty"
+			COPY_EXISTING "gtempty.spl" "override"
+				LPF ~ADD_SPELL_HEADER~ END
+				LPF ~ADD_SPELL_EFFECT~ INT_VAR "target" = 2 END
+			BUT_ONLY_IF_IT_CHANGES
+		END
+	END
+
+	// update kit description \\
+
+	WITH_SCOPE BEGIN
+		COPY_EXISTING "kitlist.2da" "override"
+			COUNT_2DA_COLS "cols"
+			READ_2DA_ENTRIES_NOW "read_kitlist" "%cols%"
+			FOR ("i" = 0 ; "%i%" < "%read_kitlist%" ; "i" += 1) BEGIN
+				READ_2DA_ENTRY_FORMER "read_kitlist" "%i%" 1 "symbol"
+				PATCH_IF ("%symbol%" STRING_EQUAL_CASE "BEASTMASTER") BEGIN
+					SET "strref" = RESOLVE_STR_REF (@0)
+					SET_2DA_ENTRY "%i%" 4 "%cols%" "%strref%"
+					SET "i" = "%read_kitlist%" // kill for-loop
+				END
+			END
+		BUT_ONLY
+	END
+
+	// update main ability \\
+
+	WITH_SCOPE BEGIN
+		COPY_EXISTING "%BEASTMASTER_FIND_FAMILIAR%.spl" "override"
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@1)
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC RESOLVE_STR_REF (@2)
+			WRITE_LONG DESC "-1"
+			//
+			LPF "ALTER_SPELL_HEADER" INT_VAR "target" = 5 END
+			//
+			LPF "DELETE_EFFECT" INT_VAR "check_globals" = 0 END
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 1 STR_VAR "resource" = "GTACMP00" END // Invoke lua
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 214 "target" = 1 "timing" = 1 STR_VAR "resource" = "GTACMP00" END // Select spell
+		BUT_ONLY
+		//
+		COPY "cdtweaks\luke\2da\gtacmp00.2da" "override" // 2da invoked by op214
+		//
+		ACTION_IF !(FILE_EXISTS_IN_GAME "m_gt#402.lua") BEGIN
+			COPY ".../cdtweaks-inlined/empty" "override\m_gt#402.lua"
+				DELETE_BYTES 0x0 BUFFER_LENGTH
+				INSERT_BYTES 0x0 STRING_LENGTH "-- Functions to be invoked via op402 --%WNL%%WNL%"
+				WRITE_ASCII 0x0 "-- Functions to be invoked via op402 --%WNL%%WNL%"
+			BUT_ONLY_IF_IT_CHANGES
+		END
+		COPY_EXISTING "m_gt#402.lua" "override"
+			SET "feedback_strref" = RESOLVE_STR_REF (@3)
+			APPEND_FILE_EVALUATE TEXT "cdtweaks\luke\lua\animal_companion\initialize.lua"
+		BUT_ONLY UNLESS "^function GTACMP00"
+	END
+
+	// make spl files (one for each creature) \\
+
+	WITH_SCOPE BEGIN
+		ACTION_DEFINE_ASSOCIATIVE_ARRAY "cdtweaksAnimalCompanion" BEGIN
+			"gtacmp01" => 100 // cave bear
+			"gtacmp02" => 101 // winter wolf
+			"gtacmp03" => 102 // sword spider
+			"gtacmp04" => 103 // leopard
+			"gtacmp05" => 104 // dire boar
+			"gtacmp06" => 105 // spitting snake
+			"gtacmp07" => 106 // bombardier beetle
+		END
+		ACTION_PHP_EACH "cdtweaksAnimalCompanion" AS "k" => "v" BEGIN
+			COPY "cdtweaks\luke\bam\%k%.bam" "override"
+			CREATE "spl" "%k%"
+			COPY_EXISTING "%k%.spl" "override"
+				/* Header */
+				WRITE_LONG NAME1 RESOLVE_STR_REF ((AT "%v%"))
+				WRITE_LONG NAME2 "-1"
+				WRITE_LONG UNIDENTIFIED_DESC "-1"
+				WRITE_LONG DESC "-1"
+				WRITE_LONG 0x18 BIT14 // Ignore dead/wild magic
+				WRITE_SHORT 0x1C 4 // Type: Innate
+				WRITE_LONG 0x34 1 // Level
+				WRITE_ASCII 0x3A ~%k%~ #8 // Icon
+				/* Extended Header */
+				LPF ~ADD_SPELL_HEADER~ INT_VAR "target" = 5 "range" = 0x7FFF STR_VAR "icon" = "%k%" END
+				/* Feature Blocks */
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 177 "target" = 1 "timing" = 1 "parameter2" = 2 STR_VAR "resource" = "GTACMP00" END // Use EFF file
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 177 "target" = 1 "timing" = 1 "parameter2" = 2 STR_VAR "resource" = "%k%" END // Use EFF file
+			BUT_ONLY
+			//
+			CREATE "eff" "%k%"
+			COPY_EXISTING "%k%.eff" "override"
+				WRITE_LONG 0x10 67 // Summon creature
+				WRITE_SHORT 0x2C 100 // prob1
+				WRITE_ASCII 0x30 "%k%" #8 // CRE resref
+				WRITE_ASCII 0x70 "SPANISUM" #8 // VVC resref
+			BUT_ONLY_IF_IT_CHANGES
+		END
+		//
+		CREATE "eff" "gtacmp00"
+		COPY_EXISTING "gtacmp00.eff" "override"
+			WRITE_LONG 0x10 187 // Set local int
+			WRITE_SHORT 0x2C 100 // prob1
+			WRITE_LONG 0x1C 1 // set to 1
+			WRITE_ASCII 0xA8 "gtAnimalCompanion" #32 // Var name
+		BUT_ONLY_IF_IT_CHANGES
+	END
+
+	// Banish creature (spl file) \\
+
+	WITH_SCOPE BEGIN
+		COPY "cdtweaks\luke\bam\gtacmp00.bam" "override"
+		//
+		CREATE "spl" "gtacmp00"
+		COPY_EXISTING "gtacmp00.spl" "override"
+			/* Header */
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@200)
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC "-1"
+			WRITE_LONG DESC "-1"
+			WRITE_LONG 0x18 (BIT14 BOR BIT25) // Ignore dead/wild magic, castable when silenced
+			WRITE_SHORT 0x1C 4 // Type: Innate
+			WRITE_LONG 0x34 1 // Level
+			WRITE_ASCII 0x3A "%DEST_RES%" #8 // icon
+			/* Extended Header */
+			LPF ~ADD_SPELL_HEADER~ INT_VAR "target" = 7 "range" = 0x7FFF STR_VAR "icon" = "%DEST_RES%" END
+			/* Feature Blocks */
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 68 "parameter1" = 1 "target" = 1 "timing" = 1 END // Unsummon creature (Display text?: Yes)
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 1 STR_VAR "resource" = "GTACP_00" END // invoke lua
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 13 "parameter1" = 1 "target" = 1 "timing" = 4 "parameter2" = BIT2 END // normal death, Display text?: No (0-second delay trick, so that it kicks in after op68 and 402)
+		BUT_ONLY
+		//
+		COPY_EXISTING "m_gt#402.lua" "override"
+			APPEND_FILE TEXT "cdtweaks\luke\lua\animal_companion\unsummon.lua"
+		BUT_ONLY UNLESS "^function GTACP_00"
+	END
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	/* CAVE BEAR */
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	WITH_SCOPE BEGIN
+		INCLUDE "cdtweaks\lib\animal_companion\bear.tph"
+	END
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	/* WINTER WOLF */
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	WITH_SCOPE BEGIN
+		INCLUDE "cdtweaks\lib\animal_companion\wolf.tph"
+	END
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	/* SWORD SPIDER */
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	WITH_SCOPE BEGIN
+		INCLUDE "cdtweaks\lib\animal_companion\spider.tph"
+	END
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	/* LEOPARD */
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	WITH_SCOPE BEGIN
+		INCLUDE "cdtweaks\lib\animal_companion\leopard.tph"
+	END
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	/* DIRE BOAR */
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	WITH_SCOPE BEGIN
+		INCLUDE "cdtweaks\lib\animal_companion\boar.tph"
+	END
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	/* SPITTING SNAKE */
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	WITH_SCOPE BEGIN
+		INCLUDE "cdtweaks\lib\animal_companion\snake.tph"
+	END
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	/* BOMBARDIER BEETLE */
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	WITH_SCOPE BEGIN
+		INCLUDE "cdtweaks\lib\animal_companion\beetle.tph"
+	END
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Scripts \\
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	WITH_SCOPE BEGIN
+		COMPILE "cdtweaks\luke\baf\animal_companion"
+	END
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Lua \\
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	WITH_SCOPE BEGIN
+		ACTION_IF !(FILE_EXISTS_IN_GAME "m_gt#baf.lua") BEGIN
+			COPY ".../cdtweaks-inlined/empty" "override\m_gt#baf.lua"
+				DELETE_BYTES 0x0 BUFFER_LENGTH
+				INSERT_BYTES 0x0 STRING_LENGTH "-- Functions to be invoked via scripts --%WNL%%WNL%"
+				WRITE_ASCII 0x0 "-- Functions to be invoked via scripts --%WNL%%WNL%"
+			BUT_ONLY_IF_IT_CHANGES
+		END
+		COPY_EXISTING "m_gt#baf.lua" "override"
+			APPEND_FILE TEXT "cdtweaks\luke\lua\animal_companion\fix_general.lua"
+			//
+			PATCH_WITH_SCOPE BEGIN
+				PATCH_FOR_EACH "string" IN "bear" "wolf" "spider" "leopard" "boar" "snake" "beetle" BEGIN
+					APPEND_FILE TEXT "cdtweaks\luke\lua\animal_companion\%string%\level_up.lua"
+				END
+			END
+			//
+			APPEND_FILE TEXT "cdtweaks\luke\lua\animal_companion\can_level_up.lua"
+			APPEND_FILE TEXT "cdtweaks\luke\lua\animal_companion\dual_class_complete.lua"
+		BUT_ONLY
+		//
+		ACTION_IF !(FILE_EXISTS_IN_GAME "m_gtutil.lua") BEGIN
+			COPY ".../cdtweaks-inlined/empty" "override\m_gtutil.lua"
+				DELETE_BYTES 0x0 BUFFER_LENGTH
+				INSERT_BYTES 0x0 STRING_LENGTH "-- Utility Functions --%WNL%%WNL%"
+				WRITE_ASCII 0x0 "-- Utility Functions --%WNL%%WNL%"
+			BUT_ONLY_IF_IT_CHANGES
+			COPY_EXISTING "m_gtutil.lua" "override"
+				APPEND_FILE TEXT "cdtweaks\luke\lua\utility.lua"
+				APPEND_FILE TEXT "cdtweaks\luke\lua\ai\utility.lua"
+			BUT_ONLY
+		END
+		//
+		ACTION_IF !(FILE_EXISTS_IN_GAME "m_gt#ai.lua") BEGIN
+			COPY ".../cdtweaks-inlined/empty" "override\m_gt#ai.lua"
+				DELETE_BYTES 0x0 BUFFER_LENGTH
+				INSERT_BYTES 0x0 STRING_LENGTH "-- Combat AI Functions --%WNL%%WNL%"
+				WRITE_ASCII 0x0 "-- Combat AI Functions --%WNL%%WNL%"
+			BUT_ONLY_IF_IT_CHANGES
+			COPY_EXISTING "m_gt#ai.lua" "override"
+				APPEND_FILE TEXT "cdtweaks\luke\lua\ai\attack.lua"
+				APPEND_FILE TEXT "cdtweaks\luke\lua\ai\cast_spell.lua"
+			BUT_ONLY
+		END
+	END
+END

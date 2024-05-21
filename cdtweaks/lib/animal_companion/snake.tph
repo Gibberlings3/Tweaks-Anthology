@@ -1,0 +1,140 @@
+/*
+=====================================================================================================================
+**CRE file**
+=====================================================================================================================
+*/
+
+CREATE "cre" "gtacmp06"
+COPY_EXISTING "gtacmp06.cre" "override"
+	WRITE_LONG NAME1 RESOLVE_STR_REF (@6000) // name
+	WRITE_LONG NAME2 RESOLVE_STR_REF (@6000) // tooltip
+	//
+	WRITE_LONG 0x10 BIT1 // flags: no corpse
+	//
+	WRITE_SHORT 0x24 1 // current HP
+	WRITE_SHORT 0x26 1 // max HP
+	//
+	WRITE_LONG 0x28 IDS_OF_SYMBOL ("animate" "snake")
+	//
+	WRITE_BYTE 0x2C 94 // metal color
+	WRITE_BYTE 0x2D 94 // minor color
+	WRITE_BYTE 0x2E 94 // major color
+	WRITE_BYTE 0x2F 94 // skin color
+	WRITE_BYTE 0x30 94 // leather color
+	WRITE_BYTE 0x31 94 // armor color
+	WRITE_BYTE 0x32 94 // hair color
+	//
+	WRITE_SHORT 0x46 5 // natural AC
+	WRITE_SHORT 0x48 5 // effective AC
+	//
+	WRITE_BYTE 0x53 2 // # attacks/round
+	//
+	WRITE_BYTE 0x237 IDS_OF_SYMBOL ("gender" "female") // sex
+	// abilities
+	WRITE_BYTE 0x238 3 // STR
+	WRITE_BYTE 0x23A 1 // INT
+	WRITE_BYTE 0x23B 2 // WIS
+	WRITE_BYTE 0x23C 16 // DEX
+	WRITE_BYTE 0x23D 12 // CON
+	WRITE_BYTE 0x23E 3 // CHA
+	//
+	WRITE_BYTE 0x23F 9 // morale
+	WRITE_BYTE 0x240 3 // morale break
+	WRITE_SHORT 0x242 30 // morale recovery
+	//
+	WRITE_ASCII SCRIPT_OVERRIDE "GTACMP00" #8
+	WRITE_ASCII SCRIPT_CLASS "%DEST_RES%" #8
+	WRITE_ASCII SCRIPT_DEFAULT "GTACMPAI" #8
+	//
+	WRITE_ASCII DEATHVAR "gtAnmlCompSnake" #32
+	// IDS
+	WRITE_BYTE 0x270 IDS_OF_SYMBOL ("ea" "neutral")
+	WRITE_BYTE 0x271 IDS_OF_SYMBOL ("general" "animal")
+	WRITE_BYTE 0x272 IDS_OF_SYMBOL ("race" "reptile")
+	WRITE_BYTE 0x273 IDS_OF_SYMBOL ("class" "no_class")
+	WRITE_BYTE 0x275 IDS_OF_SYMBOL ("gender" "female")
+	WRITE_BYTE 0x27B IDS_OF_SYMBOL ("align" "neutral")
+	// equipment
+	ADD_CRE_ITEM "gtacp06a" #0 #0 #0 "identified&unstealable&undroppable" "weapon" EQUIP
+	// passive traits
+	LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 268 "target" = 1 "timing" = 1 END // clear fog of war
+	LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 232 "target" = 1 "timing" = 1 "parameter2" = 16 "special" = BIT2 STR_VAR "resource" = "GTACMP00" END // cast spell onto myself upon death (suppress spell's name)
+BUT_ONLY_IF_IT_CHANGES
+
+/*
+=====================================================================================================================
+**ITM file(s)**
+=====================================================================================================================
+*/
+
+CREATE "itm" "gtacp06a"
+COPY_EXISTING "gtacp06a.itm" "override"
+	/* Header */
+	WRITE_LONG NAME1 "-1"
+	WRITE_LONG NAME2 "-1"
+	WRITE_LONG UNIDENTIFIED_DESC "-1"
+	WRITE_LONG DESC "-1"
+	WRITE_LONG 0x18 BIT5 // flags: not copyable (not needed...?)
+	WRITE_SHORT 0x38 1 // maximum in stack
+	WRITE_ASCII 0x3A "SPIRITS" #8
+	/* Extended Header */
+	LPF ~ADD_ITEM_HEADER~ INT_VAR "type" = 1 "location" = 1 "range" = 1 "dicenumber" = 1 "dicesize" = 3 "damage_type" = 1 "depletion" = 1 "flags" = BIT0 "overhand" = 34 "backhand" = 33 "thrust" = 33 STR_VAR "icon" = "SPIRITS" END // 1d3 (piercing)
+	/* Feature Block(s) */
+	LPF "ADD_ITEM_EFFECT" INT_VAR "type" = 1 "opcode" = 318 "target" = 2 "parameter2" = 55 STR_VAR "resource" = "%DEST_RES%" END // Protection from resource (RACE=GOLEM || GENERAL=UNDEAD)
+	LPF "ADD_ITEM_EFFECT" INT_VAR "type" = 1 "opcode" = 318 "target" = 2 "parameter2" = 77 STR_VAR "resource" = "%DEST_RES%" END // Protection from resource (STAT RESISTPOISON >= 100)
+	LPF "ADD_ITEM_EFFECT" INT_VAR "type" = 1 "opcode" = 25 "target" = 2 "duration" = 20 "parameter1" = 30 "parameter2" = 1 "savingthrow" = BIT2 "savebonus" = 1 END // Poison (30% of total maximum Hit Points within 20 seconds after contact)
+BUT_ONLY_IF_IT_CHANGES
+//
+ACTION_DEFINE_ASSOCIATIVE_ARRAY "cdtweaksAnimalCompanion" BEGIN
+	// id => enchantment
+	"b" => 0 // magical (+0)
+	"c" => 1 // magical (+1)
+	"d" => 2 // magical (+2)
+	"e" => 3 // magical (+3)
+END
+ACTION_PHP_EACH "cdtweaksAnimalCompanion" AS "k" => "v" BEGIN
+	COPY_EXISTING "gtacp06a.itm" "override\gtacp06%k%.itm"
+		WRITE_LONG 0x18 (THIS BOR BIT6) // flags: magical
+		WRITE_LONG 0x60 "%v%" // enchantment
+		LPF "ALTER_ITEM_HEADER" INT_VAR "damage_bonus" = "%v%" "thac0_bonus" = "%v%" END
+		LPF "ALTER_EFFECT" INT_VAR "match_savingthrow" = BIT2 "savebonus" = "%v%" * "-1" END
+	BUT_ONLY_IF_IT_CHANGES
+END
+
+/*
+=====================================================================================================================
+**SPL file(s)**
+=====================================================================================================================
+*/
+
+CREATE "spl" "gtacmp06"
+COPY_EXISTING "gtacmp06.spl" "override"
+	/* Header */
+	WRITE_LONG NAME1 RESOLVE_STR_REF (@6001)
+	WRITE_LONG NAME2 "-1"
+	WRITE_LONG UNIDENTIFIED_DESC RESOLVE_STR_REF (@6002)
+	WRITE_LONG DESC "-1"
+	WRITE_LONG 0x18 (BIT14 BOR BIT25) // Ignore dead/wild magic, castable when silenced
+	WRITE_SHORT 0x1C 4 // Type: Innate
+	WRITE_LONG 0x34 1 // Level
+	/* Extended Header */
+	PATCH_WITH_SCOPE BEGIN
+		FOR ("i" = 5 ; "%i%" <= 40 ; "i" += 5) BEGIN
+			LPF ~ADD_SPELL_HEADER~ INT_VAR "range" = 30 "required_level" = ("%i%" == 5 ? 1 : "%i%") "projectile" = IDS_OF_SYMBOL ("projectl" "acidblob") + 1 END
+			/* Feature Blocks */
+			LPF "ADD_SPELL_EFFECT" INT_VAR "header" = SHORT_AT 0x68 "opcode" = 324 "target" = 2 "parameter2" = 55 STR_VAR "resource" = "%DEST_RES%" END // Immunity to resource and message (RACE=GOLEM || GENERAL=UNDEAD)
+			LPF "ADD_SPELL_EFFECT" INT_VAR "header" = SHORT_AT 0x68 "opcode" = 324 "target" = 2 "parameter2" = 77 STR_VAR "resource" = "%DEST_RES%" END // Immunity to resource and message (STAT RESISTPOISON >= 100)
+			LPF "ADD_SPELL_EFFECT" INT_VAR "header" = SHORT_AT 0x68 "opcode" = 402 "target" = 2 "savingthrow" = BIT2 "savebonus" = "-1" * (("%i%" / 5) - 1) STR_VAR "resource" = "GTACMP06" END // Invoke lua
+		END
+	END
+BUT_ONLY
+
+/*
+=====================================================================================================================
+**LUA file(s)**
+=====================================================================================================================
+*/
+
+COPY_EXISTING "m_gt#402.lua" "override"
+	APPEND_FILE TEXT "cdtweaks\luke\lua\animal_companion\snake\spittle.lua"
+BUT_ONLY UNLESS "^function GTACMP06"

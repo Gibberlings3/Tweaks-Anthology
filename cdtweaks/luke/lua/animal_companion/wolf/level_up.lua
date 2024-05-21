@@ -1,6 +1,6 @@
--- cdtweaks, Animal Companion (snake): level up the creature --
+-- cdtweaks, Animal Companion (wolf): level up the creature --
 
-function GT_AnimalCompanion_Snake_LevelUp()
+function GT_AnimalCompanion_Wolf_LevelUp()
 	local summonerID = EEex_LuaAction_Object.m_lSummonedBy.m_Instance
 	local summonerSprite = EEex_GameObject_Get(summonerID)
 	--
@@ -38,13 +38,13 @@ function GT_AnimalCompanion_Snake_LevelUp()
 			local newItemResRef = item.pRes.resref:get()
 			--
 			if (summonerLevel >= 5 and summonerLevel < 9) then
-				newItemResRef = "GTACP06B"
+				newItemResRef = "GTACP02B"
 			elseif (summonerLevel >= 10 and summonerLevel < 14) then
-				newItemResRef = "GTACP06C"
+				newItemResRef = "GTACP02C"
 			elseif (summonerLevel >= 15 and summonerLevel < 19) then
-				newItemResRef = "GTACP06D"
+				newItemResRef = "GTACP02D"
 			elseif (summonerLevel >= 20) then
-				newItemResRef = "GTACP06E"
+				newItemResRef = "GTACP02E"
 			end
 			--
 			EEex_LuaAction_Object:applyEffect({
@@ -61,20 +61,16 @@ function GT_AnimalCompanion_Snake_LevelUp()
 			equipItem:free()
 		end
 	end
-	-- Update AC / Spittle (uses per day)
+	-- Update AC / Stream of Frost (uses per day)
 	for i = creatureLevel + 1, summonerLevel do
 		if i % 5 == 0 then
-			EEex_LuaAction_Object:applyEffect({
-				["effectID"] = 0, -- AC bonus
-				["durationType"] = 1,
-				["effectAmount"] = 1,
-				["sourceID"] = EEex_LuaAction_Object.m_id,
-				["sourceTarget"] = EEex_LuaAction_Object.m_id,
-			})
+			EEex_LuaAction_Object.m_baseStats.m_armorClass = EEex_LuaAction_Object.m_baseStats.m_armorClass - 1
+			EEex_LuaAction_Object.m_baseStats.m_armorClassBase = EEex_LuaAction_Object.m_baseStats.m_armorClassBase - 1
+			--
 			EEex_LuaAction_Object:applyEffect({
 				["effectID"] = 171, -- Give ability
 				["durationType"] = 1,
-				["res"] = "GTACMP06",
+				["res"] = "GTACMP02",
 				["sourceID"] = EEex_LuaAction_Object.m_id,
 				["sourceTarget"] = EEex_LuaAction_Object.m_id,
 			})

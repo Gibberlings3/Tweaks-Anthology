@@ -64,13 +64,8 @@ function GT_AnimalCompanion_Spider_LevelUp()
 	-- Update AC
 	for i = creatureLevel + 1, summonerLevel do
 		if i % 5 == 0 then
-			EEex_LuaAction_Object:applyEffect({
-				["effectID"] = 0, -- AC bonus
-				["durationType"] = 1,
-				["effectAmount"] = 1,
-				["sourceID"] = EEex_LuaAction_Object.m_id,
-				["sourceTarget"] = EEex_LuaAction_Object.m_id,
-			})
+			EEex_LuaAction_Object.m_baseStats.m_armorClass = EEex_LuaAction_Object.m_baseStats.m_armorClass - 1
+			EEex_LuaAction_Object.m_baseStats.m_armorClassBase = EEex_LuaAction_Object.m_baseStats.m_armorClassBase - 1
 		end
 	end
 end

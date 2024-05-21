@@ -189,6 +189,7 @@ END
 IF
 	ActionListEmpty()
 	CheckStatGT(Myself,7,INT)
+	!IsWeaponRanged(Myself)
 	EEex_LuaTrigger("return GT_AI_Attack({ ['targetIDS'] = {'[<EA_PLACEHOLDER>.0.<HATEDRACE_PLACEHOLDER>]'} })")
 	Range(EEex_Target("gt_target"),4)
 	StateCheck(EEex_Target("gt_target"),0x100029)

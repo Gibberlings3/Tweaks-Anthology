@@ -1,6 +1,6 @@
--- cdtweaks, Animal Companion (wolf): level up the creature --
+-- cdtweaks, Animal Companion (beetle): level up the creature --
 
-function GT_AnimalCompanion_Wolf_LevelUp()
+function GT_AnimalCompanion_Beetle_LevelUp()
 	local summonerID = EEex_LuaAction_Object.m_lSummonedBy.m_Instance
 	local summonerSprite = EEex_GameObject_Get(summonerID)
 	--
@@ -38,13 +38,13 @@ function GT_AnimalCompanion_Wolf_LevelUp()
 			local newItemResRef = item.pRes.resref:get()
 			--
 			if (summonerLevel >= 5 and summonerLevel < 9) then
-				newItemResRef = "GTACP02B"
+				newItemResRef = "GTACP07B"
 			elseif (summonerLevel >= 10 and summonerLevel < 14) then
-				newItemResRef = "GTACP02C"
+				newItemResRef = "GTACP07C"
 			elseif (summonerLevel >= 15 and summonerLevel < 19) then
-				newItemResRef = "GTACP02D"
+				newItemResRef = "GTACP07D"
 			elseif (summonerLevel >= 20) then
-				newItemResRef = "GTACP02E"
+				newItemResRef = "GTACP07E"
 			end
 			--
 			EEex_LuaAction_Object:applyEffect({
@@ -61,23 +61,11 @@ function GT_AnimalCompanion_Wolf_LevelUp()
 			equipItem:free()
 		end
 	end
-	-- Update AC / Stream of Frost (uses per day)
+	-- Update AC
 	for i = creatureLevel + 1, summonerLevel do
 		if i % 5 == 0 then
-			EEex_LuaAction_Object:applyEffect({
-				["effectID"] = 0, -- AC bonus
-				["durationType"] = 1,
-				["effectAmount"] = 1,
-				["sourceID"] = EEex_LuaAction_Object.m_id,
-				["sourceTarget"] = EEex_LuaAction_Object.m_id,
-			})
-			EEex_LuaAction_Object:applyEffect({
-				["effectID"] = 171, -- Give ability
-				["durationType"] = 1,
-				["res"] = "GTACMP02",
-				["sourceID"] = EEex_LuaAction_Object.m_id,
-				["sourceTarget"] = EEex_LuaAction_Object.m_id,
-			})
+			EEex_LuaAction_Object.m_baseStats.m_armorClass = EEex_LuaAction_Object.m_baseStats.m_armorClass - 1
+			EEex_LuaAction_Object.m_baseStats.m_armorClassBase = EEex_LuaAction_Object.m_baseStats.m_armorClassBase - 1
 		end
 	end
 end

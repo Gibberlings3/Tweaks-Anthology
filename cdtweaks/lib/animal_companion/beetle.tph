@@ -1,0 +1,162 @@
+/*
+=====================================================================================================================
+**CRE file**
+=====================================================================================================================
+*/
+
+CREATE "cre" "gtacmp07"
+COPY_EXISTING "gtacmp07.cre" "override"
+	WRITE_LONG NAME1 RESOLVE_STR_REF (@7000) // name
+	WRITE_LONG NAME2 RESOLVE_STR_REF (@7000) // tooltip
+	//
+	WRITE_LONG 0x10 BIT1 // flags: no corpse
+	//
+	WRITE_SHORT 0x24 1 // current HP
+	WRITE_SHORT 0x26 1 // max HP
+	//
+	WRITE_LONG 0x28 IDS_OF_SYMBOL ("animate" "beetle_black")
+	//
+	WRITE_BYTE 0x2C 30 // metal color
+	WRITE_BYTE 0x2D 28 // minor color
+	WRITE_BYTE 0x2E 103 // major color
+	WRITE_BYTE 0x2F 28 // skin color
+	WRITE_BYTE 0x30 30 // leather color
+	WRITE_BYTE 0x31 30 // armor color
+	WRITE_BYTE 0x32 28 // hair color
+	//
+	WRITE_SHORT 0x46 4 // natural AC
+	WRITE_SHORT 0x48 4 // effective AC
+	//
+	WRITE_BYTE 0x53 1 // # attacks/round
+	//
+	WRITE_BYTE 0x237 IDS_OF_SYMBOL ("gender" "female") // sex
+	// abilities
+	WRITE_BYTE 0x238 3 // STR
+	WRITE_BYTE 0x23A 1 // INT
+	WRITE_BYTE 0x23B 1 // WIS
+	WRITE_BYTE 0x23C 10 // DEX
+	WRITE_BYTE 0x23D 14 // CON
+	WRITE_BYTE 0x23E 1 // CHA
+	//
+	WRITE_BYTE 0x23F 13 // morale
+	WRITE_BYTE 0x240 3 // morale break
+	WRITE_SHORT 0x242 30 // morale recovery
+	//
+	WRITE_ASCII SCRIPT_OVERRIDE "GTACMP00" #8
+	WRITE_ASCII SCRIPT_CLASS "%DEST_RES%" #8
+	WRITE_ASCII SCRIPT_DEFAULT "GTACMPAI" #8
+	//
+	WRITE_ASCII DEATHVAR "gtAnmlCompBeetle" #32
+	// IDS
+	WRITE_BYTE 0x270 IDS_OF_SYMBOL ("ea" "neutral")
+	WRITE_BYTE 0x271 IDS_OF_SYMBOL ("general" "animal")
+	WRITE_BYTE 0x272 IDS_OF_SYMBOL ("race" "beetle")
+	WRITE_BYTE 0x273 IDS_OF_SYMBOL ("class" "no_class")
+	WRITE_BYTE 0x275 IDS_OF_SYMBOL ("gender" "female")
+	WRITE_BYTE 0x27B IDS_OF_SYMBOL ("align" "neutral")
+	// equipment
+	ADD_CRE_ITEM "gtacp07a" #0 #0 #0 "identified&unstealable&undroppable" "weapon" EQUIP
+	// passive traits
+	LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 268 "target" = 1 "timing" = 1 END // clear fog of war
+	LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 232 "target" = 1 "timing" = 1 "parameter2" = 16 "special" = BIT2 STR_VAR "resource" = "GTACMP00" END // cast spell onto myself upon death (suppress spell's name)
+	LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 232 "target" = 1 "timing" = 1 "parameter2" = 7 STR_VAR "resource" = "GTACP07A" END // Cast spell on condition (when attacked) -- NB.: ``timing=1`` instead of ``timing=9`` so that the fake contingency does not accidentally trigger if the creature is dead
+BUT_ONLY_IF_IT_CHANGES
+
+/*
+=====================================================================================================================
+**ITM file(s)**
+=====================================================================================================================
+*/
+
+CREATE "itm" "gtacp07a"
+COPY_EXISTING "gtacp07a.itm" "override"
+	/* Header */
+	WRITE_LONG NAME1 "-1"
+	WRITE_LONG NAME2 "-1"
+	WRITE_LONG UNIDENTIFIED_DESC "-1"
+	WRITE_LONG DESC "-1"
+	WRITE_LONG 0x18 BIT5 // flags: not copyable (not needed...?)
+	WRITE_SHORT 0x38 1 // maximum in stack
+	WRITE_ASCII 0x3A "PINCERS" #8
+	/* Extended Header */
+	LPF ~ADD_ITEM_HEADER~ INT_VAR "type" = 1 "location" = 1 "range" = 1 "dicenumber" = 2 "dicesize" = 6 "damage_type" = 3 "depletion" = 1 "flags" = BIT0 "overhand" = 34 "backhand" = 33 "thrust" = 33 STR_VAR "icon" = "PINCERS" END // 2d6 (Slashing)
+BUT_ONLY_IF_IT_CHANGES
+//
+ACTION_DEFINE_ASSOCIATIVE_ARRAY "cdtweaksAnimalCompanion" BEGIN
+	// id => enchantment
+	"b" => 0 // magical (+0)
+	"c" => 1 // magical (+1)
+	"d" => 2 // magical (+2)
+	"e" => 3 // magical (+3)
+END
+ACTION_PHP_EACH "cdtweaksAnimalCompanion" AS "k" => "v" BEGIN
+	COPY_EXISTING "gtacp07a.itm" "override\gtacp07%k%.itm"
+		WRITE_LONG 0x18 (THIS BOR BIT6) // flags: magical
+		WRITE_LONG 0x60 "%v%" // enchantment
+		LPF "ALTER_ITEM_HEADER" INT_VAR "damage_bonus" = "%v%" "thac0_bonus" = "%v%" END
+	BUT_ONLY_IF_IT_CHANGES
+END
+
+/*
+=====================================================================================================================
+**SPL file(s)**
+=====================================================================================================================
+*/
+
+CREATE "spl" "gtacp07a"
+COPY_EXISTING "gtacp07a.spl" "override"
+	/* Header */
+	WRITE_LONG NAME1 "-1"
+	WRITE_LONG NAME2 "-1"
+	WRITE_LONG UNIDENTIFIED_DESC "-1"
+	WRITE_LONG DESC "-1"
+	WRITE_LONG 0x18 (BIT14 BOR BIT25) // Ignore dead/wild magic, castable when silenced
+	WRITE_SHORT 0x1C 4 // Type: Innate
+	WRITE_LONG 0x34 1 // Level
+	/* Extended Header */
+	LPF ~ADD_SPELL_HEADER~ INT_VAR "target" = 5 "range" = 30 END
+	/* Feature Blocks */
+	LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 318 "target" = 1 "parameter1" = IDS_OF_SYMBOL ("state" "cd_state_notvalid") "parameter2" = 138 STR_VAR "resource" = "%DEST_RES%" END
+	LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 146 "target" = 1 "timing" = 1 "parameter2" = 1 "probability1" = 50 "probability2" = 1 STR_VAR "resource" = "GTACP07B" END
+	LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 206 "target" = 1 "parameter1" = "-1" "duration" = 6 STR_VAR "resource" = "%DEST_RES%" END
+BUT_ONLY
+//
+ADD_PROJECTILE "cdtweaks\luke\pro\gtbeetbm.pro" "GT_Bombardier_Beetle_Cloud"
+WITH_SCOPE BEGIN
+	ACTION_FOR_EACH "file" IN "#eff_m47.wav" "sclouda.bam" "scloudr.bam" BEGIN
+		ACTION_IF !(FILE_EXISTS_IN_GAME "%file%") BEGIN
+			OUTER_SNPRINT "-3" "ext" "%file%"
+			COPY "cdtweaks\luke\%ext%\%file%" "override"
+		END
+	END
+END
+//
+CREATE "spl" "gtacp07b"
+COPY_EXISTING "gtacp07b.spl" "override"
+	/* Header */
+	WRITE_LONG NAME1 "-1"
+	WRITE_LONG NAME2 "-1"
+	WRITE_LONG UNIDENTIFIED_DESC "-1"
+	WRITE_LONG DESC "-1"
+	WRITE_LONG 0x18 (BIT14 BOR BIT25) // Ignore dead/wild magic, castable when silenced
+	WRITE_SHORT 0x1C 4 // Type: Innate
+	WRITE_LONG 0x34 1 // Level
+	/* Extended Header */
+	LPF ~ADD_SPELL_HEADER~ INT_VAR "target" = 5 "range" = 30 "projectile" = IDS_OF_SYMBOL ("missile" "GT_Bombardier_Beetle_Cloud") END
+	/* Feature Blocks */
+	LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 139 "target" = 1 "timing" = 1 "parameter1" = RESOLVE_STR_REF (@7001) END // feedback string
+	LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 STR_VAR "resource" = "GTACMP07" END // Invoke lua
+	LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 12 "target" = 2 "timing" = 1 "parameter2" = IDS_OF_SYMBOL ("dmgtype" "acid") "dicenumber" = 3 "dicesize" = 4 "savingthrow" = BIT24 END // 3d4 (bypass mirror image)
+BUT_ONLY
+
+/*
+=====================================================================================================================
+**LUA file(s)**
+=====================================================================================================================
+*/
+
+COPY_EXISTING "m_gt#402.lua" "override"
+	SET "feedback_strref_stun" = RESOLVE_STR_REF (@7002)
+	SET "feedback_strref_deaf" = RESOLVE_STR_REF (@7003)
+	APPEND_FILE_EVALUATE TEXT "cdtweaks\luke\lua\animal_companion\beetle\cloud.lua"
+BUT_ONLY UNLESS "^function GTACMP07"

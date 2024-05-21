@@ -5,7 +5,7 @@ function GTACMP07(CGameEffect, CGameSprite)
 	--
 	local blindImmunity = false
 	local checkForImmunity = function(fx)
-		if fx.m_effectId == 0x65 and fx.m_dWFlags == 74 then
+		if fx.m_effectId == 101 and fx.m_dWFlags == 74 then
 			blindImmunity = true
 			return true
 		end

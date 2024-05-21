@@ -1,6 +1,6 @@
--- cdtweaks, Animal Companion (beetle): level up the creature --
+-- cdtweaks, Animal Companion (bear): level up the creature --
 
-function GT_AnimalCompanion_Beetle_LevelUp()
+function GT_AnimalCompanion_Bear_LevelUp()
 	local summonerID = EEex_LuaAction_Object.m_lSummonedBy.m_Instance
 	local summonerSprite = EEex_GameObject_Get(summonerID)
 	--
@@ -38,13 +38,13 @@ function GT_AnimalCompanion_Beetle_LevelUp()
 			local newItemResRef = item.pRes.resref:get()
 			--
 			if (summonerLevel >= 5 and summonerLevel < 9) then
-				newItemResRef = "GTACP07B"
+				newItemResRef = "GTACP01B"
 			elseif (summonerLevel >= 10 and summonerLevel < 14) then
-				newItemResRef = "GTACP07C"
+				newItemResRef = "GTACP01C"
 			elseif (summonerLevel >= 15 and summonerLevel < 19) then
-				newItemResRef = "GTACP07D"
+				newItemResRef = "GTACP01D"
 			elseif (summonerLevel >= 20) then
-				newItemResRef = "GTACP07E"
+				newItemResRef = "GTACP01E"
 			end
 			--
 			EEex_LuaAction_Object:applyEffect({
@@ -64,13 +64,8 @@ function GT_AnimalCompanion_Beetle_LevelUp()
 	-- Update AC
 	for i = creatureLevel + 1, summonerLevel do
 		if i % 5 == 0 then
-			EEex_LuaAction_Object:applyEffect({
-				["effectID"] = 0, -- AC bonus
-				["durationType"] = 1,
-				["effectAmount"] = 1,
-				["sourceID"] = EEex_LuaAction_Object.m_id,
-				["sourceTarget"] = EEex_LuaAction_Object.m_id,
-			})
+			EEex_LuaAction_Object.m_baseStats.m_armorClass = EEex_LuaAction_Object.m_baseStats.m_armorClass - 1
+			EEex_LuaAction_Object.m_baseStats.m_armorClassBase = EEex_LuaAction_Object.m_baseStats.m_armorClassBase - 1
 		end
 	end
 end

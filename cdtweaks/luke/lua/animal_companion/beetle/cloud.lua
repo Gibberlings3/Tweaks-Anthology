@@ -7,10 +7,10 @@ function GTACMP07(CGameEffect, CGameSprite)
 	local stunImmunity = false
 	local deafImmunity = false
 	local checkForImmunity = function(fx)
-		if fx.m_effectId == 0x65 and fx.m_dWFlags == 45 then
+		if fx.m_effectId == 101 and fx.m_dWFlags == 45 then
 			stunImmunity = true
 		end
-		if fx.m_effectId == 0x65 and fx.m_dWFlags == 80 then
+		if fx.m_effectId == 101 and fx.m_dWFlags == 80 then
 			deafImmunity = true
 		end
 	end
