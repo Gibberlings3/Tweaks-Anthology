@@ -1,0 +1,54 @@
+DEFINE_ACTION_FUNCTION "METAMAGIC"
+BEGIN
+	LAF "ADD_EXTENDED_STAT" INT_VAR "max" = 4 STR_VAR "identifier" = "CDTWEAKS_METAMAGIC" END
+	//
+	WITH_SCOPE BEGIN
+		ACTION_DEFINE_ASSOCIATIVE_ARRAY "cdtweaks_metamagic" BEGIN
+			// bam file / spl resref, bam file (icon), tra ref (icon), tra ref (name), tra_ref (desc) => stat value
+			"cdmtmqck", "cdmtmgc1", 0, 1, 2 => 1
+			"cdmtmemp", "cdmtmgc2", 3, 4, 5 => 2
+			"cdmtmext", "cdmtmgc3", 6, 7, 8 => 3
+			"cdmtmmax", "cdmtmgc4", 9, 10, 11 => 4
+		END
+		//
+		ACTION_PHP_EACH "cdtweaks_metamagic" AS "key" => "value" BEGIN
+			COPY "cdtweaks\luke\bam\metamagic\%key%.bam" "override" "cdtweaks\luke\bam\metamagic\%key_1%.bam" "override"
+			LAF "ADD_STATDESC_ENTRY" INT_VAR "description" = RESOLVE_STR_REF ((AT "%key_2%")) STR_VAR "bam_file" = "%key_1%" RET "index" END
+			//
+			CREATE "spl" "%key%"
+			COPY_EXISTING "%key%.spl" "override"
+				/* Header */
+				WRITE_LONG NAME1 RESOLVE_STR_REF ((AT "%key_3%"))
+				WRITE_LONG UNIDENTIFIED_DESC RESOLVE_STR_REF ((AT "%key_4%"))
+				WRITE_ASCII 0x10 "CAS_M02" #8 // casting sound
+				WRITE_SHORT 0x1C 4 // innate
+				WRITE_LONG 0x34 1 // level
+				WRITE_ASCII 0x3A "%key%" #8 // icon
+				WRITE_SHORT 0x22 34 // casting animation: swirl white
+				/* Extended Header */
+				LPF "ADD_SPELL_HEADER" INT_VAR "target" = 7 "range" = 30 STR_VAR "icon" = "%key%" END
+				/* Feature Block(s) */
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 321 "timing" = 1 "target" = 1 STR_VAR "resource" = "%DEST_RES%" END
+				/*PATCH_FOR_EACH "res" IN "cdmtmqck" "cdmtmemp" "cdmtmext" "cdmtmmax" BEGIN
+					PATCH_IF ("%res%" STRING_COMPARE_CASE "%DEST_RES%") BEGIN
+						LPF "CLONE_EFFECT" INT_VAR "match_opcode" = 321 "multi_match" = 1 STR_VAR "resource" = "%res%" "insert" = "below" END
+					END
+				END*/
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 401 "timing" = 1 "target" = 1 "parameter2" = 1 "parameter1" = "%value%" "special" = IDS_OF_SYMBOL ("stats" "CDTWEAKS_METAMAGIC") END // Set CDTWEAKS_METAMAGIC to "%value%"
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 142 "timing" = 1 "target" = 1 "parameter2" = "%index%" END // portrait icon
+				// castable at will \\
+				LPF "ADD_SPELL_CFEFFECT" INT_VAR "insert_point" = "-1" "opcode" = 172 "target" = 1 "timing" = 1 STR_VAR "resource" = "%DEST_RES%" END
+				LPF "ADD_SPELL_CFEFFECT" INT_VAR "insert_point" = "-1" "opcode" = 171 "target" = 1 "timing" = 1 STR_VAR "resource" = "%DEST_RES%" END
+			BUT_ONLY
+		END
+	END
+	// Listeners
+	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Listeners" "sourceFileSpec" = "cdtweaks\luke\lua\metamagic\gain.lua" "destRes" = "m_gtlstn" END // run 'func' each time a sprite has finished evaluating its effects
+	WITH_SCOPE BEGIN
+		OUTER_SET "strref_OutOfRange" = RESOLVE_STR_REF (@12)
+		OUTER_SET "strref_CannotBeModified" = RESOLVE_STR_REF (@13)
+		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Listeners" "sourceFileSpec" = "cdtweaks\luke\lua\metamagic\usage.lua" "destRes" = "m_gtlstn" END // cancel "metamagic" mode if the creature is not casting a wizard/priest spell || the given spell cannot be modified
+	END
+	//
+	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Functions to be invoked via op408" "sourceFileSpec" = "cdtweaks\luke\lua\metamagic\projectile_mutator.lua" "destRes" = "m_gt#408" END
+END

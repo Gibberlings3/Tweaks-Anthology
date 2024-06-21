@@ -1,0 +1,26 @@
+@0 = "Incantesimo Rapido"
+@1 = "Incantesimo Rapido"
+@2 = "Incantesimo Rapido
+
+Gli incantesimi rapidi possono essere lanciati istantaneamente, senza rischiare che vengano interrotti."
+
+@3 = "Incantesimo Potenziato"
+@4 = "Incantesimo Potenziato"
+@5 = "Incantesimo Potenziato
+
+Tutti gli effetti numerici di un incantesimo potenziato vengono aumentati del 50% (la durata dell'incantesimo non viene modificata)."
+
+@6 = "Incantesimo Esteso"
+@7 = "Incantesimo Esteso"
+@8 = "Incantesimo Esteso
+
+Gli incantesimi estesi hanno una durata doppia rispetto al normale."
+
+@9 = "Incantesimo Massimizzato"
+@10 = "Incantesimo Massimizzato"
+@11 = "Incantesimo Massimizzato
+
+Gli incantesimi massimizzati applicano i loro effetti numerici — danno, numero di bersagli, eccetera — al massimo del loro valore."
+
+@12 = "Metamagia: Incantesimo annullato : il punto selezionato è fuori portata"
+@13 = "Metamagia: L'incantesimo selezionato non può essere modificato"
