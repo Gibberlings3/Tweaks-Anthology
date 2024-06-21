@@ -22,5 +22,6 @@ Gli incantesimi estesi hanno una durata doppia rispetto al normale."
 
 Gli incantesimi massimizzati applicano i loro effetti numerici — danno, numero di bersagli, eccetera — al massimo del loro valore."
 
-@12 = "Metamagia: Incantesimo annullato : il punto selezionato è fuori portata"
-@13 = "Metamagia: L'incantesimo selezionato non può essere modificato"
+@12 = "Metamagia: Incantesimo Annullato: Il punto selezionato è fuori portata."
+@13 = "Metamagia: L'incantesimo selezionato non può essere modificato."
+@14 = "Metamagia: Incantesimo Annullato: Non puoi lanciare incantesimi su creature invisibili o sotto l'effetto dell'incantesimo Santuario."

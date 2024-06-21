@@ -22,5 +22,6 @@ Extended spells have their duration doubled, lasting twice as long as normal."
 
 Maximized spells apply all variable numeric effects — including damage, number of targets, and so on — at their maximum values."
 
-@12 = "Metamagic: Spell cancelled : the targeted point is out of range"
-@13 = "Metamagic: The selected spell cannot be modified"
+@12 = "Metamagic: Spell Canceled: The targeted point is out of range."
+@13 = "Metamagic: The selected spell cannot be modified."
+@14 = "Metamagic: Spell Canceled: Cannot target spells on invisible or sanctuaried creatures."
