@@ -1,4 +1,4 @@
--- Utility: get ``spellResRef`` from ID (borrowed from Bubb) --
+-- Utility: get ``spellResRef`` from spellID (borrowed from Bubb) --
 
 function GT_Utility_DecodeSpell(spellIDS)
 	local prefix
@@ -12,6 +12,8 @@ function GT_Utility_DecodeSpell(spellIDS)
 		prefix = "SPIN"
 	elseif spellType == 4 then
 		prefix = "SPCL"
+	else
+		prefix = "MARW"
 	end
 	--
 	return prefix .. string.format("%03d", spellIDS % 1000)

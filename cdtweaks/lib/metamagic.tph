@@ -1,6 +1,30 @@
 DEFINE_ACTION_FUNCTION "METAMAGIC"
 BEGIN
-	LAF "ADD_EXTENDED_STAT" INT_VAR "max" = 4 STR_VAR "identifier" = "CDTWEAKS_METAMAGIC" END
+	LAF "ADD_EXTENDED_STAT" INT_VAR "max" = 6 STR_VAR "identifier" = "CDTWEAKS_METAMAGIC" END
+	//
+	WITH_SCOPE BEGIN
+		CREATE "eff" "gtmmagic"
+		COPY_EXISTING "gtmmagic.eff" "override"
+			WRITE_LONG 0x10 214 // 2da spell list
+			WRITE_LONG 0x20 3 // from lua
+			WRITE_ASCII 0x30 "GTSPMENU" #8 // lua function
+		BUT_ONLY
+	END
+	// auxiliary spell for Silent Spell
+	WITH_SCOPE BEGIN
+		CREATE "spl" "cd#mmsil"
+		COPY_EXISTING "cd#mmsil.spl" "override"
+			/* Header */
+			WRITE_LONG NAME1 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC "-1"
+			WRITE_SHORT 0x1C 4 // innate
+			WRITE_LONG 0x34 1 // level
+			/* Extended Header */
+			LPF "ADD_SPELL_HEADER" INT_VAR "target" = 5 "range" = 1000 END
+			/* Feature Block(s) */
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 1 STR_VAR "resource" = "GTSILSPL" END // invoke lua
+		BUT_ONLY
+	END
 	//
 	WITH_SCOPE BEGIN
 		ACTION_DEFINE_ASSOCIATIVE_ARRAY "cdtweaks_metamagic" BEGIN
@@ -9,6 +33,8 @@ BEGIN
 			"cdmtmemp", "cdmtmgc2", 3, 4, 5 => 2
 			"cdmtmext", "cdmtmgc3", 6, 7, 8 => 3
 			"cdmtmmax", "cdmtmgc4", 9, 10, 11 => 4
+			"cdmtmsil", "cdmtmgc5", 12, 13, 14 => 5
+			"cdmtmstl", "cdmtmgc6", 15, 16, 17 => 6
 		END
 		//
 		ACTION_PHP_EACH "cdtweaks_metamagic" AS "key" => "value" BEGIN
@@ -28,14 +54,16 @@ BEGIN
 				/* Extended Header */
 				LPF "ADD_SPELL_HEADER" INT_VAR "target" = 7 "range" = 30 STR_VAR "icon" = "%key%" END
 				/* Feature Block(s) */
-				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 321 "timing" = 1 "target" = 1 STR_VAR "resource" = "%DEST_RES%" END
-				/*PATCH_FOR_EACH "res" IN "cdmtmqck" "cdmtmemp" "cdmtmext" "cdmtmmax" BEGIN
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 321 "timing" = 1 "target" = 1 STR_VAR "resource" = "%DEST_RES%" END // refresh without stacking
+				PATCH_FOR_EACH "res" IN "cdmtmqck" "cdmtmemp" "cdmtmext" "cdmtmmax" "cdmtmsil" "cdmtmstl" BEGIN
 					PATCH_IF ("%res%" STRING_COMPARE_CASE "%DEST_RES%") BEGIN
 						LPF "CLONE_EFFECT" INT_VAR "match_opcode" = 321 "multi_match" = 1 STR_VAR "resource" = "%res%" "insert" = "below" END
 					END
-				END*/
+				END
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 321 "timing" = 1 "target" = 1 STR_VAR "resource" = "CDMMAGIC" END // remove op408 / op232 (Silent Spell)
 				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 401 "timing" = 1 "target" = 1 "parameter2" = 1 "parameter1" = "%value%" "special" = IDS_OF_SYMBOL ("stats" "CDTWEAKS_METAMAGIC") END // Set CDTWEAKS_METAMAGIC to "%value%"
 				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 142 "timing" = 1 "target" = 1 "parameter2" = "%index%" END // portrait icon
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 177 "timing" = 1 "target" = 1 "parameter2" = 2 "parameter1" = IDS_OF_SYMBOL ("EA" "PC") STR_VAR "resource" = "GTMMAGIC" END // use EFF file
 				// castable at will \\
 				LPF "ADD_SPELL_CFEFFECT" INT_VAR "insert_point" = "-1" "opcode" = 172 "target" = 1 "timing" = 1 STR_VAR "resource" = "%DEST_RES%" END
 				LPF "ADD_SPELL_CFEFFECT" INT_VAR "insert_point" = "-1" "opcode" = 171 "target" = 1 "timing" = 1 STR_VAR "resource" = "%DEST_RES%" END
@@ -44,11 +72,18 @@ BEGIN
 	END
 	// Listeners
 	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Listeners" "sourceFileSpec" = "cdtweaks\luke\lua\metamagic\gain.lua" "destRes" = "m_gtlstn" END // run 'func' each time a sprite has finished evaluating its effects
+	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Listeners" "sourceFileSpec" = "cdtweaks\luke\lua\metamagic\utility.lua" "destRes" = "m_gtmmgc" END
+	//
 	WITH_SCOPE BEGIN
-		OUTER_SET "strref_OutOfRange" = RESOLVE_STR_REF (@12)
-		OUTER_SET "strref_CannotBeModified" = RESOLVE_STR_REF (@13)
-		OUTER_SET "strref_InvisibleOrSanctuaried" = RESOLVE_STR_REF (@14)
-		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Listeners" "sourceFileSpec" = "cdtweaks\luke\lua\metamagic\usage.lua" "destRes" = "m_gtlstn" END // cancel "metamagic" mode if the creature is not casting a wizard/priest spell || the given spell cannot be modified
+		OUTER_SET "strref_OutOfRange" = RESOLVE_STR_REF (@100)
+		OUTER_SET "strref_SpellcastingDisabled" = RESOLVE_STR_REF (@101)
+		OUTER_SET "strref_InvisibleOrSanctuaried" = RESOLVE_STR_REF (@102)
+		OUTER_SET "strref_CasterSilenced" = RESOLVE_STR_REF (@103)
+		OUTER_SET "strref_CasterDoesNotMeetRequirements" = RESOLVE_STR_REF (@104)
+		OUTER_SET "strref_AuraFree" = RESOLVE_STR_REF (@105)
+		OUTER_SET "strref_SpellDisrupted" = RESOLVE_STR_REF (@106)
+		//
+		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Listeners" "sourceFileSpec" = "cdtweaks\luke\lua\metamagic\usage.lua" "destRes" = "m_gtmmgc" END
 	END
 	//
 	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Functions to be invoked via op408" "sourceFileSpec" = "cdtweaks\luke\lua\metamagic\projectile_mutator.lua" "destRes" = "m_gt#408" END

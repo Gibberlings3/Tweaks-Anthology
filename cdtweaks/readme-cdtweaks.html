@@ -1104,6 +1104,32 @@
               <li>As a completely artificial example, a maximized Magic Missile will deal <code>5</code> (instead of <code>1d4 + 1</code> ) points of damage.</li>
             </ul>
           </li>
+
+          <li>
+            <em>Silent Spell</em><br>
+            Silent spells are cast without a verbal component (that is to say, they can be cast while silenced).<br>
+            A silenced spell occupies a spell slot one level higher than normal.
+            <ul>
+              <li>If you want to silence a level <code>1</code> spell, all memorized spells of level <code>2</code> will be decremented by 1.</li>
+              <li>Wizard spells of level <code>9</code> cannot be silenced.</li>
+              <li>Priest spells of level <code>7</code> cannot be silenced.</li>
+              <li>
+                NOTE: silenced spells are a little bit more difficult to disrupt. The exact formula is:<br>
+                <code>1d20 + damageTaken > spellLevel + conBonus</code>, where <code>conBonus = &#8970 (Constitution - 10) / 2 &#8971</code>.
+              </li>
+            </ul>
+          </li>
+
+          <li>
+            <em>Still Spell</em><br>
+            Still spells are cast without a somatic component. Any penalties incurred from casting in armor do not apply to a spell prepared with this feat.<br>
+            A stilled spell occupies a spell slot one level higher than normal.
+            <ul>
+              <li>If you want to still a level <code>1</code> spell, all memorized spells of level <code>2</code> will be decremented by 1.</li>
+              <li>Wizard spells of level <code>9</code> cannot be stilled.</li>
+              <li>Priest spells of level <code>7</code> cannot be stilled.</li>
+            </ul>
+          </li>
         </ul>
         Notes:
         <ul>

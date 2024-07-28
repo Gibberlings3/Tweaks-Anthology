@@ -6,8 +6,8 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		-- Mark the creature as 'feat granted'
 		sprite:setLocalInt("cdtweaksMetamagic", 1)
 		--
-		local res = {"CDMTMQCK", "CDMTMEMP", "CDMTMMAX", "CDMTMEXT"}
-		for _, v in ipairs(res) do
+		local metamagicRes = {"CDMTMQCK", "CDMTMEMP", "CDMTMEXT", "CDMTMMAX", "CDMTMSIL", "CDMTMSTL"}
+		for _, v in ipairs(metamagicRes) do
 			sprite:applyEffect({
 				["effectID"] = 172, -- Remove spell
 				["durationType"] = 1,
@@ -23,22 +23,6 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 				["sourceTarget"] = sprite.m_id,
 			})
 		end
-		--
-		sprite:applyEffect({
-			["effectID"] = 321, -- Remove effects by resource
-			["durationType"] = 1,
-			["res"] = "CDMMAGIC",
-			["sourceID"] = sprite.m_id,
-			["sourceTarget"] = sprite.m_id,
-		})
-		sprite:applyEffect({
-			["effectID"] = 408, -- Projectile mutator
-			["durationType"] = 9,
-			["res"] = "GTMMAGIC", -- lua function
-			["m_sourceRes"] = "CDMMAGIC",
-			["sourceID"] = sprite.m_id,
-			["sourceTarget"] = sprite.m_id,
-		})
 	end
 	-- Check creature's class / flags
 	local spriteClassStr = GT_Resource_IDSToSymbol["class"][sprite.m_typeAI.m_Class]
@@ -67,8 +51,8 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			-- Mark the creature as 'feat removed'
 			sprite:setLocalInt("cdtweaksMetamagic", 0)
 			--
-			local res = {"CDMTMQCK", "CDMTMEMP", "CDMTMMAX", "CDMTMEXT"}
-			for _, v in ipairs(res) do
+			local metamagicRes = {"CDMTMQCK", "CDMTMEMP", "CDMTMEXT", "CDMTMMAX", "CDMTMSIL", "CDMTMSTL"}
+			for _, v in ipairs(metamagicRes) do
 				sprite:applyEffect({
 					["effectID"] = 172, -- Remove spell
 					["durationType"] = 1,
@@ -77,14 +61,6 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 					["sourceTarget"] = sprite.m_id,
 				})
 			end
-			--
-			sprite:applyEffect({
-				["effectID"] = 321, -- Remove effects by resource
-				["durationType"] = 1,
-				["res"] = "CDMMAGIC",
-				["sourceID"] = sprite.m_id,
-				["sourceTarget"] = sprite.m_id,
-			})
 		end
 	end
 end)

@@ -22,6 +22,22 @@ Gli incantesimi estesi hanno una durata doppia rispetto al normale."
 
 Gli incantesimi massimizzati applicano i loro effetti numerici — danno, numero di bersagli, eccetera — al massimo del loro valore."
 
-@12 = "Metamagia: Incantesimo Annullato: Il punto selezionato è fuori portata."
-@13 = "Metamagia: L'incantesimo selezionato non può essere modificato."
-@14 = "Metamagia: Incantesimo Annullato: Non puoi lanciare incantesimi su creature invisibili o sotto l'effetto dell'incantesimo Santuario."
+@12 = "Incantesimo Silenziato"
+@13 = "Incantesimo Silenziato"
+@14 = "Incantesimo Silenziato
+
+Gli incantesimi silenziati non richiedono una componente verbale."
+
+@15 = "Incantesimo Immobile"
+@16 = "Incantesimo Immobile"
+@17 = "Incantesimo Immobile
+
+Gli incantesimi immobili non richiedono una componente somatica. Eventuali penalità dovute dal lancio in armatura non si applicano a un incantesimo preparato con questo talento."
+
+@100 = "Metamagia: Incantesimo Annullato: Il punto selezionato è fuori portata."
+@101 = "Metamagia: Incantesimo Annullato: Incantesimi Disabilitati."
+@102 = "Metamagia: Incantesimo Annullato: Non puoi lanciare incantesimi su creature invisibili o sotto l'effetto dell'incantesimo Santuario."
+@103 = "Metamagia: Incantesimo Annullato: L'incantatore non può lanciare incantesimi mentre è silenziato."
+@104 = "Metamagia: Incantesimo Annullato: L'incantatore non soddisfa i requisiti per poter modificare l'incantesimo selezionato."
+@105 = "Metamagia: Incantesimo Annullato: L'incantatore non può compiere più di un'azione per round."
+@106 = "Metamagia: Incantesimo Annullato: Incantesimo Spezzato."

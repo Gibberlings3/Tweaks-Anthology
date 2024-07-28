@@ -1,27 +1,43 @@
-@0 = "Able to Quicken Spells"
+@0 = "Quickened Spell"
 @1 = "Quicken Spell"
 @2 = "Quicken Spell
 
 Quickened spells can be cast instantaneously, making them invulnerable to interruption."
 
-@3 = "Able to Empower Spells"
+@3 = "Empowered Spell"
 @4 = "Empower Spell"
 @5 = "Empower Spell
 
 All variable, numeric effects of an empowered spell are increased by 50% (Empowerment does not increase spell duration)."
 
-@6 = "Able to Extend Spells"
+@6 = "Extended Spell"
 @7 = "Extend Spell"
 @8 = "Extend Spell
 
 Extended spells have their duration doubled, lasting twice as long as normal."
 
-@9 = "Able to Maximize Spells"
+@9 = "Maximized Spell"
 @10 = "Maximize Spell"
 @11 = "Maximize Spell
 
 Maximized spells apply all variable numeric effects — including damage, number of targets, and so on — at their maximum values."
 
-@12 = "Metamagic: Spell Canceled: The targeted point is out of range."
-@13 = "Metamagic: The selected spell cannot be modified."
-@14 = "Metamagic: Spell Canceled: Cannot target spells on invisible or sanctuaried creatures."
+@12 = "Silenced Spell"
+@13 = "Silent Spell"
+@14 = "Silent Spell
+
+Silent spells are cast without a verbal component."
+
+@15 = "Stilled Spell"
+@16 = "Still Spell"
+@17 = "Still Spell
+
+Still spells are cast without a somatic component. Any penalties incurred from casting in armor do not apply to a spell prepared with this feat."
+
+@100 = "Metamagic: Spell Canceled: The targeted point is out of range."
+@101 = "Metamagic: Spell Canceled: Spellcasting Disabled."
+@102 = "Metamagic: Spell Canceled: Cannot target spells on invisible or sanctuaried creatures."
+@103 = "Metamagic: Spell Canceled: The caster cannot cast spells while silenced."
+@104 = "Metamagic: Spell Canceled: The caster does not meet the requirements for modifying the selected spell."
+@105 = "Metamagic: Spell Canceled: The caster cannot perform more than one action per round."
+@106 = "Metamagic: Spell Canceled: Spell Disrupted."
