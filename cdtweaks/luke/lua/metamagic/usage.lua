@@ -3,6 +3,9 @@
 EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
 	local metamagicType = EEex_Sprite_GetStat(sprite, GT_Resource_SymbolToIDS["stats"]["CDTWEAKS_METAMAGIC"])
 	local metamagicRes = {"CDMTMQCK", "CDMTMEMP", "CDMTMEXT", "CDMTMMAX", "CDMTMSIL", "CDMTMSTL"}
+	-- Let's set a local timer to 1 round in order to limit the Metamagic feat to once per round (otherwise it is probably too op)
+	local metamagicGetCooldown = EEex_Trigger_ParseConditionalString('!GlobalTimerNotExpired("cdtweaksMetamagicCooldown","LOCALS")')
+	local metamagicSetCooldown = EEex_Action_ParseResponseString('SetGlobalTimer("cdtweaksMetamagicCooldown","LOCALS",6)')
 	--
 	if sprite:getLocalInt("cdtweaksMetamagic") == 1 then
 		if metamagicType > 0 then
@@ -39,10 +42,20 @@ EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
 							if GT_Metamagic_InvisibilitySanctuary(sprite, action, spellHeader, metamagicType) then
 								-- ``(Really)ForceSpell()`` bypasses Silence, so we need to check it...
 								if GT_Metamagic_Silence(sprite, spellHeader, metamagicType) then
-									-- ``(Really)ForceSpell()`` ignores the caster's aura, so we need to check it...
-									if not (metamagicType == 1 or metamagicType == 5) or (EEex_Sprite_GetCastTimer(sprite) == -1 or EEex_Sprite_GetStat(sprite, GT_Resource_SymbolToIDS["stats"]["AURACLEANSING"]) > 0) then
+									-- limit it to once per round...
+									if metamagicGetCooldown:evalConditionalAsAIBase(sprite) then
 										-- check if the caster has at least one spell memorized of level ``spellLevel`` + X, X depending on the selected metamagic feat...
 										if GT_Metamagic_ConsumeSlots(sprite, spellHeader, metamagicType, spellResRef) then
+											--
+											metamagicSetCooldown:executeResponseAsAIBaseInstantly(sprite)
+											-- refresh without stacking
+											sprite:applyEffect({
+												["effectID"] = 321, -- Cast spell on condition
+												["durationType"] = 1,
+												["res"] = "CDMMAGIC",
+												["sourceID"] = sprite.m_id,
+												["sourceTarget"] = sprite.m_id,
+											})
 											--
 											sprite:applyEffect({
 												["effectID"] = 408, -- Projectile mutator
@@ -59,7 +72,7 @@ EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
 											elseif metamagicType == 5 then
 												-- store CURHITPOINTS as soon as the action starts...
 												sprite:setLocalInt("gtSilentSpellStartingHP", sprite.m_baseStats.m_hitPoints)
-												-- ``ForceSpell()`` cannot be interrupted, so we have to manually do that...
+												-- ``ForceSpell()`` cannot be disrupted, so we have to manually allow for that...
 												sprite:applyEffect({
 													["effectID"] = 232, -- Cast spell on condition
 													["durationType"] = 1,
@@ -87,7 +100,7 @@ EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
 										sprite:applyEffect({
 											["effectID"] = 139, -- Display string
 											["durationType"] = 1,
-											["effectAmount"] = %strref_AuraFree%,
+											["effectAmount"] = %strref_OncePerRound%,
 											["sourceID"] = sprite.m_id,
 											["sourceTarget"] = sprite.m_id,
 										})
@@ -133,7 +146,7 @@ EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
 						})
 					end
 				else
-					-- remove op408 (in case of an innate spell)
+					-- remove op408 / op232 (in case of an innate spell)
 					sprite:applyEffect({
 						["effectID"] = 321, -- Remove effects by resource
 						["durationType"] = 1,
@@ -143,7 +156,7 @@ EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
 					})
 				end
 			else
-				-- remove op408
+				-- remove op408 / op232 (in case of an action different from 'SpellNoDec()')
 				sprite:applyEffect({
 					["effectID"] = 321, -- Remove effects by resource
 					["durationType"] = 1,
@@ -153,7 +166,7 @@ EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
 				})
 			end
 		else
-			-- remove op408 (in case the spell gets disrupted)
+			-- remove op408 / op232 (f.i. the spell gets disrupted and the character starts a new action)
 			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource
 				["durationType"] = 1,
@@ -163,4 +176,7 @@ EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
 			})
 		end
 	end
+	--
+	metamagicGetCooldown:free()
+	metamagicSetCooldown:free()
 end)

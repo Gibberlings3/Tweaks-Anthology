@@ -246,46 +246,37 @@ function GT_Metamagic_SilentSpell(CGameSprite, CAIAction, casterLevel)
 	CGameSprite.m_bInCasting = 1
 end
 
--- cdtweaks, Metamagic (Silent Spell): ``ForceSpell()`` cannot be interrupted, so we have to manually do that
+-- cdtweaks, Metamagic (Silent Spell): ``ForceSpell()`` cannot be disrupted, so we have to manually allow for that
 
 function GTSILSPL(CGameEffect, CGameSprite)
-	if CGameSprite.m_curAction.m_actionID == 113 or CGameSprite.m_curAction.m_actionID == 114 then
-		local found = false
+	if CGameSprite.m_curAction.m_actionID == 113 or CGameSprite.m_curAction.m_actionID == 114 then -- sanity check
+		local roll = Infinity_RandomNumber(1, 20)
 		--
-		EEex_Utility_IterateCPtrList(CGameSprite.m_timedEffectList, function(effect)
-			if effect.m_effectId == 408 and effect.m_effectAmount == 5 then
-				found = true
-				return true
-			end
-		end)
+		local constitution = CGameSprite.m_derivedStats.m_nCON + CGameSprite.m_bonusStats.m_nCON
+		local conBonus = math.floor((constitution - 10) / 2)
 		--
-		if found then
-			local roll = Infinity_RandomNumber(1, 20)
+		local luck = CGameSprite.m_derivedStats.m_nLuck + CGameSprite.m_bonusStats.m_nLuck
+		--
+		local spellResRef = CGameSprite.m_curAction.m_string1.m_pchData:get()
+		if spellResRef == "" then
+			spellResRef = GT_Utility_DecodeSpell(CGameSprite.m_curAction.m_specificID)
+		end
+		--
+		local spellHeader = EEex_Resource_Demand(spellResRef, "SPL")
+		--
+		local damageTaken = CGameSprite:getLocalInt("gtSilentSpellStartingHP") - CGameSprite.m_baseStats.m_hitPoints
+		CGameSprite:setLocalInt("gtSilentSpellStartingHP", CGameSprite.m_baseStats.m_hitPoints) -- update tracking var
+		--
+		if roll + damageTaken > spellHeader.spellLevel + conBonus + luck then
+			CGameSprite.m_curAction.m_actionID = 0 -- nuke current action
 			--
-			local constitution = CGameSprite.m_derivedStats.m_nCON + CGameSprite.m_bonusStats.m_nCON
-			local conBonus = math.floor((constitution - 10) / 2)
-			--
-			local spellResRef = CGameSprite.m_curAction.m_string1.m_pchData:get()
-			if spellResRef == "" then
-				spellResRef = GT_Utility_DecodeSpell(CGameSprite.m_curAction.m_specificID)
-			end
-			--
-			local spellHeader = EEex_Resource_Demand(spellResRef, "SPL")
-			--
-			local damageTaken = CGameSprite:getLocalInt("gtSilentSpellStartingHP") - CGameSprite.m_baseStats.m_hitPoints
-			CGameSprite:setLocalInt("gtSilentSpellStartingHP", CGameSprite.m_baseStats.m_hitPoints) -- update tracking var
-			--
-			if roll + damageTaken > spellHeader.spellLevel + conBonus then
-				CGameSprite.m_curAction.m_actionID = 0 -- nuke current action
-				--
-				CGameSprite:applyEffect({
-					["effectID"] = 139, -- Display string
-					["durationType"] = 1,
-					["effectAmount"] = %strref_SpellDisrupted%,
-					["sourceID"] = CGameSprite.m_id,
-					["sourceTarget"] = CGameSprite.m_id,
-				})
-			end
+			CGameSprite:applyEffect({
+				["effectID"] = 139, -- Display string
+				["durationType"] = 1,
+				["effectAmount"] = %strref_SpellDisrupted%,
+				["sourceID"] = CGameSprite.m_id,
+				["sourceTarget"] = CGameSprite.m_id,
+			})
 		end
 	end
 end
