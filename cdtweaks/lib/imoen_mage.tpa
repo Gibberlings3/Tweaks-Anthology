@@ -1,0 +1,9 @@
+DEFINE_PATCH_MACRO cdt_imoen_mage BEGIN
+
+  READ_SHORT  0x28 anim  ELSE 0
+  READ_BYTE  0x273 class ELSE 0
+  PATCH_IF ((class = 13) AND (anim = 25360)) BEGIN
+    WRITE_SHORT 0x28 25104
+  END
+  
+END

@@ -7,16 +7,14 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 INCLUDE ~cdtweaks/lib/joinable_npc_array.tpa~
+INCLUDE ~cdtweaks/lib/viconia_skin.tpa~
 
 ACTION_PHP_EACH JOINABLE_NPC_ARRAY AS file => dv BEGIN
 
   ACTION_IF ("%dv%" STRING_COMPARE_CASE "viconia" = 0) BEGIN 
 
     COPY_EXISTING ~%file%~ ~override~
-      READ_LONG 0x08 "name" ELSE 0
-      PATCH_IF (("%name%" = 6132) OR ("%name%" = 9489) OR ("%name%" = 9508)) BEGIN
-        WRITE_BYTE 0x2F 96
-      END
+      LPM cdt_viconia_skin
       BUT_ONLY
       
   END

@@ -1,0 +1,5 @@
+DEFINE_PATCH_MACRO cdt_remove_portrait_icons BEGIN
+
+  LPF DELETE_ITEM_EQEFFECT INT_VAR opcode_to_delete = 142 END
+  
+END

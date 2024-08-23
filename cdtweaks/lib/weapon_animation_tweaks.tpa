@@ -1,0 +1,58 @@
+ACTION_IF original_bg1 OR original_iwd OR game_is_iwd2 OR game_is_pst THEN BEGIN // exclude pstee
+  OUTER_SET use_type = 1
+END ELSE BEGIN
+  OUTER_SET use_type = 0
+END
+
+
+DEFINE_PATCH_MACRO cdt_weapon_animation_tweaks BEGIN
+
+  PATCH_IF (SOURCE_SIZE > 0x71) THEN BEGIN // protects against invalid files
+    READ_BYTE  0x18 flags
+    READ_SHORT 0x1c type
+    READ_ASCII 0x22 anim (2)
+    READ_BYTE  0x31 prof
+    READ_LONG  0x64 abil_off
+    READ_SHORT 0x68 abil_num
+    PATCH_IF ((((use_type = 0) AND ((prof = 100) OR (prof = 101))) OR // for bg2-based games w/ proficiencies
+               ((use_type = 1) AND (type = 22))) AND                  // otherwise use item type
+               ("%anim%" STRING_COMPARE_CASE "ms" = 0)) BEGIN         // and has the morningstar animation
+      WRITE_ASCII 0x22 "MC" // change morningstars to mace animations
+    END
+    SET overhead = 0 
+    PATCH_IF (((flags & BIT1) = 0) AND                         // one-handed...
+              (("%anim%" STRING_COMPARE_CASE "cl" = 0) OR      // club
+               ("%anim%" STRING_COMPARE_CASE "mc" = 0) OR      // mace
+               ("%anim%" STRING_COMPARE_CASE "ms" = 0))) BEGIN // or morningstar
+      SET overhead  = 50
+      SET backhand  = 50
+      SET thrusting =  0
+    END ELSE
+    PATCH_IF (("%anim%" STRING_COMPARE_CASE "sp" = 0) AND ((flags & BIT1) = BIT1)) BEGIN  // two-handed spears
+      SET overhead  = 10
+      SET backhand  = 10
+      SET thrusting = 80
+    END ELSE
+    PATCH_IF (("%anim%" STRING_COMPARE_CASE "ss" = 0) AND ((flags & BIT1) = 0)) BEGIN // one-handed short swords
+      SET overhead  = 10
+      SET backhand  = 20
+      SET thrusting = 70
+    END ELSE
+    PATCH_IF (("%anim%" STRING_COMPARE_CASE "qs" = 0) AND ((flags & BIT1) = BIT1)) BEGIN // two-handed staves
+      SET overhead  = 20
+      SET backhand  = 10
+      SET thrusting = 70
+    END 
+    PATCH_IF overhead BEGIN    
+      FOR (index = 0 ; index < abil_num ; ++index) BEGIN
+        READ_BYTE (abil_off + (index * 0x38)) type
+        PATCH_IF (type = 1) BEGIN
+          WRITE_SHORT (abil_off + 0x2c + (index * 0x38)) overhead
+          WRITE_SHORT (abil_off + 0x2e + (index * 0x38)) backhand
+          WRITE_SHORT (abil_off + 0x30 + (index * 0x38)) thrusting
+        END
+      END
+    END
+  END
+  
+END

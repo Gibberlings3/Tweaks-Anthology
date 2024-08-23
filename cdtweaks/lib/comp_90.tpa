@@ -6,7 +6,8 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
+INCLUDE ~cdtweaks/lib/remove_portrait_icons.tpa~
 PRINT @1
 COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
-  LPF DELETE_ITEM_EQEFFECT INT_VAR opcode_to_delete = 142 END
+  LPM cdt_remove_portrait_icons
   BUT_ONLY

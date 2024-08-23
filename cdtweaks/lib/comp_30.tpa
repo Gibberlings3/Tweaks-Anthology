@@ -6,11 +6,7 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
+INCLUDE ~cdtweaks/lib/nalia_thief.tpa~
 COPY_EXISTING_REGEXP GLOB ~^.+\.cre$~ ~override~ // Nalia animation adjustments
-  READ_LONG   0x08 name  ELSE 0
-  READ_SHORT  0x28 anim  ELSE 0
-  READ_BYTE  0x273 class ELSE 0
-  PATCH_IF (((name = 9102) OR (name = 9103)) AND (class = 13) AND (anim = 25104)) BEGIN
-    WRITE_SHORT 0x28 25360
-  END
+  LPM cdt_nalia_thief
   BUT_ONLY

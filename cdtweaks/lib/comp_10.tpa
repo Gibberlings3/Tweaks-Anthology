@@ -13,25 +13,11 @@ ACTION_IF enhanced_edition BEGIN
     BUT_ONLY
 
 END ELSE BEGIN
-
-  ACTION_IF game_includes_soa OR game_is_ca OR tutu_gen OR game_is_iwd-in-bg2 BEGIN
-    OUTER_SET check_anim = 1
-  END ELSE BEGIN
-    OUTER_SET check_anim = 0
-  END
+  
+  INCLUDE ~cdtweaks/lib/remove_helmet_animations.tpa~
 
   COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
-    READ_SHORT 0x1c itemtype ELSE 0
-    PATCH_IF (itemtype = 7) BEGIN
-      PATCH_IF check_anim = 1 BEGIN
-        READ_SHORT 0x22 anim ELSE 0
-        PATCH_IF NOT ((anim = 0x5759) OR (anim = 0x575a)) BEGIN // exclude zw, yw for 1pp Wings
-          WRITE_SHORT 0x22 0
-        END  
-      END ELSE BEGIN
-        WRITE_SHORT 0x22 0
-      END
-    END
+    LPM cdt_remove_helmet_animations
     BUT_ONLY
   
 END

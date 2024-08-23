@@ -1,0 +1,33 @@
+INCLUDE ~cdtweaks/lib/game_checks.tpa~ // sets game_is_foo vars, others
+
+// define empty macros and functions; to be replaced by functional macros below is needed
+DEFINE_PATCH_MACRO ~cdt_remove_helmet_animations~ BEGIN END
+DEFINE_PATCH_MACRO ~cdt_imoen_game~ BEGIN END
+DEFINE_PATCH_MACRO ~cdt_nalia_thief~ BEGIN END
+DEFINE_PATCH_MACRO ~cdt_viconia_skin~ BEGIN END
+DEFINE_PATCH_MACRO ~cdt_weapon_animation_tweaks~ BEGIN END
+DEFINE_PATCH_MACRO ~cdt_remove_portrait_icons~ BEGIN END
+
+ACTION_IF MOD_IS_INSTALLED ~cdtweaks.tp2~ ~10~ AND !enhanced_edition BEGIN // no adjustments needed for EEs since it's done at the animation level
+  INCLUDE ~cdtweaks/lib/remove_helmet_animations.tpa~
+END 
+
+ACTION_IF MOD_IS_INSTALLED ~cdtweaks.tp2~ ~20~ BEGIN
+  INCLUDE ~cdtweaks/lib/imoen_mage.tpa~
+END 
+
+ACTION_IF MOD_IS_INSTALLED ~cdtweaks.tp2~ ~30~ BEGIN
+  INCLUDE ~cdtweaks/lib/nalia_thief.tpa~
+END 
+
+ACTION_IF MOD_IS_INSTALLED ~cdtweaks.tp2~ ~40~ BEGIN
+  INCLUDE ~cdtweaks/lib/viconia_skin.tpa~
+END 
+
+ACTION_IF MOD_IS_INSTALLED ~cdtweaks.tp2~ ~60~ BEGIN
+  INCLUDE ~cdtweaks/lib/weapon_animation_tweaks.tpa~
+END 
+
+ACTION_IF MOD_IS_INSTALLED ~cdtweaks.tp2~ ~90~ BEGIN
+  INCLUDE ~cdtweaks/lib/remove_portrait_icons.tpa~
+END 
