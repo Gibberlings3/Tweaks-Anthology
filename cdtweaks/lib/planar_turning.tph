@@ -13,11 +13,9 @@ BEGIN
 		LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 STR_VAR "resource" = "GTPLNTRN" END // Invoke lua
 	BUT_ONLY_IF_IT_CHANGES
 	// Listener: run 'func' each time a sprite has finished evaluating its effects
-	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Listeners" "sourceFileSpec" = "cdtweaks\luke\lua\planar_turning_modal.lua" "destRes" = "m_gtlstn" END
-	//
 	WITH_SCOPE BEGIN
 		OUTER_SET "feedback_strref" = RESOLVE_STR_REF (@1)
-		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Functions to be invoked via op402" "sourceFileSpec" = "cdtweaks\luke\lua\planar_turning.lua" "destRes" = "m_gt#402" END
+		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Misc Tweaks (Class)" "sourceFileSpec" = "cdtweaks\luke\lua\class\planar_turning.lua" "destRes" = "m_gtclss" END
 	END
 	//
 	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN

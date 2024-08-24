@@ -38,15 +38,15 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	end
 	-- Check creature's equipment / stats / class
 	local equipment = sprite.m_equipment
-	local selectedItem = equipment.m_items:get(equipment.m_selectedWeapon)
-	local itemHeader = selectedItem.pRes.pHeader
+	local selectedWeapon = equipment.m_items:get(equipment.m_selectedWeapon)
+	local selectedWeaponHeader = selectedWeapon.pRes.pHeader
 	--
-	local itemResRef = string.upper(selectedItem.pRes.resref:get())
+	local selectedWeaponResRef = string.upper(selectedWeapon.pRes.resref:get())
 	local unusuallyLargeWeapon = {
 		["BDBONE02"] = true -- Ettin Club +1
 	}
 	--
-	local itemAbility = EEex_Resource_GetItemAbility(itemHeader, equipment.m_selectedWeaponAbility) -- Item_ability_st
+	local selectedWeaponAbility = EEex_Resource_GetItemAbility(selectedWeaponHeader, equipment.m_selectedWeaponAbility) -- Item_ability_st
 	--
 	local strmod = GT_Resource_2DA["strmod"]
 	local strmodex = GT_Resource_2DA["strmodex"]
@@ -58,7 +58,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	--
 	local spriteClassStr = GT_Resource_IDSToSymbol["class"][sprite.m_typeAI.m_Class]
 	--
-	local weaponTypeStr = GT_Resource_IDSToSymbol["itemcat"][itemHeader.itemType]
+	local selectedWeaponTypeStr = GT_Resource_IDSToSymbol["itemcat"][selectedWeaponHeader.itemType]
 	--
 	local spriteFlags = sprite.m_baseStats.m_flags
 	--
@@ -68,12 +68,12 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	local curStrBonus = tonumber(strmod[string.format("%s", spriteSTR)]["TO_HIT"] + strmodex[string.format("%s", spriteSTRExtra)]["TO_HIT"])
 	local curDexBonus = tonumber(dexmod[string.format("%s", spriteDEX)]["MISSILE"])
 	-- if the thief is wielding a small blade / mace / club that scales with STR and "dexmod.2da" is better than "strmod.2da" + "strmodex.2da" ...
-	local applyCondition = (weaponTypeStr == "DAGGER" or weaponTypeStr == "SMSWORD" or weaponTypeStr == "MACE")
+	local applyCondition = (selectedWeaponTypeStr == "DAGGER" or selectedWeaponTypeStr == "SMSWORD" or selectedWeaponTypeStr == "MACE")
 		and not unusuallyLargeWeapon[itemResRef]
 		and curDexBonus > curStrBonus
-		and itemAbility.quickSlotType == 1 -- Location: Weapon
-		and itemAbility.type == 1 -- Type: Melee
-		and (EEex_IsBitSet(itemAbility.abilityFlags, 0x0) or EEex_IsBitSet(itemAbility.abilityFlags, 0x3))
+		and selectedWeaponAbility.quickSlotType == 1 -- Location: Weapon
+		and selectedWeaponAbility.type == 1 -- Type: Melee
+		and (EEex_IsBitSet(selectedWeaponAbility.abilityFlags, 0x0) or EEex_IsBitSet(selectedWeaponAbility.abilityFlags, 0x3))
 		and (spriteClassStr == "THIEF" or spriteClassStr == "FIGHTER_MAGE_THIEF"
 			-- incomplete dual-class characters are not supposed to benefit from Weapon Finesse
 			or (spriteClassStr == "FIGHTER_THIEF" and (EEex_IsBitUnset(spriteFlags, 0x6) or spriteLevel1 > spriteLevel2))

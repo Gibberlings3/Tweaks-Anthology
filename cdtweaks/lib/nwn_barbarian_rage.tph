@@ -1,0 +1,88 @@
+DEFINE_ACTION_FUNCTION "NWN_BARBARIAN_RAGE"
+BEGIN
+	// update main asset
+	WITH_SCOPE BEGIN
+		COPY_EXISTING "spcl152.spl" "override"
+			WRITE_LONG UNIDENTIFIED_DESC RESOLVE_STR_REF (@0)
+			//
+			LPF "DELETE_EFFECT" END // fresh start
+			// cosmetic
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 215 "target" = 1 "duration" = 2 "parameter2" = 1 STR_VAR "resource" = "ICSTRENI" END // Play visual effect: Over target (attached)
+			// lua
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 1 "parameter1" = 1 STR_VAR "resource" = "GTBARBRG" END // Invoke lua
+		BUT_ONLY
+	END
+	// terrifying rage
+	WITH_SCOPE BEGIN
+		CREATE "spl" "cdcl152a"
+		COPY_EXISTING "cdcl152a.spl" "override"
+			WRITE_LONG NAME1 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC "-1"
+			WRITE_LONG 0x18 (BIT9 BOR BIT10 BOR BIT14) // break sanctuary/invisibility, ignore dead/wild magic
+			WRITE_LONG 0x1C 4 // type: innate
+			WRITE_LONG 0x34 1 // level
+			//
+			PATCH_WITH_SCOPE BEGIN
+				PATCH_IF IDS_OF_SYMBOL ("missile" "Area_Small_Not_Party_Ignore_Center") == "-1" BEGIN
+					INNER_ACTION BEGIN
+						ADD_PROJECTILE "cdtweaks\luke\pro\idpro402.pro" "Area_Small_Not_Party_Ignore_Center"
+					END
+				END
+			END
+			//
+			LPF ~ADD_SPELL_HEADER~ INT_VAR "target" = 5 "projectile" = IDS_OF_SYMBOL ("missile" "Area_Small_Not_Party_Ignore_Center") END
+			//
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 139 "target" = 9 "parameter1" = RESOLVE_STR_REF (@1) END // display string
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 141 "target" = 2 "parameter2" = 16 END // lighting effects
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 "parameter1" = 2 STR_VAR "resource" = "GTBARBRG" END // invoke lua
+		BUT_ONLY
+	END
+	// Thundering Rage
+	WITH_SCOPE BEGIN
+		// 2d6 upon critical hits
+		CREATE "spl" "cdcl152b"
+		COPY_EXISTING "cdcl152b.spl" "override"
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@2)
+			WRITE_LONG UNIDENTIFIED_DESC "-1"
+			WRITE_LONG 0x18 (BIT9 BOR BIT10 BOR BIT14) // break sanctuary/invisibility, ignore dead/wild magic
+			WRITE_LONG 0x1C 4 // type: innate
+			WRITE_LONG 0x34 1 // level
+			//
+			LPF ~ADD_SPELL_HEADER~ INT_VAR "range" = 30 END
+			//
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 "parameter1" = 3 STR_VAR "resource" = "GTBARBRG" END // Invoke lua
+		BUT_ONLY
+		// deaf: 25% chance, no save
+		CREATE "eff" "cdcl152c"
+		COPY_EXISTING "cdcl152c.eff" "override"
+			WRITE_LONG 0x10 146 // cast spell
+			WRITE_LONG 0x20 1 // instant/ignore level
+			WRITE_ASCII 0x30 "CDCL152C" #8 // spl resref
+			WRITE_SHORT 0x2C 24 // probability1
+		BUT_ONLY
+		//
+		CREATE "spl" "cdcl152c"
+		COPY_EXISTING "cdcl152c.spl" "override"
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@3)
+			WRITE_LONG UNIDENTIFIED_DESC "-1"
+			WRITE_LONG 0x18 (BIT9 BOR BIT10 BOR BIT14) // break sanctuary/invisibility, ignore dead/wild magic
+			WRITE_LONG 0x1C 4 // type: innate
+			WRITE_LONG 0x34 1 // level
+			//
+			LPF ~ADD_SPELL_HEADER~ INT_VAR "range" = 30 END
+			//
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 80 "target" = 2 "duration" = (6 * 3) END // deaf
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 142 "target" = 2 "parameter2" = 112 "duration" = (6 * 3) END // icon: deaf
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 139 "target" = 2 "parameter1" = RESOLVE_STR_REF (@4) END // string: deafened
+		BUT_ONLY
+	END
+	// lua
+	WITH_SCOPE BEGIN
+		OUTER_SET "feedback_strref_alreadyCast" = RESOLVE_STR_REF (@5)
+		OUTER_SET "feedback_strref_tremblingWithFear" = RESOLVE_STR_REF (@6)
+		OUTER_SET "feedback_strref_panic" = RESOLVE_STR_REF (@7)
+		OUTER_SET "feedback_strref_immune" = RESOLVE_STR_REF (@8)
+		//
+		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Misc Tweaks (Kit)" "sourceFileSpec" = "cdtweaks\luke\lua\kit\nwn_barbarian_rage.lua" "destRes" = "m_gt#kit" END
+	END
+END

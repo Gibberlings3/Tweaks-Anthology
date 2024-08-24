@@ -5,12 +5,10 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	if not EEex_GameObject_IsSprite(sprite) then
 		return
 	end
-	-- internal function that applies the actual bonus via "CDFRLNTD.SPL"
-	local apply = function(spriteLevel1, spriteLevel2, spriteLevel3)
-		-- Update vars
-		sprite:setLocalInt("cdtweaksRevisedArcherHelper1", spriteLevel1)
-		sprite:setLocalInt("cdtweaksRevisedArcherHelper2", spriteLevel2)
-		sprite:setLocalInt("cdtweaksRevisedArcherHelper3", spriteLevel3)
+	-- internal function that applies the actual bonus
+	local apply = function(bonus)
+		-- Update tracking var
+		sprite:setLocalInt("cdtweaksRevisedArcherHelper", bonus)
 		-- Mark the creature as 'bonus applied'
 		sprite:setLocalInt("cdtweaksRevisedArcher", 1)
 		--
@@ -101,3 +99,23 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		end
 	end
 end)
+
+-- cdtweaks, revised archer kit: Called Shot ability (bows only!) --
+
+function GTCLDSHT(CGameEffect, CGameSprite)
+	local equipment = CGameSprite.m_equipment -- CGameSpriteEquipment
+	local selectedWeapon = equipment.m_items:get(equipment.m_selectedWeapon) -- CItem
+	local selectedWeaponHeader = selectedWeapon.pRes.pHeader -- Item_Header_st
+	--
+	local selectedWeaponTypeStr = GT_Resource_IDSToSymbol["itemcat"][selectedWeaponHeader.itemType]
+	--
+	if selectedWeaponTypeStr == "ARROW" or selectedWeaponTypeStr == "BOW" then -- bow with arrows equipped || bow with unlimited ammo equipped
+		EEex_GameObject_ApplyEffect(CGameSprite,
+		{
+			["effectID"] = 326, -- Apply effects list
+			["res"] = "CDCL121",
+			["sourceID"] = CGameEffect.m_sourceId,
+			["sourceTarget"] = CGameEffect.m_sourceTarget,
+		})
+	end
+end

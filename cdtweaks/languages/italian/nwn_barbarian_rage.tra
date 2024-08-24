@@ -1,0 +1,19 @@
+@0 = "Ira Barbarica
+
+La condizione di ira dura per 7 round (più un numero di round pari al modificatore di Costituzione del barbaro) e fornisce un bonus pari a +4 alla Forza e alla Costituzione, una penalità pari a -2 alla Classe Armatura e un bonus pari a +2 ai tiri-salvezza contro Incantesimi.
+
+Ira Terrificante: Mentre il barbaro è in preda all'ira, i nemici (con un dado-vita inferiore a quello del barbaro) che gli si avvicinano devono effettuare un tiro-salvezza contro Morte o cadere in preda al panico per 1d3 round. Nel caso in cui abbiano un dado-vita pari a quello del barbaro, riceveranno una penalità di -2 ai tiri-salvezza e al thac0. Se invece dovessero avere un dado-vita superiore a quello del barbaro, allora non subirebbero alcun effetto.
+
+Ira Tonante: Mentre il barbaro è in preda all'ira, i suoi colpi critici causano 2d6 punti danno aggiuntivi. Inoltre, i suoi attacchi hanno il 25% di possibilità di assordare la creatura colpita.
+"
+
+@1 = "Ira Terrificante"
+
+@2 = "Ira Tonante (Colpo Critico)"
+@3 = "Ira Tonante (Assordare)"
+@4 = "Assordato"
+
+@5 = "Il personaggio selezionato è già in preda a Ira Barbarica"
+@6 = "Tremando per la paura"
+@7 = "Panico"
+@8 = "Non soggetto agli effetti di Ira Terrificante"

@@ -4,7 +4,8 @@ BEGIN
 	COPY_EXISTING "cdblkgsa.eff" "override"
 		WRITE_LONG 0x10 402 // invoke lua
 		WRITE_SHORT 0x2C 100 // prob1
-		WRITE_ASCII 0x30 "GTBLKG01" #8 // lua function
+		WRITE_LONG 0x1C 1 // parameter1
+		WRITE_ASCII 0x30 "GTBLKGSA" #8 // lua function
 	BUT_ONLY
 	//
 	CREATE "spl" "cdblkgsa"
@@ -30,12 +31,10 @@ BEGIN
 			END
 		END
 		//
-		LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 STR_VAR "resource" = "GTBLKG02" END // invoke lua
+		LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 "parameter1" = 2 STR_VAR "resource" = "GTBLKGSA" END // invoke lua
 	BUT_ONLY_IF_IT_CHANGES
 	// Listener: run 'func' each time a sprite has finished evaluating its effects
-	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Listeners" "sourceFileSpec" = "cdtweaks\luke\lua\sneakatt_blackguard_grant.lua" "destRes" = "m_gtlstn" END
-	//
-	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Functions to be invoked via op402" "sourceFileSpec" = "cdtweaks\luke\lua\sneakatt_blackguard.lua" "destRes" = "m_gt#402" END
+	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Misc Tweaks (Kit)" "sourceFileSpec" = "cdtweaks\luke\lua\kit\sneakatt_blackguard.lua" "destRes" = "m_gt#kit" END
 	//
 	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lua\utility\is_invisible.lua" "destRes" = "m_gtutil" END
 	//

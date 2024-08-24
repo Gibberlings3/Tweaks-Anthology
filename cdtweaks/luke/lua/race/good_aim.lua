@@ -36,16 +36,16 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	end
 	-- Check creature's equipment / race
 	local equipment = sprite.m_equipment
-	local selectedItem = equipment.m_items:get(equipment.m_selectedWeapon)
-	local itemHeader = selectedItem.pRes.pHeader
-	local itemAbility = EEex_Resource_GetItemAbility(itemHeader, equipment.m_selectedWeaponAbility) -- Item_ability_st
+	local selectedWeapon = equipment.m_items:get(equipment.m_selectedWeapon)
+	local selectedWeaponHeader = selectedWeapon.pRes.pHeader
+	local selectedWeaponAbility = EEex_Resource_GetItemAbility(selectedWeaponHeader, equipment.m_selectedWeaponAbility) -- Item_ability_st
 	--
 	local spriteRaceStr = GT_Resource_IDSToSymbol["race"][sprite.m_typeAI.m_Race]
 	--
-	local itemTypeStr = GT_Resource_IDSToSymbol["itemcat"][itemHeader.itemType]
+	local selectedWeaponTypeStr = GT_Resource_IDSToSymbol["itemcat"][selectedWeaponHeader.itemType]
 	-- This feat grants a +1 thac0 bonus with throwing weapons (throwing daggers, throwing axes, darts, throwing hammers)
-	local applyAbility = (itemTypeStr == "DAGGER" or itemTypeStr == "AXE" or itemTypeStr == "HAMMER" or itemTypeStr == "DART")
-		and itemAbility.type == 2 -- Ranged
+	local applyAbility = (selectedWeaponTypeStr == "DAGGER" or selectedWeaponTypeStr == "AXE" or selectedWeaponTypeStr == "HAMMER" or selectedWeaponTypeStr == "DART")
+		and selectedWeaponAbility.type == 2 -- Ranged
 		and spriteRaceStr == "HALFLING"
 	--
 	if sprite:getLocalInt("cdtweaksGoodAim") == 0 then

@@ -52,12 +52,12 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	end
 	-- Check creature's equipment / class
 	local equipment = sprite.m_equipment
-	local selectedItem = equipment.m_items:get(equipment.m_selectedWeapon)
-	local itemHeader = selectedItem.pRes.pHeader
+	local selectedWeapon = equipment.m_items:get(equipment.m_selectedWeapon)
+	local selectedWeaponHeader = selectedWeapon.pRes.pHeader
 	--
-	local mainHandFlags = itemHeader.itemFlags
-	local itemAbility = EEex_Resource_GetItemAbility(itemHeader, equipment.m_selectedWeaponAbility) -- Item_ability_st
-	local mainHandAbilityType = itemAbility.type
+	local mainHandFlags = selectedWeaponHeader.itemFlags
+	local selectedWeaponAbility = EEex_Resource_GetItemAbility(selectedWeaponHeader, equipment.m_selectedWeaponAbility) -- Item_ability_st
+	local mainHandAbilityType = selectedWeaponAbility.type
 	--
 	local items = sprite.m_equipment.m_items -- Array<CItem*,39>
 	--
