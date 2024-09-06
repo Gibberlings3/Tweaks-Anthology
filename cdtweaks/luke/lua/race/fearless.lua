@@ -13,15 +13,15 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		sprite:applyEffect({
 			["effectID"] = 321, -- Remove effects by resource
 			["durationType"] = 1,
-			["res"] = "CDHLFRLS",
+			["res"] = "%HALFLING_FEARLESS%",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
 		})
 		sprite:applyEffect({
 			["effectID"] = 403, -- Screen effects
 			["durationType"] = 9,
-			["res"] = "GTHLFRLS", -- lua function
-			["m_sourceRes"] = "CDHLFRLS",
+			["res"] = "%HALFLING_FEARLESS%", -- lua function
+			["m_sourceRes"] = "%HALFLING_FEARLESS%",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
 		})
@@ -29,7 +29,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			["effectID"] = 142, -- Display portrait icon
 			["durationType"] = 9,
 			["dwFlags"] = %feedback_icon%,
-			["m_sourceRes"] = "CDHLFRLS",
+			["m_sourceRes"] = "%HALFLING_FEARLESS%",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
 		})
@@ -53,7 +53,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource
 				["durationType"] = 1,
-				["res"] = "CDHLFRLS",
+				["res"] = "%HALFLING_FEARLESS%",
 				["sourceID"] = sprite.m_id,
 				["sourceTarget"] = sprite.m_id,
 			})
@@ -63,7 +63,7 @@ end)
 
 -- cdtweaks, Fearless (Halflings): This feat grants a +2 bonus on saving throws against fear effects --
 
-function GTHLFRLS(op403CGameEffect, CGameEffect, CGameSprite)
+function %HALFLING_FEARLESS%(op403CGameEffect, CGameEffect, CGameSprite)
 	local parentResRef = CGameEffect.m_sourceRes:get()
 	--
 	local stats = GT_Resource_SymbolToIDS["stats"]

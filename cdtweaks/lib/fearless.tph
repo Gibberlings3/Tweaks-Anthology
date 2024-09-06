@@ -1,15 +1,25 @@
 DEFINE_ACTION_FUNCTION "FEARLESS"
 BEGIN
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"type" = 3
+	STR_VAR
+		"idsName" = "HALFLING_FEARLESS"
+	RET
+		"HALFLING_FEARLESS" = "resName"
+	END
+	//
 	WITH_SCOPE BEGIN
-		COPY "cdtweaks\bam\cdhlfrls.bam" "override"
+		ACTION_TO_LOWER "HALFLING_FEARLESS"
+		COPY "cdtweaks\luke\bam\innate\fearless.bam" "override\%HALFLING_FEARLESS%d.bam"
 	END
 	//
 	LAF "ADD_EXTENDED_STAT" INT_VAR "max" = 20 STR_VAR "identifier" = "GT_IMMUNITY" END
 	//
 	WITH_SCOPE BEGIN
-		LAF "ADD_STATDESC_ENTRY" INT_VAR "description" = RESOLVE_STR_REF (@0) STR_VAR "bam_file" = "cdhlfrls" RET "feedback_icon" = "index" END
+		LAF "ADD_STATDESC_ENTRY" INT_VAR "description" = RESOLVE_STR_REF (@0) STR_VAR "bam_file" = "%HALFLING_FEARLESS%D" RET "feedback_icon" = "index" END
 		// Listener: run 'func' each time a sprite has finished evaluating its effects
-		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Misc Tweaks (Race)" "sourceFileSpec" = "cdtweaks\luke\lua\race\fearless.lua" "destRes" = "m_gtrace" END
+		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Misc Tweaks (Innate)" "sourceFileSpec" = "cdtweaks\luke\lua\race\fearless.lua" "destRes" = "m_gtspin" END
 	END
 	//
 	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN

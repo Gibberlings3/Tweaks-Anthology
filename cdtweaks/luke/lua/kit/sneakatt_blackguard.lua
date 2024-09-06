@@ -13,23 +13,23 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		sprite:applyEffect({
 			["effectID"] = 321, -- Remove effects by resource
 			["durationType"] = 1,
-			["res"] = "CDBLKGSA",
+			["res"] = "%BLACKGUARD_SNEAK_ATTACK%",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
 		})
 		sprite:applyEffect({
 			["effectID"] = 248, -- Melee hit effect
-			["res"] = "CDBLKGSA", -- EFF file
+			["res"] = "%BLACKGUARD_SNEAK_ATTACK%B", -- EFF file
 			["durationType"] = 9,
-			["m_sourceRes"] = "CDBLKGSA",
+			["m_sourceRes"] = "%BLACKGUARD_SNEAK_ATTACK%",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
 		})
 		sprite:applyEffect({
 			["effectID"] = 249, -- Ranged hit effect
-			["res"] = "CDBLKGSA", -- EFF file
+			["res"] = "%BLACKGUARD_SNEAK_ATTACK%B", -- EFF file
 			["durationType"] = 9,
-			["m_sourceRes"] = "CDBLKGSA",
+			["m_sourceRes"] = "%BLACKGUARD_SNEAK_ATTACK%",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
 		})
@@ -56,7 +56,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource
 				["durationType"] = 1,
-				["res"] = "CDBLKGSA",
+				["res"] = "%BLACKGUARD_SNEAK_ATTACK%",
 				["sourceID"] = sprite.m_id,
 				["sourceTarget"] = sprite.m_id,
 			})
@@ -66,7 +66,7 @@ end)
 
 -- cdtweaks, Sneak Attack feat for Blackguards --
 
-function GTBLKGSA(CGameEffect, CGameSprite)
+function %BLACKGUARD_SNEAK_ATTACK%(CGameEffect, CGameSprite)
 	if CGameEffect.m_effectAmount == 1 then -- check if can perform a sneak attack
 		local sourceSprite = EEex_GameObject_Get(CGameEffect.m_sourceId)
 		--
@@ -82,7 +82,7 @@ function GTBLKGSA(CGameEffect, CGameSprite)
 				--
 				CGameSprite:applyEffect({
 					["effectID"] = 146, -- Cast spell
-					["res"] = "CDBLKGSA", -- SPL file
+					["res"] = "%BLACKGUARD_SNEAK_ATTACK%B", -- SPL file
 					["dwFlags"] = 1, -- cast instantly / ignore level
 					["sourceID"] = CGameEffect.m_sourceId,
 					["sourceTarget"] = CGameEffect.m_sourceTarget,

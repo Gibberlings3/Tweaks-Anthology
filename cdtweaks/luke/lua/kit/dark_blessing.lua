@@ -15,7 +15,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		sprite:applyEffect({
 			["effectID"] = 321, -- Remove effects by resource
 			["durationType"] = 1,
-			["res"] = "CDDRKBLS",
+			["res"] = "%BLACKGUARD_DARK_BLESSING%",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
 		})
@@ -23,7 +23,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			["effectID"] = 325, -- All saving throws bonus
 			["durationType"] = 9,
 			["effectAmount"] = bonus,
-			["m_sourceRes"] = "CDDRKBLS",
+			["m_sourceRes"] = "%BLACKGUARD_DARK_BLESSING%",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
 		})
@@ -31,7 +31,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			["effectID"] = 142, -- Display portrait icon
 			["durationType"] = 9,
 			["dwFlags"] = %feedback_icon_blackguard%,
-			["m_sourceRes"] = "CDDRKBLS",
+			["m_sourceRes"] = "%BLACKGUARD_DARK_BLESSING%",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
 		})
@@ -66,7 +66,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource
 				["durationType"] = 1,
-				["res"] = "CDDRKBLS",
+				["res"] = "%BLACKGUARD_DARK_BLESSING%",
 				["sourceID"] = sprite.m_id,
 				["sourceTarget"] = sprite.m_id,
 			})

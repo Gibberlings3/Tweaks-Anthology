@@ -7,7 +7,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	end
 	--
 	local enraged = EEex_Trigger_ParseConditionalString('!GlobalTimerNotExpired("cdtweaksTerrifyingRage","LOCALS") \n CheckSpellState(Myself,BARBARIAN_RAGE)')
-	local terrifyingRage = EEex_Action_ParseResponseString('SetGlobalTimer("cdtweaksTerrifyingRage","LOCALS",6) \n ReallyForceSpellRES("CDCL152A",Myself)')
+	local terrifyingRage = EEex_Action_ParseResponseString('SetGlobalTimer("cdtweaksTerrifyingRage","LOCALS",6) \n ReallyForceSpellRES("%BARBARIAN_RAGE%B",Myself)')
 	--
 	if enraged:evalConditionalAsAIBase(sprite) then
 		terrifyingRage:executeResponseAsAIBaseInstantly(sprite)
@@ -19,7 +19,7 @@ end)
 
 -- cdtweaks, NWN-ish Barbarian Rage (Rage / Terrifying Rage / Thundering Rage) --
 
-function GTBARBRG(CGameEffect, CGameSprite)
+function %BARBARIAN_RAGE%(CGameEffect, CGameSprite)
 	if CGameEffect.m_effectAmount == 1 then
 		local spriteCon = CGameSprite.m_derivedStats.m_nCON + CGameSprite.m_bonusStats.m_nCON
 		local conModifier = math.floor((spriteCon - 10) / 2)
@@ -33,8 +33,8 @@ function GTBARBRG(CGameEffect, CGameSprite)
 			{["op"] = 10, ["p1"] = 4}, -- CON mod (+4)
 			{["op"] = 37, ["p1"] = 2}, -- save vs. spell bonus (+2)
 			{["op"] = 0, ["p1"] = -2}, -- AC bonus (-2)
-			{["op"] = 341, ["res"] = "CDCL152B", ["spec"] = 1}, -- critical hit effect (melee attacks only, +2d6 extra damage)
-			{["op"] = 248, ["res"] = "CDCL152C"}, -- melee hit effect (deafness, 25% chance)
+			{["op"] = 341, ["res"] = "%BARBARIAN_RAGE%C", ["spec"] = 1}, -- critical hit effect (melee attacks only, +2d6 extra damage)
+			{["op"] = 248, ["res"] = "%BARBARIAN_RAGE%D"}, -- melee hit effect (deafness, 25% chance, no save)
 			{["op"] = 142, ["p2"] = 138} -- icon: rage
 			{["op"] = 206, ["res"] = CGameEffect.m_sourceRes:get(), ["p1"] = %feedback_strref_alreadyCast%}, -- protection from spell
 		}
@@ -59,19 +59,7 @@ function GTBARBRG(CGameEffect, CGameSprite)
 		local sourceSprite = EEex_GameObject_Get(CGameEffect.m_sourceId)
 		local sourceLevel1 = sourceSprite.m_derivedStats.m_nLevel1 + sourceSprite.m_bonusStats.m_nLevel1
 		--
-		local found = false
-		local immunityToFear = function(effect)
-			if effect.m_effectId == 0x65 and effect.m_dWFlags == 24 then
-				found = true
-				return true
-			end
-		end
-		EEex_Utility_IterateCPtrList(CGameSprite.m_timedEffectList, immunityToFear)
-		if not found then
-			EEex_Utility_IterateCPtrList(CGameSprite.m_equipedEffectList, immunityToFear)
-		end
-		--
-		if not found then
+		if not GT_Utility_EffectCheck(CGameSprite, {["m_effectId"] = 0x65, ["m_dWFlags"] = 24}) then
 			local effectCodes = {}
 			--
 			if sourceLevel1 > 1 then

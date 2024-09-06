@@ -13,15 +13,15 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		sprite:applyEffect({
 			["effectID"] = 321, -- Remove effects by resource
 			["durationType"] = 1,
-			["res"] = "CDDEFRLL",
+			["res"] = "%ROGUE_DEFENSIVE_ROLL%",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
 		})
 		sprite:applyEffect({
 			["effectID"] = 403, -- Screen effects
 			["durationType"] = 9,
-			["res"] = "GTDEFRLL",
-			["m_sourceRes"] = "CDDEFRLL",
+			["res"] = "%ROGUE_DEFENSIVE_ROLL%", -- Lua func
+			["m_sourceRes"] = "%ROGUE_DEFENSIVE_ROLL%",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
 		})
@@ -84,7 +84,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource
 				["durationType"] = 1,
-				["res"] = "CDDEFRLL",
+				["res"] = "%ROGUE_DEFENSIVE_ROLL%",
 				["sourceID"] = sprite.m_id,
 				["sourceTarget"] = sprite.m_id,
 			})
@@ -94,7 +94,7 @@ end)
 
 -- cdtweaks: Defensive Roll class feat for rogues --
 
-function GTDEFRLL(op403CGameEffect, CGameEffect, CGameSprite)
+function %ROGUE_DEFENSIVE_ROLL%(op403CGameEffect, CGameEffect, CGameSprite)
 	local dmgtype = GT_Resource_SymbolToIDS["dmgtype"]
 	local damageAmount = CGameEffect.m_effectAmount
 	--

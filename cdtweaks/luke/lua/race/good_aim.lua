@@ -13,7 +13,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		sprite:applyEffect({
 			["effectID"] = 321, -- Remove effects by resource
 			["durationType"] = 1,
-			["res"] = "CDHLGAIM",
+			["res"] = "%HALFLING_GOOD_AIM%",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
 		})
@@ -21,7 +21,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			["effectID"] = 167, -- Missile THAC0 bonus
 			["effectAmount"] = 1,
 			["durationType"] = 9,
-			["m_sourceRes"] = "CDHLGAIM",
+			["m_sourceRes"] = "%HALFLING_GOOD_AIM%",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
 		})
@@ -29,7 +29,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			["effectID"] = 142, -- Display portrait icon
 			["durationType"] = 9,
 			["dwFlags"] = %feedback_icon%,
-			["m_sourceRes"] = "CDHLGAIM",
+			["m_sourceRes"] = "%HALFLING_GOOD_AIM%",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
 		})
@@ -62,7 +62,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource
 				["durationType"] = 1,
-				["res"] = "CDHLGAIM",
+				["res"] = "%HALFLING_GOOD_AIM%",
 				["sourceID"] = sprite.m_id,
 				["sourceTarget"] = sprite.m_id,
 			})

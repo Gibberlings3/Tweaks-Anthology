@@ -1,5 +1,14 @@
 DEFINE_ACTION_FUNCTION "NWN_BARBARIAN_RAGE"
 BEGIN
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"level" = 1
+		"preferredSlot" = 52
+	STR_VAR
+		"idsName" = "BARBARIAN_RAGE"
+	RET
+		"BARBARIAN_RAGE" = "resName"
+	END
 	// update main asset
 	WITH_SCOPE BEGIN
 		COPY_EXISTING "spcl152.spl" "override"
@@ -9,13 +18,15 @@ BEGIN
 			// cosmetic
 			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 215 "target" = 1 "duration" = 2 "parameter2" = 1 STR_VAR "resource" = "ICSTRENI" END // Play visual effect: Over target (attached)
 			// lua
-			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 1 "parameter1" = 1 STR_VAR "resource" = "GTBARBRG" END // Invoke lua
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 1 "parameter1" = 1 STR_VAR "resource" = "%BARBARIAN_RAGE%" END // Invoke lua
 		BUT_ONLY
 	END
 	// terrifying rage
 	WITH_SCOPE BEGIN
-		CREATE "spl" "cdcl152a"
-		COPY_EXISTING "cdcl152a.spl" "override"
+		ACTION_TO_LOWER "BARBARIAN_RAGE"
+		//
+		CREATE "spl" "%BARBARIAN_RAGE%b"
+		COPY_EXISTING "%BARBARIAN_RAGE%b.spl" "override"
 			WRITE_LONG NAME1 "-1"
 			WRITE_LONG UNIDENTIFIED_DESC "-1"
 			WRITE_LONG 0x18 (BIT9 BOR BIT10 BOR BIT14) // break sanctuary/invisibility, ignore dead/wild magic
@@ -34,14 +45,15 @@ BEGIN
 			//
 			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 139 "target" = 9 "parameter1" = RESOLVE_STR_REF (@1) END // display string
 			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 141 "target" = 2 "parameter2" = 16 END // lighting effects
-			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 "parameter1" = 2 STR_VAR "resource" = "GTBARBRG" END // invoke lua
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 "parameter1" = 2 STR_VAR "resource" = "%BARBARIAN_RAGE%" END // invoke lua
 		BUT_ONLY
 	END
 	// Thundering Rage
 	WITH_SCOPE BEGIN
+		ACTION_TO_LOWER "BARBARIAN_RAGE"
 		// 2d6 upon critical hits
-		CREATE "spl" "cdcl152b"
-		COPY_EXISTING "cdcl152b.spl" "override"
+		CREATE "spl" "%BARBARIAN_RAGE%c"
+		COPY_EXISTING "%BARBARIAN_RAGE%c.spl" "override"
 			WRITE_LONG NAME1 RESOLVE_STR_REF (@2)
 			WRITE_LONG UNIDENTIFIED_DESC "-1"
 			WRITE_LONG 0x18 (BIT9 BOR BIT10 BOR BIT14) // break sanctuary/invisibility, ignore dead/wild magic
@@ -50,19 +62,19 @@ BEGIN
 			//
 			LPF ~ADD_SPELL_HEADER~ INT_VAR "range" = 30 END
 			//
-			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 "parameter1" = 3 STR_VAR "resource" = "GTBARBRG" END // Invoke lua
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 "parameter1" = 3 STR_VAR "resource" = "%BARBARIAN_RAGE%" END // Invoke lua
 		BUT_ONLY
 		// deaf: 25% chance, no save
-		CREATE "eff" "cdcl152c"
-		COPY_EXISTING "cdcl152c.eff" "override"
+		CREATE "eff" "%BARBARIAN_RAGE%d"
+		COPY_EXISTING "%BARBARIAN_RAGE%d.eff" "override"
 			WRITE_LONG 0x10 146 // cast spell
 			WRITE_LONG 0x20 1 // instant/ignore level
-			WRITE_ASCII 0x30 "CDCL152C" #8 // spl resref
+			WRITE_ASCII 0x30 "%BARBARIAN_RAGE%D" #8 // spl resref
 			WRITE_SHORT 0x2C 24 // probability1
 		BUT_ONLY
 		//
-		CREATE "spl" "cdcl152c"
-		COPY_EXISTING "cdcl152c.spl" "override"
+		CREATE "spl" "%BARBARIAN_RAGE%d"
+		COPY_EXISTING "%BARBARIAN_RAGE%d.spl" "override"
 			WRITE_LONG NAME1 RESOLVE_STR_REF (@3)
 			WRITE_LONG UNIDENTIFIED_DESC "-1"
 			WRITE_LONG 0x18 (BIT9 BOR BIT10 BOR BIT14) // break sanctuary/invisibility, ignore dead/wild magic
@@ -83,6 +95,13 @@ BEGIN
 		OUTER_SET "feedback_strref_panic" = RESOLVE_STR_REF (@7)
 		OUTER_SET "feedback_strref_immune" = RESOLVE_STR_REF (@8)
 		//
-		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Misc Tweaks (Kit)" "sourceFileSpec" = "cdtweaks\luke\lua\kit\nwn_barbarian_rage.lua" "destRes" = "m_gt#kit" END
+		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Misc Tweaks (Class / Kit)" "sourceFileSpec" = "cdtweaks\luke\lua\kit\nwn_barbarian_rage.lua" "destRes" = "m_gtspcl" END
+	END
+	//
+	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lua\utility\effect_check.lua" "destRes" = "m_gtutil" END
+	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Lua Tools" "sourceFileSpec" = "cdtweaks\luke\lua\tools\wrap_userdata.lua" "destRes" = "m_gttool" END
+	//
+	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
+		COPY "cdtweaks\luke\lua\m_gttbls.lua" "override"
 	END
 END

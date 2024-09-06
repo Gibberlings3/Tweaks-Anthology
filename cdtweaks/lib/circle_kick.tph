@@ -1,26 +1,40 @@
 DEFINE_ACTION_FUNCTION "CIRCLE_KICK"
 BEGIN
-	CREATE "eff" "cdcirkck"
-	COPY_EXISTING "cdcirkck.eff" "override"
-		WRITE_LONG 0x10 402 // invoke lua
-		WRITE_SHORT 0x2C 100 // prob1
-		WRITE_LONG 0x1C 1 // parameter1
-		WRITE_ASCII 0x30 "GTCIRKCK" #8 // lua function
-	BUT_ONLY
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"level" = 8
+		"type" = 4
+	STR_VAR
+		"idsName" = "MONK_CIRCLE_KICK"
+	RET
+		"MONK_CIRCLE_KICK" = "resName"
+	END
 	//
-	CREATE "spl" "cdcirkck"
-	COPY_EXISTING "cdcirkck.spl" "override"
-		WRITE_LONG NAME1 RESOLVE_STR_REF (@0)
-		WRITE_LONG 0x18 BIT14 // flags: ignore dead/wild magic
-		WRITE_SHORT 0x1C 4 // type: innate
-		WRITE_LONG 0x34 1 // level
+	WITH_SCOPE BEGIN
+		ACTION_TO_LOWER "MONK_CIRCLE_KICK"
 		//
-		LPF "ADD_SPELL_HEADER" INT_VAR "range" = 30 END
+		CREATE "eff" "%MONK_CIRCLE_KICK%b"
+		COPY_EXISTING "%MONK_CIRCLE_KICK%b.eff" "override"
+			WRITE_LONG 0x10 402 // invoke lua
+			WRITE_SHORT 0x2C 100 // prob1
+			WRITE_LONG 0x1C 1 // parameter1
+			WRITE_ASCII 0x30 "%MONK_CIRCLE_KICK%" #8 // lua function
+		BUT_ONLY
 		//
-		LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 "parameter1" = 2 STR_VAR "resource" = "GTCIRKCK" END // invoke lua
-	BUT_ONLY_IF_IT_CHANGES
+		CREATE "spl" "%MONK_CIRCLE_KICK%b"
+		COPY_EXISTING "%MONK_CIRCLE_KICK%b.spl" "override"
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@0)
+			WRITE_LONG 0x18 BIT14 // flags: ignore dead/wild magic
+			WRITE_SHORT 0x1C 4 // type: innate
+			WRITE_LONG 0x34 1 // level
+			//
+			LPF "ADD_SPELL_HEADER" INT_VAR "range" = 30 END
+			//
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 "parameter1" = 2 STR_VAR "resource" = "%MONK_CIRCLE_KICK%" END // invoke lua
+		BUT_ONLY_IF_IT_CHANGES
+	END
 	// Listener: run 'func' each time a sprite has finished evaluating its effects
-	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Misc Tweaks (Class)" "sourceFileSpec" = "cdtweaks\luke\lua\class\circle_kick.lua" "destRes" = "m_gtclss" END
+	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Misc Tweaks (Class / Kit)" "sourceFileSpec" = "cdtweaks\luke\lua\class\circle_kick.lua" "destRes" = "m_gtspcl" END
 	//
 	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
 		COPY "cdtweaks\luke\lua\m_gttbls.lua" "override"

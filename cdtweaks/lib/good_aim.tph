@@ -1,13 +1,23 @@
 DEFINE_ACTION_FUNCTION "GOOD_AIM"
 BEGIN
-	WITH_SCOPE BEGIN
-		COPY "cdtweaks\bam\cdhlgaim.bam" "override"
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"type" = 3
+	STR_VAR
+		"idsName" = "HALFLING_GOOD_AIM"
+	RET
+		"HALFLING_GOOD_AIM" = "resName"
 	END
 	//
 	WITH_SCOPE BEGIN
-		LAF "ADD_STATDESC_ENTRY" INT_VAR "description" = RESOLVE_STR_REF (@0) STR_VAR "bam_file" = "cdhlgaim" RET "feedback_icon" = "index" END
+		ACTION_TO_LOWER "HALFLING_GOOD_AIM"
+		COPY "cdtweaks\luke\bam\innate\good_aim.bam" "override\%HALFLING_GOOD_AIM%d.bam"
+	END
+	//
+	WITH_SCOPE BEGIN
+		LAF "ADD_STATDESC_ENTRY" INT_VAR "description" = RESOLVE_STR_REF (@0) STR_VAR "bam_file" = "%HALFLING_GOOD_AIM%D" RET "feedback_icon" = "index" END
 		// Listener: run 'func' each time a sprite has finished evaluating its effects
-		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Misc Tweaks (Race)" "sourceFileSpec" = "cdtweaks\luke\lua\race\good_aim.lua" "destRes" = "m_gtrace" END
+		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Misc Tweaks (Innate)" "sourceFileSpec" = "cdtweaks\luke\lua\race\good_aim.lua" "destRes" = "m_gtspin" END
 		//
 		ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
 			COPY "cdtweaks\luke\lua\m_gttbls.lua" "override"

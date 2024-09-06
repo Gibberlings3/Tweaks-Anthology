@@ -13,7 +13,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		sprite:applyEffect({
 			["effectID"] = 321, -- Remove effects by resource
 			["durationType"] = 1,
-			["res"] = "CDCIRKCK",
+			["res"] = "%MONK_CIRCLE_KICK%",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
 		})
@@ -21,8 +21,8 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			["effectID"] = 248, -- Melee hit effect
 			["dwFlags"] = 4, -- fist-only
 			["durationType"] = 9,
-			["res"] = "CDCIRKCK", -- EFF file
-			["m_sourceRes"] = "CDCIRKCK",
+			["res"] = "%MONK_CIRCLE_KICK%B", -- EFF file
+			["m_sourceRes"] = "%MONK_CIRCLE_KICK%",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
 		})
@@ -46,7 +46,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource
 				["durationType"] = 1,
-				["res"] = "CDCIRKCK",
+				["res"] = "%MONK_CIRCLE_KICK%",
 				["sourceID"] = sprite.m_id,
 				["sourceTarget"] = sprite.m_id,
 			})
@@ -56,14 +56,14 @@ end)
 
 -- cdtweaks, NWN-ish Circle Kick class feat for Monks --
 
-function GTCIRKCK(CGameEffect, CGameSprite)
+function %MONK_CIRCLE_KICK%(CGameEffect, CGameSprite)
 	if CGameEffect.m_effectAmount == 1 then -- check if can perform a circle kick
 		local sourceSprite = EEex_GameObject_Get(CGameEffect.m_sourceId)
 		--
 		local sourceSeeInvisible = sourceSprite.m_derivedStats.m_bSeeInvisible + sourceSprite.m_bonusStats.m_bSeeInvisible
 		-- limit to once per round
-		local getTimer = EEex_Trigger_ParseConditionalString('!GlobalTimerNotExpired("cdtweaksCircleKickTimer","LOCALS") \n InWeaponRange(EEex_LuaObject)')
-		local setTimer = EEex_Action_ParseResponseString('SetGlobalTimer("cdtweaksCircleKickTimer","LOCALS",6) \n ReallyForceSpellRES("CDCIRKCK",EEex_LuaObject)')
+		local getTimer = EEex_Trigger_ParseConditionalString('!GlobalTimerNotExpired("cdtweaksCircleKickTimer","LOCALS") \n InWeaponRange(EEex_Target("GT_MonkCircleKickTarget"))')
+		local setTimer = EEex_Action_ParseResponseString('SetGlobalTimer("cdtweaksCircleKickTimer","LOCALS",6) \n ReallyForceSpellRES("%MONK_CIRCLE_KICK%B",EEex_Target("GT_MonkCircleKickTarget"))')
 		--
 		local spriteArray = {}
 		if sourceSprite.m_typeAI.m_EnemyAlly > 200 then -- EVILCUTOFF
@@ -74,7 +74,9 @@ function GTCIRKCK(CGameEffect, CGameSprite)
 		--
 		for _, itrSprite in ipairs(spriteArray) do
 			if itrSprite.m_id ~= CGameSprite.m_id then -- skip current target
-				EEex_LuaObject = itrSprite -- must be global
+				--EEex_LuaObject = itrSprite -- must be global (we are not confortable with global / singleton vars...)
+				sourceSprite:setStoredScriptingTarget("GT_MonkCircleKickTarget", itrSprite)
+				--
 				local itrSpriteGeneralState = itrSprite.m_derivedStats.m_generalState + itrSprite.m_bonusStats.m_generalState
 				local itrSpriteSanctuary = itrSprite.m_derivedStats.m_bSanctuary + itrSprite.m_bonusStats.m_bSanctuary
 				--

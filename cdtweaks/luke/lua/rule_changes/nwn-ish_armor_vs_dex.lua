@@ -7,7 +7,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	end
 	-- internal function that applies the actual malus
 	local apply = function(ACMalus)
-		-- Update var
+		-- Update tracking var
 		sprite:setLocalInt("cdtweaksNWNArmorHelper", ACMalus)
 		-- Mark the creature as 'malus applied'
 		sprite:setLocalInt("cdtweaksNWNArmor", 1)
@@ -15,7 +15,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		sprite:applyEffect({
 			["effectID"] = 321, -- Remove effects by resource
 			["durationType"] = 1,
-			["res"] = "CDNWNARM",
+			["res"] = "GTRULE00",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
 		})
@@ -23,15 +23,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			["effectID"] = 0, -- AC bonus
 			["durationType"] = 9,
 			["effectAmount"] = ACMalus,
-			["m_sourceRes"] = "CDNWNARM",
-			["sourceID"] = sprite.m_id,
-			["sourceTarget"] = sprite.m_id,
-		})
-		sprite:applyEffect({
-			["effectID"] = 142, -- Display portrait icon
-			["durationType"] = 9,
-			["dwFlags"] = %feedback_icon%,
-			["m_sourceRes"] = "CDNWNARM",
+			["m_sourceRes"] = "GTRULE00",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
 		})
@@ -57,7 +49,9 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	if armor then
 		if armorAnimation == "3A" then
 			ACMalus = math.floor(AC / 2)
-			if ACMalus == 0 then ACMalus = -1 end -- in case the base bonus is ``-1``, ``ACMalus`` should not be ``0``...
+			if ACMalus == 0 then
+				ACMalus = -1 -- in case the base bonus is ``-1``, ``ACMalus`` should not be ``0``...
+			end
 		elseif armorAnimation == "4A" then
 			ACMalus = AC
 		end
@@ -82,7 +76,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource
 				["durationType"] = 1,
-				["res"] = "CDNWNARM",
+				["res"] = "GTRULE00",
 				["sourceID"] = sprite.m_id,
 				["sourceTarget"] = sprite.m_id,
 			})

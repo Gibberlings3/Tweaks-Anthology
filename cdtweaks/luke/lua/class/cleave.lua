@@ -13,15 +13,15 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		sprite:applyEffect({
 			["effectID"] = 321, -- Remove effects by resource
 			["durationType"] = 1,
-			["res"] = "CDCLEAVE",
+			["res"] = "%FIGHTER_CLEAVE%",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
 		})
 		sprite:applyEffect({
 			["effectID"] = 248, -- Melee hit effect
 			["durationType"] = 9,
-			["res"] = "CDCLEAVE", -- EFF file
-			["m_sourceRes"] = "CDCLEAVE",
+			["res"] = "%FIGHTER_CLEAVE%B", -- EFF file
+			["m_sourceRes"] = "%FIGHTER_CLEAVE%",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
 		})
@@ -54,7 +54,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource
 				["durationType"] = 1,
-				["res"] = "CDCLEAVE",
+				["res"] = "%FIGHTER_CLEAVE%",
 				["sourceID"] = sprite.m_id,
 				["sourceTarget"] = sprite.m_id,
 			})
@@ -64,14 +64,14 @@ end)
 
 -- cdtweaks, NWN-ish Cleave feat for Fighters --
 
-function GTCLEAVE(CGameEffect, CGameSprite)
+function %FIGHTER_CLEAVE%(CGameEffect, CGameSprite)
 	if CGameEffect.m_effectAmount == 1 then -- check if can perform Cleave
 		local sourceSprite = EEex_GameObject_Get(CGameEffect.m_sourceId)
 		--
 		local sourceSeeInvisible = sourceSprite.m_derivedStats.m_bSeeInvisible + sourceSprite.m_bonusStats.m_bSeeInvisible
 		--
-		local inWeaponRange = EEex_Trigger_ParseConditionalString("InWeaponRange(EEex_LuaObject)")
-		local reallyForceSpell = EEex_Action_ParseResponseString('ReallyForceSpellRES("CDCLEAVE",EEex_LuaObject)')
+		local inWeaponRange = EEex_Trigger_ParseConditionalString('InWeaponRange(EEex_Target("GT_FighterCleaveTarget"))')
+		local reallyForceSpell = EEex_Action_ParseResponseString('ReallyForceSpellRES("%FIGHTER_CLEAVE%B",EEex_Target("GT_FighterCleaveTarget"))')
 		--
 		local targetGeneralState = CGameSprite.m_derivedStats.m_generalState + CGameSprite.m_bonusStats.m_generalState
 		--
@@ -84,7 +84,8 @@ function GTCLEAVE(CGameEffect, CGameSprite)
 			end
 			--
 			for _, itrSprite in ipairs(spriteArray) do
-				EEex_LuaObject = itrSprite -- must be global
+				sourceSprite:setStoredScriptingTarget("GT_FighterCleaveTarget", itrSprite)
+				--
 				local itrSpriteGeneralState = itrSprite.m_derivedStats.m_generalState + itrSprite.m_bonusStats.m_generalState
 				local itrSpriteSanctuary = itrSprite.m_derivedStats.m_bSanctuary + itrSprite.m_bonusStats.m_bSanctuary
 				--

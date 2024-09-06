@@ -11,7 +11,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			["effectID"] = 146, -- Cast spell
 			["durationType"] = 1,
 			["dwFlags"] = 1, -- instant / ignore level
-			["res"] = "CDPLNTRN", -- SPL file
+			["res"] = "%PRIEST_PLANAR_TURNING%", -- SPL file
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
 		})
@@ -26,7 +26,7 @@ end)
 
 -- cdtweaks, Planar Turning class feat for Paladins and Clerics --
 
-function GTPLNTRN(CGameEffect, CGameSprite)
+function %PRIEST_PLANAR_TURNING%(CGameEffect, CGameSprite)
 	local parentResRef = CGameEffect.m_sourceRes:get()
 	--
 	local sourceSprite = EEex_GameObject_Get(CGameEffect.m_sourceId)
