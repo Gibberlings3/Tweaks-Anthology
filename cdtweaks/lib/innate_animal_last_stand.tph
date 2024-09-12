@@ -1,0 +1,12 @@
+DEFINE_ACTION_FUNCTION "INNATE_ANIMAL_LAST_STAND"
+BEGIN
+	LAF "GT_ADD_SPELL"
+	STR_VAR
+		"idsName" = "INNATE_ANIMAL_LAST_STAND"
+	RET
+		"INNATE_ANIMAL_LAST_STAND" = "resName"
+	END
+	//
+	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Misc Tweaks (Innate)" "sourceFileSpec" = "cdtweaks\luke\lua\race\animal_last_stand.lua" "destRes" = "m_gtspin" END
+	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lua\utility\effect_check.lua" "destRes" = "m_gtutil" END
+END
