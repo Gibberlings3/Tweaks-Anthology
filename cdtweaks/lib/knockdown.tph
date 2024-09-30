@@ -10,7 +10,7 @@ BEGIN
 		"INNATE_KNOCKDOWN" = "resName"
 	END
 	//
-	LAF "ADD_EXTENDED_STAT" STR_VAR "identifier" = "GT_IGNORE_ACTION_ADD_SPRITE_STARTED_ACTION_LISTENER" END
+	LAF "ADD_EXTENDED_STAT" INT_VAR "max" = 3 STR_VAR "identifier" = "GT_IGNORE_ACTION_ADD_SPRITE_STARTED_ACTION_LISTENER" END
 	//
 	WITH_SCOPE BEGIN
 		ACTION_TO_LOWER "INNATE_KNOCKDOWN"
@@ -29,7 +29,7 @@ BEGIN
 			LPF "ADD_SPELL_HEADER" INT_VAR "range" = 30 STR_VAR "icon" = "%DEST_RES%B" END
 			//
 			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 138 "target" = 1 "parameter2" = 7 END // SEQ_READY
-			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 321 "target" = 1 STR_VAR "resource" = "%DEST_RES%" END // Remove effects by resource (cannot be used in conjunction with other feats such as my revised Called Shot. Such feats all share the same parent, i.e. "GTFEAT00")
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 321 "target" = 1 STR_VAR "resource" = "%DEST_RES%" END // Remove effects by resource
 			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 STR_VAR "resource" = "%DEST_RES%" END // Invoke lua
 		BUT_ONLY
 		// EFF
@@ -69,12 +69,11 @@ BEGIN
 		END
 		LAF "ADD_STATDESC_ENTRY" INT_VAR "description" = RESOLVE_STR_REF (@0) STR_VAR "bam_file" = "%INNATE_KNOCKDOWN%D" RET "feedback_icon_canKnockdown" = "index" END
 		//
-		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Misc Tweaks (Innate)" "sourceFileSpec" = "cdtweaks\luke\lua\innate\knockdown.lua" "destRes" = "m_gtspin" END
+		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Innate Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\innate\knockdown.lua" "destRes" = "m_gtspin" END
 	END
 	//
 	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Lua Tools" "sourceFileSpec" = "cdtweaks\luke\lua\tools\key_exists.lua" "destRes" = "m_gttool" END
 	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lua\utility\effect_check.lua" "destRes" = "m_gtutil" END
-	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Lua Tools" "sourceFileSpec" = "cdtweaks\luke\lua\tools\wrap_userdata.lua" "destRes" = "m_gttool" END
 	//
 	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
 		COPY "cdtweaks\luke\lua\m_gttbls.lua" "override"

@@ -43,7 +43,7 @@ function %INNATE_KNOCKDOWN%(CGameEffect, CGameSprite)
 			if inWeaponRange:evalConditionalAsAIBase(sourceSprite) then
 				--
 				local effectCodes = {
-					{["op"] = 401, ["p2"] = 1, ["p1"] = 1, ["tmg"] = 10, ["dur"] = 1, ["spec"] = stats["GT_IGNORE_ACTION_ADD_SPRITE_STARTED_ACTION_LISTENER"]}, -- set extended stat
+					{["op"] = 401, ["p2"] = 1, ["p1"] = 2, ["tmg"] = 10, ["dur"] = 1, ["spec"] = stats["GT_IGNORE_ACTION_ADD_SPRITE_STARTED_ACTION_LISTENER"]}, -- set extended stat
 					{["op"] = 284, ["tmg"] = 1, ["p1"] = -4}, -- melee thac0 bonus
 					{["op"] = 142, ["tmg"] = 1, ["p2"] = %feedback_icon_canKnockdown%}, -- feedback icon
 					{["op"] = 248, ["tmg"] = 1, ["res"] = "%INNATE_KNOCKDOWN%B"}, -- melee hit effect
@@ -233,7 +233,7 @@ EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
 				})
 			end
 		else
-			if EEex_Sprite_GetStat(sprite, stats["GT_IGNORE_ACTION_ADD_SPRITE_STARTED_ACTION_LISTENER"]) == 0 then
+			if EEex_Sprite_GetStat(sprite, stats["GT_IGNORE_ACTION_ADD_SPRITE_STARTED_ACTION_LISTENER"]) ~= 2 then
 				EEex_GameObject_ApplyEffect(sprite,
 				{
 					["effectID"] = 321, -- remove effects by resource
