@@ -457,34 +457,6 @@ The uninstall messages above are normal and expected.
 
 @264000 = "PnP Potions [Luke]"
 
-@265000 = "Spontaneous Casting for Clerics [Luke]"
-
-@266000 = "Weapon Finesse feat for Thieves [Luke]"
-
-@267000 = "Dual-Wield feat for Rangers [Luke]"
-
-@268000 = ~"Force" the Archer kit to use bows [Luke]~
-
-@269000 = "NWN-ish Armor vs. Dexterity [Luke]"
-
-@270000 = "Defensive Roll feat for Thieves [Luke]"
-
-@271000 = "Divine Grace / Dark Blessing feat for Paladins / Blackguards [Luke]"
-
-@272000 = "Good Aim racial feat for Halflings [Luke]"
-
-@273000 = "Cleave Feat for Fighters [Luke]"
-
-@274000 = "Sneak Attack class feat for Blackguards [Luke]"
-
-@275000 = "Fearless racial feat for Halflings [Luke]"
-
-@276000 = "Poison Save class feat for Assassins [Luke]"
-
-@277000 = "Planar Turning class feat for Clerics / Paladins [Luke]"
-
-@278000 = "Circle Kick class feat for Monks [Luke]"
-
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -802,3 +774,39 @@ Use Baldur.lua options: a7_interval_ini
 @504000 = ~Allow Yeslick to Use Axes~
 
 @505000 = ~Ensure Shar-Teel Doesn't Die in the Original Challenge~
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// NWN-ish feats collection                         \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+@600030 = "Spontaneous Casting for Clerics [Luke]"
+
+@600040 = "Weapon Finesse class feat for Thieves [Luke]"
+
+@600050 = "Dual-Wield class feat for Rangers [Luke]"
+
+@600060 = "NWN-ish Armor vs. Dexterity [Luke]"
+
+@600070 = "Defensive Roll class feat for Thieves [Luke]"
+
+@600080 = "Divine Grace / Dark Blessing feat for Paladins / Blackguards [Luke]"
+
+@600090 = "Good Aim racial feat for Halflings [Luke]"
+
+@600100 = "Cleave class feat for Fighters [Luke]"
+
+@600110 = "Sneak Attack class feat for Blackguards [Luke]"
+
+@600120 = "Fearless racial feat for Halflings [Luke]"
+
+@600130 = "Poison Save class feat for Assassins [Luke]"
+
+@600140 = "Planar Turning class feat for Clerics / Paladins [Luke]"
+
+@600150 = "Circle Kick class feat for Monks [Luke]"
+
+@600160 = "NWN-ish Barbarian Rage [Luke]"
