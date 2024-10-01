@@ -10,24 +10,13 @@ EEex_Key_AddPressedListener(function(key)
 	for _, v in ipairs(metamagicRes) do
 		sprite:applyEffect({
 			["effectID"] = 321, -- Remove effects by resource
-			["durationType"] = 1,
 			["res"] = v,
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
 		})
 	end
 	-- check for op145
-	local found = false
-	local disableSpellcasting = function(effect)
-		if (effect.m_effectId == 0x91) and (effect.m_dWFlags == 1 or effect.m_dWFlags == 3) then
-			found = true
-			return true
-		end
-	end
-	EEex_Utility_IterateCPtrList(sprite.m_timedEffectList, disableSpellcasting)
-	if not found then
-		EEex_Utility_IterateCPtrList(sprite.m_equipedEffectList, disableSpellcasting)
-	end
+	local disableSpellcasting = GT_Utility_EffectCheck(sprite, {["op"] = 0x91, ["p2"] = 1}) or GT_Utility_EffectCheck(sprite, {["op"] = 0x91, ["p2"] = 3})
 	--
 	local lastState = EEex_Actionbar_GetLastState()
 	-- Check creature's class / flags / alignment
@@ -44,7 +33,7 @@ EEex_Key_AddPressedListener(function(key)
 		or (spriteClassStr == "CLERIC_THIEF" and (EEex_IsBitUnset(spriteFlags, 0x5) or spriteLevel2 > spriteLevel1))
 		or (spriteClassStr == "CLERIC_MAGE" and (EEex_IsBitUnset(spriteFlags, 0x5) or spriteLevel2 > spriteLevel1))
 	--
-	if not found then
+	if not disableSpellcasting then
 		if canSpontaneouslyCast then
 			if (lastState >= 1 and lastState <= 21) and EEex_Sprite_GetCastTimer(sprite) == -1 and sprite.m_typeAI.m_EnemyAlly == 2 and key == 0x400000E2 and (EEex_Actionbar_GetState() == 103 or EEex_Actionbar_GetState() == 113) then -- if PC, the Left Alt key is pressed, and the aura is free ...
 				if isGood:evalConditionalAsAIBase(sprite) then

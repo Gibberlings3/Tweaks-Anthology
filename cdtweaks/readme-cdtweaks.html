@@ -972,158 +972,6 @@
       </ul>
       <p> Permanent potions, such as potions of healing, and potions that can end prematurely, such as Potion of Invisibility, would be considered still in effect for <code>1</code> turn (<code>60</code> seconds) after drinking them.</p>
       <p> The aforementioned special events can occur only upon quaffing potions. As a result, there is no risk in using 1 Oil (f.i. Oil of Speed) and 1 Potion, as oils are applied to the skin, not consumed, so they wouldn't mix. </p>
-      <p> <strong>&quot;Force&quot; the Archer kit to use bows [Luke]</strong><br />
-        <em><abbr title="Enhanced Edition">EEex</abbr></em></p>
-      <p> This component aims at making sure the Archer is really the epitome of skill with the <em>bow</em>.
-        As a result, after installing it, its abilities modify as follows:</p>
-      <ul>
-        <li> <code>+1</code> to hit and damage rolls with <em>bows</em> every 3 levels </li>
-        <li> May achieve Grand Mastery (5 slots) in <em>longbows</em> and <em>shortbows</em>
-          <ul>
-            <li>May only Specialize (2 slots) in crossbows</li>
-          </ul>
-        </li>
-        <li> When equipped with a <em>bow</em>, it may use the Called Shot ability once per day </li>
-        <li> New passive trait: Point Blank Shot
-          <ul>
-            <li>When wielding a <em>bow</em>, the Archer negates the <code>-8</code> thac0 penalty for using ranged weapons in close combat</li>
-          </ul>
-        </li>
-      </ul>
-      <p> So to sum up, its core features are now all built around the <em>bow</em> (instead of any missile weapon). </p>
-      <p> <strong>Spontaneous Casting for Clerics [Luke]</strong><br />
-        <em><abbr title="Enhanced Edition">EEex</abbr></em></p>
-      <p> This component aims at giving Clerics some Spontaneous Casting capabilities.</p>
-      <p> As a result, after installing this component, Clerics will be able to spontaneously cast the &quot;cure&quot; and &quot;cause&quot; spells (from light to critical wounds), which will consume a readied spell slot of the appropriate level. </p>
-      <p> As a completely artificial example, suppose a Cleric has the following level 1 spells memorized: Armor of Faith, Armor of Faith, Bless. Even if Cure Light Wounds is missing, it will still be able to cast it! Upon casting it, all level 1 spells memorized will be decremented by one, meaning that it will end up with only Armor of Faith memorized (in other words, it can &quot;sacrifice&quot; one of the two Armor of Faith and Bless to spontaneously cast Cure Light Wounds).</p>
-      <p> Spells that can be spontaneously cast can be accessed via pressing the <code>Left Alt</code> key while being in &quot;Cast Spell&quot; mode (<code>F7</code> button). </p>
-      <p> On top of that, note that: </p>
-      <ul>
-        <li>only good-aligned Clerics can spontaneously cast the &quot;cure&quot; wounds spells</li>
-        <li>only evil-aligned Clerics can spontaneously cast the &quot;cause&quot; wounds spells</li>
-      </ul>
-      <p>As a result, neutral-aligned Clerics are unaffected by this mechanic. </p>
-      <p> <strong>Weapon Finesse [Luke]</strong><br />
-        <em><abbr title="Enhanced Edition">EEex</abbr></em> </p>
-      <p> This component aims at implementing 3E Weapon Finesse feat for Thieves.</p>
-      <p> As a result, after installing it, every time a Thief is wielding a small blade (f.i. daggers, short swords, wakizashis, etc...) or a club/mace, his/her THAC0 will scale with Dexterity (as per the <code>MISSILE</code> column of <a href="https://gibberlings3.github.io/iesdp/files/2da/2da_bgee/dexmod.htm"><code>dexmod.2da</code></a>) instead of Strength.</p>
-      <p> As a completely artificial example, suppose a Thief has 9 Strength and 18 Dexterity. Upon equipping a dagger, he/she will gain a THAC0 bonus of <code>2</code> (instead of <code>0</code>). Note that nothing happens if the bonus from Strength is better (or equal) than the bonus from Dexterity. </p>
-      <p> <strong>Dual-Wield feat for Rangers [Luke]</strong><br />
-        <em><abbr title="Enhanced Edition">EEex</abbr></em></p>
-      <p> This component simply forces Rangers to wield light armors (or no armor) in order to benefit from Two-Weapon Fighting.</p>
-      <p> <strong>NWN-ish Armor vs. Dexterity [Luke]</strong><br />
-        <em><abbr title="Enhanced Edition">EEex</abbr></em></p>
-      <p> This component simply &quot;forces&quot; characters to wield light armors (or no armor) if they have high Dexterity.
-        In particular: </p>
-      <ul>
-        <li>If a character is equipped with a Medium Armor, it will only benefit from half the bonus derived from its Dexterity (see <a href="https://gibberlings3.github.io/iesdp/files/2da/2da_bgee/dexmod.htm"><code>dexmod.2da</code></a>)
-          <ul>
-            <li>So for instance, a character with <code>18</code> DEX equipped with a Chain Mail Armor will suffer a <code>-4 / 2 = -2</code> AC penalty.</li>
-          </ul>
-        </li>
-        <li>If a character is equipped with a Heavy Armor, it will not benefit from the bonus derived from its Dexterity (see <a href="https://gibberlings3.github.io/iesdp/files/2da/2da_bgee/dexmod.htm"><code>dexmod.2da</code></a>)
-          <ul>
-            <li>So for instance, a character with <code>18</code> DEX equipped with a Plate Mail will suffer a <code>-4</code> AC penalty.</li>
-          </ul>
-        </li>
-      </ul>
-      <p> <strong>Defensive Roll feat for Thieves [Luke]</strong><br />
-        <em><abbr title="Enhanced Edition">EEex</abbr></em></p>
-      <p> This component aims at implementing the NWN feat Defensive Roll. As a result, after installing it, if the character is struck by a potentially lethal blow, he makes a Save vs. Breath. If successful, he takes only half damage from the blow.</p>
-      <p> Notes: </p>
-      <ul>
-        <li>This feat is only available to thieves (level 10) and Shadowdancers (level 5).</li>
-        <li>A &quot;potentially lethal blow&quot; refers to a standard attack with a weapon that would, if not for this feat, reduce the target below one hit point with just its physical damage.</li>
-        <li>Use: automatic, but limited to one use per 8 in-game hours. Incapacitated characters cannot make a defensive roll.</li>
-      </ul>
-      <p> <strong>Divine Grace / Dark Blessing feat for Paladins / Blackguards [Luke]</strong><br />
-        <em><abbr title="Enhanced Edition">EEex</abbr></em></p>
-      <p> This component adds the passive feats Divine Grace and Dark Blessing to Paladins and Blackguards. </p>
-      <ul>
-        <li>Divine Grace: The paladin adds its charisma bonus (if positive) to all saving throws.</li>
-        <li>Dark Blessing: Blackguards add their charisma bonus to all saving throws.</li>
-      </ul>
-      Here is how the bonus scales with charisma:
-      <ul>
-        <li> starting from 10, every <code>+2</code> points of charisma result in +1 bonus to all saves
-          <ul>
-            <li>So a 18 CHA character will get a +4 bonus</li>
-          </ul>
-        </li>
-        <li> starting from 10, every <code>-2</code> points of charisma result in -1 penalty to all saves
-          <ul>
-            <li>So a 8 CHA character will get a -1 penalty</li>
-          </ul>
-        </li>
-      </ul>
-      <p> <strong>Good Aim racial feat for Halflings [Luke]</strong><br />
-        <em><abbr title="Enhanced Edition">EEex</abbr></em></p>
-      <p>This passive feat grants Halflings a <code>+1</code> THAC0 bonus with throwing weapons (i.e. throwing daggers, throwing axes, throwing hammers, darts).</p>
-      <p> <strong>Cleave class feat for Fighters [Luke]</strong><br />
-        <em><abbr title="Enhanced Edition">EEex</abbr></em></p>
-      <p> This component aims at implementing the NWN feat Cleave.<br />
-        As a result, after installing it, if the character kills an opponent, he gets a free attack against any opponent who is within melee weapon range.<br />
-        Notes: </p>
-      <ul>
-        <li>Use: automatic, but only available to Fighters.</li>
-      </ul>
-      <p> <strong>Sneak Attack class feat for Blackguards [Luke]</strong><br />
-        <em><abbr title="Enhanced Edition">EEex</abbr></em></p>
-      <p> This component adds the passive feat Sneak Attack to Blackguards.<br />
-        Whenever the character makes a successful attack against an opponent who is incapacitated, cannot see them, or who is in combat with someone else, the character's blow delivers extra damage as if it was a <code>STALKER</code> of the same level (see <a href="https://gibberlings3.github.io/iesdp/files/2da/2da_bgee/sneakatt.htm"><code>sneakatt.2da</code></a>).<br />
-        Notes: </p>
-      <ul>
-        <li>Use: automatic, but limited to once per round.</li>
-        <li>Creatures without discernible anatomies (see component <i>Make Certain Creatures Immune to Backstab/Sneak Attack</i> ) or that are otherwise immune to sneak attacks, either via spells/items or naturally (f.i. Barbarians), are unaffected by this feat.</li>
-        <li>Sneak attacks can be made with both melee and ranged weapons.</li>
-      </ul>
-      <p> <strong>Fearless racial feat for halflings [Luke]</strong><br />
-        <em><abbr title="Enhanced Edition">EEex</abbr></em></p>
-      <p> This component adds the passive racial feat Fearless to halflings.<br />
-        This feat grants a <code>+2</code> bonus on saving throws against fear spells and effects. </p>
-      <p> <strong>Poison Save class feat for Assassins [Luke]</strong><br />
-        <em><abbr title="Enhanced Edition">EEex</abbr></em></p>
-      <p> This component adds the class feat Poison Save to Assassins.<br />
-        This passive feat grants a <code>+2</code> bonus on saving throws against poison spells and effects. </p>
-      <p> <strong>Planar Turning class feat for Paladins / Clerics [Luke]</strong><br />
-        <em><abbr title="Enhanced Edition">EEex</abbr></em></p>
-      <p> This component adds the class feat Planar Turning to Paladins and Clerics.<br />
-        This feat allows outsiders (solars, planetars, elementals, imps, mephits, demons, devils, salamanders, genies and the like) to be turned like undead.<br />
-        As a result, when the Turn Undead ability is activated, any extraplanar being in visual range of the priest are turned, fleeing in terror, if the priest's level is high enough. Especially high-level priests destroy these creatures instead. Evil priests gain control of these extraplanar beings instead of destroying them. </p>
-      <p> <strong>Circle Kick class feat for Monks [Luke]</strong><br />
-        <em><abbr title="Enhanced Edition">EEex</abbr></em></p>
-      <p> This component aims at implementing the NWN feat Circle Kick.<br />
-        As a result, after installing it, if the character succeeds in hitting an opponent with an unarmed attack, that character gets an additional free attack against another, nearby enemy. There is a maximum of one free attack per round.<br />
-        Notes: </p>
-      <ul>
-        <li>Use: automatic, but only available to Monks.</li>
-      </ul>
-
-      <p> <strong>NWN-ish Barbarian Rage [Luke]</strong><br />
-        <em><abbr title="Enhanced Edition">EEex</abbr></em></p>
-      <p> This component reworks the Barbarian Rage so as to behave as the one in NWN (kinda, sort of).</p>
-      <p>
-        Here is the revised description:<br />
-        The character is enraged for 7 rounds (plus a number of rounds equal to his Constitution modifier), which grants the character a +4 bonus to Strength and Constitution, a -2 penalty to Armor Class, and a +2 bonus to Saving Throws vs. Spell.<br /><br />
-
-        Terrifying Rage: While the barbarian is raging, any enemy (with less than the barbarian's hit dice) that comes close to him must make a Save vs. Death or become panicked for 1d3 rounds. Opponents with the same hit dice as the barbarian will not flee but will receive a -2 penalty to attack and saving throw rolls. Creatures with more than the barbarian's hit dice are not affected by the rage.<br /><br />
-
-        Thundering Rage: Any weapon the barbarian wields while in a rage does an additional 2d6 points of damage on a critical hit. There is a 25% chance for a creature hit by one of the barbarian's weapons to be deafened for 3 rounds.
-      </p>
-
-      <p>
-        Notes:
-        <ul>
-          <li>Constitution modifier: <code>(Constitution - 10) / 2</code> , rounded down</li>
-          <li>
-            Terrifying Rage: the save penalty decreases by 1 for every 4 levels of the barbarian (capped at -7 at level 29).
-            <ul>
-              <li>In case of multi/dual-class characters, the level of the barbarian (i.e. the Fighter class level) is the one that matters.</li>
-            </ul>
-          </li>
-          <li>Thundering Rage: there is no save against the Deafness effect.</li>
-        </ul>
-      </p>
     </div>
     <div class="ribbon_rectangle_h3">
       <h3> <a id="contents_convenience" name="contents_convenience"></a>Convenience Tweaks and/or Cheats </h3>
@@ -1487,6 +1335,163 @@
       <p> Internally, Dorn's sword (Rancor +1) relies upon scripting. As modders know, items should not rely upon scripting to work correctly, since it is unreliable and may quickly become messy.
         This component simply removes scripting from this weapon (the upshot of which is that the weapon should become a bit more reliable). </p>
     </div>
+
+    <div class="ribbon_rectangle_h3">
+      <h3> <a id="NWN-ish_feats" name="NWN-ish_feats"></a>NWN-ish Feats Collection </h3>
+    </div>
+    <div class="ribbon_triangle_h3-l"></div>
+    <div class="ribbon_triangle_h3-r"></div>
+    <div class="section">
+      <p> Components in this category are inspired from <a href="https://nwn.beamdog.com/">NWN</a> and are aimed at providing new class/kit abilities.</p>
+
+      <p> <strong>Spontaneous Casting for Clerics [Luke]</strong><br />
+        <em><abbr title="Enhanced Edition">EEex</abbr></em></p>
+      <p> This component aims at giving Clerics some Spontaneous Casting capabilities.</p>
+      <p> As a result, after installing this component, Clerics will be able to spontaneously cast the &quot;cure&quot; and &quot;cause&quot; spells (from light to critical wounds), which will consume a readied spell slot of the appropriate level. </p>
+      <p> As a completely artificial example, suppose a Cleric has the following level 1 spells memorized: Armor of Faith, Armor of Faith, Bless. Even if Cure Light Wounds is missing, it will still be able to cast it! Upon casting it, all level 1 spells memorized will be decremented by one, meaning that it will end up with only Armor of Faith memorized (in other words, it can &quot;sacrifice&quot; one of the two Armor of Faith and Bless to spontaneously cast Cure Light Wounds).</p>
+      <p> Spells that can be spontaneously cast can be accessed via pressing the <code>Left Alt</code> key while being in &quot;Cast Spell&quot; mode (<code>F7</code> button). </p>
+      <p> On top of that, note that: </p>
+      <ul>
+        <li>only good-aligned Clerics can spontaneously cast the &quot;cure&quot; wounds spells</li>
+        <li>only evil-aligned Clerics can spontaneously cast the &quot;cause&quot; wounds spells</li>
+      </ul>
+      <p>As a result, neutral-aligned Clerics are unaffected by this mechanic. </p>
+
+      <p> <strong>Weapon Finesse class feat for Rogues [Luke]</strong><br />
+        <em><abbr title="Enhanced Edition">EEex</abbr></em> </p>
+      <p> This component aims at implementing 3E Weapon Finesse feat for Thieves.</p>
+      <p> As a result, after installing it, every time a Thief is wielding a small blade (f.i. daggers, short swords, wakizashis, etc...) or a club/mace, his/her THAC0 will scale with Dexterity (as per the <code>MISSILE</code> column of <a href="https://gibberlings3.github.io/iesdp/files/2da/2da_bgee/dexmod.htm"><code>dexmod.2da</code></a>) instead of Strength.</p>
+      <p> As a completely artificial example, suppose a Thief has 9 Strength and 18 Dexterity. Upon equipping a dagger, he/she will gain a THAC0 bonus of <code>2</code> (instead of <code>0</code>). Note that nothing happens if the bonus from Strength is better (or equal) than the bonus from Dexterity. </p>
+
+      <p> <strong>Dual-Wield class feat for Rangers [Luke]</strong><br />
+        <em><abbr title="Enhanced Edition">EEex</abbr></em></p>
+      <p> This component simply forces Rangers to wield light armors (or no armor) in order to benefit from Two-Weapon Fighting.</p>
+
+      <p> <strong>NWN-ish Armor vs. Dexterity [Luke]</strong><br />
+        <em><abbr title="Enhanced Edition">EEex</abbr></em></p>
+      <p> This component simply &quot;forces&quot; characters to wield light armors (or no armor) if they have high Dexterity.
+        In particular: </p>
+      <ul>
+        <li>If a character is equipped with a Medium Armor, it will only benefit from half the bonus derived from its Dexterity (see <a href="https://gibberlings3.github.io/iesdp/files/2da/2da_bgee/dexmod.htm"><code>dexmod.2da</code></a>)
+          <ul>
+            <li>So for instance, a character with <code>18</code> DEX equipped with a Chain Mail Armor will suffer a <code>-4 / 2 = -2</code> AC penalty.</li>
+          </ul>
+        </li>
+        <li>If a character is equipped with a Heavy Armor, it will not benefit from the bonus derived from its Dexterity (see <a href="https://gibberlings3.github.io/iesdp/files/2da/2da_bgee/dexmod.htm"><code>dexmod.2da</code></a>)
+          <ul>
+            <li>So for instance, a character with <code>18</code> DEX equipped with a Plate Mail will suffer a <code>-4</code> AC penalty.</li>
+          </ul>
+        </li>
+      </ul>
+
+      <p> <strong>Defensive Roll class feat for Thieves [Luke]</strong><br />
+        <em><abbr title="Enhanced Edition">EEex</abbr></em></p>
+      <p> This component aims at implementing the NWN feat Defensive Roll. As a result, after installing it, if the character is struck by a potentially lethal blow, he makes a Save vs. Breath. If successful, he takes only half damage from the blow.</p>
+      <p> Notes: </p>
+      <ul>
+        <li>This feat is only available to thieves (level 10) and Shadowdancers (level 5).</li>
+        <li>A &quot;potentially lethal blow&quot; refers to a standard attack with a weapon that would, if not for this feat, reduce the target below one hit point with just its physical damage.</li>
+        <li>Use: automatic, but limited to one use per 8 in-game hours. Incapacitated characters cannot make a defensive roll.</li>
+      </ul>
+
+      <p> <strong>Divine Grace / Dark Blessing class feat for Paladins / Blackguards [Luke]</strong><br />
+        <em><abbr title="Enhanced Edition">EEex</abbr></em></p>
+      <p> This component adds the passive feats Divine Grace and Dark Blessing to Paladins and Blackguards. </p>
+      <ul>
+        <li>Divine Grace: The paladin adds its charisma bonus (if positive) to all saving throws.</li>
+        <li>Dark Blessing: Blackguards add their charisma bonus to all saving throws.</li>
+      </ul>
+      Here is how the bonus scales with charisma:
+      <ul>
+        <li> starting from 10, every <code>+2</code> points of charisma result in +1 bonus to all saves
+          <ul>
+            <li>So a 18 CHA character will get a +4 bonus</li>
+          </ul>
+        </li>
+        <li> starting from 10, every <code>-2</code> points of charisma result in -1 penalty to all saves
+          <ul>
+            <li>So a 8 CHA character will get a -1 penalty</li>
+          </ul>
+        </li>
+      </ul>
+
+      <p> <strong>Good Aim racial feat for Halflings [Luke]</strong><br />
+        <em><abbr title="Enhanced Edition">EEex</abbr></em></p>
+      <p>This passive feat grants Halflings a <code>+1</code> THAC0 bonus with throwing weapons (i.e. throwing daggers, throwing axes, throwing hammers, darts).</p>
+
+      <p> <strong>Cleave class feat for Fighters [Luke]</strong><br />
+        <em><abbr title="Enhanced Edition">EEex</abbr></em></p>
+      <p> This component aims at implementing the NWN feat Cleave.<br />
+        As a result, after installing it, if the character kills an opponent, he gets a free attack against any opponent who is within melee weapon range.<br />
+        Notes: </p>
+      <ul>
+        <li>Use: automatic, but only available to Fighters (starting from level 1).</li>
+      </ul>
+
+      <p> <strong>Sneak Attack class feat for Blackguards [Luke]</strong><br />
+        <em><abbr title="Enhanced Edition">EEex</abbr></em></p>
+      <p> This component adds the passive feat Sneak Attack to Blackguards.<br />
+        Whenever the character makes a successful attack against an opponent who is incapacitated, cannot see them, or who is in combat with someone else, the character's blow delivers extra damage as if it was a <code>STALKER</code> of the same level (see <a href="https://gibberlings3.github.io/iesdp/files/2da/2da_bgee/sneakatt.htm"><code>sneakatt.2da</code></a>).<br />
+        Notes: </p>
+      <ul>
+        <li>Use: automatic, but limited to once per round.</li>
+        <li>Creatures without discernible anatomies (see component <i>Make Certain Creatures Immune to Backstab/Sneak Attack</i> ) or that are otherwise immune to sneak attacks, either via spells/items or naturally (f.i. Barbarians), are unaffected by this feat.</li>
+        <li>Sneak attacks can be made with both melee and ranged weapons.</li>
+      </ul>
+
+      <p> <strong>Fearless racial feat for halflings [Luke]</strong><br />
+        <em><abbr title="Enhanced Edition">EEex</abbr></em></p>
+      <p> This component adds the passive racial feat Fearless to halflings.<br />
+        This feat grants a <code>+2</code> bonus on saving throws against fear spells and effects. </p>
+
+      <p> <strong>Poison Save class feat for Assassins [Luke]</strong><br />
+        <em><abbr title="Enhanced Edition">EEex</abbr></em></p>
+      <p> This component adds the class feat Poison Save to Assassins.<br />
+        This passive feat grants a <code>+2</code> bonus on saving throws against poison spells and effects. </p>
+
+      <p> <strong>Planar Turning class feat for Paladins / Clerics [Luke]</strong><br />
+        <em><abbr title="Enhanced Edition">EEex</abbr></em></p>
+      <p> This component adds the class feat Planar Turning to Paladins and Clerics.<br />
+        This feat allows outsiders (solars, planetars, elementals, imps, mephits, demons, devils, salamanders, genies and the like) to be turned like undead.<br />
+        As a result, when the Turn Undead ability is activated, any extraplanar being in visual range of the priest are turned, fleeing in terror, if the priest's level is high enough. Especially high-level priests destroy these creatures instead. Evil priests gain control of these extraplanar beings instead of destroying them. </p>
+
+      <p> <strong>Circle Kick class feat for Monks [Luke]</strong><br />
+        <em><abbr title="Enhanced Edition">EEex</abbr></em></p>
+      <p> This component aims at implementing the NWN feat Circle Kick.<br />
+        As a result, after installing it, if the character succeeds in hitting an opponent with an unarmed attack, that character gets an additional free attack against another, nearby enemy. There is a maximum of one free attack per round.<br />
+        Notes: </p>
+      <ul>
+        <li>Use: automatic, but only available to Monks (starting from level 1).</li>
+      </ul>
+
+      <p> <strong>NWN-ish Barbarian Rage [Luke]</strong><br />
+        <em><abbr title="Enhanced Edition">EEex</abbr></em></p>
+      <p> This component reworks the Barbarian Rage so as to behave as the one in NWN (kinda, sort of).</p>
+      <p>
+        Here is the revised description:<br />
+        The character is enraged for 7 rounds (plus a number of rounds equal to his Constitution modifier), which grants the character a +4 bonus to Strength and Constitution, a -2 penalty to Armor Class, and a +2 bonus to Saving Throws vs. Spell.<br /><br />
+
+        Terrifying Rage: While the barbarian is raging, any enemy (with less than the barbarian's hit dice) that comes close to him must make a Save vs. Death or become panicked for 1d3 rounds. Opponents with the same hit dice as the barbarian will not flee but will receive a -2 penalty to attack and saving throw rolls. Creatures with more than the barbarian's hit dice are not affected by the rage.<br /><br />
+
+        Thundering Rage: Any weapon the barbarian wields while in a rage does an additional 2d6 points of damage on a critical hit. There is a 25% chance for a creature hit by one of the barbarian's weapons to be deafened for 3 rounds.
+      </p>
+
+      <p>
+        Notes:
+        <ul>
+          <li>Constitution modifier: <code>(Constitution - 10) / 2</code> , rounded down</li>
+          <li>
+            Terrifying Rage: the save penalty decreases by 1 for every 4 levels of the barbarian (capped at -7 at level 29).
+            <ul>
+              <li>In case of multi/dual-class characters, the level of the barbarian (i.e. the Fighter class level) is the one that matters.</li>
+            </ul>
+          </li>
+          <li>Thundering Rage: there is no save against the Deafness effect.</li>
+        </ul>
+      </p>
+
+    </div>
+    
     <div class="ribbon_rectangle_h2"> <a id="Contact" name="Contact"></a>
       <h2> Contact Information </h2>
     </div>

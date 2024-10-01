@@ -31,8 +31,8 @@ BEGIN
 		LAF "ADD_STATDESC_ENTRY" INT_VAR "description" = RESOLVE_STR_REF (@0) STR_VAR "bam_file" = "%PALADIN_DIVINE_GRACE%D" RET "feedback_icon_paladin" = "index" END
 		LAF "ADD_STATDESC_ENTRY" INT_VAR "description" = RESOLVE_STR_REF (@1) STR_VAR "bam_file" = "%BLACKGUARD_DARK_BLESSING%D" RET "feedback_icon_blackguard" = "index" END
 		// Listener: run 'func' each time a sprite has finished evaluating its effects
-		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Misc Tweaks (Class / Kit)" "sourceFileSpec" = "cdtweaks\luke\lua\class\divine_grace.lua" "destRes" = "m_gtspcl" END
-		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Misc Tweaks (Class / Kit)" "sourceFileSpec" = "cdtweaks\luke\lua\kit\dark_blessing.lua" "destRes" = "m_gtspcl" END
+		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Class/Kit Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\class\divine_grace.lua" "destRes" = "m_gtspcl" END
+		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Class/Kit Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\kit\dark_blessing.lua" "destRes" = "m_gtspcl" END
 		//
 		ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
 			COPY "cdtweaks\luke\lua\m_gttbls.lua" "override"

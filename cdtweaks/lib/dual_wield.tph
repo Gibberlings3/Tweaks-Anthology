@@ -18,7 +18,7 @@ BEGIN
 	WITH_SCOPE BEGIN
 		LAF "ADD_STATDESC_ENTRY" INT_VAR "description" = RESOLVE_STR_REF (@0) STR_VAR "bam_file" = "%RANGER_DUAL_WIELD%D" RET "feedback_icon" = "index" END
 		// Listener: run 'func' each time a sprite has finished evaluating its effects
-		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Misc Tweaks (Class / Kit)" "sourceFileSpec" = "cdtweaks\luke\lua\class\dual_wield.lua" "destRes" = "m_gtspcl" END
+		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Class/Kit Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\class\dual_wield.lua" "destRes" = "m_gtspcl" END
 		//
 		ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
 			COPY "cdtweaks\luke\lua\m_gttbls.lua" "override"

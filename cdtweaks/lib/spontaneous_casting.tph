@@ -5,10 +5,10 @@ BEGIN
 		OUTER_FOR ("i" = 1 ; "%i%" <= 5 ; "i" += 1) BEGIN
 			OUTER_SET "strref%i%" = RESOLVE_STR_REF (@0)
 		END
-		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Listeners" "sourceFileSpec" = "cdtweaks\luke\lua\spontaneous_casting\listener.lua" "destRes" = "m_gtlstn" END
+		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Class/Kit Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\spontaneous_casting\listener.lua" "destRes" = "m_gtspcl" END
 	END
 	//
-	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Functions to be invoked via op214" "sourceFileSpec" = "cdtweaks\luke\lua\spontaneous_casting\custom_214.lua" "destRes" = "m_gt#214" END
+	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Class/Kit Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\spontaneous_casting\custom_214.lua" "destRes" = "m_gtspcl" END
 	//
 	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
 		COPY "cdtweaks\luke\lua\m_gttbls.lua" "override"

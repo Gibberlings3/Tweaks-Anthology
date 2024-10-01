@@ -48,7 +48,7 @@ BEGIN
 		BUT_ONLY_IF_IT_CHANGES
 	END
 	// Listener: run 'func' each time a sprite has finished evaluating its effects
-	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Misc Tweaks (Class / Kit)" "sourceFileSpec" = "cdtweaks\luke\lua\kit\sneakatt_blackguard.lua" "destRes" = "m_gtspcl" END
+	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Class/Kit Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\kit\sneakatt_blackguard.lua" "destRes" = "m_gtspcl" END
 	//
 	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lua\utility\is_invisible.lua" "destRes" = "m_gtutil" END
 	//

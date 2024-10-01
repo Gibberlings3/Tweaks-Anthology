@@ -95,11 +95,10 @@ BEGIN
 		OUTER_SET "feedback_strref_panic" = RESOLVE_STR_REF (@7)
 		OUTER_SET "feedback_strref_immune" = RESOLVE_STR_REF (@8)
 		//
-		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Misc Tweaks (Class / Kit)" "sourceFileSpec" = "cdtweaks\luke\lua\kit\nwn_barbarian_rage.lua" "destRes" = "m_gtspcl" END
+		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Class/Kit Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\kit\nwn_barbarian_rage.lua" "destRes" = "m_gtspcl" END
 	END
 	//
 	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lua\utility\effect_check.lua" "destRes" = "m_gtutil" END
-	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Lua Tools" "sourceFileSpec" = "cdtweaks\luke\lua\tools\wrap_userdata.lua" "destRes" = "m_gttool" END
 	//
 	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
 		COPY "cdtweaks\luke\lua\m_gttbls.lua" "override"
