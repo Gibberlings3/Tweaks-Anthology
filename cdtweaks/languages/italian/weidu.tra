@@ -436,8 +436,6 @@ o rimpiazzata da - un'altra facente parte di uno dei mods installati.~
 
 @278000 = "Aggiungi talento di classe Calcio Rotante per i Monaci [Luke]"
 
-@281000 = "Aggiungi talento di classe Buttare a Terra per i Guerrieri e i Monaci [Luke]"
-
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -720,3 +718,13 @@ Usa opzioni di Baldur.lua:           a7_interval_ini
 @504000 = ~Permettere a Yeslick di usare le asce~
 
 @505000 = ~Assicura che Shar-Teel non muoia nella sfida iniziale~
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Raccolta di talenti in stile NWN                 \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+@600010 = "Aggiungi talento di classe Buttare a Terra per i Guerrieri e i Monaci [Luke]"

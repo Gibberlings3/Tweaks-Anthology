@@ -485,8 +485,6 @@ The uninstall messages above are normal and expected.
 
 @278000 = "Circle Kick class feat for Monks [Luke]"
 
-@281000 = "Knockdown class feat for Fighters and Monks [Luke]"
-
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -804,3 +802,13 @@ Use Baldur.lua options: a7_interval_ini
 @504000 = ~Allow Yeslick to Use Axes~
 
 @505000 = ~Ensure Shar-Teel Doesn't Die in the Original Challenge~
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// NWN-ish feats collection                         \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+@600010 = "Knockdown class feat for Fighters and Monks [Luke]"
