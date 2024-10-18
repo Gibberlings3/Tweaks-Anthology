@@ -10,7 +10,7 @@ BEGIN
 		"INNATE_KNOCKDOWN" = "resName"
 	END
 	//
-	LAF "ADD_EXTENDED_STAT" INT_VAR "max" = 25 STR_VAR "identifier" = "GT_IGNORE_ACTION_ADD_SPRITE_STARTED_ACTION_LISTENER" END
+	//LAF "ADD_EXTENDED_STAT" INT_VAR "max" = 25 STR_VAR "identifier" = "GT_IGNORE_ACTION_ADD_SPRITE_STARTED_ACTION_LISTENER" END
 	//
 	WITH_SCOPE BEGIN
 		ACTION_TO_LOWER "INNATE_KNOCKDOWN"
@@ -28,16 +28,16 @@ BEGIN
 			//
 			LPF "ADD_SPELL_HEADER" INT_VAR "range" = 30 STR_VAR "icon" = "%DEST_RES%B" END
 			//
-			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 138 "target" = 1 "parameter2" = 7 END // SEQ_READY
+			/*LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 138 "target" = 1 "parameter2" = 7 END // SEQ_READY
 			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 321 "target" = 1 STR_VAR "resource" = "%DEST_RES%" END // Remove effects by resource
-			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 STR_VAR "resource" = "%DEST_RES%" END // Invoke lua
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 STR_VAR "resource" = "%DEST_RES%" END // Invoke lua*/
 		BUT_ONLY
 		// EFF
 		CREATE "eff" "%INNATE_KNOCKDOWN%b"
 		COPY_EXISTING "%INNATE_KNOCKDOWN%b.eff" "override"
 			WRITE_LONG 0x10 402 // Invoke Lua
 			WRITE_LONG 0x14 2 // Projectile target
-			WRITE_LONG 0x1C 1 // p1
+			//WRITE_LONG 0x1C 1 // p1
 			WRITE_SHORT 0x2C 100 // prob1
 			WRITE_ASCII 0x30 "%INNATE_KNOCKDOWN%" #8 // Lua function
 		BUT_ONLY
@@ -56,11 +56,10 @@ BEGIN
 	END
 	// lua
 	WITH_SCOPE BEGIN
-		OUTER_SET "feedback_strref_outOfRange" = RESOLVE_STR_REF (@100)
-		OUTER_SET "feedback_strref_alreadyProne" = RESOLVE_STR_REF (@101)
-		OUTER_SET "feedback_strref_tooLarge" = RESOLVE_STR_REF (@102)
-		OUTER_SET "feedback_strref_meleeOnly" = RESOLVE_STR_REF (@103)
-		OUTER_SET "feedback_strref_auraFree" = RESOLVE_STR_REF (@104)
+		OUTER_SET "feedback_strref_already_prone" = RESOLVE_STR_REF (@101)
+		OUTER_SET "feedback_strref_too_large" = RESOLVE_STR_REF (@102)
+		OUTER_SET "feedback_strref_melee_only" = RESOLVE_STR_REF (@103)
+		OUTER_SET "feedback_strref_aura_free" = RESOLVE_STR_REF (@104)
 		OUTER_SET "feedback_strref_immune" = RESOLVE_STR_REF (@105)
 		//
 		WITH_SCOPE BEGIN
