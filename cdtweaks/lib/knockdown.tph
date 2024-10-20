@@ -66,7 +66,7 @@ BEGIN
 			ACTION_TO_LOWER "INNATE_KNOCKDOWN"
 			COPY "cdtweaks\luke\bam\innate\knockdown\portrait_icon.bam" "override\%INNATE_KNOCKDOWN%d.bam"
 		END
-		LAF "ADD_STATDESC_ENTRY" INT_VAR "description" = RESOLVE_STR_REF (@0) STR_VAR "bam_file" = "%INNATE_KNOCKDOWN%D" RET "feedback_icon_canKnockdown" = "index" END
+		LAF "ADD_STATDESC_ENTRY" INT_VAR "description" = RESOLVE_STR_REF (@0) STR_VAR "bam_file" = "%INNATE_KNOCKDOWN%D" RET "feedback_icon_can_knockdown" = "index" END
 		//
 		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Innate Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\innate\knockdown.lua" "destRes" = "m_gtspin" END
 	END
