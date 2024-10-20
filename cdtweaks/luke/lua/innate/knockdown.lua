@@ -20,8 +20,6 @@ local cdtweaks_ImmuneToKnockdown = {
 
 function %INNATE_KNOCKDOWN%(CGameEffect, CGameSprite)
 	local sourceSprite = EEex_GameObject_Get(CGameEffect.m_sourceId) -- CGameSprite
-	-- Check creature's currently selected weapon
-	local isWeaponRanged = EEex_Trigger_ParseConditionalString("IsWeaponRanged(Myself)")
 	-- Get personal space
 	local sourcePersonalSpace = sourceSprite.m_animation.m_animation.m_personalSpace
 	local targetPersonalSpace = CGameSprite.m_animation.m_animation.m_personalSpace
@@ -34,71 +32,62 @@ function %INNATE_KNOCKDOWN%(CGameEffect, CGameSprite)
 	local targetAnimateStr = GT_Resource_IDSToSymbol["animate"][CGameSprite.m_animation.m_animation.m_animationID]
 	--
 	local targetIDS = {targetGeneralStr, targetRaceStr, targetClassStr, targetAnimateStr}
-	-- Melee weapon equipped!
-	if not isWeaponRanged:evalConditionalAsAIBase(sourceSprite) then
-		-- immunity check
-		local found = false
-		do
-			for index, symbolList in ipairs(cdtweaks_ImmuneToKnockdown) do
-				for _, symbol in ipairs(symbolList) do
-					if targetIDS[index] == symbol then
-						found = true
-						break
-					end
+	-- MAIN --
+	-- immunity check
+	local found = false
+	do
+		for index, symbolList in ipairs(cdtweaks_ImmuneToKnockdown) do
+			for _, symbol in ipairs(symbolList) do
+				if targetIDS[index] == symbol then
+					found = true
+					break
 				end
 			end
 		end
-		--
-		if not found then
-			if (sourcePersonalSpace - targetPersonalSpace) >= -1 then
-				-- SLOT_FIST is always equipped, even if not in use... As a result, we want to apply op39 via op182...
-				local fistResRef = {}
-				if CGameSprite.m_typeAI.m_Class == class["MONK"] then
-					local monkfist = GT_Resource_2DA["monkfist"]
-					for lvl = 1, 50 do
-						if GT_LuaTool_KeyExists(GT_Resource_2DA, "monkfist", tostring(lvl), "RESREF") then
-							fistResRef[monkfist[tostring(lvl)]["RESREF"]] = true
-						end
+	end
+	--
+	if not found then
+		if (sourcePersonalSpace - targetPersonalSpace) >= -1 then
+			-- SLOT_FIST is always equipped, even if not in use... As a result, we want to apply op39 via op182...
+			local fistResRef = {}
+			if CGameSprite.m_typeAI.m_Class == class["MONK"] then
+				local monkfist = GT_Resource_2DA["monkfist"]
+				for lvl = 1, 50 do
+					if GT_LuaTool_KeyExists(GT_Resource_2DA, "monkfist", tostring(lvl), "RESREF") then
+						fistResRef[monkfist[tostring(lvl)]["RESREF"]] = true
 					end
-				else
-					local items = CGameSprite.m_equipment.m_items -- Array<CItem*,39>
-					local item = items:get(10) -- CItem
-					if item then
-						fistResRef[item.pRes.resref:get()] = true -- should be "FIST.ITM"
-					end
-				end
-				-- set ``savebonus``
-				local savebonus = 0
-				if (sourcePersonalSpace - targetPersonalSpace) > 0 then
-					savebonus = -4
-				elseif (sourcePersonalSpace - targetPersonalSpace) < 0 then
-					savebonus = 4
-				end
-				--
-				local effectCodes = {}
-				for resref, _ in pairs(fistResRef) do
-					table.insert(effectCodes, {["op"] = 182, ["res"] = resref, ["res2"] = "GTPRONE"}) -- apply EFF while FIST/MFIST[1-8] is equipped (i.e. always). We need this to bypass op101 and make op39 uncurable (i.e. immune to op2)
-				end
-				table.insert(effectCodes, {["op"] = 206, ["p1"] = %feedback_strref_already_prone%, ["res"] = "%INNATE_KNOCKDOWN%B"}) -- protection from spell
-				--
-				for _, attributes in ipairs(effectCodes) do
-					CGameSprite:applyEffect({
-						["effectID"] = attributes["op"] or EEex_Error("opcode number not specified"),
-						["effectAmount"] = attributes["p1"] or 0,
-						["duration"] = 6,
-						["savingThrow"] = 0x4, -- save vs. death
-						["saveMod"] = savebonus,
-						["m_res2"] = attributes["res2"] or "",
-						["m_sourceRes"] = "%INNATE_KNOCKDOWN%B",
-						["m_sourceType"] = 1,
-						["sourceID"] = CGameEffect.m_sourceId,
-						["sourceTarget"] = CGameEffect.m_sourceTarget,
-					})
 				end
 			else
+				local items = CGameSprite.m_equipment.m_items -- Array<CItem*,39>
+				local item = items:get(10) -- CItem
+				if item then
+					fistResRef[item.pRes.resref:get()] = true -- should be "FIST.ITM"
+				end
+			end
+			-- set ``savebonus``
+			local savebonus = 0
+			if (sourcePersonalSpace - targetPersonalSpace) > 0 then
+				savebonus = -4
+			elseif (sourcePersonalSpace - targetPersonalSpace) < 0 then
+				savebonus = 4
+			end
+			--
+			local effectCodes = {}
+			for resref, _ in pairs(fistResRef) do
+				table.insert(effectCodes, {["op"] = 182, ["res"] = resref, ["res2"] = "GTPRONE"}) -- apply EFF while FIST/MFIST[1-8] is equipped (i.e. always). We need this to bypass op101 and make op39 uncurable (i.e. immune to op2)
+			end
+			table.insert(effectCodes, {["op"] = 206, ["p1"] = %feedback_strref_already_prone%, ["res"] = "%INNATE_KNOCKDOWN%B"}) -- protection from spell
+			--
+			for _, attributes in ipairs(effectCodes) do
 				CGameSprite:applyEffect({
-					["effectID"] = 139, -- display string
-					["effectAmount"] = %feedback_strref_too_large%,
+					["effectID"] = attributes["op"] or EEex_Error("opcode number not specified"),
+					["effectAmount"] = attributes["p1"] or 0,
+					["duration"] = 6,
+					["savingThrow"] = 0x4, -- save vs. death
+					["saveMod"] = savebonus,
+					["m_res2"] = attributes["res2"] or "",
+					["m_sourceRes"] = "%INNATE_KNOCKDOWN%B",
+					["m_sourceType"] = 1,
 					["sourceID"] = CGameEffect.m_sourceId,
 					["sourceTarget"] = CGameEffect.m_sourceTarget,
 				})
@@ -106,21 +95,19 @@ function %INNATE_KNOCKDOWN%(CGameEffect, CGameSprite)
 		else
 			CGameSprite:applyEffect({
 				["effectID"] = 139, -- display string
-				["effectAmount"] = %feedback_strref_immune%,
+				["effectAmount"] = %feedback_strref_too_large%,
 				["sourceID"] = CGameEffect.m_sourceId,
 				["sourceTarget"] = CGameEffect.m_sourceTarget,
 			})
 		end
 	else
-		sourceSprite:applyEffect({
+		CGameSprite:applyEffect({
 			["effectID"] = 139, -- display string
-			["effectAmount"] = %feedback_strref_melee_only%,
-			["sourceID"] = sourceSprite.m_id,
-			["sourceTarget"] = sourceSprite.m_id,
+			["effectAmount"] = %feedback_strref_immune%,
+			["sourceID"] = CGameEffect.m_sourceId,
+			["sourceTarget"] = CGameEffect.m_sourceTarget,
 		})
 	end
-	--
-	isWeaponRanged:free()
 end
 
 -- cdtweaks, NWN-ish Knockdown ability. Make sure one and only one attack roll is performed --
@@ -149,11 +136,15 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 					["sourceID"] = sprite.m_id,
 					["sourceTarget"] = sprite.m_id,
 				})
-			end
-		else
-			-- in case the character dies while swinging...
-			if sprite:getLocalInt("gtKnockdownSwing") == 1 then
-				sprite:setLocalInt("gtKnockdownSwing", 0)
+				--
+				if isWeaponRanged:evalConditionalAsAIBase(sprite) then
+					sprite:applyEffect({
+						["effectID"] = 139, -- display string
+						["effectAmount"] = %feedback_strref_melee_only%,
+						["sourceID"] = sprite.m_id,
+						["sourceTarget"] = sprite.m_id,
+					})
+				end
 			end
 		end
 	end
@@ -188,6 +179,8 @@ EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
 						["sourceTarget"] = sprite.m_id,
 					})
 				end
+				--
+				sprite:setLocalInt("gtKnockdownSwing", 0)
 				--
 				action.m_actionID = 3 -- Attack()
 				--
