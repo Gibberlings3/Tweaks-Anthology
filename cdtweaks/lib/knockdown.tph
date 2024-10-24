@@ -28,34 +28,16 @@ BEGIN
 			//
 			LPF "ADD_SPELL_HEADER" INT_VAR "range" = 30 STR_VAR "icon" = "%DEST_RES%B" END
 			//
-			/*LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 138 "target" = 1 "parameter2" = 7 END // SEQ_READY
-			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 321 "target" = 1 STR_VAR "resource" = "%DEST_RES%" END // Remove effects by resource
-			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 STR_VAR "resource" = "%DEST_RES%" END // Invoke lua*/
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 STR_VAR "resource" = "%DEST_RES%" END // Invoke lua
 		BUT_ONLY
 		// EFF
-		CREATE "eff" "%INNATE_KNOCKDOWN%b"
-		COPY_EXISTING "%INNATE_KNOCKDOWN%b.eff" "override"
+		CREATE "eff" "%INNATE_KNOCKDOWN%"
+		COPY_EXISTING "%INNATE_KNOCKDOWN%.eff" "override"
 			WRITE_LONG 0x10 146 // Cast spell
 			WRITE_LONG 0x14 2 // Projectile target
 			WRITE_LONG 0x20 1 // Mode: instant/ignore level
 			WRITE_SHORT 0x2C 100 // prob1
 			WRITE_ASCII 0x30 "%DEST_RES%" #8 // spl file
-		BUT_ONLY
-		// Knockdown (auxiliary spl file)
-		CREATE "spl" "%INNATE_KNOCKDOWN%b"
-		COPY_EXISTING "%INNATE_KNOCKDOWN%b.spl" "override"
-			WRITE_LONG NAME1 RESOLVE_STR_REF (@0)
-			WRITE_LONG NAME2 "-1"
-			WRITE_LONG UNIDENTIFIED_DESC "-1"
-			WRITE_LONG DESC "-1"
-			WRITE_LONG 0x18 (BIT14 BOR BIT25) // ignore dead/wild magic, castable when silenced
-			WRITE_SHORT 0x1C 4 // innate
-			WRITE_LONG 0x34 1 // level
-			WRITE_ASCII 0x3A "%DEST_RES%" #8 // icon
-			//
-			LPF "ADD_SPELL_HEADER" INT_VAR "range" = 30 STR_VAR "icon" = "%DEST_RES%" END
-			//
-			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 STR_VAR "resource" = "%INNATE_KNOCKDOWN%" END // Invoke lua
 		BUT_ONLY
 		// icons
 		LAF "ADD_STATDESC_ENTRY" INT_VAR "description" = RESOLVE_STR_REF (@50) STR_VAR "bam_file" = "GTPRONE" RET "feedback_icon" = "index" END
