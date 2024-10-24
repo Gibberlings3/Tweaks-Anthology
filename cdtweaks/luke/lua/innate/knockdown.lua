@@ -1,8 +1,10 @@
 --[[
-	***************************************************************************************************************************
++------------------------------------------------------------+
+| cdtweaks, NWN-ish Knockdown ability for Fighters and Monks |
++------------------------------------------------------------+
 --]]
 
--- cdtweaks, NWN-ish Knockdown ability. Creatures already on the ground / levitating / etc. should be immune to this feat --
+-- NWN-ish Knockdown ability. Creatures already on the ground / levitating / etc. should be immune to this feat --
 
 local cdtweaks_ImmuneToKnockdown = {
 	{"WEAPON"}, -- GENERAL.IDS
@@ -16,7 +18,7 @@ local cdtweaks_ImmuneToKnockdown = {
 	},
 }
 
--- cdtweaks, NWN-ish Knockdown ability --
+-- NWN-ish Knockdown ability (main) --
 
 function %INNATE_KNOCKDOWN%(CGameEffect, CGameSprite)
 	local sourceSprite = EEex_GameObject_Get(CGameEffect.m_sourceId) -- CGameSprite
@@ -110,7 +112,7 @@ function %INNATE_KNOCKDOWN%(CGameEffect, CGameSprite)
 	end
 end
 
--- cdtweaks, NWN-ish Knockdown ability. Make sure one and only one attack roll is performed --
+-- NWN-ish Knockdown ability. Make sure one and only one attack roll is performed --
 
 EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- Sanity check
@@ -121,7 +123,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	local isWeaponRanged = EEex_Trigger_ParseConditionalString("IsWeaponRanged(Myself)")
 	--
 	if sprite:getLocalInt("cdtweaksKnockdown") == 1 then
-		if GT_Utility_EffectCheck(sprite, {["op"] = 0xF8, ["res"] = "%INNATE_KNOCKDOWN%B"}) then
+		if GT_Utility_EffectCheck(sprite, {["op"] = 0xF8, ["res"] = "%INNATE_KNOCKDOWN%"}) then
 			if sprite.m_startedSwing == 1 and sprite:getLocalInt("gtKnockdownSwing") == 0 and not isWeaponRanged:evalConditionalAsAIBase(sprite) then
 				sprite:setLocalInt("gtKnockdownSwing", 1)
 			elseif (sprite.m_startedSwing == 0 and sprite:getLocalInt("gtKnockdownSwing") == 1) or isWeaponRanged:evalConditionalAsAIBase(sprite) then
@@ -152,7 +154,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	isWeaponRanged:free()
 end)
 
--- cdtweaks, NWN-ish Knockdown ability. Morph the spell action into an attack action --
+-- NWN-ish Knockdown ability. Morph the spell action into an attack action --
 
 EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
 	local ea = GT_Resource_SymbolToIDS["ea"]
@@ -165,7 +167,7 @@ EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
 					{["op"] = 321, ["res"] = "%INNATE_KNOCKDOWN%"}, -- remove effects by resource
 					{["op"] = 284, ["p1"] = -4}, -- melee thac0 bonus
 					{["op"] = 142, ["p2"] = %feedback_icon_can_knockdown%}, -- feedback icon
-					{["op"] = 248, ["res"] = "%INNATE_KNOCKDOWN%B"}, -- melee hit effect
+					{["op"] = 248, ["res"] = "%INNATE_KNOCKDOWN%"}, -- melee hit effect
 				}
 				--
 				for _, attributes in ipairs(effectCodes) do
