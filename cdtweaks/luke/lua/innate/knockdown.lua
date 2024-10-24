@@ -102,8 +102,8 @@ function %INNATE_KNOCKDOWN%(CGameEffect, CGameSprite)
 		end
 	else
 		CGameSprite:applyEffect({
-			["effectID"] = 139, -- display string
-			["effectAmount"] = %feedback_strref_immune%,
+			["effectID"] = 324, -- immunity to resource and message
+			["res"] = CGameEffect.m_sourceRes:get(),
 			["sourceID"] = CGameEffect.m_sourceId,
 			["sourceTarget"] = CGameEffect.m_sourceTarget,
 		})
@@ -155,6 +155,8 @@ end)
 -- cdtweaks, NWN-ish Knockdown ability. Morph the spell action into an attack action --
 
 EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
+	local ea = GT_Resource_SymbolToIDS["ea"]
+	--
 	if sprite:getLocalInt("cdtweaksKnockdown") == 1 then
 		if action.m_actionID == 31 and action.m_string1.m_pchData:get() == "%INNATE_KNOCKDOWN%" then
 			if EEex_Sprite_GetCastTimer(sprite) == -1 then
@@ -182,7 +184,12 @@ EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
 				--
 				sprite:setLocalInt("gtKnockdownSwing", 0)
 				--
-				action.m_actionID = 3 -- Attack()
+				if sprite.m_typeAI.m_EnemyAlly < ea["GOODCUTOFF"] then
+					action.m_actionID = 3 -- Attack()
+				else
+					action.m_actionID = 134 -- AttackReevaluate()
+					action.m_specificID = 100 -- ReevaluationPeriod
+				end
 				--
 				sprite.m_castCounter = 0
 			else
