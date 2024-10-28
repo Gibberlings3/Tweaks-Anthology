@@ -1,4 +1,8 @@
--- Utility: if a sprite is invisible, flag it (needed to implement custom sneak attacks) --
+--[[
++---------------------------------------------------------------------------------------+
+| Utility: if a sprite is invisible, flag it (needed to implement custom sneak attacks) |
++---------------------------------------------------------------------------------------+
+--]]
 
 EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- sanity check
@@ -7,14 +11,14 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	end
 	-- internal function that flags the creature
 	local apply = function()
-		sprite:setLocalInt("gtIsInvisible", 1)
+		sprite:setLocalInt("gtSpriteIsInvisible", 1)
 	end
 	-- Check state
 	-- since ``EEex_Opcode_AddListsResolvedListener`` is running after the effect lists have been evaluated, ``m_bonusStats`` has already been added to ``m_derivedStats`` by the engine
 	local spriteGeneralState = sprite.m_derivedStats.m_generalState
 	local applyCondition = EEex_IsBitSet(spriteGeneralState, 0x4) -- STATE_INVISIBLE (BIT4)
 	--
-	if sprite:getLocalInt("gtIsInvisible") == 0 then
+	if sprite:getLocalInt("gtSpriteIsInvisible") == 0 then
 		if applyCondition then
 			apply()
 		end
@@ -22,7 +26,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		if applyCondition then
 			-- do nothing
 		else
-			sprite:setLocalInt("gtIsInvisible", 0)
+			sprite:setLocalInt("gtSpriteIsInvisible", 0)
 		end
 	end
 end)

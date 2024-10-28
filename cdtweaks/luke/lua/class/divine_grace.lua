@@ -1,4 +1,10 @@
--- cdtweaks: NWN Divine Grace feat for Paladins --
+--[[
++--------------------------------------------------------+
+| cdtweaks, NWN-ish Divine Grace class feat for Paladins |
++--------------------------------------------------------+
+--]]
+
+-- Apply ability --
 
 EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- Sanity check
@@ -8,13 +14,12 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- internal function that applies the actual bonus
 	local apply = function(bonus)
 		-- Update var
-		sprite:setLocalInt("cdtweaksDivineGraceHelper", bonus)
+		sprite:setLocalInt("cdtweaksDivineGraceBonus", bonus)
 		-- Mark the creature as 'bonus applied'
 		sprite:setLocalInt("cdtweaksDivineGrace", 1)
 		--
 		sprite:applyEffect({
 			["effectID"] = 321, -- Remove effects by resource
-			["durationType"] = 1,
 			["res"] = "%PALADIN_DIVINE_GRACE%",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
@@ -47,16 +52,16 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	--
 	local bonus = math.floor((spriteCharisma - 10) / 2)
 	-- The paladin adds its charisma bonus (if positive) to all saving throws (provided it is not fallen)
-	local applyCondition = spriteClassStr == "PALADIN" and spriteKitStr ~= "Blackguard" and bonus and bonus > 0 and EEex_IsBitUnset(spriteFlags, 0x9)
+	local applyAbility = spriteClassStr == "PALADIN" and spriteKitStr ~= "Blackguard" and bonus and bonus > 0 and EEex_IsBitUnset(spriteFlags, 0x9)
 	--
 	if sprite:getLocalInt("cdtweaksDivineGrace") == 0 then
-		if applyCondition then
+		if applyAbility then
 			apply(bonus)
 		end
 	else
-		if applyCondition then
+		if applyAbility then
 			-- Check if Charisma has changed since the last application
-			if bonus ~= sprite:getLocalInt("cdtweaksDivineGraceHelper") then
+			if bonus ~= sprite:getLocalInt("cdtweaksDivineGraceBonus") then
 				apply(bonus)
 			end
 		else
@@ -65,7 +70,6 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			--
 			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource
-				["durationType"] = 1,
 				["res"] = "%PALADIN_DIVINE_GRACE%",
 				["sourceID"] = sprite.m_id,
 				["sourceTarget"] = sprite.m_id,

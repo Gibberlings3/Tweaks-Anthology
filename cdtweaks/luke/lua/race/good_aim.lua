@@ -1,4 +1,10 @@
--- cdtweaks, good aim racial feat for halflings --
+--[[
++--------------------------------------------------+
+| cdtweaks, NWN Good Aim racial feat for Halflings |
++--------------------------------------------------+
+--]]
+
+-- Apply ability --
 
 EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- Sanity check
@@ -12,7 +18,6 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		--
 		sprite:applyEffect({
 			["effectID"] = 321, -- Remove effects by resource
-			["durationType"] = 1,
 			["res"] = "%HALFLING_GOOD_AIM%",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
@@ -61,7 +66,6 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			--
 			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource
-				["durationType"] = 1,
 				["res"] = "%HALFLING_GOOD_AIM%",
 				["sourceID"] = sprite.m_id,
 				["sourceTarget"] = sprite.m_id,

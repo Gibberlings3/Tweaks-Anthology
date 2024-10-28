@@ -1,4 +1,10 @@
--- cdtweaks, Sneak Attack feat for Blackguards --
+--[[
++---------------------------------------------------------+
+| cdtweaks, NWN-ish Sneak Attack kit feat for Blackguards |
++---------------------------------------------------------+
+--]]
+
+-- Apply ability --
 
 EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- sanity check
@@ -12,7 +18,6 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		--
 		sprite:applyEffect({
 			["effectID"] = 321, -- Remove effects by resource
-			["durationType"] = 1,
 			["res"] = "%BLACKGUARD_SNEAK_ATTACK%",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
@@ -55,7 +60,6 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			--
 			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource
-				["durationType"] = 1,
 				["res"] = "%BLACKGUARD_SNEAK_ATTACK%",
 				["sourceID"] = sprite.m_id,
 				["sourceTarget"] = sprite.m_id,
@@ -64,20 +68,20 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	end
 end)
 
--- cdtweaks, Sneak Attack feat for Blackguards --
+-- Core function --
 
 function %BLACKGUARD_SNEAK_ATTACK%(CGameEffect, CGameSprite)
 	if CGameEffect.m_effectAmount == 1 then -- check if can perform a sneak attack
 		local sourceSprite = EEex_GameObject_Get(CGameEffect.m_sourceId)
 		--
-		local targetGeneralState = CGameSprite.m_derivedStats.m_generalState + CGameSprite.m_bonusStats.m_generalState
+		local targetActiveStats = EEex_Sprite_GetActiveStats(CGameSprite)
 		-- limit to once per round
 		local getTimer = EEex_Trigger_ParseConditionalString('!GlobalTimerNotExpired("cdtweaksSneakattBlckgrdTimer","LOCALS")')
 		local setTimer = EEex_Action_ParseResponseString('SetGlobalTimer("cdtweaksSneakattBlckgrdTimer","LOCALS",6)')
 		--
 		if getTimer:evalConditionalAsAIBase(sourceSprite) then
 			-- if the target is incapacitated || the target is in combat with someone else || the blackguard is invisible
-			if EEex_BAnd(targetGeneralState, 0x100029) ~= 0 or CGameSprite.m_targetId ~= sourceSprite.m_id or sourceSprite:getLocalInt("gtIsInvisible") == 1 then
+			if EEex_BAnd(targetActiveStats.m_generalState, 0x100029) ~= 0 or CGameSprite.m_targetId ~= sourceSprite.m_id or sourceSprite:getLocalInt("gtSpriteIsInvisible") == 1 then
 				setTimer:executeResponseAsAIBaseInstantly(sourceSprite)
 				--
 				CGameSprite:applyEffect({
@@ -94,10 +98,9 @@ function %BLACKGUARD_SNEAK_ATTACK%(CGameEffect, CGameSprite)
 		setTimer:free()
 	elseif CGameEffect.m_effectAmount == 2 then -- actual sneak attack
 		local sneakatt = GT_Resource_2DA["sneakatt"]
-		local itemflag = GT_Resource_SymbolToIDS["itemflag"]
 		--
 		local sourceSprite = EEex_GameObject_Get(CGameEffect.m_sourceId)
-		local sourceLevel = sourceSprite.m_derivedStats.m_nLevel1 + sourceSprite.m_bonusStats.m_nLevel1
+		local sourceActiveStats = EEex_Sprite_GetActiveStats(sourceSprite)
 		--
 		local equipment = sourceSprite.m_equipment
 		local selectedWeapon = equipment.m_items:get(equipment.m_selectedWeapon)
@@ -105,34 +108,59 @@ function %BLACKGUARD_SNEAK_ATTACK%(CGameEffect, CGameSprite)
 		--
 		local selectedWeaponAbility = EEex_Resource_GetItemAbility(selectedWeaponHeader, equipment.m_selectedWeaponAbility) -- Item_ability_st
 		--
-		if selectedWeaponAbility.type == 1 and EEex_BAnd(selectedWeaponHeader.itemFlags, itemflag["TWOHANDED"]) == 0 then -- if melee and single-handed
+		if selectedWeaponAbility.type == 1 and sourceSprite.m_leftAttack == 1 then -- if attacking with offhand ...
 			local items = sourceSprite.m_equipment.m_items -- Array<CItem*,39>
 			local offHand = items:get(9) -- CItem
 			--
-			if offHand and sourceSprite.m_leftAttack == 1 then
-				local offHandHeader = offHand.pRes.pHeader -- Item_Header_st
-				if not (offHandHeader.itemType == 0xC) then -- if not shield, then overwrite item ability...
-					selectedWeaponAbility = EEex_Resource_GetItemAbility(offHandHeader, 0) -- Item_ability_st
+			if offHand then
+				local pHeader = offHand.pRes.pHeader -- Item_Header_st
+				if not (pHeader.itemType == 0xC) then -- if not shield, then overwrite item ability...
+					selectedWeaponAbility = EEex_Resource_GetItemAbility(pHeader, 0) -- Item_ability_st
 				end
 			end
 		end
 		--
-		local randomValue = math.random(0, 1)
-		local damageType = {0x10, 0, 0x100, 0x80, 0x800, 0x10 * randomValue, randomValue == 0 and 0x10 or 0x100, 0x100 * randomValue} -- piercing, crushing, slashing, missile, non-lethal, piercing/crushing, piercing/slashing, slashing/crushing
+		local immunityToDamage = EEex_Trigger_ParseConditionalString("EEex_IsImmuneToOpcode(Myself,12)")
 		--
-		if damageType[selectedWeaponAbility.damageType] and tonumber(sneakatt["STALKER"][string.format("%s", sourceLevel)]) > 0 then
-			EEex_GameObject_ApplyEffect(CGameSprite,
-			{
-				["effectID"] = 12, -- Damage
-				["dwFlags"] = damageType[selectedWeaponAbility.damageType] * 0x10000, -- Normal
-				["durationType"] = 1,
-				["numDice"] = tonumber(sneakatt["STALKER"][string.format("%s", sourceLevel)]),
-				["diceSize"] = 6,
-				["m_sourceRes"] = CGameEffect.m_sourceRes:get(),
-				["m_sourceType"] = CGameEffect.m_sourceType,
-				["sourceID"] = CGameEffect.m_sourceId,
-				["sourceTarget"] = CGameEffect.m_sourceTarget,
-			})
+		local targetActiveStats = EEex_Sprite_GetActiveStats(CGameSprite)
+		--
+		local itmAbilityDamageTypeToIDS = {
+			0x10, -- piercing
+			0x0, -- crushing
+			0x100, -- slashing
+			0x80, -- missile
+			0x800, -- non-lethal
+			targetActiveStats.m_nResistPiercing > targetActiveStats.m_nResistCrushing and 0x0 or 0x10, -- piercing/crushing (better)
+			targetActiveStats.m_nResistPiercing > targetActiveStats.m_nResistSlashing and 0x100 or 0x10, -- piercing/slashing (better)
+			targetActiveStats.m_nResistCrushing > targetActiveStats.m_nResistSlashing and 0x0 or 0x100, -- slashing/crushing (worse)
+		}
+		--
+		if itmAbilityDamageTypeToIDS[selectedWeaponAbility.damageType] then -- sanity check
+			if not immunityToDamage:evalConditionalAsAIBase(CGameSprite) then
+				EEex_GameObject_ApplyEffect(CGameSprite,
+				{
+					["effectID"] = 0xC, -- Damage
+					["dwFlags"] = itmAbilityDamageTypeToIDS[selectedWeaponAbility.damageType] * 0x10000, -- mode: normal
+					["numDice"] = tonumber(sneakatt["STALKER"][string.format("%s", sourceActiveStats.m_nLevel1)]),
+					["diceSize"] = 6,
+					["m_sourceRes"] = CGameEffect.m_sourceRes:get(),
+					["m_sourceType"] = CGameEffect.m_sourceType,
+					["sourceID"] = CGameEffect.m_sourceId,
+					["sourceTarget"] = CGameEffect.m_sourceTarget,
+				})
+			else
+				EEex_GameObject_ApplyEffect(CGameSprite,
+				{
+					["effectID"] = 324, -- Immunity to resource and message
+					["res"] = CGameEffect.m_sourceRes:get(),
+					["m_sourceRes"] = CGameEffect.m_sourceRes:get(),
+					["m_sourceType"] = CGameEffect.m_sourceType,
+					["sourceID"] = CGameEffect.m_sourceId,
+					["sourceTarget"] = CGameEffect.m_sourceTarget,
+				})
+			end
 		end
+		--
+		immunityToDamage:free()
 	end
 end

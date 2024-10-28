@@ -1,4 +1,10 @@
--- cdtweaks: NWN-ish Circle Kick class feat for Monks --
+--[[
++----------------------------------------------------+
+| cdtweaks, NWN-ish Circle Kick class feat for Monks |
++----------------------------------------------------+
+--]]
+
+-- Apply Ability --
 
 EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- Sanity check
@@ -12,7 +18,6 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		--
 		sprite:applyEffect({
 			["effectID"] = 321, -- Remove effects by resource
-			["durationType"] = 1,
 			["res"] = "%MONK_CIRCLE_KICK%",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
@@ -45,7 +50,6 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			--
 			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource
-				["durationType"] = 1,
 				["res"] = "%MONK_CIRCLE_KICK%",
 				["sourceID"] = sprite.m_id,
 				["sourceTarget"] = sprite.m_id,
@@ -54,22 +58,21 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	end
 end)
 
--- cdtweaks, NWN-ish Circle Kick class feat for Monks --
+-- Core function --
 
 function %MONK_CIRCLE_KICK%(CGameEffect, CGameSprite)
 	if CGameEffect.m_effectAmount == 1 then -- check if can perform a circle kick
 		local sourceSprite = EEex_GameObject_Get(CGameEffect.m_sourceId)
-		--
-		local sourceSeeInvisible = sourceSprite.m_derivedStats.m_bSeeInvisible + sourceSprite.m_bonusStats.m_bSeeInvisible
+		local sourceActiveStats = EEex_Sprite_GetActiveStats(sourceSprite)
 		-- limit to once per round
 		local getTimer = EEex_Trigger_ParseConditionalString('!GlobalTimerNotExpired("cdtweaksCircleKickTimer","LOCALS") \n InWeaponRange(EEex_Target("GT_MonkCircleKickTarget"))')
 		local setTimer = EEex_Action_ParseResponseString('SetGlobalTimer("cdtweaksCircleKickTimer","LOCALS",6) \n ReallyForceSpellRES("%MONK_CIRCLE_KICK%B",EEex_Target("GT_MonkCircleKickTarget"))')
 		--
 		local spriteArray = {}
 		if sourceSprite.m_typeAI.m_EnemyAlly > 200 then -- EVILCUTOFF
-			spriteArray = EEex_Sprite_GetAllOfTypeStringInRange(sourceSprite, "[GOODCUTOFF]", sourceSprite:virtual_GetVisualRange(), nil, nil, nil)
+			spriteArray = EEex_Sprite_GetAllOfTypeInRange(sourceSprite, GT_AI_ObjectType["GOODCUTOFF"], sourceSprite:virtual_GetVisualRange(), nil, nil, nil)
 		elseif sourceSprite.m_typeAI.m_EnemyAlly < 30 then -- GOODCUTOFF
-			spriteArray = EEex_Sprite_GetAllOfTypeStringInRange(sourceSprite, "[EVILCUTOFF]", sourceSprite:virtual_GetVisualRange(), nil, nil, nil)
+			spriteArray = EEex_Sprite_GetAllOfTypeInRange(sourceSprite, GT_AI_ObjectType["EVILCUTOFF"], sourceSprite:virtual_GetVisualRange(), nil, nil, nil)
 		end
 		--
 		for _, itrSprite in ipairs(spriteArray) do
@@ -77,12 +80,11 @@ function %MONK_CIRCLE_KICK%(CGameEffect, CGameSprite)
 				--EEex_LuaObject = itrSprite -- must be global (we are not confortable with global / singleton vars...)
 				sourceSprite:setStoredScriptingTarget("GT_MonkCircleKickTarget", itrSprite)
 				--
-				local itrSpriteGeneralState = itrSprite.m_derivedStats.m_generalState + itrSprite.m_bonusStats.m_generalState
-				local itrSpriteSanctuary = itrSprite.m_derivedStats.m_bSanctuary + itrSprite.m_bonusStats.m_bSanctuary
+				local itrSpriteActiveStats = EEex_Sprite_GetActiveStats(itrSprite)
 				--
-				if getTimer:evalConditionalAsAIBase(sourceSprite) and EEex_IsBitUnset(spriteGeneralState, 11) then -- if not dead
-					if EEex_IsBitUnset(itrSpriteGeneralState, 0x4) or sourceSeeInvisible > 0 then
-						if itrSpriteSanctuary == 0 then
+				if getTimer:evalConditionalAsAIBase(sourceSprite) and EEex_IsBitUnset(itrSpriteActiveStats.m_generalState, 11) then -- if not dead
+					if EEex_IsBitUnset(itrSpriteActiveStats.m_generalState, 0x4) or sourceActiveStats.m_bSeeInvisible > 0 then -- if not invisible or can see through invisibility
+						if itrSpriteActiveStats.m_bSanctuary == 0 then
 							setTimer:executeResponseAsAIBaseInstantly(sourceSprite)
 							break
 						end
@@ -96,28 +98,53 @@ function %MONK_CIRCLE_KICK%(CGameEffect, CGameSprite)
 	elseif CGameEffect.m_effectAmount == 2 then -- actual feat
 		local sourceSprite = EEex_GameObject_Get(CGameEffect.m_sourceId)
 		--
-		local equipment = sourceSprite.m_equipment
-		local selectedWeapon = equipment.m_items:get(equipment.m_selectedWeapon)
+		local equipment = sourceSprite.m_equipment -- CGameSpriteEquipment
+		local selectedWeapon = equipment.m_items:get(equipment.m_selectedWeapon) -- CItem
 		local selectedWeaponHeader = selectedWeapon.pRes.pHeader -- Item_Header_st
-		--
 		local selectedWeaponAbility = EEex_Resource_GetItemAbility(selectedWeaponHeader, equipment.m_selectedWeaponAbility) -- Item_ability_st
 		--
-		local randomValue = math.random(0, 1)
-		local damageType = {16, 0, 256, 128, 2048, 16 * randomValue, randomValue == 0 and 16 or 256, 256 * randomValue} -- piercing, crushing, slashing, missile, non-lethal, piercing/crushing, piercing/slashing, slashing/crushing
-		if damageType[selectedWeaponAbility.damageType] then
-			EEex_GameObject_ApplyEffect(CGameSprite,
-			{
-				["effectID"] = 12, -- Damage
-				["dwFlags"] = damageType[selectedWeaponAbility.damageType] * 0x10000, -- Normal
-				["durationType"] = 1,
-				["numDice"] = selectedWeaponAbility.damageDiceCount,
-				["diceSize"] = selectedWeaponAbility.damageDice,
-				["effectAmount"] = selectedWeaponAbility.damageDiceBonus,
-				["m_sourceRes"] = CGameEffect.m_sourceRes:get(),
-				["m_sourceType"] = CGameEffect.m_sourceType,
-				["sourceID"] = CGameEffect.m_sourceId,
-				["sourceTarget"] = CGameEffect.m_sourceTarget,
-			})
+		local immunityToDamage = EEex_Trigger_ParseConditionalString("EEex_IsImmuneToOpcode(Myself,12)")
+		--
+		local targetActiveStats = EEex_Sprite_GetActiveStats(CGameSprite)
+		--
+		local itmAbilityDamageTypeToIDS = {
+			0x10, -- piercing
+			0x0, -- crushing
+			0x100, -- slashing
+			0x80, -- missile
+			0x800, -- non-lethal
+			targetActiveStats.m_nResistPiercing > targetActiveStats.m_nResistCrushing and 0x0 or 0x10, -- piercing/crushing (better)
+			targetActiveStats.m_nResistPiercing > targetActiveStats.m_nResistSlashing and 0x100 or 0x10, -- piercing/slashing (better)
+			targetActiveStats.m_nResistCrushing > targetActiveStats.m_nResistSlashing and 0x0 or 0x100, -- slashing/crushing (worse)
+		}
+		--
+		if itmAbilityDamageTypeToIDS[selectedWeaponAbility.damageType] then -- sanity check
+			if not immunityToDamage:evalConditionalAsAIBase(CGameSprite) then
+				EEex_GameObject_ApplyEffect(CGameSprite,
+				{
+					["effectID"] = 0xC, -- Damage
+					["dwFlags"] = itmAbilityDamageTypeToIDS[selectedWeaponAbility.damageType] * 0x10000, -- mode: normal
+					["numDice"] = selectedWeaponAbility.damageDiceCount,
+					["diceSize"] = selectedWeaponAbility.damageDice,
+					["effectAmount"] = selectedWeaponAbility.damageDiceBonus,
+					["m_sourceRes"] = CGameEffect.m_sourceRes:get(),
+					["m_sourceType"] = CGameEffect.m_sourceType,
+					["sourceID"] = CGameEffect.m_sourceId,
+					["sourceTarget"] = CGameEffect.m_sourceTarget,
+				})
+			else
+				EEex_GameObject_ApplyEffect(CGameSprite,
+				{
+					["effectID"] = 324, -- Immunity to resource and message
+					["res"] = CGameEffect.m_sourceRes:get(),
+					["m_sourceRes"] = CGameEffect.m_sourceRes:get(),
+					["m_sourceType"] = CGameEffect.m_sourceType,
+					["sourceID"] = CGameEffect.m_sourceId,
+					["sourceTarget"] = CGameEffect.m_sourceTarget,
+				})
+			end
 		end
+		--
+		immunityToDamage:free()
 	end
 end

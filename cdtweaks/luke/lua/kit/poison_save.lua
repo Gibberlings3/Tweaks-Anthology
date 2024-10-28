@@ -1,4 +1,20 @@
--- cdtweaks, Poison Save (Assassins): This class feat grants a +2 bonus on saving throws against poison effects --
+--[[
++------------------------------------------------------+
+| cdtweaks, NWN-ish Poison Save kit feat for Assassins |
++------------------------------------------------------+
+--]]
+
+local cdtweaks_PoisonSave_FeedbackString = {
+	["Poison"] = true,
+	["Poisoned"] = true,
+}
+
+local cdtweaks_PoisonSave_FeedbackIcon = {
+	[6] = true, -- Poisoned
+	[101] = true, -- Decaying (see ``CLERIC_DOLOROUS_DECAY``)
+}
+
+-- Apply ability --
 
 EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- sanity check
@@ -12,7 +28,6 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		--
 		sprite:applyEffect({
 			["effectID"] = 321, -- Remove effects by resource
-			["durationType"] = 1,
 			["res"] = "%ASSASSIN_POISON_SAVE%",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
@@ -20,7 +35,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		sprite:applyEffect({
 			["effectID"] = 403, -- Screen effects
 			["durationType"] = 9,
-			["res"] = "GTPSNSAV", -- lua function
+			["res"] = "%ASSASSIN_POISON_SAVE%", -- lua function
 			["m_sourceRes"] = "%ASSASSIN_POISON_SAVE%",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
@@ -61,7 +76,6 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			--
 			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource
-				["durationType"] = 1,
 				["res"] = "%ASSASSIN_POISON_SAVE%",
 				["sourceID"] = sprite.m_id,
 				["sourceTarget"] = sprite.m_id,
@@ -70,28 +84,30 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	end
 end)
 
--- cdtweaks, Poison Save (Assassins): This class feat grants a +2 bonus on saving throws against poison effects --
+-- This class feat grants a +2 bonus on saving throws against poison effects --
 
 function %ASSASSIN_POISON_SAVE%(op403CGameEffect, CGameEffect, CGameSprite)
+	local language = Infinity_GetINIString('Language', 'Text', 'should not happen')
+	local displaySubtitles = Infinity_GetINIValue('Program Options', 'Display Subtitles', -1)
+	--
 	local parentResRef = CGameEffect.m_sourceRes:get()
 	--
 	local stats = GT_Resource_SymbolToIDS["stats"]
 	--
 	if CGameEffect.m_effectId == 25 or (CGameEffect.m_effectId == 12 and EEex_IsMaskSet(CGameEffect.m_dWFlags, 0x200000)) then -- Poison || Damage (poison)
 		local success = false
-		local spriteDerivedStats = CGameSprite.m_derivedStats
-		local spriteBonusStats = CGameSprite.m_bonusStats
+		local spriteActiveStats = EEex_Sprite_GetActiveStats(CGameSprite)
 		local spriteRoll = -1
 		local adjustedRoll = -1
 		local spriteSaveVS = -1
 		local feedbackStr = ""
 		--
 		local savingThrowTable = {
-			[0] = {CGameSprite.m_saveVSSpellRoll, spriteDerivedStats.m_nSaveVSSpell + spriteBonusStats.m_nSaveVSSpell, 14003},
-			[1] = {CGameSprite.m_saveVSBreathRoll, spriteDerivedStats.m_nSaveVSBreath + spriteBonusStats.m_nSaveVSBreath, 14004},
-			[2] = {CGameSprite.m_saveVSDeathRoll, spriteDerivedStats.m_nSaveVSDeath + spriteBonusStats.m_nSaveVSDeath, 14009},
-			[3] = {CGameSprite.m_saveVSWandsRoll, spriteDerivedStats.m_nSaveVSWands + spriteBonusStats.m_nSaveVSWands, 14006},
-			[4] = {CGameSprite.m_saveVSPolyRoll, spriteDerivedStats.m_nSaveVSPoly + spriteBonusStats.m_nSaveVSPoly, 14005}
+			[0] = {CGameSprite.m_saveVSSpellRoll, spriteActiveStats.m_nSaveVSSpell, 14003},
+			[1] = {CGameSprite.m_saveVSBreathRoll, spriteActiveStats.m_nSaveVSBreath, 14004},
+			[2] = {CGameSprite.m_saveVSDeathRoll, spriteActiveStats.m_nSaveVSDeath, 14009},
+			[3] = {CGameSprite.m_saveVSWandsRoll, spriteActiveStats.m_nSaveVSWands, 14006},
+			[4] = {CGameSprite.m_saveVSPolyRoll, spriteActiveStats.m_nSaveVSPoly, 14005}
 		}
 		--
 		for k, v in pairs(savingThrowTable) do
@@ -121,16 +137,25 @@ function %ASSASSIN_POISON_SAVE%(op403CGameEffect, CGameEffect, CGameSprite)
 				["sourceTarget"] = CGameSprite.m_id,
 			})
 			-- Mark ancillary effects
-			EEex_Utility_IterateCPtrList(CGameSprite.m_timedEffectList, function(fx)
-				if fx.m_sourceRes:get() == parentResRef then
-					if fx.m_effectId == 142 then -- Display portrait icon
-						if fx.m_dWFlags == 6 or fx.m_dWFlags == 101 then -- this includes the "Decaying" icon (see ``CLERIC_DOLOROUS_DECAY``)
-							fx.m_sourceRes:set("CDREMOVE")
+			EEex_Utility_IterateCPtrList(CGameSprite.m_timedEffectList, function(effect)
+				if effect.m_sourceRes:get() == parentResRef then
+					if effect.m_effectId == 142 then -- Display portrait icon
+						if cdtweaks_PoisonSave_FeedbackIcon[effect.m_dWFlags] then
+							effect.m_sourceRes:set("CDREMOVE")
 						end
-					elseif fx.m_effectId == 174 and fx.m_durationType == 7 then -- Play sound
-						if math.floor((fx.m_duration - fx.m_effectAmount5) / 15) == CGameEffect.m_duration then
-							fx.m_sourceRes:set("CDREMOVE")
+					elseif effect.m_effectId == 174 and effect.m_durationType == 7 then -- Play sound
+						if math.floor((effect.m_duration - effect.m_effectAmount5) / 15) == CGameEffect.m_duration then
+							effect.m_sourceRes:set("CDREMOVE")
 						end
+					elseif effect.m_effectId == 139 then -- Display string
+						-- temporarily set language to English
+						Infinity_SetLanguage("en_US", 0)
+						--
+						if cdtweaks_PoisonSave_FeedbackString[Infinity_FetchString(effect.m_effectAmount)] then
+							effect.m_sourceRes:set("CDREMOVE")
+						end
+						-- restore original language / subtitles
+						Infinity_SetLanguage(language, displaySubtitles)
 					end
 				end
 			end)
@@ -139,7 +164,6 @@ function %ASSASSIN_POISON_SAVE%(op403CGameEffect, CGameEffect, CGameSprite)
 			{
 				["effectID"] = 321, -- Remove effects by resource
 				["res"] = "CDREMOVE",
-				["durationType"] = 1,
 				["sourceID"] = CGameSprite.m_id,
 				["sourceTarget"] = CGameSprite.m_id,
 			})
@@ -154,27 +178,49 @@ function %ASSASSIN_POISON_SAVE%(op403CGameEffect, CGameEffect, CGameSprite)
 		-- block ancillary effects
 		local duration = -1
 		--
-		EEex_Utility_IterateCPtrList(CGameSprite.m_timedEffectList, function(fx)
-			if fx.m_effectId == 401 and fx.m_special == stats["GT_IMMUNITY"] and fx.m_effectAmount == 3 and fx.m_res:get() == parentResRef then
-				duration = fx.m_effectAmount2
+		EEex_Utility_IterateCPtrList(CGameSprite.m_timedEffectList, function(effect)
+			if effect.m_effectId == 401 and effect.m_special == stats["GT_IMMUNITY"] and effect.m_effectAmount == 3 and effect.m_res:get() == parentResRef then
+				duration = effect.m_effectAmount2
 				return true
 			end
 		end)
 		--
 		if duration > -1 then
 			if CGameEffect.m_effectId == 142 then -- Display portrait icon
-				if CGameEffect.m_dWFlags == 6 or CGameEffect.m_dWFlags == 101 then -- this includes the "Decaying" icon (see ``CLERIC_DOLOROUS_DECAY``)
+				if cdtweaks_PoisonSave_FeedbackIcon[CGameEffect.m_dWFlags] then
 					return true
 				end
 			elseif CGameEffect.m_effectId == 139 then -- Display string
-				if CGameEffect.m_effectAmount == 14017 or CGameEffect.m_effectAmount == 37607 then
+				-- temporarily set language to English
+				Infinity_SetLanguage("en_US", 0)
+				--
+				if cdtweaks_PoisonSave_FeedbackString[Infinity_FetchString(CGameEffect.m_effectAmount)] then
+					-- restore original language / subtitles
+					Infinity_SetLanguage(language, displaySubtitles)
+					--
 					return true
 				end
+				-- restore original language / subtitles
+				Infinity_SetLanguage(language, displaySubtitles)
 			elseif CGameEffect.m_effectId == 174 then -- Play sound
-				if CGameEffect.m_duration == duration then
+				if CGameEffect.m_duration == duration and (CGameEffect.m_durationType == 3 or CGameEffect.m_durationType == 4) then
 					return true
 				end
 			end
+		elseif CGameEffect.m_effectId == 139 then
+			-- temporarily set language to English
+			Infinity_SetLanguage("en_US", 0)
+			--
+			if cdtweaks_PoisonSave_FeedbackString[Infinity_FetchString(CGameEffect.m_effectAmount)] then
+				-- make sure instantaneous effects get applied *after* the poison opcode (so that we can properly block them)
+				if CGameEffect.m_durationType == 0 or CGameEffect.m_durationType == 1 or CGameEffect.m_durationType == 9 or CGameEffect.m_durationType == 10 then
+					-- 0-sec delay (instantaneous delay)
+					CGameEffect.m_durationType = 4
+					CGameEffect.m_duration = 0
+				end
+			end
+			-- restore original language / subtitles
+			Infinity_SetLanguage(language, displaySubtitles)
 		end
 	end
 end

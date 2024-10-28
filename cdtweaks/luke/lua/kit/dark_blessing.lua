@@ -1,4 +1,10 @@
--- cdtweaks: NWN Dark Blessing feat for Blackguards --
+--[[
++----------------------------------------------------------+
+| cdtweaks, NWN-ish Dark Blessing kit feat for Blackguards |
++----------------------------------------------------------+
+--]]
+
+-- Apply ability --
 
 EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- Sanity check
@@ -7,14 +13,13 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	end
 	-- internal function that applies the actual bonus
 	local apply = function(bonus)
-		-- Update var
-		sprite:setLocalInt("cdtweaksDarkBlessingHelper", bonus)
+		-- Update tracking var
+		sprite:setLocalInt("cdtweaksDarkBlessingBonus", bonus)
 		-- Mark the creature as 'bonus applied'
 		sprite:setLocalInt("cdtweaksDarkBlessing", 1)
 		--
 		sprite:applyEffect({
 			["effectID"] = 321, -- Remove effects by resource
-			["durationType"] = 1,
 			["res"] = "%BLACKGUARD_DARK_BLESSING%",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
@@ -47,16 +52,16 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	--
 	local bonus = math.floor((spriteCharisma - 10) / 2)
 	-- The blackguard adds its charisma bonus to all saving throws (provided it is not fallen)
-	local applyCondition = spriteClassStr == "PALADIN" and spriteKitStr == "Blackguard" and bonus and EEex_IsBitUnset(spriteFlags, 0x9)
+	local applyAbility = spriteClassStr == "PALADIN" and spriteKitStr == "Blackguard" and bonus and EEex_IsBitUnset(spriteFlags, 0x9)
 	--
 	if sprite:getLocalInt("cdtweaksDarkBlessing") == 0 then
-		if applyCondition then
+		if applyAbility then
 			apply(bonus)
 		end
 	else
-		if applyCondition then
+		if applyAbility then
 			-- Check if Charisma has changed since the last application
-			if bonus ~= sprite:getLocalInt("cdtweaksDarkBlessingHelper") then
+			if bonus ~= sprite:getLocalInt("cdtweaksDarkBlessingBonus") then
 				apply(bonus)
 			end
 		else
@@ -65,7 +70,6 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			--
 			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource
-				["durationType"] = 1,
 				["res"] = "%BLACKGUARD_DARK_BLESSING%",
 				["sourceID"] = sprite.m_id,
 				["sourceTarget"] = sprite.m_id,

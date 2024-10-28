@@ -1,4 +1,8 @@
--- Lua tables derived from .2DA / .IDS resources (it's not needed per se, but we'll be getting hash map levels of performance instead of linear search) --
+--[[
++---------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Utility: Lua tables derived from .2DA / .IDS resources (it's not needed per se, but we'll be getting hash map levels of performance instead of linear search) |
++---------------------------------------------------------------------------------------------------------------------------------------------------------------+
+--]]
 
 GT_Resource_2DA = {}
 GT_Resource_IDSToSymbol = {}

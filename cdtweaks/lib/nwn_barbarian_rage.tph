@@ -90,8 +90,8 @@ BEGIN
 	END
 	// lua
 	WITH_SCOPE BEGIN
-		OUTER_SET "feedback_strref_alreadyCast" = RESOLVE_STR_REF (@5)
-		OUTER_SET "feedback_strref_tremblingWithFear" = RESOLVE_STR_REF (@6)
+		OUTER_SET "feedback_strref_already_cast" = RESOLVE_STR_REF (@5)
+		OUTER_SET "feedback_strref_trembling_with_fear" = RESOLVE_STR_REF (@6)
 		OUTER_SET "feedback_strref_panic" = RESOLVE_STR_REF (@7)
 		OUTER_SET "feedback_strref_immune" = RESOLVE_STR_REF (@8)
 		//

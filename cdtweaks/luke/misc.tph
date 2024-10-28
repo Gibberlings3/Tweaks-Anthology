@@ -1,7 +1,7 @@
 /*
-====================================================================================
-**ADD_IDS_ENTRY** (borrowed from Argent77, tweaked by me)
-====================================================================================
++-------------------------------------------------------+
+| ADD_IDS_ENTRY (borrowed from Argent77, tweaked by me) |
++-------------------------------------------------------+
 */
 
 DEFINE_DIMORPHIC_FUNCTION "ADD_IDS_ENTRY"
@@ -83,9 +83,11 @@ BEGIN
 	END
 END
 
-////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\
-// Add a new entry to "statdesc.2da" (tweaked from CamDawg) \\
-////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\
+/*
++----------------------------------------------------------+
+| Add a new entry to "statdesc.2da" (tweaked from CamDawg) |
++----------------------------------------------------------+
+*/
 
 DEFINE_DIMORPHIC_FUNCTION "ADD_STATDESC_ENTRY"
 INT_VAR
@@ -121,9 +123,11 @@ BEGIN
 	END
 END
 
-////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\
-// Get the (english) string corresponding to StringRef "%strref%" \\
-////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\
+/*
++----------------------------------------------------------------+
+| Get the (english) string corresponding to StringRef "%strref%" |
++----------------------------------------------------------------+
+*/
 
 DEFINE_DIMORPHIC_FUNCTION "GT_GET_STRING"
 INT_VAR
@@ -140,9 +144,11 @@ BEGIN
 	BUT_ONLY_IF_IT_CHANGES
 END
 
-////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\
-// Set a var for each entry in "spell.ids" \\
-////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\
+/*
++-----------------------------------------+
+| Set a var for each entry in "spell.ids" |
++-----------------------------------------+
+*/
 
 DEFINE_ACTION_MACRO "READ_SPELL_IDS"
 BEGIN
@@ -268,10 +274,9 @@ BEGIN
 END
 
 /*
-=====================================================================================================
-**ADD_EXTENDED_STAT**
-- For use with EEex (https://eeex-docs.readthedocs.io/en/latest/EEex%20Opcodes/index.html#opcode-401)
-=====================================================================================================
++------------------------------------------------------------------------------------------------------------------------+
+| ADD_EXTENDED_STAT: For use with EEex (https://eeex-docs.readthedocs.io/en/latest/EEex%20Opcodes/index.html#opcode-401) |
++------------------------------------------------------------------------------------------------------------------------+
 */
 
 DEFINE_DIMORPHIC_FUNCTION "ADD_EXTENDED_STAT"
@@ -312,9 +317,14 @@ BEGIN
 END
 
 /*
-============================================================================================================================================================================================================
-**ADD_SPLPROT_ENTRY** - Adds a new entry to "SPLPROT.2DA" and returns its index. If an identical entry already exists it will return the index of that entry instead (borrowed from Argent77, tweaked by me)
-============================================================================================================================================================================================================
++---------------------------------------------------------------------------------------------------+
+| ADD_SPLPROT_ENTRY (borrowed from Argent77, tweaked by me)                                         |
++---------------------------------------------------------------------------------------------------+
+| Adds a new entry to "SPLPROT.2DA" and returns its index                                           |
++---------------------------------------------------------------------------------------------------+
+| return:                                                                                           |
+|     integer (if an identical entry already exists it will return the index of that entry instead) |
++---------------------------------------------------------------------------------------------------+
 */
 
 DEFINE_DIMORPHIC_FUNCTION "ADD_SPLPROT_ENTRY"
@@ -384,9 +394,9 @@ BEGIN
 END
 
 /*
-=====================================================================================================
-**APPEND_LUA_FUNCTION**
-=====================================================================================================
++---------------------+
+| APPEND_LUA_FUNCTION |
++---------------------+
 */
 
 DEFINE_DIMORPHIC_FUNCTION "APPEND_LUA_FUNCTION"
@@ -401,8 +411,8 @@ BEGIN
 	ACTION_IF !(FILE_EXISTS_IN_GAME "%destRes%.lua") BEGIN
 		COPY ".../cdtweaks-inlined/empty" "override\%destRes%.lua"
 			DELETE_BYTES 0x0 BUFFER_LENGTH
-			INSERT_BYTES 0x0 STRING_LENGTH "-- %description% --%WNL%%WNL%"
-			WRITE_ASCII 0x0 "-- %description% --%WNL%%WNL%"
+			INSERT_BYTES 0x0 STRING_LENGTH "--[[ %description% --]]%WNL%%WNL%"
+			WRITE_ASCII 0x0 "--[[ %description% --]]%WNL%%WNL%"
 		BUT_ONLY_IF_IT_CHANGES
 	END
 	//

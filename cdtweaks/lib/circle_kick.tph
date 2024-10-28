@@ -35,6 +35,7 @@ BEGIN
 	END
 	// Listener: run 'func' each time a sprite has finished evaluating its effects
 	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Class/Kit Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\class\circle_kick.lua" "destRes" = "m_gtspcl" END
+	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "AI-related stuff" "sourceFileSpec" = "cdtweaks\luke\lua\ai\object_type.lua" "destRes" = "m_gt#ai" END
 	//
 	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
 		COPY "cdtweaks\luke\lua\m_gttbls.lua" "override"

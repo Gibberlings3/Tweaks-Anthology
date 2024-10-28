@@ -1,4 +1,10 @@
--- cdtweaks, revised backstab immunity (component #2620) --
+--[[
++-------------------------------------------------------+
+| cdtweaks, revised backstab immunity (component #2620) |
++-------------------------------------------------------+
+--]]
+
+-- Apply ability --
 
 EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- Sanity check
@@ -12,7 +18,6 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		--
 		sprite:applyEffect({
 			["effectID"] = 321, -- Remove effects by resource
-			["durationType"] = 1,
 			["res"] = "CDBSTIMM",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
@@ -48,7 +53,6 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			--
 			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource
-				["durationType"] = 1,
 				["res"] = "CDBSTIMM",
 				["sourceID"] = sprite.m_id,
 				["sourceTarget"] = sprite.m_id,

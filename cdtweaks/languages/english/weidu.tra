@@ -783,30 +783,30 @@ Use Baldur.lua options: a7_interval_ini
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-@600030 = "Spontaneous Casting for Clerics [Luke]"
+@600030 = "Spontaneous Casting for Clerics [Luke (EEex)]"
 
-@600040 = "Weapon Finesse class feat for Thieves [Luke]"
+@600040 = "Weapon Finesse class feat for Thieves [Luke (EEex)]"
 
-@600050 = "Dual-Wield class feat for Rangers [Luke]"
+@600050 = "Dual-Wield class feat for Rangers [Luke (EEex)]"
 
-@600060 = "NWN-ish Armor vs. Dexterity [Luke]"
+@600060 = "NWN-ish Armor vs. Dexterity [Luke (EEex)]"
 
-@600070 = "Defensive Roll class feat for Thieves [Luke]"
+@600070 = "Defensive Roll class feat for Thieves [Luke (EEex)]"
 
-@600080 = "Divine Grace / Dark Blessing feat for Paladins / Blackguards [Luke]"
+@600080 = "Divine Grace / Dark Blessing feat for Paladins / Blackguards [Luke (EEex)]"
 
-@600090 = "Good Aim racial feat for Halflings [Luke]"
+@600090 = "Good Aim racial feat for Halflings [Luke (EEex)]"
 
-@600100 = "Cleave class feat for Fighters [Luke]"
+@600100 = "Cleave class feat for Fighters [Luke (EEex)]"
 
-@600110 = "Sneak Attack class feat for Blackguards [Luke]"
+@600110 = "Sneak Attack class feat for Blackguards [Luke (EEex)]"
 
-@600120 = "Fearless racial feat for Halflings [Luke]"
+@600120 = "Fearless racial feat for Halflings [Luke (EEex)]"
 
-@600130 = "Poison Save class feat for Assassins [Luke]"
+@600130 = "Poison Save class feat for Assassins [Luke (EEex)]"
 
-@600140 = "Planar Turning class feat for Clerics / Paladins [Luke]"
+@600140 = "Planar Turning class feat for Clerics / Paladins [Luke (EEex)]"
 
-@600150 = "Circle Kick class feat for Monks [Luke]"
+@600150 = "Circle Kick class feat for Monks [Luke (EEex)]"
 
-@600160 = "NWN-ish Barbarian Rage [Luke]"
+@600160 = "NWN-ish Barbarian Rage [Luke (EEex)]"

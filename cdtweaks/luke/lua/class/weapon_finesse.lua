@@ -1,4 +1,16 @@
--- cdtweaks: Weapon Finesse feat for Thieves --
+--[[
++---------------------------------------------------------+
+| cdtweaks, NWN-ish Weapon Finesse class feat for Thieves |
++---------------------------------------------------------+
+--]]
+
+-- Unusually large weapons --
+
+local cdtweaks_WeaponFinesse_UnusuallyLargeWeapon = {
+	["BDBONE02"] = true, -- Ettin Club +1
+}
+
+-- Apply ability --
 
 EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- Sanity check
@@ -7,14 +19,13 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	end
 	-- internal function that applies the actual bonus
 	local apply = function(value)
-		-- Update var
+		-- Update tracking var
 		sprite:setLocalInt("cdtweaksWeaponFinesseHelper", value)
 		-- Mark the creature as 'bonus applied'
 		sprite:setLocalInt("cdtweaksWeaponFinesse", 1)
 		--
 		sprite:applyEffect({
 			["effectID"] = 321, -- Remove effects by resource
-			["durationType"] = 1,
 			["res"] = "%ROGUE_WEAPON_FINESSE%",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
@@ -42,9 +53,6 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	local selectedWeaponHeader = selectedWeapon.pRes.pHeader
 	--
 	local selectedWeaponResRef = string.upper(selectedWeapon.pRes.resref:get())
-	local unusuallyLargeWeapon = {
-		["BDBONE02"] = true -- Ettin Club +1
-	}
 	--
 	local selectedWeaponAbility = EEex_Resource_GetItemAbility(selectedWeaponHeader, equipment.m_selectedWeaponAbility) -- Item_ability_st
 	--
@@ -68,8 +76,8 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	local curStrBonus = tonumber(strmod[string.format("%s", spriteSTR)]["TO_HIT"] + strmodex[string.format("%s", spriteSTRExtra)]["TO_HIT"])
 	local curDexBonus = tonumber(dexmod[string.format("%s", spriteDEX)]["MISSILE"])
 	-- if the thief is wielding a small blade / mace / club that scales with STR and "dexmod.2da" is better than "strmod.2da" + "strmodex.2da" ...
-	local applyCondition = (selectedWeaponTypeStr == "DAGGER" or selectedWeaponTypeStr == "SMSWORD" or selectedWeaponTypeStr == "MACE")
-		and not unusuallyLargeWeapon[itemResRef]
+	local applyAbility = (selectedWeaponTypeStr == "DAGGER" or selectedWeaponTypeStr == "SMSWORD" or selectedWeaponTypeStr == "MACE")
+		and not cdtweaks_WeaponFinesse_UnusuallyLargeWeapon[selectedWeaponResRef]
 		and curDexBonus > curStrBonus
 		and selectedWeaponAbility.quickSlotType == 1 -- Location: Weapon
 		and selectedWeaponAbility.type == 1 -- Type: Melee
@@ -81,11 +89,11 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			or (spriteClassStr == "CLERIC_THIEF" and (EEex_IsBitUnset(spriteFlags, 0x6) or spriteLevel1 > spriteLevel2)))
 	--
 	if sprite:getLocalInt("cdtweaksWeaponFinesse") == 0 then
-		if applyCondition then
+		if applyAbility then
 			apply(curDexBonus - curStrBonus)
 		end
 	else
-		if applyCondition then
+		if applyAbility then
 			-- Check if STR/STREx/DEX have changed since the last application
 			if (curDexBonus - curStrBonus) ~= sprite:getLocalInt("cdtweaksWeaponFinesseHelper") then
 				apply(curDexBonus - curStrBonus)
@@ -96,7 +104,6 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			--
 			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource
-				["durationType"] = 1,
 				["res"] = "%ROGUE_WEAPON_FINESSE%",
 				["sourceID"] = sprite.m_id,
 				["sourceTarget"] = sprite.m_id,

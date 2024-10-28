@@ -1,4 +1,10 @@
--- cdtweaks: NWN-ish Armor vs. Dexterity --
+--[[
++---------------------------------------+
+| cdtweaks, NWN-ish Armor vs. Dexterity |
++---------------------------------------+
+--]]
+
+-- Apply condition --
 
 EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- Sanity check
@@ -14,7 +20,6 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		--
 		sprite:applyEffect({
 			["effectID"] = 321, -- Remove effects by resource
-			["durationType"] = 1,
 			["res"] = "GTRULE00",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
@@ -35,9 +40,9 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	local armorTypeStr = nil
 	local armorAnimation = nil
 	if armor then -- if the character is equipped with an armor...
-		local itemHeader = armor.pRes.pHeader -- Item_Header_st
-		armorTypeStr = GT_Resource_IDSToSymbol["itemcat"][itemHeader.itemType]
-		armorAnimation = EEex_CastUD(itemHeader.animationType, "CResRef"):get() -- certain engine types are nonsensical. We usually create fixups for the bindings whenever we run into them. We'll need to cast the value to properly read them
+		local pHeader = armor.pRes.pHeader -- Item_Header_st
+		armorTypeStr = GT_Resource_IDSToSymbol["itemcat"][pHeader.itemType]
+		armorAnimation = EEex_CastUD(pHeader.animationType, "CResRef"):get() -- certain engine types are nonsensical. We usually create fixups for the bindings whenever we run into them. We'll need to cast the value to properly read them
 	end
 	--
 	local dexmod = GT_Resource_2DA["dexmod"]
@@ -75,7 +80,6 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			--
 			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource
-				["durationType"] = 1,
 				["res"] = "GTRULE00",
 				["sourceID"] = sprite.m_id,
 				["sourceTarget"] = sprite.m_id,
