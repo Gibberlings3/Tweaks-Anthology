@@ -1,33 +1,35 @@
--- cdtweaks, make grease ignitable: greased targets suffer 3d6 additional fire damage per 1d3 rounds (save vs. breath for half) --
+--[[
++-----------------------+
+| Make Grease ignitable |
++-----------------------+
+--]]
+
+-- greased targets suffer 3d6 additional fire damage per 1d3 rounds (save vs. breath for half) --
 
 function GTGRSFLM(op403CGameEffect, CGameEffect, CGameSprite)
 	local dmgtype = GT_Resource_SymbolToIDS["dmgtype"]
 	--
 	local roll = Infinity_RandomNumber(1, 3)
 	--
-	local spriteDerivedStats = CGameSprite.m_derivedStats
-	local spriteBonusStats = CGameSprite.m_bonusStats
+	local spriteActiveStats = EEex_Sprite_GetActiveStats(CGameSprite)
 	--
-	local spriteResistFire = spriteDerivedStats.m_nResistFire + spriteBonusStats.m_nResistFire
-	local spriteResistMagic = spriteDerivedStats.m_nResistMagic + spriteBonusStats.m_nResistMagic
-	--
-	local spriteResistMagicRoll = CGameSprite.m_magicResistRoll
+	local spriteMagicResistRoll = CGameSprite.m_magicResistRoll
 	--
 	local savingThrowTable = {
-		[0x0] = {CGameSprite.m_saveVSSpellRoll, spriteDerivedStats.m_nSaveVSSpell + spriteBonusStats.m_nSaveVSSpell},
-		[0x1] = {CGameSprite.m_saveVSBreathRoll, spriteDerivedStats.m_nSaveVSBreath + spriteBonusStats.m_nSaveVSBreath},
-		[0x2] = {CGameSprite.m_saveVSDeathRoll, spriteDerivedStats.m_nSaveVSDeath + spriteBonusStats.m_nSaveVSDeath},
-		[0x3] = {CGameSprite.m_saveVSWandsRoll, spriteDerivedStats.m_nSaveVSWands + spriteBonusStats.m_nSaveVSWands},
-		[0x4] = {CGameSprite.m_saveVSPolyRoll, spriteDerivedStats.m_nSaveVSPoly + spriteBonusStats.m_nSaveVSPoly}
+		[0x0] = {CGameSprite.m_saveVSSpellRoll, spriteActiveStats.m_nSaveVSSpell},
+		[0x1] = {CGameSprite.m_saveVSBreathRoll, spriteActiveStats.m_nSaveVSBreath},
+		[0x2] = {CGameSprite.m_saveVSDeathRoll, spriteActiveStats.m_nSaveVSDeath},
+		[0x3] = {CGameSprite.m_saveVSWandsRoll, spriteActiveStats.m_nSaveVSWands},
+		[0x4] = {CGameSprite.m_saveVSPolyRoll, spriteActiveStats.m_nSaveVSPoly}
 	}
 	--
 	local immunityToDamage = EEex_Trigger_ParseConditionalString("EEex_IsImmuneToOpcode(Myself,12)")
 	--
 	if CGameEffect.m_effectId == 0xC and EEex_IsMaskSet(CGameEffect.m_dWFlags, dmgtype["FIRE"]) and CGameEffect.m_sourceRes:get() ~= "CDFLMGRS" then
-		if spriteResistFire < 100 then
+		if spriteActiveStats.m_nResistFire < 100 then
 			if not immunityToDamage:evalConditionalAsAIBase(CGameSprite) then
 				-- op403 "sees" effects after they have passed their probability roll, but before any saving throws have been made against said effect / other immunity mechanisms have taken place
-				if spriteResistMagicRoll >= spriteResistMagic then
+				if spriteMagicResistRoll >= spriteActiveStats.m_nResistMagic then
 					local success = false
 					--
 					for k, v in pairs(savingThrowTable) do
@@ -66,7 +68,7 @@ function GTGRSFLM(op403CGameEffect, CGameEffect, CGameSprite)
 								--
 								for _, attributes in ipairs(effectCodes) do
 									CGameSprite:applyEffect({
-										["effectID"] = attributes["op"] or -1,
+										["effectID"] = attributes["op"] or EEex_Error("opcode number not specified"),
 										["dwFlags"] = attributes["p2"] or 0,
 										["savingThrow"] = attributes["stype"] or 0,
 										["special"] = attributes["spec"] or 0,
@@ -95,16 +97,16 @@ function GTGRSFLM(op403CGameEffect, CGameEffect, CGameSprite)
 	immunityToDamage:free()
 end
 
--- cdtweaks, make grease ignitable: greased targets suffer 3d6 additional fire damage per 1d3 rounds (save vs. breath for half) --
+-- greased targets suffer 3d6 additional fire damage per 1d3 rounds (save vs. breath for half) --
 
 EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- Sanity check
 	if not EEex_GameObject_IsSprite(sprite) then
 		return
 	end
-	-- internal function that applies the actual feat
+	-- internal function that applies the actual condition
 	local apply = function()
-		-- Mark the creature as 'feat applied'
+		-- Mark the creature as 'condition applied'
 		sprite:setLocalInt("cdtweaksMakeGreaseIgnitable", 1)
 		--
 		sprite:applyEffect({
@@ -135,7 +137,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		if applyCondition then
 			-- do nothing
 		else
-			-- Mark the creature as 'feat removed'
+			-- Mark the creature as 'condition removed'
 			sprite:setLocalInt("cdtweaksMakeGreaseIgnitable", 0)
 			--
 			sprite:applyEffect({

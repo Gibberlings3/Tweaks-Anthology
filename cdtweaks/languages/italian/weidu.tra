@@ -410,33 +410,7 @@ o rimpiazzata da - un'altra facente parte di uno dei mods installati.~
 // @257000 = ~BGT: Limite di esperienza aggiuntivo mentre sei in BG~
 // @257100 = ~BGT: Limite di esperienza aggiuntivo in SoA~ 
 
-@265000 = "Aggiungi talento di classe Lancio Spontaneo per i Chierici [Luke]"
-
-@266000 = "Aggiungi talento Arma Preferita per i Ladri [Luke]"
-
-@267000 = "Aggiungi talento Doppia-Presa per i Ranger [Luke]"
-
-@269000 = "Armatura vs. Destrezza in stile NWN [Luke]"
-
-@270000 = "Aggiungi talento Tiro Difensivo per i ladri [Luke]"
-
-@271000 = "Grazia Divina / Benedizione Oscura per Paladini / Guardie Nere [Luke]"
-
-@272000 = "Aggiungi talento razziale Buona Mira per gli Halfling [Luke]"
-
-@273000 = "Aggiungi talento di classe Incalzare per i Guerrieri [Luke]"
-
-@274000 = "Aggiungi talento di classe Attacco Furtivo per Guardie Nere [Luke]"
-
-@275000 = "Aggiungi talento razziale Temerario per gli Halfling [Luke]"
-
-@276000 = "Aggiungi talento di classe Resistenza ai Veleni per Assassini [Luke]"
-
-@277000 = "Aggiungi talento di classe Scacciare Creature Extraplanari per Paladini e Chierici [Luke]"
-
-@278000 = "Aggiungi talento di classe Calcio Rotante per i Monaci [Luke]"
-
-@283000 = "Rendi Unto infiammabile [Luke]"
+@265000 = "Rendi Unto infiammabile [Luke (EEex)]"
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
