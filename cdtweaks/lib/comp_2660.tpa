@@ -1,15 +1,15 @@
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-/////                                                            \\\\\
-///// Weapon Finesse for Thieves                                 \\\\\
-/////                                                            \\\\\
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////                                                                           /////
+///// Make Bears and Boars continue fighting after reaching 0 hit points        \\\\\
+/////                                                                           \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
 
 WITH_SCOPE BEGIN
   INCLUDE "cdtweaks\luke\misc.tph"
-  INCLUDE "cdtweaks\lib\weapon_finesse.tph"
-  WITH_TRA "cdtweaks\languages\english\weapon_finesse.tra" "cdtweaks\languages\%LANGUAGE%\weapon_finesse.tra" BEGIN
-    LAF "WEAPON_FINESSE" END
-  END
+  //
+  INCLUDE "cdtweaks\lib\innate_animal_last_stand.tph"
+  //
+  LAF "INNATE_ANIMAL_LAST_STAND" END
 END

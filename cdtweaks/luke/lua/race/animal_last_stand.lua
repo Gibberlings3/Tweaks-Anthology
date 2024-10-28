@@ -1,4 +1,8 @@
--- cdtweaks, Last Stand innate feat for Bears and Boars: op208 grants protection from directly applied op13, so make sure to kill the creature --
+--[[
++------------------------------------------------------+
+| cdtweaks, Last Stand innate feat for Bears and Boars |
++------------------------------------------------------+
+--]]
 
 --[[function %INNATE_ANIMAL_LAST_STAND%(op403CGameEffect, CGameEffect, CGameSprite)
 	local immunityToKill = EEex_Trigger_ParseConditionalString("EEex_IsImmuneToOpcode(Myself,13)")
@@ -29,7 +33,7 @@
 	end
 end--]]
 
--- cdtweaks, Last Stand innate feat for Bears and Boars: The boar/bear will fight for (1d4/1d4+1) rounds after reaching 0 hit points. The creature will go berserk attacking friends and foes alike
+-- The boar/bear will fight for (1d4/1d4+1) rounds after reaching 0 hit points. The creature will go berserk attacking friends and foes alike --
 
 EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- Sanity check
@@ -59,7 +63,9 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	local roll = modifier + Infinity_RandomNumber(1, 4) -- 1d4 / 1d4+1
 	--
 	if sprite:getLocalInt("cdtweaksAnimalLastStand") == 1 then
-		if sprite.m_nLastDamageTaken >= sprite.m_baseStats.m_hitPoints and not GT_Utility_EffectCheck(sprite, {["m_effectId"] = 55, ["m_sourceRes"] = "%INNATE_ANIMAL_LAST_STAND%B"}) then
+		if sprite.m_nLastDamageTaken >= sprite.m_baseStats.m_hitPoints and sprite:getLocalInt("gtAnimalRunningWild") == 0 then
+			sprite:setLocalInt("gtAnimalRunningWild", 1)
+			--
 			local lastHitter = EEex_GameObject_Get(sprite.m_lHitter.m_Instance)
 			--
 			local effectCodes = {
@@ -67,17 +73,19 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 				{["op"] = 176, ["p2"] = 5, ["p1"] = 200, ["dur"] = 6 * roll}, -- movement rate bonus (200%)
 				{["op"] = 215, ["res"] = "ICSTRENI", ["p2"] = 1, ["dur"] = 2}, -- play visual effect (over target: attached)
 				{["op"] = 142, ["p2"] = 4, ["dur"] = 6 * roll}, -- icon: berserk
+				{["op"] = 187, ["p1"] = 0, ["effvar"] = "gtAnimalRunningWild", ["dur"] = 6 * roll, ["tmg"] = 4}, -- set local var (reset to 0 in case the animal gets resurrected)
 				{["op"] = 55, ["p2"] = 2, ["dur"] = 6 * roll, ["tmg"] = 4}, -- slay creature
 			}
 			--
 			for _, attributes in ipairs(effectCodes) do
 				sprite:applyEffect({
-					["effectID"] = attributes["op"] or -1,
+					["effectID"] = attributes["op"] or EEex_Error("opcode number not specified"),
 					["effectAmount"] = attributes["p1"] or 0,
 					["dwFlags"] = attributes["p2"] or 0,
 					["res"] = attributes["res"] or "",
 					["duration"] = attributes["dur"] or 0,
 					["durationType"] = attributes["tmg"] or 0,
+					["m_scriptName"] = attributes["effvar"] or "",
 					["m_sourceRes"] = "%INNATE_ANIMAL_LAST_STAND%B",
 					["m_sourceType"] = 1,
 					["noSave"] = true,
@@ -89,7 +97,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	end
 end)
 
--- cdtweaks, Last Stand innate feat for Bears and Boars: Apply passive trait --
+-- Apply passive trait --
 
 EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- Sanity check

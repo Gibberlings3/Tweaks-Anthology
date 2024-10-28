@@ -457,35 +457,7 @@ The uninstall messages above are normal and expected.
 
 @264000 = "PnP Potions [Luke]"
 
-@265000 = "Spontaneous Casting for Clerics [Luke]"
-
-@266000 = "Weapon Finesse feat for Thieves [Luke]"
-
-@267000 = "Dual-Wield feat for Rangers [Luke]"
-
-@268000 = ~"Force" the Archer kit to use bows [Luke]~
-
-@269000 = "NWN-ish Armor vs. Dexterity [Luke]"
-
-@270000 = "Defensive Roll feat for Thieves [Luke]"
-
-@271000 = "Divine Grace / Dark Blessing feat for Paladins / Blackguards [Luke]"
-
-@272000 = "Good Aim racial feat for Halflings [Luke]"
-
-@273000 = "Cleave Feat for Fighters [Luke]"
-
-@274000 = "Sneak Attack class feat for Blackguards [Luke]"
-
-@275000 = "Fearless racial feat for Halflings [Luke]"
-
-@276000 = "Poison Save class feat for Assassins [Luke]"
-
-@277000 = "Planar Turning class feat for Clerics / Paladins [Luke]"
-
-@278000 = "Circle Kick class feat for Monks [Luke]"
-
-@282000 = "Make Bears and Boars continue fighting after reaching 0 hit points [Luke]"
+@266000 = "Make Bears and Boars continue fighting after reaching 0 hit points [Luke (EEex)]"
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
