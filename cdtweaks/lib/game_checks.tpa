@@ -1,0 +1,63 @@
+/////                                                  \\\\\
+///// setting game_is and game_includes                \\\\\
+/////                                                  \\\\\
+
+/*
+
+because GAME_IS checks are generally slow (especially in a
+broad, regexp copy) we do all of our game checks up front
+and use variables throughout the mod instead. note that these
+can't be used in require_predicate since those are checked
+prior to any code being executed. Ideally you'd do this once
+in an ALWAYS block. 
+
+Instead of a GAME_IS BGEE check, just check the game_is_bgee 
+variable instead. A variable is generated for every GAME_IS and 
+GAME_INCLUDES option, and several meta-game variables such as
+original_iwd or enhanced_edition are also generated. 
+
+used:
+  Spell-50, as spell50/lib/game_checks.tpa
+  The Calling, as thecalling/lib/game_checks.tpa
+
+platform:
+  all games
+ 
+version history: 
+  unknown
+
+*/
+
+<<<<<<<< ./inline/always_checks.tpa
+ACTION_IF %check% %gamecheck% BEGIN
+  OUTER_SET ~%var%_%gamecheck%~ = 1
+END ELSE BEGIN
+  OUTER_SET ~%var%_%gamecheck%~ = 0
+END
+>>>>>>>>
+
+OUTER_SPRINT check ~GAME_IS~
+OUTER_SPRINT var ~game_is~
+ACTION_FOR_EACH gamecheck IN bg1 totsc soa tob iwd how totlm iwd2 pst bgee bg2ee iwdee pstee tutu tutu_totsc bgt eet ca iwd-in-bg2 BEGIN
+  COPY ~./inline/always_checks.tpa~ ~weidu_external/%MOD_FOLDER%/always_checks.tpa~ EVALUATE_BUFFER
+  REINCLUDE ~weidu_external/%MOD_FOLDER%/always_checks.tpa~
+END
+ 
+OUTER_SPRINT check ~GAME_INCLUDES~
+OUTER_SPRINT var ~game_includes~
+ACTION_FOR_EACH gamecheck IN bg1 totsc soa tob iwd how totlm iwd2 pst ca sod BEGIN
+  COPY ~./inline/always_checks.tpa~ ~weidu_external/%MOD_FOLDER%/always_checks.tpa~ EVALUATE_BUFFER
+  REINCLUDE ~weidu_external/%MOD_FOLDER%/always_checks.tpa~
+END
+
+DELETE ~weidu_external/%MOD_FOLDER%/always_checks.tpa~ // tidying up
+
+ACTION_IF game_is_iwd  OR game_is_how OR game_is_totlm BEGIN OUTER_SET original_iwd = 1 END ELSE BEGIN OUTER_SET original_iwd = 0 END 
+ACTION_IF game_is_bg1  OR game_is_totsc                BEGIN OUTER_SET original_bg1 = 1 END ELSE BEGIN OUTER_SET original_bg1 = 0 END 
+ACTION_IF game_is_soa  OR game_is_tob                  BEGIN OUTER_SET original_bg2 = 1 END ELSE BEGIN OUTER_SET original_bg2 = 0 END 
+ACTION_IF game_is_tutu OR game_is_tutu_totsc           BEGIN OUTER_SET tutu_gen     = 1 END ELSE BEGIN OUTER_SET tutu_gen     = 0 END 
+
+OUTER_SET enhanced_edition = 0
+ACTION_IF game_is_bgee OR game_is_bg2ee OR game_is_iwdee OR game_is_eet OR game_is_pstee BEGIN // ee games
+  OUTER_SET enhanced_edition = 1
+END  

@@ -103,6 +103,8 @@ LANGUAGE
 LANGUAGE
   ~Simplified Chinese (Translation by c4_angel, distance20; oriignal BG2 Tweaks by Miranda; new string trans by Lewis Liu)~
   ~schinese~
+  ~cdtweaks/languages/english/game.tra~
+  ~cdtweaks/languages/english/weidu.tra~
   ~cdtweaks/languages/schinese/game.tra~
   ~cdtweaks/languages/schinese/weidu.tra~
 
@@ -592,6 +594,80 @@ GROUP @11
 SUBCOMPONENT @24000
 REQUIRE_PREDICATE !GAME_IS ~pst pstee iwd2 iwd how totlm~ @25
 LABEL ~cd_tweaks_outline_white_spell_icons_with_gray~
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
+///// Colorize NPC names and tooltips                            \\\\\
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+/////                                                            \\\\\
+///// Normal brightness                                          \\\\\
+/////                                                            \\\\\
+
+BEGIN @25001 DESIGNATED 250
+GROUP @11
+SUBCOMPONENT @25000
+REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet iwdee~ @25
+REQUIRE_PREDICATE FILE_EXISTS_IN_GAME ~ui.menu~ @25
+LABEL ~cd_tweaks_colorize_npc_names_brightness_normal~
+
+/////                                                            \\\\\
+///// Slightly increased brightness                              \\\\\
+/////                                                            \\\\\
+
+BEGIN @25100 DESIGNATED 251
+GROUP @11
+SUBCOMPONENT @25000
+REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet iwdee~ @25
+REQUIRE_PREDICATE FILE_EXISTS_IN_GAME ~ui.menu~ @25
+LABEL ~cd_tweaks_colorize_npc_names_brightness_increased_slightly~
+
+/////                                                            \\\\\
+///// Moderately increased brightness                            \\\\\
+/////                                                            \\\\\
+
+BEGIN @25200 DESIGNATED 252
+GROUP @11
+SUBCOMPONENT @25000
+REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet iwdee~ @25
+REQUIRE_PREDICATE FILE_EXISTS_IN_GAME ~ui.menu~ @25
+LABEL ~cd_tweaks_colorize_npc_names_brightness_increased_moderately~
+
+/////                                                            \\\\\
+///// Slightly decreased brightness                              \\\\\
+/////                                                            \\\\\
+
+BEGIN @25300 DESIGNATED 253
+GROUP @11
+SUBCOMPONENT @25000
+REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet iwdee~ @25
+REQUIRE_PREDICATE FILE_EXISTS_IN_GAME ~ui.menu~ @25
+LABEL ~cd_tweaks_colorize_npc_names_brightness_decreased_slightly~
+
+/////                                                            \\\\\
+///// Moderately decreased brightness                            \\\\\
+/////                                                            \\\\\
+
+BEGIN @25400 DESIGNATED 254
+GROUP @11
+SUBCOMPONENT @25000
+REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet iwdee~ @25
+REQUIRE_PREDICATE FILE_EXISTS_IN_GAME ~ui.menu~ @25
+LABEL ~cd_tweaks_colorize_npc_names_brightness_decreased_moderately~
+
+/////                                                            \\\\\
+///// Original color                                             \\\\\
+/////                                                            \\\\\
+
+BEGIN @25500 DESIGNATED 255
+GROUP @11
+SUBCOMPONENT @25000
+REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet iwdee~ @25
+REQUIRE_PREDICATE FILE_EXISTS_IN_GAME ~ui.menu~ @25
+LABEL ~cd_tweaks_colorize_npc_names_color_original~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -2729,10 +2805,6 @@ BEGIN @265000 DESIGNATED 2650
 GROUP @9
 REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet iwdee~ @25
 REQUIRE_PREDICATE MOD_IS_INSTALLED "EEex.tp2" 0 @29
-REQUIRE_PREDICATE RESOURCE_CONTAINS "spell.ids" "CLERIC_CAUSE_LIGHT_WOUNDS" @30
-REQUIRE_PREDICATE RESOURCE_CONTAINS "spell.ids" "CLERIC_CURE_MODERATE_WOUNDS" @30
-REQUIRE_PREDICATE RESOURCE_CONTAINS "spell.ids" "CLERIC_CAUSE_MODERATE_WOUNDS" @30
-REQUIRE_PREDICATE RESOURCE_CONTAINS "spell.ids" "CLERIC_CAUSE_MEDIUM_WOUNDS" @30
 REQUIRE_PREDICATE FILE_EXISTS ~cdtweaks/languages/%LANGUAGE%/spontaneous_casting.tra~ @7
 LABEL ~cd_tweaks_spontaneous_casting~
 
@@ -2763,6 +2835,160 @@ GROUP @9
 REQUIRE_PREDICATE MOD_IS_INSTALLED ~EEex.tp2~ 0 @29
 REQUIRE_PREDICATE FILE_EXISTS ~cdtweaks/languages/%LANGUAGE%/dual_wield.tra~ @7
 LABEL ~cd_tweaks_dual_wield~
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
+///// "Force" the Archer kit to use bows                         \\\\\
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @268000 DESIGNATED 2680
+GROUP @9
+REQUIRE_PREDICATE MOD_IS_INSTALLED ~EEex.tp2~ 0 @29
+REQUIRE_PREDICATE FILE_EXISTS ~cdtweaks/languages/%LANGUAGE%/revised_archer.tra~ @7
+LABEL ~cd_tweaks_revised_archer~
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
+///// NWN-ish Armor vs. Dexterity                                \\\\\
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @269000 DESIGNATED 2690
+GROUP @9
+REQUIRE_PREDICATE MOD_IS_INSTALLED ~EEex.tp2~ 0 @29
+REQUIRE_PREDICATE FILE_EXISTS ~cdtweaks/languages/%LANGUAGE%/nwn-ish_armor_vs_dex.tra~ @7
+LABEL ~cd_tweaks_nwn-ish_armor_vs_dex~
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
+///// Defensive Roll feat for Thieves                            \\\\\
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @270000 DESIGNATED 2700
+GROUP @9
+REQUIRE_PREDICATE MOD_IS_INSTALLED ~EEex.tp2~ 0 @29
+REQUIRE_PREDICATE FILE_EXISTS ~cdtweaks/languages/%LANGUAGE%/defensive_roll.tra~ @7
+LABEL ~cd_tweaks_defensive_roll~
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////                                                            \\\\\/////
+///// Divine Grace / Dark Blessing feat for Paladins / Blackguards    \\\\\
+/////                                                            \\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+
+BEGIN @271000 DESIGNATED 2710
+GROUP @9
+REQUIRE_PREDICATE MOD_IS_INSTALLED ~EEex.tp2~ 0 @29
+REQUIRE_PREDICATE FILE_EXISTS ~cdtweaks/languages/%LANGUAGE%/divine_grace_dark_blessing.tra~ @7
+LABEL ~cd_tweaks_divine_grace_dark_blessing~
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
+///// Good Aim feat for Halflings                                \\\\\
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @272000 DESIGNATED 2720
+GROUP @9
+REQUIRE_PREDICATE MOD_IS_INSTALLED ~EEex.tp2~ 0 @29
+REQUIRE_PREDICATE FILE_EXISTS ~cdtweaks/languages/%LANGUAGE%/good_aim.tra~ @7
+LABEL ~cd_tweaks_good_aim~
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////                                                            \\\\\/////
+///// Cleave feat for Fighters                                        \\\\\
+/////                                                            \\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+
+BEGIN @273000 DESIGNATED 2730
+GROUP @9
+REQUIRE_PREDICATE MOD_IS_INSTALLED ~EEex.tp2~ 0 @29
+REQUIRE_PREDICATE FILE_EXISTS ~cdtweaks/languages/%LANGUAGE%/cleave.tra~ @7
+LABEL ~cd_tweaks_cleave~
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////                                                            \\\\\/////
+///// Sneak Attack class feat Blackguards                             \\\\\
+/////                                                            \\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+
+BEGIN @274000 DESIGNATED 2740
+GROUP @9
+REQUIRE_PREDICATE MOD_IS_INSTALLED ~EEex.tp2~ 0 @29
+REQUIRE_PREDICATE FILE_EXISTS ~cdtweaks/languages/%LANGUAGE%/sneakatt_blackguard.tra~ @7
+LABEL ~cd_tweaks_sneakatt_blackguard~
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////                                                            \\\\\/////
+///// Fearless racial feat for Halflings                              \\\\\
+/////                                                            \\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+
+BEGIN @275000 DESIGNATED 2750
+GROUP @9
+REQUIRE_PREDICATE MOD_IS_INSTALLED ~EEex.tp2~ 0 @29
+REQUIRE_PREDICATE FILE_EXISTS ~cdtweaks/languages/%LANGUAGE%/fearless.tra~ @7
+LABEL ~cd_tweaks_fearless~
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////                                                            \\\\\/////
+///// Poison Save class feat for Assassins                            \\\\\
+/////                                                            \\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+
+BEGIN @276000 DESIGNATED 2760
+GROUP @9
+REQUIRE_PREDICATE MOD_IS_INSTALLED ~EEex.tp2~ 0 @29
+REQUIRE_PREDICATE FILE_EXISTS ~cdtweaks/languages/%LANGUAGE%/poison_save.tra~ @7
+LABEL ~cd_tweaks_poison_save~
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////                                                            \\\\\/////
+///// Planar Turning class feat for Paladins / Clerics                \\\\\
+/////                                                            \\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+
+BEGIN @277000 DESIGNATED 2770
+GROUP @9
+REQUIRE_PREDICATE MOD_IS_INSTALLED ~EEex.tp2~ 0 @29
+REQUIRE_PREDICATE FILE_EXISTS ~cdtweaks/languages/%LANGUAGE%/planar_turning.tra~ @7
+LABEL ~cd_tweaks_planar_turning~
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////                                                            \\\\\/////
+///// Circle Kick class feat for Monks                                \\\\\
+/////                                                            \\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+
+BEGIN @278000 DESIGNATED 2780
+GROUP @9
+REQUIRE_PREDICATE MOD_IS_INSTALLED ~EEex.tp2~ 0 @29
+REQUIRE_PREDICATE FILE_EXISTS ~cdtweaks/languages/%LANGUAGE%/circle_kick.tra~ @7
+LABEL ~cd_tweaks_circle_kick~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -4145,6 +4371,55 @@ GROUP @4
 REQUIRE_PREDICATE ((GAME_IS ~tob bg2ee bgt eet iwdee how totlm iwd-in-bg2~) OR (MOD_IS_INSTALLED ~iwdification/setup-iwdification.tp2~ ~110~)) @25 // games with tracking, or tracking via IWDification
 LABEL ~cd_tweaks_automatic_ranger_tracking~
 
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
+///// Restored Loading Hints                                     \\\\\
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @340000 DESIGNATED 3400
+GROUP @4
+REQUIRE_PREDICATE (GAME_IS ~bgee bg2ee eet iwdee~ &&
+                   VALID_SCRIPT_TRIGGERS ~INI("key",0)~) @25 // This component is not available for your game.
+LABEL ~cd_tweaks_restored_loading_hints~
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
+///// Explicit Cast Warnings                                     \\\\\
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+/////                                                            \\\\\
+///// mage and priest                                            \\\\\
+/////                                                            \\\\\
+
+BEGIN @341001 DESIGNATED 3410
+GROUP @4
+SUBCOMPONENT @341000
+LABEL ~cd_tweaks_casting_warnings_mp~
+
+/////                                                            \\\\\
+///// mage, priest and innate                                    \\\\\
+/////                                                            \\\\\
+
+BEGIN @341100 DESIGNATED 3411
+GROUP @4
+SUBCOMPONENT @341000
+LABEL ~cd_tweaks_casting_warnings_mpi~
+
+/////                                                            \\\\\
+///// all                                                        \\\\\
+/////                                                            \\\\\
+
+BEGIN @341200 DESIGNATED 3412
+GROUP @4
+SUBCOMPONENT @341000
+LABEL ~cd_tweaks_casting_warnings_all~
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -4521,6 +4796,7 @@ LABEL ~cd_tweaks_removable_npc_items~
 /////                                                            \\\\\
 
 BEGIN @419001 DESIGNATED 4190 // Don't Color the PC's Name
+DEPRECATED @18 // not working well
 SUBCOMPONENT @419000 // Color NPC Names in Dialogues, Journal Entries, Etc.
 GROUP @0
 REQUIRE_PREDICATE GAME_IS ~bgee bg2ee iwdee eet~ @25
@@ -4531,6 +4807,7 @@ LABEL ~cd_tweaks_color_npc_names_pc_none~
 /////                                                            \\\\\
 
 BEGIN @419100 DESIGNATED 4191 // Also Color the PC's Name: Gray
+DEPRECATED @18 // not working well
 SUBCOMPONENT @419000 // Color NPC Names in Dialogues, Journal Entries, Etc.
 GROUP @0
 REQUIRE_PREDICATE GAME_IS ~bgee bg2ee iwdee eet~ @25
@@ -4541,6 +4818,7 @@ LABEL ~cd_tweaks_color_npc_names_pc_gray~
 /////                                                            \\\\\
 
 BEGIN @419200 DESIGNATED 4192 // Also Color the PC's Name: Brown
+DEPRECATED @18 // not working well
 SUBCOMPONENT @419000 // Color NPC Names in Dialogues, Journal Entries, Etc.
 GROUP @0
 REQUIRE_PREDICATE GAME_IS ~bgee bg2ee iwdee eet~ @25
@@ -4551,6 +4829,7 @@ LABEL ~cd_tweaks_color_npc_names_pc_brown~
 /////                                                            \\\\\
 
 BEGIN @419300 DESIGNATED 4193 // Also Color the PC's Name: Red
+DEPRECATED @18 // not working well
 SUBCOMPONENT @419000 // Color NPC Names in Dialogues, Journal Entries, Etc.
 GROUP @0
 REQUIRE_PREDICATE GAME_IS ~bgee bg2ee iwdee eet~ @25
@@ -4561,6 +4840,7 @@ LABEL ~cd_tweaks_color_npc_names_pc_red~
 /////                                                            \\\\\
 
 BEGIN @419400 DESIGNATED 4194 // Also Color the PC's Name: Purple
+DEPRECATED @18 // not working well
 SUBCOMPONENT @419000 // Color NPC Names in Dialogues, Journal Entries, Etc.
 GROUP @0
 REQUIRE_PREDICATE GAME_IS ~bgee bg2ee iwdee eet~ @25
@@ -4571,6 +4851,7 @@ LABEL ~cd_tweaks_color_npc_names_pc_purple~
 /////                                                            \\\\\
 
 BEGIN @419500 DESIGNATED 4195 // Also Color the PC's Name: Blue
+DEPRECATED @18 // not working well
 SUBCOMPONENT @419000 // Color NPC Names in Dialogues, Journal Entries, Etc.
 GROUP @0
 REQUIRE_PREDICATE GAME_IS ~bgee bg2ee iwdee eet~ @25
@@ -4581,6 +4862,7 @@ LABEL ~cd_tweaks_color_npc_names_pc_blue~
 /////                                                            \\\\\
 
 BEGIN @419600 DESIGNATED 4196 // Also Color the PC's Name: Green
+DEPRECATED @18 // not working well
 SUBCOMPONENT @419000 // Color NPC Names in Dialogues, Journal Entries, Etc.
 GROUP @0
 REQUIRE_PREDICATE GAME_IS ~bgee bg2ee iwdee eet~ @25
@@ -4591,6 +4873,7 @@ LABEL ~cd_tweaks_color_npc_names_pc_green~
 /////                                                            \\\\\
 
 BEGIN @419700 DESIGNATED 4197 // Also Color the PC's Name: Yellow
+DEPRECATED @18 // not working well
 SUBCOMPONENT @419000 // Color NPC Names in Dialogues, Journal Entries, Etc.
 GROUP @0
 REQUIRE_PREDICATE GAME_IS ~bgee bg2ee iwdee eet~ @25
@@ -4601,7 +4884,22 @@ LABEL ~cd_tweaks_color_npc_names_pc_yellow~
 /////                                                            \\\\\
 
 BEGIN @419800 DESIGNATED 4198 // Also Color the PC's Name: Orange
+DEPRECATED @18 // not working well
 SUBCOMPONENT @419000 // Color NPC Names in Dialogues, Journal Entries, Etc.
 GROUP @0
 REQUIRE_PREDICATE GAME_IS ~bgee bg2ee iwdee eet~ @25
 LABEL ~cd_tweaks_color_npc_names_pc_orange~
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
+///// Make Rancor +1 a bit more reliable                         \\\\\
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @420000 DESIGNATED 4200
+GROUP @0
+REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ @25
+REQUIRE_PREDICATE MOD_IS_INSTALLED "EEex.tp2" 0 @29
+LABEL ~cd_tweaks_dorns_sword~

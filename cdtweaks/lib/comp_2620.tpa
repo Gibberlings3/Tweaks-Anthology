@@ -100,6 +100,7 @@ END
  
 //DEFINE_ACTION_FUNCTION "BACKSTAB_IMMUNITY"
 //BEGIN
+ACTION_IF !(MOD_IS_INSTALLED ~EEex.tp2~ 0) BEGIN
   WITH_SCOPE BEGIN    
   
     ACTION_FOR_EACH entry IN undead plant weapon BEGIN
@@ -209,4 +210,12 @@ END
       END
     BUT_ONLY_IF_IT_CHANGES
   END
-//END
+END ELSE BEGIN
+  INCLUDE "cdtweaks\luke\misc.tph"
+  //
+  LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Listeners" "sourceFileSpec" = "cdtweaks\luke\lua\revised_backstab_immunity.lua" "destRes" = "m_gtlstn" END
+  //
+  ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
+    COPY "cdtweaks\luke\lua\m_gttbls.lua" "override"
+  END
+END

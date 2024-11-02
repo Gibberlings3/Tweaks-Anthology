@@ -13,10 +13,6 @@
 
 INCLUDE ~cdtweaks/lib/increased_party_movement_speed.tpa~
 
-ACTION_IF (FILE_EXISTS ~cdtweaks/cdtweaks.txt~) THEN BEGIN
-  INCLUDE ~cdtweaks/cdtweaks.txt~ // config file
-END
-
 ACTION_IF (NOT VARIABLE_IS_SET ~party_movement_speed_enabled~) BEGIN
   OUTER_SET party_movement_speed_enabled = 1
 END

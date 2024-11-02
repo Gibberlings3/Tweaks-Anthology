@@ -1,69 +1,18 @@
 DEFINE_ACTION_FUNCTION "DUAL_WIELD"
 BEGIN
-	LAF "GET_CLAB_FILES" STR_VAR "class" = "ranger" RET_ARRAY "clab_files" END
-	//
 	WITH_SCOPE BEGIN
-		COPY "cdtweaks\bam\gtdlwld.bam" "override"
-	END
-	//
-	<<<<<<<< .../cdtweaks-inlined/empty
-	>>>>>>>>
-	//
-	WITH_SCOPE BEGIN
-		LAF "ADD_STATDESC_ENTRY" INT_VAR "description" = RESOLVE_STR_REF (@0) STR_VAR "bam_file" = "gtdlwld" RET "feedback_icon" = "index" END
-		ACTION_IF !(FILE_EXISTS_IN_GAME "m_gt#402.lua") BEGIN
-			COPY ".../cdtweaks-inlined/empty" "override\m_gt#402.lua"
-				DELETE_BYTES 0x0 BUFFER_LENGTH
-				INSERT_BYTES 0x0 STRING_LENGTH "-- Functions to be invoked via op402 --%WNL%%WNL%"
-				WRITE_ASCII 0x0 "-- Functions to be invoked via op402 --%WNL%%WNL%"
-			BUT_ONLY_IF_IT_CHANGES
-		END
-		COPY_EXISTING "m_gt#402.lua" "override"
-			APPEND_FILE_EVALUATE TEXT "cdtweaks\luke\lua\dual_wield.lua"
-		BUT_ONLY UNLESS "^function GTDLWLD"
-	END
-	//
-	WITH_SCOPE BEGIN
-		ACTION_IF !(FILE_EXISTS_IN_GAME "gtdlwld.spl") BEGIN
-			CREATE "spl" "gtdlwld"
-			COPY_EXISTING "gtdlwld.spl" "override"
-				/* Header */
-				WRITE_LONG NAME1 "-1"
-				WRITE_LONG NAME2 "-1"
-				WRITE_LONG 0x18 BIT14 // Ignore dead/wild magic
-				WRITE_SHORT 0x1C 4 // Type: Innate
-				WRITE_LONG UNIDENTIFIED_DESC "-1"
-				WRITE_LONG DESC ~-1~
-				WRITE_LONG 0x34 1 // Level
-				WRITE_LONG 0x64 0x72 // Extended Header offset
-				WRITE_SHORT 0x68 1 // Extended Header count
-				WRITE_LONG 0x6A 0x9A // Feature Block Table offset
-				INSERT_BYTES 0x72 0x28
-				/* Extended Header */
-				WRITE_SHORT 0x74 4 // Ability location: F13 (Special Ability)
-				WRITE_BYTE 0x7E 5 // Ability target: Caster
-				WRITE_SHORT 0x80 30 // Ability range
-				WRITE_SHORT 0x82 1 // Minimum level
-				WRITE_SHORT 0x98 IDS_OF_SYMBOL ("MISSILE" "None") // Projectile
-				/* Feature blocks */
-				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 1 "timing" = 9 STR_VAR "resource" = "GTDLWLD" END // invoke lua
-			BUT_ONLY
+		ACTION_IF !(FILE_EXISTS_IN_GAME "gtmharmr.bam") BEGIN
+			COPY "cdtweaks\bam\gtmharmr.bam" "override"
 		END
 	END
 	//
 	WITH_SCOPE BEGIN
-		ACTION_PHP_EACH "clab_files" AS "clab" => "" BEGIN
-			COPY_EXISTING "%clab%.2da" "override"
-				COUNT_2DA_COLS "cols"
-				TEXT_SPRINT "string" "CDTWEAKS_DUAL_WIELD AP_GTDLWLD"
-				FOR ("i" = 2 ; "%i%" < "%cols%" ; "i" += 1) BEGIN
-					TEXT_SPRINT "string" "%string% ****"
-				END
-				COUNT_2DA_ROWS "%cols%" "rows"
-				INSERT_2DA_ROW "%rows%" "%cols%" "%string%"
-				// formatting
-				PRETTY_PRINT_2DA
-			BUT_ONLY
+		LAF "ADD_STATDESC_ENTRY" INT_VAR "description" = RESOLVE_STR_REF (@0) STR_VAR "bam_file" = "gtmharmr" RET "feedback_icon" = "index" END
+		// Listener: run 'func' each time a sprite has finished evaluating its effects
+		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Listeners" "sourceFileSpec" = "cdtweaks\luke\lua\dual_wield.lua" "destRes" = "m_gtlstn" END
+		//
+		ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
+			COPY "cdtweaks\luke\lua\m_gttbls.lua" "override"
 		END
 	END
 END

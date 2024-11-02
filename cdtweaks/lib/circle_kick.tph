@@ -1,0 +1,29 @@
+DEFINE_ACTION_FUNCTION "CIRCLE_KICK"
+BEGIN
+	CREATE "eff" "cdcrkick"
+	COPY_EXISTING "cdcrkick.eff" "override"
+		WRITE_LONG 0x10 402 // invoke lua
+		WRITE_SHORT 0x2C 100 // prob1
+		WRITE_ASCII 0x30 "GTCKICK1" #8 // lua function
+	BUT_ONLY
+	//
+	CREATE "spl" "cdcrkick"
+	COPY_EXISTING "cdcrkick.spl" "override"
+		WRITE_LONG NAME1 RESOLVE_STR_REF (@0)
+		WRITE_LONG 0x18 BIT14 // flags: ignore dead/wild magic
+		WRITE_SHORT 0x1C 4 // type: innate
+		WRITE_LONG 0x34 1 // level
+		//
+		LPF "ADD_SPELL_HEADER" INT_VAR "range" = 30 END
+		//
+		LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 STR_VAR "resource" = "GTCKICK2" END // invoke lua
+	BUT_ONLY_IF_IT_CHANGES
+	// Listener: run 'func' each time a sprite has finished evaluating its effects
+	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Listeners" "sourceFileSpec" = "cdtweaks\luke\lua\circle_kick_grant.lua" "destRes" = "m_gtlstn" END
+	//
+	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Functions to be invoked via op402" "sourceFileSpec" = "cdtweaks\luke\lua\circle_kick.lua" "destRes" = "m_gt#402" END
+	//
+	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
+		COPY "cdtweaks\luke\lua\m_gttbls.lua" "override"
+	END
+END

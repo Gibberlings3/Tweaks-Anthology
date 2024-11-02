@@ -1,0 +1,16 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////                                                                 /////
+///// Sneak Attack feat for Blackguards                               \\\\\
+/////                                                                 \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+
+WITH_SCOPE BEGIN
+  INCLUDE "cdtweaks\luke\misc.tph"
+  INCLUDE "cdtweaks\ardanis\functions.tph"
+  INCLUDE "cdtweaks\lib\sneakatt_blackguard.tph"
+  WITH_TRA "cdtweaks\languages\english\sneakatt_blackguard.tra" "cdtweaks\languages\%LANGUAGE%\sneakatt_blackguard.tra" BEGIN
+    LAF "SNEAKATT_BLACKGUARD" END
+  END
+END

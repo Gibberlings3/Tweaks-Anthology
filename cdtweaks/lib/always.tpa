@@ -2,55 +2,16 @@ MKDIR ~weidu_external/cdtweaks~
 
 INCLUDE ~cdtweaks/lib/fj_spl_itm_reindex.tpa~ // wisp functions
 
-<<<<<<<< ./inline/always_checks.tpa
-ACTION_IF %check% %gamecheck% BEGIN
-  OUTER_SET ~%var%_%gamecheck%~ = 1
-END ELSE BEGIN
-  OUTER_SET ~%var%_%gamecheck%~ = 0
-END
->>>>>>>>
+INCLUDE ~cdtweaks/lib/game_checks.tpa~ // sets game_is_foo vars, others
 
-OUTER_SPRINT check ~GAME_IS~
-OUTER_SPRINT var ~game_is~
-ACTION_FOR_EACH gamecheck IN bg1 totsc soa tob iwd how totlm iwd2 pst bgee bg2ee iwdee pstee tutu tutu_totsc bgt eet ca iwd-in-bg2 BEGIN
-  COPY ~./inline/always_checks.tpa~ ~weidu_external/cdtweaks/always_checks.tpa~ EVALUATE_BUFFER
-  REINCLUDE ~weidu_external/cdtweaks/always_checks.tpa~
-END
- 
-OUTER_SPRINT check ~GAME_INCLUDES~
-OUTER_SPRINT var ~game_includes~
-ACTION_FOR_EACH gamecheck IN bg1 totsc soa tob iwd how totlm iwd2 pst ca sod BEGIN
-  COPY ~./inline/always_checks.tpa~ ~weidu_external/cdtweaks/always_checks.tpa~ EVALUATE_BUFFER
-  REINCLUDE ~weidu_external/cdtweaks/always_checks.tpa~
-END
+ACTION_IF enhanced_edition BEGIN // ee games
 
-DELETE ~weidu_external/cdtweaks/always_checks.tpa~ // tidying up
-
-ACTION_IF game_is_iwd  OR game_is_how OR game_is_totlm BEGIN OUTER_SET original_iwd = 1 END ELSE BEGIN OUTER_SET original_iwd = 0 END 
-ACTION_IF game_is_bg1  OR game_is_totsc                BEGIN OUTER_SET original_bg1 = 1 END ELSE BEGIN OUTER_SET original_bg1 = 0 END 
-ACTION_IF game_is_soa  OR game_is_tob                  BEGIN OUTER_SET original_bg2 = 1 END ELSE BEGIN OUTER_SET original_bg2 = 0 END 
-ACTION_IF game_is_tutu OR game_is_tutu_totsc           BEGIN OUTER_SET tutu_gen     = 1 END ELSE BEGIN OUTER_SET tutu_gen     = 0 END 
-
-ACTION_IF game_is_bgee OR game_is_bg2ee OR game_is_iwdee OR game_is_eet OR game_is_pstee BEGIN // ee games
-
-  OUTER_SET enhanced_edition = 1 // re-using David's variables
   OUTER_SPRINT ~tra_location~ ~cdtweaks/languages~
   
   LOAD_TRA ~cdtweaks/languages/%LANGUAGE%/ee.tra~
 
-  // fix tokens if an EE game using schinese
-  ACTION_IF (~%LANGUAGE%~ STR_EQ ~schinese~) BEGIN
-    COPY ~%MOD_FOLDER%/languages/schinese/dw_components.tra~ ~%MOD_FOLDER%/languages/schinese/dw_components.tra~
-      REPLACE_TEXTUALLY ~<\([A-Z_]+\)>_~ ~<\1>~
-    LOAD_TRA ~%MOD_FOLDER%/languages/schinese/dw_components.tra~
-    
-    // and always load ANSI strings for WeiDU installer
-    LOAD_TRA ~%MOD_FOLDER%/languages/schinese_prompts/setup-%WEIDU_OS%.tra~
-  END  
-
 END ELSE BEGIN
 
-  OUTER_SET enhanced_edition = 0
   OUTER_SPRINT ~tra_location~ ~weidu_external/cdtweaks/languages~
 
   // convert strings from UTF-8 for originals  
@@ -65,7 +26,7 @@ END ELSE BEGIN
       DISABLE_FROM_KEY "%file%"
     END
 
-    INCLUDE ~cdtweaks/lib/tob2soa.tpa~ // add tob scripting to soa games; written such that it shouldn't change anything if used on tob
+    INCLUDE ~cdtweaks/lib/tob2soa.tph~ // add tob scripting to soa games; written such that it shouldn't change anything if used on tob
 
   END 
   
@@ -90,4 +51,8 @@ OUTER_FOR (i=1; i<=10; i=i+1) BEGIN
   OUTER_SET bg2_chapter = bg2_chapter + 1
   OUTER_SPRINT name_source ~bg2_chapter_%i%~
   OUTER_SET EVAL ~%name_source%~ = bg2_chapter
+END
+
+ACTION_IF (FILE_EXISTS ~cdtweaks/cdtweaks.txt~) THEN BEGIN
+  INCLUDE ~cdtweaks/cdtweaks.txt~ // config file
 END

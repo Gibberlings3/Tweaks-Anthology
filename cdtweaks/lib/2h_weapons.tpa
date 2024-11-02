@@ -19,6 +19,22 @@ DEFINE_ACTION_FUNCTION 2h_weapons
           2h_paperdoll = S2
 BEGIN
 
+//  ACTION_IF MOD_IS_INSTALLED ~cdtweaks.tp2~ ~2160~ BEGIN // rebalanced weap profs
+//    ACTION_IF prof_check = 89 THEN BEGIN prof_check = 89 END // bastard
+//    ACTION_IF prof_check = 92 THEN BEGIN prof_check = 92 END // axe
+//    ACTION_IF prof_check = 94 THEN BEGIN prof_check = 94 END // katana
+//  END ELSE 
+  ACTION_IF MOD_IS_INSTALLED ~cdtweaks.tp2~ ~2161~ OR MOD_IS_INSTALLED ~cdtweaks.tp2~ ~2162~ BEGIN // bg weap profs
+    ACTION_IF prof_check = 89 THEN BEGIN OUTER_SET prof_check = 103 END // bastard
+    ACTION_IF prof_check = 92 THEN BEGIN OUTER_SET prof_check = 104 END // axe
+    ACTION_IF prof_check = 94 THEN BEGIN OUTER_SET prof_check = 103 END // katana
+  END ELSE 
+  ACTION_IF MOD_IS_INSTALLED ~cdtweaks.tp2~ ~2163~ OR MOD_IS_INSTALLED ~cdtweaks.tp2~ ~2164~ BEGIN // iwd weap profs
+    ACTION_IF prof_check = 89 THEN BEGIN OUTER_SET prof_check =  99 END // bastard
+    ACTION_IF prof_check = 92 THEN BEGIN OUTER_SET prof_check =  94 END // axe
+    ACTION_IF prof_check = 94 THEN BEGIN OUTER_SET prof_check = 102 END // katana
+  END  
+
   ACTION_IF MOD_IS_INSTALLED ~amber.tp2~ ~0~ AND prof_check != 92 BEGIN // amber compat, but only for 2h bastard swords and 2h katanas
     WITH_TRA ~amber/tra/english/dialogs.tra~ ~amber/tra/%LANGUAGE%/dialogs.tra~ BEGIN
       OUTER_SET amber_name    = RESOLVE_STR_REF(@100)
@@ -177,6 +193,12 @@ BEGIN
           END
           // because create inventory item doesn't have a way to set charges, create new and delete current
           INSERT_BYTES   (fx_off +        (new_fx * 0x30)) 0x30 // new effect
+            WRITE_SHORT  (fx_off +        (new_fx * 0x30)) 123  // remove inventory item
+            WRITE_BYTE   (fx_off + 0x02 + (new_fx * 0x30)) 1    // target: self
+            WRITE_BYTE   (fx_off + 0x0c + (new_fx * 0x30)) 1    // instant/permanent till death
+            WRITE_BYTE   (fx_off + 0x12 + (new_fx * 0x30)) 100  // probability
+            WRITE_ASCIIE (fx_off + 0x14 + (new_fx * 0x30)) ~%orig%~ #8
+          INSERT_BYTES   (fx_off +        (new_fx * 0x30)) 0x30 // new effect
             WRITE_SHORT  (fx_off +        (new_fx * 0x30)) 122  // create inventory item
             WRITE_BYTE   (fx_off + 0x02 + (new_fx * 0x30)) 1    // target: self
             WRITE_BYTE   (fx_off + 0x0c + (new_fx * 0x30)) 1    // instant/permanent till death
@@ -189,10 +211,10 @@ BEGIN
             WRITE_ASCIIE (fx_off + 0x04) ~%2h_bam%~ #8 // item bam
             WRITE_SHORT  (fx_off + 0x0c) 5            // target: caster
             WRITE_SHORT  (fx_off + 0x0e) 1            // range: 1
-            WRITE_SHORT  (fx_off + 0x1e) 1            // num effects: 1
+            WRITE_SHORT  (fx_off + 0x1e) 2            // num effects: 2
             WRITE_SHORT  (fx_off + 0x20) new_fx       // fx index
-            WRITE_SHORT  (fx_off + 0x22) 1            // num charges
-            WRITE_BYTE   (fx_off + 0x24) 1            // vanishes when drained
+//            WRITE_SHORT  (fx_off + 0x22) 999          // num charges
+//            WRITE_BYTE   (fx_off + 0x24) 1            // vanishes when drained
             WRITE_LONG   (fx_off + 0x26) BIT11        // recharge after resting
             WRITE_SHORT  (fx_off + 0x2a) 1            // projectile: none
           BUT_ONLY
@@ -258,9 +280,10 @@ BEGIN
         COPY_EXISTING ~%orig%.itm~ ~override/%2h%.itm~
                       ~%orig%.itm~ ~override/%1h%.itm~
           WRITE_SHORT 0x42 0 // no lore
+          WRITE_ASCIIE (fx_off + 0x4c + ((new_fx + 1) * 0x30)) ~%DEST_RES%~ #8 // exploit the fact that fx_off and new_fx carry over
 
         COPY_EXISTING ~%2h%.itm~ ~override~
-          WRITE_ASCIIE (fx_off + 0x4c + (new_fx * 0x30)) ~%1h%~ #8 // exploit the fact that fx_off and new_fx carry over
+          WRITE_ASCIIE (fx_off + 0x4c + ((new_fx    ) * 0x30)) ~%1h%~ #8       // exploit the fact that fx_off and new_fx carry over
           WRITE_ASCIIE (fx_off + 0x04) ~%1h_bam%~ #8               // item bam
           WRITE_BYTE  0x18 THIS | BIT1                             // add two-handed flag
           WRITE_ASCIIE 0x22 ~%2h_paperdoll%~ #2                    // paperdoll animation
@@ -331,7 +354,7 @@ BEGIN
       READ_ASCII (itm_off +        (0x14 * index)) item ELSE ""
       PHP_EACH cd_bastard AS itemname => charge BEGIN
         PATCH_IF ("%item%" STRING_COMPARE_CASE "%itemname%" = 0) BEGIN
-          WRITE_SHORT (itm_off + 0x0a + (charge * 0x02) + (0x14 * index)) 1 // add charge
+          WRITE_SHORT (itm_off + 0x0a + (charge * 0x02) + (0x14 * index)) 999 // add charge
         END
       END
     END
@@ -345,7 +368,7 @@ BEGIN
       READ_ASCII (sale_off +        (index * 0x1c)) item
       PHP_EACH cd_bastard AS itemname => charge BEGIN
         PATCH_IF ("%item%" STRING_COMPARE_CASE "%itemname%" = 0) BEGIN
-          WRITE_SHORT (sale_off + 0x0a + (charge * 0x02) + (0x1c * index)) 1 // add charge
+          WRITE_SHORT (sale_off + 0x0a + (charge * 0x02) + (0x1c * index)) 999 // add charge
         END
       END
     END

@@ -1,0 +1,74 @@
+@0 = ~Une fois que vous avez terrassé un troll, n'oubliez pas de l'asperger d'acide ou d'y mettre le feu.~
+@1 = ~Utilisez un parchemin ou un sort de restitution pour récupérer les niveaux que vous avez perdus. Les temples peuvent également faire quelque chose pour vous.~
+@2 = ~Appuyez sur la touche « Q » pour effectuer une sauvegarde rapide de la partie. Pensez à le faire régulièrement.~
+@3 = ~Appuyez sur la touche « H » pour faire disparaître tous les panneaux de l'interface. Appuyez de nouveau sur « H » ou mettez le jeu en pause pour les faire réapparaître.~
+// Replaced hint
+// @4 = ~Vous pouvez jouer à Baldur's Gate 2 en résolution 640 x 480 ou 800 x 600.~
+@5 = ~Si un combat s'avère trop difficile pour vous, baissez le niveau de difficulté pour la durée de celui-ci dans l'écran Options de jeu.~
+@6 = ~Les objets limités à une utilisation quotidienne, comme la Trompe de destruction, disparaissent de la barre des objets dès qu'on y a recours. Ils réapparaissent le jour suivant, dès qu'ils sont à nouveau disponibles.~
+@7 = ~Vous pouvez affecter de nouveaux scripts à vos compagnons. Pour cela, appuyez sur le bouton Personnaliser de votre écran Fiche de personnage.~
+@8 = ~Lorsque plusieurs personnages sont sélectionnés, effectuez un clic droit sur l'un des boutons de formation pour accéder à davantage de formations.~
+@9 = ~N'utilisez pas d'armes à projectile dans les combats rapprochés : vos adversaires recevraient un bonus d'attaque de +4 si vous ne possédez pas d'arme de mêlée.~
+@10 = ~Vous pouvez vous battre avec deux armes en remplaçant votre bouclier par une seconde arme. ~
+@11 = ~Vous devez identifier les armes avant de pouvoir utiliser leurs capacités spéciales.~
+@12 = ~Consultez l'écran de la carte pour retrouver plus facilement les différentes demeures dans les villes.~
+@13 = ~Maintenez la touche Maj enfoncée et cliquez sur l'écran pour définir des points de passage.~
+@14 = ~Effectuez un clic droit sur l'écran de la carte pour y ajouter une annotation.~
+@15 = ~Dans un donjon, faites détecter les pièges par un voleur ou un prêtre (grâce au sort de détection des pièges).~
+@16 = ~Votre journal vous est très précieux. N'oubliez pas de le consulter régulièrement.~
+@17 = ~La partie est automatiquement sauvegardée lorsque vous quittez une zone. Reprenez-la à ce moment si votre personnage vient de mourir.~
+@18 = ~Les familiers sont très utiles aux mages. Ils dispensent généralement des conseils bien utiles.~
+@19 = ~Certaines créatures sont immunisées contre les effets d'armes et de sorts particuliers. N'oubliez pas de vous référer au texte inscrit au bas de l'écran au cours du combat !~
+// Updated hint
+// @20 = ~Vous pouvez contrôler tous les personnages de votre groupe en lançant une partie multijoueur et en créant tous les personnages vous-même.~
+@21 = ~Vous pouvez activer l'option Repos jusqu'à guérison dans la section Options de jeu de l'écran Options. ~
+@22 = ~Vous pouvez écrire l'histoire de votre personnage grâce à l'option Biographie de l'écran Archives, Personnaliser.~
+@23 = ~Vous pouvez jouer en tour par tour en activant l'option Pause automatique de l'écran Options de jeu.~
+@24 = ~N'oubliez pas de vous protéger contre le mal lorsque vous invoquez des Fiélons, sinon ils risquent de se retourner contre vous !~
+@25 = ~N'oubliez pas que vos compagnons ne partagent pas toujours votre point de vue.~
+@26 = ~Vous pouvez importer vos propres portraits dans le jeu. Référez-vous au manuel pour connaître la marche à suivre.~
+@27 = ~Vous ne pouvez pas engager de conversation lorsque vous êtes transformé en animal.~
+@28 = ~Les magiciens les plus puissants sont capables de dévier les sorts qui leur sont lancés. Pour contrecarrer cet effet, utilisez des sorts comme Perce-magie.~
+@29 = ~Votre personnage n'a pas besoin de se nourrir, mais VOUS si ! Nous ne tenons pas à vous perdre !~
+@30 = ~Adaptez votre tactique au combat. Vous pourrez ainsi retourner à votre avantage les situations les plus désespérées.~
+@31 = ~Il est quasiment impossible à un personnage isolé de s'en tirer. Tirez parti des compétences de tous les membres de votre groupe !~
+@32 = ~Certains monstres résistent, voire sont immunisés à la magie. ~
+// Replaced hint
+// @33 = ~Les temps de chargement sont largement réduits si vous avez effectué une installation complète. ~
+// Replaced hint
+// @34 = ~Consultez le programme de configuration pour améliorer la vitesse du jeu.~
+// Replaced hint
+// @35 = ~Certains sorts ont été modifiés par rapport à BG1. Consultez la description des sorts.~
+@36 = ~De nombreux sorts peuvent servir à détecter l'invisibilité et les illusions (comme Image miroir). Référez-vous au manuel.~
+@37 = ~Vous pouvez affecter vos propres dialogues à votre personnage. Consultez le fichier Lisezmoi pour de plus amples informations.~
+@38 = ~De nombreux morceaux d'artefact sont dissimulés dans le jeu. Un nain du nom de Cromwell est capable de les assembler en un objet unique.~
+@39 = ~Appuyez sur la touche Tab et maintenez le curseur sur un monstre pour en savoir plus sur ses points de vie.~
+@40 = ~Dans l'écran principal, appuyez sur la touche Tab pour faire apparaître les points de vie des membres de votre groupe.~
+@41 = ~Vous pouvez désactiver l'IA du groupe en appuyant sur le bouton en forme de lanterne en bas à droite de l'écran principal.~
+// Replaced hint
+// @42 = ~L'aventure ne s'achève pas avec la fin de BG2.~
+@43 = ~Votre carte comprend de nombreux lieux et notes. Si d'aventure vous veniez à vous  perdre, utilisez-la pour vous remettre sur la voie.~
+@44 = ~N'oubliez pas de tirer profit de vos emplacements d'armes en main et de sorts préparés. Ils vous permettent d'être plus efficace en combat.~
+@45 = ~Essayez les différentes formations disponibles pour protéger les membres les plus faibles de votre groupe.~
+@46 = ~Double cliquez sur le portrait de vos compagnons pour les retrouver plus facilement.~
+@47 = ~Si le combat est difficile, n'hésitez pas à utiliser vos potions, baguettes et autres objets à charge limitée. Ils vous permettront sans doute de faire la différence.~
+@48 = ~Vous pouvez abaisser le niveau d'information (les cercles entourant vos compagnons, etc.) dans l'écran d'Options pour adapter le jeu à votre style.~
+@49 = ~Toute créature invisible (améliorée) qui attaque devient partiellement visible. Vous ne POUVEZ en revanche PAS la viser tant que vous n'avez pas dissipé son invisibilité.~
+@50 = ~Les équipements des drows se désintègrent immédiatement à la lumière du jour.~
+@51 = ~Le sort de Perce-magie (sort de magicien) peut être utilisé pour faire fi des protections magiques (Renvoi des sorts, etc.) appliquées à un utilisateur de magie.~
+@52 = ~Le sort de Brèche (5ème niveau de magicien) peut être utilisé pour faire fi des protections physiques (Peau de pierre, etc.) appliquées à un magicien.~
+@53 = ~Les sorts peuvent être accumulés dans un Déclencheur de sorts (mineur), qui permet de les enchaîner sans interruption en cours de combat.~
+@54 = ~Le sort de mage Renvoi des sorts (mineur) peut être utilisé pour renvoyer un sort sur l'utilisateur de magie ou le prêtre qui l'a lancé.~
+@55 = ~Une Protection contre le mal, rayon de 3 m, doit toujours être lancée avant d'invoquer un démon.~
+// Replaced hint
+// @56 = ~La durée d'effet des sorts de Charme, Domination et Confusion a été réduite dans Baldur's Gate II.~
+@57 = ~Le sort de Zone d'Air Pur (3ème niveau de prêtre) dissipe tous les sorts de Nuage à zone d'effet (comme le Nuage puant).~
+@58 = ~Un prêtre lançant des sorts opposés aux sorts de soins (comme Blessures critiques) doit d'abord effectuer un lancer de toucher et le réussir, sinon le sort est perdu.~
+@59 = ~Un mage perd 1 point de constitution (de façon permanente) si son Familier meurt.~
+@60 = ~Le Marché de l'Aventure est réapprovisionné une fois en cours de partie. N'oubliez pas d'y revenir plus tard.~
+@61 = ~Dans les boutiques, double-cliquez sur l'objet qui vous intéresse pour en acheter plusieurs exemplaires.~
+@62 = ~Seuls les druides de niveau 14 ou supérieur peuvent prétendre accéder à la direction d'un bosquet des druides.~
+@63 = ~Le bouton « étoile » en bas à droite de l'écran vous permet d'accéder aux capacités spéciales de votre personnage.~
+@64 = ~N'essayez pas de vendre un objet sans charges. Le marchand pensera qu'il n'a aucun effet et vous offrira 1 pièce d'or. Cette remarque concerne également avec les objets rechargés après un repos.~
+@65 = ~Cespenar est capable de forger ou de modifier de nombreux objets. Vous le trouverez dans votre Antichambre.~
+@66 = ~Vous pouvez accéder à la Tour de Garde depuis Baldur's Gate 2 : Les Ombres de l'Amn et Le Trône de Bhaal.~

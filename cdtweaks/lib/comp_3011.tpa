@@ -19,13 +19,7 @@ ACTION_PHP_EACH JOINABLE_NPC_ARRAY AS file => dv BEGIN
   ACTION_IF IS_AN_INT dv BEGIN // non-joinable NPC
 
     COPY_EXISTING ~%file%~ ~override~
-      PATCH_IF (NOT ~%SOURCE_RES%~ STRING_EQUAL_CASE ~riftcr04~) BEGIN // skip creatures meant to have lower hp
-        READ_SHORT 0x24 "currenthp" ELSE 0 // fortunately all cre formats keep HP info at these offsets
-        READ_SHORT 0x26 "maxhp"     ELSE 0
-        PATCH_IF (("%maxhp%" > 0) AND ("%currenthp%" > 0)) BEGIN
-          LAUNCH_PATCH_MACRO ~max_hp_creatures~ // contains rest of patch
-        END
-      END
+      LAUNCH_PATCH_MACRO ~max_hp_creatures~ // contains rest of patch
       BUT_ONLY
       
   END

@@ -292,6 +292,8 @@ Place this in a quick item slot to open.~
 @111123 = ~Boathouse~
 @111124 = ~Whistling Gallows Inn~
 @111125 = ~Purvis's Shack~
+@111126 = ~Nook~
+@111127 = ~Archway~
 
 @114001 = ~A gem is a mineral that when cut or faceted and polished is collectible or can be used in jewelry.~
 
@@ -853,6 +855,12 @@ This ability controls whether casting speed is increased for party members outsi
 @337001 = ~000000003-Mortuary~
 @337002 = ~000000004-Lower Ward~
 @337003 = ~000000005-To Ravel's Maze~
+
+// these two strings will be combined as a prefix and suffix to write "Casting Grease..." to the combat log
+// adjust as needed for your grammar, e.g. if you don't need a prefix then make @341002 = ~~
+// note that you need to include spaces, if needed
+@341002 = ~Casting ~
+@341003 = ~...~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\

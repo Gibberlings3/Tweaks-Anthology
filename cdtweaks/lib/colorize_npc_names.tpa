@@ -1,0 +1,379 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
+///// Colorize NPC names and tooltips - Function definitions     \\\\\
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+// Regular expression for a 32-bit number in hexadecimal notation
+OUTER_SPRINT regexp_number_hex ~0x[0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]~
+
+/**
+ * Reads all available creature colors entries.
+ *
+ * INT_VAR brightness_lower   Minimum brightness to achieve for creature colors (range: [0, 255])
+ * INT_VAR brightness_upper   Maximum brightness to achieve for creature colors (range: [0, 255])
+ * RET colors                 Number of available color entries in the "colors" array.
+ * RET_ARRAY colors           Array with "index => ABGR" definitions where "ABGR" is stored in "0xAABBGGRR" format.
+ */
+DEFINE_ACTION_FUNCTION a7#load_cre_colors
+INT_VAR
+  brightness_lower = 112
+  brightness_upper = 176
+RET
+  colors
+RET_ARRAY
+  colors
+BEGIN
+  OUTER_SET colors = 0
+  COPY_EXISTING ~mpalette.bmp~ ~override~
+    READ_ASCII 0x0 sig (2)
+    PATCH_IF (~%sig%~ STR_EQ ~BM~) BEGIN
+      READ_LONG 0x02 file_size
+      PATCH_IF (file_size <= SOURCE_SIZE) BEGIN
+        READ_LONG 0x0a ofs_data
+        READ_LONG 0x12 width
+        READ_LONG 0x16 height
+        READ_LONG 0x1c bpp
+        PATCH_IF (bpp = 24 || bpp = 32) BEGIN
+          SET bytes_per_row = width * bpp / 8
+          SET bytes_per_row += (bytes_per_row & 3) != 0 ? 4 - (bytes_per_row & 3) : 0
+          // getting center pixel of the color gradient
+          SET ofs_center = (width / 2) * (bpp / 8)
+          FOR (y = 0; y < height; ++y) BEGIN
+            // BMP pixel data is stored upside-down
+            SET ofs_row = ofs_data + (height - y - 1) * bytes_per_row
+            READ_LONG (ofs_row + ofs_center) pixel
+            SET r = (pixel >> 16) & 0xff
+            SET g = (pixel >> 8) & 0xff
+            SET b = pixel & 0xff
+            LPF a7#adjust_brightness INT_VAR brightness_lower brightness_upper r g b RET r g b END
+            SET abgr = 0xff000000 | (b << 16) | (g << 8) | r
+            SPRINTF color_hex ~%x~ (abgr)
+            SPRINT $colors(~%y%~) ~%color_hex%~
+          END
+          SET colors = y
+        END ELSE BEGIN
+          PATCH_WARN ~WARNING: Unsupported BMP pixel size: %bpp% bpp (%SOURCE_FILE%)~
+        END
+      END ELSE BEGIN
+        PATCH_WARN ~WARNING: Unexpected end of file: %SOURCE_FILE% at offset %file_size% (expected %SOURCE_SIZE%)~
+      END
+    END ELSE BEGIN
+      PATCH_WARN ~WARNING: Not a valid BMP file: %SOURCE_FILE%~
+    END
+  BUT_ONLY IF_EXISTS
+END
+
+
+/** 
+ * Adjusts brightness of the specified color to meet the brightness criteria.
+ *
+ * INT_VAR brightness_lower   Minimum brightness to achieve (range: [0, 255])
+ * INT_VAR brightness_upper   Maximum brightness to achieve (range: [0, 255])
+ * INT_VAR step_size          Accuracy to determine the target brightness of the color
+ * INT_VAR r                  Original red value to adjust
+ * INT_VAR g                  Original green value to adjust
+ * INT_VAR b                  Original blue value to adjust
+ * RET r                      Adjusted red value
+ * RET g                      Adjusted green value
+ * RET b                      Adjusted blue value
+ */
+DEFINE_PATCH_FUNCTION a7#adjust_brightness
+INT_VAR
+  brightness_lower = 112
+  brightness_upper = 176
+  step_size = 5
+  r = 0
+  g = 0
+  b = 0
+RET
+  r g b
+BEGIN
+  // Original formula with decimal coefficients: brightness = 0.299 * r + 0.587 * g + 0.114 * b
+  // Adjusted formula with integral coefficients in range [0, 255]: brightness = (77 * r + 150 * g + 29 * b) / 256
+
+  SET brightness_lower = brightness_lower < 0 ? 0 : brightness_lower
+  SET brightness_upper = brightness_upper > 255 ? 255 : brightness_upper
+  SET brightness_lower = brightness_lower > brightness_upper ? brightness_upper : brightness_lower
+  SET brightness_upper = brightness_upper < brightness_lower ? brightness_lower : brightness_upper
+
+  SET step_size = step_size < 1 ? 1 : step_size
+  SET step_size = step_size > 50 ? 50 : step_size
+
+  PATCH_IF (r > 0 || g > 0 || b > 0) BEGIN
+    SET r1 = r
+    SET g1 = g
+    SET b1 = b
+    SET lum = (77 * r1 + 150 * g1 + 29 * b1) >> 8
+
+    // adjusting to match lower brightness bounds
+    FOR (percent = 105; lum < brightness_lower; percent += step_size) BEGIN
+      // percentage-wise increment
+      SET r1 = r * percent / 100
+      SET g1 = g * percent / 100
+      SET b1 = b * percent / 100
+
+      // storing normalized overflow amount
+      SET r1_x = (r1 > 255) ? r1 - 255 : 0
+      SET g1_x = (g1 > 255) ? g1 - 255 : 0
+      SET b1_x = (b1 > 255) ? b1 - 255 : 0
+      PATCH_IF (r1_x > g1_x && r1_x > b1_x) BEGIN
+        SET overflow = r1_x * 256 / 77
+      END ELSE PATCH_IF (g1_x > r1_x && g1_x > b1_x) BEGIN
+        SET overflow = g1_x * 256 / 150
+      END ELSE BEGIN
+        SET overflow = b1_x * 256 / 29
+      END
+
+      // adjusting base values
+      PATCH_IF (overflow > 0) BEGIN
+        SET adjust = overflow * 77 / 256
+        SET r1 += (adjust > 0) ? adjust : 1
+        SET adjust = overflow * 150 / 256
+        SET g1 += (adjust > 0) ? adjust : 1
+        SET adjust = overflow * 29 / 256
+        SET b1 += (adjust > 0) ? adjust : 1
+      END
+
+      // capping base values at 255
+      SET r1 = (r1 > 255) ? 255 : r1
+      SET g1 = (g1 > 255) ? 255 : g1
+      SET b1 = (b1 > 255) ? 255 : b1
+
+      SET lum = (77 * r1 + 150 * g1 + 29 * b1) >> 8
+    END
+
+    // adjusting to match upper brightness bounds
+    FOR (percent = 95; lum > brightness_upper; percent -= step_size) BEGIN
+      // percentage-wise increment
+      SET r1 = r * percent / 100
+      SET g1 = g * percent / 100
+      SET b1 = b * percent / 100
+
+      // capping base values at 255
+      SET r1 = (r1 > 255) ? 255 : r1
+      SET g1 = (g1 > 255) ? 255 : g1
+      SET b1 = (b1 > 255) ? 255 : b1
+
+      SET lum = (77 * r1 + 150 * g1 + 29 * b1) >> 8
+    END
+
+    SET r = r1
+    SET g = g1
+    SET b = b1
+  END ELSE BEGIN
+    // special case: pure black
+    SET r = brightness_lower
+    SET g = brightness_lower
+    SET b = brightness_lower
+  END
+END
+
+
+/**
+ * Creates a colorized string based on the given parameters.
+ *
+ * INT_VAR strref       Strref of the string to colorize.
+ * STR_VAR color        Color value in hexadecimal format "0xAABBGGRR".
+ * RET strref_colorized Strref of the colorized string.
+ */
+DEFINE_PATCH_FUNCTION a7#colorize_string
+INT_VAR
+  strref = ~-1~
+STR_VAR
+  color = ~~
+RET
+  strref_colorized
+BEGIN
+  strref_colorized = strref
+  PATCH_IF (~%color%~ STRING_COMPARE_REGEXP ~^%regexp_number_hex%$~ = 0) BEGIN
+    TO_UPPER ~color~
+    INNER_PATCH_SAVE color ~%color%~ BEGIN
+      WRITE_ASCII 1 ~x~ (1)
+    END
+    GET_STRREF strref string
+    // do not colorize strings that were already colorized before
+    PATCH_IF (~%string%~ STRING_COMPARE_REGEXP ~^\^.+\^-$~ != 0) BEGIN
+      SPRINT string_colorized ~^%color%%string%^-~
+      SET strref_colorized = RESOLVE_STR_REF(~%string_colorized%~)
+    END
+  END ELSE BEGIN
+    PATCH_WARN ~WARNING: Invalid color specified: %color%~
+  END
+END
+
+
+/**
+ * Performs the actual NPC name and tooltip colorization.
+ *
+ * INT_VAR brightness_lower   Minimum brightness to achieve for creature colors (range: [0, 255])
+ * INT_VAR brightness_upper   Maximum brightness to achieve for creature colors (range: [0, 255])
+ */
+DEFINE_ACTION_FUNCTION a7#perform_cre_colorization
+INT_VAR
+  brightness_lower = 112
+  brightness_upper = 176
+BEGIN
+  // loading creature colors
+  LAF a7#load_cre_colors INT_VAR brightness_lower brightness_upper RET colors RET_ARRAY colors END
+  ACTION_IF (colors = 0) BEGIN
+    FAIL ~Could not load color definitions~
+  END
+
+  // getting list of NPC tables
+  ACTION_CLEAR_ARRAY ~pdialog~
+  OUTER_SET $pdialog(~PDIALOG~) = 1
+  COPY_EXISTING ~campaign.2da~ ~override~
+    READ_2DA_ENTRIES_NOW ~campaign~ 1
+    FOR (row = 3; row < campaign; ++row) BEGIN
+      PATCH_IF (VARIABLE_IS_SET $campaign(~%row%~ ~11~)) BEGIN
+        READ_2DA_ENTRY_FORMER ~campaign~ row 11 entry
+        TO_UPPER ~entry~
+        SET $pdialog(~%entry%~) = 1
+      END
+    END
+  BUT_ONLY IF_EXISTS
+
+  // parsing PDIALOG entries
+  ACTION_CLEAR_ARRAY ~npc~
+  ACTION_PHP_EACH ~pdialog~ AS resref => _ BEGIN
+    COPY_EXISTING ~%resref%.2DA~ ~override~
+      READ_2DA_ENTRIES_NOW ~table~ 1
+      FOR (row = 3; row < table; ++row) BEGIN
+        READ_2DA_ENTRY_FORMER ~table~ row 0 value
+        TO_UPPER ~value~
+        SET $npc(~%value%~) = 1
+      END
+    BUT_ONLY IF_EXISTS
+  END
+
+  // parsing custom NPC table
+  ACTION_CLEAR_ARRAY ~npc_extra~
+  COPY ~cdtweaks/2da/colorized_npcs.2da~ ~cdtweaks/2da/colorized_npcs.2da~
+    READ_2DA_ENTRIES_NOW ~table~ 1
+    FOR (row = 3; row < table; ++row) BEGIN
+      READ_2DA_ENTRY_FORMER ~table~ row 0 name
+      TO_UPPER ~name~
+      READ_2DA_ENTRY_FORMER ~table~ row 1 color
+      PATCH_IF (~%color%~ STR_EQ ~*~ ||
+                ~%color%~ STRING_COMPARE_REGEXP ~^%regexp_number_hex%$~ = 0 ||
+                IS_AN_INT ~color~) BEGIN
+        SPRINT $npc_extra(~%name%~) ~%color%~
+      END
+    END
+  BUT_ONLY IF_EXISTS
+
+  // colorizing NPC name and tooltip strings
+  COPY_EXISTING_REGEXP ~^.+\.CRE$~ ~override~
+    PATCH_IF (SOURCE_SIZE > 8) BEGIN
+      READ_ASCII 0 sig (8)
+      PATCH_IF (~%sig%~ STR_EQ ~CRE V1.0~) BEGIN
+        READ_ASCII DEATHVAR script_name (32) NULL
+        PATCH_IF (NOT ~%script_name%~ STR_EQ ~~) BEGIN
+          TO_UPPER ~script_name~
+          PATCH_IF (VARIABLE_IS_SET $npc(~%script_name%~)) BEGIN
+            // regular NPC
+            READ_BYTE 0x2e color_entry  // major color
+            SET color_entry = color_entry MODULO colors
+            SPRINT color $colors(~%color_entry%~)
+
+            READ_LONG NAME1 strref
+            LPF a7#colorize_string INT_VAR strref STR_VAR color RET strref_colorized END
+            WRITE_LONG NAME1 strref_colorized
+
+            READ_LONG NAME2 strref
+            LPF a7#colorize_string INT_VAR strref STR_VAR color RET strref_colorized END
+            WRITE_LONG NAME2 strref_colorized
+          END ELSE PATCH_IF (VARIABLE_IS_SET $npc_extra(~%script_name%~)) BEGIN
+            // special NPC (e.g. familiars, companions, followers)
+            SPRINT color $npc_extra(~%script_name%~)
+            PATCH_IF (~%color%~ STR_EQ ~*~) BEGIN
+              READ_BYTE 0x2e color  // major color
+            END
+            PATCH_IF (~%color%~ STRING_COMPARE_REGEXP ~^%regexp_number_hex%$~ = 0) BEGIN
+              // no further actions required
+            END ELSE PATCH_IF (IS_AN_INT ~color~) BEGIN
+              SET color = color MODULO colors
+              SPRINT color $colors(~%color%~)
+            END ELSE BEGIN
+              SPRINT color ~~
+            END
+
+            PATCH_IF (NOT ~%color%~ STR_EQ ~~) BEGIN
+              READ_LONG NAME1 strref
+              LPF a7#colorize_string INT_VAR strref STR_VAR color RET strref_colorized END
+              WRITE_LONG NAME1 strref_colorized
+
+              READ_LONG NAME2 strref
+              LPF a7#colorize_string INT_VAR strref STR_VAR color RET strref_colorized END
+              WRITE_LONG NAME2 strref_colorized
+            END ELSE BEGIN
+              PATCH_WARN ~WARNING: Invalid color value defined for special NPC: %script_name%~
+            END
+          END
+        END
+      END
+    END
+  BUT_ONLY
+
+  // patching irregular NPC names
+  ACTION_IF (GAME_IS ~bg2ee eet~) BEGIN
+    // Anomen
+    // Anomen's promoted name: SPIN678.SPL > op103 > strref 30532
+    OUTER_SPRINT color ~~
+    COPY_EXISTING ~anomen6.cre~ ~override~
+      READ_BYTE 0x2e color_entry  // major color
+      SET color_entry = color_entry MODULO colors
+      SPRINT color $colors(~%color_entry%~)
+    BUT_ONLY IF_EXISTS
+
+    ACTION_IF (NOT ~%color%~ STR_EQ ~~) BEGIN
+      COPY_EXISTING ~spin678.spl~ ~override~
+        READ_LONG 0x64 ofs_abil
+        READ_SHORT 0x68 num_abil
+        READ_LONG 0x6a ofs_fx
+        FOR (i = 0; i < num_abil; ++i) BEGIN
+          SET ofs = ofs_abil + i * 40
+          READ_SHORT (ofs + 0x1e) num_fx
+          READ_SHORT (ofs + 0x20) idx_fx
+          FOR (j = 0; j < num_fx; ++j) BEGIN
+            SET ofs2 = ofs_fx + (idx_fx + j) * 48
+            READ_SHORT (ofs2 + 0x0) opcode
+            PATCH_IF (opcode = 103) BEGIN // Change Name
+              READ_LONG (ofs2 + 0x04) strref
+              LPF a7#colorize_string INT_VAR strref STR_VAR color RET strref_colorized END
+              WRITE_LONG (ofs2 + 0x04) strref_colorized
+            END
+          END
+        END
+      BUT_ONLY IF_EXISTS
+    END
+
+    // Wilson
+    // WILSON.DLG > Actions > SetName(86478)
+    // OH4100.BCS > SetName(86478)
+    OUTER_SPRINT color ~~
+    COPY_EXISTING ~wilson9.cre~ ~override~
+      READ_BYTE 0x2e color_entry  // major color
+      SET color_entry = color_entry MODULO colors
+      SPRINT color $colors(~%color_entry%~)
+      SET strref = 86478  // Wilson
+      LPF a7#colorize_string INT_VAR strref STR_VAR color RET strref_colorized END
+    BUT_ONLY IF_EXISTS
+
+    <<<<<<<< .../inlined/cdtweaks/wilson_setname.d
+    REPLACE_ACTION_TEXT ~wilson~ ~SetName(%strref%)~ ~SetName(%strref_colorized%)~
+    >>>>>>>>
+    ACTION_IF (NOT ~%color%~ STR_EQ ~~) BEGIN
+      COMPILE EVAL ~.../inlined/cdtweaks/wilson_setname.d~
+
+      COPY_EXISTING ~oh4100.bcs~ ~override~
+        DECOMPILE_AND_PATCH BEGIN
+          REPLACE_TEXTUALLY ~SetName(%strref%)~ ~SetName(%strref_colorized%)~
+        END
+      BUT_ONLY IF_EXISTS
+    END
+  END
+END

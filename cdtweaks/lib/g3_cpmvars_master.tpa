@@ -1,4 +1,4 @@
-/* 
+/*
 For anyone interested in using these: check out BG1 NPC instead. They'll have more 
 examples and the most updated version of these libraries. These are also modified
 libraries in that I remove the GAME_IS checks from the individual libraries, since
@@ -20,10 +20,11 @@ ACTION_IF !game_includes_bg1 THEN BEGIN // I feel like these come up enough in B
   
 END ELSE BEGIN
 
-  ACTION_IF tutu_gen    BEGIN INCLUDE ~cdtweaks/lib/g3_tutu_cpmvars.tpa~  END ELSE       // tutu
-  ACTION_IF game_is_bgt BEGIN INCLUDE ~cdtweaks/lib/g3_bgt_cpmvars.tpa~   END ELSE       // bgt
-  ACTION_IF game_is_eet BEGIN INCLUDE ~eet/other/cpmvars/eet_cpmvars.tpa~ END ELSE BEGIN // eet
-                              INCLUDE ~cdtweaks/lib/g3_bgee_cpmvars.tpa~  END            // use this for bgee AND obg
+  ACTION_IF game_is_bgee BEGIN INCLUDE ~cdtweaks/lib/g3_bgee_cpmvars.tpa~  END ELSE       // bgee
+  ACTION_IF game_is_eet  BEGIN INCLUDE ~eet/other/cpmvars/eet_cpmvars.tpa~ END ELSE       // eet
+  ACTION_IF game_is_bgt  BEGIN INCLUDE ~cdtweaks/lib/g3_bgt_cpmvars.tpa~   END ELSE       // bgt
+  ACTION_IF tutu_gen     BEGIN INCLUDE ~cdtweaks/lib/g3_tutu_cpmvars.tpa~  END ELSE BEGIN // tutu
+                               INCLUDE ~cdtweaks/lib/g3_bg_cpmvars.tpa~    END            // obg
 
   DEFINE_ACTION_FUNCTION cd_extend_bg_area_script
   

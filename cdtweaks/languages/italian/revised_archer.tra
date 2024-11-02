@@ -1,0 +1,22 @@
+@0 = "ARCIERE: L'arciere è l'emblema dell'abilità nel tiro con l'arco. È il tiratore scelto per eccellenza, capace di portare a segno quasi ogni tiro, non importa quanto sia difficile. Per diventare così abile con l'arco, l'arciere ha dovuto sacrificare parte della sua competenza con le armi da mischia e con le armature.
+
+Vantaggi:
+- Bonus pari a +1 ai tiri per colpire e al danno con qualsiasi arco ogni 3 livelli.
+- Può diventare Gran Maestro (cinque punti) con l'arco lungo e l'arco corto.
+- Può utilizzare l'abilità Colpo Mirato (quando impugna un arco) una volta al giorno (inizia al 4° livello con un uso e ne ottiene uno addizionale ogni 4 livelli).
+
+COLPO MIRATO: Tutti gli attacchi a distanza messi a segno nei successivi 10 secondi, oltre ad infliggere un normale danno, hanno i seguenti effetti cumulativi a seconda del livello:
+
+4° Livello: Penalità pari a -1 al THAC0 del bersaglio.
+8° Livello: Penalità pari a -1 ai tiri-salvezza contro Incantesimi del bersaglio.
+12° Livello: Penalità pari a -1 alla Forza del bersaglio.
+16° Livello: Bonus pari a +2 al danno.
+
+- Può beneficiare dell'abilità passiva Tiro Ravvicinato.
+
+TIRO RAVVICINATO: Quando l'arciere impugna un arco, può negare la penalità di -8 ai tiri per colpire che normalmente avrebbe per l'uso di armi a distanza in mischia.
+
+Svantaggi:
+- Può indossare soltanto armature di cuoio, armature di cuoio borchiato e armature di pelle.
+- Può diventare soltanto Competente (un punto) nelle armi da mischia.
+- Non può utilizzare l'abilità Charmare Animali."

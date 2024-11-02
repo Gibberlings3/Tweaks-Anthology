@@ -2,6 +2,26 @@
 ///// kit.ids fixer                                    \\\\\
 /////                                                  \\\\\
 
+/*
+
+source: bg2 fixpack, but there were many variations prior
+basically fixes the broken kit.ids in obg2, and written in a way that it can
+be installed multiple times w/o issue
+
+used:
+  amber, as amber/lib/kit_ids_fixer.tpa [symbolic link]
+  bg2 fixpack, as bg2fixpack/lib/kit_ids_fixer.tpa [symbolic link]
+  Haldamir, as haldamir/lib/kit_ids_fixer.tpa [local symlink]
+  Totemic Cernd, as totemiccernd/lib/kit_ids_fixer.tpa [local symlink]
+
+platform:
+  obg2, though it should be harmless on other bg2-based engines
+ 
+version history: 
+  unknown
+
+*/
+
 COPY_EXISTING ~kit.ids~ ~override~
   REPLACE_TEXTUALLY ~^.+[ %TAB%]\(TRUECLASS[ %TAB%%LNL%%MNL%%WNL%]+\)~              ~0x4000 \1~
   REPLACE_TEXTUALLY ~^.+[ %TAB%]\(BERSERKER[ %TAB%%LNL%%MNL%%WNL%]+\)~              ~0x4001 \1~
@@ -42,7 +62,7 @@ APPEND ~kit.ids~ ~0x4000 TRUECLASS~     UNLESS ~^.+[ %TAB%]TRUECLASS[ %TAB%%LNL%
 APPEND ~kit.ids~ ~0x40000000 BARBARIAN~ UNLESS ~^.+[ %TAB%]BARBARIAN[ %TAB%%LNL%%MNL%%WNL%]+~
 APPEND ~kit.ids~ ~0x80000000 WILDMAGE~  UNLESS ~^.+[ %TAB%]WILDMAGE[ %TAB%%LNL%%MNL%%WNL%]+~
 
-ACTION_FOR_EACH crefile IN
+ACTION_FOR_EACH crefile IN  // several entries here cover bgt/tutu so it can be dropped in anywhere
   _imoen1
   _imoen2
   _imoen4
@@ -58,13 +78,15 @@ ACTION_FOR_EACH crefile IN
   haer13
   haer15
   haer19
-  imoen1  
+  imoen
+  imoen1
   imoen10 
   imoen15
   imoen2
   imoen211
   imoen213
   imoen4
+  imoen6
   imoen61
   korgan11
   korgan12
@@ -78,21 +100,17 @@ ACTION_FOR_EACH crefile IN
   mazzy9
   BEGIN
   
-  ACTION_IF FILE_EXISTS_IN_GAME ~%crefile%.cre~ BEGIN
-  
-    COPY_EXISTING ~%crefile%.cre~ ~override~
-      READ_LONG 0x0244 KIT_VALUE
-      PATCH_IF (KIT_VALUE = 0x00) BEGIN
-        WRITE_LONG 0x0244 0x40000000
-      END ELSE
-      PATCH_IF (KIT_VALUE = 0x20) BEGIN
-        WRITE_LONG 0x0244 0x400d0000
-      END ELSE
-      PATCH_IF (KIT_VALUE = 0x010000) BEGIN
-        WRITE_LONG 0x0244 0x40010000
-      END
-    BUT_ONLY
-
-  END
+  COPY_EXISTING ~%crefile%.cre~ ~override~
+    READ_LONG 0x0244 KIT_VALUE
+    PATCH_IF (KIT_VALUE = 0x00) BEGIN
+      WRITE_LONG 0x0244 0x40000000
+    END ELSE
+    PATCH_IF (KIT_VALUE = 0x20) BEGIN
+      WRITE_LONG 0x0244 0x400d0000
+    END ELSE
+    PATCH_IF (KIT_VALUE = 0x010000) BEGIN
+      WRITE_LONG 0x0244 0x40010000
+    END
+  BUT_ONLY IF_EXISTS
 
 END

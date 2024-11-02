@@ -256,6 +256,7 @@ Laufgeschwindigkeit (Prozent): a7_movement_speed_value
 Aktiviere Zauberrate:          a7_casting_speed_enable
 ~
 @337000 = ~Automatische "Kapitelspeicherstaende" in PsT:EE~
+@340000 = ~Wiederhergestellte Ladehinweise~
 @400000 = ~Reaktionswuerfe von anschlussfaehigen boesen NSCs anpassen~
 @401000 = ~Verbessertes Herbeirufen beim Geist des Schicksals~
 @402000 = ~TdB-Stil NSCs~

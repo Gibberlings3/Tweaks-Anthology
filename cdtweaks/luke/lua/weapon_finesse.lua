@@ -1,76 +1,106 @@
 -- cdtweaks: Weapon Finesse feat for Thieves --
 
-function GTWPNFIN(CGameEffect, CGameSprite)
-	local equipment = CGameSprite.m_equipment -- CGameSpriteEquipment
-	local selectedItem = equipment.m_items:get(equipment.m_selectedWeapon) -- CItem
+EEex_Opcode_AddListsResolvedListener(function(sprite)
+	-- Sanity check
+	if not EEex_GameObject_IsSprite(sprite) then
+		return
+	end
+	-- internal function that applies the actual bonus
+	local apply = function(value)
+		-- Update var
+		sprite:setLocalInt("cdtweaksWeaponFinesseHelper", value)
+		-- Mark the creature as 'bonus applied'
+		sprite:setLocalInt("cdtweaksWeaponFinesse", 1)
+		--
+		sprite:applyEffect({
+			["effectID"] = 321, -- Remove effects by resource
+			["durationType"] = 1,
+			["res"] = "CDWPNFIN",
+			["sourceID"] = sprite.m_id,
+			["sourceTarget"] = sprite.m_id,
+		})
+		sprite:applyEffect({
+			["effectID"] = 306, -- Main-hand THAC0 bonus
+			["durationType"] = 9,
+			["effectAmount"] = value,
+			["m_sourceRes"] = "CDWPNFIN",
+			["sourceID"] = sprite.m_id,
+			["sourceTarget"] = sprite.m_id,
+		})
+		sprite:applyEffect({
+			["effectID"] = 142, -- Display portrait icon
+			["durationType"] = 9,
+			["dwFlags"] = %feedback_icon%,
+			["m_sourceRes"] = "CDWPNFIN",
+			["sourceID"] = sprite.m_id,
+			["sourceTarget"] = sprite.m_id,
+		})
+	end
+	-- Check creature's equipment / stats / class
+	local equipment = sprite.m_equipment
+	local selectedItem = equipment.m_items:get(equipment.m_selectedWeapon)
+	local itemHeader = selectedItem.pRes.pHeader
+	--
 	local itemResRef = string.upper(selectedItem.pRes.resref:get())
-	local itemHeader = selectedItem.pRes.pHeader -- Item_Header_st
-	local itemAbility = EEex_PtrToUD(EEex_UDToPtr(itemHeader) + itemHeader.abilityOffset + Item_ability_st.sizeof * equipment.m_selectedWeaponAbility, "Item_ability_st") -- Item_ability_st
-	--
-	local strmod = EEex_Resource_Load2DA("STRMOD")
-	local strmodex = EEex_Resource_Load2DA("STRMODEX")
-	local dexmod = EEex_Resource_Load2DA("DEXMOD")
-	--
-	local spriteSTR = CGameSprite.m_derivedStats.m_nSTR + CGameSprite.m_bonusStats.m_nSTR
-	local spriteSTRExtra = CGameSprite.m_derivedStats.m_nSTRExtra + CGameSprite.m_bonusStats.m_nSTRExtra
-	local spriteDEX = CGameSprite.m_derivedStats.m_nDEX + CGameSprite.m_bonusStats.m_nDEX
-	--
-	local curStrBonus = tonumber(EEex_Resource_GetAt2DALabels(strmod, "TO_HIT", string.format("%s", spriteSTR)) + EEex_Resource_GetAt2DALabels(strmodex, "TO_HIT", string.format("%s", spriteSTRExtra)))
-	local curDexBonus = tonumber(EEex_Resource_GetAt2DALabels(dexmod, "MISSILE", string.format("%s", spriteDEX)))
-	--
 	local unusuallyLargeWeapon = {
 		["BDBONE02"] = true -- Ettin Club +1
 	}
-	-- reset var if bonus changes
-	if CGameEffect.m_effectAmount2 ~= curDexBonus or CGameEffect.m_effectAmount3 ~= curStrBonus then
-		CGameEffect.m_effectAmount2 = curDexBonus -- store current DEX bonus in param#3
-		CGameEffect.m_effectAmount3 = curStrBonus -- store current STR bonus in param#4
-		EEex_Sprite_SetLocalInt(CGameSprite, "cdtweaksWeaponFinesse", -1)
-	end
-	-- if the character is wielding a small blade / mace / club that scales with STR and "dexmod.2da" is better than "strmod.2da" + "strmodex.2da" ...
-	if (itemHeader.itemType == 0x10 or itemHeader.itemType == 0x11 or itemHeader.itemType == 0x13) and not unusuallyLargeWeapon[itemResRef] and (curDexBonus > curStrBonus) and itemAbility.quickSlotType == 1 and itemAbility.type == 1 and (EEex_IsBitSet(itemAbility.abilityFlags, 0x0) or EEex_IsBitSet(itemAbility.abilityFlags, 0x3)) then
-		if EEex_Sprite_GetLocalInt(CGameSprite, "cdtweaksWeaponFinesse") ~= 1 then
-			EEex_Sprite_SetLocalInt(CGameSprite, "cdtweaksWeaponFinesse" , 1)
-			--
-			EEex_GameObject_ApplyEffect(CGameSprite,
-			{
-				["effectID"] = 321, -- Remove effects by resource
-				["res"] = "CDWPNFIN",
-				["durationType"] = 1,
-				["sourceID"] = CGameEffect.m_sourceId, -- Certain opcodes (see f.i. op326) use this field internally... it's probably a good idea to always specify it...
-				["sourceTarget"] = CGameEffect.m_sourceTarget, -- Certain opcodes (see f.i. op326) use this field internally... it's probably a good idea to always specify it...
-			})
-			EEex_GameObject_ApplyEffect(CGameSprite,
-			{
-				["effectID"] = 306, -- Main hand THAC0 bonus
-				["effectAmount"] = curDexBonus - curStrBonus,
-				["durationType"] = 9,
-				["m_sourceRes"] = "CDWPNFIN",
-				["sourceID"] = CGameEffect.m_sourceId, -- Certain opcodes (see f.i. op326) use this field internally... it's probably a good idea to always specify it...
-				["sourceTarget"] = CGameEffect.m_sourceTarget, -- Certain opcodes (see f.i. op326) use this field internally... it's probably a good idea to always specify it...
-			})
-			EEex_GameObject_ApplyEffect(CGameSprite,
-			{
-				["effectID"] = 142, -- portrait icon
-				["dwFlags"] = %feedback_icon%,
-				["durationType"] = 9,
-				["m_sourceRes"] = "CDWPNFIN",
-				["sourceID"] = CGameEffect.m_sourceId, -- Certain opcodes (see f.i. op326) use this field internally... it's probably a good idea to always specify it...
-				["sourceTarget"] = CGameEffect.m_sourceTarget, -- Certain opcodes (see f.i. op326) use this field internally... it's probably a good idea to always specify it...
-			})
+	--
+	local itemAbility = EEex_Resource_GetItemAbility(itemHeader, equipment.m_selectedWeaponAbility) -- Item_ability_st
+	--
+	local strmod = GT_Resource_2DA["strmod"]
+	local strmodex = GT_Resource_2DA["strmodex"]
+	local dexmod = GT_Resource_2DA["dexmod"]
+	-- Since ``EEex_Opcode_AddListsResolvedListener`` is running after the effect lists have been evaluated, ``m_bonusStats`` has already been added to ``m_derivedStats`` by the engine
+	local spriteSTR = sprite.m_derivedStats.m_nSTR
+	local spriteSTRExtra = sprite.m_derivedStats.m_nSTRExtra
+	local spriteDEX = sprite.m_derivedStats.m_nDEX
+	--
+	local spriteClassStr = GT_Resource_IDSToSymbol["class"][sprite.m_typeAI.m_Class]
+	--
+	local weaponTypeStr = GT_Resource_IDSToSymbol["itemcat"][itemHeader.itemType]
+	--
+	local spriteFlags = sprite.m_baseStats.m_flags
+	--
+	local spriteLevel1 = sprite.m_derivedStats.m_nLevel1
+	local spriteLevel2 = sprite.m_derivedStats.m_nLevel2
+	--
+	local curStrBonus = tonumber(strmod[string.format("%s", spriteSTR)]["TO_HIT"] + strmodex[string.format("%s", spriteSTRExtra)]["TO_HIT"])
+	local curDexBonus = tonumber(dexmod[string.format("%s", spriteDEX)]["MISSILE"])
+	-- if the thief is wielding a small blade / mace / club that scales with STR and "dexmod.2da" is better than "strmod.2da" + "strmodex.2da" ...
+	local applyCondition = (weaponTypeStr == "DAGGER" or weaponTypeStr == "SMSWORD" or weaponTypeStr == "MACE")
+		and not unusuallyLargeWeapon[itemResRef]
+		and curDexBonus > curStrBonus
+		and itemAbility.quickSlotType == 1 -- Location: Weapon
+		and itemAbility.type == 1 -- Type: Melee
+		and (EEex_IsBitSet(itemAbility.abilityFlags, 0x0) or EEex_IsBitSet(itemAbility.abilityFlags, 0x3))
+		and (spriteClassStr == "THIEF" or spriteClassStr == "FIGHTER_MAGE_THIEF"
+			-- incomplete dual-class characters are not supposed to benefit from Weapon Finesse
+			or (spriteClassStr == "FIGHTER_THIEF" and (EEex_IsBitUnset(spriteFlags, 0x6) or spriteLevel1 > spriteLevel2))
+			or (spriteClassStr == "MAGE_THIEF" and (EEex_IsBitUnset(spriteFlags, 0x6) or spriteLevel1 > spriteLevel2))
+			or (spriteClassStr == "CLERIC_THIEF" and (EEex_IsBitUnset(spriteFlags, 0x6) or spriteLevel1 > spriteLevel2)))
+	--
+	if sprite:getLocalInt("cdtweaksWeaponFinesse") == 0 then
+		if applyCondition then
+			apply(curDexBonus - curStrBonus)
 		end
 	else
-		if EEex_Sprite_GetLocalInt(CGameSprite, "cdtweaksWeaponFinesse") ~= 0 then
-			EEex_Sprite_SetLocalInt(CGameSprite, "cdtweaksWeaponFinesse" , 0)
+		if applyCondition then
+			-- Check if STR/STREx/DEX have changed since the last application
+			if (curDexBonus - curStrBonus) ~= sprite:getLocalInt("cdtweaksWeaponFinesseHelper") then
+				apply(curDexBonus - curStrBonus)
+			end
+		else
+			-- Mark the creature as 'bonus removed'
+			sprite:setLocalInt("cdtweaksWeaponFinesse", 0)
 			--
-			EEex_GameObject_ApplyEffect(CGameSprite,
-			{
+			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource
-				["res"] = "CDWPNFIN",
 				["durationType"] = 1,
-				["sourceID"] = CGameEffect.m_sourceId, -- Certain opcodes (see f.i. op326) use this field internally... it's probably a good idea to always specify it...
-				["sourceTarget"] = CGameEffect.m_sourceTarget, -- Certain opcodes (see f.i. op326) use this field internally... it's probably a good idea to always specify it...
+				["res"] = "CDWPNFIN",
+				["sourceID"] = sprite.m_id,
+				["sourceTarget"] = sprite.m_id,
 			})
 		end
 	end
-end
+end)

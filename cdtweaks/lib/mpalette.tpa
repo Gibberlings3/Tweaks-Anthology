@@ -6,7 +6,7 @@
 COPY_EXISTING ~mpalette.bmp~ ~override~
   READ_LONG 0x0a pixel_off
   READ_LONG 0x16 height
-  PATCH_PRINT ~max colors is %height%~
+  //PATCH_PRINT ~max colors is %height%~
   FOR (index = 0 ; index < height ; ++index) BEGIN
     READ_BYTE (pixel_off + 0x02 + (36 * ((height - 1) - index)) + (3 * column)) red
     READ_BYTE (pixel_off + 0x01 + (36 * ((height - 1) - index)) + (3 * column)) green

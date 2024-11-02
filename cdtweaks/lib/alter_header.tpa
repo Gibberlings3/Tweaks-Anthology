@@ -1,0 +1,324 @@
+/////                                                  \\\\\
+///// alter_header                                     \\\\\
+/////                                                  \\\\\
+
+/*
+
+got tired of crappy ALTER_ITEM_HEADER and ALTER_SPELL_HEADER
+
+used:
+  bg2 fixpack, as bg2fixpack/lib/alter_header.tpa [symbolic link]
+  iwd fixpack, as iwdfixpack/lib/alter_header.tpa [symbolic link]
+  The Calling, as thecalling/lib/alter_header.tpa [symbolic link]
+  Tweaks Anthology, as cdtweaks/lib/alter_header.tpa [symbolic link]
+  EE Fixpack, as eefixpack/files/lib/alter_header.tpa [symbolic link]
+  Item Upgrade, as itemupgrade/lib/alter_header.tpa [symbolic link]
+
+platform:
+  all except iwd2 and pst
+ 
+version history: 
+  unknown
+
+*/
+
+DEFINE_PATCH_FUNCTION ALTER_HEADER
+
+  // defines what we're going to check
+  INT_VAR multi_match         = 999
+          verbose             = 0
+          silent              = 0
+          header              = "-1"
+
+  // variables for finding the effect to match
+          match_type        = "-1"
+          match_location    = "-1"
+          match_target      = "-1"
+          match_target_num  = "-1"
+          match_range       = "-1"
+          match_speed       = "-1"
+          match_projectile  = "-1"
+          // spell headers only
+          match_level       = "-1"
+          // item headers only
+          match_identify       = "-1"
+          match_alt_dicesize   = "-1"
+          match_launcher       = "-1"
+          match_alt_dicenumber = "-1"
+          match_alt_damage     = "-1"
+          match_to_hit         = "-1"
+          match_dicesize       = "-1"
+          match_primary        = "-1"
+          match_dicenumber     = "-1"
+          match_secondary      = "-1"
+          match_damage         = "-1"
+          match_damage_type    = "-1"
+          match_charges        = "-1"
+          match_drained        = "-1"
+          match_overhand       = "-1"
+          match_backhand       = "-1"
+          match_thrust         = "-1"
+          match_arrow          = "-1"
+          match_bolt           = "-1"
+          match_bullet         = "-1"
+          // flags at 0x26 (still item only)
+          match_flag_strength      = "-1" // add strength bonus, bit0
+          match_flag_break         = "-1" // breakable, bit1
+          match_flag_str_damage    = "-1" // strength damage bonus, ee, bit2
+          match_flag_str_to_hit    = "-1" // strength thac0 bonus, ee, bit3
+          match_flag_hostile       = "-1" // hostile, bit10
+          match_flag_recharge      = "-1" // recharge after resting, bit11
+          match_flag_bypass        = "-1" // bypass armor, bit16
+          match_flag_keenedge      = "-1" // keen edge, bit17
+          match_flag_backstab      = "-1" // tobex only, toggle backstab, bit25
+          match_flag_noinvisible   = "-1" // tobex only, cannot target invisible, bit26
+
+  // variables for the new effect
+          type        = "-1"
+          location    = "-1"
+          target      = "-1"
+          target_num  = "-1"
+          range       = "-1"
+          speed       = "-1"
+          projectile  = "-1"
+          // spell headers only
+          level       = "-1"
+          // item headers only
+          identify       = "-1"
+          alt_dicesize   = "-1"
+          launcher       = "-1"
+          alt_dicenumber = "-1"
+          alt_damage     = "-1"
+          to_hit         = "-1"
+          dicesize       = "-1"
+          primary        = "-1"
+          dicenumber     = "-1"
+          secondary      = "-1"
+          damage         = "-1"
+          damage_type    = "-1"
+          charges        = "-1"
+          drained        = "-1"
+          overhand       = "-1"
+          backhand       = "-1"
+          thrust         = "-1"
+          arrow          = "-1"
+          bolt           = "-1"
+          bullet         = "-1"
+          // flags at 0x26
+          flag_strength      = "-1" // add strength bonus, bit0
+          flag_break         = "-1" // breakable, bit1
+          flag_str_damage    = "-1" // strength damage bonus, ee, bit2
+          flag_str_to_hit    = "-1" // strength thac0 bonus, ee, bit3
+          flag_hostile       = "-1" // hostile, bit10
+          flag_recharge      = "-1" // recharge after resting, bit11
+          flag_bypass        = "-1" // bypass armor, bit16
+          flag_keenedge      = "-1" // keen edge, bit17
+          flag_backstab      = "-1" // tobex only, toggle backstab, bit25
+          flag_noinvisible   = "-1" // tobex only, cannot target invisible, bit26
+
+  // same for match and new STR_VAR
+  STR_VAR match_icon      = "SAME"
+          icon            = "SAME"
+BEGIN
+
+  READ_ASCII 0x00 sig (3)
+  SET abil_length = 0
+  SET proceed = 0
+  SET alter = 0
+  PATCH_IF ("%sig%" STRING_COMPARE_CASE "ITM" = 0) BEGIN
+    SET abil_length = 0x38
+  END ELSE
+  PATCH_IF ("%sig%" STRING_COMPARE_CASE "SPL" = 0) BEGIN
+    SET abil_length = 0x28
+  END
+  PATCH_IF abil_length = 0 BEGIN
+    PATCH_WARN ~WARNING: file type not recognized on %SOURCE_FILE% for ALTER_HEADER macro.~
+  END ELSE BEGIN
+    SET pro_off = abil_length = 0x38 ? 0x2a : 0x26
+    READ_LONG   0x64 abil_off
+    READ_SHORT  0x68 abil_num
+    FOR (index = 0 ; index < abil_num ; ++index) BEGIN
+      PATCH_IF ((header < 0) OR (header = index)) BEGIN
+        SET base = abil_off + (index * abil_length)
+        READ_BYTE  (base + 0x00) o_type
+        READ_BYTE  (base + 0x02) o_location
+        READ_ASCII (base + 0x04) o_icon (8) NULL
+        READ_BYTE  (base + 0x0c) o_target
+        READ_BYTE  (base + 0x0d) o_target_num
+        READ_SHORT (base + 0x0e) o_range
+        READ_SHORT (base + pro_off) o_projectile
+        PATCH_IF abil_length = 0x38 BEGIN
+          // item headers only
+          READ_BYTE  (base + 0x01) o_identify
+          READ_BYTE  (base + 0x03) o_alt_dicesize
+          READ_BYTE  (base + 0x10) o_launcher
+          READ_BYTE  (base + 0x11) o_alt_dicenumber
+          READ_BYTE  (base + 0x12) o_speed
+          READ_BYTE  (base + 0x13) o_alt_damage
+          READ_SHORT (base + 0x14) o_to_hit
+          READ_BYTE  (base + 0x16) o_dicesize
+          READ_BYTE  (base + 0x17) o_primary
+          READ_BYTE  (base + 0x18) o_dicenumber
+          READ_BYTE  (base + 0x19) o_secondary
+          READ_SHORT (base + 0x1a) o_damage
+          READ_SHORT (base + 0x1c) o_damage_type
+          READ_SHORT (base + 0x22) o_charges
+          READ_SHORT (base + 0x24) o_drained
+          READ_LONG  (base + 0x26) o_flags
+          READ_SHORT (base + 0x2c) o_overhand
+          READ_SHORT (base + 0x2e) o_backhand
+          READ_SHORT (base + 0x30) o_thrust
+          READ_SHORT (base + 0x32) o_arrow
+          READ_SHORT (base + 0x34) o_bolt
+          READ_SHORT (base + 0x36) o_bullet
+        END ELSE BEGIN
+          READ_SHORT (base + 0x10) o_level
+          READ_SHORT (base + 0x12) o_speed
+        END
+        // now check our header vs. the match variables
+        PATCH_IF ((multi_match != 0) AND
+                  ((match_type       = o_type)       OR (match_type < 0))       AND
+                  ((match_type       = o_type)       OR (match_type < 0))       AND
+                  ((match_location   = o_location)   OR (match_location < 0))   AND
+                  ((match_target     = o_target)     OR (match_target < 0))     AND
+                  ((match_target_num = o_target_num) OR (match_target_num < 0)) AND
+                  ((match_range      = o_range)      OR (match_range < 0))      AND
+                  ((match_speed      = o_speed)      OR (match_speed < 0))      AND
+                  ((match_projectile = o_projectile) OR (match_projectile < 0)) AND
+                  (("%match_icon%" STRING_COMPARE_CASE "%o_icon%" = 0) OR ("%match_icon%" STRING_COMPARE_CASE "SAME" = 0))) BEGIN
+          PATCH_IF (abil_length = 0x38) BEGIN  // item-specific checks
+            PATCH_IF (((match_identify       = o_identify)       OR (match_identify < 0))       AND
+                      ((match_alt_dicesize   = o_alt_dicesize)   OR (match_alt_dicesize < 0))   AND
+                      ((match_launcher       = o_launcher)       OR (match_launcher < 0))       AND
+                      ((match_alt_dicenumber = o_alt_dicenumber) OR (match_alt_dicenumber < 0)) AND
+                      ((match_alt_damage     = o_alt_damage)     OR (match_alt_damage < 0))     AND
+                      ((match_to_hit         = o_to_hit)         OR (match_to_hit < 0))         AND
+                      ((match_dicesize       = o_dicesize)       OR (match_dicesize < 0))       AND
+                      ((match_primary        = o_primary)        OR (match_primary < 0))        AND
+                      ((match_dicenumber     = o_dicenumber)     OR (match_dicenumber < 0))     AND
+                      ((match_secondary      = o_secondary)      OR (match_secondary < 0))      AND
+                      ((match_damage         = o_damage)         OR (match_damage < 0))         AND
+                      ((match_damage_type    = o_damage_type)    OR (match_damage_type < 0))    AND
+                      ((match_charges        = o_charges)        OR (match_charges < 0))        AND
+                      ((match_drained        = o_drained)        OR (match_drained < 0))        AND
+                      ((match_overhand       = o_overhand)       OR (match_overhand < 0))       AND
+                      ((match_backhand       = o_backhand)       OR (match_backhand < 0))       AND
+                      ((match_thrust         = o_thrust)         OR (match_thrust < 0))         AND
+                      ((match_arrow          = o_arrow)          OR (match_arrow < 0))          AND
+                      ((match_bolt           = o_bolt)           OR (match_bolt < 0))           AND
+                      ((match_bullet         = o_bullet)         OR (match_bullet < 0))         AND
+                      ((match_flag_strength < 0) OR
+                       (match_flag_strength = (flags & BIT0)) OR // not set
+                       (match_flag_strength > 0 AND (flags & BIT0) = BIT0)) AND
+                      ((match_flag_break < 0) OR
+                       (match_flag_break = (flags & BIT1)) OR // not set
+                       (match_flag_break > 0 AND (flags & BIT1) = BIT1)) AND
+                      ((match_flag_str_damage < 0) OR
+                       (match_flag_str_damage = (flags & BIT2)) OR // not set
+                       (match_flag_str_damage > 0 AND (flags & BIT2) = BIT2)) AND
+                      ((match_flag_str_to_hit < 0) OR
+                       (match_flag_str_to_hit = (flags & BIT3)) OR // not set
+                       (match_flag_str_to_hit > 0 AND (flags & BIT3) = BIT3)) AND
+                      ((match_flag_hostile < 0) OR
+                       (match_flag_hostile = (flags & BIT10)) OR // not set
+                       (match_flag_hostile > 0 AND (flags & BIT10) = BIT10)) AND
+                      ((match_flag_recharge < 0) OR
+                       (match_flag_recharge = (flags & BIT11)) OR // not set
+                       (match_flag_recharge > 0 AND (flags & BIT11) = BIT11)) AND
+                      ((match_flag_bypass < 0) OR
+                       (match_flag_bypass = (flags & BIT16)) OR // not set
+                       (match_flag_bypass > 0 AND (flags & BIT16) = BIT16)) AND
+                      ((match_flag_keenedge < 0) OR
+                       (match_flag_keenedge = (flags & BIT17)) OR // not set
+                       (match_flag_keenedge > 0 AND (flags & BIT17) = BIT17)) AND
+                      ((match_flag_backstab < 0) OR
+                       (match_flag_backstab = (flags & BIT25)) OR // not set
+                       (match_flag_backstab > 0 AND (flags & BIT25) = BIT25)) AND
+                      ((match_flag_noinvisible < 0) OR
+                       (match_flag_noinvisible = (flags & BIT26)) OR // not set
+                       (match_flag_noinvisible > 0 AND (flags & BIT26) = BIT26))) BEGIN
+              SET proceed = 1
+            END
+          END ELSE BEGIN // spell-specific checks
+            PATCH_IF ((match_level = o_level) OR (match_level < 0)) BEGIN
+              SET proceed = 1
+            END
+          END
+          PATCH_IF proceed BEGIN
+            SET alter += 1
+            SET multi_match -= 1
+            PATCH_IF (type >= 0)       BEGIN WRITE_BYTE  (base + 0x00) type END
+            PATCH_IF (location >= 0)   BEGIN WRITE_BYTE  (base + 0x02) location END
+            PATCH_IF (target >= 0)     BEGIN WRITE_BYTE  (base + 0x0c) target END
+            PATCH_IF (target_num >= 0) BEGIN WRITE_BYTE  (base + 0x0d) target_num END
+            PATCH_IF (range >= 0)      BEGIN WRITE_SHORT (base + 0x0e) range END
+            PATCH_IF (projectile >= 0) BEGIN WRITE_SHORT (base + pro_off) projectile END
+            PATCH_IF ("%icon%" STRING_COMPARE_CASE "SAME") BEGIN WRITE_ASCIIE (base + 0x04) ~%icon%~ #8 END
+            PATCH_IF abil_length = 0x38 BEGIN // item headers
+              PATCH_IF (identify >= 0)       BEGIN WRITE_BYTE  (base + 0x01) identify       END
+              PATCH_IF (alt_dicesize >= 0)   BEGIN WRITE_BYTE  (base + 0x03) alt_dicesize   END
+              PATCH_IF (launcher >= 0)       BEGIN WRITE_BYTE  (base + 0x10) launcher       END
+              PATCH_IF (alt_dicenumber >= 0) BEGIN WRITE_BYTE  (base + 0x11) alt_dicenumber END
+              PATCH_IF (speed >= 0)          BEGIN WRITE_BYTE  (base + 0x12) speed          END
+              PATCH_IF (alt_damage >= 0)     BEGIN WRITE_BYTE  (base + 0x13) alt_damage     END
+              PATCH_IF (to_hit >= 0)         BEGIN WRITE_SHORT (base + 0x14) to_hit         END
+              PATCH_IF (dicesize >= 0)       BEGIN WRITE_BYTE  (base + 0x16) dicesize       END
+              PATCH_IF (primary >= 0)        BEGIN WRITE_BYTE  (base + 0x17) primary        END
+              PATCH_IF (dicenumber >= 0)     BEGIN WRITE_BYTE  (base + 0x18) dicenumber     END
+              PATCH_IF (secondary >= 0)      BEGIN WRITE_BYTE  (base + 0x19) secondary      END
+              PATCH_IF (damage >= 0)         BEGIN WRITE_SHORT (base + 0x1a) damage         END
+              PATCH_IF (damage_type >= 0)    BEGIN WRITE_SHORT (base + 0x1c) damage_type    END
+              PATCH_IF (charges >= 0)        BEGIN WRITE_SHORT (base + 0x22) charges        END
+              PATCH_IF (drained >= 0)        BEGIN WRITE_SHORT (base + 0x24) drained        END
+              PATCH_IF (overhand >= 0)       BEGIN WRITE_SHORT (base + 0x2c) overhand       END
+              PATCH_IF (backhand >= 0)       BEGIN WRITE_SHORT (base + 0x2e) backhand       END
+              PATCH_IF (thrust >= 0)         BEGIN WRITE_SHORT (base + 0x30) thrust         END
+              PATCH_IF (arrow >= 0)          BEGIN WRITE_SHORT (base + 0x32) arrow          END
+              PATCH_IF (bolt >= 0)           BEGIN WRITE_SHORT (base + 0x34) bolt           END
+              PATCH_IF (bullet >= 0)         BEGIN WRITE_SHORT (base + 0x36) bullet         END
+  
+              PATCH_IF (flag_strength = 0)    BEGIN WRITE_LONG (base + 0x26) (THIS &  `BIT0)  END
+              PATCH_IF (flag_strength > 0)    BEGIN WRITE_LONG (base + 0x26) (THIS BOR BIT0)  END
+              PATCH_IF (flag_break = 0)       BEGIN WRITE_LONG (base + 0x26) (THIS &  `BIT1)  END
+              PATCH_IF (flag_break > 0)       BEGIN WRITE_LONG (base + 0x26) (THIS BOR BIT1)  END
+              PATCH_IF (flag_str_damage = 0)  BEGIN WRITE_LONG (base + 0x26) (THIS &  `BIT2)  END
+              PATCH_IF (flag_str_damage > 0)  BEGIN WRITE_LONG (base + 0x26) (THIS BOR BIT2)  END
+              PATCH_IF (flag_str_to_hit = 0)  BEGIN WRITE_LONG (base + 0x26) (THIS &  `BIT3)  END
+              PATCH_IF (flag_str_to_hit > 0)  BEGIN WRITE_LONG (base + 0x26) (THIS BOR BIT3)  END
+              PATCH_IF (flag_hostile = 0)     BEGIN WRITE_LONG (base + 0x26) (THIS &  `BIT10) END
+              PATCH_IF (flag_hostile > 0)     BEGIN WRITE_LONG (base + 0x26) (THIS BOR BIT10) END
+              PATCH_IF (flag_recharge = 0)    BEGIN WRITE_LONG (base + 0x26) (THIS &  `BIT11) END
+              PATCH_IF (flag_recharge > 0)    BEGIN WRITE_LONG (base + 0x26) (THIS BOR BIT11) END
+              PATCH_IF (flag_bypass = 0)      BEGIN WRITE_LONG (base + 0x26) (THIS &  `BIT16) END
+              PATCH_IF (flag_bypass > 0)      BEGIN WRITE_LONG (base + 0x26) (THIS BOR BIT16) END
+              PATCH_IF (flag_keenedge = 0)    BEGIN WRITE_LONG (base + 0x26) (THIS &  `BIT17) END
+              PATCH_IF (flag_keenedge > 0)    BEGIN WRITE_LONG (base + 0x26) (THIS BOR BIT17) END
+              PATCH_IF (flag_backstab = 0)    BEGIN WRITE_LONG (base + 0x26) (THIS &  `BIT25) END
+              PATCH_IF (flag_backstab > 0)    BEGIN WRITE_LONG (base + 0x26) (THIS BOR BIT25) END
+              PATCH_IF (flag_noinvisible = 0) BEGIN WRITE_LONG (base + 0x26) (THIS &  `BIT26) END
+              PATCH_IF (flag_noinvisible > 0) BEGIN WRITE_LONG (base + 0x26) (THIS BOR BIT26) END
+            END ELSE BEGIN // spell headers
+              PATCH_IF (level >= 0) BEGIN WRITE_SHORT (base + 0x10) level END
+              PATCH_IF (speed >= 0) BEGIN WRITE_SHORT (base + 0x12) speed END
+            END
+          END // proceed check
+        END // mutual fields check
+      END // for loop
+    END // header check
+  END // abil_length check
+
+  PATCH_IF (alter = 0 && !silent) BEGIN
+    PATCH_WARN "WARNING: no effects altered on %SOURCE_FILE% via ALTER_HEADER"
+  END
+
+  PATCH_IF (verbose && !silent) BEGIN
+    READ_LONG 0x0c strref
+    PATCH_IF ((strref > 0) AND (strref < 200000)) BEGIN
+      READ_STRREF 0x0c name
+    END ELSE BEGIN
+      READ_STRREF 0x08 name
+    END
+    PATCH_PRINT "              ~%SOURCE_FILE%~   ~override~ // %name%, %alter% effect(s) altered"
+  END
+
+END

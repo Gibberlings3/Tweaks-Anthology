@@ -1,3 +1,37 @@
+/////                                                  \\\\\
+///// oBG/Tutu/BGT/BGEE/EET CPM library: Tutu          \\\\\
+/////                                                  \\\\\
+
+/*
+
+A library to declare variabes to allow unified installations of BG content
+across all platforms: oBG, BGEE or the conversions BGT, EET, and Tutu.
+
+This particular library is for Tutu games. 
+
+One of these four libraries (EET is in the local EET folder) should be called 
+from a GAME_IS check, for example Tweaks:
+
+https://github.com/Gibberlings3/Tweaks-Anthology/blob/master/cdtweaks/lib/g3_cpmvars_master.tpa
+
+used:
+  gavin, as gavin/lib/g3_tutu_cpmvars.tpa [symbolic link]
+  IWDification, as iwdification/tpa/g3_tutu_cpmvars.tpa [symbolic link]
+  Lore from Learning, as cdlore/lib/g3_tutu_cpmvars.tpa [symbolic link]
+  mur'neth, as mur'neth/lib/g3_tutu_cpmvars.tpa [symbolic link]
+  Plasmocat's BG NPC Portraits in BG2 Style, as plasmobg1bg2/lib/g3_tutu_cpmvars.tph [local symlink]
+  RoorenArt's Portrait Pack, as roorenart_bg2/lib/g3_tutu_cpmvars.tpa [local symlink]
+  The Calling, as thecalling/lib/g3_tutu_cpmvars.tpa [symbolic link]
+  Tweaks Anthology, as cdtweaks/lib/g3_tutu_cpmvars.tpa [symbolic link]
+
+platform:
+  tutu
+ 
+version history: 
+  unknown
+
+*/
+
 /* Declaration of Tutu Platform Variables */
 //ACTION_IF GAME_IS ~tutu tutu_totsc~ THEN BEGIN
 	/* tp2, d, and baf parsing variables */

@@ -123,6 +123,32 @@ OUTER_SET halforc_dual_to_mage = 0
 
 
 
+
+// The following variables will be used for "Maximum HP Creatures [the bigg]"
+// The "cd_max_hp_percentage" and "cd_max_hp_bonus" can be used to raise the hit points of
+// non-joinable NPCs beyond what their maximum should be, e.g. if you'd like enemies to have
+// double their maximum HP for an additional challenge. Note that these boosts will stack with 
+// whatever HP bonuses are provided by your selected difficulty level. For example, if you wanted 
+// to simulate Legacy of Bhaal/Heart of Fury hit point totals, you could use '300' and '80' in the
+// respective fields, since LoB/HoF triples hit points and then adds 80 on top.
+// ** These variables can only used to further boost HP, and are ignored for joinable NPCs. **
+OUTER_SET cd_max_hp_percentage = 100
+OUTER_SET cd_max_hp_bonus = 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // DEPRECATED. This variable is ignored by the mod, as it's now handled directly by the installer. 
 // Enabling it or setting a value will have no effect. 
 // OUTER_SET always_install_unique_icons = 0

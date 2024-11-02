@@ -1,3 +1,3 @@
-@0 = "Può essere lanciato solo da personaggi di allineamento buono"
-@1 = "Può essere lanciato solo da personaggi di allineamento malvagio"
-@2 = "Il personaggio deve avere almeno un incantesimo di livello %spellLevel% memorizzato per poter lanciare spontaneamente questo incantesimo"
+//@0 = "Può essere lanciato solo da personaggi di allineamento buono"
+//@1 = "Può essere lanciato solo da personaggi di allineamento malvagio"
+@0 = "Il personaggio deve avere almeno un incantesimo di livello %i% memorizzato per poter lanciare spontaneamente questo incantesimo"

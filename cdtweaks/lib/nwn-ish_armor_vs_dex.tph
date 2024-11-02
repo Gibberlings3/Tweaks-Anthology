@@ -1,0 +1,12 @@
+DEFINE_ACTION_FUNCTION "NWN-ISH_ARMOR_VS_DEX"
+BEGIN
+	ACTION_IF !(FILE_EXISTS_IN_GAME "gtmharmr.bam") BEGIN
+		COPY "cdtweaks\bam\gtmharmr.bam" "override"
+	END
+	//
+	WITH_SCOPE BEGIN
+		LAF "ADD_STATDESC_ENTRY" INT_VAR "description" = RESOLVE_STR_REF (@0) STR_VAR "bam_file" = "gtmharmr" RET "feedback_icon" = "index" END
+		// Listener: run 'func' each time a sprite has finished evaluating its effects
+		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Listeners" "sourceFileSpec" = "cdtweaks\luke\lua\nwn-ish_armor_vs_dex.lua" "destRes" = "m_gtlstn" END
+	END
+END

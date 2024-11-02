@@ -1,0 +1,74 @@
+@0 = ~Jeśli powalisz na ziemię trolla, to aby go zabić, potraktuj go ogniem lub kwasem.~
+@1 = ~Jeśli wyssano ci poziom, skorzystaj ze zwoju Przywrócenia. Odzyskasz stracone poziomy. Świątynie też mogą ci pomóc.~
+@2 = ~Wciśnij klawisz „Q”, aby dokonać szybkiego zapisu gry. Rób to często.~
+@3 = ~Możesz użyć klawisza „H”, aby ukryć panele interfejsu. Zatrzymanie gry lub ponowne wciśnięcie „H” spowoduje, że pojawią się z powrotem.~
+// Replaced hint
+// @4 = ~W Baldur's Gate 2 możesz grać, korzystając z rozdzielczości 640x480 lub 800x600.~
+@5 = ~Jeśli walka jest dla ciebie za trudna, przejdź do opcji gry i zmniejsz poziom trudności na czas jej trwania.~
+@6 = ~Przedmioty, z których można skorzystać tylko raz dziennie, znikają z paska przedmiotów podręcznych po użyciu. Ikona pojawi się ponownie następnego dnia, gdy przedmiot będzie gotowy do powtórnego użycia.~
+@7 = ~Możesz wybrać nowe skrypty dla swoich postaci. Przejdź na kartę postaci i naciśnij przycisk „modyfikacja”.~
+@8 = ~Kiedy wybrana jest więcej niż jedna postać, możesz wybrać dodatkowe formacje, klikając prawym klawiszem myszki na przyciskach formacji.~
+@9 = ~Nie używaj broni strzeleckich w walce wręcz. Wrogowie otrzymają +4 premii do ataku, jeśli nie będziesz posługiwać się bronią białą.~
+@10 = ~Jeśli chcesz używać jednocześnie dwóch broni, po prostu umieść drugą w miejscu na tarczę.~
+@11 = ~Zanim będzie można skorzystać ze specjalnych właściwości broni, trzeba ją zidentyfikować.~
+@12 = ~Jeśli chcesz znaleźć określony dom w mieście, sprawdź po prostu oznaczenia na mapie.~
+@13 = ~Możesz utworzyć punkty nawigacyjne dla swojej postaci przytrzymując klawisz SHIFT i klikając na ekranie lewym przyciskiem myszy.~
+@14 = ~Możesz dodać notatki na mapie, klikając prawym przyciskiem na miejscu, które chcesz oznaczyć.~
+@15 = ~W podziemiach zawsze powinno się wykrywać pułapki, korzystając z pomocy złodzieja lub kapłana z zaklęciem Znajdowanie pułapek.~
+@16 = ~Twój dziennik to nieoceniona pomoc. Często z niego korzystaj.~
+@17 = ~Gra zostaje automatycznie zapisana, kiedy drużyna wychodzi z obszaru. Jeśli zginiesz, sprawdź automatyczny zapis.~
+@18 = ~Jeśli jesteś magiem i masz chowańca, spróbuj z nim porozmawiać. Może mieć coś ciekawego do powiedzenia.~
+@19 = ~Niektóre istoty są odporne na pewne zaklęcia i bronie. Zawsze czytaj opis walki w okienku dialogowym.~
+// Updated hint
+// @20 = ~Aby zagrać drużyną całkowicie przez siebie stworzoną, musisz rozpocząć rozgrywkę w trybie dla wielu graczy i przydzielić sobie kontrolę nad wszystkimi postaciami.~
+@21 = ~W Opcjach Gry możesz włączyć opcję odpoczynku aż do uzdrowienia.~
+@22 = ~Masz teraz możliwość określenia swojej Biografii. Przejdź do Karty Postaci i wybierz Modyfikacja, a potem Biografia.~
+@23 = ~Jeśli wolisz grać w trybie turowym, wejdź do zakładki Autopauzy w Opcjach gry.~
+@24 = ~Podczas przywoływania demona musisz pamiętać, że bestia może zwrócić się przeciwko tobie, jeśli nie będzie cię bronić zaklęcie Ochrony przed złem.~
+@25 = ~Pamiętaj, że członkowie twojej drużyny mają swoje własne zdanie i mogą się nie zgadzać z twoimi decyzjami.~
+@26 = ~W grze możesz umieścić swoje własne portrety. Jak to zrobić dowiesz się z instrukcji.~
+@27 = ~Po przemianie w formę zwierzęcą, twoja postać nie może rozpocząć rozmowy.~
+@28 = ~Potężni czarodzieje dysponują magią, która odchyla rzucone na nich czary. Aby temu przeciwdziałać, należy używać takich czarów jak na przykład Przeszywająca magia.~
+@29 = ~Mimo, że bohaterowie gry nie muszą jeść, pamiętaj, że TY musisz. Nie chcemy stracić naszych oddanych graczy.~
+@30 = ~Zmiana taktyki pozwala często pokonać „niepokonanych” wrogów. Zapoznaj się ze wszystkimi dostępnymi opcjami i zdolnościami.~
+@31 = ~Samotna postać nie poradzi sobie z każdym zagrożeniem. Korzystaj z siły i umiejętności wszystkich członków drużyny.~
+@32 = ~Niektóre potwory są odporne na działanie magii.~
+// Replaced hint
+// @33 = ~Gra będzie wczytywać się ZNACZNIE szybciej, jeśli dokonasz pełnej instalacji.~
+// Replaced hint
+// @34 = ~Aby zwiększyć liczbę klatek, sprawdź wydajność w programie konfiguracyjnym.~
+// Replaced hint
+// @35 = ~Niektóre zaklęcia uległy zmianie w porównaniu do BG1. Sprawdź opisy czarów.~
+@36 = ~Istnieje wiele czarów, które pozwalają rozproszyć niewidzialność i iluzje (na przykład Lustrzane odbicie). Sprawdź w instrukcji.~
+@37 = ~Możesz dodać własne dźwięki do postaci. Sprawdź w pliku CzytajTo jak to zrobić.~
+@38 = ~W czasie gry można znaleźć fragmenty artefaktów. Krasnolud imieniem Cromwell może z nich wykuć kompletny przedmiot.~
+@39 = ~Kiedy kursor znajduje się nad potworem, możesz wcisnąć klawisz Tab, aby zobaczyć jego ogólny stan zdrowia.~
+@40 = ~Gdy jesteś na głównym ekranie możesz nacisnąć klawisz Tab. Wtedy nad głowami członków drużyny pojawią się ich punkty życia.~
+@41 = ~Możesz wyłączyć SI drużyny wciskając przycisk w kształcie „latarni” w prawym dolnym rogu ekranu.~
+// Replaced hint
+// @42 = ~Jeśli ukończysz BG2 nie musisz kończyć przygody. Możesz przenieść swoją postać do Neverwinter Nights.~
+@43 = ~Na twojej mapie zaznaczono wiele miejsc. Jeśli zabłądzisz, na pewno pozwoli ci to wrócić na szlak.~
+@44 = ~Korzystaj z podręcznych przedziałów na broń i czary. Dzięki nim łatwiej ci będzie walczyć.~
+@45 = ~Spróbuj korzystać z różnych formacji drużyny, aby osłonić jej słabszych członków.~
+@46 = ~Jeśli któryś z członków drużyny znajduje się poza ekranem, możesz go znaleźć, jeśli klikniesz dwa razy na jego portrecie.~
+@47 = ~Jeśli walka jest ciężka, korzystaj z mikstur, różdżek i innych przedmiotów o ograniczonej liczbie ładunków. Bardzo ułatwią ci zadanie.~
+@48 = ~W menu opcji możesz wyłączyć wskaźniki (kółka pod stopami bohaterów, itp.), aby dostosować je do swego stylu gry.~
+@49 = ~Kiedy istota pod działaniem zaklęcia Ulepszonej niewidzialności zaatakuje, staje się częściowo widoczna. Ale NIE MOŻESZ rzucać na nią czarów, dopóki nie rozproszysz niewidzialności.~
+@50 = ~Wyposażenie drowów znika, kiedy dotknie je światło słoneczne.~
+@51 = ~Czar maga Przeszywająca magia może zostać wykorzystany do zniesienia ochrony przed czarami (Odbicie czaru, itp.) z istoty korzystającej z czarów.~
+@52 = ~5-poziomowe zaklęcie maga Wyłom może usuwać ochronne czary bojowe (Kamienna skóra itp.).~
+@53 = ~W Wyzwalaczu zaklęć można przechowywać czary, których można użyć w czasie walki szybciej niż zwykłych i bez ryzyka ich przerwania.~
+@54 = ~Zaklęcie maga (Mniejsze) Odbicie czaru pozwala odbijać czary we wrogich użytkowników magii lub kapłanów.~
+@55 = ~Przed rzuceniem jakichkolwiek zaklęć przyzywających demony, powinno skorzystać się z czaru „Ochrona przed złem, promień 3 metry”.~
+// Replaced hint
+// @56 = ~W grze Baldur's Gate II skróceniu uległ czas działania czarów typu urok, dominacja i zamęt.~
+@57 = ~Trzeciopoziomowe zaklęcie kapłana Strefa świeżego powietrza neguje działanie wszystkich zaklęć tworzących obłoki, jak na przykład Śmierdząca chmura.~
+@58 = ~Rzucając odwróconą wersję czaru leczącego (na przykład Zadawanie ran), kapłan musi trafić cel. W innym wypadku czar zostanie zmarnowany.~
+@59 = ~Mag straci na stałe 1 punkt Kondycji, jeśli zginie jego chowaniec.~
+@60 = ~Do sklepu Targ Przygody nowy towar dociera raz podczas gry. Nie zapomnij tu wrócić z późniejszych etapów.~
+@61 = ~Podczas zakupów w sklepie możesz nabyć kilka sztuk tego samego przedmiotu, klikając dwa razy na jego rysunku.~
+@62 = ~Aby rzucić wyzwanie o zwierzchnictwo nad gajem, druid musi być na co najmniej 14 poziomie.~
+@63 = ~Przycisk w kształcie gwiazdki w prawym dolnym rogu ekranu otwiera dostęp do wszystkich zdolności specjalnych twojej postaci.~
+@64 = ~Nie próbuj sprzedawać przedmiotów, które nie mają już żadnego ładunku. Sprzedawca pomyśli, że przedmiot nie ma żadnego działania i zaoferuje ci jedną sztukę złota.~
+@65 = ~Chochlik Cespenar może zbudować lub ulepszyć wiele przedmiotów. Znajdziesz go w swojej sferze kieszeniowej.~
+@66 = ~Do ogromnych lochów Twierdzy Strażnika można się dostać zarówno z gry Baldur's Gate 2: Cienie Amn, jak i z Tronu Bhaala.~

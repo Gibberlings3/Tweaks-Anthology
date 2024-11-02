@@ -1,3 +1,11 @@
+// these two vars can be set in the cdtweaks.txt, but in case they're not or set incorrectly, set defaults
+ACTION_IF !VARIABLE_IS_SET cd_max_hp_percentage OR !IS_AN_INT cd_max_hp_percentage BEGIN
+  OUTER_SET cd_max_hp_percentage = 100
+END
+ACTION_IF !VARIABLE_IS_SET cd_max_hp_bonus OR !IS_AN_INT cd_max_hp_bonus BEGIN
+  OUTER_SET cd_max_hp_bonus = 0
+END
+
 // define different macros for max_hp_creatures depending on 2e/3e
 ACTION_IF game_is_iwd2 BEGIN
 
@@ -37,6 +45,9 @@ ACTION_IF game_is_iwd2 BEGIN
       SET "maxed_hp" = 12 * "%barbarian%" + 10 * ("%fighter%" + "%paladin%" + "%ranger%")
                      + 8 * ("%cleric%" + "%druid%" + "%monk%") + 6 * ("%bard%" + "%rogue%")
                      + 4 * ("%wizard%" + "%sorceror%")
+      PATCH_IF IS_AN_INT dv BEGIN // non-joinable NPC
+        SET maxed_hp = (((maxed_hp * cd_max_hp_percentage) / 100) + cd_max_hp_bonus)                    
+      END  
       PATCH_IF ("%curhp%" < "%maxed_hp%") BEGIN
         // PATCH_PRINT ~updating %SOURCE_FILE%~
         WRITE_SHORT off_curhp "%maxed_hp%" * "%curhp%" / "%maxhp%"
@@ -74,8 +85,8 @@ END ELSE BEGIN
       PATCH_IF ("%sig%" STRING_COMPARE_CASE "CHR" = 0) BEGIN SET fudge = 0x64 END ELSE BEGIN SET fudge = 0 END
       SET off_curhp = 0x24 + fudge
       SET off_maxhp = 0x26 + fudge
-      READ_SHORT 0x24 "currenthp" ELSE 0 // fortunately all cre formats keep HP info at these offsets
-      READ_SHORT 0x26 "maxhp"     ELSE 0
+      READ_SHORT off_curhp "currenthp" ELSE 0 // fortunately all cre formats keep HP info at these offsets
+      READ_SHORT off_maxhp "maxhp"     ELSE 0
       PATCH_IF (("%maxhp%" > 0) AND ("%currenthp%" > 0)) BEGIN
       
         SET off_dual1 = 0x10 + fudge
@@ -374,6 +385,10 @@ END ELSE BEGIN
                        ("%seconddiceX%" * "%seconddice%") + ("%secondpostdiceX%" * "%secondpostdice%") +
                        ("%thirddiceX%"  *  "%thirddice%") + ("%thirdpostdiceX%"  *  "%thirdpostdice%"))
         SET "newhp" = ("%newhp%" / "%divide%")
+        
+        PATCH_IF IS_AN_INT dv BEGIN // non-joinable NPC
+          SET newhp = (((newhp * cd_max_hp_percentage) / 100) + cd_max_hp_bonus)           
+        END  
 
         PATCH_IF ("%newhp%" > "%maxhp%") BEGIN // if new hp is higher than current max, patch it in
           // PATCH_PRINT ~updating %SOURCE_FILE%~

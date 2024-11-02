@@ -19,13 +19,7 @@ ACTION_PHP_EACH JOINABLE_NPC_ARRAY AS file => dv BEGIN
   ACTION_IF !IS_AN_INT dv BEGIN // joinable NPC
 
     COPY_EXISTING ~%file%~ ~override~
-      PATCH_IF (NOT ~%SOURCE_RES%~ STRING_EQUAL_CASE ~riftcr04~) BEGIN // skip creatures meant to have lower hp
-        READ_SHORT 0x24 "currenthp" ELSE 0 // fortunately all cre formats keep HP info at these offsets
-        READ_SHORT 0x26 "maxhp"     ELSE 0
-        PATCH_IF (("%maxhp%" > 0) AND ("%currenthp%" > 0)) BEGIN
-          LAUNCH_PATCH_MACRO ~max_hp_creatures~ // contains rest of patch
-        END
-      END
+      LAUNCH_PATCH_MACRO ~max_hp_creatures~ // contains rest of patch
       BUT_ONLY
       
   END
@@ -34,6 +28,7 @@ END
 
 ACTION_IF !game_is_pst AND !game_is_pstee BEGIN // no character files on these games
 
+  OUTER_SPRINT dv ~dv~ // set to non-integer value so these parse as joinable when the macro runs
   ACTION_BASH_FOR ~%USER_DIRECTORY%/characters~ ~^.+\.chr$~ BEGIN
   
     COPY ~%BASH_FOR_FILESPEC%~ ~%BASH_FOR_FILESPEC%~

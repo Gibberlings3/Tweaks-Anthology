@@ -1,0 +1,87 @@
+/////                                                  \\\\\
+///// tob2soa                                          \\\\\
+/////                                                  \\\\\
+
+/*
+
+soa has many working triggers and actions that just need
+ids entries to work. written so that it can be installed
+multiple times w/o incident.
+
+used:
+  amber, as amber/lib/tob2soa.tph [symbolic link]
+  bg2 fixpack, as bg2fixpack/lib/tob2soa.tph [symbolic link]
+  g3 anniversary, as g3anniversary/lib/tob2soa.tph [symbolic link]
+  Haldamir, as haldamir/lib/tob2soa.tph [symbolic link]
+  SP Collection, as spstuff/lib/tob2soa.tph [symbolic link]
+  Tweaks Anthology, as cdtweaks/lib/tob2soa.tph [symbolic link]
+
+platform:
+  obg2, specifically SoA--though it should be harmless on other bg2-based engines
+ 
+version history: 
+  unknown
+
+*/
+
+// adding all ToB actions to action.ids unless already present
+APPEND ~ACTION.IDS~ ~31 SpellRES(S:RES*,O:Target*)~
+             UNLESS ~31 SpellRES(S:RES\*,O:Target\*)~
+APPEND ~ACTION.IDS~ ~95 SpellPointRES(S:RES*,P:Target*)~
+             UNLESS ~95 SpellPointRES(S:RES\*,P:Target\*)~
+APPEND ~ACTION.IDS~ ~113 ForceSpellRES(S:RES*,O:Target)~
+             UNLESS ~113 ForceSpellRES(S:RES\*,O:Target)~
+APPEND ~ACTION.IDS~ ~114 ForceSpellPointRES(S:RES*,P:Target)~
+             UNLESS ~114 ForceSpellPointRES(S:RES\*,P:Target)~
+APPEND ~ACTION.IDS~ ~147 RemoveSpellRES(S:Spell*)~
+             UNLESS ~147 RemoveSpellRES(S:Spell\*)~
+APPEND ~ACTION.IDS~ ~160 ApplySpellRES(S:RES*,O:Target)~
+             UNLESS ~160 ApplySpellRES(S:RES\*,O:Target)~
+APPEND ~ACTION.IDS~ ~181 ReallyForceSpellRES(S:RES*,O:Target)~
+             UNLESS ~181 ReallyForceSpellRES(S:RES\*,O:Target)~
+APPEND ~ACTION.IDS~ ~191 SpellNoDecRES(S:RES*,O:Target*)~
+             UNLESS ~191 SpellNoDecRES(S:RES\*,O:Target\*)~
+APPEND ~ACTION.IDS~ ~192 SpellPointNoDecRES(S:RES*,P:Target*)~
+             UNLESS ~192 SpellPointNoDecRES(S:RES\*,P:Target\*)~
+APPEND ~ACTION.IDS~ ~240 ReallyForceSpellDeadRES(S:RES*,O:Target)~
+             UNLESS ~240 ReallyForceSpellDeadRES(S:RES\*,O:Target)~
+APPEND ~ACTION.IDS~ ~318 ForceSpellRangeRES(S:RES*,O:Target)~
+             UNLESS ~318 ForceSpellRangeRES(S:RES\*,O:Target)~
+APPEND ~ACTION.IDS~ ~319 ForceSpellPointRangeRES(S:RES*,P:Target)~
+             UNLESS ~319 ForceSpellPointRangeRES(S:RES\*,P:Target)~
+APPEND ~ACTION.IDS~ ~337 ReallyForceSpellPointRES(S:RES*,P:Target*)~
+             UNLESS ~337 ReallyForceSpellPointRES(S:RES\*,P:Target\*)~
+COPY_EXISTING ~action.ids~ ~override~
+  REPLACE_TEXTUALLY ~^106 Shout(.*$~ ~106 Shout(I:ID*SHOUTIDS)~
+  BUT_ONLY_IF_IT_CHANGES
+  
+// additional ToB triggers for SoA
+APPEND ~TRIGGER.IDS~ ~0x00A1 SpellCastOnMeRES(S:Spell*,O:Caster*)~
+              UNLESS ~0x00A1 SpellCastOnMeRES(S:Spell\*,O:Caster\*)~
+APPEND ~TRIGGER.IDS~ ~0x0091 SpellCastRES(S:Spell*,O:Object*)~
+              UNLESS ~0x0091 SpellCastRES(S:Spell\*,O:Object\*)~
+APPEND ~TRIGGER.IDS~ ~0x00A6 SpellCastPriestRES(S:Spell*,O:Object*)~
+              UNLESS ~0x00A6 SpellCastPriestRES(S:Spell\*,O:Object\*)~
+APPEND ~TRIGGER.IDS~ ~0x00A7 SpellCastInnateRES(S:Spell*,O:Object*)~
+              UNLESS ~0x00A7 SpellCastInnateRES(S:Spell\*,O:Object\*)~
+APPEND ~TRIGGER.IDS~ ~0x4031 HaveSpellRES(S:Spell*)~
+              UNLESS ~0x4031 HaveSpellRES(S:Spell\*)~
+APPEND ~TRIGGER.IDS~ ~0x40D5 ActuallyInCombat()~
+              UNLESS ~0x40D5 ActuallyInCombat()~
+COPY_EXISTING ~trigger.ids~ ~override~
+  REPLACE_TEXTUALLY ~\bHeard(O:Object\*,I:ID\*)~
+                    ~Heard(O:Object*,I:ID*SHOUTIDS)~
+  BUT_ONLY_IF_IT_CHANGES
+
+ACTION_IF NOT FILE_EXISTS_IN_GAME ~shoutids.ids~ THEN BEGIN
+  
+<<<<<<<<./inline/shoutids.ids
+90
+123 HEALME
+124 ASSIST
+125 ALERT
+126 SOLAR_STANCE
+>>>>>>>>
+COPY ~./inline/shoutids.ids~ ~override~
+
+END

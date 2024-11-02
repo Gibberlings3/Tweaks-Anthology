@@ -36,7 +36,6 @@
 @27 = ~DLC Merger is required before mods can be installed on this game. Check the readme for more information and a link to download DLC Merger.~
 @28 = ~There are not enough free spell state or secondary type slots available to install this component.~
 @29 = "Requires EEex (https://github.com/Bubb13/EEex)."
-@30 = "One or more Cure/Cause Wounds spells are missing. Make sure either the Divine Spell Pack from IWDification is installed (https://github.com/Gibberlings3/iwdification) or you are modding IWD:EE."
 
 @100 = ~Batch Installer -- EXPERIMENTAL, use at own risk. Check the readme.~
 @101 = ~
@@ -133,6 +132,14 @@ The uninstall messages above are normal and expected.
 @24000 = ~Outline White Spell Icons for Accessibility~
 @24001 = ~Add Black Outline~
 @24100 = ~Add Gray Outline~
+
+@25000 = ~Colorize NPC Names and Tooltips~
+@25001 = ~Normal brightness~
+@25100 = ~Slightly increased brightness~
+@25200 = ~Moderately increased brightness~
+@25300 = ~Slightly decreased brightness~
+@25400 = ~Moderately decreased brightness~
+@25500 = ~Original color~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -456,6 +463,28 @@ The uninstall messages above are normal and expected.
 
 @267000 = "Dual-Wield feat for Rangers [Luke]"
 
+@268000 = ~"Force" the Archer kit to use bows [Luke]~
+
+@269000 = "NWN-ish Armor vs. Dexterity [Luke]"
+
+@270000 = "Defensive Roll feat for Thieves [Luke]"
+
+@271000 = "Divine Grace / Dark Blessing feat for Paladins / Blackguards [Luke]"
+
+@272000 = "Good Aim racial feat for Halflings [Luke]"
+
+@273000 = "Cleave Feat for Fighters [Luke]"
+
+@274000 = "Sneak Attack class feat for Blackguards [Luke]"
+
+@275000 = "Fearless racial feat for Halflings [Luke]"
+
+@276000 = "Poison Save class feat for Assassins [Luke]"
+
+@277000 = "Planar Turning class feat for Clerics / Paladins [Luke]"
+
+@278000 = "Circle Kick class feat for Monks [Luke]"
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -683,6 +712,13 @@ Use Baldur.lua options: a7_interval_ini
 @339000 = ~Automatic Use of Ranger Tracking Skill~
 @339001 = ~Cannot read tracking table: component installed but no changes made.~
 
+@340000 = ~Restored Loading Hints~
+
+@341000 = ~Explicit Cast Warnings~
+@341001 = ~Mage and priest spells only~
+@341100 = ~Mage, priest, and innate spells only~
+@341200 = ~All spells (check readme)~
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -742,6 +778,8 @@ Use Baldur.lua options: a7_interval_ini
 @419600 = ~Also Color the PC's Name: Green~
 @419700 = ~Also Color the PC's Name: Yellow~
 @419800 = ~Also Color the PC's Name: Orange~
+
+@420000 = "Make Rancor +1 a bit more reliable"
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\

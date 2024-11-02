@@ -12,9 +12,6 @@
 
 INCLUDE ~cdtweaks/lib/interval_saves.tpa~
 
-ACTION_IF (FILE_EXISTS ~cdtweaks/cdtweaks.txt~) THEN BEGIN
-  INCLUDE ~cdtweaks/cdtweaks.txt~ // config file
-END
 ACTION_IF (NOT IS_AN_INT ~interval_save_enabled~) BEGIN OUTER_SET interval_save_enabled = 1 END
 ACTION_IF (NOT IS_AN_INT ~interval_save_delay~) BEGIN OUTER_SET interval_save_delay = 1800 END
 ACTION_IF (NOT IS_AN_INT ~interval_save_combat~) BEGIN OUTER_SET interval_save_combat = 0 END

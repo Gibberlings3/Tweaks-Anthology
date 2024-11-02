@@ -315,6 +315,14 @@ END ELSE BEGIN
     ADD_MAP_NOTE #152  #3376 ~gray~ @111034
     ADD_MAP_NOTE #818  #2420 ~gray~ @111034
     ADD_MAP_NOTE #2564 #2341 ~red~  @111041
+    PATCH_IF MOD_IS_INSTALLED ~thecalling.tp2~ ~10~ BEGIN // updtaed gnoll stronghold from the calling
+      ADD_MAP_NOTE #3053  #2390 ~gray~ @111034 // Cave
+      ADD_MAP_NOTE #1858   #802 ~gray~ @111126 // Nook
+      ADD_MAP_NOTE #2235  #1799 ~red~  @111127 // Archway
+      ADD_MAP_NOTE #2258  #1312 ~red~   #61443 // stairs down
+      ADD_MAP_NOTE #1733  #1092 ~red~   #61443 // stairs down
+      ADD_MAP_NOTE #2837  #1470 ~red~   #61443 // stairs down
+    END  
     BUT_ONLY
   
   COPY_EXISTING ~fw5200.are~ ~override~ // Cloudpeak Mountains

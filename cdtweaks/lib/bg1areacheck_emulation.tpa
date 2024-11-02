@@ -1,3 +1,23 @@
+/////                                                  \\\\\
+///// oBG Area Trigger Emulation                       \\\\\
+/////                                                  \\\\\
+
+/*
+ This clever bit of code comes from Zed Nocear and is adpated slightly for
+ Tweaks Anthology. The basic idea is to set variables about the area that can be
+ used in script/dialogue triggers since oBG lacks AreaCheck and AreaType triggers.
+
+used:
+  Tweaks Anthology, as cdtweaks/lib/bg1areacheck_emulation.tpa [symbolic link]
+
+platform:
+  obg, with or without totsc
+ 
+version history: 
+  unknown
+
+*/
+
 ACTION_IF NOT VARIABLE_IS_SET cd_BG1TriggerEmulation THEN BEGIN
 
   OUTER_SET cd_BG1TriggerEmulation = 1 // just do this once per install

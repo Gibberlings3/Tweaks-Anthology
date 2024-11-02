@@ -1,15 +1,32 @@
+/////                                                  \\\\\
+///// joinable npc array                               \\\\\
+/////                                                  \\\\\
+
 /*
 
-This is adapted from EET:
+originally adapted from EET:
 https://github.com/K4thos/IE-code-repository/blob/master/joinable_npc_array.tpa
 
+The original EET macro only loaded joinable NPCs in the array, but there are
+a few components of Anthology that specifically target non-joinables. As such
+the function now adds all creature files into the array; if they're joinable then
+they get added as crefile => dv and crefile => 0 if they're not. This allows me to
+do IS_AN_INT checks in various components to filter accordingly. 
 
-* It's been removed from a macro and is called directly
-* it now covers the original games
-* non-joinables also get logged to the array but with => 0 instead of => dv
-* it's wrapped in a var check so the array only gets built once even if called
-  multiple times by various components
+It's also been expanded to cover non-EET games and has a var check so that it can
+be called multiple times but only execute once. 
+
+* note that it relies on variables from game_checks.tpa *
   
+used:
+  Tweaks Anthology, as cdtweaks/lib/joinable_npc_array.tpa [symbolic link]
+
+platform:
+  all games
+ 
+version history: 
+  unknown
+
 */
 
 ACTION_IF !VARIABLE_IS_SET cd_joinable BEGIN

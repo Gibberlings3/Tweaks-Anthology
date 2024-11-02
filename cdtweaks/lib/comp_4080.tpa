@@ -185,9 +185,6 @@ END ELSE BEGIN // tutu, bgt, bgee
   
       COPY ~cdtweaks/cre/khalid7.cre~ ~override~
         SAY BIO @408001
-        PATCH_IF fx_type = 4 BEGIN
-          LPF ADD_CRE_EFFECT INT_VAR opcode = 176 target = 1 parameter1 = 0xfffffffd timing = 9 END
-        END
     
     END
     

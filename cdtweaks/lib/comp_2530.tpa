@@ -39,7 +39,7 @@ END ELSE BEGIN
 
   END
 
-  INCLUDE ~cdtweaks/lib/macro_alter_header.tpa~
+  INCLUDE ~cdtweaks/lib/alter_header.tpa~
 
   // update anything that is immune/reflects original lightning bolt to do the same with new projectile
   COPY_EXISTING_REGEXP GLOB ~^.+\.cre$~ ~override~

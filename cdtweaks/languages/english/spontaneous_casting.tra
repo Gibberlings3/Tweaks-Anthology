@@ -1,3 +1,3 @@
-@0 = "It can only be cast by good-aligned characters"
-@1 = "It can only be cast by evil-aligned characters"
-@2 = "The character must have at least one level %spellLevel% spell memorized to spontaneously cast this spell"
+//@0 = "It can only be cast by good-aligned characters"
+//@1 = "It can only be cast by evil-aligned characters"
+@0 = "The character must have at least one level %i% spell memorized to spontaneously cast this spell"

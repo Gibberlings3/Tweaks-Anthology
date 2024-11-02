@@ -258,3 +258,231 @@ BEGIN
 	BUT_ONLY_IF_IT_CHANGES
 
 END
+
+////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\
+// Get the clab files of all kits whose base class is "%class%" \\
+////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\
+
+DEFINE_DIMORPHIC_FUNCTION "GET_CLAB_FILES"
+STR_VAR
+	"class" = ""
+RET_ARRAY
+	"clab_files"
+BEGIN
+	ACTION_MATCH "%class%" WITH
+		"thief" BEGIN
+			OUTER_TEXT_SPRINT $"clab_files"("clabth01") "" // unkitted thief
+		END
+		"ranger" BEGIN
+			OUTER_TEXT_SPRINT $"clab_files"("clabrn01") "" // unkitted ranger
+		END
+		"cleric" BEGIN
+			OUTER_TEXT_SPRINT $"clab_files"("clabpr01") "" // unkitted cleric
+		END
+		DEFAULT
+	END
+	//
+	COPY_EXISTING - "kitlist.2da" "override"
+		COUNT_2DA_COLS "cols"
+		READ_2DA_ENTRIES_NOW "read_kitlist" "%cols%"
+		FOR ("i" = 1 ; "%i%" < "%read_kitlist%" ; "i" += 1) BEGIN // skip RESERVE row...
+			READ_2DA_ENTRY_FORMER "read_kitlist" "%i%" 8 "class_here"
+			PATCH_IF ("%class_here%" == IDS_OF_SYMBOL ("class" "%class%")) BEGIN
+				READ_2DA_ENTRY_FORMER "read_kitlist" "%i%" 5 "abilities"
+				TEXT_SPRINT $"clab_files"("%abilities%") ""
+			END
+		END
+	BUT_ONLY
+  
+END
+
+////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\
+// Add the specified ability to the current clab file \\
+////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\
+
+DEFINE_PATCH_FUNCTION "ADD_CLAB_ABILITY"
+INT_VAR
+	"level" = 1
+STR_VAR
+	"type" = "ap" // default: passive ability
+	"resref" = ""
+	"identifier" = "GT_EXAMPLE"
+BEGIN
+	// Sanity checks
+	PATCH_IF ("%level%" <= 0) BEGIN
+		PATCH_FAIL "ADD_CLAB_ABILITY: level must be strictly greater than 0"
+	END
+	PATCH_IF ("%resref%" STRING_EQUAL_CASE "") BEGIN
+		PATCH_FAIL "ADD_CLAB_ABILITY: resref cannot be empty"
+	END
+	//
+	TO_UPPER "type"
+	TO_UPPER "resref"
+	TO_UPPER "identifier"
+	// Main
+	TEXT_SPRINT "string" "%identifier%"
+	FOR ("i" = 1 ; "%i%" <= "%level%" ; "i" += 1) BEGIN
+		PATCH_IF ("%i%" == "%level%") BEGIN
+			TEXT_SPRINT "string" "%string% %type%_%resref%"
+		END ELSE BEGIN
+			TEXT_SPRINT "string" "%string% ****"
+		END
+	END
+	COUNT_2DA_COLS "cols"
+	FOR ("i" = "%level%" ; "%i%" < "%cols%" - 1 ; "i" += 1) BEGIN
+		TEXT_SPRINT "string" "%string% ****"
+	END
+	// Add row
+	COUNT_2DA_ROWS "%cols%" "rows"
+	INSERT_2DA_ROW "%rows%" "%cols%" "%string%"
+	// formatting
+	PRETTY_PRINT_2DA
+END
+
+/*
+=====================================================================================================
+**ADD_EXTENDED_STAT**
+- For use with EEex (https://eeex-docs.readthedocs.io/en/latest/EEex%20Opcodes/index.html#opcode-401)
+=====================================================================================================
+*/
+
+DEFINE_DIMORPHIC_FUNCTION "ADD_EXTENDED_STAT"
+INT_VAR
+	"min" = 0 // for use in "x-stats.2da"
+	"max" = 1 // for use in "x-stats.2da"
+	"default" = 0 // for use in "x-stats.2da"
+STR_VAR
+	"identifier" = "" // for use in "stats.ids"
+RET
+	"value"
+BEGIN
+	OUTER_SET "value" = IDS_OF_SYMBOL ("stats" "%identifier%")
+	//
+	ACTION_IF ("%value%" == "-1") BEGIN
+		OUTER_PATCH ~~ BEGIN
+			FOR ("id" = 203 ; "%id%" <= 0xFFFF + 202 ; "id" += 1) BEGIN
+				LOOKUP_IDS_SYMBOL_OF_INT "symbol" ~stats~ "%id%"
+				PATCH_IF (~%symbol%~ STRING_EQUAL ~%id%~) BEGIN
+					SET "value" = "%id%"
+					SET "id" = 0xFFFF + 202 + 1 // Kill FOR-loop
+				END
+			END
+		END
+		//
+		ACTION_IF ("%value%" != "-1") BEGIN
+			APPEND "stats.ids" "%value% %identifier%"
+			//
+			APPEND "x-stats.2da" "%identifier% %min% %max% %default%"
+			// Formatting
+			COPY_EXISTING "x-stats.2da" "override"
+				PRETTY_PRINT_2DA
+			BUT_ONLY
+		END ELSE BEGIN
+			FAIL "ADD_EXTENDED_STAT: there's no room in ~stats.ids~ for appending ~%identifier%~"
+		END
+	END
+END
+
+/*
+============================================================================================================================================================================================================
+**ADD_SPLPROT_ENTRY** - Adds a new entry to "SPLPROT.2DA" and returns its index. If an identical entry already exists it will return the index of that entry instead (borrowed from Argent77, tweaked by me)
+============================================================================================================================================================================================================
+*/
+
+DEFINE_DIMORPHIC_FUNCTION "ADD_SPLPROT_ENTRY"
+INT_VAR
+	"stat"      = "-1" // a code from STATS.IDS or an extended stat code starting at 0x100 (256).
+STR_VAR
+	"value"     = "*" // either a numeric value that is evaluated by "stat", or a default value "*" for specific stats. Note: "-1" indicates a user-defined value.
+	"relation"  = "*" // specifies how to evaluate the value. Note: Not all extended stats require a relation code. Use "*" in this case.
+	"label"     = "" // user-friendly identifier
+RET
+	"index" // Entry number that can be used to refer to this operation in various effect opcodes. Returns "-1" on error.
+BEGIN
+	// Initialize
+	OUTER_SET "index" = "-1"
+	// Main
+	ACTION_IF ("%stat%" >= 0) BEGIN
+		OUTER_PATCH "" BEGIN
+			SPRINTF "valueHex" "%x" ("%stat%")
+		END
+		ACTION_IF (~%value%~ STRING_EQUAL ~~) BEGIN
+			OUTER_TEXT_SPRINT "value" ~*~
+		END
+		ACTION_IF (~%relation%~ STRING_EQUAL ~~) BEGIN
+			OUTER_TEXT_SPRINT "relation" ~*~
+		END
+		// Add the specified entry or return its index if already present
+		COPY_EXISTING ~splprot.2da~ ~override~
+			READ_2DA_ENTRIES_NOW "read_splprot" 4
+			// Search for identical entries
+			FOR ("idx" = 0; "%idx%" < "%read_splprot%"; "idx" += 1) BEGIN
+				READ_2DA_ENTRY_FORMER "read_splprot" "%idx%" 1 "curStat"
+				PATCH_IF (~%stat%~ STRING_EQUAL ~%curStat%~ OR ~%valueHex%~ STRING_EQUAL_CASE ~%curStat%~) BEGIN
+					READ_2DA_ENTRY_FORMER "read_splprot" "%idx%" 2 "curValue"
+					PATCH_IF (~%value%~ STRING_EQUAL ~%curValue%~) BEGIN
+						READ_2DA_ENTRY_FORMER "read_splprot" "%idx%" 3 "curRelation"
+						PATCH_IF (~%relation%~ STRING_EQUAL ~%curRelation%~) BEGIN
+							SET "index" = "%idx%" // If already present, return its index
+							SET "idx" = "%read_splprot%" // Kill FOR-loop
+						END
+					END
+				END
+			END
+			// If not already present, add it...
+			PATCH_IF ("%index%" < 0) BEGIN
+				// Make sure we provided an identifier!
+				PATCH_IF ("%label%" STRING_COMPARE_CASE "") BEGIN
+					// Sanity check
+					INNER_PATCH_SAVE "label" "%label%" BEGIN
+						REPLACE_TEXTUALLY CASE_INSENSITIVE EVALUATE_REGEXP "[ %TAB%%WNL%%MNL%%LNL%]" ""
+					END
+					// Add new entry
+					PATCH_IF ("%stat%" >= 0x100) BEGIN
+						TEXT_SPRINT "line" ~%read_splprot%_%label% %valueHex% %value% %relation%~
+					END ELSE BEGIN
+						TEXT_SPRINT "line" ~%read_splprot%_%label% %stat% %value% %relation%~
+					END
+					INSERT_2DA_ROW "%read_splprot%" 4 ~%line%~
+					// Prettify
+					PRETTY_PRINT_2DA
+					SET "index" = "%read_splprot%"
+				END ELSE BEGIN
+					PATCH_FAIL "ADD_SPLPROT_ENTRY: ~label~ cannot be empty. Please specify a human-friendly identifier (f.i. ~ALIGNMENTBITS!=MASK_LCNEUTRAL~)"
+				END
+			END
+		BUT_ONLY_IF_IT_CHANGES
+	END
+END
+
+/*
+=====================================================================================================
+**APPEND_LUA_FUNCTION**
+=====================================================================================================
+*/
+
+DEFINE_DIMORPHIC_FUNCTION "APPEND_LUA_FUNCTION"
+STR_VAR
+	"description" = "<MISSING DESCRIPTION ...>"
+	"sourceFileSpec" = "" // full path to lua file
+	"destRes" = "" // max 8-character string (must start with "m_")
+BEGIN
+	<<<<<<<< .../cdtweaks-inlined/empty
+	>>>>>>>>
+	//
+	ACTION_IF !(FILE_EXISTS_IN_GAME "%destRes%.lua") BEGIN
+		COPY ".../cdtweaks-inlined/empty" "override\%destRes%.lua"
+			DELETE_BYTES 0x0 BUFFER_LENGTH
+			INSERT_BYTES 0x0 STRING_LENGTH "-- %description% --%WNL%%WNL%"
+			WRITE_ASCII 0x0 "-- %description% --%WNL%%WNL%"
+		BUT_ONLY_IF_IT_CHANGES
+	END
+	//
+	COPY - "%sourceFileSpec%" "override"
+		READ_ASCII 0x0 "fileContent" (BUFFER_LENGTH)
+	BUT_ONLY
+	//
+	COPY_EXISTING "%destRes%.lua" "override"
+		APPEND_FILE_EVALUATE TEXT "%sourceFileSpec%"
+	BUT_ONLY UNLESS "%fileContent%"
+END

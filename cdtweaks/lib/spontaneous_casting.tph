@@ -1,132 +1,16 @@
 DEFINE_ACTION_FUNCTION "SPONTANEOUS_CASTING"
 BEGIN
-	LAM "READ_SPELL_IDS"
-	LAF "GET_CLAB_FILES" STR_VAR "class" = "cleric" RET_ARRAY "clab_files" END
-	//
-	<<<<<<<< .../cdtweaks-inlined/empty
-	>>>>>>>>
-	//
+	// Listener: run 'func' each time a sprite has finished evaluating its effects
 	WITH_SCOPE BEGIN
-		ACTION_IF !(FILE_EXISTS_IN_GAME "m_gt#402.lua") BEGIN
-			COPY ".../cdtweaks-inlined/empty" "override\m_gt#402.lua"
-				DELETE_BYTES 0x0 BUFFER_LENGTH
-				INSERT_BYTES 0x0 STRING_LENGTH "-- Functions to be invoked via op402 --%WNL%%WNL%"
-				WRITE_ASCII 0x0 "-- Functions to be invoked via op402 --%WNL%%WNL%"
-			BUT_ONLY_IF_IT_CHANGES
+		OUTER_FOR ("i" = 1 ; "%i%" <= 5 ; "i" += 1) BEGIN
+			OUTER_SET "strref%i%" = RESOLVE_STR_REF (@0)
 		END
-		COPY_EXISTING "m_gt#402.lua" "override"
-			APPEND_FILE TEXT "cdtweaks\luke\lua\spontaneous_casting.lua"
-		BUT_ONLY UNLESS "^function GTSPCST[1-2]"
+		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Listeners" "sourceFileSpec" = "cdtweaks\luke\lua\spontaneous_casting\listener.lua" "destRes" = "m_gtlstn" END
 	END
 	//
-	ACTION_CLEAR_ARRAY "cure_cause_wounds"
-	ACTION_DEFINE_ASSOCIATIVE_ARRAY "cure_cause_wounds" BEGIN
-		"%CLERIC_CURE_LIGHT_WOUNDS%" , "gtspc01a" , "MASK_GOOD" => "gtspc01b"
-		"%CLERIC_CURE_MODERATE_WOUNDS%" , "gtspc02a" , "MASK_GOOD" => "gtspc02b"
-		"%CLERIC_CURE_MEDIUM_WOUNDS%" , "gtspc03a" , "MASK_GOOD" => "gtspc03b"
-		"%CLERIC_CURE_SERIOUS_WOUNDS%" , "gtspc04a" , "MASK_GOOD" => "gtspc04b"
-		"%CLERIC_CURE_CRITICAL_WOUNDS%" , "gtspc05a" , "MASK_GOOD" => "gtspc05b"
-		//
-		"%CLERIC_CAUSE_LIGHT_WOUNDS%" , "gtspc06a" , "MASK_EVIL" => "gtspc06b"
-		"%CLERIC_CAUSE_MODERATE_WOUNDS%" , "gtspc07a" , "MASK_EVIL" => "gtspc07b"
-		"%CLERIC_CAUSE_MEDIUM_WOUNDS%" , "gtspc08a" , "MASK_EVIL" => "gtspc08b"
-		"%CLERIC_CAUSE_SERIOUS_WOUNDS%" , "gtspc09a" , "MASK_EVIL" => "gtspc09b"
-		"%CLERIC_CAUSE_CRITICAL_WOUNDS%" , "gtspc10a" , "MASK_EVIL" => "gtspc10b"
-	END
+	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Functions to be invoked via op214" "sourceFileSpec" = "cdtweaks\luke\lua\spontaneous_casting\custom_214.lua" "destRes" = "m_gt#214" END
 	//
-	ACTION_PHP_EACH "cure_cause_wounds" AS "key" => "value" BEGIN
-		WITH_SCOPE BEGIN
-			COPY_EXISTING "%key_0%.spl" "override\%key_1%.spl"
-				// Header
-				PATCH_WITH_SCOPE BEGIN
-					READ_STRREF NAME1 "string"
-					INNER_PATCH_SAVE "string" "%string%" BEGIN
-						REPLACE_TEXTUALLY CASE_INSENSITIVE EVALUATE_REGEXP "$" " (S)"
-					END
-					SAY NAME1 "%string%"
-				END
-				WRITE_SHORT 0x1C 4 // type: innate
-				READ_LONG 0x34 "spellLevel"
-				WRITE_LONG 0x34 1 // level
-				// Extended Header
-				PATCH_WITH_SCOPE BEGIN
-					GET_OFFSET_ARRAY "ab_array" SPL_V10_HEADERS
-					PHP_EACH "ab_array" AS "ab_ind" => "ab_off" BEGIN
-						PATCH_IF SHORT_AT ("%ab_off%" + 0x10) > 1 BEGIN
-							WRITE_BYTE "%ab_off%" 0xFF // mark it for later deletion
-						END ELSE BEGIN
-							WRITE_SHORT ("%ab_off%" + 0x2) 4 // Ability location: F13 (Special Ability)
-						END
-					END
-					LPF "DELETE_SPELL_HEADER" INT_VAR "header_type" = 0xFF END // enact deletion
-				END
-				// Feature blocks
-				LPF "DELETE_EFFECT" END // fresh start
-				// Decrement by 1 all memorized divine spells of level "%spellLevel%"
-				LPF "ADD_SPELL_CFEFFECT" INT_VAR "opcode" = 402 "target" = 1 "parameter1" = "%spellLevel%" STR_VAR "resource" = "GTSPCST1" END // Invoke Lua
-				// Castable-at-will
-				LPF "ADD_SPELL_CFEFFECT" INT_VAR "insert_point" = 0 "opcode" = 172 "target" = 1 "timing" = 1 STR_VAR "resource" = "%DEST_RES%" END // Remove
-				LPF "ADD_SPELL_CFEFFECT" INT_VAR "insert_point" = 1 "opcode" = 171 "target" = 1 "timing" = 1 STR_VAR "resource" = "%DEST_RES%" END // Give
-				//
-				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 324 "target" = 1 "parameter1" = IDS_OF_SYMBOL ("align" "%key_2%") "parameter2" = 118 "special" = ("%key_2%" STR_EQ "MASK_GOOD") ? RESOLVE_STR_REF (@0) : RESOLVE_STR_REF (@1) STR_VAR "resource" = "%DEST_RES%" END // Immunity to resource and message
-				// Check if the caster has at least one divine spell of level "%spellLevel%" memorized; if not, prevent it from using this special ability (display a feedback string in the combat log)
-				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 1 "parameter1" = RESOLVE_STR_REF (@2) STR_VAR "resource" = "GTSPCST2" END // Invoke Lua
-				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 326 "target" = 1 "timing" = 1 "parameter1" = IDS_OF_SYMBOL ("align" "%key_2%") "parameter2" = 108 STR_VAR "resource" = "%value%" END // Apply effects List
-			BUT_ONLY_IF_IT_CHANGES
-		END
-		//
-		WITH_SCOPE BEGIN
-			COPY_EXISTING "%key_0%.spl" "override\%value%.spl"
-				WRITE_LONG NAME1 "-1" // blank name
-				WRITE_SHORT 0x22 0 // blank casting animation
-				WRITE_ASCII 0x10 "" #8 // blank casting sound
-				//
-				LPF "ALTER_SPELL_HEADER" INT_VAR "speed" = 0 "range" = 0x7FFF "projectile" = IDS_OF_SYMBOL ("missile" "None") END
-				//
-				PATCH_MATCH "%SOURCE_RES%" WITH
-					"%CLERIC_CAUSE_SERIOUS_WOUNDS%" "%CLERIC_CAUSE_CRITICAL_WOUNDS%" WHEN GAME_IS "bgee bg2ee eet" BEGIN
-						LPF "DELETE_SPELL_EFFECT" INT_VAR "opcode_to_delete" = "-1" END
-					END
-					DEFAULT
-				END
-			BUT_ONLY_IF_IT_CHANGES
-			//
-			ACTION_MATCH "%key_0%" WITH
-				"%CLERIC_CAUSE_SERIOUS_WOUNDS%" WHEN GAME_IS "bgee bg2ee eet" BEGIN
-					COPY_EXISTING - "serious.itm" "override"
-						LPF "ITEM_EFFECT_TO_SPELL" INT_VAR "type" = 1 STR_VAR "new_itm_spl" = "%value%.spl" END
-					BUT_ONLY
-				END
-				"%CLERIC_CAUSE_CRITICAL_WOUNDS%" WHEN GAME_IS "bgee bg2ee eet" BEGIN
-					COPY_EXISTING - "critical.itm" "override"
-						LPF "ITEM_EFFECT_TO_SPELL" INT_VAR "type" = 1 STR_VAR "new_itm_spl" = "%value%.spl" END
-					BUT_ONLY
-				END
-				DEFAULT
-			END
-		END
-		//
-		WITH_SCOPE BEGIN
-			LAF "NAME_NUM_OF_SPELL_RES" STR_VAR "spell_res" = "%key_0%" RET "spell_name" END
-			OUTER_PATCH_SAVE "spell_name" "%spell_name%" BEGIN
-				REPLACE_TEXTUALLY CASE_INSENSITIVE EVALUATE_REGEXP "^cleric_" ""
-			END
-			ACTION_TO_UPPER "spell_name"
-			ACTION_TO_UPPER "key_1"
-			//
-			ACTION_PHP_EACH "clab_files" AS "clab" => "" BEGIN
-				COPY_EXISTING "%clab%.2da" "override"
-					COUNT_2DA_COLS "cols"
-					TEXT_SPRINT "string" "CDTWEAKS_SPONTANEOUS_CAST_%spell_name% GA_%key_1%"
-					FOR ("i" = 2 ; "%i%" < "%cols%" ; "i" += 1) BEGIN
-						TEXT_SPRINT "string" "%string% ****"
-					END
-					COUNT_2DA_ROWS "%cols%" "rows"
-					INSERT_2DA_ROW "%rows%" "%cols%" "%string%"
-					// formatting
-					PRETTY_PRINT_2DA
-				BUT_ONLY
-			END
-		END
+	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
+		COPY "cdtweaks\luke\lua\m_gttbls.lua" "override"
 	END
 END
