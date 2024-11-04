@@ -209,7 +209,7 @@ function %HALFLING_FEARLESS%(op403CGameEffect, CGameEffect, CGameSprite)
 				if CGameEffect.m_duration == duration then
 					return true
 				end
-			elseif CGameEffect.m_effectId == 23 or CGameEffect.m_effectId == 54 or CGameEffect.m_effectAmount == 106 then -- morale bonus, base thac0 bonus, morale break
+			elseif CGameEffect.m_effectId == 23 or CGameEffect.m_effectId == 54 or CGameEffect.m_effectId == 106 then -- morale bonus, base thac0 bonus, morale break
 				return true
 			end
 		elseif CGameEffect.m_effectId == 139 then
