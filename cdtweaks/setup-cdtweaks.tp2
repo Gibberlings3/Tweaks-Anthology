@@ -2825,16 +2825,17 @@ LABEL ~cd_tweaks_weapon_finesse~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                            \\\\\
-///// Dual-Wield feat for Rangers                                \\\\\
+///// Limit resting mechanic                                     \\\\\
 /////                                                            \\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 BEGIN @267000 DESIGNATED 2670
 GROUP @9
+REQUIRE_PREDICATE GAME_IS "bgee bg2ee eet iwdee" @25
 REQUIRE_PREDICATE MOD_IS_INSTALLED ~EEex.tp2~ 0 @29
-REQUIRE_PREDICATE FILE_EXISTS ~cdtweaks/languages/%LANGUAGE%/dual_wield.tra~ @7
-LABEL ~cd_tweaks_dual_wield~
+REQUIRE_PREDICATE FILE_EXISTS ~cdtweaks/languages/%LANGUAGE%/limit_resting_mechanic.tra~ @7
+LABEL ~cd_tweaks_limit_resting_mechanic~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
