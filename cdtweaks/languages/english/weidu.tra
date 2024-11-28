@@ -719,6 +719,8 @@ Use Baldur.lua options: a7_interval_ini
 @341100 = ~Mage, priest, and innate spells only~
 @341200 = ~All spells (check readme)~
 
+@344000 = "Make sure Trolls instantaneously go into a coma when reduced below 1 hp [Luke (EEex)]"
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\

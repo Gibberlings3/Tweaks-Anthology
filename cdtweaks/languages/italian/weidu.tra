@@ -649,6 +649,8 @@ Usa opzioni di Baldur.lua:           a7_interval_ini
 
 @336000 = ~Ripristina la nebbia di guerra nei sotterranei di Sigil~ 
 
+@344000 = "Fai in modo che i Troll perdano i sensi istantaneamente al raggiungimento di 0 hp [Luke (EEex)]"
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\

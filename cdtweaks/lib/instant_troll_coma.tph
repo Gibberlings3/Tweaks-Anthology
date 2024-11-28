@@ -1,0 +1,20 @@
+DEFINE_ACTION_FUNCTION "INSTANT_TROLL_COMA"
+BEGIN
+	ACTION_DEFINE_ASSOCIATIVE_ARRAY "gt_instant_troll_coma" BEGIN
+		"reg1hp2" => "cdiwdtr1"
+		"trollreg" => "trollreg"
+		"cdtorgal" => "cdtorgal"
+	END
+	//
+	ACTION_PHP_EACH "gt_instant_troll_coma" AS "itm" => "spl" BEGIN
+		COPY_EXISTING "%itm%.itm" "override"
+			LPF "DELETE_EFFECT" INT_VAR "check_headers" = 0 "match_opcode" = 232 STR_VAR "match_resource" = "%spl%" END // no longer needed
+		BUT_ONLY IF_EXISTS
+		//
+		COPY_EXISTING "%spl%.spl" "override"
+			LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 143 "opcode" = 309 "parameter1" = 0 "parameter2" = 0 STR_VAR "match_resource" = "%itm%" "resource" = "gttrlslp" "insert" = "below" END // new tracking var
+		BUT_ONLY IF_EXISTS
+	END
+	// lua
+	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Misc Tweaks" "sourceFileSpec" = "cdtweaks\luke\lua\tweaks\instant_troll_coma.lua" "destRes" = "m_gttwks" END
+END
