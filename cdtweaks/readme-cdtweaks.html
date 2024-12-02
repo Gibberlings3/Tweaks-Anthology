@@ -1011,22 +1011,18 @@
       <p> <strong>Dual-Wield feat for Rangers [Luke]</strong><br />
         <em><abbr title="Enhanced Edition">EEex</abbr></em></p>
       <p> This component simply forces Rangers to wield light armors (or no armor) in order to benefit from Two-Weapon Fighting.</p>
-      <p> <strong>NWN-ish Armor vs. Dexterity [Luke]</strong><br />
+      <p> <strong>Alternate Concentration Check [Luke]</strong><br />
         <em><abbr title="Enhanced Edition">EEex</abbr></em></p>
-      <p> This component simply &quot;forces&quot; characters to wield light armors (or no armor) if they have high Dexterity.
-        In particular: </p>
-      <ul>
-        <li>If a character is equipped with a Medium Armor, it will only benefit from half the bonus derived from its Dexterity (see <a href="https://gibberlings3.github.io/iesdp/files/2da/2da_bgee/dexmod.htm"><code>dexmod.2da</code></a>)
-          <ul>
-            <li>So for instance, a character with <code>18</code> DEX equipped with a Chain Mail Armor will suffer a <code>-4 / 2 = -2</code> AC penalty.</li>
-          </ul>
-        </li>
-        <li>If a character is equipped with a Heavy Armor, it will not benefit from the bonus derived from its Dexterity (see <a href="https://gibberlings3.github.io/iesdp/files/2da/2da_bgee/dexmod.htm"><code>dexmod.2da</code></a>)
-          <ul>
-            <li>So for instance, a character with <code>18</code> DEX equipped with a Plate Mail will suffer a <code>-4</code> AC penalty.</li>
-          </ul>
-        </li>
-      </ul>
+      <p>
+        By default, any damage a spellcaster takes will cause them to fail their spellcasting.
+        This component alters this mechanic and comes into four different variants:
+        <ol>
+          <li>Spell disrupted if <code>(1d20 - 1) + Luck &le; Spell Level + Damage Taken</code></li>
+          <li>Spell disrupted if <code>(1d20 - 1) + &lfloor;(Constitution / 2)&rfloor; - 5 &le; Spell Level + 15</code></li>
+          <li>Spell disrupted if <code>(1d20 - 1) + Luck &le; Spell Level + 15</code></li>
+          <li>Spell disrupted if <code>(1d20 - 1) + &lfloor;(Constitution / 2)&rfloor; - 5 &le; Spell Level + Damage Taken</code></li>
+        </ol>
+      </p>
       <p> <strong>Defensive Roll feat for Thieves [Luke]</strong><br />
         <em><abbr title="Enhanced Edition">EEex</abbr></em></p>
       <p> This component aims at implementing the NWN feat Defensive Roll. As a result, after installing it, if the character is struck by a potentially lethal blow, he makes a Save vs. Breath. If successful, he takes only half damage from the blow.</p>

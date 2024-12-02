@@ -12,6 +12,6 @@ WITH_SCOPE BEGIN
   INCLUDE "cdtweaks\lib\concentration.tph"
   //
   WITH_TRA "cdtweaks\languages\english\concentration.tra" "cdtweaks\languages\%LANGUAGE%\concentration.tra" BEGIN
-    LAF "ALTERNATE_CONCENTRATION_CHECK" INT_VAR "version" = 0 END
+    LAF "ALTERNATE_CONCENTRATION_CHECK" INT_VAR "version" = 2 END
   END
 END

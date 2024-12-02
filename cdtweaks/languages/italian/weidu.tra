@@ -416,7 +416,11 @@ o rimpiazzata da - un'altra facente parte di uno dei mods installati.~
 
 @267000 = "Aggiungi talento Doppia-Presa per i Ranger [Luke]"
 
-@269000 = "Armatura vs. Destrezza in stile NWN [Luke]"
+@269000 = "Modifica la meccanica della Concentrazione [Luke (EEex)]"
+@269001 = "v1 (fare riferimento al readme)"
+@269002 = "v2 (fare riferimento al readme)"
+@269003 = "v3 (fare riferimento al readme)"
+@269004 = "v4 (fare riferimento al readme)"
 
 @270000 = "Aggiungi talento Tiro Difensivo per i ladri [Luke]"
 
