@@ -2,15 +2,15 @@
 
 @1 = "Buttare a Terra
 
-Un personaggio con questo talento può tentare di far cadere a terra i suoi avversari. Il personaggio effettua un attacco con una penalità di -4 ai tiri per colpire e, se ha successo, il difensore effettua un tiro-salvezza contro Morte. Se fallisce, il difensore viene buttato a terra."
+Un personaggio con questo talento può tentare di far cadere a terra i suoi avversari. Il difensore effettua un tiro-salvezza contro Morte. Se fallisce, il difensore viene buttato a terra."
 
 @50 = "Steso a Terra"
 
-@100 = "Il bersaglio selezionato è fuori portata"
+//@100 = "Il bersaglio selezionato è fuori portata"
 @101 = "Il bersaglio selezionato è già a terra"
 @102 = "Il bersaglio selezionato è troppo grande"
 @103 = "Questo talento non può essere usato mentre si brandisce un'arma a distanza"
 
-@104 = "Il personaggio non può compiere più di un'azione per round"
+@104 = "La creatura selezionata non può essere buttata a terra"
 
-@105 = "Non soggetto agli effetti di Buttare a Terra"
+//@105 = "Non soggetto agli effetti di Buttare a Terra"
