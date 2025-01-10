@@ -261,12 +261,6 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 				["sourceID"] = sprite.m_id,
 				["sourceTarget"] = sprite.m_id,
 			})
-			sprite:applyEffect({
-				["effectID"] = 321, -- remove effects by resource
-				["res"] = "%INNATE_KNOCKDOWN%",
-				["sourceID"] = sprite.m_id,
-				["sourceTarget"] = sprite.m_id,
-			})
 		end
 	end
 end)
