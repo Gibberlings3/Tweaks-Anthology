@@ -12,9 +12,9 @@ local cdtweaks_ImmuneToKnockdown = {
 	{"WIZARD_EYE", "SPECTRAL_TROLL", "SPIDER_WRAITH"}, -- CLASS.IDS
 	-- ANIMATE.IDS
 	{
-		"DOOM_GUARD", "DOOM_GUARD_LARGER",
-		"SNAKE", "BLOB_MIST_CREATURE", "MIST_CREATURE", "HAKEASHAR", "NISHRUU", "SNAKE_WATER", "DANCING_SWORD",
-		"SHADOW_SMALL", "SHADOW_LARGE", "WATER_WEIRD"
+		"DOOM_GUARD", "DOOM_GUARD_LARGER", -- 0x6000
+		"SNAKE", "BLOB_MIST_CREATURE", "MIST_CREATURE", "HAKEASHAR", "NISHRUU", "SNAKE_WATER", "DANCING_SWORD", -- 0x7000
+		"SHADOW_SMALL", "SHADOW_LARGE", "WATER_WEIRD" -- 0xE000
 	},
 }
 
@@ -59,7 +59,7 @@ function %INNATE_KNOCKDOWN%(CGameEffect, CGameSprite)
 			end
 			--
 			local effectCodes = {
-				{["op"] = 39, ["p2"] = 1, ["spec"] = %feedback_icon%, ["stype"] = bit32.bor(0x800000, 0x4)}, -- sleep (do not wake upon taking damage)
+				{["op"] = 39, ["p2"] = 1, ["spec"] = %feedback_icon%, ["stype"] = EEex_BOr(0x800000, 0x4)}, -- sleep (do not wake upon taking damage)
 				{["op"] = 206, ["res"] = "%INNATE_KNOCKDOWN%B", ["p1"] = %feedback_strref_already_prone%, ["stype"] = 0x4}, -- protection from spell
 			}
 			--
@@ -162,7 +162,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	--
 	local isWeaponRanged = EEex_Trigger_ParseConditionalString("IsWeaponRanged(Myself)")
 	--
-	if sprite:getLocalInt("cdtweaksKnockdown") == 1 then
+	if sprite:getLocalInt("gtInnateKnockdown") == 1 then
 		if not isWeaponRanged:evalConditionalAsAIBase(sprite) then
 			if sprite.m_nSequence == 0 and sprite.m_attackFrame == 6 then -- SetSequence(SEQ_ATTACK)
 				if spriteAux["gtKnockdownTargetID"] then
@@ -195,7 +195,7 @@ end)
 EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
 	local spriteAux = EEex_GetUDAux(sprite)
 	--
-	if sprite:getLocalInt("cdtweaksKnockdown") == 1 then
+	if sprite:getLocalInt("gtInnateKnockdown") == 1 then
 		if not (action.m_actionID == 113 and action.m_string1.m_pchData:get() == "%INNATE_KNOCKDOWN%") then
 			if spriteAux["gtKnockdownTargetID"] ~= nil then
 				spriteAux["gtKnockdownTargetID"] = nil
@@ -214,7 +214,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- internal function that grants the ability
 	local gain = function()
 		-- Mark the creature as 'feat granted'
-		sprite:setLocalInt("cdtweaksKnockdown", 1)
+		sprite:setLocalInt("gtInnateKnockdown", 1)
 		--
 		local effectCodes = {
 			{["op"] = 172}, -- remove spell
@@ -244,7 +244,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		or (spriteClassStr == "FIGHTER_THIEF" and (EEex_IsBitUnset(spriteFlags, 0x3) or spriteLevel2 > spriteLevel1))
 		or (spriteClassStr == "FIGHTER_DRUID" and (EEex_IsBitUnset(spriteFlags, 0x3) or spriteLevel2 > spriteLevel1))
 	--
-	if sprite:getLocalInt("cdtweaksKnockdown") == 0 then
+	if sprite:getLocalInt("gtInnateKnockdown") == 0 then
 		if gainAbility then
 			gain()
 		end
@@ -253,7 +253,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			-- do nothing
 		else
 			-- Mark the creature as 'feat removed'
-			sprite:setLocalInt("cdtweaksKnockdown", 0)
+			sprite:setLocalInt("gtInnateKnockdown", 0)
 			--
 			sprite:applyEffect({
 				["effectID"] = 172, -- remove spell
