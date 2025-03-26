@@ -33,7 +33,7 @@ EEex_GameState_AddInitializedListener(function()
 	end)
 	-- IDS
 	EEex_Utility_NewScope(function()
-		local resources = { "EA", "GENERAL", "RACE", "CLASS", "GENDER", "ALIGN", "ITEMFLAG", "STATE", "STATS", "SPELL" }
+		local resources = { "EA", "GENERAL", "RACE", "CLASS", "GENDER", "ALIGN", "ITEMFLAG", "STATE", "STATS", "SPELL", "DMGTYPE" }
 		--
 		for _, v in ipairs(resources) do
 			local data = EEex_Resource_LoadIDS(v)
