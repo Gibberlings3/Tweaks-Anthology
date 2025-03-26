@@ -14,7 +14,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- internal function that applies the actual feat
 	local apply = function()
 		-- Mark the creature as 'feat applied'
-		sprite:setLocalInt("cdtweaksCleave", 1)
+		sprite:setLocalInt("gtFighterCleave", 1)
 		--
 		sprite:applyEffect({
 			["effectID"] = 321, -- Remove effects by resource
@@ -45,7 +45,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		or (spriteClassStr == "FIGHTER_THIEF" and (EEex_IsBitUnset(spriteFlags, 0x3) or spriteLevel2 > spriteLevel1))
 		or (spriteClassStr == "FIGHTER_DRUID" and (EEex_IsBitUnset(spriteFlags, 0x3) or spriteLevel2 > spriteLevel1))
 	--
-	if sprite:getLocalInt("cdtweaksCleave") == 0 then
+	if sprite:getLocalInt("gtFighterCleave") == 0 then
 		if applyAbility then
 			apply()
 		end
@@ -54,7 +54,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			-- do nothing
 		else
 			-- Mark the creature as 'feat removed'
-			sprite:setLocalInt("cdtweaksCleave", 0)
+			sprite:setLocalInt("gtFighterCleave", 0)
 			--
 			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource
@@ -71,10 +71,11 @@ end)
 function %FIGHTER_CLEAVE%(CGameEffect, CGameSprite)
 	if CGameEffect.m_effectAmount == 1 then -- check if can perform Cleave
 		local sourceSprite = EEex_GameObject_Get(CGameEffect.m_sourceId)
+		--
 		local sourceActiveStats = EEex_Sprite_GetActiveStats(sourceSprite)
 		--
-		local inWeaponRange = EEex_Trigger_ParseConditionalString('InWeaponRange(EEex_Target("GT_FighterCleaveTarget"))')
-		local reallyForceSpell = EEex_Action_ParseResponseString('ReallyForceSpellRES("%FIGHTER_CLEAVE%B",EEex_Target("GT_FighterCleaveTarget"))')
+		local conditionalString = EEex_Trigger_ParseConditionalString('InWeaponRange(EEex_Target("GT_FighterCleaveTarget"))')
+		local responseString = EEex_Action_ParseResponseString('ReallyForceSpellRES("%FIGHTER_CLEAVE%B",EEex_Target("GT_FighterCleaveTarget"))')
 		--
 		local targetActiveStats = EEex_Sprite_GetActiveStats(CGameSprite)
 		--
@@ -91,10 +92,10 @@ function %FIGHTER_CLEAVE%(CGameEffect, CGameSprite)
 				--
 				local itrSpriteActiveStats = EEex_Sprite_GetActiveStats(itrSprite)
 				--
-				if inWeaponRange:evalConditionalAsAIBase(sourceSprite) and EEex_IsBitUnset(itrSpriteActiveStats.m_generalState, 11) then -- if not dead
+				if conditionalString:evalConditionalAsAIBase(sourceSprite) and EEex_IsBitUnset(itrSpriteActiveStats.m_generalState, 11) then -- if not dead
 					if EEex_IsBitUnset(itrSpriteActiveStats.m_generalState, 0x4) or sourceActiveStats.m_bSeeInvisible > 0 then
 						if itrSpriteActiveStats.m_bSanctuary == 0 then
-							reallyForceSpell:executeResponseAsAIBaseInstantly(sourceSprite)
+							responseString:executeResponseAsAIBaseInstantly(sourceSprite)
 							break
 						end
 					end
@@ -102,8 +103,8 @@ function %FIGHTER_CLEAVE%(CGameEffect, CGameSprite)
 			end
 		end
 		--
-		inWeaponRange:free()
-		reallyForceSpell:free()
+		conditionalString:free()
+		responseString:free()
 	elseif CGameEffect.m_effectAmount == 2 then -- actual feat
 		local sourceSprite = EEex_GameObject_Get(CGameEffect.m_sourceId)
 		--
@@ -117,14 +118,15 @@ function %FIGHTER_CLEAVE%(CGameEffect, CGameSprite)
 		local targetActiveStats = EEex_Sprite_GetActiveStats(CGameSprite)
 		--
 		local itmAbilityDamageTypeToIDS = {
-			0x10, -- piercing
-			0x0, -- crushing
-			0x100, -- slashing
-			0x80, -- missile
-			0x800, -- non-lethal
-			targetActiveStats.m_nResistPiercing > targetActiveStats.m_nResistCrushing and 0x0 or 0x10, -- piercing/crushing (better)
-			targetActiveStats.m_nResistPiercing > targetActiveStats.m_nResistSlashing and 0x100 or 0x10, -- piercing/slashing (better)
-			targetActiveStats.m_nResistCrushing > targetActiveStats.m_nResistSlashing and 0x0 or 0x100, -- slashing/crushing (worse)
+			[0] = 0x0, -- none (crushing)
+			[1] = 0x10, -- piercing
+			[2] = 0x0, -- crushing
+			[3] = 0x100, -- slashing
+			[4] = 0x80, -- missile
+			[5] = 0x800, -- non-lethal
+			[6] = targetActiveStats.m_nResistPiercing > targetActiveStats.m_nResistCrushing and 0x0 or 0x10, -- piercing/crushing (better)
+			[7] = targetActiveStats.m_nResistPiercing > targetActiveStats.m_nResistSlashing and 0x100 or 0x10, -- piercing/slashing (better)
+			[8] = targetActiveStats.m_nResistCrushing > targetActiveStats.m_nResistSlashing and 0x0 or 0x100, -- slashing/crushing (worse)
 		}
 		--
 		if itmAbilityDamageTypeToIDS[selectedWeaponAbility.damageType] then -- sanity check

@@ -14,7 +14,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- internal function that applies the actual bonus
 	local apply = function()
 		-- Mark the creature as 'feat applied'
-		sprite:setLocalInt("cdtweaksSneakattBlackguard", 1)
+		sprite:setLocalInt("gtSneakattBlackguard", 1)
 		--
 		sprite:applyEffect({
 			["effectID"] = 321, -- Remove effects by resource
@@ -43,11 +43,11 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	local spriteFlags = sprite.m_baseStats.m_flags
 	local spriteClassStr = GT_Resource_IDSToSymbol["class"][sprite.m_typeAI.m_Class]
 	-- since ``EEex_Opcode_AddListsResolvedListener`` is running after the effect lists have been evaluated, ``m_bonusStats`` has already been added to ``m_derivedStats`` by the engine
-	local spriteKitStr = GT_Resource_IDSToSymbol["kit"][sprite.m_derivedStats.m_nKit]
+	local spriteKitStr = EEex_Resource_KitIDSToSymbol(sprite.m_derivedStats.m_nKit)
 	-- Grant the feat to Blackguards (must not be fallen)
 	local applyAbility = spriteClassStr == "PALADIN" and spriteKitStr == "Blackguard" and EEex_IsBitUnset(spriteFlags, 9)
 	--
-	if sprite:getLocalInt("cdtweaksSneakattBlackguard") == 0 then
+	if sprite:getLocalInt("gtSneakattBlackguard") == 0 then
 		if applyAbility then
 			apply()
 		end
@@ -56,7 +56,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			-- do nothing
 		else
 			-- Mark the creature as 'feat removed'
-			sprite:setLocalInt("cdtweaksSneakattBlackguard", 0)
+			sprite:setLocalInt("gtSneakattBlackguard", 0)
 			--
 			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource
@@ -76,13 +76,13 @@ function %BLACKGUARD_SNEAK_ATTACK%(CGameEffect, CGameSprite)
 		--
 		local targetActiveStats = EEex_Sprite_GetActiveStats(CGameSprite)
 		-- limit to once per round
-		local getTimer = EEex_Trigger_ParseConditionalString('!GlobalTimerNotExpired("cdtweaksSneakattBlckgrdTimer","LOCALS")')
-		local setTimer = EEex_Action_ParseResponseString('SetGlobalTimer("cdtweaksSneakattBlckgrdTimer","LOCALS",6)')
+		local conditionalString = EEex_Trigger_ParseConditionalString('!GlobalTimerNotExpired("gtSneakattBlackguardTimer","LOCALS")')
+		local responseString = EEex_Action_ParseResponseString('SetGlobalTimer("gtSneakattBlackguardTimer","LOCALS",6)')
 		--
-		if getTimer:evalConditionalAsAIBase(sourceSprite) then
+		if conditionalString:evalConditionalAsAIBase(sourceSprite) then
 			-- if the target is incapacitated || the target is in combat with someone else || the blackguard is invisible
 			if EEex_BAnd(targetActiveStats.m_generalState, 0x100029) ~= 0 or CGameSprite.m_targetId ~= sourceSprite.m_id or sourceSprite:getLocalInt("gtSpriteIsInvisible") == 1 then
-				setTimer:executeResponseAsAIBaseInstantly(sourceSprite)
+				responseString:executeResponseAsAIBaseInstantly(sourceSprite)
 				--
 				CGameSprite:applyEffect({
 					["effectID"] = 146, -- Cast spell
@@ -94,17 +94,26 @@ function %BLACKGUARD_SNEAK_ATTACK%(CGameEffect, CGameSprite)
 			end
 		end
 		--
-		getTimer:free()
-		setTimer:free()
+		responseString:free()
+		conditionalString:free()
 	elseif CGameEffect.m_effectAmount == 2 then -- actual sneak attack
 		local sneakatt = GT_Resource_2DA["sneakatt"]
 		--
 		local sourceSprite = EEex_GameObject_Get(CGameEffect.m_sourceId)
 		local sourceActiveStats = EEex_Sprite_GetActiveStats(sourceSprite)
 		--
-		local equipment = sourceSprite.m_equipment
-		local selectedWeapon = equipment.m_items:get(equipment.m_selectedWeapon)
+		local equipment = sourceSprite.m_equipment -- CGameSpriteEquipment
+		local selectedWeapon = equipment.m_items:get(equipment.m_selectedWeapon) -- CItem
 		local selectedWeaponHeader = selectedWeapon.pRes.pHeader -- Item_Header_st
+		--
+		local isUsableBySingleClassThief = EEex_IsBitUnset(selectedWeaponHeader.notUsableBy, 22)
+		--
+		local selectedLauncher = sourceSprite:getLauncher(selectedWeapon:getAbility(equipment.m_selectedWeaponAbility)) -- CItem
+		--
+		if selectedLauncher then
+			local pHeader = selectedLauncher.pRes.pHeader -- Item_Header_st
+			isUsableBySingleClassThief = EEex_IsBitUnset(pHeader.notUsableBy, 22)
+		end
 		--
 		local selectedWeaponAbility = EEex_Resource_GetItemAbility(selectedWeaponHeader, equipment.m_selectedWeaponAbility) -- Item_ability_st
 		--
@@ -114,8 +123,9 @@ function %BLACKGUARD_SNEAK_ATTACK%(CGameEffect, CGameSprite)
 			--
 			if offHand then
 				local pHeader = offHand.pRes.pHeader -- Item_Header_st
-				if not (pHeader.itemType == 0xC) then -- if not shield, then overwrite item ability...
+				if not (pHeader.itemType == 0xC) then -- if not shield, then overwrite item ability / usability check...
 					selectedWeaponAbility = EEex_Resource_GetItemAbility(pHeader, 0) -- Item_ability_st
+					isUsableBySingleClassThief = EEex_IsBitUnset(pHeader.notUsableBy, 22)
 				end
 			end
 		end
@@ -125,14 +135,15 @@ function %BLACKGUARD_SNEAK_ATTACK%(CGameEffect, CGameSprite)
 		local targetActiveStats = EEex_Sprite_GetActiveStats(CGameSprite)
 		--
 		local itmAbilityDamageTypeToIDS = {
-			0x10, -- piercing
-			0x0, -- crushing
-			0x100, -- slashing
-			0x80, -- missile
-			0x800, -- non-lethal
-			targetActiveStats.m_nResistPiercing > targetActiveStats.m_nResistCrushing and 0x0 or 0x10, -- piercing/crushing (better)
-			targetActiveStats.m_nResistPiercing > targetActiveStats.m_nResistSlashing and 0x100 or 0x10, -- piercing/slashing (better)
-			targetActiveStats.m_nResistCrushing > targetActiveStats.m_nResistSlashing and 0x0 or 0x100, -- slashing/crushing (worse)
+			[0] = 0x0, -- none (crushing)
+			[1] = 0x10, -- piercing
+			[2] = 0x0, -- crushing
+			[3] = 0x100, -- slashing
+			[4] = 0x80, -- missile
+			[5] = 0x800, -- non-lethal
+			[6] = targetActiveStats.m_nResistPiercing > targetActiveStats.m_nResistCrushing and 0x0 or 0x10, -- piercing/crushing (better)
+			[7] = targetActiveStats.m_nResistPiercing > targetActiveStats.m_nResistSlashing and 0x100 or 0x10, -- piercing/slashing (better)
+			[8] = targetActiveStats.m_nResistCrushing > targetActiveStats.m_nResistSlashing and 0x0 or 0x100, -- slashing/crushing (worse)
 		}
 		--
 		if itmAbilityDamageTypeToIDS[selectedWeaponAbility.damageType] then -- sanity check

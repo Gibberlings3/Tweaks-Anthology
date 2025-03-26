@@ -38,4 +38,8 @@ BEGIN
 			COPY "cdtweaks\luke\lua\m_gttbls.lua" "override"
 		END
 	END
+	//
+	ACTION_IF !(FILE_EXISTS_IN_GAME "gtabmod.2da") BEGIN
+		COPY "cdtweaks\luke\2da\gtabmod.2da" "override"
+	END
 END

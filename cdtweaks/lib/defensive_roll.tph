@@ -5,9 +5,9 @@ BEGIN
 		"level" = 4
 		"type" = 4
 	STR_VAR
-		"idsName" = "ROGUE_DEFENSIVE_ROLL"
+		"idsName" = "THIEF_DEFENSIVE_ROLL"
 	RET
-		"ROGUE_DEFENSIVE_ROLL" = "resName"
+		"THIEF_DEFENSIVE_ROLL" = "resName"
 	END
 	//
 	WITH_SCOPE BEGIN

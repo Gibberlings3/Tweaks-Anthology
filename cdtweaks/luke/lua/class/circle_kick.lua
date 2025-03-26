@@ -14,7 +14,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- internal function that applies the actual feat
 	local apply = function()
 		-- Mark the creature as 'feat applied'
-		sprite:setLocalInt("cdtweaksCircleKick", 1)
+		sprite:setLocalInt("gtMonkCircleKick", 1)
 		--
 		sprite:applyEffect({
 			["effectID"] = 321, -- Remove effects by resource
@@ -37,7 +37,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	--
 	local applyAbility = spriteClassStr == "MONK"
 	--
-	if sprite:getLocalInt("cdtweaksCircleKick") == 0 then
+	if sprite:getLocalInt("gtMonkCircleKick") == 0 then
 		if applyAbility then
 			apply()
 		end
@@ -46,7 +46,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			-- do nothing
 		else
 			-- Mark the creature as 'feat removed'
-			sprite:setLocalInt("cdtweaksCircleKick", 0)
+			sprite:setLocalInt("gtMonkCircleKick", 0)
 			--
 			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource
@@ -65,8 +65,8 @@ function %MONK_CIRCLE_KICK%(CGameEffect, CGameSprite)
 		local sourceSprite = EEex_GameObject_Get(CGameEffect.m_sourceId)
 		local sourceActiveStats = EEex_Sprite_GetActiveStats(sourceSprite)
 		-- limit to once per round
-		local getTimer = EEex_Trigger_ParseConditionalString('!GlobalTimerNotExpired("cdtweaksCircleKickTimer","LOCALS") \n InWeaponRange(EEex_Target("GT_MonkCircleKickTarget"))')
-		local setTimer = EEex_Action_ParseResponseString('SetGlobalTimer("cdtweaksCircleKickTimer","LOCALS",6) \n ReallyForceSpellRES("%MONK_CIRCLE_KICK%B",EEex_Target("GT_MonkCircleKickTarget"))')
+		local conditionalString = EEex_Trigger_ParseConditionalString('!GlobalTimerNotExpired("gtCircleKickTimer","LOCALS") \n InWeaponRange(EEex_Target("GT_MonkCircleKickTarget"))')
+		local responseString = EEex_Action_ParseResponseString('SetGlobalTimer("gtCircleKickTimer","LOCALS",6) \n ReallyForceSpellRES("%MONK_CIRCLE_KICK%B",EEex_Target("GT_MonkCircleKickTarget"))')
 		--
 		local spriteArray = {}
 		if sourceSprite.m_typeAI.m_EnemyAlly > 200 then -- EVILCUTOFF
@@ -82,10 +82,10 @@ function %MONK_CIRCLE_KICK%(CGameEffect, CGameSprite)
 				--
 				local itrSpriteActiveStats = EEex_Sprite_GetActiveStats(itrSprite)
 				--
-				if getTimer:evalConditionalAsAIBase(sourceSprite) and EEex_IsBitUnset(itrSpriteActiveStats.m_generalState, 11) then -- if not dead
+				if conditionalString:evalConditionalAsAIBase(sourceSprite) and EEex_IsBitUnset(itrSpriteActiveStats.m_generalState, 11) then -- if not dead
 					if EEex_IsBitUnset(itrSpriteActiveStats.m_generalState, 0x4) or sourceActiveStats.m_bSeeInvisible > 0 then -- if not invisible or can see through invisibility
 						if itrSpriteActiveStats.m_bSanctuary == 0 then
-							setTimer:executeResponseAsAIBaseInstantly(sourceSprite)
+							responseString:executeResponseAsAIBaseInstantly(sourceSprite)
 							break
 						end
 					end
@@ -93,8 +93,8 @@ function %MONK_CIRCLE_KICK%(CGameEffect, CGameSprite)
 			end
 		end
 		--
-		getTimer:free()
-		setTimer:free()
+		conditionalString:free()
+		responseString:free()
 	elseif CGameEffect.m_effectAmount == 2 then -- actual feat
 		local sourceSprite = EEex_GameObject_Get(CGameEffect.m_sourceId)
 		--
@@ -108,14 +108,15 @@ function %MONK_CIRCLE_KICK%(CGameEffect, CGameSprite)
 		local targetActiveStats = EEex_Sprite_GetActiveStats(CGameSprite)
 		--
 		local itmAbilityDamageTypeToIDS = {
-			0x10, -- piercing
-			0x0, -- crushing
-			0x100, -- slashing
-			0x80, -- missile
-			0x800, -- non-lethal
-			targetActiveStats.m_nResistPiercing > targetActiveStats.m_nResistCrushing and 0x0 or 0x10, -- piercing/crushing (better)
-			targetActiveStats.m_nResistPiercing > targetActiveStats.m_nResistSlashing and 0x100 or 0x10, -- piercing/slashing (better)
-			targetActiveStats.m_nResistCrushing > targetActiveStats.m_nResistSlashing and 0x0 or 0x100, -- slashing/crushing (worse)
+			[0] = 0x0, -- none (crushing)
+			[1] = 0x10, -- piercing
+			[2] = 0x0, -- crushing
+			[3] = 0x100, -- slashing
+			[4] = 0x80, -- missile
+			[5] = 0x800, -- non-lethal
+			[6] = targetActiveStats.m_nResistPiercing > targetActiveStats.m_nResistCrushing and 0x0 or 0x10, -- piercing/crushing (better)
+			[7] = targetActiveStats.m_nResistPiercing > targetActiveStats.m_nResistSlashing and 0x100 or 0x10, -- piercing/slashing (better)
+			[8] = targetActiveStats.m_nResistCrushing > targetActiveStats.m_nResistSlashing and 0x0 or 0x100, -- slashing/crushing (worse)
 		}
 		--
 		if itmAbilityDamageTypeToIDS[selectedWeaponAbility.damageType] then -- sanity check

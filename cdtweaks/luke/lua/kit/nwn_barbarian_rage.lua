@@ -12,15 +12,40 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		return
 	end
 	--
-	local enraged = EEex_Trigger_ParseConditionalString('!GlobalTimerNotExpired("cdtweaksTerrifyingRage","LOCALS") \n CheckSpellState(Myself,BARBARIAN_RAGE)')
-	local terrifyingRage = EEex_Action_ParseResponseString('SetGlobalTimer("cdtweaksTerrifyingRage","LOCALS",6) \n ReallyForceSpellRES("%BARBARIAN_RAGE%B",Myself)')
+	local splstate = GT_Resource_SymbolToIDS["splstate"]
+	-- since ``EEex_Opcode_AddListsResolvedListener`` is running after the effect lists have been evaluated, ``m_bonusStats`` has already been added to ``m_derivedStats`` by the engine
+	local spriteKitStr = EEex_Resource_KitIDSToSymbol(sprite.m_derivedStats.m_nKit)
 	--
-	if enraged:evalConditionalAsAIBase(sprite) then
-		terrifyingRage:executeResponseAsAIBaseInstantly(sprite)
+	local found = false
+	EEex_Utility_IterateCPtrList(sprite.m_timedEffectList, function(effect)
+		if effect.m_effectId == 0 and effect.m_dWFlags == 0 and effect.m_effectAmount == 0 and effect.m_scriptName:get() == "gtBarbarianRageTimer" then -- dummy opcode that acts as a marker/timer
+			found = true
+			return true
+		end
+	end)
+	--
+	if spriteKitStr == "BARBARIAN" then
+		if EEex_Sprite_GetSpellState(sprite, splstate["BARBARIAN_RAGE"]) then
+			if not found then
+				sprite:applyEffect({
+					["effectID"] = 146, -- Cast spl
+					["dwFlags"] = 1, -- mode: cast instantly / ignore level
+					["res"] = "%BARBARIAN_RAGE%B",
+					["sourceID"] = sprite.m_id,
+					["sourceTarget"] = sprite.m_id,
+				})
+				-- set timer
+				sprite:applyEffect({
+					["effectID"] = 0, -- AC bonus
+					["m_scriptName"] = "gtBarbarianRageTimer",
+					["duration"] = 100,
+					["durationType"] = 10, -- instant/limited (ticks)
+					["sourceID"] = sprite.m_id,
+					["sourceTarget"] = sprite.m_id,
+				})
+			end
+		end
 	end
-	--
-	enraged:free()
-	terrifyingRage:free()
 end)
 
 -- Rage / Terrifying Rage / Thundering Rage --
@@ -29,7 +54,8 @@ function %BARBARIAN_RAGE%(CGameEffect, CGameSprite)
 	if CGameEffect.m_effectAmount == 1 then
 		local spriteActiveStats = EEex_Sprite_GetActiveStats(CGameSprite)
 		--
-		local conModifier = math.floor((spriteActiveStats.m_nCON - 10) / 2)
+		local gtabmod = GT_Resource_2DA["gtabmod"]
+		local conModifier = tonumber(gtabmod[string.format("%s", spriteActiveStats.m_nCON)]["BONUS"])
 		--
 		local splstate = GT_Resource_SymbolToIDS["splstate"]
 		--
@@ -66,7 +92,9 @@ function %BARBARIAN_RAGE%(CGameEffect, CGameSprite)
 		local sourceSprite = EEex_GameObject_Get(CGameEffect.m_sourceId)
 		local sourceActiveStats = EEex_Sprite_GetActiveStats(sourceSprite)
 		--
-		if not GT_Utility_EffectCheck(CGameSprite, {["op"] = 0x65, ["p2"] = 24}) then
+		local immunityToFear = EEex_Trigger_ParseConditionalString("EEex_IsImmuneToOpcode(Myself,24)")
+		--
+		if not immunityToFear:evalConditionalAsAIBase(CGameSprite) then
 			local effectCodes = {}
 			--
 			if sourceActiveStats.m_nLevel1 > 1 then
@@ -118,16 +146,19 @@ function %BARBARIAN_RAGE%(CGameEffect, CGameSprite)
 				["sourceTarget"] = CGameEffect.m_sourceTarget,
 			})
 		end
+		--
+		immunityToFear:free()
 	elseif CGameEffect.m_effectAmount == 3 then -- Thundering Rage
 		local sourceSprite = EEex_GameObject_Get(CGameEffect.m_sourceId)
 		--
-		local equipment = sourceSprite.m_equipment
-		local selectedWeapon = equipment.m_items:get(equipment.m_selectedWeapon)
+		local equipment = sourceSprite.m_equipment -- CGameSpriteEquipment
+		local selectedWeapon = equipment.m_items:get(equipment.m_selectedWeapon) -- CItem
 		local selectedWeaponHeader = selectedWeapon.pRes.pHeader -- Item_Header_st
 		--
 		local selectedWeaponAbility = EEex_Resource_GetItemAbility(selectedWeaponHeader, equipment.m_selectedWeaponAbility) -- Item_ability_st
 		--
 		local items = sourceSprite.m_equipment.m_items -- Array<CItem*,39>
+		--
 		local offHand = items:get(9) -- CItem
 		if offHand and sourceSprite.m_leftAttack == 1 then
 			local pHeader = offHand.pRes.pHeader -- Item_Header_st
@@ -141,14 +172,15 @@ function %BARBARIAN_RAGE%(CGameEffect, CGameSprite)
 		local targetActiveStats = EEex_Sprite_GetActiveStats(CGameSprite)
 		--
 		local itmAbilityDamageTypeToIDS = {
-			0x10, -- piercing
-			0x0, -- crushing
-			0x100, -- slashing
-			0x80, -- missile
-			0x800, -- non-lethal
-			targetActiveStats.m_nResistPiercing > targetActiveStats.m_nResistCrushing and 0x0 or 0x10, -- piercing/crushing (better)
-			targetActiveStats.m_nResistPiercing > targetActiveStats.m_nResistSlashing and 0x100 or 0x10, -- piercing/slashing (better)
-			targetActiveStats.m_nResistCrushing > targetActiveStats.m_nResistSlashing and 0x0 or 0x100, -- slashing/crushing (worse)
+			[0] = 0x0, -- none (crushing)
+			[1] = 0x10, -- piercing
+			[2] = 0x0, -- crushing
+			[3] = 0x100, -- slashing
+			[4] = 0x80, -- missile
+			[5] = 0x800, -- non-lethal
+			[6] = targetActiveStats.m_nResistPiercing > targetActiveStats.m_nResistCrushing and 0x0 or 0x10, -- piercing/crushing (better)
+			[7] = targetActiveStats.m_nResistPiercing > targetActiveStats.m_nResistSlashing and 0x100 or 0x10, -- piercing/slashing (better)
+			[8] = targetActiveStats.m_nResistCrushing > targetActiveStats.m_nResistSlashing and 0x0 or 0x100, -- slashing/crushing (worse)
 		}
 		--
 		if itmAbilityDamageTypeToIDS[selectedWeaponAbility.damageType] then -- sanity check

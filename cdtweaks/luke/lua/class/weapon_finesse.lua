@@ -18,23 +18,21 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		return
 	end
 	-- internal function that applies the actual bonus
-	local apply = function(value)
+	local apply = function(modifier)
 		-- Update tracking var
-		sprite:setLocalInt("cdtweaksWeaponFinesseHelper", value)
-		-- Mark the creature as 'bonus applied'
-		sprite:setLocalInt("cdtweaksWeaponFinesse", 1)
+		sprite:setLocalInt("gtThiefWeaponFinesse", modifier)
 		--
 		sprite:applyEffect({
 			["effectID"] = 321, -- Remove effects by resource
-			["res"] = "%ROGUE_WEAPON_FINESSE%",
+			["res"] = "%THIEF_WEAPON_FINESSE%",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
 		})
 		sprite:applyEffect({
 			["effectID"] = 306, -- Main-hand THAC0 bonus
 			["durationType"] = 9,
-			["effectAmount"] = value,
-			["m_sourceRes"] = "%ROGUE_WEAPON_FINESSE%",
+			["effectAmount"] = modifier,
+			["m_sourceRes"] = "%THIEF_WEAPON_FINESSE%",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
 		})
@@ -42,7 +40,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			["effectID"] = 142, -- Display portrait icon
 			["durationType"] = 9,
 			["dwFlags"] = %feedback_icon%,
-			["m_sourceRes"] = "%ROGUE_WEAPON_FINESSE%",
+			["m_sourceRes"] = "%THIEF_WEAPON_FINESSE%",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
 		})
@@ -51,6 +49,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	local equipment = sprite.m_equipment
 	local selectedWeapon = equipment.m_items:get(equipment.m_selectedWeapon)
 	local selectedWeaponHeader = selectedWeapon.pRes.pHeader
+	local selectedWeaponTypeStr = EEex_Resource_ItemCategoryIDSToSymbol(selectedWeaponHeader.itemType)
 	--
 	local selectedWeaponResRef = string.upper(selectedWeapon.pRes.resref:get())
 	--
@@ -63,22 +62,21 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	local spriteSTR = sprite.m_derivedStats.m_nSTR
 	local spriteSTRExtra = sprite.m_derivedStats.m_nSTRExtra
 	local spriteDEX = sprite.m_derivedStats.m_nDEX
-	--
-	local spriteClassStr = GT_Resource_IDSToSymbol["class"][sprite.m_typeAI.m_Class]
-	--
-	local selectedWeaponTypeStr = GT_Resource_IDSToSymbol["itemcat"][selectedWeaponHeader.itemType]
-	--
-	local spriteFlags = sprite.m_baseStats.m_flags
-	--
 	local spriteLevel1 = sprite.m_derivedStats.m_nLevel1
 	local spriteLevel2 = sprite.m_derivedStats.m_nLevel2
 	--
-	local curStrBonus = tonumber(strmod[string.format("%s", spriteSTR)]["TO_HIT"] + strmodex[string.format("%s", spriteSTRExtra)]["TO_HIT"])
+	local spriteClassStr = GT_Resource_IDSToSymbol["class"][sprite.m_typeAI.m_Class]
+	--
+	local spriteFlags = sprite.m_baseStats.m_flags
+	-- compute modifier
+	local curStrBonus = spriteSTR == 18 and (tonumber(strmod[string.format("%s", spriteSTR)]["TO_HIT"] + strmodex[string.format("%s", spriteSTRExtra)]["TO_HIT"])) or tonumber(strmod[string.format("%s", spriteSTR)]["TO_HIT"])
 	local curDexBonus = tonumber(dexmod[string.format("%s", spriteDEX)]["MISSILE"])
+	--
+	local modifier = curDexBonus - curStrBonus
 	-- if the thief is wielding a small blade / mace / club that scales with STR and "dexmod.2da" is better than "strmod.2da" + "strmodex.2da" ...
 	local applyAbility = (selectedWeaponTypeStr == "DAGGER" or selectedWeaponTypeStr == "SMSWORD" or selectedWeaponTypeStr == "MACE")
 		and not cdtweaks_WeaponFinesse_UnusuallyLargeWeapon[selectedWeaponResRef]
-		and curDexBonus > curStrBonus
+		and modifier > 0
 		and selectedWeaponAbility.quickSlotType == 1 -- Location: Weapon
 		and selectedWeaponAbility.type == 1 -- Type: Melee
 		and (EEex_IsBitSet(selectedWeaponAbility.abilityFlags, 0x0) or EEex_IsBitSet(selectedWeaponAbility.abilityFlags, 0x3))
@@ -88,23 +86,23 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			or (spriteClassStr == "MAGE_THIEF" and (EEex_IsBitUnset(spriteFlags, 0x6) or spriteLevel1 > spriteLevel2))
 			or (spriteClassStr == "CLERIC_THIEF" and (EEex_IsBitUnset(spriteFlags, 0x6) or spriteLevel1 > spriteLevel2)))
 	--
-	if sprite:getLocalInt("cdtweaksWeaponFinesse") == 0 then
+	if sprite:getLocalInt("gtThiefWeaponFinesse") == 0 then
 		if applyAbility then
-			apply(curDexBonus - curStrBonus)
+			apply(modifier)
 		end
 	else
 		if applyAbility then
 			-- Check if STR/STREx/DEX have changed since the last application
-			if (curDexBonus - curStrBonus) ~= sprite:getLocalInt("cdtweaksWeaponFinesseHelper") then
-				apply(curDexBonus - curStrBonus)
+			if modifier ~= sprite:getLocalInt("gtThiefWeaponFinesse") then
+				apply(modifier)
 			end
 		else
 			-- Mark the creature as 'bonus removed'
-			sprite:setLocalInt("cdtweaksWeaponFinesse", 0)
+			sprite:setLocalInt("gtThiefWeaponFinesse", 0)
 			--
 			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource
-				["res"] = "%ROGUE_WEAPON_FINESSE%",
+				["res"] = "%THIEF_WEAPON_FINESSE%",
 				["sourceID"] = sprite.m_id,
 				["sourceTarget"] = sprite.m_id,
 			})

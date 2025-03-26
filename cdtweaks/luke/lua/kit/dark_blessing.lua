@@ -14,9 +14,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- internal function that applies the actual bonus
 	local apply = function(bonus)
 		-- Update tracking var
-		sprite:setLocalInt("cdtweaksDarkBlessingBonus", bonus)
-		-- Mark the creature as 'bonus applied'
-		sprite:setLocalInt("cdtweaksDarkBlessing", 1)
+		sprite:setLocalInt("gtBlackguardDarkBlessing", bonus)
 		--
 		sprite:applyEffect({
 			["effectID"] = 321, -- Remove effects by resource
@@ -44,29 +42,29 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- Check creature's class / kit / flags / CHR
 	local spriteClassStr = GT_Resource_IDSToSymbol["class"][sprite.m_typeAI.m_Class]
 	--
-	local spriteKitStr = GT_Resource_IDSToSymbol["kit"][EEex_BOr(EEex_LShift(sprite.m_baseStats.m_mageSpecUpperWord, 16), sprite.m_baseStats.m_mageSpecialization)]
-	--
 	local spriteFlags = sprite.m_baseStats.m_flags
 	-- since ``EEex_Opcode_AddListsResolvedListener`` is running after the effect lists have been evaluated, ``m_bonusStats`` has already been added to ``m_derivedStats`` by the engine
 	local spriteCharisma = sprite.m_derivedStats.m_nCHR
+	local spriteKitStr = EEex_Resource_KitIDSToSymbol(sprite.m_derivedStats.m_nKit)
 	--
-	local bonus = math.floor((spriteCharisma - 10) / 2)
+	local gtabmod = GT_Resource_2DA["gtabmod"]
+	local bonus = tonumber(gtabmod[string.format("%s", spriteCharisma)]["BONUS"])
 	-- The blackguard adds its charisma bonus to all saving throws (provided it is not fallen)
-	local applyAbility = spriteClassStr == "PALADIN" and spriteKitStr == "Blackguard" and bonus and EEex_IsBitUnset(spriteFlags, 0x9)
+	local applyAbility = spriteClassStr == "PALADIN" and spriteKitStr == "Blackguard" and bonus and bonus ~= 0 and EEex_IsBitUnset(spriteFlags, 0x9)
 	--
-	if sprite:getLocalInt("cdtweaksDarkBlessing") == 0 then
+	if sprite:getLocalInt("gtBlackguardDarkBlessing") == 0 then
 		if applyAbility then
 			apply(bonus)
 		end
 	else
 		if applyAbility then
 			-- Check if Charisma has changed since the last application
-			if bonus ~= sprite:getLocalInt("cdtweaksDarkBlessingBonus") then
+			if bonus ~= sprite:getLocalInt("gtBlackguardDarkBlessing") then
 				apply(bonus)
 			end
 		else
 			-- Mark the creature as 'bonus removed'
-			sprite:setLocalInt("cdtweaksDarkBlessing", 0)
+			sprite:setLocalInt("gtBlackguardDarkBlessing", 0)
 			--
 			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource

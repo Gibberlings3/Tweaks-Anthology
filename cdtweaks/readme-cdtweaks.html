@@ -1382,6 +1382,7 @@
             <li>So for instance, a character with <code>18</code> DEX equipped with a Plate Mail will suffer a <code>-4</code> AC penalty.</li>
           </ul>
         </li>
+        <li>This tweak (nerf) only applies to playable races.</li>
       </ul>
 
       <p> <strong>Defensive Roll class feat for Thieves [Luke]</strong><br />
@@ -1402,18 +1403,83 @@
         <li>Dark Blessing: Blackguards add their charisma bonus to all saving throws.</li>
       </ul>
       Here is how the bonus scales with charisma:
-      <ul>
-        <li> starting from 10, every <code>+2</code> points of charisma result in +1 bonus to all saves
-          <ul>
-            <li>So a 18 CHA character will get a +4 bonus</li>
-          </ul>
-        </li>
-        <li> starting from 10, every <code>-2</code> points of charisma result in -1 penalty to all saves
-          <ul>
-            <li>So a 8 CHA character will get a -1 penalty</li>
-          </ul>
-        </li>
-      </ul>
+
+      <table>
+        <tbody>
+          <tr>
+            <th> Charisma </th>
+            <th> Modifier </th>
+          </tr>
+          <tr>
+            <td> 0 </td>
+            <td> -20 </td>
+          </tr>
+          <tr>
+            <td> 1 </td>
+            <td> -6 </td>
+          </tr>
+          <tr>
+            <td> 2 </td>
+            <td> -4 </td>
+          </tr>
+          <tr>
+            <td> 3 </td>
+            <td> -3 </td>
+          </tr>
+          <tr>
+            <td> 4 </td>
+            <td> -2 </td>
+          </tr>
+          <tr>
+            <td> 5 </td>
+            <td> -1 </td>
+          </tr>
+          <tr>
+            <td> 6 to 15 </td>
+            <td> 0 </td>
+          </tr>
+          <tr>
+            <td> 16 </td>
+            <td> 1 </td>
+          </tr>
+          <tr>
+            <td> 17 </td>
+            <td> 2 </td>
+          </tr>
+          <tr>
+            <td> 18 </td>
+            <td> 2 </td>
+          </tr>
+          <tr>
+            <td> 19 </td>
+            <td> 3 </td>
+          </tr>
+          <tr>
+            <td> 20 </td>
+            <td> 3 </td>
+          </tr>
+          <tr>
+            <td> 21 </td>
+            <td> 4 </td>
+          </tr>
+          <tr>
+            <td> 22 </td>
+            <td> 4 </td>
+          </tr>
+          <tr>
+            <td> 23 </td>
+            <td> 4 </td>
+          </tr>
+          <tr>
+            <td> 24 </td>
+            <td> 5 </td>
+          </tr>
+          <tr>
+            <td> 25 </td>
+            <td> 5 </td>
+          </tr>
+        </tbody>
+      </table>
 
       <p> <strong>Good Aim racial feat for Halflings [Luke]</strong><br />
         <em><abbr title="Enhanced Edition">EEex</abbr></em></p>
@@ -1426,6 +1492,7 @@
         Notes: </p>
       <ul>
         <li>Use: automatic, but only available to Fighters (starting from level 1).</li>
+        <li>Strength bonus and on-hit effects (if any) do not apply.</li>
       </ul>
 
       <p> <strong>Sneak Attack class feat for Blackguards [Luke]</strong><br />
@@ -1436,7 +1503,11 @@
       <ul>
         <li>Use: automatic, but limited to once per round.</li>
         <li>Creatures without discernible anatomies (see component <i>Make Certain Creatures Immune to Backstab/Sneak Attack</i> ) or that are otherwise immune to sneak attacks, either via spells/items or naturally (f.i. Barbarians), are unaffected by this feat.</li>
-        <li>Sneak attacks can be made with both melee and ranged weapons.</li>
+        <li>
+          Sneak attacks can be made with both melee and ranged weapons.</li>
+          <ul>
+            <li>However, the selected weapon must be usable by single-class thieves!</li>
+          </ul>
       </ul>
 
       <p> <strong>Fearless racial feat for halflings [Luke]</strong><br />
@@ -1462,6 +1533,7 @@
         Notes: </p>
       <ul>
         <li>Use: automatic, but only available to Monks (starting from level 1).</li>
+        <li>Strength bonus and on-hit effects (if any) do not apply.</li>
       </ul>
 
       <p> <strong>NWN-ish Barbarian Rage [Luke]</strong><br />
@@ -1479,7 +1551,84 @@
       <p>
         Notes:
         <ul>
-          <li>Constitution modifier: <code>(Constitution - 10) / 2</code> , rounded down</li>
+          <li>
+            <table>
+              <tbody>
+                <tr>
+                  <th> Constitution </th>
+                  <th> Modifier </th>
+                </tr>
+                <tr>
+                  <td> 0 </td>
+                  <td> -20 </td>
+                </tr>
+                <tr>
+                  <td> 1 </td>
+                  <td> -6 </td>
+                </tr>
+                <tr>
+                  <td> 2 </td>
+                  <td> -4 </td>
+                </tr>
+                <tr>
+                  <td> 3 </td>
+                  <td> -3 </td>
+                </tr>
+                <tr>
+                  <td> 4 </td>
+                  <td> -2 </td>
+                </tr>
+                <tr>
+                  <td> 5 </td>
+                  <td> -1 </td>
+                </tr>
+                <tr>
+                  <td> 6 to 15 </td>
+                  <td> 0 </td>
+                </tr>
+                <tr>
+                  <td> 16 </td>
+                  <td> 1 </td>
+                </tr>
+                <tr>
+                  <td> 17 </td>
+                  <td> 2 </td>
+                </tr>
+                <tr>
+                  <td> 18 </td>
+                  <td> 2 </td>
+                </tr>
+                <tr>
+                  <td> 19 </td>
+                  <td> 3 </td>
+                </tr>
+                <tr>
+                  <td> 20 </td>
+                  <td> 3 </td>
+                </tr>
+                <tr>
+                  <td> 21 </td>
+                  <td> 4 </td>
+                </tr>
+                <tr>
+                  <td> 22 </td>
+                  <td> 4 </td>
+                </tr>
+                <tr>
+                  <td> 23 </td>
+                  <td> 4 </td>
+                </tr>
+                <tr>
+                  <td> 24 </td>
+                  <td> 5 </td>
+                </tr>
+                <tr>
+                  <td> 25 </td>
+                  <td> 5 </td>
+                </tr>
+              </tbody>
+            </table>
+          </li>
           <li>
             Terrifying Rage: the save penalty decreases by 1 for every 4 levels of the barbarian (capped at -7 at level 29).
             <ul>
