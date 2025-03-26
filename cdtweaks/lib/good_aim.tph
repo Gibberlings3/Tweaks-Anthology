@@ -17,7 +17,7 @@ BEGIN
 	WITH_SCOPE BEGIN
 		LAF "ADD_STATDESC_ENTRY" INT_VAR "description" = RESOLVE_STR_REF (@0) STR_VAR "bam_file" = "%HALFLING_GOOD_AIM%D" RET "feedback_icon" = "index" END
 		// Listener: run 'func' each time a sprite has finished evaluating its effects
-		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Misc Tweaks (Innate)" "sourceFileSpec" = "cdtweaks\luke\lua\race\good_aim.lua" "destRes" = "m_gtspin" END
+		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Innate Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\race\good_aim.lua" "destRes" = "m_gtspin" END
 		//
 		ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
 			COPY "cdtweaks\luke\lua\m_gttbls.lua" "override"
