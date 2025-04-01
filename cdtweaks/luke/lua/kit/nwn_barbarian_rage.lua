@@ -162,7 +162,8 @@ function %BARBARIAN_RAGE%(CGameEffect, CGameSprite)
 		local offHand = items:get(9) -- CItem
 		if offHand and sourceSprite.m_leftAttack == 1 then
 			local pHeader = offHand.pRes.pHeader -- Item_Header_st
-			if not (pHeader.itemType == 0xC) then -- if not shield, then overwrite item ability...
+			--
+			if EEex_Resource_ItemCategoryIDSToSymbol(pHeader.itemType) ~= "SHIELD" then -- if not shield, then overwrite item ability...
 				selectedWeaponAbility = EEex_Resource_GetItemAbility(pHeader, 0) -- Item_ability_st
 			end
 		end
@@ -171,42 +172,30 @@ function %BARBARIAN_RAGE%(CGameEffect, CGameSprite)
 		--
 		local targetActiveStats = EEex_Sprite_GetActiveStats(CGameSprite)
 		--
-		local itmAbilityDamageTypeToIDS = {
-			[0] = 0x0, -- none (crushing)
-			[1] = 0x10, -- piercing
-			[2] = 0x0, -- crushing
-			[3] = 0x100, -- slashing
-			[4] = 0x80, -- missile
-			[5] = 0x800, -- non-lethal
-			[6] = targetActiveStats.m_nResistPiercing > targetActiveStats.m_nResistCrushing and 0x0 or 0x10, -- piercing/crushing (better)
-			[7] = targetActiveStats.m_nResistPiercing > targetActiveStats.m_nResistSlashing and 0x100 or 0x10, -- piercing/slashing (better)
-			[8] = targetActiveStats.m_nResistCrushing > targetActiveStats.m_nResistSlashing and 0x0 or 0x100, -- slashing/crushing (worse)
-		}
+		local op12DamageType, ACModifier = GT_Utility_DamageTypeConverter(selectedWeaponAbility.damageType, targetActiveStats)
 		--
-		if itmAbilityDamageTypeToIDS[selectedWeaponAbility.damageType] then -- sanity check
-			if not immunityToDamage:evalConditionalAsAIBase(CGameSprite) then
-				EEex_GameObject_ApplyEffect(CGameSprite,
-				{
-					["effectID"] = 0xC, -- Damage
-					["dwFlags"] = itmAbilityDamageTypeToIDS[selectedWeaponAbility.damageType] * 0x10000, -- mode: normal
-					["numDice"] = 2,
-					["diceSize"] = 6,
-					["m_sourceRes"] = CGameEffect.m_sourceRes:get(),
-					["m_sourceType"] = CGameEffect.m_sourceType,
-					["sourceID"] = CGameEffect.m_sourceId,
-					["sourceTarget"] = CGameEffect.m_sourceTarget,
-				})
-			else
-				EEex_GameObject_ApplyEffect(CGameSprite,
-				{
-					["effectID"] = 324, -- Immunity to resource and message
-					["res"] = CGameEffect.m_sourceRes:get(),
-					["m_sourceRes"] = CGameEffect.m_sourceRes:get(),
-					["m_sourceType"] = CGameEffect.m_sourceType,
-					["sourceID"] = CGameEffect.m_sourceId,
-					["sourceTarget"] = CGameEffect.m_sourceTarget,
-				})
-			end
+		if not immunityToDamage:evalConditionalAsAIBase(CGameSprite) then
+			EEex_GameObject_ApplyEffect(CGameSprite,
+			{
+				["effectID"] = 0xC, -- Damage
+				["dwFlags"] = op12DamageType * 0x10000, -- mode: normal
+				["numDice"] = 2,
+				["diceSize"] = 6,
+				["m_sourceRes"] = CGameEffect.m_sourceRes:get(),
+				["m_sourceType"] = CGameEffect.m_sourceType,
+				["sourceID"] = CGameEffect.m_sourceId,
+				["sourceTarget"] = CGameEffect.m_sourceTarget,
+			})
+		else
+			EEex_GameObject_ApplyEffect(CGameSprite,
+			{
+				["effectID"] = 324, -- Immunity to resource and message
+				["res"] = CGameEffect.m_sourceRes:get(),
+				["m_sourceRes"] = CGameEffect.m_sourceRes:get(),
+				["m_sourceType"] = CGameEffect.m_sourceType,
+				["sourceID"] = CGameEffect.m_sourceId,
+				["sourceTarget"] = CGameEffect.m_sourceTarget,
+			})
 		end
 		--
 		immunityToDamage:free()

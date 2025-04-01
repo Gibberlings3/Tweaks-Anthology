@@ -74,8 +74,8 @@ function %FIGHTER_CLEAVE%(CGameEffect, CGameSprite)
 		--
 		local sourceActiveStats = EEex_Sprite_GetActiveStats(sourceSprite)
 		--
-		local conditionalString = EEex_Trigger_ParseConditionalString('InWeaponRange(EEex_Target("GT_FighterCleaveTarget"))')
-		local responseString = EEex_Action_ParseResponseString('ReallyForceSpellRES("%FIGHTER_CLEAVE%B",EEex_Target("GT_FighterCleaveTarget"))')
+		local conditionalString = EEex_Trigger_ParseConditionalString('InWeaponRange(EEex_Target("GT_ScriptingTarget_Cleave"))')
+		local responseString = EEex_Action_ParseResponseString('ReallyForceSpellRES("%FIGHTER_CLEAVE%B",EEex_Target("GT_ScriptingTarget_Cleave"))')
 		--
 		local targetActiveStats = EEex_Sprite_GetActiveStats(CGameSprite)
 		--
@@ -88,7 +88,7 @@ function %FIGHTER_CLEAVE%(CGameEffect, CGameSprite)
 			end
 			--
 			for _, itrSprite in ipairs(spriteArray) do
-				sourceSprite:setStoredScriptingTarget("GT_FighterCleaveTarget", itrSprite)
+				sourceSprite:setStoredScriptingTarget("GT_ScriptingTarget_Cleave", itrSprite)
 				--
 				local itrSpriteActiveStats = EEex_Sprite_GetActiveStats(itrSprite)
 				--
@@ -117,43 +117,31 @@ function %FIGHTER_CLEAVE%(CGameEffect, CGameSprite)
 		--
 		local targetActiveStats = EEex_Sprite_GetActiveStats(CGameSprite)
 		--
-		local itmAbilityDamageTypeToIDS = {
-			[0] = 0x0, -- none (crushing)
-			[1] = 0x10, -- piercing
-			[2] = 0x0, -- crushing
-			[3] = 0x100, -- slashing
-			[4] = 0x80, -- missile
-			[5] = 0x800, -- non-lethal
-			[6] = targetActiveStats.m_nResistPiercing > targetActiveStats.m_nResistCrushing and 0x0 or 0x10, -- piercing/crushing (better)
-			[7] = targetActiveStats.m_nResistPiercing > targetActiveStats.m_nResistSlashing and 0x100 or 0x10, -- piercing/slashing (better)
-			[8] = targetActiveStats.m_nResistCrushing > targetActiveStats.m_nResistSlashing and 0x0 or 0x100, -- slashing/crushing (worse)
-		}
+		local op12DamageType, ACModifier = GT_Utility_DamageTypeConverter(selectedWeaponAbility.damageType, targetActiveStats)
 		--
-		if itmAbilityDamageTypeToIDS[selectedWeaponAbility.damageType] then -- sanity check
-			if not immunityToDamage:evalConditionalAsAIBase(CGameSprite) then
-				EEex_GameObject_ApplyEffect(CGameSprite,
-				{
-					["effectID"] = 0xC, -- Damage
-					["dwFlags"] = itmAbilityDamageTypeToIDS[selectedWeaponAbility.damageType] * 0x10000, -- mode: normal
-					["numDice"] = selectedWeaponAbility.damageDiceCount,
-					["diceSize"] = selectedWeaponAbility.damageDice,
-					["effectAmount"] = selectedWeaponAbility.damageDiceBonus,
-					["m_sourceRes"] = CGameEffect.m_sourceRes:get(),
-					["m_sourceType"] = CGameEffect.m_sourceType,
-					["sourceID"] = CGameEffect.m_sourceId,
-					["sourceTarget"] = CGameEffect.m_sourceTarget,
-				})
-			else
-				EEex_GameObject_ApplyEffect(CGameSprite,
-				{
-					["effectID"] = 324, -- Immunity to resource and message
-					["res"] = CGameEffect.m_sourceRes:get(),
-					["m_sourceRes"] = CGameEffect.m_sourceRes:get(),
-					["m_sourceType"] = CGameEffect.m_sourceType,
-					["sourceID"] = CGameEffect.m_sourceId,
-					["sourceTarget"] = CGameEffect.m_sourceTarget,
-				})
-			end
+		if not immunityToDamage:evalConditionalAsAIBase(CGameSprite) then
+			EEex_GameObject_ApplyEffect(CGameSprite,
+			{
+				["effectID"] = 0xC, -- Damage
+				["dwFlags"] = op12DamageType * 0x10000, -- mode: normal
+				["numDice"] = selectedWeaponAbility.damageDiceCount,
+				["diceSize"] = selectedWeaponAbility.damageDice,
+				["effectAmount"] = selectedWeaponAbility.damageDiceBonus,
+				["m_sourceRes"] = CGameEffect.m_sourceRes:get(),
+				["m_sourceType"] = CGameEffect.m_sourceType,
+				["sourceID"] = CGameEffect.m_sourceId,
+				["sourceTarget"] = CGameEffect.m_sourceTarget,
+			})
+		else
+			EEex_GameObject_ApplyEffect(CGameSprite,
+			{
+				["effectID"] = 324, -- Immunity to resource and message
+				["res"] = CGameEffect.m_sourceRes:get(),
+				["m_sourceRes"] = CGameEffect.m_sourceRes:get(),
+				["m_sourceType"] = CGameEffect.m_sourceType,
+				["sourceID"] = CGameEffect.m_sourceId,
+				["sourceTarget"] = CGameEffect.m_sourceTarget,
+			})
 		end
 		--
 		immunityToDamage:free()

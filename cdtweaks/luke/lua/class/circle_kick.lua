@@ -65,8 +65,8 @@ function %MONK_CIRCLE_KICK%(CGameEffect, CGameSprite)
 		local sourceSprite = EEex_GameObject_Get(CGameEffect.m_sourceId)
 		local sourceActiveStats = EEex_Sprite_GetActiveStats(sourceSprite)
 		-- limit to once per round
-		local conditionalString = EEex_Trigger_ParseConditionalString('!GlobalTimerNotExpired("gtCircleKickTimer","LOCALS") \n InWeaponRange(EEex_Target("GT_MonkCircleKickTarget"))')
-		local responseString = EEex_Action_ParseResponseString('SetGlobalTimer("gtCircleKickTimer","LOCALS",6) \n ReallyForceSpellRES("%MONK_CIRCLE_KICK%B",EEex_Target("GT_MonkCircleKickTarget"))')
+		local conditionalString = EEex_Trigger_ParseConditionalString('!GlobalTimerNotExpired("gtCircleKickTimer","LOCALS") \n InWeaponRange(EEex_Target("GT_ScriptingTarget_CircleKick"))')
+		local responseString = EEex_Action_ParseResponseString('SetGlobalTimer("gtCircleKickTimer","LOCALS",6) \n ReallyForceSpellRES("%MONK_CIRCLE_KICK%B",EEex_Target("GT_ScriptingTarget_CircleKick"))')
 		--
 		local spriteArray = {}
 		if sourceSprite.m_typeAI.m_EnemyAlly > 200 then -- EVILCUTOFF
@@ -78,7 +78,7 @@ function %MONK_CIRCLE_KICK%(CGameEffect, CGameSprite)
 		for _, itrSprite in ipairs(spriteArray) do
 			if itrSprite.m_id ~= CGameSprite.m_id then -- skip current target
 				--EEex_LuaObject = itrSprite -- must be global (we are not confortable with global / singleton vars...)
-				sourceSprite:setStoredScriptingTarget("GT_MonkCircleKickTarget", itrSprite)
+				sourceSprite:setStoredScriptingTarget("GT_ScriptingTarget_CircleKick", itrSprite)
 				--
 				local itrSpriteActiveStats = EEex_Sprite_GetActiveStats(itrSprite)
 				--
@@ -107,43 +107,31 @@ function %MONK_CIRCLE_KICK%(CGameEffect, CGameSprite)
 		--
 		local targetActiveStats = EEex_Sprite_GetActiveStats(CGameSprite)
 		--
-		local itmAbilityDamageTypeToIDS = {
-			[0] = 0x0, -- none (crushing)
-			[1] = 0x10, -- piercing
-			[2] = 0x0, -- crushing
-			[3] = 0x100, -- slashing
-			[4] = 0x80, -- missile
-			[5] = 0x800, -- non-lethal
-			[6] = targetActiveStats.m_nResistPiercing > targetActiveStats.m_nResistCrushing and 0x0 or 0x10, -- piercing/crushing (better)
-			[7] = targetActiveStats.m_nResistPiercing > targetActiveStats.m_nResistSlashing and 0x100 or 0x10, -- piercing/slashing (better)
-			[8] = targetActiveStats.m_nResistCrushing > targetActiveStats.m_nResistSlashing and 0x0 or 0x100, -- slashing/crushing (worse)
-		}
+		local op12DamageType, ACModifier = GT_Utility_DamageTypeConverter(selectedWeaponAbility.damageType, targetActiveStats)
 		--
-		if itmAbilityDamageTypeToIDS[selectedWeaponAbility.damageType] then -- sanity check
-			if not immunityToDamage:evalConditionalAsAIBase(CGameSprite) then
-				EEex_GameObject_ApplyEffect(CGameSprite,
-				{
-					["effectID"] = 0xC, -- Damage
-					["dwFlags"] = itmAbilityDamageTypeToIDS[selectedWeaponAbility.damageType] * 0x10000, -- mode: normal
-					["numDice"] = selectedWeaponAbility.damageDiceCount,
-					["diceSize"] = selectedWeaponAbility.damageDice,
-					["effectAmount"] = selectedWeaponAbility.damageDiceBonus,
-					["m_sourceRes"] = CGameEffect.m_sourceRes:get(),
-					["m_sourceType"] = CGameEffect.m_sourceType,
-					["sourceID"] = CGameEffect.m_sourceId,
-					["sourceTarget"] = CGameEffect.m_sourceTarget,
-				})
-			else
-				EEex_GameObject_ApplyEffect(CGameSprite,
-				{
-					["effectID"] = 324, -- Immunity to resource and message
-					["res"] = CGameEffect.m_sourceRes:get(),
-					["m_sourceRes"] = CGameEffect.m_sourceRes:get(),
-					["m_sourceType"] = CGameEffect.m_sourceType,
-					["sourceID"] = CGameEffect.m_sourceId,
-					["sourceTarget"] = CGameEffect.m_sourceTarget,
-				})
-			end
+		if not immunityToDamage:evalConditionalAsAIBase(CGameSprite) then
+			EEex_GameObject_ApplyEffect(CGameSprite,
+			{
+				["effectID"] = 0xC, -- Damage
+				["dwFlags"] = op12DamageType * 0x10000, -- mode: normal
+				["numDice"] = selectedWeaponAbility.damageDiceCount,
+				["diceSize"] = selectedWeaponAbility.damageDice,
+				["effectAmount"] = selectedWeaponAbility.damageDiceBonus,
+				["m_sourceRes"] = CGameEffect.m_sourceRes:get(),
+				["m_sourceType"] = CGameEffect.m_sourceType,
+				["sourceID"] = CGameEffect.m_sourceId,
+				["sourceTarget"] = CGameEffect.m_sourceTarget,
+			})
+		else
+			EEex_GameObject_ApplyEffect(CGameSprite,
+			{
+				["effectID"] = 324, -- Immunity to resource and message
+				["res"] = CGameEffect.m_sourceRes:get(),
+				["m_sourceRes"] = CGameEffect.m_sourceRes:get(),
+				["m_sourceType"] = CGameEffect.m_sourceType,
+				["sourceID"] = CGameEffect.m_sourceId,
+				["sourceTarget"] = CGameEffect.m_sourceTarget,
+			})
 		end
 		--
 		immunityToDamage:free()

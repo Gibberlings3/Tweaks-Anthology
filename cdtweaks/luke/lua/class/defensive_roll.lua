@@ -116,7 +116,8 @@ function %THIEF_DEFENSIVE_ROLL%(op403CGameEffect, CGameEffect, CGameSprite)
 	local responseString = EEex_Action_ParseResponseString('SetGlobalTimer("gtDefensiveRollTimer","LOCALS",2400)')
 	-- If the character is struck by a potentially lethal blow, he makes a save vs. breath. If successful, he takes only half damage from the blow.
 	if CGameEffect.m_effectId == 0xC and EEex_IsMaskUnset(CGameEffect.m_dWFlags, dmgtype["STUNNING"]) and CGameEffect.m_slotNum == -1 and CGameEffect.m_sourceType == 0 and CGameEffect.m_sourceRes:get() == "" -- base weapon damage (all damage types but STUNNING)
-		and EEex_BAnd(spriteActiveStats.m_generalState, state["CD_STATE_NOTVALID"]) == 0
+		--and EEex_BAnd(spriteActiveStats.m_generalState, state["CD_STATE_NOTVALID"]) == 0
+		and EEex_BAnd(spriteActiveStats.m_generalState, 0x100029) == 0 -- STATE_SLEEPING | STATE_STUNNED | STATE_HELPLESS | STATE_FEEBLEMINDED
 		and spriteActiveStats.m_nSaveVSBreath <= spriteSaveVSBreathRoll
 		and damageAmount >= spriteHP
 		and conditionalString:evalConditionalAsAIBase(CGameSprite)

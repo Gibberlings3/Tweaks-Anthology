@@ -63,7 +63,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	local AC = tonumber(dexmod[string.format("%s", spriteDEX)]["AC"])
 	local modifier
 	--
-	if armor then
+	if armor and armorTypeStr == "ARMOR" then
 		if armorAnimation == "3A" then -- Chain mail
 			modifier = math.floor(AC / 2)
 			if modifier == 0 then
@@ -74,7 +74,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		end
 	end
 	-- if the character is wielding a medium or heavy armor ...
-	local applyCondition = playableRaces[spriteRaceStr] and modifier < 0 and armor and armorTypeStr == "ARMOR" and (armorAnimation == "3A" or armorAnimation == "4A")
+	local applyCondition = playableRaces[spriteRaceStr] and modifier and modifier < 0
 	--
 	if sprite:getLocalInt("gtNWNArmorClassMod") == 0 then
 		if applyCondition then

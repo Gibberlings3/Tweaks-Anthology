@@ -96,6 +96,7 @@ BEGIN
 		OUTER_SET "feedback_strref_immune" = RESOLVE_STR_REF (@8)
 		//
 		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Class/Kit Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\kit\nwn_barbarian_rage.lua" "destRes" = "m_gtspcl" END
+		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lua\utility\damage_type.lua" "destRes" = "m_gtutil" END
 	END
 	//
 	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
