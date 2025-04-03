@@ -411,16 +411,27 @@ BEGIN
 	ACTION_IF !(FILE_EXISTS_IN_GAME "%destRes%.lua") BEGIN
 		COPY ".../cdtweaks-inlined/empty" "override\%destRes%.lua"
 			DELETE_BYTES 0x0 BUFFER_LENGTH
-			INSERT_BYTES 0x0 STRING_LENGTH "--[[ %description% --]]%WNL%%WNL%"
-			WRITE_ASCII 0x0 "--[[ %description% --]]%WNL%%WNL%"
+			INSERT_BYTES 0x0 STRING_LENGTH "-- ***%description%*** --%WNL%%WNL%"
+			WRITE_ASCII 0x0 "-- ***%description%*** --%WNL%%WNL%"
 		BUT_ONLY_IF_IT_CHANGES
 	END
 	//
 	COPY - "%sourceFileSpec%" "override"
+		EVALUATE_BUFFER
 		READ_ASCII 0x0 "fileContent" (BUFFER_LENGTH)
+		TEXT_SPRINT "fileContent" "%WNL%%fileContent%"
 	BUT_ONLY
 	//
 	COPY_EXISTING "%destRes%.lua" "override"
-		APPEND_FILE_EVALUATE TEXT "%sourceFileSpec%"
-	BUT_ONLY UNLESS "%fileContent%"
+		SET "found" = INDEX_BUFFER (CASE_SENSITIVE EXACT_MATCH "%fileContent%")
+		PATCH_IF ("%found%" != "-1") BEGIN
+			DELETE_BYTES "%found%" STRING_LENGTH "%fileContent%"
+			SET "insert_point" = "%found%"
+		END ELSE BEGIN
+			SET "insert_point" = RINDEX_BUFFER (CASE_INSENSITIVE EVALUATE_REGEXP "$")
+		END
+		//
+		INSERT_BYTES "%insert_point%" STRING_LENGTH "%fileContent%"
+		WRITE_ASCII "%insert_point%" "%fileContent%"
+	BUT_ONLY_IF_IT_CHANGES
 END
