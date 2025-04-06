@@ -1,80 +1,123 @@
 /*
-=====================================================================================================================
-**CRE file**
-=====================================================================================================================
++-------------+
+| SPL file(s) |
++-------------+
 */
 
-CREATE "cre" "gtacmp03"
-COPY_EXISTING "gtacmp03.cre" "override"
-	WRITE_LONG NAME1 RESOLVE_STR_REF (@3000) // name
-	WRITE_LONG NAME2 RESOLVE_STR_REF (@3000) // tooltip
+LAF "GT_ADD_SPELL"
+INT_VAR
+	"type" = 3
+	"level" = 2
+STR_VAR
+	"idsName" = "INNATE_SPIDER_WEB_TANGLE"
+RET
+	"INNATE_SPIDER_WEB_TANGLE" = "resName"
+END
+//
+ACTION_IF !(FILE_EXISTS_IN_GAME "%INNATE_SPIDER_WEB_TANGLE%.spl") BEGIN
+	ACTION_TO_LOWER "INNATE_SPIDER_WEB_TANGLE"
 	//
-	WRITE_LONG 0x10 BIT1 // flags: no corpse
-	//
-	WRITE_SHORT 0x24 1 // current HP
-	WRITE_SHORT 0x26 1 // max HP
-	//
-	WRITE_LONG 0x28 IDS_OF_SYMBOL ("animate" "spider_sword")
-	//
-	WRITE_BYTE 0x2C 20 // metal color
-	WRITE_BYTE 0x2D 31 // minor color
-	WRITE_BYTE 0x2E 31 // major color
-	WRITE_BYTE 0x2F 7 // skin color
-	WRITE_BYTE 0x30 14 // leather color
-	WRITE_BYTE 0x31 20 // armor color
-	WRITE_BYTE 0x32 0 // hair color
-	//
-	WRITE_SHORT 0x46 3 // natural AC
-	WRITE_SHORT 0x48 3 // effective AC
-	//
-	WRITE_BYTE 0x53 2 // # attacks/round
-	//
-	WRITE_BYTE 0x237 IDS_OF_SYMBOL ("gender" "male") // sex
-	// abilities
-	WRITE_BYTE 0x238 16 // STR
-	WRITE_BYTE 0x23A 10 // INT
-	WRITE_BYTE 0x23B 2 // WIS
-	WRITE_BYTE 0x23C 14 // DEX
-	WRITE_BYTE 0x23D 14 // CON
-	WRITE_BYTE 0x23E 3 // CHA
-	//
-	WRITE_BYTE 0x23F 13 // morale
-	WRITE_BYTE 0x240 3 // morale break
-	WRITE_SHORT 0x242 30 // morale recovery
-	//
-	WRITE_ASCII SCRIPT_OVERRIDE "GTACMP00" #8
-	WRITE_ASCII SCRIPT_CLASS "%DEST_RES%" #8
-	WRITE_ASCII SCRIPT_DEFAULT "GTACMPAI" #8
-	//
-	WRITE_ASCII DEATHVAR "gtAnmlCompSpider" #32
-	// IDS
-	WRITE_BYTE 0x270 IDS_OF_SYMBOL ("ea" "neutral")
-	WRITE_BYTE 0x271 IDS_OF_SYMBOL ("general" "monster")
-	WRITE_BYTE 0x272 IDS_OF_SYMBOL ("race" "spider")
-	WRITE_BYTE 0x273 IDS_OF_SYMBOL ("class" "spider_sword")
-	WRITE_BYTE 0x275 IDS_OF_SYMBOL ("gender" "male")
-	WRITE_BYTE 0x27B IDS_OF_SYMBOL ("align" "chaotic_evil")
+	CREATE "spl" "%INNATE_SPIDER_WEB_TANGLE%"
+	COPY_EXISTING "%INNATE_SPIDER_WEB_TANGLE%.spl" "override"
+		/* Header */
+		WRITE_LONG NAME1 RESOLVE_STR_REF (@4001)
+		WRITE_LONG NAME2 "-1"
+		WRITE_LONG UNIDENTIFIED_DESC "-1"
+		WRITE_LONG DESC "-1"
+		WRITE_LONG 0x18 BIT14 BOR BIT25 // Ignore dead/wild magic, Castable when silenced
+		WRITE_SHORT 0x1C 4 // Type: Innate
+		WRITE_LONG 0x34 1 // Level
+		/* Extended Header */
+		LPF ~ADD_SPELL_HEADER~ INT_VAR "range" = 30 "projectile" = IDS_OF_SYMBOL ("projectl" "web1p") + 1 END
+		/* Feature Blocks */
+		LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 324 "target" = 2 "parameter2" = 13 STR_VAR "resource" = "%DEST_RES%" END // Immunity to resource and message (PERSONALSPACE>3)
+		LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 STR_VAR "resource" = "%DEST_RES%" END // Invoke lua
+	BUT_ONLY
+	// lua
+	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Innate Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\kit\animal_companion\spider\web_tangle.lua" "destRes" = "m_gtspin" END
+END
+
+/*
++----------+
+| CRE file |
++----------+
+*/
+
+CREATE "cre" "%resref%"
+COPY_EXISTING "%resref%.cre" "override"
+	LPF "WRITE_CRE_HEADER"
+	INT_VAR
+		"name" = RESOLVE_STR_REF (@3000)
+		"tooltip" = RESOLVE_STR_REF (@3000)
+		//
+		"flags" = BIT1 // no corpse
+		//
+		"curHP" = 1
+		"maxHP" = 1
+		//
+		"animation" = IDS_OF_SYMBOL ("animate" "SPIDER_SWORD")
+		//
+		"metal_color" = 20
+		"minor_color" = 31
+		"major_color" = 31
+		"skin_color" = 7
+		"leather_color" = 14
+		"armor_color" = 20
+		"hair_color" = 0
+		//
+		"AC" = 3
+		//
+		"apr" = 2 // # attacks/round
+		//
+		"sex" = IDS_OF_SYMBOL ("gender" "MALE")
+		// abilities
+		"STR" = 16
+		"INT" = 10
+		"WIS" = 2
+		"DEX" = 14
+		"CON" = 14
+		"CHR" = 3
+		//
+		"morale" = 13
+		"morale_break" = 3
+		"morale_recovery" = 30
+		// IDS
+		"allegiance" = IDS_OF_SYMBOL ("ea" "NEUTRAL")
+		"general" = IDS_OF_SYMBOL ("general" "MONSTER")
+		"race" = IDS_OF_SYMBOL ("race" "SPIDER")
+		"class" = IDS_OF_SYMBOL ("class" "SPIDER_SWORD")
+		"gender" = IDS_OF_SYMBOL ("gender" "MALE")
+		"alignment" = IDS_OF_SYMBOL ("align" "CHAOTIC_EVIL")
+	STR_VAR
+		"script_override" = "%BEASTMASTER_ANIMAL_COMPANION%x"
+		"script_class" = "%BEASTMASTER_ANIMAL_COMPANION%y"
+		"script_default" = "%BEASTMASTER_ANIMAL_COMPANION%z"
+		//
+		"deathvar" = "gtAnmlCompSpider"
+	END
+	// spellbook
+	ADD_MEMORIZED_SPELL "%BEASTMASTER_ANIMAL_COMPANION%#" #0 "innate" // banish
+	ADD_MEMORIZED_SPELL "%INNATE_SPIDER_WEB_TANGLE%" #0 "innate" // web tangle
 	// equipment
-	ADD_CRE_ITEM "gtacp03a" #0 #0 #0 "identified&unstealable&undroppable" "weapon" EQUIP
+	ADD_CRE_ITEM "gtacom6a" #0 #0 #0 "identified&unstealable&undroppable" "weapon" EQUIP
 	// passive traits
 	LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 16 "target" = 1 "timing" = 1 "parameter2" = 1 END // permanently (improved) hasted
 	LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 268 "target" = 1 "timing" = 1 END // clear fog of war
-	LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 232 "target" = 1 "timing" = 1 "parameter2" = 16 "special" = BIT2 STR_VAR "resource" = "GTACMP00" END // cast spell onto myself upon death (suppress spell's name)
+	LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 232 "target" = 1 "timing" = 1 "parameter2" = 16 "special" = BIT2 STR_VAR "resource" = "%BEASTMASTER_ANIMAL_COMPANION%#" END // cast spell onto myself upon death (suppress spell's name)
 	// immunity to web-based attacks
-	LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 101 "target" = 1 "timing" = 9 "parameter2" = 157 END
-	LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 169 "target" = 1 "timing" = 9 "parameter2" = 129 END
+	LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 403 "target" = 1 "timing" = 9 "parameter1" = BIT23 STR_VAR "resource" = "GTIMMUNE" END // screen effects based on op157 (web)
 	LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 83 "target" = 1 "timing" = 9 "parameter2" = IDS_OF_SYMBOL ("projectl" "webtrav") END
 	LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 83 "target" = 1 "timing" = 9 "parameter2" = IDS_OF_SYMBOL ("projectl" "web1p") END
 BUT_ONLY_IF_IT_CHANGES
 
 /*
-=====================================================================================================================
-**ITM file(s)**
-=====================================================================================================================
++-------------+
+| ITM file(s) |
++-------------+
 */
 
-CREATE "itm" "gtacp03a"
-COPY_EXISTING "gtacp03a.itm" "override"
+CREATE "itm" "gtacom6a"
+COPY_EXISTING "gtacom6a.itm" "override"
 	/* Header */
 	WRITE_LONG NAME1 "-1"
 	WRITE_LONG NAME2 "-1"
@@ -87,17 +130,19 @@ COPY_EXISTING "gtacp03a.itm" "override"
 	LPF ~ADD_ITEM_HEADER~ INT_VAR "type" = 1 "location" = 1 "range" = 1 "dicenumber" = 2 "dicesize" = 6 "damage_type" = 1 "depletion" = 1 "flags" = BIT0 "overhand" = 34 "backhand" = 33 "thrust" = 33 STR_VAR "icon" = "ISWOSPDR" END // 2d6 (piercing)
 BUT_ONLY_IF_IT_CHANGES
 //
-ACTION_DEFINE_ASSOCIATIVE_ARRAY "cdtweaksAnimalCompanion" BEGIN
-	// id => enchantment
-	"b" => 0 // magical (+0)
-	"c" => 1 // magical (+1)
-	"d" => 2 // magical (+2)
-	"e" => 3 // magical (+3)
-END
-ACTION_PHP_EACH "cdtweaksAnimalCompanion" AS "k" => "v" BEGIN
-	COPY_EXISTING "gtacp03a.itm" "override\gtacp03%k%.itm"
-		WRITE_LONG 0x18 (THIS BOR BIT6) // flags: magical
-		WRITE_LONG 0x60 "%v%" // enchantment
-		LPF "ALTER_ITEM_HEADER" INT_VAR "damage_bonus" = "%v%" "thac0_bonus" = "%v%" END
-	BUT_ONLY_IF_IT_CHANGES
+WITH_SCOPE BEGIN
+	ACTION_DEFINE_ASSOCIATIVE_ARRAY "gtSpiderWeaponUpgrades" BEGIN
+		"b" => 0 // magical (+0)
+		"c" => 1 // magical (+1)
+		"d" => 2 // magical (+2)
+		"e" => 3 // magical (+3)
+	END
+	ACTION_PHP_EACH "gtSpiderWeaponUpgrades" AS "id" => "enchantment" BEGIN
+		COPY_EXISTING "gtacom6a.itm" "override\gtacom6%id%.itm"
+			WRITE_LONG 0x18 (THIS BOR BIT6) // flags: magical
+			WRITE_LONG 0x60 "%enchantment%"
+			//
+			LPF "ALTER_ITEM_HEADER" INT_VAR "damage_bonus" = "%enchantment%" "thac0_bonus" = "%enchantment%" END
+		BUT_ONLY_IF_IT_CHANGES
+	END
 END
