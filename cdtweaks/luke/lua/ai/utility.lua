@@ -6,7 +6,7 @@
 
 -- Simple hash function --
 
-function GT_Utility_AI_SimpleHash(str)
+function GT_AI_SimpleHash(str)
 	local hash = 0
 	for i = 1, #str do
 		hash = (hash * 31 + str:byte(i)) % 2^31
@@ -20,13 +20,13 @@ end
 
 -- Assume actions "MoveToPoint()" and "Attack()" are player-issued commands (as a result, do not interrupt them) --
 
-function GT_Utility_AI_DoNotOverridePlayerCommands()
+function GT_AI_InterruptableActions()
 	return not (EEex_LuaTrigger_Object.m_curAction.m_actionID == 3 or EEex_LuaTrigger_Object.m_curAction.m_actionID == 23)
 end
 
 -- Check if the aura is free (or under the effects of Improved Alacrity) --
 
-function GT_Utility_AI_AuraFree(useItem)
+function GT_AI_AuraFree(useItem)
 	-- sanity check
 	if useItem == nil then
 		useItem = false -- default to false if omitted
@@ -43,7 +43,7 @@ end
 
 -- Select a weapon (chosen at random from SLOT_WEAPON[1-4] / SLOT_FIST) --
 
-function GT_Utility_AI_SelectWeapon()
+function GT_AI_SelectWeapon()
 	local melee = {}
 	local ranged = {}
 	--
@@ -84,7 +84,7 @@ function GT_Utility_AI_SelectWeapon()
 	withinMeleeRange:free()
 	--
 	if randomIndex ~= -1 then
-		EEex_LuaTrigger_Object:setLocalInt("gtSelectWeaponAbility", slotID)
+		EEex_LuaTrigger_Object:setLocalInt("gtAISelectWeaponAbility", slotID)
 		return true
 	else
 		return false
@@ -93,7 +93,7 @@ end
 
 -- Sort ``CGameArea::GetAllInRange()`` output by (isometric) distance --
 
-function GT_Utility_AI_SortSpritesByIsometricDistance(array)
+function GT_AI_SortSpritesByIsometricDistance(array)
 	local temp = {}
 	local sourceX = EEex_LuaDecode_Object.m_pos.x
 	local sourceY = EEex_LuaDecode_Object.m_pos.y
@@ -113,7 +113,7 @@ end
 
 -- Shuffle ``CGameArea::GetAllInRange()`` output --
 
-function GT_Utility_AI_ShuffleSprites(array)
+function GT_AI_ShuffleSprites(array)
 	local shuffledArray = {}
 	for i = #array, 1, -1 do
 		local rand = math.random(i)
@@ -122,38 +122,61 @@ function GT_Utility_AI_ShuffleSprites(array)
 	return shuffledArray
 end
 
--- Clear timers when combat ends --
+-- Clear AI timers when combat ends --
 
-EEex_Opcode_AddListsResolvedListener(function(sprite)
-	-- internal function that clears the timers
-	local clear = function()
-		-- Mark the creature as 'timers removed'
-		sprite:setLocalInt("gtAIClearTimers", 1)
-		--
-		sprite:applyEffect({
-			["effectID"] = 321, -- Remove effects by resource
-			["res"] = "GTAITMRS",
-			["sourceID"] = sprite.m_id,
-			["sourceTarget"] = sprite.m_id,
-		})
-	end
-	-- Check if combat has ended
-	local actuallyInCombat = EEex_Trigger_ParseConditionalString("ActuallyInCombat()")
-	local spriteEA = sprite.m_typeAI.m_EnemyAlly
+function GT_AI_ClearTimers()
+	-- [Bubb] Each area has its own combat counter. You can check the global script runner's area in this way...
+	local globalScriptRunnerId = EngineGlobals.g_pBaldurChitin.m_pObjectGame.m_nAIIndex
+	local globalScriptRunner = EEex_GameObject_Get(globalScriptRunnerId) -- CGameSprite
+	local globalScriptRunnerArea = globalScriptRunner.m_pArea -- CGameArea
 	--
-	if spriteEA == 3 then -- FAMILIAR
-		if sprite:getLocalInt("gtAIClearTimers") == 0 then
-			if not actuallyInCombat:evalConditionalAsAIBase(sprite) then
-				clear()
-			end
-		else
-			if not actuallyInCombat:evalConditionalAsAIBase(sprite) then
-				-- do nothing
-			else
-				sprite:setLocalInt("gtAIClearTimers", 0)
+	if globalScriptRunnerArea and globalScriptRunnerArea.m_nBattleSongCounter <= 0 then
+		local everyone = EEex_Area_GetAllOfTypeInRange(globalScriptRunnerArea, globalScriptRunner.m_pos.x, globalScriptRunner.m_pos.y, GT_AI_ObjectType["ANYONE"], 0x7FFF, false, nil, nil)
+		--
+		for _, itrSprite in ipairs(everyone) do
+			local found = false
+			EEex_Utility_IterateCPtrList(itrSprite.m_timedEffectList, function(effect)
+				if effect.m_effectId == 401 and effect.m_sourceRes:get() == "GTAITMRS" then
+					found = true
+					return true
+				end
+			end)
+			--
+			if found then
+				itrSprite:applyEffect({
+					["effectID"] = 321, -- Remove effects by resource
+					["res"] = "GTAITMRS",
+					["noSave"] = true,
+					["sourceID"] = itrSprite.m_id,
+					["sourceTarget"] = itrSprite.m_id,
+				})
 			end
 		end
 	end
+end
+
+-- Check if the target is already affected by effects from the specified resref --
+
+function GT_AI_CurrentCastingHasRunOut(resref)
+	local toReturn = true
 	--
-	actuallyInCombat:free()
-end)
+	local found = false
+	local currentCastingHasRunOut = function(effect)
+		if effect.m_sourceRes:get() == resref then
+			found = true
+			return true
+		end
+	end
+	--
+	EEex_Utility_IterateCPtrList(EEex_LuaTrigger_Object.m_timedEffectList, currentCastingHasRunOut)
+	if not found then
+		EEex_Utility_IterateCPtrList(EEex_LuaTrigger_Object.m_equipedEffectList, currentCastingHasRunOut)
+	end
+	--
+	if found then
+		toReturn = false
+	end
+	--
+	return toReturn
+end
+

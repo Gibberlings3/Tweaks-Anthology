@@ -4,51 +4,63 @@
 +--------------------+
 --]]
 
--- look for [PC] (if attacker is [EVILCUTOFF]), then for HATEDRACE, then for whatever is passed as argument. Set GOODCUTOFF / EVILCUTOFF accordingly --
+-- give priority to your racial enemy --
 
-local function GT_AI_Attack_GetTargetList(array) -- f.i.: array = {"UNDEAD", "0.<HATEDRACE_PLACEHOLDER>.MAGE_ALL"}
+local function GT_AI_Attack_HatedRace(array, raceID) -- f.i.: array = {"UNDEAD", "0.HUMAN.MAGE_ALL", 0.0.MONK}
 	local toReturn = {}
-	--
-	local m_nHatedRace = EEex_LuaDecode_Object:getActiveStats().m_nHatedRace
-	if m_nHatedRace > 0 then
-		-- Duplicate the values
-		local i = 1
-		while i <= #array do
-			if string.find(array[i], "<HATEDRACE_PLACEHOLDER>") then
-				local hatedRaceSymbol = string.gsub(array[i], "<HATEDRACE_PLACEHOLDER>", GT_Resource_IDSToSymbol["race"][m_nHatedRace])
-				table.insert(array, i, hatedRaceSymbol)
-				i = i + 1 -- Skip the newly inserted element to avoid infinite loop
-				array[i] = string.gsub(array[i], "<HATEDRACE_PLACEHOLDER>", "0")
-			end
-			i = i + 1
+
+	for _, value in ipairs(array) do
+		local newValue
+		local dotCount = select(2, string.gsub(value, "%.", "")) -- Count the number of dots in the string; ``select(2, ...)`` retrieves the second value returned by ``string.gsub``, which is the number of substitutions made (i.e., the number of dots in the string)
+
+		if dotCount == 0 then
+			-- No dot: append raceID
+			newValue = value .. "." .. raceID
+		elseif dotCount == 1 then
+			-- Exactly one dot: replace everything after the dot with raceID
+			newValue = string.gsub(value, "%.(.*)", "." .. raceID)
+		else
+			-- Two or more dots: replace content between the first and second dots (the ``.-`` ensures that the match is lazy, so it stops at the first occurrence of the second dot)
+			newValue = string.gsub(value, "%.(.-)%.", "." .. raceID .. ".", 1) -- The `1` at the end ensures that only the first occurrence is replaced
 		end
-	else
-		for i = #array, 1, -1 do
-			array[i] = string.gsub(array[i], "<HATEDRACE_PLACEHOLDER>", "0")
-		end
+
+		-- Add the new value
+		table.insert(toReturn, newValue)
+		-- Add the original value
+		table.insert(toReturn, value)
 	end
-	-- f.i.: array = {"UNDEAD", "0.HUMAN.MAGE_ALL", "0.0.MAGE_ALL"} / array = {"UNDEAD", "0.0.MAGE_ALL"}
+
+	return toReturn
+end
+
+-- give priority to [PC] (if attacker is [EVILCUTOFF]). Set GOODCUTOFF / EVILCUTOFF accordingly --
+
+local function GT_AI_Attack_EA(array) -- f.i.: array = {"UNDEAD", "0.HUMAN.MAGE_ALL", 0.0.MONK}
+	local toReturn = {}
+
 	if EEex_LuaDecode_Object.m_typeAI.m_EnemyAlly > 200 then -- EVILCUTOFF
-		-- give priority to [PC]
-		for _, v in ipairs(array) do
-			local str = "PC." .. v
-			local str = EEex_ReplaceRegex(str, "(?:\\.0)+$", "") -- delete trailing ".0" -> NB.: Unlike some other systems, in Lua a modifier can only be applied to a character class; there is no way to group patterns under a modifier
-			table.insert(toReturn, str)
+		for _, value in ipairs(array) do
+			local newValue = "PC." .. value
+
+			-- Add the new value
+			table.insert(toReturn, newValue)
 		end
 		--
-		for _, v in ipairs(array) do
-			local str = "GOODCUTOFF." .. v
-			local str = EEex_ReplaceRegex(str, "(?:\\.0)+$", "")
-			table.insert(toReturn, str)
+		for _, value in ipairs(array) do
+			local newValue = "GOODCUTOFF." .. value
+
+			-- Add the new value
+			table.insert(toReturn, newValue)
 		end
 	elseif EEex_LuaDecode_Object.m_typeAI.m_EnemyAlly < 30 then -- GOODCUTOFF
-		for _, v in ipairs(array) do
-			local str = "EVILCUTOFF." .. v
-			local str = EEex_ReplaceRegex(str, "(?:\\.0)+$", "")
-			table.insert(toReturn, str)
+		for _, value in ipairs(array) do
+			local newValue = "EVILCUTOFF." .. value
+
+			-- Add the new value
+			table.insert(toReturn, newValue)
 		end
 	end
-	--
+
 	return toReturn
 end
 
@@ -58,13 +70,13 @@ local function GT_AI_Attack_WeaponCheck(weaponResRef, sprite)
 	local attackerINT = EEex_LuaDecode_Object:getActiveStats().m_nINT
 	--
 	local gtintmod = GT_Resource_2DA["gtintmod"]
-	local dnum = tonumber(gtintmod[string.format("%s", attackerINT)]["AI_DURATION_DICE_NUM"])
-	local dsize = tonumber(gtintmod[string.format("%s", attackerINT)]["AI_DURATION_DICE_SIZE"])
+	local dnum = tonumber(gtintmod[string.format("%s", attackerINT)]["DICE_NUM"])
+	local dsize = tonumber(gtintmod[string.format("%s", attackerINT)]["DICE_SIZE"])
 	--
 	local toReturn = false
 	--
-	EEex_LuaDecode_Object:setStoredScriptingTarget("gt_target", sprite)
-	local isWeaponValid = EEex_Trigger_ParseConditionalString('WeaponEffectiveVs(EEex_Target("gt_target"),MAINHAND) \n WeaponCanDamage(EEex_Target("gt_target"),MAINHAND)')
+	EEex_LuaDecode_Object:setStoredScriptingTarget("GT_AI_Attack_WeaponCheck", sprite)
+	local isWeaponValid = EEex_Trigger_ParseConditionalString('WeaponEffectiveVs(EEex_Target("GT_AI_Attack_WeaponCheck"),MAINHAND) \n WeaponCanDamage(EEex_Target("GT_AI_Attack_WeaponCheck"),MAINHAND)')
 	--
 	local stats = GT_Resource_SymbolToIDS["stats"]
 	--
@@ -120,8 +132,8 @@ local function GT_AI_Attack_ProjectileCheck(projectileIdx, msectype, sprite)
 	local attackerINT = EEex_LuaDecode_Object:getActiveStats().m_nINT
 	--
 	local gtintmod = GT_Resource_2DA["gtintmod"]
-	local dnum = tonumber(gtintmod[string.format("%s", attackerINT)]["AI_DURATION_DICE_NUM"])
-	local dsize = tonumber(gtintmod[string.format("%s", attackerINT)]["AI_DURATION_DICE_SIZE"])
+	local dnum = tonumber(gtintmod[string.format("%s", attackerINT)]["DICE_NUM"])
+	local dsize = tonumber(gtintmod[string.format("%s", attackerINT)]["DICE_SIZE"])
 	--
 	local toReturn = false
 	--
@@ -193,8 +205,8 @@ local function GT_AI_Attack_ExtraCheck(string, sprite)
 	local attackerINT = EEex_LuaDecode_Object:getActiveStats().m_nINT
 	--
 	local gtintmod = GT_Resource_2DA["gtintmod"]
-	local dnum = tonumber(gtintmod[string.format("%s", attackerINT)]["AI_DURATION_DICE_NUM"])
-	local dsize = tonumber(gtintmod[string.format("%s", attackerINT)]["AI_DURATION_DICE_SIZE"])
+	local dnum = tonumber(gtintmod[string.format("%s", attackerINT)]["DICE_NUM"])
+	local dsize = tonumber(gtintmod[string.format("%s", attackerINT)]["DICE_SIZE"])
 	--
 	local toReturn = false
 	--
@@ -206,7 +218,7 @@ local function GT_AI_Attack_ExtraCheck(string, sprite)
 	local timerAlreadyApplied = false
 	--
 	EEex_Utility_IterateCPtrList(EEex_LuaDecode_Object.m_timedEffectList, function(effect)
-		if effect.m_effectId == 401 and effect.m_special == stats["GT_AI_TIMER"] and effect.m_dWFlags == 1 and effect.m_effectAmount == 3 and effect.m_effectAmount2 == sprite.m_id and effect.m_effectAmount3 == GT_Utility_AI_SimpleHash(string) then
+		if effect.m_effectId == 401 and effect.m_special == stats["GT_AI_TIMER"] and effect.m_dWFlags == 1 and effect.m_effectAmount == 3 and effect.m_effectAmount2 == sprite.m_id and effect.m_effectAmount3 == GT_AI_SimpleHash(string) then
 			if effect.m_durationType == 1 then
 				timerExpired = true
 				return true
@@ -233,7 +245,7 @@ local function GT_AI_Attack_ExtraCheck(string, sprite)
 					["durationType"] = 4, -- delay / permanent
 					["duration"] = 6 * math.random(dnum, dnum * dsize),
 					["m_effectAmount2"] = sprite.m_id, -- p3
-					["m_effectAmount3"] = GT_Utility_AI_SimpleHash(string), -- p4
+					["m_effectAmount3"] = GT_AI_SimpleHash(string), -- p4
 					["m_sourceRes"] = "GTAITMRS", -- non-empty parent resref so that we can clear it when the combat ends
 					["sourceID"] = EEex_LuaDecode_Object.m_id,
 					["sourceTarget"] = EEex_LuaDecode_Object.m_id,
@@ -255,8 +267,8 @@ end
 local function GT_AI_Attack_InPartyCheck(sprite)
 	local toReturn = false
 	--
-	EEex_LuaDecode_Object:setStoredScriptingTarget("gt_target", sprite)
-	local inParty = EEex_Trigger_ParseConditionalString('InParty(EEex_Target("gt_target"))')
+	EEex_LuaDecode_Object:setStoredScriptingTarget("GT_AI_Attack_InPartyCheck", sprite)
+	local inParty = EEex_Trigger_ParseConditionalString('InParty(EEex_Target("GT_AI_Attack_InPartyCheck"))')
 	--
 	local attackerEA = EEex_LuaDecode_Object.m_typeAI.m_EnemyAlly
 	--
@@ -284,16 +296,26 @@ function GT_AI_Attack(table)
 	--
 	local attackerActiveStats = EEex_Sprite_GetActiveStats(EEex_LuaDecode_Object)
 	--
-	local toReturn = nil -- CGameSprite
+	local toReturn = nil
 	--
-	local targetArray = GT_AI_Attack_GetTargetList(table["targetIDS"])
+	local targetIDS = table["targetIDS"] -- f.i.: targetIDS = {"UNDEAD", "0.HUMAN.MAGE_ALL", "0.0.MONK", "PLANT.ELF.SHAMAN.0.MALE.NEUTRAL"}
+	-- give priority to hated race (if any)
+	do
+		local m_nHatedRace = attackerActiveStats.m_nHatedRace
+		--
+		if m_nHatedRace > 0 then
+			targetIDS = GT_AI_Attack_HatedRace(targetIDS, m_nHatedRace)
+		end
+	end
 	--
-	for _, aiObjectType in ipairs(targetArray) do
-		local spriteArray = EEex_Sprite_GetAllOfTypeInRange(EEex_LuaDecode_Object, GT_AI_ObjectType[aiObjectType], EEex_LuaDecode_Object:virtual_GetVisualRange(), nil, nil, nil)
+	targetIDS = GT_AI_Attack_EA(targetIDS)
+	--
+	for _, aiObjectTypeString in ipairs(targetIDS) do
+		local spriteArray = EEex_Sprite_GetAllOfTypeStringInRange(EEex_LuaDecode_Object, string.format("[%s]", aiObjectTypeString), EEex_LuaDecode_Object:virtual_GetVisualRange(), nil, nil, nil)
 		if mainHandAbility.type == 1 then -- melee weapon
-			spriteArray = GT_Utility_AI_SortSpritesByIsometricDistance(spriteArray)
+			spriteArray = GT_AI_SortSpritesByIsometricDistance(spriteArray)
 		else -- ranged / launcher
-			spriteArray = GT_Utility_AI_ShuffleSprites(spriteArray)
+			spriteArray = GT_AI_ShuffleSprites(spriteArray)
 		end
 		--
 		for _, itrSprite in ipairs(spriteArray) do
@@ -333,7 +355,7 @@ function GT_AI_Attack(table)
 				if nearest:getActiveStats().m_bSanctuary == 0 then -- ``Target`` must not be sanctuaried
 					if EEex_IsBitUnset(nearest:getActiveStats().m_generalState, 0x4) or attackerActiveStats.m_bSeeInvisible > 0 then -- if ``Target`` is invisible, then ``attacker`` must be able to see through invisibility
 						if GT_AI_Attack_InPartyCheck(nearest) then
-							toReturn = nearest
+							toReturn = nearest -- CGameSprite
 						end
 					end
 				end

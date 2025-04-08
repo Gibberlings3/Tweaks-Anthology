@@ -1,0 +1,249 @@
+/*
++------------+
+| Initialize |
++------------+
+*/
+
+IF
+	OR(2)
+		StateCheck(Myself,STATE_IMMOBILE)
+		StateCheck(Myself,STATE_REALLY_DEAD)
+THEN
+	RESPONSE #100
+		NoAction()
+END
+
+IF
+	!Allegiance(Myself,EVILCUTOFF)
+	!InActiveArea(Myself)
+	!Range(NearestEnemyOf(Myself),30)
+THEN
+	RESPONSE #100
+		NoAction()
+END
+
+/*
++------------------------------------------------------+
+| When panicked, wander continuously (without pausing) |
++------------------------------------------------------+
+*/
+
+IF
+	StateCheck(Myself,STATE_PANIC)
+THEN
+	RESPONSE #100
+		RandomWalkContinuous()
+END
+
+/*
++---------------------------------------------------------------------------------------------+
+| When blinded, consider the idea of wandering a bit in the hope of finding someone to attack |
++---------------------------------------------------------------------------------------------+
+*/
+
+IF
+	!GlobalTimerNotExpired("gt_BlindTimer","LOCALS")
+	EEex_LuaTrigger("return GT_AI_InterruptableActions()")
+	StateCheck(Myself,STATE_BLIND)
+	!Range(NearestEnemyOf(Myself),2)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("gt_BlindTimer","LOCALS",6)
+		Continue()
+END
+
+IF
+	GlobalTimerNotExpired("gt_BlindTimer","LOCALS")
+	ActionListEmpty()
+	ActuallyInCombat()
+	StateCheck(Myself,STATE_BLIND)
+	!Range(NearestEnemyOf(Myself),2)
+THEN
+	RESPONSE #100
+		RandomWalkContinuous()
+		Continue()
+	RESPONSE #100
+		SetSequence(0) // SEQ_ATTACK
+		Continue()
+	RESPONSE #100
+		RandomTurn()
+		Continue()
+	RESPONSE #100
+		Continue()
+END
+
+/*
++-------------------------------------------------------------------------------------------------------------+
+| When STATE_INVISIBLE and sufficiently intelligent, consider the idea of wandering a bit to confuse position |
++-------------------------------------------------------------------------------------------------------------+
+*/
+
+IF
+	!GlobalTimerNotExpired("gt_RandomWalkTimer","LOCALS")
+	EEex_LuaTrigger("return GT_AI_InterruptableActions()")
+	CheckStatGT(Myself,7,INT)
+	StateCheck(Myself,STATE_INVISIBLE)
+	!StateCheck(Myself,STATE_BLIND)
+	Detect(NearestEnemyOf(Myself))
+THEN
+	RESPONSE #100
+		SetGlobalTimerRandom("gt_RandomWalkTimer","LOCALS",6,12)
+		SetGlobal("gt_RandomWalk","LOCALS",1)
+		Continue()
+END
+
+IF
+	GlobalTimerExpired("gt_RandomWalkTimer","LOCALS")
+	EEex_LuaTrigger("return GT_AI_InterruptableActions()")
+	CheckStatGT(Myself,7,INT)
+	StateCheck(Myself,STATE_INVISIBLE)
+	!StateCheck(Myself,STATE_BLIND)
+	!Detect(NearestEnemyOf(Myself))
+THEN
+	RESPONSE #100
+		SetGlobal("gt_RandomWalk","LOCALS",2)
+		Continue()
+END
+
+IF
+	GlobalTimerNotExpired("gt_RandomWalkTimer","LOCALS")
+	Global("gt_RandomWalk","LOCALS",1)
+	CheckStatGT(Myself,7,INT)
+	ActionListEmpty()
+	ActuallyInCombat()
+	StateCheck(Myself,STATE_INVISIBLE)
+	!StateCheck(Myself,STATE_BLIND)
+	Detect(NearestEnemyOf(Myself))
+THEN
+	RESPONSE #100
+		RandomWalkContinuous()
+		Continue()
+	RESPONSE #100
+		Continue()
+END
+
+IF
+	GlobalTimerExpired("gt_RandomWalkTimer","LOCALS")
+	Global("gt_RandomWalk","LOCALS",2)
+	CheckStatGT(Myself,7,INT)
+	ActionListEmpty()
+	ActuallyInCombat()
+	StateCheck(Myself,STATE_INVISIBLE)
+	!StateCheck(Myself,STATE_BLIND)
+	!Detect(NearestEnemyOf(Myself))
+THEN
+	RESPONSE #100
+		MoveToObject(LastSeenBy(Myself))
+		Continue()
+END
+
+/*
++----------------------------------------------------------------+
+| Force "AttackReevaluate()" to terminate after one/two round(s) |
++----------------------------------------------------------------+
+*/
+
+IF
+	Global("gt_ValidTarget","LOCALS",1)
+	GlobalTimerExpired("gt_AttackTimer","LOCALS")
+	EEex_LuaTrigger("return GT_AI_InterruptableActions()")
+THEN
+	RESPONSE #100
+		SetGlobal("gt_ValidTarget","LOCALS",0)
+		Continue()
+END
+
+/*
++--------------------------+
+| Special Abilities blocks |
++--------------------------+
+*/
+
+// Frost Breath (winter wolf) \\
+IF
+	ActionListEmpty()
+	HaveSpellRES("%INNATE_WINTER_WOLF_FROST_BREATH%")
+	Detect(NearestEnemyOf(Myself))
+	EEex_LuaTrigger("return GT_AI_CastSpell({ ['resref'] = '%INNATE_WINTER_WOLF_FROST_BREATH%', ['opcode'] = {12}, ['targetIDS'] = {'0'}, ['mode'] = 0 })")
+THEN
+	RESPONSE #100
+		EEex_SpellObjectOffsetRES("%INNATE_WINTER_WOLF_FROST_BREATH%",EEex_Target("gt_ScriptingTarget_CastSpell"),[-1.-1])
+	RESPONSE #100
+		EEex_SpellObjectOffsetRES("%INNATE_WINTER_WOLF_FROST_BREATH%",EEex_Target("gt_ScriptingTarget_CastSpell"),[-1.1])
+	RESPONSE #100
+		EEex_SpellObjectOffsetRES("%INNATE_WINTER_WOLF_FROST_BREATH%",EEex_Target("gt_ScriptingTarget_CastSpell"),[1.-1])
+	RESPONSE #100
+		EEex_SpellObjectOffsetRES("%INNATE_WINTER_WOLF_FROST_BREATH%",EEex_Target("gt_ScriptingTarget_CastSpell"),[1.1])
+END
+
+// Charm (snake) \\
+IF
+	ActionListEmpty()
+	HaveSpellRES("%INNATE_SNAKE_CHARM%")
+	See(NearestEnemyOf(Myself))
+	EEex_LuaTrigger("return GT_AI_CastSpell({ ['resref'] = '%INNATE_SNAKE_CHARM%', ['opcode'] = {5}, ['targetIDS'] = {'ANIMAL'}, ['mode'] = 0 })")
+THEN
+	RESPONSE #100
+		SpellRES("%INNATE_SNAKE_CHARM%",EEex_Target("gt_ScriptingTarget_CastSpell"))
+	RESPONSE #50
+		Continue()
+END
+
+// Web Tangle (sword spider) \\
+IF
+	ActionListEmpty()
+	HaveSpellRES("%INNATE_SPIDER_WEB_TANGLE%")
+	See(NearestEnemyOf(Myself))
+	EEex_LuaTrigger("return GT_AI_CastSpell({ ['resref'] = '%INNATE_SPIDER_WEB_TANGLE%', ['opcode'] = {157}, ['targetIDS'] = {'0'}, ['mode'] = 0 })")
+THEN
+	RESPONSE #100
+		SpellRES("%INNATE_SPIDER_WEB_TANGLE%",EEex_Target("gt_ScriptingTarget_CastSpell"))
+	RESPONSE #50
+		Continue()
+END
+
+// Animal Ferocity (boar) \\
+IF
+	ActionListEmpty()
+	HaveSpellRES("%INNATE_ANIMAL_FEROCITY%")
+	EEex_LuaTrigger("return GT_AI_CurrentCastingHasRunOut('%INNATE_ANIMAL_FEROCITY%')")
+	See(NearestEnemyOf(Myself))
+THEN
+	RESPONSE #100
+		SpellRES("%INNATE_ANIMAL_FEROCITY%",Myself)
+	RESPONSE #50
+		Continue()
+END
+
+/*
++-----------------+
+| Attack block(s) |
++-----------------+
+*/
+
+IF
+	ActionListEmpty()
+	See(NearestEnemyOf(Myself))
+THEN
+	RESPONSE #100
+		SetGlobal("gt_ValidTarget","LOCALS",1)
+		SetGlobalTimerRandom("gt_AttackTimer","LOCALS",6,12)
+		AttackReevaluate(EEex_LuaDecode("return GT_AI_Attack({ ['targetIDS'] = {'0'}, ['extra'] = '!StateCheck(Myself,STATE_MIRRORIMAGE) \n CheckStat(Myself,0,STONESKINS)' })"),15)
+	RESPONSE #100
+		SetGlobal("gt_ValidTarget","LOCALS",1)
+		SetGlobalTimerRandom("gt_AttackTimer","LOCALS",6,12)
+		AttackReevaluate(EEex_LuaDecode("return GT_AI_Attack({ ['targetIDS'] = {'0'}, ['extra'] = '!StateCheck(Myself,STATE_MIRRORIMAGE) \n CheckStat(Myself,0,STONESKINS)' })"),30)
+	RESPONSE #100
+		SetGlobal("gt_ValidTarget","LOCALS",1)
+		SetGlobalTimerRandom("gt_AttackTimer","LOCALS",6,12)
+		AttackReevaluate(EEex_LuaDecode("return GT_AI_Attack({ ['targetIDS'] = {'0'}, ['extra'] = '!StateCheck(Myself,STATE_MIRRORIMAGE) \n CheckStat(Myself,0,STONESKINS)' })"),45)
+	RESPONSE #100
+		SetGlobal("gt_ValidTarget","LOCALS",1)
+		SetGlobalTimerRandom("gt_AttackTimer","LOCALS",6,12)
+		AttackReevaluate(EEex_LuaDecode("return GT_AI_Attack({ ['targetIDS'] = {'0'}, ['extra'] = '!StateCheck(Myself,STATE_MIRRORIMAGE) \n CheckStat(Myself,0,STONESKINS)' })"),60)
+	RESPONSE #100
+		SetGlobal("gt_ValidTarget","LOCALS",1)
+		SetGlobalTimerRandom("gt_AttackTimer","LOCALS",6,12)
+		AttackReevaluate(EEex_LuaDecode("return GT_AI_Attack({ ['targetIDS'] = {'0'}, ['extra'] = '!StateCheck(Myself,STATE_MIRRORIMAGE) \n CheckStat(Myself,0,STONESKINS)' })"),75)
+END
+

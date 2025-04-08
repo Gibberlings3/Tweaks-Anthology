@@ -4,78 +4,63 @@
 +-------------------------+
 --]]
 
--- look for [PC] (if the spell is party-friendly and caster is [GOODCUTOFF]), then for HATEDRACE, then for whatever is passed as argument. Set GOODCUTOFF / EVILCUTOFF accordingly --
+-- give priority to [PC] (if the spell is party-friendly and caster is [GOODCUTOFF]). Set GOODCUTOFF / EVILCUTOFF accordingly --
 
-local function GT_AI_CastSpell_GetTargetList(array, mode) -- f.i.: array = {"UNDEAD", "0.<HATEDRACE_PLACEHOLDER>.MAGE_ALL"}; mode (0 = source and target enemies, 1 = source and target allies)
+local function GT_AI_CastSpell_EA(array, mode) -- f.i.: array = {"UNDEAD", "0.HUMAN.MAGE_ALL", 0.0.MONK}; mode (0 = source and target enemies, 1 = source and target allies)
 	local toReturn = {}
-	--
-	local m_nHatedRace = EEex_LuaTrigger_Object:getActiveStats().m_nHatedRace
-	if m_nHatedRace > 0 then
-		-- Duplicate the values
-		local i = 1
-		while i <= #array do
-			if string.find(array[i], "<HATEDRACE_PLACEHOLDER>") then
-				local hatedRaceSymbol = string.gsub(array[i], "<HATEDRACE_PLACEHOLDER>", GT_Resource_IDSToSymbol["race"][m_nHatedRace])
-				table.insert(array, i, hatedRaceSymbol)
-				i = i + 1 -- Skip the newly inserted element to avoid infinite loop
-				array[i] = string.gsub(array[i], "<HATEDRACE_PLACEHOLDER>", "0")
-			end
-			i = i + 1
-		end
-	else
-		for i = #array, 1, -1 do
-			array[i] = string.gsub(array[i], "<HATEDRACE_PLACEHOLDER>", "0")
-		end
-	end
-	-- f.i.: array = {"UNDEAD", "0.HUMAN.MAGE_ALL", "0.0.MAGE_ALL"} / array = {"UNDEAD", "0.0.MAGE_ALL"}
+
 	if mode == 0 then
 		if EEex_LuaTrigger_Object.m_typeAI.m_EnemyAlly > 200 then -- EVILCUTOFF
-			-- give priority to [PC]
-			for _, v in ipairs(array) do
-				local str = "PC." .. v
-				local str = EEex_ReplaceRegex(str, "(?:\\.0)+$", "") -- delete trailing ".0" -> NB.: Unlike some other systems, in Lua a modifier can only be applied to a character class; there is no way to group patterns under a modifier
-				table.insert(toReturn, str)
+			for _, value in ipairs(array) do
+				local newValue = "PC." .. value
+
+				-- Add the new value
+				table.insert(toReturn, newValue)
 			end
 			--
-			for _, v in ipairs(array) do
-				local str = "GOODCUTOFF." .. v
-				local str = EEex_ReplaceRegex(str, "(?:\\.0)+$", "")
-				table.insert(toReturn, str)
+			for _, value in ipairs(array) do
+				local newValue = "GOODCUTOFF." .. value
+
+				-- Add the new value
+				table.insert(toReturn, newValue)
 			end
 		elseif EEex_LuaTrigger_Object.m_typeAI.m_EnemyAlly < 30 then -- GOODCUTOFF
-			for _, v in ipairs(array) do
-				local str = "EVILCUTOFF." .. v
-				local str = EEex_ReplaceRegex(str, "(?:\\.0)+$", "")
-				table.insert(toReturn, str)
+			for _, value in ipairs(array) do
+				local newValue = "EVILCUTOFF." .. value
+
+				-- Add the new value
+				table.insert(toReturn, newValue)
 			end
 		end
 	elseif mode == 1 then
 		if EEex_LuaTrigger_Object.m_typeAI.m_EnemyAlly > 200 then -- EVILCUTOFF
-			for _, v in ipairs(array) do
-				local str = "EVILCUTOFF." .. v
-				local str = EEex_ReplaceRegex(str, "(?:\\.0)+$", "")
-				table.insert(toReturn, str)
+			for _, value in ipairs(array) do
+				local newValue = "EVILCUTOFF." .. value
+
+				-- Add the new value
+				table.insert(toReturn, newValue)
 			end
 		elseif EEex_LuaTrigger_Object.m_typeAI.m_EnemyAlly < 30 then -- GOODCUTOFF
 			-- give priority to [PC]
-			for _, v in ipairs(array) do
-				local str = "PC." .. v
-				local str = EEex_ReplaceRegex(str, "(?:\\.0)+$", "")
-				table.insert(toReturn, str)
+			for _, value in ipairs(array) do
+				local newValue = "PC." .. value
+
+				-- Add the new value
+				table.insert(toReturn, newValue)
 			end
-			--
-			for _, v in ipairs(array) do
-				local str = "GOODCUTOFF." .. v
-				local str = EEex_ReplaceRegex(str, "(?:\\.0)+$", "")
-				table.insert(toReturn, str)
+			for _, value in ipairs(array) do
+				local newValue = "GOODCUTOFF." .. value
+
+				-- Add the new value
+				table.insert(toReturn, newValue)
 			end
 		end
 	end
-	--
+
 	return toReturn
 end
 
--- Check if spellcasting is disabled --
+-- check if spellcasting is disabled (op144/145) --
 
 local function GT_AI_CastSpell_SpellcastingDisabled(pHeader, pAbility)
 	local toReturn = false
@@ -131,8 +116,8 @@ local function GT_AI_CastSpell_ProjectileCheck(projectileIdx, msectype, sprite)
 	local casterINT = EEex_LuaTrigger_Object:getActiveStats().m_nINT
 	--
 	local gtintmod = GT_Resource_2DA["gtintmod"]
-	local dnum = tonumber(gtintmod[string.format("%s", casterINT)]["AI_DURATION_DICE_NUM"])
-	local dsize = tonumber(gtintmod[string.format("%s", casterINT)]["AI_DURATION_DICE_SIZE"])
+	local dnum = tonumber(gtintmod[string.format("%s", casterINT)]["DICE_NUM"])
+	local dsize = tonumber(gtintmod[string.format("%s", casterINT)]["DICE_SIZE"])
 	--
 	local toReturn = false
 	--
@@ -204,8 +189,8 @@ local function GT_AI_CastSpell_MschoolCheck(mschool, msectype, sprite)
 	local casterINT = EEex_LuaTrigger_Object:getActiveStats().m_nINT
 	--
 	local gtintmod = GT_Resource_2DA["gtintmod"]
-	local dnum = tonumber(gtintmod[string.format("%s", casterINT)]["AI_DURATION_DICE_NUM"])
-	local dsize = tonumber(gtintmod[string.format("%s", casterINT)]["AI_DURATION_DICE_SIZE"])
+	local dnum = tonumber(gtintmod[string.format("%s", casterINT)]["DICE_NUM"])
+	local dsize = tonumber(gtintmod[string.format("%s", casterINT)]["DICE_SIZE"])
 	--
 	local toReturn = false
 	--
@@ -283,8 +268,8 @@ local function GT_AI_CastSpell_MsectypeCheck(msectype, sprite)
 	local casterINT = EEex_LuaTrigger_Object:getActiveStats().m_nINT
 	--
 	local gtintmod = GT_Resource_2DA["gtintmod"]
-	local dnum = tonumber(gtintmod[string.format("%s", casterINT)]["AI_DURATION_DICE_NUM"])
-	local dsize = tonumber(gtintmod[string.format("%s", casterINT)]["AI_DURATION_DICE_SIZE"])
+	local dnum = tonumber(gtintmod[string.format("%s", casterINT)]["DICE_NUM"])
+	local dsize = tonumber(gtintmod[string.format("%s", casterINT)]["DICE_SIZE"])
 	--
 	local toReturn = false
 	--
@@ -362,8 +347,8 @@ local function GT_AI_CastSpell_LevelCheck(level, msectype, sprite)
 	local casterINT = EEex_LuaTrigger_Object:getActiveStats().m_nINT
 	--
 	local gtintmod = GT_Resource_2DA["gtintmod"]
-	local dnum = tonumber(gtintmod[string.format("%s", casterINT)]["AI_DURATION_DICE_NUM"])
-	local dsize = tonumber(gtintmod[string.format("%s", casterINT)]["AI_DURATION_DICE_SIZE"])
+	local dnum = tonumber(gtintmod[string.format("%s", casterINT)]["DICE_NUM"])
+	local dsize = tonumber(gtintmod[string.format("%s", casterINT)]["DICE_SIZE"])
 	--
 	local toReturn = false
 	--
@@ -444,8 +429,8 @@ local function GT_AI_CastSpell_ResRefCheck(resref, msectype, sprite)
 	local casterINT = EEex_LuaTrigger_Object:getActiveStats().m_nINT
 	--
 	local gtintmod = GT_Resource_2DA["gtintmod"]
-	local dnum = tonumber(gtintmod[string.format("%s", casterINT)]["AI_DURATION_DICE_NUM"])
-	local dsize = tonumber(gtintmod[string.format("%s", casterINT)]["AI_DURATION_DICE_SIZE"])
+	local dnum = tonumber(gtintmod[string.format("%s", casterINT)]["DICE_NUM"])
+	local dsize = tonumber(gtintmod[string.format("%s", casterINT)]["DICE_SIZE"])
 	--
 	local toReturn = false
 	--
@@ -517,8 +502,8 @@ local function GT_AI_CastSpell_OpcodeCheck(opcode, msectype, sprite)
 	local casterINT = EEex_LuaTrigger_Object:getActiveStats().m_nINT
 	--
 	local gtintmod = GT_Resource_2DA["gtintmod"]
-	local dnum = tonumber(gtintmod[string.format("%s", casterINT)]["AI_DURATION_DICE_NUM"])
-	local dsize = tonumber(gtintmod[string.format("%s", casterINT)]["AI_DURATION_DICE_SIZE"])
+	local dnum = tonumber(gtintmod[string.format("%s", casterINT)]["DICE_NUM"])
+	local dsize = tonumber(gtintmod[string.format("%s", casterINT)]["DICE_SIZE"])
 	--
 	local toReturn = false
 	--
@@ -589,8 +574,8 @@ end
 local function GT_AI_CastSpell_InPartyCheck(sprite)
 	local toReturn = false
 	--
-	EEex_LuaTrigger_Object:setStoredScriptingTarget("gt_target", sprite)
-	local inParty = EEex_Trigger_ParseConditionalString('InParty(EEex_Target("gt_target"))')
+	EEex_LuaTrigger_Object:setStoredScriptingTarget("GT_AI_CastSpell_InPartyCheck", sprite)
+	local inParty = EEex_Trigger_ParseConditionalString('InParty(EEex_Target("GT_AI_CastSpell_InPartyCheck"))')
 	--
 	local casterEA = EEex_LuaTrigger_Object.m_typeAI.m_EnemyAlly
 	--
@@ -609,7 +594,7 @@ end
 
 -- get (true) spell level (f.i., Secret Word is actually a level 5 spell, not 4) --
 
-local function GT_AI_CastSpell_GetSpellLevel(pHeader, pAbility)
+local function GT_AI_CastSpell_GetTrueSpellLevel(pHeader, pAbility)
 	local toReturn = pHeader.spellLevel
 	--
 	if pAbility.effectCount > 0 then
@@ -654,18 +639,20 @@ function GT_AI_CastSpell(table)
 	--
 	local casterLevel = EEex_Sprite_GetCasterLevelForSpell(EEex_LuaTrigger_Object, spellResRef, true)
 	local spellAbility = EEex_Resource_GetSpellAbilityForLevel(spellHeader, casterLevel)
-	local spellLevel = GT_AI_CastSpell_GetSpellLevel(spellHeader, spellAbility)
+	local spellLevel = GT_AI_CastSpell_GetTrueSpellLevel(spellHeader, spellAbility)
 	--
-	local targetSprite = nil -- CGameSprite
+	local targetSprite = nil
 	--
-	local targetArray = GT_AI_CastSpell_GetTargetList(table["targetIDS"], table["mode"])
+	local targetIDS = table["targetIDS"] -- f.i.: targetIDS = {"UNDEAD", "0.HUMAN.MAGE_ALL", "0.0.MONK", "PLANT.ELF.SHAMAN.0.MALE.NEUTRAL"}
+	--
+	targetIDS = GT_AI_CastSpell_EA(targetIDS, table["mode"])
 	--
 	if not GT_AI_CastSpell_SpellcastingDisabled(spellHeader, spellAbility) then
-		if EEex_IsBitSet(spellFlags, 25) or EEex_IsBitUnset(casterActiveStats.m_generalState, 12) or string.upper(spellResRef) == "SPWI219" then -- if Silence || Castable when silenced || !STATE_SILENCED
+		if EEex_IsBitSet(spellFlags, 25) or EEex_IsBitUnset(casterActiveStats.m_generalState, 12) or string.upper(spellResRef) == "SPWI219" then -- if Vocalize || Castable when silenced || !STATE_SILENCED
 			if casterSpellFailureAmount < 60 then -- should we randomize...?
-				for _, aiObjectType in ipairs(targetArray) do
-					local spriteArray = EEex_Sprite_GetAllOfTypeInRange(EEex_LuaTrigger_Object, GT_AI_ObjectType[aiObjectType], EEex_LuaTrigger_Object:virtual_GetVisualRange(), nil, nil, nil)
-					local spriteArray = GT_Utility_AI_ShuffleSprites(spriteArray)
+				for _, aiObjectTypeString in ipairs(targetIDS) do
+					local spriteArray = EEex_Sprite_GetAllOfTypeStringInRange(EEex_LuaTrigger_Object, string.format("[%s]", aiObjectTypeString), EEex_LuaTrigger_Object:virtual_GetVisualRange(), nil, nil, nil)
+					local spriteArray = GT_AI_ShuffleSprites(spriteArray)
 					--
 					for _, itrSprite in ipairs(spriteArray) do
 						local itrSpriteActiveStats = EEex_Sprite_GetActiveStats(itrSprite)
@@ -693,7 +680,7 @@ function GT_AI_CastSpell(table)
 																		end
 																	end
 																	--
-																	if cnt == #table["opcode"] then -- all checks passed
+																	if not table["opcode"] or cnt == #table["opcode"] then -- all checks passed
 																		targetSprite = itrSprite -- CGameSprite
 																		goto continue
 																	end
@@ -715,6 +702,6 @@ function GT_AI_CastSpell(table)
 	end
 	--
 	::continue::
-	EEex_LuaTrigger_Object:setStoredScriptingTarget("gt_target", targetSprite)
+	EEex_LuaTrigger_Object:setStoredScriptingTarget("gt_ScriptingTarget_CastSpell", targetSprite)
 	return targetSprite ~= nil
 end

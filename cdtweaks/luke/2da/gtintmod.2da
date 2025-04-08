@@ -1,6 +1,6 @@
 2DA V1.0
 0
-            AI_DURATION_DICE_NUM              AI_DURATION_DICE_SIZE
+            DICE_NUM                          DICE_SIZE
 0           20                                4
 1           20                                4
 2           20                                4
