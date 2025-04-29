@@ -2897,7 +2897,8 @@ LABEL ~cd_tweaks_backstab_immunity~
 BEGIN @263000 DESIGNATED 2630
 GROUP @9
 REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet iwdee~ @25
-LABEL ~cd_tweaks_cure_cause_wounds~
+REQUIRE_PREDICATE FILE_EXISTS ~cdtweaks\languages\%LANGUAGE%\nwn_cure_cause_wounds.tra~ @7
+LABEL ~cd_tweaks_nwn_cure_cause_wounds~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
