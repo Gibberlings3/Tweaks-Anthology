@@ -1,0 +1,219 @@
+@0 = "Cure Light Wounds
+(Necromancy)
+
+Level: 1
+Sphere: Healing
+Range: Touch
+Duration: Instant
+Casting Time: 5
+Area of Effect: 1 creature
+Saving Throw: None
+
+By casting this spell and laying <PRO_HISHER> hand upon a creature, the priest heals 1d8 Hit Points (+1 point per caster level, up to +5) to the creature's body and cures intoxication. This spell has no effect on constructs or extraplanar creatures.
+
+Note that it has a reverse effect on undead, harming instead of healing them (save vs. spell for half damage)."
+
+@1 = "Cure Moderate Wounds
+(Necromancy)
+
+Level: 2
+Sphere: Healing
+Range: Touch
+Duration: Instant
+Casting Time: 5
+Area of Effect: 1 creature
+Saving Throw: None
+
+A stronger version of the 1st-level priest spell Cure Light Wounds, Cure Moderate Wounds heals 2d8 Hit Points (+1 point per caster level, up to +10) and cures intoxication. This spell has no effect on constructs or extraplanar creatures.
+
+Note that it has a reverse effect on undead, harming instead of healing them (save vs. spell for half damage)."
+
+@2 = "Cure Medium Wounds
+(Necromancy)
+
+Level: 3
+Sphere: Healing
+Range: Touch
+Duration: Instant
+Casting Time: 5
+Area of Effect: 1 creature
+Saving Throw: None
+
+By casting this spell and laying <PRO_HISHER> hand upon a creature, the priest heals 3d8 Hit Points (+1 point per caster level, up to +15) to the creature's body and cures intoxication. This spell has no effect on constructs or extraplanar creatures.
+
+Note that it has a reverse effect on undead, harming instead of healing them (save vs. spell for half damage)."
+
+@3 = "Cure Serious Wounds
+(Necromancy)
+
+Level: 4
+Sphere: Healing
+Range: Touch
+Duration: Instant
+Casting Time: 7
+Area of Effect: 1 creature
+Saving Throw: None
+
+By casting this spell and laying <PRO_HISHER> hand upon a creature, the priest heals 4d8 Hit Points (+1 point per caster level, up to +20) and cures intoxication. This spell has no effect on constructs or extraplanar creatures.
+
+Note that it has a reverse effect on undead, harming instead of healing them (save vs. spell for half damage)."
+
+@4 = "Cure Critical Wounds
+(Necromancy)
+
+Level: 5
+Sphere: Healing
+Range: Touch
+Duration: Instant
+Casting Time: 8
+Area of Effect: 1 creature
+Saving Throw: None
+
+By casting this spell and laying <PRO_HISHER> hand upon a creature, the priest heals 5d8 Hit Points (+1 point per caster level, up to +25) and cures intoxication. This spell has no effect on constructs or extraplanar creatures. It cannot be cast by evil-aligned characters.
+
+Note that it has a reverse effect on undead, harming instead of healing them (save vs. spell for half damage)."
+
+@5 = "Mass Cure Light Wounds
+(Necromancy)
+
+Level: 5
+Sphere: Healing
+Range: 0
+Duration: Instant
+Casting Time: 5
+Area of Effect: 15-ft. radius
+Saving Throw: None
+
+When casting this spell, the priest must picture the faces of <PRO_HISHER> fellow party members clearly and focus on the unity of the group. Upon completion, all members in the party are healed 1d8 + 1/level Hit Points. Curing is permanent only insofar as the creature does not sustain further damage; caused wounds will heal—or can be cured—just as any normal injury. This spell has no effect on constructs or extraplanar creatures. It cannot be cast by evil-aligned characters.
+
+Note that it has a reverse effect on undead, harming instead of healing them (save vs. spell for half damage)."
+
+@6 = "Heal
+(Necromancy)
+
+Level: 6
+Sphere: Healing
+Range: Touch
+Duration: Instant
+Casting Time: 9
+Area of Effect: 1 creature
+Saving Throw: None
+
+Heal wipes away disease and injury from a target creature. It cures blindness, disease, poison, intoxication, and feeblemind, and restores the target to maximum Hit Points if <PRO_HESHE> has been injured. This spell has no effect on constructs or extraplanar creatures. It cannot be cast by evil-aligned characters.
+
+Note that it has a reverse effect on undead, harming instead of healing them (i.e., reducing them to all but 1d4 Hit Points. A save vs. spell negates the effect)."
+
+//////////////////////////////////////////////
+
+@100 = "Cause Light Wounds
+(Necromancy)
+
+Level: 1
+Sphere: Healing
+Range: Touch
+Duration: Instant
+Casting Time: 5
+Area of Effect: 1 creature
+Saving Throw: 1/2
+
+By casting this spell and touching a creature, the priest deals 1d8 points (+1 point per caster level, up to +5) of damage (save vs. Spell for half) to the creature's body. This spell has no effect on constructs or extraplanar creatures. It cannot be cast by good-aligned characters.
+
+Note that it has a reverse effect on undead, healing instead of harming them."
+
+@101 = "Cause Moderate Wounds
+(Necromancy)
+
+Level: 2
+Sphere: Healing
+Range: Touch
+Duration: Instant
+Casting Time: 5
+Area of Effect: 1 creature
+Saving Throw: 1/2
+
+By casting this spell and touching a creature, the priest deals 2d8 points (+1 point per caster level, up to +10) of damage (save vs. Spell for half) to the creature's body. This spell has no effect on constructs or extraplanar creatures. It cannot be cast by good-aligned characters.
+
+Note that it has a reverse effect on undead, healing instead of harming them."
+
+@102 = "Cause Medium Wounds
+(Necromancy)
+
+Level: 3
+Sphere: Healing
+Range: Touch
+Duration: Instant
+Casting Time: 5
+Area of Effect: 1 creature
+Saving Throw: 1/2
+
+By casting this spell and touching a creature, the priest deals 3d8 points (+1 point per caster level, up to +15) of damage (save vs. Spell for half) to the creature's body. This spell has no effect on constructs or extraplanar creatures. Cause Medium Wounds cannot be cast by good-aligned characters.
+
+Note that it has a reverse effect on undead, healing instead of harming them."
+
+@103 = "Cause Serious Wounds
+(Necromancy)
+
+Level: 4
+Sphere: Healing
+Range: Touch
+Duration: Instant
+Casting Time: 5
+Area of Effect: 1 creature
+Saving Throw: 1/2
+
+By casting this spell and touching a creature, the priest deals 4d8 points (+1 point per caster level, up to +20) of damage (save vs. Spell for half) to the creature's body. This spell has no effect on constructs or extraplanar creatures. It cannot be cast by good-aligned characters.
+
+Note that it has a reverse effect on undead, healing instead of harming them."
+
+@104 = "Cause Critical Wounds
+(Necromancy)
+
+Level: 5
+Sphere: Healing
+Range: Touch
+Duration: Instant
+Casting Time: 8
+Area of Effect: 1 creature
+Saving Throw: 1/2
+
+By casting this spell and touching a creature, the priest deals 5d8 points (+1 point per caster level, up to +25) of magic damage (save vs. Spell for half) to the creature's body. This spell has no effect on constructs or extraplanar creatures. It can be cast only by evil-aligned characters.
+
+Note that it has a reverse effect on undead, healing instead of harming them."
+
+@105 = "Mass Cause Light Wounds
+(Necromancy)
+
+Level: 5
+Sphere: Healing
+Range: 0
+Duration: Instant
+Casting Time: 5
+Area of Effect: 15-ft. radius
+Saving Throw: 1/2
+
+By casting this spell, the priest deals 1d8 + 1/level points of damage to nearby enemies. A successful Save vs. Spell halves the damage. This spell has no effect on constructs or extraplanar creatures. It can only be cast by evil-aligned characters.
+
+Note that it has a reverse effect on undead, healing instead of harming them."
+
+@106 = "Harm
+(Necromancy)
+
+Level: 6
+Sphere: Healing
+Range: Touch
+Duration: Instant
+Casting Time: 9
+Area of Effect: 1 creature
+Saving Throw: Neg.
+
+When this spell is cast, the caster gains the ability to touch a target and inflict tremendous damage, reducing the target to all but 1d4 Hit Points. A Save vs. Spell negates the effect. This spell has no effect on undead, constructs, or extraplanar creatures. It can only be cast by evil-aligned characters.
+
+Note that it has a reverse effect on undead, fully healing instead of harming them."
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+@200 = "Lay On Hands
+
+The Paladin channels positive energy to heal the touched creature, restoring 2 Hit Points per Paladin level. This ability has no effect on constructs or extraplanar creatures.
+
+Note that it has a reverse effect on undead, harming instead of healing them (save vs. spell for half damage)."
