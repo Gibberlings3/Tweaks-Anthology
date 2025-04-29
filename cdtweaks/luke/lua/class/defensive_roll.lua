@@ -15,21 +15,6 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	local apply = function()
 		-- Mark the creature as 'feat applied'
 		sprite:setLocalInt("gtThiefDefensiveRoll", 1)
-		--
-		sprite:applyEffect({
-			["effectID"] = 321, -- Remove effects by resource
-			["res"] = "%THIEF_DEFENSIVE_ROLL%",
-			["sourceID"] = sprite.m_id,
-			["sourceTarget"] = sprite.m_id,
-		})
-		sprite:applyEffect({
-			["effectID"] = 403, -- Screen effects
-			["durationType"] = 9,
-			["res"] = "%THIEF_DEFENSIVE_ROLL%", -- Lua func
-			["m_sourceRes"] = "%THIEF_DEFENSIVE_ROLL%",
-			["sourceID"] = sprite.m_id,
-			["sourceTarget"] = sprite.m_id,
-		})
 	end
 	-- Check creature's class / kit / flags / levels
 	local spriteClassStr = GT_Resource_IDSToSymbol["class"][sprite.m_typeAI.m_Class]
@@ -87,54 +72,78 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		else
 			-- Mark the creature as 'feat removed'
 			sprite:setLocalInt("gtThiefDefensiveRoll", 0)
-			--
-			sprite:applyEffect({
-				["effectID"] = 321, -- Remove effects by resource
-				["res"] = "%THIEF_DEFENSIVE_ROLL%",
-				["sourceID"] = sprite.m_id,
-				["sourceTarget"] = sprite.m_id,
-			})
 		end
 	end
 end)
 
--- Core function --
+-- If the character is struck by a potentially lethal blow, he makes a save vs. breath. If successful, he takes only half damage from the blow --
 
-function %THIEF_DEFENSIVE_ROLL%(op403CGameEffect, CGameEffect, CGameSprite)
+EEex_Sprite_AddAlterBaseWeaponDamageListener(function(context)
+	local target = context.target -- CGameSprite
+	local attacker = context.attacker -- CGameSprite
+	--
+	local effect = context.effect -- CGameEffect
+	--
+	local damageAmount = effect.m_effectAmount
+	--
+	local targetHP = target.m_baseStats.m_hitPoints
+	local targetSaveVSBreathRoll = target.m_saveVSBreathRoll
+	--
+	local targetActiveStats = EEex_Sprite_GetActiveStats(target)
+	--
 	local dmgtype = GT_Resource_SymbolToIDS["dmgtype"]
-	local damageAmount = CGameEffect.m_effectAmount
-	--
-	local spriteHP = CGameSprite.m_baseStats.m_hitPoints
-	local spriteSaveVSBreathRoll = CGameSprite.m_saveVSBreathRoll
-	--
-	local spriteActiveStats = EEex_Sprite_GetActiveStats(CGameSprite)
-	--
-	local state = GT_Resource_SymbolToIDS["state"]
-	local stats = GT_Resource_SymbolToIDS["stats"]
 	--
 	local conditionalString = EEex_Trigger_ParseConditionalString('!GlobalTimerNotExpired("gtDefensiveRollTimer","LOCALS")')
 	local responseString = EEex_Action_ParseResponseString('SetGlobalTimer("gtDefensiveRollTimer","LOCALS",2400)')
-	-- If the character is struck by a potentially lethal blow, he makes a save vs. breath. If successful, he takes only half damage from the blow.
-	if CGameEffect.m_effectId == 0xC and EEex_IsMaskUnset(CGameEffect.m_dWFlags, dmgtype["STUNNING"]) and CGameEffect.m_slotNum == -1 and CGameEffect.m_sourceType == 0 and CGameEffect.m_sourceRes:get() == "" -- base weapon damage (all damage types but STUNNING)
-		--and EEex_BAnd(spriteActiveStats.m_generalState, state["CD_STATE_NOTVALID"]) == 0
-		and EEex_BAnd(spriteActiveStats.m_generalState, 0x100029) == 0 -- STATE_SLEEPING | STATE_STUNNED | STATE_HELPLESS | STATE_FEEBLEMINDED
-		and spriteActiveStats.m_nSaveVSBreath <= spriteSaveVSBreathRoll
-		and damageAmount >= spriteHP
-		and conditionalString:evalConditionalAsAIBase(CGameSprite)
-	then
-		CGameEffect.m_effectAmount = math.floor(damageAmount / 2)
-		--
-		EEex_GameObject_ApplyEffect(CGameSprite,
-		{
-			["effectID"] = 139, -- Display string
-			["effectAmount"] = %feedback_strref%,
-			["sourceID"] = op403CGameEffect.m_sourceId, -- Certain opcodes (see f.i. op326) use this field internally... it's probably a good idea to always specify it...
-			["sourceTarget"] = op403CGameEffect.m_sourceTarget, -- Certain opcodes (see f.i. op326) use this field internally... it's probably a good idea to always specify it...
-		})
-		--
-		responseString:executeResponseAsAIBaseInstantly(CGameSprite)
+	--
+	local ability = context.ability -- Item_ability_st
+	--
+	if target:getLocalInt("gtThiefDefensiveRoll") == 1 then
+		if conditionalString:evalConditionalAsAIBase(target) then
+			if effect.m_effectId == 0xC and EEex_IsMaskUnset(effect.m_dWFlags, dmgtype["STUNNING"]) and effect.m_slotNum == -1 and effect.m_sourceType == 0 and effect.m_sourceRes:get() == "" then -- base weapon damage (all damage types but STUNNING)
+				if EEex_BAnd(targetActiveStats.m_generalState, 0x100029) == 0 then -- !(STATE_SLEEPING | STATE_STUNNED | STATE_HELPLESS | STATE_FEEBLEMINDED)
+					if damageAmount >= targetHP then
+						if targetActiveStats.m_nSaveVSBreath <= targetSaveVSBreathRoll then
+							--
+							effect.m_effectAmount = math.floor(damageAmount / 2)
+							--
+							if ability.type == 1 then -- melee
+								EEex_GameObject_ApplyEffect(target,
+								{
+									["effectID"] = 139, -- Display string
+									["effectAmount"] = %feedback_strref%,
+									["sourceID"] = target.m_id,
+									["sourceTarget"] = target.m_id,
+								})
+							else -- ranged
+								attacker.m_curProjectile:AddEffect(GT_Utility_DecodeEffect(
+									{
+										["effectID"] = 139, -- Display string
+										["effectAmount"] = %feedback_strref%,
+										--
+										["sourceX"] = attacker.m_pos.x,
+										["sourceY"] = attacker.m_pos.y,
+										["targetX"] = target.m_pos.x,
+										["targetY"] = target.m_pos.y,
+										--
+										["m_projectileType"] = ability.missileType - 1,
+										["m_sourceRes"] = context.weapon.cResRef:get(),
+										["m_sourceType"] = 2,
+										--
+										["sourceID"] = attacker.m_id,
+										["sourceTarget"] = target.m_id,
+									}
+								))
+							end
+							--
+							responseString:executeResponseAsAIBaseInstantly(target)
+						end
+					end
+				end
+			end
+		end
 	end
 	--
 	conditionalString:free()
 	responseString:free()
-end
+end)
