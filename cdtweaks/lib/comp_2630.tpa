@@ -497,8 +497,10 @@ END
 										LPF "CLONE_EFFECT" INT_VAR "multi_match" = 1 "silent" = 1 "check_globals" = 0 "header" = "%ab_ind%" "match_opcode" = 12 "parameter1" = 2 "match_parameter2" = IDS_OF_SYMBOL ("dmgtype" "magic") + 1 "probability1" = 74 "probability2" = 50 END
 										LPF "CLONE_EFFECT" INT_VAR "multi_match" = 1 "silent" = 1 "check_globals" = 0 "header" = "%ab_ind%" "match_opcode" = 12 "parameter1" = 3 "match_parameter2" = IDS_OF_SYMBOL ("dmgtype" "magic") + 1 "probability1" = 49 "probability2" = 25 END
 										LPF "CLONE_EFFECT" INT_VAR "multi_match" = 1 "silent" = 1 "check_globals" = 0 "header" = "%ab_ind%" "match_opcode" = 12 "parameter1" = 4 "match_parameter2" = IDS_OF_SYMBOL ("dmgtype" "magic") + 1 "probability1" = 24 "probability2" = 0 END
-										// Feedback string
+										// Feedback string if healing subspell
 										LPF "CLONE_EFFECT" INT_VAR "silent" = 1 "check_globals" = 0 "check_headers" = "%key_4%" == 1 ? 1 : 0 "header" = "%ab_ind%" "match_opcode" = 17 "opcode" = 139 "parameter1" = "%strref%" "parameter2" = 0 "dicenumber" = 0 "dicesize" = 0 STR_VAR "insert" = "last" END
+										// clear save type if healing subspell
+										LPF "ALTER_EFFECT" INT_VAR "silent" = 1 "check_globals" = 0 "check_headers" = "%key_4%" == 1 ? 1 : 0 "header" = "%ab_ind%" "savingthrow" = 0 END
 										// Clean up
 										LPF "DELETE_EFFECT" INT_VAR "check_globals" = 0 "header" = "%ab_ind%" "match_opcode" = 999 END
 									END
