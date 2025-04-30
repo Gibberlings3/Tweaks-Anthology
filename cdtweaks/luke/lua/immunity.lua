@@ -65,7 +65,7 @@ local GT_ImmunitiesVia403_Definitions = {
 	--
 	[29] = { ["opcode"] = {211, -1}, ["string"] = {}, ["icon"] = {79}, ["vfx"] = {"SPMAZE1", "SPMAZE2"}, ["extra"] = {} }, -- imprisonment
 	--
-	[30] = { ["opcode"] = {213, -1}, ["string"] = {}, ["icon"] = {78}, ["vfx"] = {"SPSPMAZE"}, ["extra"] = {} }, -- maze
+	[30] = { ["opcode"] = {213, -1}, ["string"] = {}, ["icon"] = {78, 190}, ["vfx"] = {"SPSPMAZE"}, ["extra"] = {} }, -- maze
 	--
 	[31] = { ["opcode"] = {216, -1}, ["string"] = {"One Level Drained", "Two Levels Drained", "Three Levels Drained", "Four Levels Drained", "Five Levels Drained", "Six Levels Drained", "Seven Levels Drained", "Eight Levels Drained", "Nine Levels Drained", "Ten Levels Drained", "Eleven Levels Drained", "Twelve Levels Drained", "Thirteen Levels Drained", "Fourteen Levels Drained", "Fifteen Levels Drained", "Sixteen Levels Drained"}, ["icon"] = {53, 59}, ["vfx"] = {}, ["extra"] = {} }, -- level drain
 	--
