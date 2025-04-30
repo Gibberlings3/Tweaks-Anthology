@@ -3,7 +3,7 @@ EXTEND_BOTTOM BOTSMITH 4
   IF ~PartyHasItem("bow19a")~ THEN GOTO gesen // gesen bow
 END
 
-APPEND BOTSMITH              
+APPEND BOTSMITH
 
   IF ~~ THEN BEGIN gesen SAY @123016
     IF ~!PartyHasItem("bow19b")~ THEN GOTO need_gesen
@@ -30,4 +30,4 @@ APPEND BOTSMITH
     COPY_TRANS BOTSMITH 4
   END
 
-END                                            
+END

@@ -77,9 +77,9 @@ ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_unique_names BEGIN
   32379 => 0 // K'logarath +4
 END
 
-ACTION_IF game_includes_sod BEGIN      
+ACTION_IF game_includes_sod BEGIN
 
-  ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_unique_names BEGIN    
+  ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_unique_names BEGIN
     34004 => 0 // Cornugon's Revenge +2
     34018 => 0 // Crimson Dawn +2
     34022 => 0 // Elements' Fury +2
@@ -156,6 +156,6 @@ ACTION_IF game_includes_sod BEGIN
     69240 => 0 // The Bloodied Guardian +2
     69571 => 0 // Spell Breaker +2
     71330 => 0 // Blazing Glory +3
-  END    
-  
+  END
+
 END

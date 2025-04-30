@@ -1,0 +1,2582 @@
+/*
+ * ADD_KIT_EX - A full ADD_KIT replacement that is compatible with both classic and Enhanced Edition games.
+ * GET_KIT_EX - A function for retrieving attributes of any given kit.
+ * Requirements: WeiDU version 247 or later
+ * Author: Argent77 
+ * Multiclass kit code: based on "qd_multiclass" by Aquadrizzt and Subtledoctor
+ * Licence: public domain
+ * Date: 2019-08-19
+ */
+
+OUTER_SPRINT ADD_KIT_EX_VERSION ~0.6.2~
+
+<<<<<<<< .../a7-add_kit_ex/inlined/blank.file
+>>>>>>>>
+
+
+// Print specified message as log entry, info, warning or error
+DEFINE_ACTION_FUNCTION a7#add_kit_ex#print_message
+INT_VAR severity = 1  // 0=LOG, 1=PRINT, 2=WARN, 3=FAIL
+STR_VAR msg = ~~
+BEGIN
+  ACTION_IF (NOT ~%msg%~ STR_EQ ~~) BEGIN
+    ACTION_IF (IS_AN_INT ~suppress_warnings~ && suppress_warnings && severity = 2) BEGIN
+      OUTER_SET severity = 1
+    END
+    ACTION_IF (severity < 1) BEGIN
+      LOG ~%msg%~
+    END ELSE ACTION_IF (severity = 1) BEGIN
+      PRINT ~%msg%~
+    END ELSE ACTION_IF (severity = 2) BEGIN
+      WARN ~WARNING: %msg%~
+    END ELSE ACTION_IF (severity > 2) BEGIN
+      FAIL ~%msg%~
+    END
+  END
+END
+
+DEFINE_PATCH_FUNCTION a7#add_kit_ex#print_message
+INT_VAR severity = 1
+STR_VAR msg = ~~
+BEGIN
+  INNER_ACTION BEGIN
+    LAF a7#add_kit_ex#print_message INT_VAR severity STR_VAR msg END
+  END
+END
+
+
+// Split given string into individual items
+DEFINE_ACTION_FUNCTION a7#add_kit_ex#split
+INT_VAR offset = 0    // start index of array
+STR_VAR string = ~~   // string to split
+RET items             // number of items
+RET_ARRAY items       // array of items
+BEGIN
+  OUTER_SET items = offset
+  OUTER_FOR (i = 0; i <= offset; ++i) BEGIN OUTER_TEXT_SPRINT $items(~%i%~) ~~ END
+  OUTER_PATCH ~%string%~ BEGIN
+    REPLACE_EVALUATE
+      ~\([^ %TAB%%WNL%]+\)~
+      BEGIN
+        TEXT_SPRINT $items(~%items%~) ~%MATCH1%~
+        SET items += 1
+      END
+      ~~
+  END
+END
+
+DEFINE_PATCH_FUNCTION a7#add_kit_ex#split
+INT_VAR offset = 0
+STR_VAR string = ~~
+RET items
+RET_ARRAY items
+BEGIN
+  INNER_ACTION BEGIN
+    LAF a7#add_kit_ex#split INT_VAR offset STR_VAR string RET items RET_ARRAY items END
+  END
+END
+
+
+// Create a string out of the items of the specified array
+DEFINE_ACTION_FUNCTION a7#add_kit_ex#unsplit
+INT_VAR
+  offset = 0    // start index of array
+  insert_index = offset // offset of extra item to insert
+STR_VAR
+  array = ~~    // array name (defined as both numeric and array variable)
+  insert = ~~   // extra item to insert at "insert_index"
+RET string
+BEGIN
+  OUTER_TEXT_SPRINT string ~~
+  ACTION_IF (NOT ~%array%~ STR_EQ ~~ && IS_AN_INT EVAL ~%array%~ && EVAL ~%array%~ > offset) BEGIN
+    OUTER_SET idx = offset
+    ACTION_IF (insert_index = idx && NOT ~%insert%~ STR_EQ ~~) BEGIN
+      OUTER_TEXT_SPRINT string ~%insert%~
+    END ELSE BEGIN
+      OUTER_TEXT_SPRINT string $EVAL ~%array%~(~%idx%~)
+      OUTER_SET idx += 1
+    END
+    OUTER_FOR (; idx < EVAL ~%array%~ && VARIABLE_IS_SET $EVAL ~%array%~(~%idx%~); ++idx) BEGIN
+      ACTION_IF (insert_index = idx && idx > offset && NOT ~%insert%~ STR_EQ ~~) BEGIN
+        OUTER_TEXT_SPRINT string ~%string% %insert%~
+      END
+      OUTER_TEXT_SPRINT s $EVAL ~%array%~(~%idx%~)
+      OUTER_TEXT_SPRINT string ~%string% %s%~
+    END
+    ACTION_IF (insert_index = idx && NOT ~%insert%~ STR_EQ ~~) BEGIN
+      OUTER_TEXT_SPRINT string ~%string% %insert%~
+    END
+  END
+END
+
+DEFINE_PATCH_FUNCTION a7#add_kit_ex#unsplit
+INT_VAR
+  offset = 0
+  insert_index = offset
+STR_VAR
+  array = ~~
+  insert = ~~
+RET string
+BEGIN
+  INNER_ACTION BEGIN
+    LAF a7#add_kit_ex#unsplit INT_VAR offset insert_index STR_VAR array insert RET string END
+  END
+END
+
+
+// Return index of next table row (excluding header row)
+DEFINE_ACTION_FUNCTION a7#add_kit_ex#next_row
+STR_VAR resref = ~~
+RET index
+BEGIN
+  OUTER_SET index = "-1"
+  COPY_EXISTING ~%resref%.2da~ ~override~
+    COUNT_2DA_ROWS 1 num_rows
+    SET index = num_rows - 3
+  BUT_ONLY IF_EXISTS
+END
+
+
+// Return index of next available table column (excluding header column)
+DEFINE_ACTION_FUNCTION a7#add_kit_ex#next_column
+STR_VAR resref = ~~
+RET index
+BEGIN
+  OUTER_SET index = "-1"
+  COPY_EXISTING ~%resref%.2da~ ~override~
+    COUNT_2DA_COLS num_cols
+    SET index = num_cols - 1
+  BUT_ONLY IF_EXISTS
+END
+
+
+// Return row content matching "row_name"
+DEFINE_ACTION_FUNCTION a7#add_kit_ex#get_row
+INT_VAR
+  column = 0    // column containing "row_name"
+STR_VAR
+  resref = ~~   // 2da resref
+  row_name = ~~ // value to look up
+RET
+  row
+  row_index     // 0 = first row of table data, -1 = no match
+BEGIN
+  OUTER_TEXT_SPRINT row ~~
+  OUTER_SET row_index = "-1"
+  COPY_EXISTING ~%resref%.2da~ ~override~
+    COUNT_2DA_COLS num_cols
+    READ_2DA_ENTRIES_NOW table 1
+    FOR (r = 3; r < table; ++r) BEGIN
+      PATCH_IF (VARIABLE_IS_SET $table(~%r%~ ~%column%~)) BEGIN
+        READ_2DA_ENTRY_FORMER table r column label
+        PATCH_IF (~%label%~ STR_EQ ~%row_name%~) BEGIN
+          READ_2DA_ENTRY_FORMER table r 0 row
+          FOR (c = 1; c < num_cols && VARIABLE_IS_SET $table(~%r%~ ~%c%~); ++c) BEGIN
+            READ_2DA_ENTRY_FORMER table r c value
+            TEXT_SPRINT row ~%row% %value%~
+          END
+          SET row_index = r - 3
+          SET c = num_cols
+        END
+      END
+    END
+  BUT_ONLY IF_EXISTS
+END
+
+
+// Return column content matching "column_name"
+DEFINE_ACTION_FUNCTION a7#add_kit_ex#get_column
+INT_VAR
+  row = 0   // row containing "column_name" (0 = table header row)
+STR_VAR
+  resref = ~~
+  column_name = ~~
+RET
+  column
+  column_index  // 0 = first column with header, -1 = no match
+BEGIN
+  OUTER_TEXT_SPRINT column ~~
+  OUTER_SET column_index = "-1"
+  COPY_EXISTING ~%resref%.2da~ ~override~
+    COUNT_2DA_COLS num_cols
+    READ_2DA_ENTRIES_NOW table 1
+    SET row2 = row + 2  // rebased search row
+    FOR (c = 0; c < num_cols - 1 && VARIABLE_IS_SET $table(~2~ ~%c%~); ++c) BEGIN
+      SET c2 = (row2 = 2) ? c : c + 1
+      PATCH_IF (VARIABLE_IS_SET $table(~%row2%~ ~%c2%~)) BEGIN
+        READ_2DA_ENTRY_FORMER table row2 c2 label
+        PATCH_IF (~%label%~ STR_EQ ~%column_name%~) BEGIN
+          READ_2DA_ENTRY_FORMER table 2 c column
+          SET c2 = c + 1
+          FOR (r = 3; r < table && VARIABLE_IS_SET $table(~%r%~ ~%c2%~); ++r) BEGIN
+            READ_2DA_ENTRY_FORMER table r c2 value
+            TEXT_SPRINT column ~%column% %value%~
+          END
+          SET column_index = c
+          SET c = num_cols
+        END
+      END
+    END
+  BUT_ONLY IF_EXISTS
+END
+
+
+// Ensure all table rows have valid number of columns.
+// Missing headers are padded by column indices. Missing content is padded by default value.
+DEFINE_PATCH_FUNCTION a7#add_kit_ex#normalize_table
+BEGIN
+  SET num_added = 0
+  COUNT_2DA_COLS num_cols
+  READ_2DA_ENTRIES_NOW table 1
+  READ_2DA_ENTRY_FORMER table 1 0 default
+  FOR (row = 0; row < table; ++row) BEGIN
+    READ_2DA_ENTRY_FORMER table row 0 line
+    FOR (col = 1; col < num_cols && VARIABLE_IS_SET $table(~%row%~ ~%col%~); ++col) BEGIN
+      READ_2DA_ENTRY_FORMER table row col v
+      TEXT_SPRINT line ~%line% %v%~
+    END
+    // fill in missing data
+    PATCH_IF (row = 2) BEGIN  // header
+      FOR (; col < num_cols - 1; ++col) BEGIN
+        TEXT_SPRINT line ~%line% %col%~
+        SET num_added += 1
+      END
+    END ELSE PATCH_IF (row > 2) BEGIN // content
+      FOR (; col < num_cols; ++col) BEGIN
+        TEXT_SPRINT line ~%line% %default%~
+        SET num_added += 1
+      END
+    END
+    TEXT_SPRINT $lines(~%row%~) ~%line%%LNL%~
+    SET $lines(~%row%~ ~size~) = STRING_LENGTH $lines(~%row%~)
+  END
+
+  // write normalized table to buffer
+  PATCH_IF (num_added > 0) BEGIN
+    DELETE_BYTES 0 BUFFER_LENGTH
+    FOR (row = 0 pos = 0; row < table; ++row) BEGIN
+      SET size = $lines(~%row%~ ~size~)
+      INSERT_BYTES pos size
+      WRITE_ASCIIE pos $lines(~%row%~) (size)
+      SET pos += size
+    END
+  END
+END
+
+
+// Add "array" content horizontally to given table or clone given alternate entry
+DEFINE_ACTION_FUNCTION a7#add_kit_ex#add_row
+STR_VAR
+  kit_name = ~~
+  array = ~~      // name of array containing 2da items
+  resref = ~~     // 2da resref
+  clone1 = ~~     // primary entry to clone if no array available
+  clone2 = ~~     // secondary entry to clone if no array available
+  clone3 = ~~     // tertiary entry to clone if no array available
+RET success       // returns whether an entry was actually added
+BEGIN
+  OUTER_SET success = 0
+  OUTER_SET kit_column = (~%resref%~ STR_EQ ~kitlist~) ? 1 : 0  // special: kitlist.2da uses column 1 for kit name
+  ACTION_IF (IS_AN_INT EVAL ~%array%~ && EVAL ~%array%~ > 0) BEGIN
+    OUTER_SET array_items = EVAL ~%array%~
+    COPY_EXISTING ~%resref%.2da~ ~override~
+      LPF a7#add_kit_ex#normalize_table END
+      COUNT_2DA_COLS num_cols
+      READ_2DA_ENTRIES_NOW table 1
+      PATCH_IF (NOT FILE_CONTAINS_EVALUATED(~%resref%.2da~ ~[ %TAB%%WNL%]%kit_name%[ %TAB%%WNL%]~)) BEGIN
+        // assembling table row
+        PATCH_IF (~%resref%~ STR_EQ ~kitlist~) BEGIN SET $EVAL ~%array%~(~0~) = table - 3 END
+        PATCH_IF (array_items <= kit_column + 1 || NOT $EVAL ~%array%~(~%kit_column%~) STR_EQ ~%kit_name%~) BEGIN
+          TEXT_SPRINT insert ~%kit_name%~
+          SET extra_item = 1
+        END ELSE BEGIN
+          TEXT_SPRINT insert ~~
+          SET extra_item = 0
+        END
+        LPF a7#add_kit_ex#unsplit
+          INT_VAR insert_index = kit_column
+          STR_VAR array insert
+          RET line = string
+        END
+        // expanding row with default values if needed
+        PATCH_IF (~%resref%~ STR_EQ ~backstab~ || ~%resref%~ STR_EQ ~sneakatt~) BEGIN
+          // special: duplicate latest array item
+          SET i = array_items - 1
+          TEXT_SPRINT default $EVAL ~%array%~(~%i%~)
+        END ELSE BEGIN
+          // otherwise: use table's default value
+          READ_2DA_ENTRY_FORMER table 1 0 default
+        END
+        FOR (i = array_items + extra_item; i < num_cols; ++i) BEGIN
+          TEXT_SPRINT line ~%line% %default%~
+        END
+
+        INSERT_2DA_ROW table 1 ~%line%~
+        SET success = 1
+      END
+    BUT_ONLY IF_EXISTS
+  END ELSE ACTION_IF (NOT ~%clone1%~ STR_EQ ~~) BEGIN
+    LAF a7#add_kit_ex#get_row
+      INT_VAR
+        column = kit_column
+      STR_VAR
+        resref
+        row_name = EVAL ~%clone1%~
+      RET
+        string = row
+        row_index
+    END
+    ACTION_IF (row_index >= 0) BEGIN
+      LAF a7#add_kit_ex#split STR_VAR string RET items RET_ARRAY items END
+      OUTER_TEXT_SPRINT $items(~%kit_column%~) ~%kit_name%~
+      LAF a7#add_kit_ex#add_row
+        STR_VAR
+          kit_name
+          array = ~items~
+          resref
+        RET success
+      END
+    END ELSE BEGIN
+      LAF a7#add_kit_ex#add_row
+        STR_VAR
+          kit_name
+          array = ~items~
+          resref
+          clone1 = EVAL ~%clone2%~
+          clone2 = EVAL ~%clone3%~
+        RET success
+      END
+    END
+  END ELSE ACTION_IF (NOT ~%clone2%~ STR_EQ ~~) BEGIN
+    LAF a7#add_kit_ex#add_row
+      STR_VAR
+        kit_name
+        array = ~items~
+        resref
+        clone1 = EVAL ~%clone2%~
+        clone2 = EVAL ~%clone3%~
+      RET success
+    END
+  END
+END
+
+
+// Add "array" content vertically to given table or clone given alternate entry
+DEFINE_ACTION_FUNCTION a7#add_kit_ex#add_column
+STR_VAR
+  kit_name = ~~
+  array = ~~      // name of array containing 2da items
+  resref = ~~     // 2da resref
+  clone1 = ~~     // primary entry to clone if no array available
+  clone2 = ~~     // secondary entry to clone if no array available
+  clone3 = ~~     // tertiary entry to clone if no array available
+RET success       // returns whether an entry was actually added
+BEGIN
+  OUTER_SET success = 0
+  ACTION_IF (IS_AN_INT EVAL ~%array%~ && EVAL ~%array%~ > 0) BEGIN
+    COPY_EXISTING ~%resref%.2da~ ~override~
+      LPF a7#add_kit_ex#normalize_table END
+      COUNT_2DA_ROWS 1 num_rows
+      SET num_rows -= 2 // skip first two table rows
+      READ_2DA_ENTRY 1 0 1 default
+    BUT_ONLY
+
+    ACTION_IF (NOT FILE_CONTAINS_EVALUATED(~%resref%.2da~ ~[ %TAB%%WNL%]%kit_name%[ %TAB%%WNL%]~)) BEGIN
+      // assembling column entries
+      ACTION_IF (NOT $EVAL ~%array%~(~0~) STR_EQ ~%kit_name%~) BEGIN
+        OUTER_TEXT_SPRINT insert ~%kit_name%~
+        OUTER_SET num_rows -= 1
+      END ELSE BEGIN
+        OUTER_TEXT_SPRINT insert ~~
+      END
+      ACTION_IF (num_rows < EVAL ~%array%~) BEGIN
+        OUTER_SET EVAL ~%array%~ = num_rows
+      END
+      LAF a7#add_kit_ex#unsplit
+        STR_VAR array insert
+        RET append = string
+      END
+      OUTER_TEXT_SPRINT append ~$ $ %append%~ // first two rows are not expanded
+      // expand column with default value if needed
+      OUTER_FOR (i = EVAL ~%array%~; i < num_rows; ++i) BEGIN
+        OUTER_TEXT_SPRINT append ~%append% %default%~
+      END
+
+      APPEND_COL ~%resref%.2da~ ~%append%~
+      OUTER_SET success = 1
+    END
+  END ELSE ACTION_IF (NOT ~%clone1%~ STR_EQ ~~) BEGIN
+    LAF a7#add_kit_ex#get_column
+      STR_VAR
+        resref
+        column_name = EVAL ~%clone1%~
+      RET
+        string = column
+        column_index
+    END
+    ACTION_IF (column_index >= 0) BEGIN
+      LAF a7#add_kit_ex#split STR_VAR string RET items RET_ARRAY items END
+      OUTER_TEXT_SPRINT $items(~0~) ~%kit_name%~
+      LAF a7#add_kit_ex#add_column
+        STR_VAR
+          kit_name
+          array = ~items~
+          resref
+        RET success
+      END
+    END ELSE BEGIN
+      LAF a7#add_kit_ex#add_column
+        STR_VAR
+          kit_name
+          array = ~items~
+          resref
+          clone1 = EVAL ~%clone2%~
+          clone2 = EVAL ~%clone3%~
+        RET success
+      END
+    END
+  END ELSE ACTION_IF (NOT ~%clone2%~ STR_EQ ~~) BEGIN
+    LAF a7#add_kit_ex#add_column
+      STR_VAR
+        kit_name
+        array = ~items~
+        resref
+        clone1 = EVAL ~%clone2%~
+        clone2 = EVAL ~%clone3%~
+      RET success
+    END
+  END
+END
+
+
+// Swap two columns in given table
+DEFINE_ACTION_FUNCTION a7#add_kit_ex#swap_columns
+STR_VAR
+  resref = ~~
+  column_name1 = ~~
+  column_name2 = ~~
+BEGIN
+  COPY_EXISTING ~%resref%.2da~ ~override~
+    COUNT_2DA_COLS num_cols
+    READ_2DA_ENTRIES_NOW table 1
+    SET col_idx1 = "-1"
+    SET col_idx2 = "-1"
+    FOR (col = 0; col < num_cols - 1 && VARIABLE_IS_SET $table(~2~ ~%col%~); ++col) BEGIN
+      READ_2DA_ENTRY_FORMER table 2 col label
+      PATCH_IF (~%label%~ STR_EQ ~%column_name1%~) BEGIN
+        SET col_idx1 = col
+      END ELSE PATCH_IF (~%label%~ STR_EQ ~%column_name2%~) BEGIN
+        SET col_idx2 = col
+      END
+      PATCH_IF (col_idx1 >= 0 && col_idx2 >= 0) BEGIN
+        SET col = num_cols
+      END
+    END
+    PATCH_IF (col_idx1 >= 0 && col_idx2 >= 0 && col_idx1 != col_idx2) BEGIN
+      FOR (row = 2; row < table; ++row) BEGIN
+        SET adjust = (row = 2) ? 0 : 1
+        READ_2DA_ENTRY_FORMER table row (col_idx1 + adjust) value
+        SET_2DA_ENTRY_LATER table_out row (col_idx2 + adjust) ~%value%~
+        READ_2DA_ENTRY_FORMER table row (col_idx2 + adjust) value
+        SET_2DA_ENTRY_LATER table_out row (col_idx1 + adjust) ~%value%~
+      END
+      SET_2DA_ENTRIES_NOW table_out 1
+    END
+  BUT_ONLY IF_EXISTS
+END
+
+
+// Return table value at intersection of specified row and column header
+DEFINE_PATCH_FUNCTION a7#add_kit_ex#get_2da_value
+// INT_VAR search_column = 0
+STR_VAR
+  row = ~~
+  column = ~~
+  value = ~~
+RET
+  value
+BEGIN
+  COUNT_2DA_COLS num_col
+  READ_2DA_ENTRIES_NOW file 1
+  FOR (r = 3; r < file; ++r) BEGIN
+    READ_2DA_ENTRY_FORMER file r 0 row_label
+    PATCH_IF (~%row_label%~ STR_EQ ~%row%~) BEGIN
+      // Assuming header row is off by one
+      FOR (c = 0; c < num_col - 1; ++c) BEGIN
+        READ_2DA_ENTRY_FORMER file 2 c col_label
+        PATCH_IF (~%col_label%~ STR_EQ ~%column%~) BEGIN
+          READ_2DA_ENTRY_FORMER file r (c + 1) value
+          SET r = file
+          SET c = num_col
+        END
+      END
+    END
+  END
+END
+
+
+// Create a new 2da file in the game's override folder and populate it with content.
+DEFINE_ACTION_FUNCTION a7#add_kit_ex#create_2da
+STR_VAR
+  resref  = ~~
+  default = ~*~
+  columns = ~VALUE~
+  items = ~~      // name of array for items
+RET success       // indicates whether file exists after the function call
+BEGIN
+  OUTER_SET success = 0
+  ACTION_IF (NOT ~%resref%~ STR_EQ ~~) BEGIN
+    ACTION_IF (~%default%~ STR_EQ ~~) BEGIN
+      OUTER_TEXT_SPRINT default ~*~
+    END
+    ACTION_IF (NOT FILE_EXISTS_IN_GAME ~%resref%.2da~) BEGIN
+      COPY ~.../a7-add_kit_ex/inlined/blank.file~ ~override/%resref%.2DA~
+        DELETE_BYTES 0 BUFFER_LENGTH
+        SET pos = 0
+        // table header
+        TEXT_SPRINT s ~2DA V1.0%WNL%~
+        SET len = STRING_LENGTH ~%s%~
+        INSERT_BYTES pos len
+        WRITE_ASCIIE pos ~%s%~ (len)
+        SET pos += len
+        // default value
+        TEXT_SPRINT s ~%default%%WNL%~
+        SET len = STRING_LENGTH ~%s%~
+        INSERT_BYTES pos len
+        WRITE_ASCIIE pos ~%s%~ (len)
+        SET pos += len
+        // columns
+        TEXT_SPRINT s ~    %columns%%WNL%~
+        SET len = STRING_LENGTH ~%s%~
+        INSERT_BYTES pos len
+        WRITE_ASCIIE pos ~%s%~ (len)
+        SET pos += len
+        // table items
+        PATCH_IF (NOT ~%items%~ STR_EQ ~~ && VARIABLE_IS_SET EVAL ~%items%~) BEGIN
+          SET num_items = EVAL ~%items%~
+          FOR (i = 0; i < num_items; ++i) BEGIN
+            TEXT_SPRINT s $EVAL ~%items%~(~%i%~)
+            SET len = STRING_LENGTH ~%s%%WNL%~
+            INSERT_BYTES pos len
+            WRITE_ASCIIE pos ~%s%%WNL%~ (len)
+            SET pos += len
+          END
+        END
+        SET success = 1
+    END ELSE BEGIN
+      OUTER_SET success = 1
+    END
+  END
+END
+
+
+// Divide "number" by "divisor" and return both quotient and remainder.
+DEFINE_ACTION_FUNCTION a7#add_kit_ex#divide
+INT_VAR
+  divisor = 1   // any integer except 0
+STR_VAR
+  number = ~0~  // any number of any size in decimal notation, or number in hexadecimal notation in signed 32-bit range
+RET quotient remainder  // return empty strings if operation failed
+BEGIN
+  OUTER_TEXT_SPRINT quotient ~~
+  OUTER_TEXT_SPRINT remainder ~~
+  ACTION_IF (divisor != 0) BEGIN
+    ACTION_IF (IS_AN_INT ~number~) BEGIN
+      OUTER_SET quotient = number / divisor
+      OUTER_SET remainder = number REM divisor
+    END ELSE ACTION_IF (~%number%~ STRING_MATCHES_REGEXP ~-?[1-9][0-9]*$~ = 0 && divisor != 0) BEGIN
+      OUTER_SET ZERO = 48 // ASCII code for '0'
+      OUTER_SET SIGN = 45 // ASCII code for '-'
+      OUTER_PATCH ~%number%~ BEGIN
+        // simplify calculation by temporarily removing sign from both operands
+        SET signed = 0
+        PATCH_IF (BYTE_AT 0 = SIGN) BEGIN
+          DELETE_BYTES 0 1
+          SET signed = (signed + 1) & 1
+        END
+        PATCH_IF (divisor < 0) BEGIN
+          SET divisor = 0 - divisor
+          SET signed = (signed + 1) & 1
+        END
+        // performing division
+        FOR (p = 0 rem = 0; p < BUFFER_LENGTH; ++p) BEGIN
+          SET n = (BYTE_AT p) - ZERO
+          SET n += rem * 10
+          SET d = n / divisor
+          SET rem = n REM divisor
+          PATCH_IF (d > 0 || ~%quotient%~ STR_CMP ~~) BEGIN
+            TEXT_SPRINT quotient ~%quotient%%d%~
+          END
+        END
+        TEXT_SPRINT remainder ~%rem%~
+        // finalizing result
+        PATCH_IF (~%quotient%~ STR_EQ ~~) BEGIN TEXT_SPRINT quotient ~0~ END
+        PATCH_IF (signed && ~%quotient%~ STR_CMP ~0~) BEGIN
+          // Restoring sign
+          TEXT_SPRINT quotient ~-%quotient%~
+        END
+      END
+    END ELSE BEGIN
+      LAF a7#add_kit_ex#print_message INT_VAR severity = 2 STR_VAR msg = EVAL ~Not a number [%number%]~ END
+    END
+  END ELSE BEGIN
+    LAF a7#add_kit_ex#print_message INT_VAR severity = 2 STR_VAR msg = ~Division by zero is not allowed~ END
+  END
+END
+
+
+// Convert decimal number into hexadecimal notation or normalize hexadecimal number.
+DEFINE_ACTION_FUNCTION a7#add_kit_ex#to_hex
+INT_VAR
+  min_digits = 8  // minimum number of digits in resulting hex number
+  lower_case = 0  // whether to produce lower-cased hex digits
+  prefix = 1      // whether to add "0x" prefix to resulting hex number
+STR_VAR
+  number = ~0~    // any number of any size in decimal or hexadecimal notation
+RET hex           // Resulting hex number; empty if conversion failed.
+BEGIN
+  OUTER_SET ZERO = 48   // ASCII: 0
+  OUTER_SET SIGN = 45   // ASCII: -
+  OUTER_TEXT_SPRINT hex ~~
+  ACTION_IF (min_digits < 0) BEGIN OUTER_SET min_digits = 0 END
+
+  // preparations
+  OUTER_SET signed = 0
+  OUTER_PATCH_SAVE number ~%number%~ BEGIN
+    // trimming whitespace
+    REPLACE_TEXTUALLY ~^[ %TAB%%WNL%]*\([^ %TAB%%WNL%]*\)[ %TAB%%WNL%]*$~ ~\1~
+    // simplify conversion by temporarily removing sign
+    PATCH_IF (SIGN = BYTE_AT 0) BEGIN
+      SET signed = 1
+      DELETE_BYTES 0 1
+    END
+  END
+
+  ACTION_IF (IS_AN_INT ~number~) BEGIN
+    // value is within supported numeric range
+    OUTER_PATCH ~~ BEGIN SPRINTF hex ~%x~ (number) END
+    // hex prefix is added later
+    OUTER_PATCH_SAVE hex ~%hex%~ BEGIN DELETE_BYTES 0 2 END
+  END ELSE ACTION_IF (~%number%~ STRING_MATCHES_REGEXP ~0x[0-9a-f]+$~ = 0) BEGIN
+    // hex number is outside of supported numeric range
+    OUTER_PATCH_SAVE hex ~%number%~ BEGIN DELETE_BYTES 0 2 END
+  END ELSE ACTION_IF (~%number%~ STRING_MATCHES_REGEXP ~[1-9][0-9]*$~ = 0) BEGIN
+    // decimal number is outside of supported numeric range
+    ACTION_DEFINE_ARRAY digits BEGIN ~0~ ~1~ ~2~ ~3~ ~4~ ~5~ ~6~ ~7~ ~8~ ~9~ ~A~ ~B~ ~C~ ~D~ ~E~ ~F~ END
+    OUTER_WHILE (NOT ~%number%~ STR_EQ ~0~) BEGIN
+      LAF a7#add_kit_ex#divide INT_VAR divisor = 16 STR_VAR number RET number = quotient remainder END
+      OUTER_TEXT_SPRINT s $digits(~%remainder%~)
+      OUTER_TEXT_SPRINT hex ~%s%%hex%~
+    END
+  END ELSE BEGIN
+    // invalid format
+    LAF a7#add_kit_ex#print_message INT_VAR severity = 2 STR_VAR msg = EVAL ~Not a number [%number%]~ END
+  END
+
+  // finalizing result
+  ACTION_IF (NOT ~%hex%~ STR_EQ ~~) BEGIN
+    ACTION_IF (lower_case) BEGIN ACTION_TO_LOWER ~hex~ END ELSE BEGIN ACTION_TO_UPPER ~hex~ END
+    OUTER_SET len = STRING_LENGTH ~%hex%~
+    OUTER_PATCH_SAVE hex ~%hex%~ BEGIN
+      WHILE (len < min_digits) BEGIN INSERT_BYTES 0 1  WRITE_BYTE 0 ZERO  SET len += 1 END
+      WHILE (len > min_digits && BYTE_AT 0 = ZERO) BEGIN DELETE_BYTES 0 1  SET len -= 1 END
+    END
+    ACTION_IF (prefix) BEGIN OUTER_TEXT_SPRINT hex ~0x%hex%~ END
+
+    ACTION_IF (signed) BEGIN
+      // restoring sign
+      OUTER_PATCH_SAVE hex ~%hex%~ BEGIN
+        INSERT_BYTES 0 1
+        WRITE_BYTE 0 SIGN
+      END
+    END
+  END
+END
+
+DEFINE_PATCH_FUNCTION a7#add_kit_ex#to_hex
+INT_VAR
+  min_digits = 8
+  lower_case = 0
+  prefix = 1
+STR_VAR
+  number = ~0~
+RET hex
+BEGIN
+  INNER_ACTION BEGIN
+    LAF a7#add_kit_ex#to_hex INT_VAR min_digits lower_case prefix STR_VAR number RET hex END
+  END
+END
+
+
+// Check if TobEx is installed
+DEFINE_ACTION_FUNCTION a7#add_kit_ex#is_tobex
+RET result
+BEGIN
+  OUTER_SET result = 0
+  ACTION_IF (FILE_EXISTS ~TobExLoader.exe~) BEGIN
+    // Earlier TobEx versions
+    OUTER_SET result = 1
+  END ELSE ACTION_IF (FILE_EXISTS ~TobEx.dll~) BEGIN
+    // Later TobEx versions
+    COPY ~TobEx_ini/TobExVer.txt~ ~TobEx_ini/TobExVer.txt~
+      READ_ASCII 0 value (BUFFER_LENGTH)
+      INNER_PATCH_SAVE value ~%value%~ BEGIN
+        REPLACE_TEXTUALLY ~[ %TAB%%WNL%]+~ ~~
+      END
+      PATCH_IF (IS_AN_INT ~value~ && value > 0) BEGIN
+        SET result = 1
+      END
+    BUT_ONLY IF_EXISTS
+  END
+END
+
+
+// Determine game configuration
+DEFINE_ACTION_FUNCTION a7#add_kit_ex#get_kit_support
+INT_VAR
+  kit_base = 0x4000
+  kit_limit_override = 0
+RET
+  is_ee
+  is_ee20
+  is_sod
+  is_tobex
+  is_gemrb
+  kit_id_base
+  kits_limit
+BEGIN
+  OUTER_SET is_ee = GAME_IS ~bgee bg2ee eet iwdee~ ? 1 : 0
+  OUTER_SET is_ee20 = (is_ee && FILE_EXISTS ~engine.lua~ && FILE_EXISTS_IN_GAME ~ui.menu~) ? 1 : 0
+  OUTER_SET is_sod = (GAME_IS ~eet~ || GAME_INCLUDES ~sod~) ? 1 : 0
+  OUTER_SET is_gemrb = (FILE_EXISTS ~GemRB.log~ || FILE_EXISTS ~gem-baldur.ini~) ? 1 : 0
+  LAF a7#add_kit_ex#is_tobex RET is_tobex = result END
+
+  OUTER_SET kit_id_base = kit_base
+  OUTER_SET kits_limit = 0x100
+  ACTION_IF (is_tobex) BEGIN
+    OUTER_SET kits_limit = 0x500
+  END
+  ACTION_IF (is_gemrb) BEGIN
+    OUTER_SET kits_limit = 0x1000
+  END
+  ACTION_IF (kit_limit_override > 0) BEGIN
+    OUTER_SET kits_limit = kit_limit_override
+  END
+END
+
+
+// Validate and normalize kit name
+DEFINE_ACTION_FUNCTION a7#add_kit_ex#validate_kitname
+STR_VAR
+  kit_name = ~~
+  param_name = ~kit_name~
+RET kit_name
+BEGIN
+  // stripping whitespace
+  OUTER_PATCH_SAVE kit_name ~%kit_name%~ BEGIN
+    REPLACE_TEXTUALLY ~^[ %TAB%%WNL%]+~ ~~
+    REPLACE_TEXTUALLY ~[ %TAB%%WNL%]+$~ ~~
+  END
+
+  ACTION_IF (~%kit_name%~ STR_EQ ~~) BEGIN
+    LAF a7#add_kit_ex#print_message INT_VAR severity = 3 STR_VAR msg = EVAL ~Argument "%param_name%" must not be empty.~ END
+  END
+
+  ACTION_IF (STRING_LENGTH ~%kit_name%~ > 32) BEGIN
+    LAF a7#add_kit_ex#print_message INT_VAR severity = 3 STR_VAR msg = EVAL ~Length of argument "%param_name%" exceeds 32 characters.~ END
+  END
+
+  ACTION_IF (INDEX(~[0-9]~ ~%kit_name%~) = 0) || (INDEX(~[ %TAB%%WNL%*?/\]~ ~%kit_name%~) >= 0) BEGIN
+    LAF a7#add_kit_ex#print_message INT_VAR severity = 3 STR_VAR msg = EVAL ~Argument "%param_name%" contains invalid characters.~ END
+  END
+END
+
+
+// Retrieve parent class description strref
+DEFINE_ACTION_FUNCTION a7#add_kit_ex#get_kitdesc
+INT_VAR
+  kit_class = 0
+  help      = "-2"
+RET help
+BEGIN
+  ACTION_IF (help < "-1") BEGIN
+    COPY_EXISTING ~clastext.2da~ ~override~
+      READ_2DA_ENTRIES_NOW clastext 1
+      FOR (row = 3; row < clastext; ++row) BEGIN
+        READ_2DA_ENTRY_FORMER clastext row 1 class_id
+        PATCH_IF (IS_AN_INT ~class_id~ && class_id = kit_class) BEGIN
+          READ_2DA_ENTRY_FORMER clastext row 2 kit_id
+          PATCH_IF (IS_AN_INT ~kit_id~ && kit_id = 16384) BEGIN
+            READ_2DA_ENTRY_FORMER clastext row 4 value
+            PATCH_IF (IS_AN_INT ~value~) BEGIN
+              SET help = value
+              SET row = clastext
+            END
+          END
+        END
+      END
+    BUT_ONLY IF_EXISTS
+  END
+  ACTION_IF (help < "-1") BEGIN
+    ACTION_DEFINE_ASSOCIATIVE_ARRAY class_help BEGIN
+      ~2~ => ~9556~   // Fighter
+      ~3~ => ~9559~   // Cleric
+      ~4~ => ~9561~   // Thief
+      ~5~ => ~9562~   // Bard
+      ~6~ => ~9558~   // Paladin
+      ~7~ => ~9574~   // Fighter/Mage
+      ~8~ => ~9573~   // Fighter/Cleric
+      ~9~ => ~9572~   // Fighter/Thief
+      ~10~ => ~9576~  // Fighter/Mage/Thief
+      ~11~ => ~9560~  // Druid
+      ~12~ => ~9557~  // Ranger
+      ~13~ => ~9575~  // Mage/Thief
+      ~14~ => ~9577~  // Cleric/Mage
+      ~15~ => ~9578~  // Cleric/Thief
+      ~16~ => ~9579~  // Fighter/Druid
+      ~17~ => ~9581~  // Fighter/Mage/Cleric
+      ~18~ => ~9580~  // Cleric/Ranger
+      ~19~ => ~45866~ // Sorcerer
+      ~20~ => ~45867~ // Monk
+    END
+    ACTION_IF (IS_AN_INT $class_help(~%kit_class%~)) BEGIN
+      OUTER_SET help = $class_help(~%kit_class%~)
+    END
+  END
+END
+
+
+// Determine class ability table for given kit or class
+DEFINE_ACTION_FUNCTION a7#add_kit_ex#get_clab
+STR_VAR
+  name = ~~ // kit or class name
+  path = ~~ // optional path to custom clab
+RET clab
+BEGIN
+  OUTER_TEXT_SPRINT clab ~~
+
+  ACTION_IF (NOT ~%path%~ STR_EQ ~~) BEGIN
+    ACTION_IF (INDEX(~[\/]~ ~%path%~) >= 0) BEGIN
+      COPY ~%path%~ ~override~
+        TEXT_SPRINT clab ~%SOURCE_RES%~
+        TO_UPPER ~clab~
+      IF_EXISTS
+    END ELSE BEGIN
+      COPY_EXISTING ~%path%~ ~override~
+        TEXT_SPRINT clab ~%SOURCE_RES%~
+        TO_UPPER ~clab~
+      BUT_ONLY IF_EXISTS
+    END
+  END ELSE BEGIN
+    // Try kit first
+    LAF a7#add_kit_ex#get_row
+      INT_VAR
+        column = 1
+      STR_VAR
+        resref = ~kitlist~
+        row_name = EVAL ~%name%~
+      RET string = row row_index
+    END
+    ACTION_IF (row_index >= 0) BEGIN
+      LAF a7#add_kit_ex#split STR_VAR string RET items RET_ARRAY items END
+      ACTION_IF (items > 5) BEGIN
+        OUTER_TEXT_SPRINT resref $items(~5~)
+        ACTION_IF (FILE_EXISTS_IN_GAME ~%resref%.2da~) BEGIN
+          OUTER_TEXT_SPRINT clab ~%resref%~
+          ACTION_TO_UPPER ~clab~
+        END
+      END
+    END
+    // Try class second (consider single-class CLABs only)
+    ACTION_IF (~%clab%~ STR_EQ ~~) BEGIN
+      OUTER_SET class_id = IDS_OF_SYMBOL(~class~ ~%name%~)
+      ACTION_IF (class_id > 0) BEGIN
+        ACTION_MATCH class_id WITH
+          1 19 BEGIN OUTER_TEXT_SPRINT clab ~CLABMA01~ END  // mage, sorcerer
+          2 BEGIN OUTER_TEXT_SPRINT clab ~CLABFI01~ END // fighter
+          3 BEGIN OUTER_TEXT_SPRINT clab ~CLABPR01~ END // cleric
+          4 BEGIN OUTER_TEXT_SPRINT clab ~CLABTH01~ END // thief
+          5 BEGIN OUTER_TEXT_SPRINT clab ~CLABBA01~ END // bard
+          6 BEGIN OUTER_TEXT_SPRINT clab ~CLABPA01~ END // paladin
+          11 BEGIN OUTER_TEXT_SPRINT clab ~CLABDR01~ END  // druid
+          12 BEGIN OUTER_TEXT_SPRINT clab ~CLABRN01~ END  // ranger
+          20 BEGIN OUTER_TEXT_SPRINT clab ~CLABMO01~ END  // monk
+          21 BEGIN OUTER_TEXT_SPRINT clab ~CLABSH01~ END  // shaman
+          DEFAULT
+        END
+      END
+    END
+  END
+END
+
+
+// Add a new 25stweap.2da column
+DEFINE_ACTION_FUNCTION a7#add_kit_ex#add_25stweap
+STR_VAR
+  kit_name = ~~
+  resref = ~25STWEAP~ // the table resref
+  string = ~~         // content of the new entry
+  clone1 = ~~         // primary clone from this entry if string is empty
+  clone2 = ~~         // secondary clone from this entry if string is empty
+  clone3 = ~~         // tertiary entry to clone if no array available
+RET success
+BEGIN
+  OUTER_SET success = 0
+  ACTION_IF (FILE_EXISTS_IN_GAME ~%resref%.2DA~) BEGIN
+    LAF a7#add_kit_ex#split STR_VAR string RET items RET_ARRAY items END
+    LAF a7#add_kit_ex#add_column
+      STR_VAR
+        kit_name
+        array = ~items~
+        resref
+        clone1
+        clone2
+        clone3
+      RET success
+    END
+    ACTION_IF (success) BEGIN
+      // DEFAULT must be last column!
+      LAF a7#add_kit_ex#swap_columns
+        STR_VAR
+          resref
+          column_name1 = ~DEFAULT~
+          column_name2 = EVAL "%kit_name%"
+      END
+    END
+  END
+END
+
+// Add a new bdstweap.2da column
+DEFINE_ACTION_FUNCTION a7#add_kit_ex#add_bdstweap
+STR_VAR
+  kit_name = ~~
+  resref = ~BDSTWEAP~ // the table resref
+  string = ~~         // content of the new entry
+  clone1 = ~~         // primary clone from this entry if string is empty
+  clone2 = ~~         // secondary clone from this entry if string is empty
+  clone3 = ~~         // tertiary entry to clone if no array available
+RET success resref
+BEGIN
+  COPY_EXISTING ~campaign.2da~ ~override~
+    LPF a7#add_kit_ex#get_2da_value
+      STR_VAR
+        row = ~SOD~
+        column = ~25STWEAP~
+      RET value
+    END
+    PATCH_IF (NOT ~%value%~ STR_EQ ~~ && FILE_EXISTS_IN_GAME ~%resref%.2DA~) BEGIN
+      TEXT_SPRINT resref ~%value%~
+    END
+  BUT_ONLY IF_EXISTS
+
+  LAF a7#add_kit_ex#add_25stweap
+    STR_VAR kit_name resref string clone1 clone2 clone3
+    RET success
+  END
+END
+
+
+// Basic validation and correction of selected ADD_KIT_EX parameters
+DEFINE_ACTION_FUNCTION a7#add_kit_ex#validate
+INT_VAR
+  kit_class     = 0
+  is_multiclass = 0
+STR_VAR
+  kit_name    = ~~
+  unusable    = ~~
+  clasweap    = ~~
+  weapprof    = ~~
+  abclasrq    = ~~
+  abclsmod    = ~~
+  abdcdsrq    = ~~
+  abdcscrq    = ~~
+  alignmnt    = ~~
+  dualclas    = ~~
+  luabbr      = ~~
+  stweap      = ~~
+  clab_path   = ~~
+  kittable    = ~~
+  clab_base_d = ~~
+  clab_base_f = ~~
+  clab_base_m = ~~
+  clab_base_p = ~~
+  clab_base_r = ~~
+  clab_base_t = ~~
+  base_class  = ~~
+  // EE-specific arguments
+  clsrcreq    = ~~
+  clswpbon    = ~~
+  hpclass     = ~~
+  numwslot    = ~~
+  clascolr    = ~~
+  clasiskl    = ~~
+  clasthac    = ~~
+  thiefscl    = ~~
+  bdstweap    = ~~
+RET
+  unusable
+  clab_path
+  clab_base_d
+  clab_base_f
+  clab_base_m
+  clab_base_p
+  clab_base_r
+  clab_base_t
+  base_class
+BEGIN
+  // 2da tables and their minimum columns (excluding kit name)
+  ACTION_DEFINE_ASSOCIATIVE_ARRAY tables_def BEGIN
+    ~clasweap~ => ~8~
+    ~weapprof~ => ~32~
+    ~abclasrq~ => ~6~
+    ~abclsmod~ => ~6~
+    ~abdcdsrq~ => ~6~
+    ~abdcscrq~ => ~6~
+    ~alignmnt~ => ~9~
+    ~dualclas~ => ~6~
+    ~luabbr~   => ~1~
+    ~stweap~   => ~20~
+  END
+  ACTION_PHP_EACH tables_def AS resref => min_count BEGIN
+    LAF a7#add_kit_ex#split STR_VAR string = EVAL EVAL ~%%resref%%~ RET items RET_ARRAY items END
+    ACTION_IF (items > 0) BEGIN
+      OUTER_SET adjust = ($items(~0~) STR_EQ ~%kit_name%~) ? 1 : 0
+      ACTION_IF (items - adjust < min_count) BEGIN
+        LAF a7#add_kit_ex#print_message INT_VAR severity = 2 STR_VAR msg = EVAL ~Too few entries in argument "%resref%". Using defaults.~ END
+      END
+    END
+  END
+
+  // "kittable" entries should be valid
+  LAF a7#add_kit_ex#split STR_VAR string = EVAL ~%kittable%~ RET items RET_ARRAY items END
+  OUTER_FOR (i = 0; i < items; ++i) BEGIN
+    OUTER_TEXT_SPRINT resref $items(~%i%~)
+    ACTION_IF (~%resref%~ STRING_MATCHES_REGEXP ~K_[A-Z][A-Z]?[A-Z]?_[A-Z][A-Z]?~ != 0 ||
+               NOT FILE_CONTAINS_EVALUATED(~kittable.2da~ ~%resref%~)) BEGIN
+      LAF a7#add_kit_ex#print_message INT_VAR severity = 2 STR_VAR msg = EVAL ~Kittable entry "%resref%" is not valid. Skipping.~ END
+    END
+  END
+
+  // "base_class" only relevant for true multiclass kits
+  ACTION_IF (is_multiclass) BEGIN
+    ACTION_DEFINE_ASSOCIATIVE_ARRAY multiclass_entries BEGIN
+      ~7~   => ~FIGHTER_MAGE~
+      ~8~   => ~FIGHTER_CLERIC~
+      ~9~   => ~FIGHTER_THIEF~
+      ~10~  => ~FIGHTER_MAGE_THIEF~
+      ~13~  => ~MAGE_THIEF~
+      ~14~  => ~CLERIC_MAGE~
+      ~15~  => ~CLERIC_THIEF~
+      ~16~  => ~FIGHTER_DRUID~
+      ~17~  => ~FIGHTER_MAGE_CLERIC~
+      ~18~  => ~CLERIC_RANGER~
+    END
+    ACTION_IF (VARIABLE_IS_SET $multiclass_entries(~%kit_class%~)) BEGIN
+      ACTION_IF (NOT ~%base_class%~ STR_EQ ~~) BEGIN
+        ACTION_DEFINE_ASSOCIATIVE_ARRAY class_table BEGIN
+          ~DRUID~   => ~D~
+          ~FIGHTER~ => ~F~
+          ~MAGE~    => ~M~
+          ~CLERIC~  => ~P~
+          ~RANGER~  => ~R~
+          ~THIEF~   => ~T~
+        END
+        ACTION_TO_UPPER ~base_class~
+        ACTION_IF (IS_AN_INT ~base_class~) BEGIN
+          OUTER_PATCH ~~ BEGIN LOOKUP_IDS_SYMBOL_OF_INT base_class ~class~ base_class END
+        END
+        ACTION_IF (VARIABLE_IS_SET $class_table(~%base_class%~)) BEGIN
+          OUTER_TEXT_SPRINT base_class $class_table(~%base_class%~)
+        END ELSE ACTION_IF (STRING_LENGTH ~%base_class%~ != 1 OR
+                            INDEX(~%base_class%~ ~DFMPRT~) < 0) BEGIN
+          OUTER_TEXT_SPRINT base_class ~~
+          LAF a7#add_kit_ex#print_message INT_VAR severity = 2 STR_VAR msg = EVAL ~Unsupported argument "base_class" [%base_class%]~ END
+        END
+      END
+    END ELSE BEGIN
+      LAF a7#add_kit_ex#print_message INT_VAR severity = 2 STR_VAR msg = EVAL ~Unsupported argument "base_class" [%base_class%]~ END
+      OUTER_TEXT_SPRINT base_class ~~
+    END
+  END ELSE BEGIN
+    ACTION_FOR_EACH var IN ~base_class~ ~clab_base_d~ ~clab_base_f~ ~clab_base_m~ ~clab_base_p~ ~clab_base_r~ ~clab_base_t~ BEGIN
+      OUTER_TEXT_SPRINT clab EVAL ~%%var%%~
+      ACTION_IF (NOT ~%clab%~ STR_EQ ~~) BEGIN
+        LAF a7#add_kit_ex#print_message INT_VAR severity = 2 STR_VAR msg = EVAL ~Parameter "%var%" should only be provided for multiclass kits.~ END
+        OUTER_TEXT_SPRINT EVAL ~%var%~ ~~
+      END
+    END
+  END
+
+  // "unusable" should be a valid number
+  ACTION_IF (~%unusable%~ STR_EQ ~~) BEGIN
+    // Falling back to base class usability
+    OUTER_TEXT_SPRINT unusable ~0x00004000~
+  END ELSE BEGIN
+    LAF a7#add_kit_ex#to_hex
+      INT_VAR prefix = 0
+      STR_VAR number = EVAL ~%unusable%~
+      RET unusable = hex
+    END
+    ACTION_IF (~%unusable%~ STR_EQ ~~) BEGIN
+      LAF a7#add_kit_ex#print_message INT_VAR severity = 3 STR_VAR msg = ~Invalid argument "unusable".~ END
+    END ELSE ACTION_IF (STRING_LENGTH ~%unusable%~ > 8) BEGIN
+      LAF a7#add_kit_ex#print_message INT_VAR severity = 3 STR_VAR msg = ~Argument "unusable" is out of range.~ END
+    END
+    OUTER_TEXT_SPRINT unusable ~0x%unusable%~
+  END
+
+  ACTION_IF (is_ee) BEGIN
+    // checking optional tables (EE only)
+    ACTION_DEFINE_ASSOCIATIVE_ARRAY tables_ee BEGIN
+      ~clsrcreq~ => ~7~
+      ~clswpbon~ => ~3~
+      ~hpclass~  => ~1~
+      ~numwslot~ => ~1~
+      ~clascolr~ => ~5~
+      ~clasiskl~ => ~7~
+      ~clasthac~ => ~1~
+      ~thiefscl~ => ~8~
+      ~bdstweap~ => ~20~
+    END
+    ACTION_PHP_EACH tables_ee AS resref => min_count BEGIN
+      LAF a7#add_kit_ex#split STR_VAR string = EVAL EVAL ~%%resref%%~ RET items RET_ARRAY items END
+      ACTION_IF (items > 0) BEGIN
+        OUTER_SET adjust = ($items(~0~) STR_EQ ~%kit_name%~) ? 1 : 0
+        ACTION_IF (items - adjust < min_count) BEGIN
+          LAF a7#add_kit_ex#print_message INT_VAR severity = 2 STR_VAR msg = EVAL ~Too few entries in argument "%resref%". Using defaults.~ END
+        END
+      END
+    END
+  END
+
+  ACTION_IF (is_multiclass) BEGIN
+    // multiclass: CLAB is optional
+    ACTION_FOR_EACH var IN ~clab_path~ ~clab_base_d~ ~clab_base_f~ ~clab_base_m~ ~clab_base_p~ ~clab_base_r~ ~clab_base_t~ BEGIN
+      OUTER_TEXT_SPRINT clab EVAL ~%%var%%~
+      ACTION_IF (NOT ~%clab%~ STR_EQ ~~) BEGIN
+        // Add file extension if user specified CLAB resref only
+        ACTION_IF (INDEX(~[\/]~ ~%clab%~) < 0 && INDEX(~\..*$~ ~%clab%~) < 0) BEGIN
+          OUTER_TEXT_SPRINT clab ~%clab%.2DA~
+        END
+        // CLAB table can be a regular file or game resource
+        ACTION_IF ((INDEX(~[\/]~ ~%clab%~) >= 0 && NOT FILE_EXISTS ~%clab%~) ||
+                   NOT FILE_EXISTS_IN_GAME ~%clab%~) BEGIN
+          LAF a7#add_kit_ex#print_message INT_VAR severity = 2 STR_VAR msg = EVAL ~Could not find kit ability table "%var%": [%clab%].~ END
+          OUTER_TEXT_SPRINT clab ~~
+        END
+        OUTER_TEXT_SPRINT EVAL ~%var%~ ~%clab%~
+      END
+    END
+  END ELSE BEGIN
+    // single class: CLAB is mandatory
+    ACTION_IF (NOT ~%clab_path%~ STR_EQ ~~) BEGIN
+      // Add file extension if user specified CLAB resref only
+      ACTION_IF (INDEX(~[\/]~ ~%clab_path%~) < 0 && INDEX(~\..*$~ ~%clab_path%~) < 0) BEGIN
+        OUTER_TEXT_SPRINT clab_path ~%clab_path%.2DA~
+      END
+      // CLAB table can be a regular file or game resource
+      ACTION_IF ((INDEX(~[\/]~ ~%clab_path%~) >= 0 && NOT FILE_EXISTS ~%clab_path%~) ||
+                 NOT FILE_EXISTS_IN_GAME ~%clab_path%~) BEGIN
+        LAF a7#add_kit_ex#print_message INT_VAR severity = 3 STR_VAR msg = EVAL ~Could not find kit ability table: [%clab_path%].~ END
+      END
+    END
+  END
+END
+
+
+// Determine whether kit class indicates a multiclass
+DEFINE_ACTION_FUNCTION a7#add_kit_ex#is_multiclass
+INT_VAR kit_class = 0
+RET result
+BEGIN
+  ACTION_MATCH kit_class WITH
+    7 8 9 10 13 14 15 16 17 18 BEGIN
+      OUTER_SET result = 1
+    END
+    DEFAULT
+      OUTER_SET result = 0
+  END
+END
+
+
+// Add new ability header to current spell resource
+DEFINE_PATCH_FUNCTION a7#add_kit_ex#add_empty_spell_header
+INT_VAR
+  type            = 1
+  location        = 4
+  target          = 1
+  target_count    = 0
+  range           = 0
+  required_level  = 1
+  speed           = 0
+  projectile      = 1
+  copy_header     = 0
+  insert_point    = ~-1~
+STR_VAR
+  icon            = ~~
+RET
+  insert_point
+BEGIN
+  SET hs = 0x28
+  READ_LONG 0x64 ho
+  READ_SHORT 0x68 hc
+  READ_LONG 0x6a eo
+  SET insert_point = (insert_point > hc || insert_point < 0) ? hc : insert_point
+  SET copy_header = (copy_header < 0) ? 0 : copy_header
+  PATCH_IF (copy_header > hc) BEGIN
+    LPF a7#add_kit_ex#print_message INT_VAR severity = 2 STR_VAR msg = EVAL ~Unable to copy %copy_header%th header, %SOURCE_FILE% contains only %hc% headers!~ END
+  END ELSE BEGIN
+    INSERT_BYTES (ho + insert_point * hs) hs
+    SET hc += 1
+    SET eo += hs
+    PATCH_IF (copy_header) BEGIN
+      READ_SHORT (ho + (copy_header - 1) * hs + 0x1e) ec
+      READ_SHORT (ho + (copy_header - 1) * hs + 0x20) ei
+      READ_ASCII (eo + ei * 0x30) effs (ec * 0x30)
+      READ_ASCII (ho + (copy_header - 1) * hs) copy (hs)
+      WRITE_ASCIIE (ho + insert_point * hs) ~%copy%~ (hs)
+    END
+    WRITE_SHORT 0x68 hc
+    WRITE_LONG 0x6a eo
+    READ_SHORT 0x70 ei // technically, it is a counter
+    FOR (i = ho; i < ho + hc * hs; i += hs) BEGIN
+      READ_SHORT (i + 0x1e) ec
+      WRITE_SHORT (i + 0x20) ei
+      SET ei += ec
+    END
+    PATCH_IF (copy_header) BEGIN
+      READ_SHORT (ho + insert_point * hs + 0x1e) ec
+      READ_SHORT (ho + insert_point * hs + 0x20) ei
+      INSERT_BYTES (eo + ei * 0x30) (ec * 0x30)
+      WRITE_ASCIIE (eo + ei * 0x30) ~%effs%~ (ec * 0x30)
+    END ELSE BEGIN
+      SET off = ho + insert_point * hs
+      WRITE_BYTE off type
+      WRITE_BYTE (off + 0x2) location
+      WRITE_ASCIIE (off + 0x4) ~%icon%~ (8)
+      WRITE_BYTE (off + 0xc) target
+      WRITE_BYTE (off + 0xd) target_count
+      WRITE_SHORT (off + 0xe) range
+      WRITE_SHORT (off + 0x10) required_level
+      WRITE_LONG (off + 0x12) speed
+      WRITE_SHORT (off + 0x26) projectile
+    END
+  END
+END
+
+
+// Ensure CLAB table of given name exists
+DEFINE_ACTION_FUNCTION a7#add_kit_ex#ensure_clab_table
+STR_VAR
+  resref = ~~
+BEGIN
+  ACTION_IF !(~%resref%~ STR_EQ ~~ ||
+              FILE_EXISTS_IN_GAME ~%resref%.2DA~) BEGIN
+    OUTER_TEXT_SPRINT default ~****~
+    OUTER_TEXT_SPRINT hdr ~~
+    OUTER_TEXT_SPRINT data ~~
+    OUTER_FOR (i = 1; i < 51; ++i) BEGIN
+      OUTER_TEXT_SPRINT hdr ~%hdr% %i%~
+      OUTER_TEXT_SPRINT data ~%data% %default%~
+    END
+    COPY ~.../a7-add_kit_ex/inlined/blank.file~ ~override/%resref%.2DA~
+      INSERT_BYTES 0 8
+      WRITE_ASCII 0 ~2DA V1.0~ (8)
+    APPEND ~%resref%.2DA~ ~%default%~
+    APPEND ~%resref%.2DA~ ~%hdr%~
+    OUTER_FOR (i = 1; i < 7; ++i) BEGIN
+      APPEND ~%resref%.2DA~ ~ABILITY%i% %data%~
+    END
+    COPY_EXISTING ~%resref%.2DA~ ~override~
+      PRETTY_PRINT_2DA
+    BUT_ONLY
+  END
+END
+
+
+// Pad specified CLAB table up to 50 data columns
+DEFINE_ACTION_FUNCTION a7#add_kit_ex#pad_clab_table
+STR_VAR
+  resref = ~~
+BEGIN
+  ACTION_IF (FILE_EXISTS_IN_GAME ~%resref%.2DA~) BEGIN
+    COPY_EXISTING ~%resref%.2DA~ ~override~
+      SET modified = 0
+      READ_2DA_ENTRIES_NOW pad_clab_table_rows 1
+      READ_2DA_ENTRY_FORMER pad_clab_table_rows 1 0 default
+
+      // padding table header
+      FOR (col = 40; col < 50; ++col) BEGIN
+        PATCH_IF (NOT VARIABLE_IS_SET $pad_clab_table_rows(~2~ ~%col%~)) BEGIN
+          SET col_name = col + 1
+          TEXT_SPRINT $pad_clab_table_rows(~2~ ~%col%~) ~%col_name%~
+          SET modified = 1
+        END
+      END
+
+      // padding table content
+      FOR (row = 3; row < pad_clab_table_rows; ++row) BEGIN
+        FOR (col = 41; col < 51; ++col) BEGIN
+          PATCH_IF (NOT VARIABLE_IS_SET $pad_clab_table_rows(~%row%~ ~%col%~)) BEGIN
+            SET col2 = col - 10 // cloning a previous entry to keep table data consistent
+            TEXT_SPRINT value $pad_clab_table_rows(~%row%~ ~%col2%~)
+            TEXT_SPRINT $pad_clab_table_rows(~%row%~ ~%col%~) ~%value%~
+            SET modified = 1
+          END
+        END
+      END
+
+      // writing table data to file
+      PATCH_IF (modified) BEGIN
+        TEXT_SPRINT content ~~
+        FOR (row = 0; row < pad_clab_table_rows; ++ row) BEGIN
+          FOR (col = 0; VARIABLE_IS_SET $pad_clab_table_rows(~%row%~ ~%col%~); ++col) BEGIN
+            TEXT_SPRINT value $pad_clab_table_rows(~%row%~ ~%col%~)
+            TEXT_SPRINT content ~%content%%value% ~
+          END
+          TEXT_SPRINT content ~%content%%WNL%~
+        END
+        SET content_len = STRING_LENGTH ~%content%~
+
+        DELETE_BYTES 0 BUFFER_LENGTH
+        INSERT_BYTES 0 content_len
+        WRITE_ASCIIE 0 ~%content%~ (content_len)
+      END
+    BUT_ONLY
+  END
+END
+
+
+// Ensure helper spells for multiclass abilities are available
+DEFINE_ACTION_FUNCTION a7#add_kit_ex#ensure_qdmc_spl
+STR_VAR
+  base_class = ~~
+BEGIN
+  ACTION_IF (~%base_class%~ STRING_MATCHES_REGEXP ~[DFMPRT]~ = 0 &&
+             NOT FILE_EXISTS_IN_GAME ~QD_MC%base_class%01.SPL~) BEGIN
+    ACTION_IF (NOT FILE_EXISTS ~.../a7-add_kit_ex/inlined/QD_MC_01.SPL~) BEGIN
+      // create template SPL file for internal use
+      COPY - ~.../a7-add_kit_ex/inlined/blank.file~ ~.../a7-add_kit_ex/inlined/QD_MC_01.SPL~
+        INSERT_BYTES 0 0x72
+        WRITE_ASCII  0x00 "SPL V1  " (8)
+        PATCH_FOR_EACH ofs IN ~0x08~ ~0x0c~ ~0x50~ ~0x54~ BEGIN
+          WRITE_LONG ofs "-1"
+        END
+        WRITE_LONG   0x64 0x72 // ability offset
+        WRITE_LONG   0x6a 0x72 // effects offset
+        LPF a7#add_kit_ex#add_empty_spell_header END
+    END
+
+    // generate ability spells
+    OUTER_FOR (col = 1; col < 51; ++col) BEGIN
+      ACTION_IF (col < 10) BEGIN
+        OUTER_TEXT_SPRINT resref1 ~QD_MC%base_class%0%col%~
+        OUTER_TEXT_SPRINT resref2 ~QD#MC%base_class%0%col%~
+      END ELSE BEGIN
+        OUTER_TEXT_SPRINT resref1 ~QD_MC%base_class%%col%~
+        OUTER_TEXT_SPRINT resref2 ~QD#MC%base_class%%col%~
+      END
+      ACTION_IF !(FILE_EXISTS_IN_GAME ~%resref1%.SPL~) BEGIN
+        COPY ~.../a7-add_kit_ex/inlined/QD_MC_01.SPL~ ~override/%resref1%.SPL~
+          LPF ADD_SPELL_EFFECT
+            INT_VAR opcode = 146 target = 1 parameter1 = 0 parameter2 = 1 timing = 9
+            STR_VAR resource = EVAL ~%resref2%~
+          END
+      END
+      ACTION_IF !(FILE_EXISTS_IN_GAME ~%resref2%.SPL~) BEGIN
+        COPY ~.../a7-add_kit_ex/inlined/QD_MC_01.SPL~ ~override/%resref2%.SPL~
+          LPF ADD_SPELL_EFFECT
+            INT_VAR opcode = 206 target = 1 parameter1 = "-1" timing = 9
+            STR_VAR resource = EVAL ~%resref1%~
+          END
+      END
+    END
+  END
+END
+
+
+// Ensure specified base class CLAB contains multiclass helper entries
+DEFINE_ACTION_FUNCTION a7#add_kit_ex#ensure_base_clab
+STR_VAR
+  base_class  = ~~  // base class token
+RET
+  success
+  clab_resref
+BEGIN
+  OUTER_SET success = 0
+  OUTER_TEXT_SPRINT clab_resref ~~
+  ACTION_IF (~%base_class%~ STRING_MATCHES_REGEXP ~[DFMPRT]~ = 0) BEGIN
+    // getting corresponding base class CLAB resref
+    ACTION_DEFINE_ASSOCIATIVE_ARRAY base_clabs BEGIN
+      ~D~ => ~CLABDR01~
+      ~F~ => ~CLABFI01~
+      ~M~ => ~CLABMA01~
+      ~P~ => ~CLABPR01~
+      ~R~ => ~CLABRN01~
+      ~T~ => ~CLABTH01~
+    END
+    OUTER_TEXT_SPRINT clab_resref $base_clabs(~%base_class%~)
+
+    // make sure base CLAB table exists
+    LAF a7#add_kit_ex#ensure_clab_table STR_VAR resref = EVAL ~%clab_resref%~ END
+
+    ACTION_IF (NOT RESOURCE_CONTAINS ~%clab_resref%.2DA~ ~\bAP_QD_MC%base_class%[0-9][0-9]\b~) BEGIN
+      // padding CLAB table
+      LAF a7#add_kit_ex#pad_clab_table STR_VAR resref = EVAL ~%clab_resref%~ END
+
+      // adding QD_MULTI row
+      OUTER_TEXT_SPRINT line ~QD_MULTI ~
+      OUTER_FOR (i = 1; i < 51; ++i) BEGIN
+        ACTION_IF (i < 10) BEGIN
+          OUTER_TEXT_SPRINT line ~%line% AP_QD_MC%base_class%0%i%~
+        END ELSE BEGIN
+          OUTER_TEXT_SPRINT line ~%line% AP_QD_MC%base_class%%i%~
+        END
+      END
+      APPEND ~%clab_resref%.2DA~ ~%line%~
+      COPY_EXISTING ~%clab_resref%.2DA~ ~override~
+        PRETTY_PRINT_2DA
+      BUT_ONLY
+    END
+    OUTER_SET success = 1
+  END
+END
+
+
+// Generate multiclass kit functionality
+DEFINE_ACTION_FUNCTION a7#add_kit_ex#multiclass
+INT_VAR
+  kit_class   = 0
+STR_VAR
+  kit_name    = ~~
+  clab_res    = ~~
+  base_class  = ~~
+BEGIN
+  OUTER_SET kit_id = IDS_OF_SYMBOL(~kit~ ~%kit_name%~)
+  ACTION_IF (NOT (~%kit_name%~ STR_EQ ~~ || ~%clab_res%~ STR_EQ ~~) &&
+             kit_id > 0 &&
+             ~%base_class%~ STRING_MATCHES_REGEXP ~[DFMPRT]~ = 0) BEGIN
+
+    // determine whether "clab_res" points to a base class table
+    OUTER_SET skip = 0
+    ACTION_DEFINE_ASSOCIATIVE_ARRAY mc_names BEGIN
+      ~7~   => ~FIGHTER_MAGE~
+      ~8~   => ~FIGHTER_CLERIC~
+      ~9~   => ~FIGHTER_THIEF~
+      ~10~  => ~FIGHTER_MAGE_THIEF~
+      ~13~  => ~MAGE_THIEF~
+      ~14~  => ~CLERIC_MAGE~
+      ~15~  => ~CLERIC_THIEF~
+      ~16~  => ~FIGHTER_DRUID~
+      ~17~  => ~FIGHTER_MAGE_CLERIC~
+      ~18~  => ~CLERIC_RANGER~
+    END
+    ACTION_IF (VARIABLE_IS_SET $mc_names(~%kit_class%~)) BEGIN
+      ACTION_DEFINE_ASSOCIATIVE_ARRAY base_clabs BEGIN
+        ~DRUID~   => ~CLABDR01~
+        ~FIGHTER~ => ~CLABFI01~
+        ~MAGE~    => ~CLABMA01~
+        ~CLERIC~  => ~CLABPR01~
+        ~RANGER~  => ~CLABRN01~
+        ~THIEF~   => ~CLABTH01~
+      END
+      OUTER_TEXT_SPRINT class_name $mc_names(~%kit_class%~)
+      OUTER_PATCH ~%class_name%~ BEGIN
+        REPLACE_EVALUATE
+          ~[^_]+~
+          BEGIN
+            PATCH_IF (NOT skip && VARIABLE_IS_SET $base_clabs(~%MATCH0%~)) BEGIN
+              TEXT_SPRINT clab $base_clabs(~%MATCH0%~)
+              PATCH_IF (~%clab%~ STR_EQ ~%clab_res%~) BEGIN
+                // no need to process entries from a base class clab: will be applied automatically by the engine
+                SET skip = 1
+              END
+            END
+          END
+          ~~
+      END
+    END
+
+    ACTION_IF (NOT skip) BEGIN
+      // create template EFF files for internal use
+      ACTION_IF (NOT FILE_EXISTS ~.../a7-add_kit_ex/inlined/QD_MC_AP.EFF~) BEGIN
+        COPY - ~.../a7-add_kit_ex/inlined/blank.file~ ~.../a7-add_kit_ex/inlined/QD_MC_AP.EFF~
+          INSERT_BYTES 0 0x110
+          WRITE_ASCII  0x00 "EFF V2.0EFF V2.0" (16)
+          PATCH_FOR_EACH ofs IN ~0x80~ ~0x84~ ~0x88~ ~0x8c~ BEGIN
+            WRITE_LONG ofs "-1"
+          END
+          WRITE_LONG   0x10 146 // cast spell
+          WRITE_LONG   0x14 2   // preset target
+          WRITE_LONG   0x20 1   // cast instantly (ignore level)
+          WRITE_SHORT  0x24 1   // permament until death
+          WRITE_SHORT  0x2c 100 // probability 100%
+      END
+
+      ACTION_IF (NOT FILE_EXISTS ~.../a7-add_kit_ex/inlined/QD_MC_GA.EFF~) BEGIN
+        COPY - ~.../a7-add_kit_ex/inlined/blank.file~ ~.../a7-add_kit_ex/inlined/QD_MC_GA.EFF~
+          INSERT_BYTES 0 0x110
+          WRITE_ASCII  0x00 "EFF V2.0EFF V2.0" (16)
+          PATCH_FOR_EACH ofs IN ~0x80~ ~0x84~ ~0x88~ ~0x8c~ BEGIN
+            WRITE_LONG ofs "-1"
+          END
+          WRITE_LONG   0x10 171 // give spell
+          WRITE_LONG   0x14 2   // preset target
+          WRITE_SHORT  0x24 1   // permament until death
+          WRITE_SHORT  0x2c 100 // probability 100%
+      END
+
+      // parse kit clab and assign abilities to spell effects
+      ACTION_IF (NOT ~%clab_res%~ STR_EQ ~~ AND
+                 FILE_EXISTS_IN_GAME ~%clab_res%.2DA~) BEGIN
+        ACTION_CLEAR_ARRAY ~token_cache~  // collects affected base class CLABs for later update
+        COPY_EXISTING ~%clab_res%.2da~ ~override~
+          READ_2DA_ENTRIES_NOW multiclass_rows 1
+          READ_2DA_ENTRY_FORMER multiclass_rows 1 0 default
+          FOR (row = 3; row < multiclass_rows; ++row) BEGIN
+            FOR (col = 1; VARIABLE_IS_SET $multiclass_rows(~%row%~ ~%col%~); ++col) BEGIN
+              TEXT_SPRINT class_token ~%base_class%~
+              READ_2DA_ENTRY_FORMER multiclass_rows row col ability
+              TO_UPPER ~ability~
+              PATCH_IF !(~%ability%~ STR_EQ ~%default%~) BEGIN
+                PATCH_IF (~%ability%~ STRING_MATCHES_REGEXP ~[DFMPRT]GA_.+~ = 0 ||
+                          ~%ability%~ STRING_MATCHES_REGEXP ~[DFMPRT]AP_.+~ = 0) BEGIN
+                  // override base class
+                  INNER_PATCH_SAVE ability ~%ability%~ BEGIN
+                    READ_ASCII 0 class_token (1)
+                    DELETE_BYTES 0 1
+                  END
+                END
+                PATCH_IF (STRING_LENGTH ~%ability%~ > 3) BEGIN
+                  LPF SUBSTRING INT_VAR start = 0 length = 3 STR_VAR string = EVAL ~%ability%~ RET abil_type = substring END
+                  SET length = (STRING_LENGTH ~%ability%~) - 3
+                  LPF SUBSTRING INT_VAR start = 3 length STR_VAR string = EVAL ~%ability%~ RET abil_new = substring END
+                  PATCH_IF (length >= 8) BEGIN
+                    LPF GET_UNIQUE_FILE_NAME STR_VAR extension = "EFF" base = EVAL "SGAB_%abil_new%" RET abil_new_name = filename END
+                    INNER_PATCH_SAVE abil_new_name "%abil_new_name%" BEGIN REPLACE_TEXTUALLY CASE_INSENSITIVE EXACT_MATCH ~__~ ~SGAB~ END
+                    LPF a7#add_kit_ex#print_message INT_VAR severity = 2 STR_VAR msg = EVAL ~Internal ability name too long [%abil_new%]. Making copy as [%abil_new_name%].~ END
+                  END ELSE BEGIN
+                    TEXT_SPRINT abil_new_name  ~%abil_new%#~
+                  END
+                  SET length = STRING_LENGTH ~%abil_new_name%~
+                  PATCH_IF (length <= 8) BEGIN
+                    DEFINE_ASSOCIATIVE_ARRAY abil_types BEGIN
+                      ~AP_~ => ~QD_MC_AP~
+                      ~GA_~ => ~QD_MC_GA~
+                    END
+                    PATCH_IF (VARIABLE_IS_SET $abil_types(~%abil_type%~)) BEGIN
+                      // mark base class CLAB for update
+                      SET $token_cache(~%class_token%~) = 1
+
+                      // granted abilities or bonuses
+                      TEXT_SPRINT qdmc_eff_resref $abil_types(~%abil_type%~)
+                      INNER_ACTION BEGIN
+                        COPY ~.../a7-add_kit_ex/inlined/%qdmc_eff_resref%.EFF~ ~override/%abil_new_name%.EFF~
+                          WRITE_ASCIIE 0x30 ~%abil_new%~ (8)
+                          SET col_length = STRING_LENGTH ~%col%~
+                        ACTION_IF (col < 10) BEGIN
+                          OUTER_TEXT_SPRINT qdmc_spl_resref ~QD_MC%class_token%0%col%~
+                        END ELSE BEGIN
+                          OUTER_TEXT_SPRINT qdmc_spl_resref ~QD_MC%class_token%%col%~
+                        END
+                        LAF a7#add_kit_ex#ensure_qdmc_spl STR_VAR base_class = EVAL ~%class_token%~ END
+                        COPY_EXISTING ~%qdmc_spl_resref%.SPL~ ~override~
+                          LPF ADD_SPELL_EFFECT
+                            INT_VAR insert_point = 0 opcode = 177 target = 1 timing = 9 resist_dispel = 0 power = 0 parameter1 = kit_id parameter2 = 9
+                            STR_VAR resource = EVAL ~%abil_new_name%~
+                          END
+                        BUT_ONLY
+                      END
+                    END ELSE BEGIN
+                      LPF a7#add_kit_ex#print_message INT_VAR severity = 2 STR_VAR msg = EVAL ~Could not evaluate kit ability entry [%ability%]. Skipping.~ END
+                    END
+                  END ELSE BEGIN
+                    LPF a7#add_kit_ex#print_message INT_VAR severity = 2 STR_VAR msg = EVAL ~Internal ability name too long [%abil_new%]. Skipping.~ END
+                  END
+                END ELSE BEGIN
+                  LPF a7#add_kit_ex#print_message INT_VAR severity = 2 STR_VAR msg = EVAL ~Could not evaluate kit ability entry [%ability%]. Skipping.~ END
+                END
+              END
+            END
+          END
+        BUT_ONLY
+
+        // make all marked base class CLABs multiclass-ready
+        ACTION_PHP_EACH token_cache AS token => _ BEGIN
+          LAF a7#add_kit_ex#ensure_base_clab STR_VAR base_class = EVAL ~%token%~ RET success clab_resref END
+        END
+      END ELSE BEGIN
+        LAF a7#add_kit_ex#print_message INT_VAR severity = 2 STR_VAR msg = EVAL ~Could not find kit ability table [%clab_res%.2da]. Skipping.~ END
+      END
+    END
+  END
+END
+
+
+/**
+ * This function allows you to add new kits to the game. It provides fully support for both classic and EE games.
+ * Supported games: BG2 (SoA and ToB), Tutu, BGT, BGEE, SoD, BG2EE, EET and IWDEE.
+ */
+DEFINE_ACTION_FUNCTION ADD_KIT_EX
+INT_VAR
+  visible       = 1
+  kit_class     = 0
+  mixed         = "-2"
+  lower         = "-2"
+  help          = "-2"
+  // EE-specific arguments
+  biography     = "-2"
+  briefdesc     = "-2"
+  fallen        = "-1"
+  fallen_notice = "-2"
+  prettify      = 1
+  // Diagnostic arguments
+  suppress_warnings     = 0
+  // For testing purposes only
+  __kits_limit_override = 0
+  __kits_base_value     = 0x4000
+STR_VAR
+  kit_name      = ~~
+  source_kit    = ~~
+  unusable      = ~~
+  clasweap      = ~~
+  weapprof      = ~~
+  abclasrq      = ~~
+  abclsmod      = ~~
+  abdcdsrq      = ~~
+  abdcscrq      = ~~
+  alignmnt      = ~~
+  dualclas      = ~~
+  luabbr        = ~~
+  stweap        = ~~
+  clab_path     = ~~
+  kittable      = ~~
+  base_class    = ~~
+  clab_base_d   = ~~
+  clab_base_f   = ~~
+  clab_base_m   = ~~
+  clab_base_p   = ~~
+  clab_base_r   = ~~
+  clab_base_t   = ~~
+  // EE-specific arguments
+  clsrcreq      = ~~
+  clswpbon      = ~~
+  hpclass       = ~~
+  numwslot      = ~~
+  clascolr      = ~~
+  clasiskl      = ~~
+  clasthac      = ~~
+  thiefscl      = ~~
+  backstab      = ~~
+  sneakatt      = ~~
+  crippstr      = ~~
+  thiefskl      = ~~
+  traplimt      = ~~
+  bdstweap      = ~~
+RET
+  kit_id
+BEGIN
+  OUTER_SET kit_id = "-1"
+
+  // basic check for kit support
+  ACTION_IF (GAME_IS ~bg1 totsc iwd how totlm iwd2 pst~ ||
+             NOT FILE_EXISTS_IN_GAME ~kitlist.2da~) BEGIN
+    // Note1: IWD2 appears to have basic kit support, but is treated as "unsupported" until the engine is better understood.
+    // Note2: PSTEE does support kits theoretically, but lacks the necessary files.
+    LAF a7#add_kit_ex#print_message INT_VAR severity = 3 STR_VAR msg = ~This game does not support kits.~ END
+  END
+
+  LAF a7#add_kit_ex#validate_kitname
+    STR_VAR kit_name
+    RET kit_name
+  END
+  ACTION_IF (NOT ~%source_kit%~ STR_EQ ~~) BEGIN
+    LAF a7#add_kit_ex#validate_kitname
+      STR_VAR kit_name = EVAL ~%source_kit%~
+      RET source_kit = kit_name
+    END
+  END
+
+  LAF a7#add_kit_ex#get_row
+    INT_VAR
+      column = 1
+    STR_VAR
+      resref = ~kitlist~
+      row_name = EVAL ~%kit_name%~
+    RET
+      row
+      kit_id = row_index
+  END
+
+  ACTION_IF (kit_id >= 0) BEGIN
+    LAF a7#add_kit_ex#print_message INT_VAR severity = 1 STR_VAR msg = EVAL ~Kit [%kit_name%] already present! Skipping!~ END
+  END ELSE BEGIN
+    // advanced check for kit support
+    LAF a7#add_kit_ex#get_kit_support
+      INT_VAR
+        kit_base = __kits_base_value
+        kit_limit_override = __kits_limit_override
+      RET
+        is_ee
+        is_ee20
+        is_sod
+        is_tobex
+        is_gemrb
+        kit_id_base
+        kits_limit
+    END
+
+    OUTER_TEXT_SPRINT clab_res ~~
+    OUTER_SET source_kit_class = 0
+    // Treat as string: WeiDU doesn't support numbers exceeding signed 32-bit integer range
+    OUTER_TEXT_SPRINT source_kit_id ~~
+
+    // retrieving source kit information
+    ACTION_IF (NOT ~%source_kit%~ STR_EQ ~~) BEGIN
+      LAF a7#add_kit_ex#get_row
+        INT_VAR
+          column = 1
+        STR_VAR
+          resref = ~kitlist~
+          row_name = EVAL ~%source_kit%~
+        RET row row_index
+      END
+      ACTION_IF (row_index < 0) BEGIN
+        // source kit not found
+        ACTION_IF (kit_class > 0) BEGIN
+          LAF a7#add_kit_ex#print_message INT_VAR severity = 2 STR_VAR msg = EVAL ~Unknown source kit [%source_kit%]. Falling back on "kit_class".~ END
+          OUTER_TEXT_SPRINT source_kit ~~
+        END ELSE BEGIN
+          LAF a7#add_kit_ex#print_message INT_VAR severity = 3 STR_VAR msg = EVAL ~Unknown source kit [%source_kit%].~ END
+        END
+      END ELSE BEGIN
+        // source kit found
+        LAF a7#add_kit_ex#split STR_VAR string = EVAL ~%row%~ RET items RET_ARRAY items END
+        ACTION_IF (items > 2 && lower < "-1" && mixed < "-1") BEGIN
+          ACTION_IF (IS_AN_INT $items(~2~)) BEGIN OUTER_SET lower = $items(~2~) END
+        END
+        ACTION_IF (items > 3 && mixed < "-1") BEGIN
+          ACTION_IF (IS_AN_INT $items(~3~)) BEGIN OUTER_SET mixed = $items(~3~) END
+        END
+        ACTION_IF (items > 4 && help < "-1") BEGIN
+          ACTION_IF (IS_AN_INT $items(~4~)) BEGIN OUTER_SET help = $items(~4~) END
+        END
+        ACTION_IF (items > 5 && ~%clab_path%~ STR_EQ ~~) BEGIN OUTER_TEXT_SPRINT clab_res $items(~5~) END
+        ACTION_IF (items > 6 && ~%unusable%~ STR_EQ ~~) BEGIN OUTER_TEXT_SPRINT unusable $items(~7~) END
+        ACTION_IF (items > 8 && IS_AN_INT $items(~8~)) BEGIN
+          OUTER_SET source_kit_class = $items(~8~)
+          ACTION_IF (kit_class <= 0) BEGIN
+            OUTER_SET kit_class = source_kit_class
+          END
+        END
+        ACTION_IF (items > 9) BEGIN
+          // storing source kit id for later
+          OUTER_TEXT_SPRINT number $items(~9~)
+          ACTION_IF (IS_AN_INT ~number~ && (number & 0x4000 = 0x4000)) BEGIN
+            OUTER_SET source_kit_id = number & 0x3fff
+          END ELSE BEGIN
+            OUTER_TEXT_SPRINT source_kit_id ~%number%~
+          END
+          LAF a7#add_kit_ex#to_hex STR_VAR number = EVAL ~%source_kit_id%~ RET source_kit_id = hex END
+        END
+      END
+    END
+
+    // Multiclass kits are treated differently in EE 2.0+
+    LAF a7#add_kit_ex#is_multiclass INT_VAR kit_class RET is_multiclass = result END
+    OUTER_SET is_multiclass &= is_ee20
+
+    // getting next available kit number
+    LAF a7#add_kit_ex#next_row STR_VAR resref = ~kitlist~ RET kit_number = index END
+    ACTION_IF (kit_number = 0) BEGIN OUTER_SET kit_number += 1 END
+    ACTION_IF (NOT is_multiclass && kit_number > kits_limit) BEGIN
+      LAF a7#add_kit_ex#print_message INT_VAR severity = 3 STR_VAR msg = EVAL ~Unable to add kit [%kit_name%]. The game does not currently support more than %kits_limit% kits.~ END
+    END
+    OUTER_SET kit_number_full = kit_number + kit_id_base
+
+    // getting parent class name
+    OUTER_PATCH ~~ BEGIN
+      LOOKUP_IDS_SYMBOL_OF_INT kit_class_name ~class~ kit_class
+      PATCH_IF (kit_class = 19) BEGIN
+        // special: SORCERER class isn't listed in a number of kit-related tables, using fallback option MAGE
+        LOOKUP_IDS_SYMBOL_OF_INT kit_class_name_alt ~class~ 1
+      END ELSE BEGIN
+        TEXT_SPRINT kit_class_name_alt ~~
+      END
+    END
+    ACTION_IF (kit_class <= 0 || kit_class >= 100 || IS_AN_INT ~%kit_class_name%~) BEGIN
+      ACTION_IF (~%source_kit%~ STR_EQ ~~) BEGIN
+        LAF a7#add_kit_ex#print_message INT_VAR severity = 3 STR_VAR msg = ~No valid parent class provided for "kit_class".~ END
+      END ELSE BEGIN
+        LAF a7#add_kit_ex#print_message INT_VAR severity = 3 STR_VAR msg = EVAL ~Could not determine parent class for kit [%kit_name%].~ END
+      END
+    END ELSE ACTION_IF (kit_class > 18 && !is_ee && !is_gemrb) BEGIN
+      LAF a7#add_kit_ex#print_message INT_VAR severity = 3 STR_VAR msg = EVAL ~Game does not support kits for the specified parent class [%kit_class%].~ END
+    END
+
+    // basic argument checks
+    LAF a7#add_kit_ex#validate
+      INT_VAR
+        kit_class
+        is_multiclass
+      STR_VAR
+        unusable clasweap weapprof abclasrq abclsmod abdcdsrq abdcscrq alignmnt dualclas luabbr stweap
+        clab_path kittable clab_base_d clab_base_f clab_base_m clab_base_p clab_base_r clab_base_t base_class
+        clsrcreq clswpbon hpclass numwslot clascolr clasiskl clasthac thiefscl bdstweap
+      RET
+        unusable clab_path clab_base_d clab_base_f clab_base_m clab_base_p clab_base_r clab_base_t base_class
+    END
+
+    // preparing kit name and description strings
+    ACTION_IF (mixed < "-1") BEGIN
+      LAF a7#add_kit_ex#print_message INT_VAR severity = 3 STR_VAR msg = ~Argument "mixed" not specified.~ END
+    END
+    LAF a7#add_kit_ex#get_kitdesc
+      INT_VAR kit_class help
+      RET help
+    END
+    ACTION_IF (help < "-1") BEGIN
+      LAF a7#add_kit_ex#print_message INT_VAR severity = 3 STR_VAR msg = ~Argument "help" not specified.~ END
+    END
+    ACTION_IF (lower < "-1") BEGIN
+      ACTION_IF (mixed >= 0) BEGIN
+        OUTER_PATCH ~~ BEGIN
+          GET_STRREF mixed mixed_string
+          TEXT_SPRINT lower_string ~%mixed_string%~
+          TO_LOWER ~lower_string~
+          SET lower = RESOLVE_STR_REF(~%lower_string%~)
+        END
+      END ELSE BEGIN
+        OUTER_SET lower = "-1"
+      END
+    END
+
+    // installing CLAB
+    ACTION_IF (is_multiclass) BEGIN
+      // Multiclass: use placeholder for CLAB resref
+      COPY_EXISTING ~kitlist.2da~ ~override~
+        READ_2DA_ENTRY 1 0 1 clab_res
+      BUT_ONLY
+    END ELSE BEGIN
+      ACTION_IF (~%clab_res%~ STR_EQ ~~) BEGIN
+        LAF a7#add_kit_ex#get_clab
+          STR_VAR
+            name = EVAL ~%kit_class_name%~
+            path = EVAL ~%clab_path%~
+          RET clab_res = clab
+        END
+        ACTION_IF (~%clab_res%~ STR_EQ ~~) BEGIN
+          LAF a7#add_kit_ex#print_message INT_VAR severity = 3 STR_VAR msg = EVAL ~No valid class ability table specified for kit [%kit_name%].~ END
+        END
+      END
+    END
+
+    // adding kitlist entry
+    LAF a7#add_kit_ex#next_column STR_VAR resref = ~weapprof~ RET prof_id = index END
+    COPY_EXISTING ~kitlist.2da~ ~override~ COUNT_2DA_COLS kitlist_num_cols BUT_ONLY
+    OUTER_TEXT_SPRINT line ~%kit_number% %kit_name% %lower% %mixed% %help% %clab_res% %prof_id% %unusable% %kit_class%~
+    ACTION_IF (kitlist_num_cols > 9) BEGIN
+      LAF a7#add_kit_ex#to_hex STR_VAR number = EVAL ~%kit_number_full%~ RET kit_number_full_hex = hex END
+      OUTER_TEXT_SPRINT line ~%line% %kit_number_full_hex%~
+    END
+    APPEND ~kitlist.2da~ ~%line%~
+    ACTION_DEFINE_ASSOCIATIVE_ARRAY tables_modified BEGIN ~KITLIST~ => 1 END
+
+    // adding kit.ids entry
+    LAF a7#add_kit_ex#to_hex INT_VAR min_digits = 0 STR_VAR number = EVAL ~%kit_number_full%~ RET kit_number_full_hex = hex END
+    APPEND ~kit.ids~ ~%kit_number_full_hex% %kit_name%~ UNLESS ~[ %TAB%%WNL%]%kit_name%[ %TAB%%WNL%]~
+
+    // preparing kit/class lookup preference
+    OUTER_TEXT_SPRINT clone1 ~%source_kit%~
+    OUTER_TEXT_SPRINT clone2 ~%kit_class_name%~
+    OUTER_TEXT_SPRINT clone3 ~%kit_class_name_alt%~
+    ACTION_IF (is_multiclass) BEGIN
+      ACTION_DEFINE_ASSOCIATIVE_ARRAY token_to_class_name BEGIN
+        ~D~ => ~DRUID~
+        ~F~ => ~FIGHTER~
+        ~M~ => ~MAGE~
+        ~P~ => ~CLERIC~
+        ~R~ => ~RANGER~
+        ~T~ => ~THIEF~
+      END
+      ACTION_IF (VARIABLE_IS_SET $token_to_class_name(~%base_class%~)) BEGIN
+        OUTER_TEXT_SPRINT clone3 $token_to_class_name(~%base_class%~)
+      END
+    END
+
+    // adding rows verbatim
+    ACTION_FOR_EACH resref IN ~clasweap~ ~abclasrq~ ~abclsmod~ ~abdcdsrq~ ~abdcscrq~ ~dualclas~ ~alignmnt~ ~luabbr~ BEGIN
+      LAF a7#add_kit_ex#split STR_VAR string = EVAL EVAL ~%%resref%%~ RET items RET_ARRAY items END
+      LAF a7#add_kit_ex#add_row
+        STR_VAR
+          kit_name
+          array = ~items~
+          resref
+          clone1
+          clone2
+          clone3
+        RET success
+      END
+      ACTION_IF (success) BEGIN
+        ACTION_TO_UPPER ~resref~
+        ACTION_DEFINE_ASSOCIATIVE_ARRAY tables_modified BEGIN ~%resref%~ => 1 END
+      END
+    END
+
+    // adding columns verbatim
+    ACTION_FOR_EACH resref IN ~weapprof~ BEGIN
+      LAF a7#add_kit_ex#split STR_VAR string = EVAL EVAL ~%%resref%%~ RET items RET_ARRAY items END
+      LAF a7#add_kit_ex#add_column
+        STR_VAR
+          kit_name
+          array = ~items~
+          resref
+          clone1
+          clone2
+          clone3
+        RET success
+      END
+      ACTION_IF (success) BEGIN
+        ACTION_TO_UPPER ~resref~
+        ACTION_DEFINE_ASSOCIATIVE_ARRAY tables_modified BEGIN ~%resref%~ => 1 END
+      END
+    END
+
+    // adding kittable entries only if visibility is enabled
+    ACTION_IF (visible) BEGIN
+      ACTION_IF (~%kittable%~ STR_EQ ~~) BEGIN
+        LAF a7#add_kit_ex#get_row
+          STR_VAR
+            resref = ~kittable~
+            row_name = EVAL ~%kit_class_name%~
+          RET row row_index
+        END
+        ACTION_IF (row_index >= 0) BEGIN
+          OUTER_TEXT_SPRINT kittable ~%row%~
+        END
+      END
+      LAF a7#add_kit_ex#split STR_VAR string = EVAL ~%kittable%~ RET items RET_ARRAY items END
+      OUTER_SET i = (items > 0 && ($items(~0~) STR_EQ ~%kit_name%~ || $items(~0~) STR_EQ ~%kit_class_name%~)) ? 1 : 0
+      OUTER_FOR (; i < items; ++i) BEGIN
+        OUTER_TEXT_SPRINT resref $items(~%i%~)
+        // ensure table exists
+        OUTER_SET def_items = 1
+        OUTER_TEXT_SPRINT $def_items(~0~) ~1 0~
+        LAF a7#add_kit_ex#create_2da
+          STR_VAR
+            resref
+            default = ~*~
+            columns = ~KIT~
+            items = ~def_items~
+          RET success
+        END
+        // adding kittable entry
+        ACTION_IF (success) BEGIN
+          LAF a7#add_kit_ex#next_row STR_VAR resref RET index END
+          OUTER_SET index += 1
+          OUTER_TEXT_SPRINT line ~%index% %kit_number%~
+          APPEND ~%resref%.2DA~ ~%line%~ UNLESS ~^[ %TAB%]*[0-9]+[ %TAB%]+%kit_number%[ %TAB%%MNL%]*$~
+          ACTION_TO_UPPER ~resref~
+          ACTION_DEFINE_ASSOCIATIVE_ARRAY tables_modified BEGIN ~%resref%~ => 1 END
+        END ELSE BEGIN
+          LAF a7#add_kit_ex#print_message INT_VAR severity = 2 STR_VAR msg = EVAL ~Could not add kit reference to %resref%.2DA.~ END
+        END
+      END
+    END
+
+    // adding starting equipment
+    // 25STWEAP.2DA
+    LAF a7#add_kit_ex#add_25stweap
+      STR_VAR
+        kit_name
+        string = EVAL ~%stweap%~
+        clone1
+        clone2
+        clone3
+      RET success
+    END
+    ACTION_IF (success) BEGIN
+      ACTION_DEFINE_ASSOCIATIVE_ARRAY tables_modified BEGIN ~25STWEAP~ => 1 END
+    END
+    // BDSTWEAP.2DA
+    ACTION_IF (is_sod) BEGIN
+      LAF a7#add_kit_ex#add_bdstweap
+        STR_VAR
+          kit_name
+          string = EVAL ~%bdstweap%~
+          clone1
+          clone2
+          clone3
+        RET success resref
+      END
+      ACTION_IF (success) BEGIN
+        ACTION_TO_UPPER ~resref~
+        ACTION_DEFINE_ASSOCIATIVE_ARRAY tables_modified BEGIN ~%resref%~ => 1 END
+      END ELSE BEGIN
+        LAF a7#add_kit_ex#print_message INT_VAR severity = 2 STR_VAR msg = ~Could not apply "bdstweap". Skipping.~ END
+      END
+    END
+
+    // EE-specific extension
+    ACTION_IF (is_ee) BEGIN
+      // getting clastext resref for SoD
+      OUTER_TEXT_SPRINT sod_clastext ~~
+      COPY_EXISTING ~campaign.2da~ ~override~
+        LPF a7#add_kit_ex#get_2da_value
+          STR_VAR
+            row = ~sod~
+            column = ~CLASTEXT~
+          RET
+            sod_clastext = value
+        END
+      BUT_ONLY IF_EXISTS
+      ACTION_IF (~%sod_clastext%~ STR_EQ ~~) BEGIN
+        OUTER_TEXT_SPRINT sod_clastext ~sodcltxt~
+      END
+
+      // preparations: look for source kit entry first, parent class entry second
+      OUTER_SET $req_class_id(~0~) = kit_class
+      LAF a7#add_kit_ex#to_hex STR_VAR number = ~0x4000~ RET $req_kit_id(~0~) = hex END
+      OUTER_SET $req_class_id(~1~) = $req_class_id(~0~)
+      OUTER_TEXT_SPRINT $req_kit_id(~1~) $req_kit_id(~0~)
+      ACTION_IF (NOT ~%source_kit_id%~ STR_EQ ~~) BEGIN
+        // look for source kit entry
+        OUTER_SET $req_class_id(~0~) = source_kit_class
+        LAF a7#add_kit_ex#to_hex STR_VAR number = EVAL ~%source_kit_id%~ RET $req_kit_id(~0~) = hex END
+      END
+      // adding clastext entries
+      ACTION_FOR_EACH resref IN ~CLASTEXT~ ~%sod_clastext%~ BEGIN
+        ACTION_IF (FILE_EXISTS_IN_GAME ~%resref%.2da~) BEGIN
+          // retrieving source kit/class information
+          OUTER_SET items = 0
+          COPY_EXISTING ~%resref%.2da~ ~override~
+            COUNT_2DA_COLS num_cols
+            READ_2DA_ENTRIES_NOW class_table 1
+            FOR (type = 0; type < 2; ++type) BEGIN
+              FOR (row = 3; row < class_table; ++row) BEGIN
+                READ_2DA_ENTRY_FORMER class_table row 1 tbl_class_id
+                PATCH_IF (NOT IS_AN_INT ~tbl_class_id~) BEGIN SET tbl_class_id = 0 END
+                READ_2DA_ENTRY_FORMER class_table row 2 tbl_kit_id
+                LPF a7#add_kit_ex#to_hex
+                  STR_VAR number = EVAL ~%tbl_kit_id%~
+                  RET tbl_kit_id = hex
+                END
+                PATCH_IF (tbl_class_id = $req_class_id(~%type%~) &&
+                          ~%tbl_kit_id%~ STR_EQ $req_kit_id(~%type%~))
+                BEGIN
+                  FOR (col = 0; col < num_cols; ++col) BEGIN
+                    READ_2DA_ENTRY_FORMER class_table row col v
+                    TEXT_SPRINT $items(~%items%~) ~%v%~
+                    SET items += 1
+                  END
+                  SET row = class_table
+                  SET type = 2
+                END
+              END
+            END
+          BUT_ONLY
+
+          ACTION_IF (items > 8) BEGIN
+            OUTER_TEXT_SPRINT $items(~0~) ~%kit_name%~
+            OUTER_SET $items(~1~) = kit_class
+            OUTER_SET $items(~2~) = kit_number
+            ACTION_IF (lower >= "-1") BEGIN OUTER_SET $items(~3~) = lower END
+            ACTION_IF (help >= "-1") BEGIN OUTER_SET $items(~4~) = help END
+            ACTION_IF (mixed >= "-1") BEGIN OUTER_SET $items(~5~) = mixed END
+            ACTION_IF (biography >= "-1") BEGIN OUTER_SET $items(~6~) = biography END
+            ACTION_IF (fallen >= 0) BEGIN OUTER_SET $items(~7~) = (fallen != 0) ? 1 : 0 END
+            ACTION_IF (briefdesc >= "-1") BEGIN OUTER_SET $items(~8~) = briefdesc END
+            ACTION_IF (items > 9) BEGIN
+              ACTION_IF (fallen_notice >= "-1") BEGIN OUTER_SET $items(~9~) = fallen_notice END
+            END
+          END ELSE BEGIN
+            LAF a7#add_kit_ex#print_message INT_VAR severity = 3 STR_VAR msg = EVAL ~Could not add kit information to %resref%.2DA.~ END
+          END
+
+          // adding clastext entry
+          LAF a7#add_kit_ex#unsplit STR_VAR array = ~items~ RET string END
+          APPEND ~%resref%.2da~ ~%string%~ UNLESS ~[ %TAB%%WNL%]*%kit_name%[ %TAB%]+%kit_class%[ %TAB%]+%kit_number%[ %TAB%]~
+          ACTION_TO_UPPER ~resref~
+          ACTION_DEFINE_ASSOCIATIVE_ARRAY tables_modified BEGIN ~%resref%~ => 1 END
+        END
+      END
+
+      // adding rows verbatim
+      ACTION_FOR_EACH resref IN ~clsrcreq~ ~clswpbon~ ~hpclass~ ~numwslot~ BEGIN
+        OUTER_TEXT_SPRINT clone_special1 ~~
+        OUTER_TEXT_SPRINT clone_special2 ~~
+        ACTION_IF (NOT ~%source_kit%~ STR_EQ ~~ && FILE_CONTAINS_EVALUATED(~%resref%.2da~ ~[ %TAB%%WNL%]%source_kit%[ %TAB%%WNL%]~)) BEGIN
+          OUTER_TEXT_SPRINT clone_special1 ~%source_kit%~
+        END
+        ACTION_IF (FILE_CONTAINS_EVALUATED(~%resref%.2da~ ~[ %TAB%%WNL%]%kit_class_name%[ %TAB%%WNL%]~)) BEGIN
+          OUTER_TEXT_SPRINT clone_special2 ~%kit_class_name%~
+        END
+        LAF a7#add_kit_ex#split STR_VAR string = EVAL EVAL ~%%resref%%~ RET items RET_ARRAY items END
+        LAF a7#add_kit_ex#add_row
+          STR_VAR
+            kit_name
+            array = ~items~
+            resref
+            clone1 = EVAL ~%clone_special1%~
+            clone2 = EVAL ~%clone_special2%~
+            clone3
+          RET success
+        END
+        ACTION_IF (success) BEGIN
+          ACTION_TO_UPPER ~resref~
+          ACTION_DEFINE_ASSOCIATIVE_ARRAY tables_modified BEGIN ~%resref%~ => 1 END
+        END
+      END
+
+      // adding columns verbatim
+      ACTION_FOR_EACH resref IN ~clascolr~ ~clasiskl~ ~clasthac~ ~thiefscl~ BEGIN
+        LAF a7#add_kit_ex#split STR_VAR string = EVAL EVAL ~%%resref%%~ RET items RET_ARRAY items END
+        LAF a7#add_kit_ex#add_column
+          STR_VAR
+            kit_name
+            array = ~items~
+            resref
+            clone1
+            clone2
+            clone3
+          RET success
+        END
+        ACTION_IF (success) BEGIN
+          ACTION_TO_UPPER ~resref~
+          ACTION_DEFINE_ASSOCIATIVE_ARRAY tables_modified BEGIN ~%resref%~ => 1 END
+        END
+      END
+
+      // handling thieving-related tables
+      ACTION_FOR_EACH resref IN ~backstab~ ~thiefskl~ ~traplimt~ ~sneakatt~ ~crippstr~ BEGIN
+        OUTER_TEXT_SPRINT clone_special1 ~~
+        OUTER_TEXT_SPRINT clone_special2 ~~
+        ACTION_IF (NOT ~%source_kit%~ STR_EQ ~~ && FILE_CONTAINS_EVALUATED(~%resref%.2da~ ~[ %TAB%%WNL%]%source_kit%[ %TAB%%WNL%]~)) BEGIN
+          OUTER_TEXT_SPRINT clone_special1 ~%source_kit%~
+        END
+        ACTION_IF (FILE_CONTAINS_EVALUATED(~%resref%.2da~ ~[ %TAB%%WNL%]%kit_class_name%[ %TAB%%WNL%]~)) BEGIN
+          OUTER_TEXT_SPRINT clone_special2 ~%kit_class_name%~
+        END
+        LAF a7#add_kit_ex#split STR_VAR string = EVAL EVAL ~%%resref%%~ RET items RET_ARRAY items END
+        LAF a7#add_kit_ex#add_row
+          STR_VAR
+            kit_name
+            array = ~items~
+            resref
+            clone1 = EVAL ~%clone_special1%~
+            clone2 = EVAL ~%clone_special2%~
+            clone3
+          RET success
+        END
+        ACTION_IF (success) BEGIN
+          ACTION_TO_UPPER ~resref~
+          ACTION_DEFINE_ASSOCIATIVE_ARRAY tables_modified BEGIN ~%resref%~ => 1 END
+        END
+      END
+    END
+
+    // Installing multiclass kit logic
+    ACTION_IF (is_multiclass) BEGIN
+      // creating multiclass clab array
+      OUTER_SET clab_paths = 0
+      ACTION_IF (NOT ~%clab_base_d%~ STR_EQ ~~) BEGIN
+        LAF a7#add_kit_ex#get_clab STR_VAR path = EVAL ~%clab_base_d%~ RET $clab_paths(~D~) = clab END
+        OUTER_SET clab_paths += 1
+      END
+      ACTION_IF (NOT ~%clab_base_f%~ STR_EQ ~~) BEGIN
+        LAF a7#add_kit_ex#get_clab STR_VAR path = EVAL ~%clab_base_f%~ RET $clab_paths(~F~) = clab END
+        OUTER_SET clab_paths += 1
+      END
+      ACTION_IF (NOT ~%clab_base_m%~ STR_EQ ~~) BEGIN
+        LAF a7#add_kit_ex#get_clab STR_VAR path = EVAL ~%clab_base_m%~ RET $clab_paths(~M~) = clab END
+        OUTER_SET clab_paths += 1
+      END
+      ACTION_IF (NOT ~%clab_base_p%~ STR_EQ ~~) BEGIN
+        LAF a7#add_kit_ex#get_clab STR_VAR path = EVAL ~%clab_base_p%~ RET $clab_paths(~P~) = clab END
+        OUTER_SET clab_paths += 1
+      END
+      ACTION_IF (NOT ~%clab_base_r%~ STR_EQ ~~) BEGIN
+        LAF a7#add_kit_ex#get_clab STR_VAR path = EVAL ~%clab_base_r%~ RET $clab_paths(~R~) = clab END
+        OUTER_SET clab_paths += 1
+      END
+      ACTION_IF (NOT ~%clab_base_t%~ STR_EQ ~~) BEGIN
+        LAF a7#add_kit_ex#get_clab STR_VAR path = EVAL ~%clab_base_t%~ RET $clab_paths(~T~) = clab END
+        OUTER_SET clab_paths += 1
+      END
+      ACTION_IF (NOT ~%base_class%~ STR_EQ ~~ && NOT ~%clab_path%~ STR_EQ ~~) BEGIN
+        // Default CLAB and base class overrides clab list
+        ACTION_IF (NOT VARIABLE_IS_SET $clab_paths(~%base_class%~)) BEGIN
+          OUTER_SET clab_paths += 1
+        END
+        LAF a7#add_kit_ex#get_clab STR_VAR path = EVAL ~%clab_path%~ RET $clab_paths(~%base_class%~) = clab END
+      END
+
+      ACTION_IF (clab_paths > 0) BEGIN
+        ACTION_PHP_EACH clab_paths AS base => path BEGIN
+          LAF a7#add_kit_ex#multiclass
+            INT_VAR
+              kit_class
+            STR_VAR
+              kit_name
+              clab_res = EVAL ~%path%~
+              base_class = EVAL ~%base%~
+          END
+        END
+      END
+    END
+
+    // prettifying modified tables
+    ACTION_IF (prettify) BEGIN
+      ACTION_PHP_EACH tables_modified AS resref => _ BEGIN
+        COPY_EXISTING ~%resref%.2DA~ ~override~
+          PRETTY_PRINT_2DA
+        BUT_ONLY IF_EXISTS
+      END
+    END
+
+    OUTER_SET kit_id = kit_number
+    LAF a7#add_kit_ex#print_message INT_VAR severity = 1 STR_VAR msg = EVAL ~Added %kit_name% kit.~ END
+  END
+END
+
+
+/**
+ * This function retrieves available attributes of the specified kit.
+ */
+DEFINE_ACTION_FUNCTION GET_KIT_EX
+INT_VAR
+  use_parent   = 0  // whether to retrieve parent class value if kit value is unavailable
+STR_VAR
+  kit_name  = ~~
+RET
+  // numeric return values
+  kit_id
+  kit_class
+  mixed
+  lower
+  help
+  // EE-specific
+  biography
+  briefdesc
+  fallen
+  fallen_notice
+  // textual return values
+  unusable
+  clasweap
+  weapprof
+  abclasrq
+  abclsmod
+  abdcdsrq
+  abdcscrq
+  alignmnt
+  dualclas
+  luabbr
+  stweap
+  clab_res
+  kittable
+  // EE-specific
+  clsrcreq
+  clswpbon
+  hpclass
+  numwslot
+  clascolr
+  clasiskl
+  clasthac
+  thiefscl
+  backstab
+  sneakatt
+  crippstr
+  thiefskl
+  traplimt
+  bdstweap
+BEGIN
+  // resetting return values
+  ACTION_FOR_EACH var IN ~kit_id~ ~kit_class~ ~mixed~ ~lower~ ~help~ ~biography~ ~briefdesc~ ~fallen~ ~fallen_notice~
+  BEGIN
+    OUTER_SET EVAL ~%var%~ = "-1"
+  END
+  ACTION_FOR_EACH var IN ~unusable~ ~clasweap~ ~weapprof~ ~abclasrq~ ~abclsmod~ ~abdcdsrq~ ~abdcscrq~ ~alignmnt~ ~dualclas~
+                         ~luabbr~ ~stweap~ ~clab_res~ ~kittable~ ~clsrcreq~ ~clswpbon~ ~hpclass~ ~numwslot~ ~clascolr~
+                         ~clasiskl~ ~clasthac~ ~thiefscl~ ~backstab~ ~sneakatt~ ~crippstr~ ~thiefskl~ ~traplimt~ ~bdstweap~
+  BEGIN
+    OUTER_TEXT_SPRINT EVAL ~%var%~ ~~
+  END
+
+  // checking kit support
+  ACTION_IF (GAME_IS ~bg1 totsc iwd how totlm iwd2 pst~ ||
+             NOT FILE_EXISTS_IN_GAME ~kitlist.2da~) BEGIN
+    // Note1: IWD2 appears to have basic kit support, but is treated as "unsupported" until the engine is better understood.
+    // Note2: PSTEE does support kits theoretically, but lacks the necessary files.
+    LAF a7#add_kit_ex#print_message INT_VAR severity = 2 STR_VAR msg = ~This game does not support kits.~ END
+  END ELSE BEGIN
+    OUTER_SET is_ee = GAME_IS ~bgee bg2ee eet iwdee~ ? 1 : 0
+    OUTER_SET is_sod = (GAME_IS ~eet~ || GAME_INCLUDES ~sod~) ? 1 : 0
+
+    // checking kit name
+    OUTER_PATCH_SAVE kit_name ~%kit_name%~ BEGIN
+      REPLACE_TEXTUALLY ~^[ %TAB%%WNL%]+~ ~~
+      REPLACE_TEXTUALLY ~[ %TAB%%WNL%]+$~ ~~
+    END
+    ACTION_IF (~%kit_name%~ STR_EQ ~~) BEGIN
+      LAF a7#add_kit_ex#print_message INT_VAR severity = 2 STR_VAR msg = ~No kit name specified.~ END
+    END ELSE BEGIN
+      LAF a7#add_kit_ex#get_row
+        INT_VAR
+          column = 1
+        STR_VAR
+          resref = ~kitlist~
+          row_name = EVAL ~%kit_name%~
+        RET
+          string = row
+          row_index
+      END
+      ACTION_IF (row_index >= 0) BEGIN
+        OUTER_SET id = row_index + 0x4000
+        OUTER_PATCH ~~ BEGIN LOOKUP_IDS_SYMBOL_OF_INT name ~kit~ id END
+        ACTION_IF (IS_AN_INT ~name~) BEGIN
+          // maybe a hardcoded kit?
+          OUTER_SET id = IDS_OF_SYMBOL(~kit~ ~%kit_name%~)
+          ACTION_IF (id > 0) BEGIN
+            OUTER_SET kit_id = id
+          END ELSE ACTION_IF (~%kit_name%~ STR_EQ ~WILDMAGE~) BEGIN
+            // special: Wild Mage ID exceeds WeiDU's int range
+            OUTER_SET kit_id = "-2147483648"
+          END
+        END ELSE BEGIN
+          OUTER_SET kit_id = row_index
+        END
+
+        ACTION_IF (kit_id != "-1") BEGIN
+          // getting kitlist.2da values
+          LAF a7#add_kit_ex#split STR_VAR string RET items RET_ARRAY items END
+          ACTION_IF (IS_AN_INT $items(~2~)) BEGIN OUTER_SET lower = $items(~2~) END
+          ACTION_IF (IS_AN_INT $items(~3~)) BEGIN OUTER_SET mixed = $items(~3~) END
+          ACTION_IF (IS_AN_INT $items(~4~)) BEGIN OUTER_SET help = $items(~4~) END
+          ACTION_IF (items > 5 && NOT $items(~5~) STR_EQ ~*~) BEGIN OUTER_TEXT_SPRINT clab_res $items(~5~) END
+          OUTER_SET proficiency = (items > 6 && IS_AN_INT $items(~6~)) ? $items(~6~) : "-1"
+          ACTION_IF (items > 7 && NOT $items(~7~) STR_EQ ~*~) BEGIN
+            OUTER_TEXT_SPRINT unusable $items(~7~)
+            LAF a7#add_kit_ex#to_hex STR_VAR number = EVAL ~%unusable%~ RET hex END
+          END
+          ACTION_IF (items > 8 && IS_AN_INT $items(~8~)) BEGIN
+            OUTER_SET kit_class = $items(~8~)
+            OUTER_PATCH ~~ BEGIN LOOKUP_IDS_SYMBOL_OF_INT kit_class_name ~class~ kit_class END
+            ACTION_IF (IS_AN_INT ~kit_class_name~) BEGIN
+              OUTER_TEXT_SPRINT kit_class_name ~%kit_name%~
+            END
+          END
+
+          // getting table rows
+          ACTION_FOR_EACH resref IN ~clasweap~ ~abclasrq~ ~abclsmod~ ~abdcdsrq~ ~abdcscrq~ ~alignmnt~ ~dualclas~ ~luabbr~ BEGIN
+            LAF a7#add_kit_ex#get_row STR_VAR resref row_name = EVAL ~%kit_name%~ RET row row_index END
+            ACTION_IF (use_parent && row_index < 0) BEGIN
+              LAF a7#add_kit_ex#get_row STR_VAR resref row_name = EVAL ~%kit_class_name%~ RET row row_index END
+            END
+            ACTION_IF (row_index >= 0) BEGIN
+              // normalizing row data
+              LAF a7#add_kit_ex#split STR_VAR string = EVAL ~%row%~ RET items RET_ARRAY items END
+              ACTION_IF (items > 0) BEGIN OUTER_TEXT_SPRINT $items(~0~) ~%kit_name%~ END
+              LAF a7#add_kit_ex#unsplit STR_VAR array = ~items~ RET string END
+              OUTER_TEXT_SPRINT EVAL ~%resref%~ ~%string%~
+            END
+          END
+
+          // getting weapprof.2da column
+          ACTION_IF (proficiency < 0) BEGIN
+            // autodetect column
+            LAF a7#add_kit_ex#get_column STR_VAR resref = ~weapprof~ column_name = EVAL ~%kit_name%~ RET column column_index END
+            ACTION_IF (use_parent && column_index < 0) BEGIN
+              LAF a7#add_kit_ex#get_column STR_VAR resref = ~weapprof~ column_name = EVAL ~%kit_class_name%~ RET column column_index END
+            END
+          END ELSE BEGIN
+            // use column specified in kitlist.2da
+            OUTER_SET column_index = "-1"
+            COPY_EXISTING ~weapprof.2da~ ~override~
+              COUNT_2DA_COLS num_cols
+              PATCH_IF (proficiency < num_cols) BEGIN
+                READ_2DA_ENTRIES_NOW weapprof_table 1
+                READ_2DA_ENTRY_FORMER weapprof_table 2 proficiency column
+                FOR (row = 3; row < weapprof_table; ++row) BEGIN
+                  READ_2DA_ENTRY_FORMER weapprof_table row (proficiency + 1) value
+                  TEXT_SPRINT column ~%column% %value%~
+                END
+                SET column_index = proficiency
+              END
+            BUT_ONLY IF_EXISTS
+          END
+          ACTION_IF (column_index >= 0) BEGIN
+            // normalizing column data
+            LAF a7#add_kit_ex#split STR_VAR string = EVAL ~%column%~ RET items RET_ARRAY items END
+            ACTION_IF (items > 0) BEGIN OUTER_TEXT_SPRINT $items(~0~) ~%kit_name%~ END
+            LAF a7#add_kit_ex#unsplit STR_VAR array = ~items~ RET string END
+            OUTER_TEXT_SPRINT weapprof ~%string%~
+          END
+
+          // getting list of kittable resrefs
+          LAF a7#add_kit_ex#get_row STR_VAR resref = ~kittable~ row_name = EVAL ~%kit_class_name%~ RET row row_index END
+          ACTION_IF (row_index >= 0) BEGIN
+            LAF a7#add_kit_ex#split STR_VAR string = EVAL ~%row%~ RET items RET_ARRAY items END
+            OUTER_FOR (i = 0; i < items; ++i) BEGIN
+              OUTER_TEXT_SPRINT resref $items(~%i%~)
+              ACTION_IF (FILE_EXISTS_IN_GAME ~%resref%.2da~) BEGIN
+                LAF a7#add_kit_ex#get_row INT_VAR column = 1 STR_VAR resref row_name = EVAL ~%kit_id%~ RET row row_index END
+                ACTION_IF (~%kittable%~ STR_EQ ~~) BEGIN
+                  OUTER_TEXT_SPRINT kittable ~%resref%~
+                END ELSE BEGIN
+                  OUTER_TEXT_SPRINT kittable ~%kittable% %resref%~
+                END
+              END
+            END
+          END
+
+          // getting 25stweap.2da column
+          LAF a7#add_kit_ex#get_column STR_VAR resref = ~25stweap~ column_name = EVAL ~%kit_name%~ RET column column_index END
+          ACTION_IF (use_parent && column_index < 0) BEGIN
+            LAF a7#add_kit_ex#get_column STR_VAR resref = ~25stweap~ column_name = EVAL ~%kit_class_name%~ RET column column_index END
+          END
+          ACTION_IF (column_index >= 0) BEGIN
+            // normalizing column data
+            LAF a7#add_kit_ex#split STR_VAR string = EVAL ~%column%~ RET items RET_ARRAY items END
+            ACTION_IF (items > 0) BEGIN OUTER_TEXT_SPRINT $items(~0~) ~%kit_name%~ END
+            LAF a7#add_kit_ex#unsplit STR_VAR array = ~items~ RET string END
+            OUTER_TEXT_SPRINT stweap ~%string%~
+          END
+
+          // getting bdstweap.2da column
+          ACTION_IF (is_sod) BEGIN
+            OUTER_TEXT_SPRINT resref ~bdstweap~
+            // getting resref name
+            COPY_EXISTING ~campaign.2da~ ~override~
+              LPF a7#add_kit_ex#get_2da_value
+                STR_VAR
+                  row = ~SOD~
+                  column = ~25STWEAP~
+                RET value
+              END
+              PATCH_IF (NOT ~%value%~ STR_EQ ~~ && FILE_EXISTS_IN_GAME ~%resref%.2DA~) BEGIN
+                TEXT_SPRINT resref ~%value%~
+              END
+            BUT_ONLY IF_EXISTS
+            ACTION_IF (FILE_EXISTS_IN_GAME ~%resref%.2da~) BEGIN
+              // getting data
+              LAF a7#add_kit_ex#get_column STR_VAR resref column_name = EVAL ~%kit_name%~ RET column column_index END
+              ACTION_IF (use_parent && column_index < 0) BEGIN
+                LAF a7#add_kit_ex#get_column STR_VAR resref column_name = EVAL ~%kit_class_name%~ RET column column_index END
+              END
+              ACTION_IF (column_index >= 0) BEGIN
+                // normalizing column data
+                LAF a7#add_kit_ex#split STR_VAR string = EVAL ~%column%~ RET items RET_ARRAY items END
+                ACTION_IF (items > 0) BEGIN OUTER_TEXT_SPRINT $items(~0~) ~%kit_name%~ END
+                LAF a7#add_kit_ex#unsplit STR_VAR array = ~items~ RET string END
+                OUTER_TEXT_SPRINT bdstweap ~%string%~
+              END
+            END
+          END
+
+          ACTION_IF (is_ee) BEGIN
+            // find matching clastext.2da row (kit or parent class)
+            OUTER_TEXT_SPRINT clastext_class ~~
+            OUTER_TEXT_SPRINT clastext_kit ~~
+            COPY_EXISTING ~clastext.2da~ ~override~
+              COUNT_2DA_COLS num_cols
+              READ_2DA_ENTRIES_NOW clastext_table 1
+              SET req_kid = kit_id
+              PATCH_IF (req_kid = "-2147483648") BEGIN TEXT_SPRINT req_kid ~0x80000000~ END
+              LPF a7#add_kit_ex#to_hex INT_VAR min_digits = 0 STR_VAR number = EVAL ~%req_kid%~ RET req_kid = hex END
+              FOR (r = 3; r < clastext_table; ++r) BEGIN
+                READ_2DA_ENTRY_FORMER clastext_table r 1 cid
+                READ_2DA_ENTRY_FORMER clastext_table r 2 kid
+                LPF a7#add_kit_ex#to_hex INT_VAR min_digits = 0 STR_VAR number = EVAL ~%kid%~ RET kid = hex END
+                PATCH_IF (cid = kit_class) BEGIN
+                  PATCH_IF (~%kid%~ STR_EQ ~%req_kid%~) BEGIN
+                    READ_2DA_ENTRY_FORMER clastext_table r 0 clastext_kit
+                  END
+                  PATCH_IF (~%kid%~ STR_EQ ~0x4000~) BEGIN
+                    READ_2DA_ENTRY_FORMER clastext_table r 7 f
+                    PATCH_IF (IS_AN_INT ~f~ && f = 0) BEGIN
+                      READ_2DA_ENTRY_FORMER clastext_table r 0 clastext_class
+                    END
+                  END
+                  PATCH_IF NOT (~%clastext_kit%~ STR_EQ ~~ || ~%clastext_class%~ STR_EQ ~~) BEGIN
+                    SET r = clastext_table
+                  END
+                END
+              END
+              PATCH_IF (~%clastext_kit%~ STR_EQ ~~ && NOT ~%clastext_class%~ STR_EQ ~~) BEGIN
+                TEXT_SPRINT clastext_kit ~%clastext_class%~
+              END
+            BUT_ONLY IF_EXISTS
+
+            // getting biography, briefdesc, fallen and fallen_notice from clastext.2da
+            LAF a7#add_kit_ex#get_row STR_VAR resref = ~clastext~ row_name = EVAL ~%clastext_kit%~ RET row row_index END
+            ACTION_IF (row_index >= 0) BEGIN
+              LAF a7#add_kit_ex#split STR_VAR string = EVAL ~%row%~ RET items RET_ARRAY items END
+              ACTION_IF (items > 6 && IS_AN_INT $items(~6~)) BEGIN OUTER_SET biography = $items(~6~) END
+              OUTER_SET fallen = (items > 7 && IS_AN_INT $items(~7~)) ? $items(~7~) : 0
+              ACTION_IF (items > 8 && IS_AN_INT $items(~8~)) BEGIN OUTER_SET briefdesc = $items(~8~) END
+              ACTION_IF (items > 9 && IS_AN_INT $items(~9~)) BEGIN OUTER_SET fallen_notice = $items(~9~) END
+            END
+
+            // getting table rows
+            ACTION_FOR_EACH resref IN ~clsrcreq~ ~clswpbon~ ~backstab~ ~sneakatt~ ~crippstr~ ~thiefskl~ BEGIN
+              LAF a7#add_kit_ex#get_row STR_VAR resref row_name = EVAL ~%kit_name%~ RET row row_index END
+              ACTION_IF (use_parent && row_index < 0) BEGIN
+                LAF a7#add_kit_ex#get_row STR_VAR resref row_name = EVAL ~%kit_class_name%~ RET row row_index END
+              END
+              ACTION_IF (row_index >= 0) BEGIN
+                // normalizing row data
+                LAF a7#add_kit_ex#split STR_VAR string = EVAL ~%row%~ RET items RET_ARRAY items END
+                ACTION_IF (items > 0) BEGIN OUTER_TEXT_SPRINT $items(~0~) ~%kit_name%~ END
+                LAF a7#add_kit_ex#unsplit STR_VAR array = ~items~ RET string END
+                OUTER_TEXT_SPRINT EVAL ~%resref%~ ~%string%~
+              END
+            END
+
+            // getting table columns
+            ACTION_FOR_EACH resref IN ~clascolr~ ~clasiskl~ ~thiefscl~ BEGIN
+              LAF a7#add_kit_ex#get_column STR_VAR resref column_name = EVAL ~%kit_name%~ RET column column_index END
+              ACTION_IF (use_parent && column_index < 0) BEGIN
+                LAF a7#add_kit_ex#get_column STR_VAR resref column_name = EVAL ~%kit_class_name%~ RET column column_index END
+              END
+              ACTION_IF (column_index >= 0) BEGIN
+                // normalizing row data
+                LAF a7#add_kit_ex#split STR_VAR string = EVAL ~%column%~ RET items RET_ARRAY items END
+                ACTION_IF (items > 0) BEGIN OUTER_TEXT_SPRINT $items(~0~) ~%kit_name%~ END
+                LAF a7#add_kit_ex#unsplit STR_VAR array = ~items~ RET string END
+                OUTER_TEXT_SPRINT EVAL ~%resref%~ ~%string%~
+              END
+            END
+
+            // single row value from:
+            ACTION_FOR_EACH resref IN ~hpclass~ ~numwslot~ ~traplimt~ BEGIN
+              LAF a7#add_kit_ex#get_row STR_VAR resref row_name = EVAL ~%kit_name%~ RET row row_index END
+              ACTION_IF (use_parent && row_index < 0) BEGIN
+                LAF a7#add_kit_ex#get_row STR_VAR resref row_name = EVAL ~%kit_class_name%~ RET row row_index END
+              END
+              ACTION_IF (row_index >= 0) BEGIN
+                LAF a7#add_kit_ex#split STR_VAR string = EVAL ~%row%~ RET items RET_ARRAY items END
+                ACTION_IF (items > 1) BEGIN
+                    OUTER_TEXT_SPRINT EVAL ~%resref%~ $items(~1~)
+                END
+              END
+            END
+
+            // single column value from:
+            ACTION_FOR_EACH resref IN ~clasthac~ BEGIN
+              LAF a7#add_kit_ex#get_column STR_VAR resref column_name = EVAL ~%kit_name%~ RET column column_index END
+              ACTION_IF (use_parent && column_index < 0) BEGIN
+                LAF a7#add_kit_ex#get_column STR_VAR resref column_name = EVAL ~%kit_class_name%~ RET column column_index END
+              END
+              ACTION_IF (column_index >= 0) BEGIN
+                LAF a7#add_kit_ex#split STR_VAR string = EVAL ~%column%~ RET items RET_ARRAY items END
+                ACTION_IF (items > 1) BEGIN
+                  OUTER_TEXT_SPRINT EVAL ~%resref%~ $items(~1~)
+                END
+              END
+            END
+          END
+        END
+      END
+    END
+  END
+END

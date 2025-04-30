@@ -1,0 +1,48 @@
+// Transition: Easthaven to Barbarian Camp
+IF
+  True()
+THEN
+  RESPONSE #100
+    CutSceneId(Player1)
+    LeaveAreaLUA("AR9200","LOAD9200",[1131.603],8)
+END
+
+IF
+  True()
+THEN
+  RESPONSE #100
+    CutSceneId(Player2)
+    LeaveAreaLUA("AR9200","LOAD9200",[1087.629],8)
+END
+
+IF
+  True()
+THEN
+  RESPONSE #100
+    CutSceneId(Player3)
+    LeaveAreaLUA("AR9200","LOAD9200",[1172.634],8)
+END
+
+IF
+  True()
+THEN
+  RESPONSE #100
+    CutSceneId(Player4)
+    LeaveAreaLUA("AR9200","LOAD9200",[1037.666],8)
+END
+
+IF
+  True()
+THEN
+  RESPONSE #100
+    CutSceneId(Player5)
+    LeaveAreaLUA("AR9200","LOAD9200",[1131.674],8)
+END
+
+IF
+  True()
+THEN
+  RESPONSE #100
+    CutSceneId(Player6)
+    LeaveAreaLUA("AR9200","LOAD9200",[1218.682],8)
+END

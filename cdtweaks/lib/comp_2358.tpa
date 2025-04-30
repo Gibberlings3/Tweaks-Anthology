@@ -31,9 +31,9 @@ COPY_EXISTING ~clsrcreq.2da~ ~override~
         ~^DRUID$~   BEGIN SET druid = 1 END
         ~^RANGER$~  BEGIN SET ranger = 1 END
         DEFAULT
-        END  
+        END
       END
-    END 
+    END
     FOR (row = 0 ; row < rows ; ++row) BEGIN
       READ_2DA_ENTRY row 0 8 entry
       PATCH_MATCH ~%entry%~ WITH
@@ -49,9 +49,9 @@ COPY_EXISTING ~clsrcreq.2da~ ~override~
         ~^CLERIC_RANGER$~       BEGIN PATCH_IF cleric AND ranger           BEGIN SET_2DA_ENTRY row col 8 1 END END
       DEFAULT
       END
-    END  
+    END
   END
   PRETTY_PRINT_2DA
   BUT_ONLY
-  
+
 INCLUDE ~cdtweaks/lib/multiclass_text.tpa~

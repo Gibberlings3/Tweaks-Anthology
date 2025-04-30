@@ -3,7 +3,7 @@ BEGIN
   PATCH_IF (SOURCE_SIZE > 0x2d3)
   BEGIN
     WRITE_SHORT 0x246 0x4000 // change mage type to generalist mage
-    
+
     // fix spell memorisation info
     READ_BYTE 0x0234 mage_level
 

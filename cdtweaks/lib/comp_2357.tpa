@@ -31,5 +31,5 @@ COPY_EXISTING ~clsrcreq.2da~ ~override~
   END
   PRETTY_PRINT_2DA
   BUT_ONLY
-  
+
 INCLUDE ~cdtweaks/lib/multiclass_text.tpa~

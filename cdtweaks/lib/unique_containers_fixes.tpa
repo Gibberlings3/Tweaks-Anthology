@@ -239,7 +239,7 @@ ACTION_IF FILE_EXISTS_IN_GAME ~bhperk.sto~ BEGIN //Bone Hill
       REMOVE_STORE_ITEM ~bag06~ ~bag03g~ ~bag02~ //Already in other stores
     END
   BUT_ONLY IF_EXISTS
-END  
+END
 
 ACTION_IF FILE_EXISTS_IN_GAME ~bhxspell.sto~ BEGIN
   COPY_EXISTING ~bhxspell.sto~ ~override~ //X Scrolls

@@ -3,13 +3,11 @@
 Advantages:
 – +1 to hit and damage rolls with bows every 3 levels.
 – May achieve Grand Mastery (5 slots) in longbows and shortbows.
-– May use the Called Shot ability (when wielding a bow) once per day. Gains one use at level 4 and an additional use every 4 levels thereafter.
+– May use the Called Shot ability (when wielding a bow).
 
-CALLED SHOT: All successful ranged attacks within the next 10 seconds have the following cumulative effects besides normal damage, according to the level of the Archer:
- 4th level: -1 penalty to target's THAC0.
- 8th level: -1 penalty to target's Saving Throws vs. Spell.
- 12th level: -1 penalty to the target's Strength score.
- 16th level: +2 bonus to damage roll.
+CALLED SHOT: Grants the ability to make a potentially disabling attack against an opponent's arms or legs.
+ A successful called shot against the legs reduces the opponent's movement rate by 20% and gives them a -2 cumulative penalty to their dexterity.
+ A successful called shot against the arms applies a cumulative -2 penalty to the creature's attack rolls.
 
 – May benefit from the Point Blank Shot passive trait.
 
@@ -19,3 +17,27 @@ Disadvantages:
 – May only wear leather, studded leather, and hide armor.
 – May only become Proficient (one slot) with melee weapons.
 – May not use the Charm Animal ability."
+
+@1 = "Called Shot (Arms)"
+@2 = "Called Shot (Arms)
+
+A successful called shot against the arms applies a cumulative -2 thac0 penalty."
+
+@3 = "Called Shot (Legs)"
+@4 = "Called Shot (Legs)
+
+A successful called shot against the legs reduces the opponent's movement rate by 20% and gives them a -2 cumulative penalty to their dexterity."
+
+//@100 = "The selected target is out of range"
+@101 = "THAC0 Modification"
+@102 = "Dexterity Modification"
+@103 = "The character must wield a bow in order to use this ability"
+
+@200 = "Unaffected by effects from Called Shot"
+
+@300 = "The character cannot use this ability while shooting AoE missiles"
+
+//@400 = "Unaffected by effects from Called Shot"
+@400 = "Hit"
+@401 = "Miss"
+@402 = "Weapon Ineffective"

@@ -5,4 +5,3 @@ THEN
     SetGlobal("cd_auto_track","%area%",1)
 END
 
-  

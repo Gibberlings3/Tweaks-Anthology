@@ -12,8 +12,8 @@ used:
 
 platform:
   obg, with or without totsc
- 
-version history: 
+
+version history:
   unknown
 
 */
@@ -37,7 +37,7 @@ ACTION_IF NOT VARIABLE_IS_SET cd_BG1TriggerEmulation THEN BEGIN
   		SetGlobalTimer("Z!EmulAreaNotMaster","GLOBAL",4)
   END
   >>>>>>>>
-  
+
   <<<<<<<< .../BG1TriggerEmulation-inlined/Z!EmulAreaCheck1.BAF
   IF
   	!Global("Z!EmulAreaCheck","GLOBAL",%Area_Number%)
@@ -54,16 +54,16 @@ ACTION_IF NOT VARIABLE_IS_SET cd_BG1TriggerEmulation THEN BEGIN
   		SetGlobal("Z!EmulAreaDungeon","GLOBAL",%Variable_Dungeon%)
   END
   >>>>>>>>
-  
+
   ACTION_IF original_bg1 THEN BEGIN
-  
+
     COPY_EXISTING  ~AR2612.ARE~ ~override~ // two areas in BG1 have wrong flag "Outdoor"
                    ~AR3317.ARE~ ~override~
       WRITE_BYTE 0x48 0
       BUT_ONLY
-  
+
   END
-  
+
   COPY_EXISTING_REGEXP GLOB ~.*\.ARE~ ~override~ // for all areas in game proper script name and file
     SPRINT area_name ~%SOURCE_RES%~
     READ_ASCII 0x94 ~old_script_name~
@@ -71,9 +71,9 @@ ACTION_IF NOT VARIABLE_IS_SET cd_BG1TriggerEmulation THEN BEGIN
     PATCH_IF !(~%old_script_name%~ STRING_EQUAL_CASE ~%area_name%~) AND // if script is not named after the area, and script exists, copy over to new area script name
               (FILE_EXISTS_IN_GAME ~%old_script_name%.bcs~) THEN BEGIN
       INNER_ACTION BEGIN
-  
+
         COPY_EXISTING ~%old_script_name%.bcs~ ~override/%area_name%.bcs~
-      
+
       END
     END
     PATCH_IF ((~%SOURCE_RES%~ STRING_MATCHES_REGEXP ~AR[0-9][0-9][0-9][0-9]~) = 0) THEN BEGIN
@@ -83,26 +83,26 @@ ACTION_IF NOT VARIABLE_IS_SET cd_BG1TriggerEmulation THEN BEGIN
     END
     READ_BYTE 0x48 ~Area_Flags~
     INNER_ACTION BEGIN
-  
+
       ACTION_IF (NOT FILE_CONTAINS_EVALUATED(~%area_name%.BCS~ ~Z!EmulAreaCheck~)) THEN BEGIN // area script not already patched
-    
+
         OUTER_SET Variable_Outdoor = ((~%Area_Flags%~ BAND 0b1) = 0b1)
         OUTER_SET Variable_City    = ((~%Area_Flags%~ BAND 0b1000) = 0b1000)
         OUTER_SET Variable_Forest  = ((~%Area_Flags%~ BAND 0b10000) = 0b10000)
         OUTER_SET Variable_Dungeon = ((~%Area_Flags%~ BAND 0b100000) = 0b100000)
-    
+
         ACTION_IF (FILE_CONTAINS_EVALUATED(~MASTAREA.2DA~ ~%area_name%~)) THEN BEGIN
-    
+
           EXTEND_BOTTOM ~%area_name%.BCS~ ~.../BG1TriggerEmulation-inlined/Z!EmulAreaCheck1.BAF~ EVALUATE_BUFFER //area is "master area" as in mastarea.2DA
-    
+
         END ELSE BEGIN
-    
+
           EXTEND_BOTTOM ~%area_name%.BCS~ ~.../BG1TriggerEmulation-inlined/Z!EmulAreaCheck.BAF~  EVALUATE_BUFFER //area is not "master area"
-    
+
         END
-    
+
       END
-    
+
     END
     BUT_ONLY
 

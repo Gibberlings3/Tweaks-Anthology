@@ -14,12 +14,12 @@ ACTION_IF FILE_EXISTS ~weidu_external/cdtweaks/batch_%COMPONENT_NUMBER%.tpa~ BEG
 
   INCLUDE ~weidu_external/cdtweaks/batch_%COMPONENT_NUMBER%.tpa~
   DELETE + ~weidu_external/cdtweaks/batch_%COMPONENT_NUMBER%.tpa~
-  
+
   END ELSE BEGIN
 
   ACTION_IF ((romance_use_config_values = 1) AND NOT // sanity check; if no changes specified in config, do normal prompting
-            ((remove_romance_racial_requirements != 1) AND 
-             (remove_romance_gender_requirements != 1) AND 
+            ((remove_romance_racial_requirements != 1) AND
+             (remove_romance_gender_requirements != 1) AND
              (romance_multiple != 1) AND
              ((romance_nothing_kills != 1) OR (romance_multiple != 1)) AND
              ((romance_starts_in_ToB != 1) OR (!game_is_soa))))  THEN BEGIN
@@ -54,7 +54,7 @@ ACTION_IF FILE_EXISTS ~weidu_external/cdtweaks/batch_%COMPONENT_NUMBER%.tpa~ BEG
     OUTER_SET romance_multiple = 0
     OUTER_SET romance_nothing_kills = 0
     OUTER_SET romance_starts_in_ToB = 0
-    
+
     OUTER_WHILE (romance_proceed != 1) BEGIN
       OUTER_WHILE ((!IS_AN_INT remove_romance_racial_requirements) OR ((remove_romance_racial_requirements != 1) AND (remove_romance_racial_requirements != 2))) BEGIN // stay here until we have a 1 or a 2
         PRINT @318301
@@ -133,6 +133,6 @@ OUTER_SET romance__starts_in_ToB = %romance_starts_in_ToB%
 
   COPY + ~./inline/cdtweaks_batch.tpa~ ~weidu_external/cdtweaks/batch_%COMPONENT_NUMBER%.tpa~ EVALUATE_BUFFER
     REPLACE_TEXTUALLY ~__~ ~_~
-    
+
 END
 

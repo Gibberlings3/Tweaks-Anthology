@@ -1,0 +1,145 @@
+DEFINE_ACTION_FUNCTION "MORE_SENSIBLE_FIRESHIELD"
+BEGIN
+	LAF "ADD_EXTENDED_STAT" INT_VAR "max" = 5 STR_VAR "identifier" = "GT_FAKE_CONTINGENCY" END
+	//
+	WITH_SCOPE BEGIN
+		COPY_EXISTING_REGEXP "^.+\.\(itm\|spl\)$" "override"
+			PATCH_MATCH "%DEST_EXT%" WITH
+				"spl" BEGIN
+					GET_OFFSET_ARRAY "ab_array" SPL_V10_HEADERS
+				END
+				"itm" BEGIN
+					GET_OFFSET_ARRAY "ab_array" ITM_V10_HEADERS
+				END
+				DEFAULT
+					PATCH_FAIL "Should not happen"
+			END
+			//
+			PHP_EACH "ab_array" AS "" => "ab_off" BEGIN
+				GET_OFFSET_ARRAY2 "fx_array" "%ab_off%" ITM_V10_HEAD_EFFECTS // same for "*.spl" and "*.itm"
+				SET "found" = 0
+				//
+				PHP_EACH "fx_array" AS "" => "fx_off" BEGIN
+					PATCH_MATCH SHORT_AT "%fx_off%" WITH
+						233 WHEN LONG_AT ("%fx_off%" + 0x8) == IDS_OF_SYMBOL ("stats" "WIZARD_FIRE_SHIELD") BEGIN // modify proficiencies
+							SET "found" = 1
+						END
+						DEFAULT
+					END
+				END
+				//
+				PATCH_IF "%found%" BEGIN
+					PHP_EACH "fx_array" AS "" => "fx_off" BEGIN
+						TEXT_SPRINT "subspell" ""
+						//
+						PATCH_MATCH SHORT_AT "%fx_off%" WITH
+							177 BEGIN // use EFF file
+								READ_ASCII ("%fx_off%" + 0x14) "eff_file"
+								//
+								INNER_PATCH_FILE "%eff_file%.eff" BEGIN
+									PATCH_IF (LONG_AT 0x10 == 232) BEGIN // cast spl on condition
+										PATCH_IF (SLONG_AT 0x1C == 1) BEGIN // target: last hitter
+											PATCH_IF (LONG_AT 0x20 == 0) BEGIN // condition: HitBy([ANYONE])
+												READ_ASCII 0x30 "subspell"
+											END
+										END
+									END
+								END
+							END
+							232 BEGIN // cast spl on condition
+								PATCH_IF (SLONG_AT ("%fx_off%" + 0x4) == 1) BEGIN // target: last hitter
+									PATCH_IF (LONG_AT ("%fx_off%" + 0x8) == 0) BEGIN // condition: HitBy([ANYONE])
+										READ_ASCII ("%fx_off%" + 0x14) "subspell"
+									END
+								END
+							END
+							DEFAULT
+						END
+						//
+						PATCH_IF ("%subspell%" STRING_COMPARE_CASE "") BEGIN
+							WRITE_SHORT "%fx_off%" 401 // set extended stat
+							WRITE_LONG ("%fx_off%" + 0x4) 1 // p1
+							WRITE_LONG ("%fx_off%" + 0x8) 1 // mode (p2): set
+							WRITE_LONG ("%fx_off%" + 0x2C) IDS_OF_SYMBOL ("stats" "GT_FAKE_CONTINGENCY")
+							WRITE_ASCII ("%fx_off%" + 0x14) "%subspell%" #8
+							// blank the ``projectile`` field of the subspell (all those ``OneTarget_Range_07`` are no longer needed)
+							PATCH_WITH_SCOPE BEGIN
+								INNER_ACTION BEGIN
+									COPY_EXISTING "%subspell%.spl" "override"
+										LPF "ALTER_SPELL_HEADER" INT_VAR "projectile" = 1 END
+									BUT_ONLY_IF_IT_CHANGES
+								END
+							END
+						END
+					END
+				END
+			END
+			// equipped effects (itm only)
+			PATCH_IF ("%DEST_EXT%" STRING_EQUAL_CASE "itm") BEGIN
+				GET_OFFSET_ARRAY "fx_array" ITM_V10_GEN_EFFECTS
+				SET "found" = 0
+				//
+				PHP_EACH "fx_array" AS "" => "fx_off" BEGIN
+					PATCH_MATCH SHORT_AT "%fx_off%" WITH
+						233 WHEN LONG_AT ("%fx_off%" + 0x8) == IDS_OF_SYMBOL ("stats" "WIZARD_FIRE_SHIELD") BEGIN // modify proficiencies
+							SET "found" = 1
+						END
+						DEFAULT
+					END
+				END
+				//
+				PATCH_IF "%found%" BEGIN
+					PHP_EACH "fx_array" AS "" => "fx_off" BEGIN
+						TEXT_SPRINT "subspell" ""
+						//
+						PATCH_MATCH SHORT_AT "%fx_off%" WITH
+							177 BEGIN // use EFF file
+								READ_ASCII ("%fx_off%" + 0x14) "eff_file"
+								//
+								INNER_PATCH_FILE "%eff_file%.eff" BEGIN
+									PATCH_IF (LONG_AT 0x10 == 232) BEGIN // cast spl on condition
+										PATCH_IF (SLONG_AT 0x1C == 1) BEGIN // target: last hitter
+											PATCH_IF (LONG_AT 0x20 == 0) BEGIN // condition: HitBy([ANYONE])
+												READ_ASCII 0x30 "subspell"
+											END
+										END
+									END
+								END
+							END
+							232 BEGIN // cast spl on condition
+								PATCH_IF (SLONG_AT ("%fx_off%" + 0x4) == 1) BEGIN // target: last hitter
+									PATCH_IF (LONG_AT ("%fx_off%" + 0x8) == 0) BEGIN // condition: HitBy([ANYONE])
+										READ_ASCII ("%fx_off%" + 0x14) "subspell"
+									END
+								END
+							END
+							DEFAULT
+						END
+						//
+						PATCH_IF ("%subspell%" STRING_COMPARE_CASE "") BEGIN
+							WRITE_SHORT "%fx_off%" 401 // set extended stat
+							WRITE_LONG ("%fx_off%" + 0x4) 1 // p1
+							WRITE_LONG ("%fx_off%" + 0x8) 1 // mode (p2): set
+							WRITE_LONG ("%fx_off%" + 0x2C) IDS_OF_SYMBOL ("stats" "GT_FAKE_CONTINGENCY")
+							WRITE_ASCII ("%fx_off%" + 0x14) "%subspell%" #8
+							// blank the ``projectile`` field of the subspell (all those ``OneTarget_Range_07`` are no longer needed)
+							PATCH_WITH_SCOPE BEGIN
+								INNER_ACTION BEGIN
+									COPY_EXISTING "%subspell%.spl" "override"
+										LPF "ALTER_SPELL_HEADER" INT_VAR "projectile" = 1 END
+									BUT_ONLY_IF_IT_CHANGES
+								END
+							END
+						END
+					END
+				END
+			END
+		BUT_ONLY_IF_IT_CHANGES
+	END
+	//
+	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Misc Tweaks" "sourceFileSpec" = "cdtweaks\luke\lua\tweaks\fireshield.lua" "destRes" = "m_gttwks" END
+	//
+	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
+		COPY "cdtweaks\luke\lua\m_gttbls.lua" "override"
+	END
+END

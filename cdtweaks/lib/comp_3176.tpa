@@ -6,7 +6,7 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-ACTION_IF game_includes_bg1 BEGIN 
+ACTION_IF game_includes_bg1 BEGIN
 
   ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_romances_timers BEGIN
     //Game, bcs, base dlg, banter dlg, join dlg => var // Notes
@@ -15,10 +15,10 @@ ACTION_IF game_includes_bg1 BEGIN
     bg, ~rasaad%eet_var%~, ~rasaad%eet_var%~, ~brasaad%eet_var%~, ~rasaadj%eet_var%~ => ~rasaad_romance_timer[123]~ // rasaad bg
 
   END
-  
-END 
 
-ACTION_IF game_includes_soa BEGIN 
+END
+
+ACTION_IF game_includes_soa BEGIN
 
   ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_romances_timers BEGIN
     //Game, bcs, base dlg, banter dlg, join dlg => var // Notes
@@ -32,10 +32,10 @@ ACTION_IF game_includes_soa BEGIN
     bg2, viconia, viconi,  bviconi, viconij  => viconiaromance       // viconia soa
 
   END
-  
-END 
 
-ACTION_IF game_includes_tob BEGIN 
+END
+
+ACTION_IF game_includes_tob BEGIN
 
   ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_romances_timers BEGIN
     //Game, bcs, base dlg, banter dlg, join dlg => var // Notes
@@ -49,15 +49,15 @@ ACTION_IF game_includes_tob BEGIN
     tob, vico25,  vicon25a, bvicon25, vicon25j => expviconiaromance       // viconia tob
 
   END
-  
-END 
+
+END
 
 ACTION_PHP_EACH cd_romances_timers AS params => variable BEGIN
-  
+
   ACTION_FOR_EACH file IN ~%params_1%.bcs~ ~%params_2%.dlg~ ~%params_3%.dlg~ ~%params_4%.dlg~ BEGIN
 
     ACTION_IF FILE_EXISTS_IN_GAME ~%file%~ THEN BEGIN
-    
+
       COPY_EXISTING ~%file%~ ~override~
         DECOMPILE_AND_PATCH BEGIN
           REPLACE_EVALUATE CASE_INSENSITIVE ~\(RealSetGlobalTimer\|SetGlobalTimer\)("\(%variable%\)","\([^"]+\)",\([^)]+\))~ BEGIN
@@ -66,13 +66,13 @@ ACTION_PHP_EACH cd_romances_timers AS params => variable BEGIN
             END ELSE BEGIN
               SET time = IDS_OF_SYMBOL (~GTIMES~ ~%MATCH4%~) // should convert stuff like EIGHT_HOURS to numeric value
             END
-            SET time = ((time * romance_speed_factor) / 100) 
-          END ~%MATCH1%("%MATCH2%","%MATCH3%",%time%)~  
+            SET time = ((time * romance_speed_factor) / 100)
+          END ~%MATCH1%("%MATCH2%","%MATCH3%",%time%)~
         END
         BUT_ONLY
-      
+
     END
-    
+
   END
 
-END  
+END

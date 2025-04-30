@@ -6,7 +6,7 @@ BEGIN
 	BUT_ONLY
 	// update main SPL file
 	COPY_EXISTING "ohdsw1.spl" "override"
-		LPF "ADD_SPELL_EFFECT" INT_VAR "insert_point" = 0 "opcode" = 402 "target" = 1 STR_VAR "resource" = "GTDRNSW2" END // Invoke lua
+		LPF "ADD_SPELL_EFFECT" INT_VAR "insert_point" = 0 "opcode" = 402 "target" = 1 "parameter1" = 1 STR_VAR "resource" = "GTSW2HD1" END // Invoke lua
 		LPF "ALTER_EFFECT" INT_VAR "silent" = 1 "match_opcode" = 221 "opcode" = 321 "parameter1" = 0 "parameter2" = 0 STR_VAR "resource" = "%DEST_RES%" END // Remove effects by resource
 	BUT_ONLY
 	// update scripts
@@ -43,8 +43,8 @@ BEGIN
 				"dorn14.cre" "override"
 				"ohb2dorn.cre" "override"
 		LPF "DELETE_EFFECT" INT_VAR "match_opcode" = 206 STR_VAR "match_resource" = "ohdsw2" END
-		LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 402 "target" = 1 "timing" = 9 STR_VAR "resource" = "GTDRNSW1" END // Invoke lua
+		LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 402 "target" = 1 "timing" = 9 "parameter1" = 2 STR_VAR "resource" = "GTSW2HD1" END // Invoke lua
 	BUT_ONLY IF_EXISTS
 	// lua magic
-	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Functions to be invoked via op402" "sourceFileSpec" = "cdtweaks\luke\lua\dorns_sword.lua" "destRes" = "m_gt#402" END
+	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Misc Tweaks (NPCs)" "sourceFileSpec" = "cdtweaks\luke\lua\npc\dorns_sword.lua" "destRes" = "m_gt#npc" END
 END

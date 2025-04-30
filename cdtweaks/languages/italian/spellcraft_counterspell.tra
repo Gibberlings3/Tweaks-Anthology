@@ -1,0 +1,16 @@
+@1 = "Controincantesimo (Scongiurazione)"
+@2 = "Controincantesimo (Evocazione)"
+@3 = "Controincantesimo (Divinazione)"
+@4 = "Controincantesimo (Incantamento/Charme)"
+@5 = "Controincantesimo (Illusione/Visione)"
+@6 = "Controincantesimo (Apparizione)"
+@7 = "Controincantesimo (Necromanzia)"
+@8 = "Controincantesimo (Alterazione)"
+
+@100 = "Controincantesimo"
+@101 = "Modalità Controincantesimo"
+@102 = "Modalità Controincantesimo Attivata"
+@103 = "Modalità Controincantesimo Annullata"
+
+@200 = "Sapienza Magica: "
+@201 = " sta per lanciare "

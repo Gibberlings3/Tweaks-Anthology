@@ -29,25 +29,25 @@ ACTION_PHP_EACH JOINABLE_NPC_ARRAY AS file => dv BEGIN
         READ_BYTE 0x273 class
         READ_LONG 0x20 flags
         PATCH_IF (xp AND (class < 22) AND ((flags & BIT11) = 0)) BEGIN // sanity check: non-zero XP, player-available class, not flagged as dead
-          SPRINT cre_file ~%SOURCE_RES%~         
+          SPRINT cre_file ~%SOURCE_RES%~
           INNER_ACTION BEGIN
 
             ACTION_IF !FILE_EXISTS ~weidu_external/cdtweaks/cdtob/%dv%_%class%.txt~ BEGIN
               COPY ~./inlined/tob_lookup.txt~ ~weidu_external/cdtweaks/cdtob/%dv%_%class%.txt~
-            END  
+            END
             APPEND_OUTER ~weidu_external/cdtweaks/cdtob/%dv%_%class%.txt~ ~%cre_file% %xp%~
-            
+
           END
-        END  
+        END
       END
       BUT_ONLY
 
   END
-  
-END 
+
+END
 
 ACTION_BASH_FOR ~weidu_external/cdtweaks/cdtob~ ~^.+_[0-9]+\.txt$~ BEGIN
-  
+
   COPY ~%BASH_FOR_FILESPEC%~ ~%BASH_FOR_FILESPEC%~
     COUNT_2DA_ROWS 2 rows
     PATCH_IF (rows > 1) BEGIN // don't bother if only one creature
@@ -65,18 +65,18 @@ ACTION_BASH_FOR ~weidu_external/cdtweaks/cdtob~ ~^.+_[0-9]+\.txt$~ BEGIN
         INNER_ACTION BEGIN
 
           ACTION_IF (((FILE_EXISTS_IN_GAME ~%orig%.cre~) AND (FILE_EXISTS_IN_GAME ~%dest%.cre~)) AND // both exist
-                      (~%orig%~ STRING_COMPARE_CASE ~%dest%~)) THEN BEGIN                            // skip self-copy 
-  
+                      (~%orig%~ STRING_COMPARE_CASE ~%dest%~)) THEN BEGIN                            // skip self-copy
+
             COPY_EXISTING ~%orig%.cre~ ~override/%dest%.cre~
               PATCH_PRINT " -- copying %orig% to %dest%..."
               LAUNCH_PATCH_MACRO ~tob_style_npcs~
               BUT_ONLY
-  
+
           END
-          
+
         END
       END
     END
     BUT_ONLY
-    
+
 END

@@ -26,5 +26,5 @@ END
 
 // if grandmastery has been moved directly to BBoD
 COPY_EXISTING ~blakblad.itm~ ~override~
-  LPF ALTER_EFFECT INT_VAR silent = 1 check_headers = 0 match_opcode = 1 parameter1 = 7 END // +1.5 APR  
+  LPF ALTER_EFFECT INT_VAR silent = 1 check_headers = 0 match_opcode = 1 parameter1 = 7 END // +1.5 APR
   BUT_ONLY IF_EXISTS

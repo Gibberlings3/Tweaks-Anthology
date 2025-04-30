@@ -1,0 +1,17 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////                                                                 /////
+///// Nature Sense class feat for Druids                              \\\\\
+/////                                                                 \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+
+WITH_SCOPE BEGIN
+  INCLUDE "cdtweaks\luke\misc.tph"
+  //
+  INCLUDE "cdtweaks\lib\nature_sense.tph"
+  //
+  WITH_TRA "cdtweaks\languages\english\nature_sense.tra" "cdtweaks\languages\%LANGUAGE%\nature_sense.tra" BEGIN
+    LAF "NATURE_SENSE" END
+  END
+END

@@ -9,7 +9,7 @@
 /////                                                            \\\\\
 ///// Tighten Equipment Restrictions for Druid Multis            \\\\\
 /////                                                            \\\\\
-  
+
 COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
   PATCH_IF (("%SOURCE_RES%" STRING_COMPARE_CASE "cdrelm") AND
             ("%SOURCE_RES%" STRING_COMPARE_CASE "d1brac02") AND
@@ -27,7 +27,7 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
       END ELSE BEGIN                                 // if not helmet, assume ioun stone
         PATCH_IF ((use BAND BIT30) = BIT30) BEGIN    // if unusable by druids...
           WRITE_LONG 0x1e (THIS BOR BIT12)           // adds f/d flag
-        END 
+        END
       END
     END ELSE
     PATCH_IF ((type = 1) OR      // amulets

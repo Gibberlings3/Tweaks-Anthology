@@ -1,0 +1,130 @@
+COPY ~cdtweaks/bam/c!acci.bam~ ~override~ // damaged chain icon, from zenblack
+     ~cdtweaks/bam/c!acsi.bam~ ~override~ // damaged splint icon, from zenblack
+     ~cdtweaks/bam/c!acpi.bam~ ~override~ // damaged plate icon, from zenblack
+     ~cdtweaks/bam/c!acfi.bam~ ~override~ // damaged full plate icon, from zenblack
+
+OUTER_SET msg_degrade_spl = RESOLVE_STR_REF(@106201)
+OUTER_SPRINT ac_old   @106202 // ~^\([ %TAB%]*Armor Class[ %TAB%]*:?[ %TAB%]*\)[0-9]+~
+OUTER_SPRINT ac_ee    @106205 // ~\([0-9]+\)\([ %TAB%]*vs\.[ %TAB%]*\(slashing\|crushing\|piercing and missile\)\)~
+OUTER_SPRINT desc_old @106203 // ~^\([ %TAB%]*STATISTICS[ %TAB%]*:?[ %TAB%]*\)~
+OUTER_SPRINT desc_new @106204 // ~The poor iron in this armor has resulted in damage.~
+OUTER_SPRINT damaged  @106206 // ~Damaged~
+
+ACTION_PHP_EACH cd_breakable_armor AS params => quantity BEGIN
+
+  OUTER_SET ac = 0
+  OUTER_SET first_time = 1
+
+  OUTER_WHILE (ac < 10) BEGIN
+  //OUTER_FOR (dothisonce = 0 ; dothisonce < 1 ; ++dothisonce) BEGIN
+
+    ACTION_IF !FILE_EXISTS_IN_GAME ~%params_0%.itm~ BEGIN
+      OUTER_SET ac = 10 // kill loop
+    END ELSE BEGIN
+
+      COPY_EXISTING ~%params_0%.itm~ ~override~
+        READ_LONG  0x6a fx_off
+        READ_SHORT 0x6e fx_idx
+        READ_SHORT 0x70 fx_num
+        SET ac_update = 0
+        FOR (index = fx_idx ; index < fx_num ; ++index) BEGIN
+          READ_SHORT (fx_off + 0x00 + (index * 0x30)) op
+          READ_LONG  (fx_off + 0x08 + (index * 0x30)) p2
+          PATCH_IF ((op = 0) AND (p2 = BIT4)) BEGIN
+            READ_LONG  (fx_off + 0x04 + (index * 0x30)) ac
+            SET ac_update = 1
+            SET index = fx_num // kill loop
+          END
+        END
+        PATCH_IF ac_update BEGIN
+          PATCH_IF degrade_once BEGIN
+            SET ac_update = ((10 - ac) / 2) // move halfway to ac10, so ac0 > ac5, ac4 > ac7
+          END ELSE BEGIN
+            SET ac_update = (1 + first_time)
+          END
+          SET ac += ac_update
+          FOR (index = fx_idx ; index < fx_num ; ++index) BEGIN
+            READ_SHORT (fx_off + 0x00 + (index * 0x30)) op
+            PATCH_IF op = 232 BEGIN
+              PATCH_IF ac = 10 BEGIN // final break
+                WRITE_ASCII  (fx_off + 0x14 + (index * 0x30)) ~cdbrak2~ #8
+              END ELSE BEGIN
+                WRITE_ASCIIE (fx_off + 0x14 + (index * 0x30)) ~%params_2%%ac%~ #8
+              END
+              SET index = fx_num // kill loop
+            END
+          END
+        END
+        BUT_ONLY
+
+      ACTION_IF !ac_update OR ac = 10 BEGIN
+        OUTER_SET ac = 10 // failsafe: kill while loop
+      END ELSE BEGIN
+
+        COPY_EXISTING ~cdbrak2.spl~ ~override/%params_2%%ac%.spl~
+          PATCH_IF enhanced_edition BEGIN 
+            LPF ALTER_EFFECT INT_VAR match_opcode = 318 STR_VAR match_resource = cdbrak2 resource = EVAL ~%DEST_RES%~ END
+          END   
+          LPF ALTER_EFFECT INT_VAR match_opcode = 143 STR_VAR resource = EVAL ~%params_2%%ac%~ END
+          LPF ALTER_EFFECT INT_VAR match_opcode = 139 parameter1 = msg_degrade_spl END
+          DEFINE_ASSOCIATIVE_ARRAY cd_break_spells BEGIN ~%params_2%%ac%~ => 0 END
+
+        COPY_EXISTING ~%params_0%.itm~ ~override/%params_2%%ac%.itm~
+          PATCH_IF degrade_once BEGIN
+            LPF DELETE_EFFECT INT_VAR multi_match = 1 match_opcode = 232 END
+          END
+          LPF ALTER_EFFECT INT_VAR match_opcode = 0 match_parameter2 = BIT4 parameter1 = ac END
+          WRITE_LONG 0x34 ((THIS * (75 - ((25 * first_time) + (degrade_once * 25)))) / 100) // degrade price to 50% in first break, 75% on subsequent; degrade once loses 75%
+          PATCH_IF first_time BEGIN
+            WRITE_ASCIIE 0x3a ~%params_1%i~ #8
+//            WRITE_ASCIIE 0x58 ~%params_1%c~ #8
+            PATCH_IF ((VARIABLE_IS_SET degrade_movement_speed) AND (degrade_movement_speed = 1)) BEGIN
+              LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 176 target = 1 parameter1 = "-1" timing = 2 END
+            END
+            PATCH_FOR_EACH off IN 0x08 0x0c BEGIN
+              READ_STRREF off name
+              PATCH_IF ("%name%" STRING_COMPARE_REGEXP ~<Invalid Strref -?[0-9]+>~) BEGIN // checking for valid content in string
+                INNER_PATCH_SAVE name ~%name%~ BEGIN
+                  REPLACE_TEXTUALLY ~\(.+\)~ ~%damaged% \1~ // from 'foo' to 'damaged foo'
+                END
+                SAY_EVALUATED off ~%name%~ // write changes
+              END
+            END
+          END
+          PATCH_FOR_EACH off IN 0x50 0x54 BEGIN
+            READ_STRREF off desc
+            PATCH_IF ("%desc%" STRING_COMPARE_REGEXP ~<Invalid Strref -?[0-9]+>~) BEGIN // checking for valid content in string
+              INNER_PATCH_SAVE desc ~%desc%~ BEGIN
+                REPLACE_TEXTUALLY ~%ac_old%~ ~\1%ac%~ // main ac number
+                REPLACE_EVALUATE ~%ac_ee%~ BEGIN
+                  SET MATCH1 += ac_update
+                END ~%MATCH1%%MATCH2%~
+                PATCH_IF first_time BEGIN
+                  REPLACE_TEXTUALLY ~%desc_old%~ ~%desc_new%%WNL%%WNL%\1~
+                END
+              END
+              SAY_EVALUATED off ~%desc%~ // write changes
+            END
+          END
+
+        OUTER_SPRINT params_0 ~%params_2%%ac%~
+        ACTION_IF first_time   BEGIN OUTER_SET first_time = 0 END
+        ACTION_IF degrade_once BEGIN OUTER_SET ac = 10        END // kill while loop after one go
+
+      END
+
+    END // item existance check
+
+  END // while
+
+END // php_each
+
+ACTION_IF FILE_EXISTS_IN_GAME ~bprng1.itm~ BEGIN
+
+  COPY_EXISTING ~bprng1.itm~ ~override~ // slave ring from black pits - prevents weapon breakage; add armor/helm/shield
+    PATCH_PHP_EACH cd_break_spells AS spell => foo BEGIN
+      LPF CLONE_EFFECT INT_VAR match_opcode = 206 multi_match = 1 STR_VAR resource = EVAL ~%spell%~ END
+    END
+    BUT_ONLY
+
+END

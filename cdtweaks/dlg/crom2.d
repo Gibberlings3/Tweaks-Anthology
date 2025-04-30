@@ -1,7 +1,7 @@
 EXTEND_BOTTOM WSMITH01 13
   IF ~PartyHasItem("helm29")~ THEN GOTO NewItem
 END
-  
+
 APPEND WSMITH01
   IF ~~ THEN BEGIN NewItem SAY @122003
     IF ~OR(2)
@@ -14,7 +14,7 @@ APPEND WSMITH01
   IF ~~ THEN BEGIN NewItem2 SAY @122004
     IF ~~ THEN GOTO NoThanks
   END
-  
+
   IF ~~ THEN BEGIN NewItem3 SAY @122005
     IF ~PartyGoldLT(10000)~ THEN REPLY #67011 GOTO NoThanks
     IF ~PartyGoldGT(9999)~ THEN REPLY #67012 DO ~SetGlobal("CDItems","ar0334",2)
@@ -29,7 +29,7 @@ APPEND WSMITH01
                                                  DestroyGold(10000)~ GOTO 56
     IF ~~ THEN REPLY #67013 GOTO NoThanks
   END
-  
+
   IF ~~ THEN BEGIN NoThanks SAY @122002
    COPY_TRANS WSMITH01 13
   END

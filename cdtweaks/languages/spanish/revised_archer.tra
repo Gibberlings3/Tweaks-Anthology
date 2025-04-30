@@ -1,0 +1,28 @@
+@0 = "ARQUERO: El arquero es la personificación de la habilidad con el arco.
+
+Es el tirador definitivo, capaz de realizar casi cualquier disparo, sin importar la dificultad del mismo.
+
+Para alcanzar tal nivel de habilidad, el personaje ha de sacrificar parte de su talento en el uso de armas de cuerpo a cuerpo y armaduras.
+
+VENTAJAS:
+
+- Obtienen una bonificación +1 al ataque y al daño con arcos por cada 3 niveles.
+- Pueden asignar hasta cinco talentos marciales en arcos largos y arcos cortos.
+- Pueden utilizar la habilidad Tiro Certero (cuando empuña un arco) una vez al día. Obtiene un uso a nivel 4 y un uso adicional cada 4 niveles a partir de entonces.
+
+TIRO CERTERO: Todo ataque a distancia efectuado con éxito durante los 10 segundos siguientes a la activación de esta habilidad causará efectos adicionales acumulativos además del daño normal en función del nivel del arquero.
+
+   Nivel 4: -1 al GAC0 del objetivo.
+   Nivel 8: -1 a las tiradas de salvación contra conjuro del objetivo.
+   Nivel 12: -1 a la Fuerza del objetivo.
+   Nivel 16: bonificación +2 al daño.
+
+   May benefit from the Point Blank Shot passive trait. Puede beneficiarse de la función pasiva del tiro a quemarropa.
+
+TIRO A QUEMARROPA: Cuando empuña un arco, el arquero anula la penalización de -8 GAC0 por usar armas a distancia en combate cuerpo a cuerpo.
+
+DESVENTAJAS:
+
+- No pueden utilizar armaduras mejores que la armadura de cuero tachonado.
+- Solo pueden asignar un talento marcial en armas de cuerpo a cuerpo.
+- No pueden utilizar la habilidad hechizar animal."

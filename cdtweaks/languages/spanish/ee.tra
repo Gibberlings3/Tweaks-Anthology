@@ -1,2 +1,12 @@
 // this file is used to override strings in game.tra for EE games
 // it will NOT be re-encoded for EE games, so put it in the correct charset for your language
+
+//#50818 in obg2
+@418002 = ~El padre de Nalia regaló este anillo a la muchacha en cuanto esta alcanzó la mayoría de edad. Al estar vinculado a la estirpe, es imposible arrebatárselo a su dueña, y sus poderes no pueden ser utilizados por nadie más.
+
+CARACTERÍSTICAS:
+
+Clase de armadura: bonificación +2
+Tiradas de salvación: bonificación +2
+Aptitudes poseídas: +50% de resistencia al fuego
+Peso: 0 lbs~

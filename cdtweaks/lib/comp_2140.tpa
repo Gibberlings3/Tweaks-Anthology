@@ -74,16 +74,16 @@ ACTION_IF FILE_EXISTS ~refinements/hlab/thief/clab/clabempt.2da~ AND NOT FILE_EX
   INCLUDE ~cdtweaks/lib/iwdee_25stweap_fix.tpa~ // for broken 25stweap.2da in SoD
 
   COPY ~cdtweaks/spl/cdtitle0.spl~ ~override~ // spell to fix title and class name for d/c barbarians. Calls one of the EFFs below as appropriate
-  
+
   COPY ~cdtweaks/eff/cdtitle1.eff~ ~override~
     SAY 0x1C @214001
-  
+
   COPY_EXISTING ~cdtitle1.eff~ ~override/cdtitle2.eff~
     SAY 0x1C @214002
-  
+
   COPY_EXISTING ~cdtitle1.eff~ ~override/cdtitle3.eff~
     SAY 0x1C @214003
-  
+
   COPY_EXISTING ~cdtitle1.eff~ ~override/cdtitle4.eff~
     SAY 0x1C @214004
 

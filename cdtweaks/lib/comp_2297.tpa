@@ -12,7 +12,7 @@
 
 // why is this here separately? Because WeiDU doesn't handle a pile of
 // subcomponents with different REQUIRE_PREDICATEs very well.
-// this allows this component to be installed for BG/IWD. 
+// this allows this component to be installed for BG/IWD.
 
 // use cleric level progression
 INCLUDE ~cdtweaks/lib/druid_2_cleric_levels.tpa~

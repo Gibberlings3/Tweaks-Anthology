@@ -1,0 +1,17 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////                                                                                     /////
+///// NWN-ish Sneak Attack / Crippling Strike class feat for Thieves and Stalkers         \\\\\
+/////                                                                                     \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+
+WITH_SCOPE BEGIN
+  INCLUDE "cdtweaks\luke\misc.tph"
+  //
+  INCLUDE "cdtweaks\lib\sneakatt_rogue.tph"
+  //
+  WITH_TRA "cdtweaks\languages\english\sneakatt_rogue.tra" "cdtweaks\languages\%LANGUAGE%\sneakatt_rogue.tra" BEGIN
+    LAF "SNEAKATT_ROGUE" END
+  END
+END

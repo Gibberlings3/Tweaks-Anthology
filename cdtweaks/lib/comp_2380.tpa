@@ -40,7 +40,7 @@ COPY_EXISTING ~clsrcreq.2da~ ~override~
   END
   PRETTY_PRINT_2DA
   BUT_ONLY
-  
+
 OUTER_SET col_start = 0
 ACTION_IF enhanced_edition BEGIN // ee has an extra column at the front
   OUTER_SET col_start = 1
@@ -56,7 +56,7 @@ COPY_EXISTING ~mgsrcreq.2da~ ~override~
   END
   PRETTY_PRINT_2DA
   BUT_ONLY
-  
+
 ACTION_FOR_EACH class IN sh mn BEGIN // shaman, monk
 
   ACTION_IF FILE_EXISTS_IN_GAME ~k_%class%_h.2da~ BEGIN // shaman
@@ -135,12 +135,12 @@ COPY_EXISTING ~kitlist.2da~ ~override~
                   END
                 END
                 BUT_ONLY
-    
+
               ACTION_IF added = 0 THEN BEGIN
                 OUTER_SET index += 1
                 APPEND ~k_%letter%_%race%.2da~ ~%index% %kitno%~
               END
-  
+
             END
           END
         END

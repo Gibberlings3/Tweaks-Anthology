@@ -1,11 +1,15 @@
+ACTION_IF tutu_gen BEGIN
+  INCLUDE ~cdtweaks/lib/inns_jk_fix.tpa~
+END 
+
 <<<<<<<< ./inline/inn_data.2da
 npc      state_tutu  state_tutu2   state_bgt state_bgt2           state_ee      state_ee2       dmwwresponse         beregost_xloc   beregost_yloc    friendly_xloc  friendly_yloc   nashkel_xloc   nashkel_yloc   elfsong_xloc   elfsong_yloc postdialogue
 AJANTIS  0           -1            0         -1                   0             -1              20810                824             961              766            966             602            463            537            704          lookitup
 SUFINCH  3           -1            3         -1                   3             -1              20840                818             970              800            980             590            448            568            717          SUFINCHP
 IMOEN    0           -1            18        -1                   2             -1              20811                812             980              814            1006            573            436            598            737          lookitup
-A#MURN   1           -1            1         -1                   1             -1              20841                806             990              760            900             453            433            630            730          A#MURNP 
+A#MURN   1           -1            1         -1                   1             -1              20841                806             990              760            900             453            433            630            730          A#MURNP
 KAGAIN   0           -1            2         -1                   2             -1              20812                800             1000             721            790             247            431            661            726          lookitup
-J#INDI01 0           -1            0         -1                   0             -1              20842                749             1010             740            768             264            444            677            694          J#IndiP 
+J#INDI01 0           -1            0         -1                   0             -1              20842                749             1010             740            768             264            444            677            694          J#IndiP
 EDWIN    0           -1            9         -1                   0             -1              20813                788             1020             778            754             284            454            692            664          lookitup
 BRANWEN  0           -1            0         -1                   0             -1              20814                776             1040             479            634             461            394            637            621          lookitup
 SAFANA   0           -1            2         -1                   2             -1              20815                764             1060             523            595             429            411            783            732          lookitup
@@ -34,10 +38,10 @@ RASAAD   -1          -1            -1        -1                   0             
 >>>>>>>>
 
 ACTION_IF ((game_is_bgt) AND (!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~4025~)) BEGIN
-  COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/depart_bgt.d~ 
+  COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/depart_bgt.d~
 END
 
-ACTION_IF enhanced_edition BEGIN  
+ACTION_IF enhanced_edition BEGIN
   COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/depart_ee.d~ // do this early, otherwise might erase neera's new action move to FAI
 END
 
@@ -48,7 +52,7 @@ COPY ~./inline/inn_data.2da~ ~./inline/inn_data.2da~
       READ_2DA_ENTRY 0   col 17 var
       READ_2DA_ENTRY row col 17 val
       SPRINT ~%var%~ ~%val%~ // use column header as variable name
-    END  
+    END
     PATCH_IF enhanced_edition BEGIN
       SPRINT state1 ~%state_ee%~
       SPRINT state2 ~%state_ee2%~
@@ -62,27 +66,27 @@ COPY ~./inline/inn_data.2da~ ~./inline/inn_data.2da~
       END
     END
     INNER_ACTION BEGIN
-    
+
       ACTION_IF ("%postdialogue%" STRING_COMPARE_CASE "lookitup" = 0) BEGIN
         OUTER_SPRINT ~postdialogue~ EVALUATE_BUFFER ~%%npc%_POST%~
-      END   
-      
-      ACTION_IF ("%npc%" STRING_COMPARE_CASE "IMOEN" = 0) BEGIN 
+      END
+
+      ACTION_IF ("%npc%" STRING_COMPARE_CASE "IMOEN" = 0) BEGIN
         OUTER_SPRINT npc ~%IMOEN_DV%~
-      END  
-      
+      END
+
       ACTION_IF FILE_EXISTS_IN_GAME ~%postdialogue%.dlg~ BEGIN
-    
+
         ACTION_IF state2 < 0 BEGIN OUTER_SPRINT state2 ~~ END
-        COPY ~cdtweaks/dlg/depart.d~ ~weidu_external/cdtweaks/depart_%npc%.d~ 
-        
-        COMPILE EVALUATE_BUFFER ~weidu_external/cdtweaks/depart_%npc%.d~ 
-      
-      END // dialogue check     
+        COPY ~cdtweaks/dlg/depart.d~ ~weidu_external/cdtweaks/depart_%npc%.d~
+
+        COMPILE EVALUATE_BUFFER ~weidu_external/cdtweaks/depart_%npc%.d~
+
+      END // dialogue check
 
     END // inner_action
-  END // row loop  
-  BUT_ONLY    
+  END // row loop
+  BUT_ONLY
 
 ACTION_IF enhanced_edition BEGIN
 
@@ -96,11 +100,11 @@ ACTION_IF enhanced_edition BEGIN
     STRING_SET 28392 @20845 // remove the part about Dorn going to FAI
     STRING_SET 29019 @20846 // remove the part about Rasaad going to Nashkel
     OUTER_SET baelothreply = 31931
-  END  
-  
+  END
+
   // handle Baeloth here, since he's a special case regardless
   //COPY ~cdtweaks/dlg/depart_ee.d~ ~weidu_external/cdtweaks/dlg/depart_ee.d~ EVALUATE_BUFFER
-  COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/depart_baeloth.d~ 
+  COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/depart_baeloth.d~
 
   // neera has additional scripting to bail
   COPY_EXISTING ~neera%eet_var%.bcs~ ~override~
@@ -108,7 +112,7 @@ ACTION_IF enhanced_edition BEGIN
       REPLACE_TEXTUALLY ~\(!InPartyAllowDead("NEERA")[ %TAB%%LNL%%MNL%%WNL%]+Global("AdoyLeft","OH2010",3)\)~ ~False() \1~
       REPLACE_TEXTUALLY ~\(!\(I[fs]ValidForPartyDialog\(ue\)?\|InParty\)("NEERA")[ %TAB%%LNL%%MNL%%WNL%]+Global("NEERA_START","GLOBAL",1)\)~ ~False() \1~ // with more banters, may decompile as IVFPD
     END
-    BUT_ONLY    
+    BUT_ONLY
 
   // as does rasaad
   COPY_EXISTING ~rasaad%eet_var%.bcs~ ~override~
@@ -116,7 +120,7 @@ ACTION_IF enhanced_edition BEGIN
       REPLACE_TEXTUALLY ~\(!\(I[fs]ValidForPartyDialog\(ue\)?\|InParty\)(Myself)[ %TAB%%LNL%%MNL%%WNL%]+ActionListEmpty()[ %TAB%%LNL%%MNL%%WNL%]+Global("RASAAD_IN_PARTY","GLOBAL",0)\)~ ~False() \1~ // with more banters, may decompile as IVFPD
       REPLACE_TEXTUALLY ~\(!\(I[fs]ValidForPartyDialog\(ue\)?\|InParty\)(Myself)[ %TAB%%LNL%%MNL%%WNL%]+ActionListEmpty()[ %TAB%%LNL%%MNL%%WNL%]+Global("GAMAZ_DEFEATED","GLOBAL",2)\)~  ~False() \1~ // with more banters, may decompile as IVFPD
     END
-    BUT_ONLY    
+    BUT_ONLY
 
-END  
+END
 

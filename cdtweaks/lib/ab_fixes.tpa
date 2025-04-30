@@ -1,34 +1,34 @@
-/* 
-AB 1.7 ships with some serious issues which can prevent other mods from installing; this is only meant to address 
-the most egregious, regexp-halting issues. This is written as a library that can be included with any other oIWD 
+/*
+AB 1.7 ships with some serious issues which can prevent other mods from installing; this is only meant to address
+the most egregious, regexp-halting issues. This is written as a library that can be included with any other oIWD
 mod that runs into issues with these files.
 
-Requires Wisp's FJ_SPL_ITM_REINDEX function. 
+Requires Wisp's FJ_SPL_ITM_REINDEX function.
 */
 
-// this spell is broken--also use the sig check as a test to make sure this doesn't get repeatedly patched 
+// this spell is broken--also use the sig check as a test to make sure this doesn't get repeatedly patched
 COPY_EXISTING ~spin704.spl~ ~override~ // absolutely broken in AB 1.7; has effect inserted at the beginning of the file
   READ_ASCII 0x00 sig (4)
   PATCH_IF ("%sig%" STRING_COMPARE_CASE "spl") BEGIN
     READ_ASCII 0x00 effect (48) // has effect inserted at front of file
-    READ_ASCII 0x30 spell (SOURCE_SIZE - 48) 
-    WRITE_ASCIIE 0x00 ~%spell%~ 
+    READ_ASCII 0x30 spell (SOURCE_SIZE - 48)
+    WRITE_ASCIIE 0x00 ~%spell%~
     WRITE_ASCIIE (SOURCE_SIZE - 48) ~%effect%~
-    WRITE_LONG 0x64 0x72 // fix ability offset    
-    WRITE_LONG 0x6a 0x9a // fix effect offset    
-  END  
-  BUT_ONLY IF_EXISTS 
+    WRITE_LONG 0x64 0x72 // fix ability offset
+    WRITE_LONG 0x6a 0x9a // fix effect offset
+  END
+  BUT_ONLY IF_EXISTS
 
 COPY_EXISTING ~ax1hgr01.itm~ ~override~ // misindexed files
               ~mrrdnswd.itm~ ~override~
   LPF FJ_SPL_ITM_REINDEX END
   BUT_ONLY IF_EXISTS
-  
+
 COPY_EXISTING ~shelfbs.cre~ ~override~ // bad fx offset
   READ_LONG 0x32c fx_off
   READ_LONG 0x330 fx_num
   PATCH_IF !fx_off AND !fx_num BEGIN // if 0/0 (AB 1.7)
     READ_LONG  0x324 itm_off
-    WRITE_LONG 0x32c itm_off // set fx offset to be right before items 
+    WRITE_LONG 0x32c itm_off // set fx offset to be right before items
   END
-  BUT_ONLY IF_EXISTS 
+  BUT_ONLY IF_EXISTS

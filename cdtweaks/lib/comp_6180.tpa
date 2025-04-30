@@ -1,0 +1,17 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////                                                                 /////
+/////  NWN-ish Blind Fight                                            \\\\\
+/////                                                                 \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+
+WITH_SCOPE BEGIN
+  INCLUDE "cdtweaks\luke\misc.tph"
+  //
+  INCLUDE "cdtweaks\lib\blind_fight.tph"
+  //
+  WITH_TRA "cdtweaks\languages\english\blind_fight.tra" "cdtweaks\languages\%LANGUAGE%\blind_fight.tra" BEGIN
+    LAF "BLIND_FIGHT" END
+  END
+END

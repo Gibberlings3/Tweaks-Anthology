@@ -1,0 +1,15 @@
+@0 = "Parry Mode"
+@1 = "Parry Mode
+
+Parry allows the character to block incoming attacks and make spectacular counterattacks.
+A successful parry (save vs. Breath) means that the attack does not damage the parrying character."
+
+@2 = "Parry Mode On"
+
+@3 = "Parry Mode Off"
+
+@4 = "Parry (Success)"
+
+@5 = "Riposte Attack"
+
+@100 = "Weapon Ineffective"

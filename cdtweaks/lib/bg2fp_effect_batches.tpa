@@ -54,7 +54,7 @@ ACTION_IF game_is_pst BEGIN
 
 END
 
-ACTION_IF game_is_iwd2 BEGIN  
+ACTION_IF game_is_iwd2 BEGIN
 
   OUTER_SET cre_counter_offset_off = 0x0622
   OUTER_SET cre_fx_off_off  = 0x61e
@@ -76,7 +76,7 @@ END
 
 
 // batch effects
-DEFINE_PATCH_FUNCTION ~cd_apply_batch~ 
+DEFINE_PATCH_FUNCTION ~cd_apply_batch~
   INT_VAR debug          = 0 // 1 - spit out C_E list, 2 same w/ additional info, 3 lists effects as they're added
           force_cosmetic = "-1"
           bonus_var_1    = "-1" // bonus vars for use in setting arrays
@@ -134,11 +134,11 @@ DEFINE_PATCH_FUNCTION ~cd_apply_batch~
     PATCH_PRINT ~Warning: macro halting; file type not recognized (%type%) on %SOURCE_FILE%~
   END
   // if user overrides normal cosmetic stuff with function var
-  PATCH_IF force_cosmetic = 1 BEGIN 
-    SET cosmetic = 1 
+  PATCH_IF force_cosmetic = 1 BEGIN
+    SET cosmetic = 1
   END ELSE
-  PATCH_IF force_cosmetic = 0 BEGIN 
-    SET cosmetic = 0 
+  PATCH_IF force_cosmetic = 0 BEGIN
+    SET cosmetic = 0
   END
   PATCH_IF ((SOURCE_SIZE >= min_size) AND (min_size != 0)) BEGIN // min_size must get set by file type detection
     SET new_fx = 0
@@ -251,7 +251,7 @@ DEFINE_PATCH_FUNCTION ~cd_apply_batch~
                 SET counter += 1
                 SET debug_message = 1 // something's changed!
                 SET value -= 1
-              END  
+              END
             END
           END
         END
@@ -268,7 +268,7 @@ DEFINE_PATCH_FUNCTION ~cd_apply_batch~
         END
       END
     END
-    
+
     // debug message
     PATCH_IF debug > 0 BEGIN
       READ_LONG 0x0c name
@@ -292,7 +292,7 @@ DEFINE_PATCH_FUNCTION ~cd_apply_batch~
           PATCH_PRINT " // %SOURCE_FILE% had no new effects from %array_name%"
         END
       END
-    END 
+    END
 
   END // end file size check
 

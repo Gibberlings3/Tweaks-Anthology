@@ -68,4 +68,4 @@ APPEND BOTSMITH
     IF ~~ THEN REPLY #66910 GOTO 105
   END
 
-END                                                
+END

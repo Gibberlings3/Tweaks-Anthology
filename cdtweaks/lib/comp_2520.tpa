@@ -5,11 +5,11 @@
 /////                                                            \\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-    
+
 INCLUDE ~cdtweaks/lib/common_armor_list.tpa~
 
 ACTION_PHP_EACH cd_common_armor_list AS params => item BEGIN
-  
+
   ACTION_IF (("%params_2%" STRING_COMPARE_CASE "shield_buckler" = 0) OR
              ("%params_2%" STRING_COMPARE_CASE "shield_small" = 0)) BEGIN
 
@@ -31,13 +31,13 @@ ACTION_PHP_EACH cd_common_armor_list AS params => item BEGIN
                   ((use BAND BIT17) = 0)) BEGIN                             // fighter-thieves
           WRITE_LONG 0x1e (((THIS BAND `BIT22) BAND `BIT19) BAND `BIT6)     // removes bard, thief, mage-thief flags
         END
-      END  
+      END
       BUT_ONLY
-      
+
   END // appearance check
-  
+
 END // php_each
-  
+
 ACTION_IF MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2060~ THEN BEGIN // weapon styles for all
 
   OUTER_SET $mage_kit(MAGE) = 1
@@ -51,7 +51,7 @@ ACTION_IF MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2060~ THEN BEGIN // we
         READ_2DA_ENTRY row 1 col_check kit
         SET $mage_kit("%kit%") = 1
       END
-    END   
+    END
     BUT_ONLY
 
   COPY_EXISTING ~weapprof.2da~ ~override~
@@ -62,7 +62,7 @@ ACTION_IF MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2060~ THEN BEGIN // we
       PATCH_IF VARIABLE_IS_SET $mage_kit("%kit%") BEGIN
         SET_2DA_ENTRY 29 (col + 1) col_count 2
       END
-    END  
+    END
     BUT_ONLY
 
 END

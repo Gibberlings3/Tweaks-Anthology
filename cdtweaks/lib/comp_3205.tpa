@@ -29,11 +29,11 @@ END
 ACTION_IF game_includes_pst THEN BEGIN
 
   ACTION_IF game_is_pst THEN BEGIN
-  
+
     OUTER_SET store_match = "-1" // no containers in PsT
-  
+
   END ELSE BEGIN
-  
+
     OUTER_SET store_match = 4 // containers in PsTEE
 
   END
@@ -116,7 +116,7 @@ END ELSE BEGIN // non-pst
       END
 
     END
-    
+
   END ELSE BEGIN // non-iwd, non-iwd2
 
     OUTER_SET store_match = 5 // container type in other games
@@ -148,7 +148,7 @@ END ELSE BEGIN // non-pst
           56 => 0 // bottles
           72 => 0 // hats
         END
-      
+
       END
 
       ACTION_IF game_is_bg2ee OR game_is_eet BEGIN
@@ -157,7 +157,7 @@ END ELSE BEGIN // non-pst
 //          45 => 1 // female bodies
           51 => 0 // rods
         END
-      
+
       END
 
       ACTION_IF game_is_iwdee OR game_is_eet BEGIN
@@ -167,11 +167,11 @@ END ELSE BEGIN // non-pst
           56 => 0 // bottles
           59 => 0 // furs and pelts
         END
-      
+
       END
-    
+
     END
- 
+
   END
 
 END

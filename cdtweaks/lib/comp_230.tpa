@@ -45,23 +45,23 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.cre$~ ~override~
       PATCH_IF name2_str > 9 BEGIN SPRINT spc2 "   " END ELSE
                             BEGIN SPRINT spc2 "    " END
       INNER_ACTION BEGIN
-      
+
         APPEND_OUTER ~%oiwd_tooltips%~ "  ~%file%~%spc% => %spc2%%name2_str% // name is %name1%, changing tooltip back to %name2%"
-        
+
       END // inner_action
     END // string compare
   END // strref compare
-  BUT_ONLY  
+  BUT_ONLY
 
 APPEND_OUTER ~%oiwd_tooltipscd %~ "END"
 */
-  
+
 INCLUDE ~%oiwd_tooltips%~
 
 ACTION_PHP_EACH cd_iwd_tooltips AS file => string BEGIN
-  
+
   COPY_EXISTING ~%file%.cre~ ~override~
     WRITE_LONG 0x0c string
     BUT_ONLY IF_EXISTS
 
-END  
+END

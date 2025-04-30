@@ -31,7 +31,7 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.cre$~ ~override~
 ACTION_PHP_EACH cdstores_check AS creature => dialog BEGIN
 
   ACTION_IF FILE_EXISTS_IN_GAME ~%dialog%.dlg~ BEGIN
-  
+
     COPY_EXISTING ~%dialog%.dlg~ ~override~
       COUNT_REGEXP_INSTANCES ~StartStore("\([^"]+\)"~ store // if dialog contains a StartStore call
       PATCH_IF ("%store%" > 0) BEGIN
@@ -42,10 +42,10 @@ ACTION_PHP_EACH cdstores_check AS creature => dialog BEGIN
         ~StartStore("%MATCH1%"~ // don't actually change anything (wouldn't anyway since we're in an inner_patch_file)
       END
       BUT_ONLY
-  
+
   END
-  
-END 
+
+END
 
 ACTION_PHP_EACH cdstores AS store => shopkeeper BEGIN
 
@@ -53,7 +53,7 @@ ACTION_PHP_EACH cdstores AS store => shopkeeper BEGIN
 
     COPY_EXISTING ~%shopkeeper%.cre~ ~override~
       READ_BYTE class_off class // V1.0
-      SET lore = 0 
+      SET lore = 0
       PATCH_IF lore_class BEGIN
         PATCH_IF ((class =   1) OR     // mage
                   (class =   5) OR     // bard
@@ -66,8 +66,8 @@ ACTION_PHP_EACH cdstores AS store => shopkeeper BEGIN
                   (class = 202) OR     // mage-all
                   (class = 206)) BEGIN // bard-all
           SET lore = 200
-        END  
-      END // lore_class check  
+        END
+      END // lore_class check
       PATCH_IF ((lore != 200) AND (lore_calc)) BEGIN // only proceed to check levels if not already set to 200 (hybrid) and indicated
         READ_BYTE 0x234 level1 // level of primary class
         READ_BYTE 0x235 level2 // Highest attained level in secondary class (0-100)
@@ -187,14 +187,14 @@ ACTION_PHP_EACH cdstores AS store => shopkeeper BEGIN
     COPY_EXISTING ~%store%.sto~ ~override~
       PATCH_IF lore_class AND !lore_calc BEGIN // if 'only mages can id' enforce 0 lore
         WRITE_LONG 0x3c lore // lore value
-      END ELSE BEGIN  
+      END ELSE BEGIN
         READ_LONG 0x3c old_lore ELSE 0
         PATCH_IF (old_lore > 0) BEGIN
           WRITE_LONG 0x3c lore // lore value
         END
-      END  
+      END
       BUT_ONLY
-      
+
   END
-  
-END 
+
+END

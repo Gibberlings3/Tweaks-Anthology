@@ -1,0 +1,3 @@
+//@0 = "It can only be cast by good-aligned characters"
+//@1 = "It can only be cast by evil-aligned characters"
+@0 = "El personaje debe tener memorizado al menos un hechizo de nivel %i% para lanzar espontáneamente este hechizo"

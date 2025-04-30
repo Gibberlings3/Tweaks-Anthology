@@ -14,7 +14,7 @@ COPY_EXISTING ~%ALORA_BCS%.bcs~ ~override~ // catching and updating area variabl
   DECOMPILE_AND_PATCH BEGIN
     REPLACE_TEXTUALLY ~,"%WBaldursGate_HallofWonders%",~ ~,"%Gullykin%",~
   END
-  BUT_ONLY      
+  BUT_ONLY
 
 ACTION_IF original_bg1 THEN BEGIN
 
@@ -64,7 +64,7 @@ END ELSE BEGIN // bgt
       REPLACE_TEXTUALLY ~Global("BGTNPC[0-9]+","GLOBAL",0)~ ~False()~
     END
     BUT_ONLY
-  
+
   EXTEND_BOTTOM ~%Gullykin_BCS%.bcs~                  ~cdtweaks/baf/bgt_spawn_alora.baf~
 
 END

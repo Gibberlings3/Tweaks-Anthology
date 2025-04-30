@@ -29,5 +29,5 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.bcs$~ ~override~
 COPY_EXISTING ~trigger.ids~ ~override~
   REPLACE_TEXTUALLY ~0x40A8~ ~0x4043~
   BUT_ONLY
-  
+
 CLEAR_IDS_MAP

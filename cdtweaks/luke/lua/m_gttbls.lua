@@ -1,7 +1,9 @@
 --[[
-+---------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| Utility: Lua tables derived from .2DA / .IDS resources (it's not needed per se, but we'll be getting hash map levels of performance instead of linear search) |
-+---------------------------------------------------------------------------------------------------------------------------------------------------------------+
++------------------------------------------------------------------------------------------------------+
+| Lua tables derived from .2DA / .IDS resources                                                        |
++------------------------------------------------------------------------------------------------------+
+| It's not needed per se, but we'll be getting hash map levels of performance instead of linear search |
++------------------------------------------------------------------------------------------------------+
 --]]
 
 GT_Resource_2DA = {}
@@ -11,7 +13,7 @@ GT_Resource_SymbolToIDS = {}
 EEex_GameState_AddInitializedListener(function()
 	-- 2DA
 	EEex_Utility_NewScope(function()
-		local resources = { "STRMOD", "STRMODEX", "DEXMOD", "STYLBONU", "SNEAKATT", "GTABMOD" }
+		local resources = { "STRMOD", "STRMODEX", "DEXMOD", "STYLBONU", "SNEAKATT", "RACEFEAT", "GTABMOD" }
 		--
 		for _, v in ipairs(resources) do
 			local data = EEex_Resource_Load2DA(v)
@@ -33,7 +35,7 @@ EEex_GameState_AddInitializedListener(function()
 	end)
 	-- IDS
 	EEex_Utility_NewScope(function()
-		local resources = { "EA", "GENERAL", "RACE", "CLASS", "GENDER", "ALIGN", "ITEMFLAG", "STATE", "STATS", "SPELL", "DMGTYPE" }
+		local resources = { "EA", "GENERAL", "RACE", "CLASS", "GENDER", "ALIGN", "KIT", "ITEMCAT", "ITEMFLAG", "STATE", "STATS", "SPELL", "ANIMATE" }
 		--
 		for _, v in ipairs(resources) do
 			local data = EEex_Resource_LoadIDS(v)

@@ -23,31 +23,31 @@ COPY_EXISTING_REGEXP GLOB ~^sp\(pr\|wi\)[1-9][0-9][0-9]c\.bam$~ ~weidu_external/
 ACTION_BASH_FOR ~weidu_external/cdtweaks/bam_working~ ~^sp\(pr\|wi\)[1-9][0-9][0-9]c\.bam$~ BEGIN
 
   MKDIR ~%BASH_FOR_DIRECTORY%/%BASH_FOR_RES%~
-  
+
   AT_NOW ~%BASH_FOR_DIRECTORY%\bammer.exe -input %BASH_FOR_DIRECTORY%\%BASH_FOR_FILE% -output %BASH_FOR_DIRECTORY%\%BASH_FOR_RES% > %BASH_FOR_DIRECTORY%\%BASH_FOR_RES%.bamd~
-  
+
 END
 
-ACTION_FOR_EACH file IN 
+ACTION_FOR_EACH file IN
 // bg2ee
-  sppr104 sppr205 sppr303 sppr309 sppr312 sppr318 sppr415 sppr611 sppr706 sppr711 
-  spwi107 spwi109 spwi110 spwi111 spwi123 spwi202 spwi203 spwi204 spwi207 spwi208 
-  spwi209 spwi214 spwi216 spwi224 spwi301 spwi302 spwi305 spwi306 spwi322 spwi326 
-  spwi402 spwi410 spwi413 spwi416 spwi420 spwi421 spwi424 spwi425 spwi505 spwi515 
-  spwi603 spwi607 spwi609 spwi613 spwi617 spwi703 spwi710 spwi722 spwi804 spwi809 
+  sppr104 sppr205 sppr303 sppr309 sppr312 sppr318 sppr415 sppr611 sppr706 sppr711
+  spwi107 spwi109 spwi110 spwi111 spwi123 spwi202 spwi203 spwi204 spwi207 spwi208
+  spwi209 spwi214 spwi216 spwi224 spwi301 spwi302 spwi305 spwi306 spwi322 spwi326
+  spwi402 spwi410 spwi413 spwi416 spwi420 spwi421 spwi424 spwi425 spwi505 spwi515
+  spwi603 spwi607 spwi609 spwi613 spwi617 spwi703 spwi710 spwi722 spwi804 spwi809
   spwi908 spwi916 spwi919
 
   // no sppr312 sppr711 spwi107 spwi123 spwi204 spwi209 spwi214 spwi216 spwi224
   //    spwi305 spwi410 spwi603 spwi613
-  //sppr209 sppr321 spwi528 
-BEGIN 
+  //sppr209 sppr321 spwi528
+BEGIN
 
   COPY_EXISTING ~%file%c.bam~ ~weidu_external/cdtweaks/bam_working/%file%c.bam~
 
   MKDIR ~weidu_external/cdtweaks/bam_working/%file%c~
-  
+
   AT_NOW ~weidu_external\cdtweaks\bam_working\bammer.exe -input weidu_external\cdtweaks\bam_working\%file%c.bam -output weidu_external\cdtweaks\bam_working\%file%c > weidu_external\cdtweaks\bam_working\%file%c.bamd~
-  
+
 END
 
 */

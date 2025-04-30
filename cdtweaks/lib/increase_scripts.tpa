@@ -5,7 +5,7 @@ ACTION_IF NOT (original_iwd OR original_bg1 OR game_is_pst) THEN BEGIN // no Tak
       PATCH_PHP_EACH cd_stackables AS item => stack BEGIN
         PATCH_IF stack < 2 BEGIN
           REPLACE_TEXTUALLY ~TakePartyItem("%item%")~ ~TakePartyItemNum("%item%",1)~
-        END  
+        END
       END
     END
     BUT_ONLY IF ~116OB~
@@ -15,7 +15,7 @@ ACTION_IF NOT (original_iwd OR original_bg1 OR game_is_pst) THEN BEGIN // no Tak
       PATCH_PHP_EACH cd_stackables AS item => stack BEGIN
         PATCH_IF stack < 2 BEGIN
           REPLACE_TEXTUALLY ~TakePartyItem("%item%")~ ~TakePartyItemNum("%item%",1)~
-        END  
+        END
       END
     END
     BUT_ONLY  IF ~TakePartyItem(~

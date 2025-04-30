@@ -1,0 +1,18 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
+/////                                                            \\\\\////\\\\////
+///// More Stoneskin feedback                                                \\\\\
+/////                                                            \\\\\////\\\\////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
+
+WITH_SCOPE BEGIN
+  INCLUDE "cdtweaks\luke\misc.tph"
+  INCLUDE "cdtweaks\ardanis\functions.tph"
+  //
+  INCLUDE "cdtweaks\lib\stoneskin.tph"
+  //
+  WITH_TRA "cdtweaks\languages\english\stoneskin.tra" "cdtweaks\languages\%LANGUAGE%\stoneskin.tra" BEGIN
+    LAF "MORE_STONESKIN_FEEDBACK" END
+  END
+END

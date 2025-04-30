@@ -1,7 +1,7 @@
 ACTION_IF FILE_EXISTS_IN_GAME ~racethac.2da~ BEGIN // EEs
 
   OUTER_SET cd_do_the_racethac_thing = 0
-  
+
   COPY_EXISTING ~racethac.2da~ ~override~
     COUNT_2DA_ROWS 9 rows
     FOR (index = 0 ; index < rows ; ++index) BEGIN
@@ -19,27 +19,27 @@ ACTION_IF FILE_EXISTS_IN_GAME ~racethac.2da~ BEGIN // EEs
           PATCH_IF index2 = 7 BEGIN SET race = 5 END ELSE // halfling
           PATCH_IF index2 = 8 BEGIN SET race = 7 END      // halforc
           DEFINE_ASSOCIATIVE_ARRAY ~cd_racethac_%prof%~ BEGIN ~%race%~ => ~%pips%~ END
-        END  
+        END
       END // end row loop
     END // end column loop
     BUT_ONLY
 
   ACTION_IF cd_do_the_racethac_thing BEGIN
-  
+
     COPY ~cdtweaks/eff/cdgthac0.eff~ ~override~
     COPY ~cdtweaks/eff/cdgthac0.eff~ ~override/cdbthac0.eff~
       WRITE_LONG 0x1c "-1"
-    
+
     COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
       READ_BYTE 0x31 prof
       READ_SHORT 0x1c category
       PATCH_IF ((prof > 88) AND (prof < 135) AND (category !=5) AND (category !=14) AND (category !=31)) BEGIN
         PATCH_PHP_EACH ~cd_racethac_%prof%~ AS race => pips BEGIN
           SPRINT eff cdgthac0
-          PATCH_IF pips < 0 BEGIN  
+          PATCH_IF pips < 0 BEGIN
             SPRINT eff cdbthac0
             SET pips = (pips * "-1")
-          END  
+          END
           FOR (index = 0 ; index < pips ; ++index) BEGIN
             LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 177 target = 1 parameter1 = race parameter2 = 4 timing = 2 STR_VAR resource = EVAL ~%eff%~ END
           END
@@ -48,5 +48,5 @@ ACTION_IF FILE_EXISTS_IN_GAME ~racethac.2da~ BEGIN // EEs
       BUT_ONLY
 
   END
-  
-END  
+
+END

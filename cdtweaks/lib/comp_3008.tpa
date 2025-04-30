@@ -32,7 +32,7 @@ END ELSE BEGIN // otherwise use fixed list
     hprog    => 0 // rogue hp table
     hpwar    => 0 // warrior hp table
     hpwiz    => 0 // mage hp table
-  
+
   END
 
 END

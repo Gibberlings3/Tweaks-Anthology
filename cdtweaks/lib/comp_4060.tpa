@@ -14,13 +14,13 @@ INCLUDE ~cdtweaks/lib/joinable_npc_array.tpa~
 
 ACTION_PHP_EACH JOINABLE_NPC_ARRAY AS file => dv BEGIN
 
-  ACTION_IF ("%dv%" STRING_COMPARE_CASE "minsc" = 0) BEGIN 
+  ACTION_IF ("%dv%" STRING_COMPARE_CASE "minsc" = 0) BEGIN
 
     COPY_EXISTING ~%file%~ ~override~
       WRITE_BYTE 0x23c 15 // 15 DEX
       WRITE_BYTE 0x23d 15 // 15 CON
       BUT_ONLY
-      
+
   END
-  
+
 END

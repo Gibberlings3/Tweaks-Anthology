@@ -1,0 +1,20 @@
+@0 = "Knockdown"
+
+@1 = "Knockdown
+
+A character with this feat can attempt to knock his melee opponents to the ground. The character makes an attack roll at -4, and if successful, the defender is knocked to a prone position."
+
+@50 = "Prone"
+
+//@100 = "The selected target is out of range"
+@101 = "The selected target is already prone"
+@102 = "The selected target is too large"
+@103 = "This feat cannot be used while wielding a ranged weapon"
+
+@104 = "The targeted creature cannot be knocked down"
+
+//@105 = "Unaffected by effects from Knockdown"
+
+@105 = "Hit"
+@106 = "Miss"
+@107 = "Weapon Ineffective"

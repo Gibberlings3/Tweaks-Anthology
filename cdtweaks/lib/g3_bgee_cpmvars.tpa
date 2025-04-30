@@ -5,17 +5,18 @@
 /*
 
 A library to declare variabes to allow unified installations of BG content
-across all modern platforms: BGEE or the conversions BGT, EET, and Tutu. 
+across all modern platforms: BGEE or the conversions BGT, EET, and Tutu.
 
-This particular library is for BGEE games. 
+This particular library is for BGEE games.
 
-One of these four libraries (EET is in the local EET folder) should be called 
+One of these four libraries (EET is in the local EET folder) should be called
 from a GAME_IS check, for example Tweaks:
 
 https://github.com/Gibberlings3/Tweaks-Anthology/blob/master/cdtweaks/lib/g3_cpmvars_master.tpa
 
 used:
   gavin, as gavin/lib/g3_bgee_cpmvars.tpa [symbolic link]
+  Glam's NPC Pack, as glamnpcpack/libraries/g3_bgee_cpmvars.tph [local symlink]
   IWDification, as iwdification/tpa/g3_bgee_cpmvars.tpa [symbolic link]
   Lore from Learning, as cdlore/lib/g3_bgee_cpmvars.tpa [symbolic link]
   mur'neth, as mur'neth/lib/g3_bgee_cpmvars.tpa [symbolic link]
@@ -27,8 +28,8 @@ used:
 
 platform:
   bgee
- 
-version history: 
+
+version history:
   unknown
 
 */

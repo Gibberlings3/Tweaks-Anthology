@@ -1,17 +1,17 @@
-ACTION_IF !VARIABLE_IS_SET cd_read_cal BEGIN 
+ACTION_IF !VARIABLE_IS_SET cd_read_cal BEGIN
 
   OUTER_SET cd_read_cal = 1
-  
+
   INCLUDE ~cdtweaks/lib/common_armor_array.tpa~ // builds all items into cd_common_armor_list_full array
-  
+
   ACTION_PHP_EACH cd_common_armor_list_full AS p => item BEGIN // pare it down to working array
-  
+
     ACTION_IF FILE_EXISTS_IN_GAME ~%item%.itm~ BEGIN
-    
+
       ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_common_armor_list BEGIN "%item%","%p_1%","%p_2%","%p_3%","%p_4%","%p_5%","%p_6%","%p_7%","%p_8%","%p_9%" => "%item%" END
-      
+
     END
 
   END
- 
+
 END

@@ -2,13 +2,13 @@
 @6      = ~Setzt die Komponente 'Schleichen und Diebesfaehigkeiten in Schwerer Ruestung erlauben' voraus.~
 @8      = ~Diese Komponente ist nur fuer BGT.~
 @10     = ~Diese Komponente ist nicht fuer Tutu verfuegbar.~
-@12     = ~Thron des Bhaal wird fuer diese Komponente vorausgesetzt.~ 
-@14     = ~Diese Komponente ist nur fuer Tutu oder BGT.~ 
+@12     = ~Thron des Bhaal wird fuer diese Komponente vorausgesetzt.~
+@14     = ~Diese Komponente ist nur fuer Tutu oder BGT.~
 @15     = ~Diese Komponente ist nur fuer Tutu.~
 @19     = ~Cams Hausregeln~
 @20     = ~Readme anschauen?
   a) Ja
-  b) Nein~ 
+  b) Nein~
 @5001   = ~SPIELFIGUR-VERÄNDERUNGS-SKRIPT:~
 @5002   = ~Dieses Skript gibt dem Spieler die Kontrolle über die Spielfigur seines Charakters. Drückt 'S', um den Auswahlbildschirm für die Spielfiguren aufzurufen. (<script>)~
  @18001 = ~Arkane Archive~
@@ -22,9 +22,9 @@
  @18009 = ~Wallaces Waren~
  @18010 = ~Joluvs Waren~
  @18011 = ~Deidres Waren~
- @18012 = ~Delis Güter~ 
+ @18012 = ~Delis Güter~
  @18013 = ~Jahrmarkt: Magische Gegenstände~
- @18014 = ~Lucky Aellos Discount Laden~ 
+ @18014 = ~Lucky Aellos Discount Laden~
  @18015 = ~Jahrmarkt: Schuss- und Wurfwaffen~
  @18016 = ~Jahrmarkt: Rüstung~
  @18017 = ~Jahrmarkt: Magische Waffen~
@@ -200,7 +200,7 @@ Elektizitätswiderstand: +50%
 Feuerwiderstand: +50%
 Giftwiderstand: +50%
 Kältewiderstand: +50%
-Säurewiderstand: +50% 
+Säurewiderstand: +50%
 Gewicht: 1
 Initiativefaktor: 3
 Mindeststärke: 3
@@ -307,7 +307,7 @@ Typ: 1-händig
 <DOTS3>
 <DOTS4>
 <DOTS5>~
-@216002 = ~KATANA/WAKIZASHI:  Katanas und Wakizashis sind die besten Beispiele für die Handwerkskunst der Waffenschmiede und erfordern große Umsicht im Gebrauch. Während sich die Fähigkeiten entwickeln, werden der Anwender und die Klinge eine Einheit, die sich mit Leib und Seele der Kunst der Kriegsführung verschrieben haben. Diese Waffen sind schwer außerhalb von Kara-Tur zu finden, also muß man Vorsicht walten lassen, wenn man diese Fertigkeit in Betracht zieht. Schließlich ist die Fertigkeit mit Katanas und Wakizashis nur nützlich, wenn Ihr eine finden könnt. 
+@216002 = ~KATANA/WAKIZASHI:  Katanas und Wakizashis sind die besten Beispiele für die Handwerkskunst der Waffenschmiede und erfordern große Umsicht im Gebrauch. Während sich die Fähigkeiten entwickeln, werden der Anwender und die Klinge eine Einheit, die sich mit Leib und Seele der Kunst der Kriegsführung verschrieben haben. Diese Waffen sind schwer außerhalb von Kara-Tur zu finden, also muß man Vorsicht walten lassen, wenn man diese Fertigkeit in Betracht zieht. Schließlich ist die Fertigkeit mit Katanas und Wakizashis nur nützlich, wenn Ihr eine finden könnt.
 WARNUNG:  Magische Katanas sind in Baldurs Gate 2 sehr selten!
 <DOTS1>
 <DOTS2>

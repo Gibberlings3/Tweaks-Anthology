@@ -1,0 +1,15 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Breakable nonmagical shields, armor and helms    \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+/////                                                  \\\\\
+///// armor degrades once                              \\\\\
+/////                                                  \\\\\
+
+OUTER_SET degrade_once = 1
+INCLUDE ~cdtweaks/lib/breakable_armor_et_al.tpa~
+INCLUDE ~cdtweaks/lib/breakable_armor_degrade.tpa~

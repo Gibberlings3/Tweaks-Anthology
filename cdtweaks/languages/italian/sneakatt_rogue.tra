@@ -1,0 +1,9 @@
+@0 = "Paralizzato"
+@1 = "Colpo Incapacitante: La creatura colpita è già paralizzata"
+//
+@10 = "Silenziato"
+@11 = "Colpo Incapacitante: La creatura colpita è già silenziata"
+//
+@20 = "Modificatore alla Forza"
+//
+@100 = "Non soggetto agli effetti di Colpo Incapacitante"

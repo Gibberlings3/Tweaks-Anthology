@@ -11,36 +11,38 @@ The original EET macro only loaded joinable NPCs in the array, but there are
 a few components of Anthology that specifically target non-joinables. As such
 the function now adds all creature files into the array; if they're joinable then
 they get added as crefile => dv and crefile => 0 if they're not. This allows me to
-do IS_AN_INT checks in various components to filter accordingly. 
+do IS_AN_INT checks in various components to filter accordingly.
 
 It's also been expanded to cover non-EET games and has a var check so that it can
-be called multiple times but only execute once. 
+be called multiple times but only execute once.
 
 * note that it relies on variables from game_checks.tpa *
-  
+
 used:
+  Bullet Sponge, as cd_bs/lib/joinable_npc_array.tpa [symbolic link]
   Tweaks Anthology, as cdtweaks/lib/joinable_npc_array.tpa [symbolic link]
+  The Divine Remix, as divine_remix/lib/joinable_npc_array.tpa [symbolic link]
 
 platform:
   all games
- 
-version history: 
+
+version history:
   unknown
 
 */
 
 ACTION_IF !VARIABLE_IS_SET cd_joinable BEGIN
 
-  OUTER_SET cd_joinable = 1 
-  
+  OUTER_SET cd_joinable = 1
+
   ACTION_DEFINE_ASSOCIATIVE_ARRAY JOINABLE_NPC_ARRAY_dv BEGIN END
-  
+
   ACTION_IF game_is_pst OR original_iwd OR game_is_iwd2 BEGIN // these re-use obg pdialog, so determine joinable NPC DVs manually (pstee and iwdee properly use pdialof)
 
     ACTION_IF game_is_pst BEGIN // pst NPCs
-      
+
       OUTER_SET dv_off = 0x324
-      ACTION_DEFINE_ASSOCIATIVE_ARRAY JOINABLE_NPC_ARRAY_dv BEGIN 
+      ACTION_DEFINE_ASSOCIATIVE_ARRAY JOINABLE_NPC_ARRAY_dv BEGIN
         ~ANNAH~  => ~~
         ~MORTE~  => ~~
         ~NORDOM~ => ~~
@@ -49,20 +51,20 @@ ACTION_IF !VARIABLE_IS_SET cd_joinable BEGIN
         ~IGNUS~  => ~~
         ~VHAIL~  => ~~
       END
-      
-    END ELSE BEGIN 
+
+    END ELSE BEGIN
 
       ACTION_IF original_iwd BEGIN // iwd npc is the only npc mod for oiwd, and it uses CHR files
-      
-        OUTER_SET dv_off = 0x2e8 
-        
+
+        OUTER_SET dv_off = 0x2e8
+
       END ELSE BEGIN // iwd2ee has some actual joinables in comp 36; iwd2 npc uses CHR files
-        
-        OUTER_SET dv_off = 0x394  
-      
+
+        OUTER_SET dv_off = 0x394
+
         ACTION_IF MOD_IS_INSTALLED ~iwd2ee/iwd2ee.tp2~ ~36~ BEGIN // iwd2ee npc core
 
-          ACTION_DEFINE_ASSOCIATIVE_ARRAY JOINABLE_NPC_ARRAY_dv BEGIN 
+          ACTION_DEFINE_ASSOCIATIVE_ARRAY JOINABLE_NPC_ARRAY_dv BEGIN
             ~USEMMA~ => ~~ // cleric Emma Moonblade
             ~USGEOF~ => ~~ // rogue Black Geoffrey
             ~USPAIR~ => ~~ // sorcerer Pairi
@@ -73,16 +75,16 @@ ACTION_IF !VARIABLE_IS_SET cd_joinable BEGIN
             ~USVUNA~ => ~~ // goblin Vunarg
             ~USZACK~ => ~~ // rogue/illusionist Zack Boosenburry
             ~USXHAA~ => ~~ // abishai Xhaan
-          END    
+          END
 
-        END          
-        
-      END 
-      
-    END  
-  
+        END
+
+      END
+
+    END
+
   END ELSE BEGIN
-  
+
     OUTER_SET dv_off = 0x280
 
     //PDIALOG.2DA exists in all games
@@ -111,9 +113,9 @@ ACTION_IF !VARIABLE_IS_SET cd_joinable BEGIN
         BUT_ONLY
       END
     END
-    
+
   END
-  
+
   //Generate array with joinable NPC cre files
   COPY_EXISTING_REGEXP GLOB ~^.+\.CRE$~ ~override~
     READ_ASCII dv_off "dv" (32) NULL
@@ -122,7 +124,7 @@ ACTION_IF !VARIABLE_IS_SET cd_joinable BEGIN
       DEFINE_ASSOCIATIVE_ARRAY JOINABLE_NPC_ARRAY BEGIN ~%SOURCE_FILE%~ => ~%dv%~ END
     END ELSE BEGIN
       DEFINE_ASSOCIATIVE_ARRAY JOINABLE_NPC_ARRAY BEGIN ~%SOURCE_FILE%~ => 0 END
-    END  
+    END
   BUT_ONLY
 
 END

@@ -11,12 +11,12 @@ ACTION_IF enhanced_edition THEN BEGIN
         SPRINT ~new_clastext~ ~CD_NEW_KIT_NAME%MATCH1%%CD_NEW_KIT_NAME%%MATCH3%~
       END ~REPLACE_ME_KIT_NAME%MATCH1%%MATCH2%%MATCH3%~
       BUT_ONLY
-      
+
     APPEND "clastext.2da" "%new_clastext%" UNLESS "CD_NEW_KIT_NAME"
-        
+
     COPY_EXISTING ~clastext.2da~ ~override~
       PRETTY_PRINT_2DA
-  
+
   END
 
   ACTION_FOR_EACH table IN backstab clsrcreq clswpbon hpclass numwslot thiefskl traplimt crippstr sneakatt BEGIN
@@ -27,21 +27,21 @@ ACTION_IF enhanced_edition THEN BEGIN
 
         LAF fl#add_kit_ee#get_row
           STR_VAR
-            file = EVAL ~%table%~ 
+            file = EVAL ~%table%~
             row_name = REPLACE_ME_KIT_NAME
           RET
             row
         END
         OUTER_SPRINT append "CD_NEW_KIT_NAME %row%"
         APPEND "%table%.2da" "%append%" IF "REPLACE_ME_KIT_NAME"
-        
+
         COPY_EXISTING ~%table%.2da~ ~override~
           PRETTY_PRINT_2DA
-      
+
       END
-  
+
     END
-  
+
   END
 
   ACTION_FOR_EACH table IN clascolr clasiskl clasthac thiefscl BEGIN
@@ -52,21 +52,21 @@ ACTION_IF enhanced_edition THEN BEGIN
 
         LAF fl#add_kit_ee#get_column
           STR_VAR
-            file = EVAL ~%table%~ 
+            file = EVAL ~%table%~
             column_name = REPLACE_ME_KIT_NAME
           RET
             column
         END
         OUTER_SPRINT append "$ $ CD_NEW_KIT_NAME %column%"
         APPEND_COL "%table%.2da" "%append%" IF "REPLACE_ME_KIT_NAME"
-        
+
         COPY_EXISTING ~%table%.2da~ ~override~
           PRETTY_PRINT_2DA
-      
+
       END
-  
+
     END
-  
+
   END
 
 END

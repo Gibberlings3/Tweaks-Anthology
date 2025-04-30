@@ -15,9 +15,9 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
           SET fx_delta -= 1
           SET index -= 1
           SET fx_num -= 1
-        END  
+        END
         PATCH_IF (opcode = 291) BEGIN SET spelltrap = 1 END // if 291 already present, don't bother
-        PATCH_IF ((remove_spelltrap) AND (spelltrap = 0) AND 
+        PATCH_IF ((remove_spelltrap) AND (spelltrap = 0) AND
           ((opcode = 197) OR (opcode = 198) OR ((opcode > 200) AND (opcode < 206)) OR (opcode = 207) OR (opcode = 223) OR ((opcode > 225) AND (opcode < 229)) OR (opcode = 259))) BEGIN
           READ_ASCII   (fx_off + 0x00 + ((index + fx_idx) * 0x30)) copy (48)
           INSERT_BYTES (fx_off + 0x00 + ((index + fx_idx) * 0x30)) 0x30
@@ -30,14 +30,14 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
           SET spelltrap = 1
         END
       END
-    END  
+    END
     PATCH_IF fx_delta BEGIN
       WRITE_SHORT 0x70 THIS + fx_delta
       READ_LONG  0x64 abil_off
       READ_SHORT 0x68 abil_num
       FOR (index = 0 ; index < abil_num ; ++index) BEGIN
         WRITE_SHORT (abil_off + 0x20 + (index * 0x38)) THIS + fx_delta // adjust indices
-      END  
+      END
     END
-  END  
-  BUT_ONLY  
+  END
+  BUT_ONLY

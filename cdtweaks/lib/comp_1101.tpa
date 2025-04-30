@@ -55,7 +55,7 @@ ACTION_FOR_EACH file IN
   bg1000   // eet: ulgoth's beard
 
   BEGIN
-  
+
   ACTION_IF FILE_EXISTS_IN_GAME ~%file%.bcs~ BEGIN
 
     COPY_EXISTING ~%file%.bcs~ ~override~

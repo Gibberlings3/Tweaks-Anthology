@@ -125,7 +125,7 @@ ACTION_IF (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~4020~) THEN BEGIN
 
   // load patch macro
   INCLUDE ~cdtweaks/lib/tob_style_npcs.tpa~
-  
+
   ACTION_CLEAR_ARRAY cd_tob_style_npcs
   ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_tob_style_npcs BEGIN
     _montar2 => _montar
@@ -135,15 +135,15 @@ ACTION_IF (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~4020~) THEN BEGIN
     montar4  => montar
     montar6  => montar
   END
-  
+
   ACTION_PHP_EACH cd_tob_style_npcs AS dest => orig BEGIN
-  
+
     ACTION_IF ((FILE_EXISTS_IN_GAME ~%orig%.cre~) AND (FILE_EXISTS_IN_GAME ~%dest%.cre~)) THEN BEGIN
 
       COPY_EXISTING ~%orig%.cre~ ~override/%dest%.cre~
         LAUNCH_PATCH_MACRO ~tob_style_npcs~
         BUT_ONLY
-  
+
     END
 
   END

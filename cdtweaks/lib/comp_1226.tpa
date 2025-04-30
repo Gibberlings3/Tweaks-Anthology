@@ -26,16 +26,16 @@ ACTION_IF enhanced_edition THEN BEGIN
     BUT_ONLY
 
 END ELSE BEGIN
-  
+
   OUTER_FOR (index = 0 ; index < 24 ; ++index) BEGIN
-  
+
     OUTER_SET index2 = index + 8
     ACTION_IF index2 > 23 BEGIN OUTER_SET index2 -= 24 END
 
     EXTEND_TOP ~ar0334.bcs~ ~cdtweaks/baf/ar0334_nosleep.baf~ EVALUATE_BUFFER
-  
+
   END
-  
+
   EXTEND_TOP ~ar0334.bcs~ ~cdtweaks/baf/ar0334_cromwell.baf~
 
 END

@@ -1,7 +1,7 @@
 ACTION_IF game_is_pst THEN BEGIN // pst but not pstee
 
   ACTION_IF stack > 255 BEGIN OUTER_SET stack = 255 END
-  
+
 END
 
 ACTION_IF game_includes_pst THEN BEGIN
