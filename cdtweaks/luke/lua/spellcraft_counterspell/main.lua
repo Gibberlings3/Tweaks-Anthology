@@ -45,6 +45,8 @@ EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
 	local stats = GT_Resource_SymbolToIDS["stats"]
 	--
 	local spriteActiveStats = EEex_Sprite_GetActiveStats(sprite)
+	-- alignment check
+	local isGood = EEex_Trigger_ParseConditionalString("Alignment(Myself,MASK_GOOD)")
 	--
 	local actionSources = {
 		[31] = true, -- Spell()
@@ -54,6 +56,8 @@ EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
 		[113] = true, -- ForceSpell()
 		[114] = true, -- ForceSpellPoint()
 		[181] = true, -- ReallyForceSpell()
+		[318] = true, -- ForceSpellRange()
+		[319] = true, -- ForceSpellPointRange()
 		[337] = true, -- ReallyForceSpellPoint()
 		[476] = true, -- EEex_SpellObjectOffset()
 		[477] = true, -- EEex_SpellObjectOffsetNoDec()
@@ -68,6 +72,10 @@ EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
 		if spellResRef == "" then
 			spellResRef = GT_Utility_DecodeSpell(action.m_specificID)
 		end
+		-- check if cantrip (in case my other component about cantrips is installed...)
+		local isCantrip = string.match(spellResRef:upper(), "^GTPR0[0-9][0-9]$") or string.match(spellResRef:upper(), "^GTWI0[0-9][0-9]$")
+		local spriteCantripsPerDay = sprite:getLocalInt("gtCantripsPerDay")
+		--
 		local spellHeader = EEex_Resource_Demand(spellResRef, "SPL")
 		local spellType = spellHeader.itemType
 		local spellSchool = spellHeader.school
@@ -76,15 +84,15 @@ EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
 		if (spellType == 1 or spellType == 2) and (spellSchool > 0 and spellSchool <= 8) then
 			--
 			if sprite.m_typeAI.m_EnemyAlly > 200 then -- EVILCUTOFF
-				spriteArray = EEex_Sprite_GetAllOfTypeInRange(sprite, GT_AI_ObjectType["GOODCUTOFF"], 448, nil, nil, nil) -- we ignore STATE_BLIND
+				spriteArray = EEex_Sprite_GetAllOfTypeInRange(sprite, GT_AI_ObjectType["GOODCUTOFF"], 448, nil, nil, nil) -- we intentionally ignore STATE_BLIND
 			elseif sprite.m_typeAI.m_EnemyAlly < 30 then -- GOODCUTOFF
-				spriteArray = EEex_Sprite_GetAllOfTypeInRange(sprite, GT_AI_ObjectType["EVILCUTOFF"], 448, nil, nil, nil) -- we ignore STATE_BLIND
+				spriteArray = EEex_Sprite_GetAllOfTypeInRange(sprite, GT_AI_ObjectType["EVILCUTOFF"], 448, nil, nil, nil) -- we intentionally ignore STATE_BLIND
 			end
 			--
 			local found = -1
 			--
 			for _, itrSprite in ipairs(spriteArray) do
-				if itrSprite:getLocalInt("cdtweaksSpellcraft") == 1 then
+				if itrSprite:getLocalInt("gtCounterSpell") == 1 then
 					local itrSpriteActiveStats = EEex_Sprite_GetActiveStats(itrSprite)
 					-- lore-based check (a lore score of 240+ => automatic success)
 					if itrSpriteActiveStats.m_nLore >= spellLevel * 10 + math.random(150) then
@@ -94,14 +102,82 @@ EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
 								if not EEex_Sprite_GetSpellState(itrSprite, 0x26) or math.random(0, 1) == 1 then 
 									-- provide feedback if PC
 									if itrSprite.m_typeAI.m_EnemyAlly == 2 then
-										Infinity_DisplayString(itrSprite:getName() .. ": " .. Infinity_FetchString(%feedback_strref_spellcraft%) .. sprite:getName() .. Infinity_FetchString(%feedback_strref_is_casting%) .. Infinity_FetchString(spellHeader.genericName))
+										GT_Utility_DisplaySpriteMessage(itrSprite,
+											string.format("%s : %s %s %s",
+												Infinity_FetchString(%feedback_strref_spellcraft%), sprite:getName(), Infinity_FetchString(%feedback_strref_is_casting%), Infinity_FetchString(spellHeader.genericName)),
+											0xBED7D7, 0xBED7D7 -- 
+										)
 									end
 									-- check if ``itrSprite`` is counterspelling...
-									if spriteActiveStats.m_bSanctuary == 0 and EEex_Sprite_GetCastTimer(itrSprite) == -1 and itrSprite:getLocalInt("gtCounterspellMode") == 1 and EEex_IsBitUnset(itrSpriteActiveStats.m_generalState, 12) then
+									if spriteActiveStats.m_bSanctuary == 0 and EEex_Sprite_GetCastTimer(itrSprite) == -1 and itrSprite:getLocalInt("gtCounterSpellMode") == 1 and EEex_IsBitUnset(itrSpriteActiveStats.m_generalState, 12) then
 										local spellLevelMemListTable = {[7] = itrSprite.m_memorizedSpellsPriest, [9] = itrSprite.m_memorizedSpellsMage}
+										--
+										local itrSpriteCantripsPerDay = itrSprite:getLocalInt("gtCantripsPerDay")
+										local counteredByCantrip = false
 										--
 										for maxLevel, spellLevelMemListArray in pairs(spellLevelMemListTable) do
 											for i = spellLevel, maxLevel do
+												-- cantrips need special treatment (i.e., if this is a cantrip, check if it can be countered by another cantrip)
+												if i == 0 and isCantrip and itrSpriteCantripsPerDay > 0 then
+													local array = EEex_Resource_Load2DA("GT#CNTRP")
+													local nX, nY = array:getDimensions()
+													nX = nX - 2
+													nY = nY - 1
+													-- get caster type (bit0 -> priest, bit1 -> wizard)
+													local casterType = itrSprite:getLocalInt("gtCantripsCasterType")
+													-- class check
+													local mxspl = itrSprite:getLocalString("gtCantripsMXSPL")
+													--
+													for rowIndex = 0, nY do
+														local res = EEex_Resource_GetAt2DAPoint(array, 1, rowIndex)
+														local pHeader = EEex_Resource_Demand(res, "spl")
+														local ids = pHeader.itemType == 1 and 2 .. res:sub(-3) or 1 .. res:sub(-3)
+														local symbol = GT_Resource_IDSToSymbol["gtspell"][tonumber(ids)]
+														--
+														if pHeader.itemType == 2 then -- priest
+															if EEex_IsBitSet(casterType, 0x0) then
+																if symbol:upper() ~= "CLERIC_CAUSE_MINOR_WOUNDS" or (not isGood:evalConditionalAsAIBase(itrSprite) and string.find(mxspl, "MXSPLPRS", 1, true)) then -- neutral or evil clerics only
+																	if symbol:upper() ~= "CLERIC_FLARE" or (mxspl == "MXSPLDRU" or mxspl == "MXSPLSHM") then -- druids/shamans only
+																		if symbol:upper() ~= "CLERIC_THORN_WHIP" or (mxspl == "MXSPLDRU" or mxspl == "MXSPLSHM") then -- druids/shamans only
+																			if symbol:upper() ~= "CLERIC_BLADE_WARD" or string.find(mxspl, "MXSPLPRS", 1, true) then -- clerics only
+																				if res:upper() == spellResRef:upper() then
+																					counteredByCantrip = true
+																					found = pHeader.school
+																					goto found
+																				else
+																					for _, mschool in ipairs(cdtweaks_Counterspell_OppositionSchool[spellSchool][1]) do
+																						if mschool == pHeader.school then
+																							counteredByCantrip = true
+																							found = pHeader.school
+																							goto found
+																						end
+																					end
+																				end
+																			end
+																		end
+																	end
+																end
+															end
+														elseif pHeader.itemType == 1 then -- wizard
+															if EEex_IsBitSet(casterType, 0x1) then
+																if res:upper() == spellResRef:upper() then
+																	counteredByCantrip = true
+																	found = pHeader.school
+																	goto found
+																else
+																	for _, mschool in ipairs(cdtweaks_Counterspell_OppositionSchool[spellSchool][1]) do
+																		if mschool == pHeader.school then
+																			counteredByCantrip = true
+																			found = pHeader.school
+																			goto found
+																		end
+																	end
+																end
+															end
+														end
+													end
+												end
+												-- normal (i.e. memorizable) spells
 												local memList = spellLevelMemListArray:getReference(i - 1) -- count starts from 0, that's why ``-1``
 												--
 												EEex_Utility_IterateCPtrList(memList, function(memInstance)
@@ -138,6 +214,7 @@ EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
 													end
 												end)
 												--
+												::found::
 												if found > 0 then
 													-- check for Spell Immunity and friends
 													local hasBounceEffects = false
@@ -160,7 +237,13 @@ EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
 													--
 													if not (hasBounceEffects or hasImmunityEffects) then
 														-- remove spell (so as to cancel the spell being cast)
-														action.m_actionID = 147 -- RemoveSpell()
+														if not isCantrip then
+															action.m_actionID = 147 -- RemoveSpell()
+														else
+															action.m_actionID = 0 -- NoAction()
+															--
+															sprite:setLocalInt("gtCantripsPerDay", spriteCantripsPerDay - 1)
+														end
 													end
 													-- perform counterspell
 													sprite:applyEffect({
@@ -169,6 +252,10 @@ EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
 														["sourceID"] = itrSprite.m_id,
 														["sourceTarget"] = sprite.m_id,
 													})
+													--
+													if counteredByCantrip then
+														itrSprite:setLocalInt("gtCantripsPerDay", itrSpriteCantripsPerDay - 1)
+													end
 													-- op146*p2=0 corresponds to 'ForceSpell()', so we have to manually set the aura
 													itrSprite.m_castCounter = 0
 													--
@@ -187,6 +274,8 @@ EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
 			::continue::
 		end
 	end
+	--
+	isGood:free()
 end)
 
 -- Mark the sprite as being in counterspell mode. Automatically cancel mode upon death --
