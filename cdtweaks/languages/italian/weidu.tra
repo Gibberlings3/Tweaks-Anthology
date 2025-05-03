@@ -434,6 +434,8 @@ o rimpiazzata da - un'altra facente parte di uno dei mods installati.~
 @269002 = "v2 (fare riferimento al readme)"
 @269003 = "v3 (fare riferimento al readme)"
 @269004 = "v4 (fare riferimento al readme)"
+
+@270000 = "Modifica la meccanica della Rigenerazione dei Troll [Luke (EEex)]"
 /*
 @258000 = ~Modifica tabella degli incantesimi divini divini basati sulla saggezza~
 @258001 = ~Usa tabella PnP/PsT~

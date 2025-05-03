@@ -1,0 +1,116 @@
+DEFINE_ACTION_FUNCTION "REVISED_TROLL_REGENERATION"
+BEGIN
+	WITH_SCOPE BEGIN
+		COPY_EXISTING_REGEXP "^.+\.cre$" "override"
+			PATCH_MATCH BYTE_AT 0x272 WITH
+				IDS_OF_SYMBOL ("race" "TROLL") BEGIN
+					LPF "patch_troll_cre" RET "value_1" = "ret" END
+					//
+					SET "value_2" = 0
+					GET_OFFSET_ARRAY "itm_array" CRE_V10_ITEMS
+					PHP_EACH "itm_array" AS "_" => "itm_ofs" BEGIN
+						READ_ASCII ("%itm_ofs%" + 0x0) "itm"
+						//
+						INNER_ACTION BEGIN
+							COPY_EXISTING "%itm%.itm" "override"
+								LPF "patch_troll_itm" RET "ret" END
+								PATCH_IF "%ret%" BEGIN
+									SET "value_2" = 1
+								END
+							BUT_ONLY
+						END
+					END
+					//
+					PATCH_IF "%value_1%" OR "%value_2%" BEGIN
+						// op403 listener
+						LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 403 "target" = 1 "timing" = 9 STR_VAR "resource" = "GTTRLRG1" END // screen effects
+					END
+				END
+				DEFAULT
+			END
+		BUT_ONLY
+	END
+
+	// lua
+	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Misc Tweaks" "sourceFileSpec" = "cdtweaks\luke\lua\tweaks\revised_troll_regeneration.lua" "destRes" = "m_gttwks" END
+	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lua\utility\has_bounce_effects.lua" "destRes" = "m_gtutil" END
+END
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+DEFINE_PATCH_FUNCTION "patch_troll_cre"
+RET
+	"ret"
+BEGIN
+	SET "ret" = 0
+	//
+	READ_BYTE 0x33 "fx_version"
+	SET "fx_size" = "%fx_version%" == 0 ? 0x30 : 0x108
+	READ_LONG 0x2c4 "ofs_fx"
+	READ_LONG 0x2c8 "num_fx"
+	//
+	FOR ("idx" = 0; "%idx%" < "%num_fx%"; ++"idx") BEGIN
+		SET "ofs" = "%ofs_fx%" + ("%idx%" * "%fx_size%")
+		PATCH_IF ("%fx_version%") BEGIN
+			READ_LONG ("%ofs%" + (0x10 - 8)) "op"
+			READ_LONG ("%ofs%" + (0x20 - 8)) "p2"
+		END ELSE BEGIN
+			READ_SHORT "%ofs%" "op"
+			READ_LONG ("%ofs%" + 0x8) "p2"
+		END
+		//
+		PATCH_MATCH "%op%" WITH
+			98 BEGIN // regeneration
+				SET "ret" = 1
+				PATCH_IF ("%fx_version%") BEGIN
+					WRITE_LONG ("%ofs%" + (0x10 - 8)) 999
+				END ELSE BEGIN
+					WRITE_SHORT "%ofs%" 999
+				END
+			END
+			142 WHEN ("%p2%" == 42) OR ("%p2%" == 87) BEGIN
+				SET "ret" = 1
+				PATCH_IF ("%fx_version%") BEGIN
+					WRITE_LONG ("%ofs%" + (0x10 - 8)) 999
+				END ELSE BEGIN
+					WRITE_SHORT "%ofs%" 999
+				END
+			END
+			DEFAULT
+		END
+	END
+	//
+	PATCH_IF "%ret%" BEGIN
+		LPF "DELETE_CRE_EFFECT" INT_VAR "opcode_to_delete" = 999 END
+	END
+END
+
+DEFINE_PATCH_FUNCTION "patch_troll_itm"
+RET
+	"ret"
+BEGIN
+	SET "ret" = 0
+	//
+	PATCH_IF (LONG_AT 0x18 BAND IDS_OF_SYMBOL ("itemflag" "DROPPABLE")) == 0 BEGIN
+		GET_OFFSET_ARRAY "fx_array" ITM_V10_GEN_EFFECTS
+		//
+		PHP_EACH "fx_array" AS "_" => "fx_ofs" BEGIN
+			PATCH_MATCH SHORT_AT "%fx_ofs%" WITH
+				98 BEGIN // regeneration
+					SET "ret" = 1
+					WRITE_SHORT "%fx_ofs%" 999
+				END
+				142 WHEN (LONG_AT ("%fx_ofs%" + 0x8) == 42) OR (LONG_AT ("%fx_ofs%" + 0x8) == 87) BEGIN
+					SET "ret" = 1
+					WRITE_SHORT "%ofs%" 999
+				END
+				DEFAULT
+			END
+		END
+		//
+		PATCH_IF "%ret%" BEGIN
+			LPF "DELETE_ITEM_EQEFFECT" INT_VAR "opcode_to_delete" = 999 END
+		END
+	END
+END
+
