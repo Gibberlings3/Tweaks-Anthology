@@ -26,7 +26,7 @@ function GTFLMGRS(op403CGameEffect, CGameEffect, CGameSprite)
 						CGameSprite:applyEffect({
 							["effectID"] = 0x146, -- Apply effects list (326)
 							--
-							["savingThrow"] = CGameEffect.m_savingThrow,
+							["savingThrow"] = EEex_IsBitSet(CGameEffect.m_special, 0x8) and 0 or CGameEffect.m_savingThrow, -- ignore save check if the save for half flag is set
 							["saveMod"] = CGameEffect.m_saveMod,
 							["m_flags"] = CGameEffect.m_flags,
 							--
