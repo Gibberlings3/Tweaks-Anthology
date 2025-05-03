@@ -72,13 +72,13 @@ function GTTRLRG1(op403CGameEffect, CGameEffect, CGameSprite)
 					["duration"] = CGameEffect.m_duration,
 					--
 					["m_flags"] = CGameEffect.m_flags,
-					["savingThrow"] = CGameEffect.m_savingThrow,
+					["savingThrow"] = EEex_IsBitSet(CGameEffect.m_special, 0x8) and 0 or CGameEffect.m_savingThrow, -- ignore save check if the save for half flag is set
 					["saveMod"] = CGameEffect.m_saveMod,
 					--
 					["spellLevel"] = CGameEffect.m_spellLevel,
 					["m_projectileType"] = CGameEffect.m_projectileType,
 					["m_school"] = CGameEffect.m_school,
-					["m_secondaryType"] = CGameEffect.m_secondaryType
+					["m_secondaryType"] = CGameEffect.m_secondaryType,
 					["m_sourceRes"] = CGameEffect.m_sourceRes:get(),
 					--
 					["m_sourceType"] = CGameEffect.m_sourceType,
