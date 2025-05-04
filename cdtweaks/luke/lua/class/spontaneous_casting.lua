@@ -48,7 +48,7 @@ EEex_Key_AddPressedListener(function(key)
 		return
 	end
 	-- check for op145
-	local spellcastingDisabled = GT_Sprite_SpellcastingDisabled(sprite, 0x1)
+	local spellcastingDisabled = GT_Sprite_SpellcastingDisabled(sprite, 0x2)
 	--
 	local lastState = EEex_Actionbar_GetLastState()
 	local state = EEex_Actionbar_GetState()

@@ -38,7 +38,7 @@ EEex_Key_AddPressedListener(function(key)
 	local state = EEex_Actionbar_GetState()
 
 	if sprite.m_typeAI.m_EnemyAlly == 2 then -- if [PC]
-		if key == 0x400000E0 then -- if ``Left Ctrl``
+		if key == EEex_Key_GetFromName("Left Ctrl") then
 			if cdtweaks_GiveEveryClassKitFourWeaponSlots[state] == 2 then
 				-- replace weapon 1 and 2 with 3 and 4
 				for i = 0, 11 do
@@ -72,7 +72,7 @@ EEex_Key_AddReleasedListener(function(key)
 	local state = EEex_Actionbar_GetState()
 
 	if sprite.m_typeAI.m_EnemyAlly == 2 then -- if [PC]
-		if key == 0x400000E0 then -- if ``Left Ctrl``
+		if key == EEex_Key_GetFromName("Left Ctrl") then
 			if cdtweaks_GiveEveryClassKitFourWeaponSlots[state] == 2 then
 				-- replace weapon 3 and 4 with 1 and 2
 				for i = 0, 11 do

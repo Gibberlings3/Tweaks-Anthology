@@ -42,7 +42,6 @@ local cdtweaks_Counterspell_UniversalCounter = {
 
 EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
 	local state = GT_Resource_SymbolToIDS["state"]
-	local stats = GT_Resource_SymbolToIDS["stats"]
 	--
 	local spriteActiveStats = EEex_Sprite_GetActiveStats(sprite)
 	-- alignment check
@@ -216,33 +215,17 @@ EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
 												--
 												::found::
 												if found > 0 then
-													-- check for Spell Immunity and friends
-													local hasBounceEffects = false
-													local hasImmunityEffects = false
-													--
-													local testSchool = function(effect)
-														if (effect.m_effectId == 0xCC or effect.m_effectId == 0xDF) and effect.m_dWFlags == found then -- Protection from spell school (204) / Spell school deflection (223)
-															hasImmunityEffects = true
-															return true
-														elseif (effect.m_effectId == 0xCA or effect.m_effectId == 0xE3) and effect.m_dWFlags == found then -- Reflect spell school (202) / Spell school turning (227)
-															hasBounceEffects = true
-															return true
-														end
-													end
-													--
-													EEex_Utility_IterateCPtrList(sprite.m_timedEffectList, testSchool)
-													if not (hasBounceEffects or hasImmunityEffects) then
-														EEex_Utility_IterateCPtrList(sprite.m_equipedEffectList, testSchool)
-													end
-													--
-													if not (hasBounceEffects or hasImmunityEffects) then
-														-- remove spell (so as to cancel the spell being cast)
-														if not isCantrip then
-															action.m_actionID = 147 -- RemoveSpell()
-														else
-															action.m_actionID = 0 -- NoAction()
-															--
-															sprite:setLocalInt("gtCantripsPerDay", spriteCantripsPerDay - 1)
+													-- check for Spell Immunity and Spell Turning
+													if not GT_Sprite_HasBounceEffects(sprite, 0, 0, found, 0, cdtweaks_Counterspell_OppositionSchool[found][2], {-1}, 0) then
+														if not GT_Sprite_HasImmunityEffects(sprite, 0, 0, found, 0, cdtweaks_Counterspell_OppositionSchool[found][2], {-1}, 0) then
+															-- remove spell (so as to cancel the spell being cast)
+															if not isCantrip then
+																action.m_actionID = 147 -- RemoveSpell()
+															else
+																action.m_actionID = 0 -- NoAction()
+																--
+																sprite:setLocalInt("gtCantripsPerDay", spriteCantripsPerDay - 1)
+															end
 														end
 													end
 													-- perform counterspell
@@ -301,7 +284,7 @@ function %INNATE_COUNTERSPELL%(CGameEffect, CGameSprite)
 			})
 		end
 		--
-		CGameSprite:setLocalInt("gtCounterspellMode", 1)
+		CGameSprite:setLocalInt("gtCounterSpellMode", 1)
 	elseif CGameEffect.m_effectAmount == 2 then
 		CGameSprite:applyEffect({
 			["effectID"] = 321, -- Remove effects by resource
@@ -310,15 +293,15 @@ function %INNATE_COUNTERSPELL%(CGameEffect, CGameSprite)
 			["sourceTarget"] = CGameSprite.m_id,
 		})
 		--
-		CGameSprite:setLocalInt("gtCounterspellMode", 0)
+		CGameSprite:setLocalInt("gtCounterSpellMode", 0)
 	end
 end
 
 -- Make sure it cannot be disrupted. Cancel mode if no longer idle --
 
 EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
-	if sprite:getLocalInt("cdtweaksSpellcraft") == 1 then
-		if sprite:getLocalInt("gtCounterspellMode") == 0 then
+	if sprite:getLocalInt("gtCounterSpell") == 1 then
+		if sprite:getLocalInt("gtCounterSpellMode") == 0 then
 			if action.m_actionID == 31 and action.m_string1.m_pchData:get() == "%INNATE_COUNTERSPELL%" then
 				action.m_actionID = 113 -- ForceSpell()
 			end

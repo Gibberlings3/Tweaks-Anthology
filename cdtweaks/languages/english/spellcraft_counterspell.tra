@@ -12,6 +12,5 @@
 @102 = "Counterspell Mode On"
 @103 = "Counterspell Mode Off"
 
-// NB.: the leading/trailing spaces are not a typo
-@200 = "Spellcraft: "
-@201 = " is about to cast "
+@200 = "Spellcraft"
+@201 = "is about to cast"

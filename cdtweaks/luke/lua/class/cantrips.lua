@@ -248,7 +248,7 @@ function GTCNTRP1(CGameEffect, CGameSprite)
 
 end
 
--- you can access the cantrips menu upon pressing and holding the Right Alt key --
+-- you can access the cantrips submenu upon pressing the Right Alt key while being in Cast Spell mode (F7) --
 
 EEex_Key_AddPressedListener(function(key)
 
