@@ -279,6 +279,7 @@ BEGIN
 				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 141 "target" = 1 "resist_dispel" = BIT0 | BIT1 "parameter2" = 28 END // lighting effects (Divination air)
 				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 142 "target" = 1 "resist_dispel" = BIT0 | BIT1 "parameter2" = "%feedback_icon%" "duration" = 120 END // feedback icon
 				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 174 "target" = 1 "resist_dispel" = BIT0 | BIT1 "timing" = 4 "duration" = 120 STR_VAR "resource" = "EFF_E02" END // sfx
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 278 "target" = 1 "resist_dispel" = BIT0 | BIT1 "parameter1" = 1 "duration" = 120 END // thac0 bonus
 			BUT_ONLY_IF_IT_CHANGES
 			//
 			LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Wizard Spells" "sourceFileSpec" = "cdtweaks\luke\lua\wizard\true_strike.lua" "destRes" = "m_gtspwi" END
@@ -529,6 +530,7 @@ BEGIN
 				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 "resist_dispel" = BIT0 "savingthrow" = BIT0 STR_VAR "resource" = "%DEST_RES%" END // invoke lua
 			BUT_ONLY_IF_IT_CHANGES
 			//
+			ACTION_TO_UPPER "CLERIC_SACRED_FLAME"
 			LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Priest Spells" "sourceFileSpec" = "cdtweaks\luke\lua\priest\sacred_flame.lua" "destRes" = "m_gtsppr" END
 		END
 	END
@@ -577,6 +579,7 @@ BEGIN
 				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 "resist_dispel" = BIT0 | BIT1 STR_VAR "resource" = "%DEST_RES%" END // invoke lua
 			BUT_ONLY_IF_IT_CHANGES
 			//
+			ACTION_TO_UPPER "CLERIC_VIRTUE"
 			LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Priest Spells" "sourceFileSpec" = "cdtweaks\luke\lua\priest\virtue.lua" "destRes" = "m_gtsppr" END
 		END
 	END
@@ -667,6 +670,7 @@ BEGIN
 				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 12 "target" = 2 "resist_dispel" = BIT0 "parameter2" = IDS_OF_SYMBOL ("dmgtype" "PIERCING") "dicenumber" = 1 "dicesize" = 6 "savingthrow" = BIT0 END // damage (1d6, save vs. spell to negate)
 			BUT_ONLY_IF_IT_CHANGES
 			//
+			ACTION_TO_UPPER "CLERIC_THORN_WHIP"
 			LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Priest Spells" "sourceFileSpec" = "cdtweaks\luke\lua\priest\thorn_whip.lua" "destRes" = "m_gtsppr" END
 		END
 	END
