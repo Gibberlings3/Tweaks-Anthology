@@ -17,7 +17,7 @@ BEGIN
 		ACTION_IF !(FILE_EXISTS_IN_GAME "%WIZARD_ACID_SPLASH%.spl") BEGIN
 			ACTION_TO_LOWER "WIZARD_ACID_SPLASH"
 			//
-			COPY "cdtweaks\luke\bam\class\cantrips\acid_splash.bam" "override\%WIZARD_ACID_SPLASH%b.bam"
+			COPY "cdtweaks\luke\bam\class\cantrips\acid_splash\ability_icon.bam" "override\%WIZARD_ACID_SPLASH%b.bam"
 			//
 			WITH_SCOPE BEGIN
 				ACTION_CLEAR_ARRAY "gt_cosmetic"
@@ -79,7 +79,7 @@ BEGIN
 		ACTION_IF !(FILE_EXISTS_IN_GAME "%WIZARD_FIRE_BOLT%.spl") BEGIN
 			ACTION_TO_LOWER "WIZARD_FIRE_BOLT"
 			//
-			COPY "cdtweaks\luke\bam\class\cantrips\fire_bolt.bam" "override\%WIZARD_FIRE_BOLT%b.bam"
+			COPY "cdtweaks\luke\bam\class\cantrips\fire_bolt\ability_icon.bam" "override\%WIZARD_FIRE_BOLT%b.bam"
 			//
 			COPY_EXISTING "%WIZARD_ACID_SPLASH%.spl" "override\%WIZARD_FIRE_BOLT%.spl"
 				WRITE_LONG NAME1 RESOLVE_STR_REF (@10)
@@ -110,7 +110,7 @@ BEGIN
 		ACTION_IF !(FILE_EXISTS_IN_GAME "%WIZARD_RAY_OF_FROST%.spl") BEGIN
 			ACTION_TO_LOWER "WIZARD_RAY_OF_FROST"
 			//
-			COPY "cdtweaks\luke\bam\class\cantrips\ray_of_frost.bam" "override\%WIZARD_RAY_OF_FROST%b.bam"
+			COPY "cdtweaks\luke\bam\class\cantrips\ray_of_frost\ability_icon.bam" "override\%WIZARD_RAY_OF_FROST%b.bam"
 			//
 			COPY_EXISTING "%WIZARD_ACID_SPLASH%.spl" "override\%WIZARD_RAY_OF_FROST%.spl"
 				WRITE_LONG NAME1 RESOLVE_STR_REF (@20)
@@ -138,7 +138,7 @@ BEGIN
 		ACTION_IF !(FILE_EXISTS_IN_GAME "%WIZARD_ELECTRIC_JOLT%.spl") BEGIN
 			ACTION_TO_LOWER "WIZARD_ELECTRIC_JOLT"
 			//
-			COPY "cdtweaks\luke\bam\class\cantrips\electric_jolt.bam" "override\%WIZARD_ELECTRIC_JOLT%b.bam"
+			COPY "cdtweaks\luke\bam\class\cantrips\electric_jolt\ability_icon.bam" "override\%WIZARD_ELECTRIC_JOLT%b.bam"
 			//
 			WITH_SCOPE BEGIN
 				ACTION_CLEAR_ARRAY "gt_cosmetic"
@@ -182,7 +182,7 @@ BEGIN
 		ACTION_IF !(FILE_EXISTS_IN_GAME "%WIZARD_POISON_SPRAY%.spl") BEGIN
 			ACTION_TO_LOWER "WIZARD_POISON_SPRAY"
 			//
-			COPY "cdtweaks\luke\bam\class\cantrips\poison_spray.bam" "override\%WIZARD_POISON_SPRAY%b.bam"
+			COPY "cdtweaks\luke\bam\class\cantrips\poison_spray\ability_icon.bam" "override\%WIZARD_POISON_SPRAY%b.bam"
 			//
 			COPY_EXISTING "%WIZARD_ACID_SPLASH%.spl" "override\%WIZARD_POISON_SPRAY%.spl"
 				WRITE_LONG NAME1 RESOLVE_STR_REF (@40)
@@ -210,7 +210,7 @@ BEGIN
 		ACTION_IF !(FILE_EXISTS_IN_GAME "%WIZARD_FLARE%.spl") BEGIN
 			ACTION_TO_LOWER "WIZARD_FLARE"
 			//
-			COPY "cdtweaks\luke\bam\class\cantrips\flare.bam" "override\%WIZARD_FLARE%b.bam"
+			COPY "cdtweaks\luke\bam\class\cantrips\flare\ability_icon.bam" "override\%WIZARD_FLARE%b.bam"
 			//
 			CREATE "spl" "%WIZARD_FLARE%"
 			COPY_EXISTING "%WIZARD_FLARE%.spl" "override"
@@ -252,9 +252,9 @@ BEGIN
 		ACTION_IF !(FILE_EXISTS_IN_GAME "%WIZARD_TRUE_STRIKE%.spl") BEGIN
 			ACTION_TO_LOWER "WIZARD_TRUE_STRIKE"
 			//
-			COPY "cdtweaks\luke\bam\class\cantrips\true_strike.bam" "override\%WIZARD_TRUE_STRIKE%b.bam"
+			COPY "cdtweaks\luke\bam\class\cantrips\true_strike\ability_icon.bam" "override\%WIZARD_TRUE_STRIKE%b.bam"
 			//
-			COPY "cdtweaks\luke\bam\wizard\true_strike.bam" "override\%WIZARD_TRUE_STRIKE%d.bam"
+			COPY "cdtweaks\luke\bam\class\cantrips\true_strike\portrait_icon.bam" "override\%WIZARD_TRUE_STRIKE%d.bam"
 			LAF "ADD_STATDESC_ENTRY" INT_VAR "description" = RESOLVE_STR_REF (@60) STR_VAR "bam_file" = "%WIZARD_TRUE_STRIKE%d" RET "feedback_icon" = "index" END
 			//
 			CREATE "spl" "%WIZARD_TRUE_STRIKE%"
@@ -302,7 +302,7 @@ BEGIN
 		ACTION_IF !(FILE_EXISTS_IN_GAME "%CLERIC_CURE_MINOR_WOUNDS%.spl") BEGIN
 			ACTION_TO_LOWER "CLERIC_CURE_MINOR_WOUNDS"
 			//
-			COPY "cdtweaks\luke\bam\class\cantrips\cure_minor_wounds.bam" "override\%CLERIC_CURE_MINOR_WOUNDS%b.bam"
+			COPY "cdtweaks\luke\bam\class\cantrips\cure_minor_wounds\ability_icon.bam" "override\%CLERIC_CURE_MINOR_WOUNDS%b.bam"
 			//
 			CREATE "spl" "%CLERIC_CURE_MINOR_WOUNDS%"
 			COPY_EXISTING "%CLERIC_CURE_MINOR_WOUNDS%.spl" "override"
@@ -379,7 +379,7 @@ BEGIN
 		ACTION_IF !(FILE_EXISTS_IN_GAME "%CLERIC_CAUSE_MINOR_WOUNDS%.spl") BEGIN
 			ACTION_TO_LOWER "CLERIC_CAUSE_MINOR_WOUNDS"
 			//
-			COPY "cdtweaks\luke\bam\class\cantrips\cause_minor_wounds.bam" "override\%CLERIC_CAUSE_MINOR_WOUNDS%b.bam"
+			COPY "cdtweaks\luke\bam\class\cantrips\cause_minor_wounds\ability_icon.bam" "override\%CLERIC_CAUSE_MINOR_WOUNDS%b.bam"
 			//
 			CREATE "spl" "%CLERIC_CAUSE_MINOR_WOUNDS%"
 			COPY_EXISTING "%CLERIC_CAUSE_MINOR_WOUNDS%.spl" "override"
@@ -458,9 +458,9 @@ BEGIN
 		ACTION_IF !(FILE_EXISTS_IN_GAME "%CLERIC_BLADE_WARD%.spl") BEGIN
 			ACTION_TO_LOWER "CLERIC_BLADE_WARD"
 			//
-			COPY "cdtweaks\luke\bam\class\cantrips\blade_ward.bam" "override\%CLERIC_BLADE_WARD%b.bam"
+			COPY "cdtweaks\luke\bam\class\cantrips\blade_ward\ability_icon.bam" "override\%CLERIC_BLADE_WARD%b.bam"
 			//
-			COPY "cdtweaks\luke\bam\priest\blade_ward.bam" "override\%CLERIC_BLADE_WARD%d.bam"
+			COPY "cdtweaks\luke\bam\class\cantrips\blade_ward\portrait_icon.bam" "override\%CLERIC_BLADE_WARD%d.bam"
 			LAF "ADD_STATDESC_ENTRY" INT_VAR "description" = RESOLVE_STR_REF (@60) STR_VAR "bam_file" = "%CLERIC_BLADE_WARD%d" RET "feedback_icon" = "index" END
 			//
 			CREATE "spl" "%CLERIC_BLADE_WARD%"
@@ -505,7 +505,7 @@ BEGIN
 		ACTION_IF !(FILE_EXISTS_IN_GAME "%CLERIC_SACRED_FLAME%.spl") BEGIN
 			ACTION_TO_LOWER "CLERIC_SACRED_FLAME"
 			//
-			COPY "cdtweaks\luke\bam\class\cantrips\sacred_flame.bam" "override\%CLERIC_SACRED_FLAME%b.bam"
+			COPY "cdtweaks\luke\bam\class\cantrips\sacred_flame\ability_icon.bam" "override\%CLERIC_SACRED_FLAME%b.bam"
 			//
 			CREATE "spl" "%CLERIC_SACRED_FLAME%"
 			COPY_EXISTING "%CLERIC_SACRED_FLAME%.spl" "override"
@@ -547,9 +547,9 @@ BEGIN
 		ACTION_IF !(FILE_EXISTS_IN_GAME "%CLERIC_VIRTUE%.spl") BEGIN
 			ACTION_TO_LOWER "CLERIC_VIRTUE"
 			//
-			COPY "cdtweaks\luke\bam\class\cantrips\virtue.bam" "override\%CLERIC_VIRTUE%b.bam"
+			COPY "cdtweaks\luke\bam\class\cantrips\virtue\ability_icon.bam" "override\%CLERIC_VIRTUE%b.bam"
 			//
-			COPY "cdtweaks\luke\bam\priest\virtue.bam" "override\%CLERIC_VIRTUE%d.bam"
+			COPY "cdtweaks\luke\bam\class\cantrips\virtue\portrait_icon.bam" "override\%CLERIC_VIRTUE%d.bam"
 			LAF "ADD_STATDESC_ENTRY" INT_VAR "description" = RESOLVE_STR_REF (@1040) STR_VAR "bam_file" = "%CLERIC_VIRTUE%d" RET "feedback_icon" = "index" END
 			//
 			CREATE "spl" "%CLERIC_VIRTUE%"
@@ -595,9 +595,9 @@ BEGIN
 		ACTION_IF !(FILE_EXISTS_IN_GAME "%CLERIC_RESISTANCE%.spl") BEGIN
 			ACTION_TO_LOWER "CLERIC_RESISTANCE"
 			//
-			COPY "cdtweaks\luke\bam\class\cantrips\resistance.bam" "override\%CLERIC_RESISTANCE%b.bam"
+			COPY "cdtweaks\luke\bam\class\cantrips\resistance\ability_icon.bam" "override\%CLERIC_RESISTANCE%b.bam"
 			//
-			COPY "cdtweaks\luke\bam\priest\resistance.bam" "override\%CLERIC_RESISTANCE%d.bam"
+			COPY "cdtweaks\luke\bam\class\cantrips\resistance\portrait_icon.bam" "override\%CLERIC_RESISTANCE%d.bam"
 			LAF "ADD_STATDESC_ENTRY" INT_VAR "description" = RESOLVE_STR_REF (@1050) STR_VAR "bam_file" = "%CLERIC_RESISTANCE%d" RET "feedback_icon" = "index" END
 			//
 			CREATE "spl" "%CLERIC_RESISTANCE%"
@@ -641,7 +641,7 @@ BEGIN
 		ACTION_IF !(FILE_EXISTS_IN_GAME "%CLERIC_THORN_WHIP%.spl") BEGIN
 			ACTION_TO_LOWER "CLERIC_THORN_WHIP"
 			//
-			COPY "cdtweaks\luke\bam\class\cantrips\thorn_whip.bam" "override\%CLERIC_THORN_WHIP%b.bam"
+			COPY "cdtweaks\luke\bam\class\cantrips\thorn_whip\ability_icon.bam" "override\%CLERIC_THORN_WHIP%b.bam"
 			//
 			CREATE "spl" "%CLERIC_THORN_WHIP%"
 			COPY_EXISTING "%CLERIC_THORN_WHIP%.spl" "override"
@@ -685,7 +685,7 @@ BEGIN
 		ACTION_IF !(FILE_EXISTS_IN_GAME "%CLERIC_POISON_SPRAY%.spl") BEGIN
 			ACTION_TO_LOWER "CLERIC_POISON_SPRAY"
 			//
-			COPY "cdtweaks\luke\bam\class\cantrips\poison_spray.bam" "override\%CLERIC_POISON_SPRAY%b.bam"
+			COPY "cdtweaks\luke\bam\class\cantrips\poison_spray\ability_icon.bam" "override\%CLERIC_POISON_SPRAY%b.bam"
 			//
 			CREATE "spl" "%CLERIC_POISON_SPRAY%"
 			COPY_EXISTING "%CLERIC_POISON_SPRAY%.spl" "override"
@@ -726,7 +726,7 @@ BEGIN
 		ACTION_IF !(FILE_EXISTS_IN_GAME "%CLERIC_FLARE%.spl") BEGIN
 			ACTION_TO_LOWER "CLERIC_FLARE"
 			//
-			COPY "cdtweaks\luke\bam\class\cantrips\flare.bam" "override\%CLERIC_FLARE%b.bam"
+			COPY "cdtweaks\luke\bam\class\cantrips\flare\ability_icon.bam" "override\%CLERIC_FLARE%b.bam"
 			//
 			CREATE "spl" "%CLERIC_FLARE%"
 			COPY_EXISTING "%CLERIC_FLARE%.spl" "override"
