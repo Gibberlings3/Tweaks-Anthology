@@ -5299,7 +5299,7 @@ LABEL ~cd_tweaks_circle_kick~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-BEGIN @017000 DESIGNATED 6170
+BEGIN @617000 DESIGNATED 6170
 GROUP @30
 REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet iwdee~ @25
 REQUIRE_PREDICATE MOD_IS_INSTALLED ~EEex.tp2~ 0 @29
