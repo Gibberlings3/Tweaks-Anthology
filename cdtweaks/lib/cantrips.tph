@@ -400,6 +400,8 @@ BEGIN
 				//
 				LPF "ADD_SPELL_CFEFFECT" INT_VAR "opcode" = 177 "target" = 1 "timing" = 1 "parameter2" = 2 STR_VAR "resource" = "GT#CNTRP" END // use EFF file
 				//
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 "resist_dispel" = BIT1 STR_VAR "resource" = "GTCNTRP2" END // invoke lua
+				//
 				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 326 "target" = 2 "resist_dispel" = BIT1 "parameter2" = 1 STR_VAR "resource" = "%DEST_RES%B" END // harm undead
 				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 318 "target" = 2 "resist_dispel" = BIT0 "parameter2" = 1 STR_VAR "resource" = "%DEST_RES%" END
 				//
@@ -436,7 +438,7 @@ BEGIN
 					LPF "ADD_SPELL_EFFECT" INT_VAR "match_opcode" = 215 "duration" = 2 STR_VAR "resource" = "SPHEALIN" END // play vfx
 				END
 				//
-				PATCH_FOR_EACH "op" IN 318 324 326 BEGIN
+				PATCH_FOR_EACH "op" IN 318 324 326 402 BEGIN
 					LPF "DELETE_SPELL_EFFECT" INT_VAR "opcode_to_delete" = "%op%" END
 				END
 				//
@@ -526,6 +528,7 @@ BEGIN
 				//
 				LPF "ADD_SPELL_CFEFFECT" INT_VAR "opcode" = 177 "target" = 1 "timing" = 1 "parameter2" = 2 STR_VAR "resource" = "GT#CNTRP" END // use EFF file
 				//
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 "resist_dispel" = BIT1 STR_VAR "resource" = "GTCNTRP2" END // invoke lua
 				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 215 "target" = 2 "resist_dispel" = BIT0 | BIT1 "timing" = 1 STR_VAR "resource" = "BGLRYH" END // play vfx
 				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 "resist_dispel" = BIT0 "savingthrow" = BIT0 STR_VAR "resource" = "%DEST_RES%" END // invoke lua
 			BUT_ONLY_IF_IT_CHANGES
@@ -664,6 +667,7 @@ BEGIN
 				//
 				LPF "ADD_SPELL_CFEFFECT" INT_VAR "opcode" = 177 "target" = 1 "timing" = 1 "parameter2" = 2 STR_VAR "resource" = "GT#CNTRP" END // use EFF file
 				//
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 "resist_dispel" = BIT1 STR_VAR "resource" = "GTCNTRP2" END // invoke lua
 				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 215 "target" = 1 "resist_dispel" = BIT0 | BIT1 "timing" = 1 STR_VAR "resource" = "SPCOMSTT" END // play vfx
 				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 215 "target" = 2 "resist_dispel" = BIT0 | BIT1 "timing" = 1 STR_VAR "resource" = "SPCOMEND" END // play vfx
 				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 "resist_dispel" = BIT0 "savingthrow" = BIT0 STR_VAR "resource" = "%DEST_RES%" END // invoke lua
