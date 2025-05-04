@@ -63,7 +63,7 @@ function GTTRLRG1(op403CGameEffect, CGameEffect, CGameSprite)
 	if CGameEffect.m_effectId == 0xC then -- damage
 		if EEex_IsMaskSet(CGameEffect.m_dWFlags, dmgtype["FIRE"]) or EEex_IsMaskSet(CGameEffect.m_dWFlags, dmgtype["ACID"]) then
 			-- make sure it is *not* reflected
-			if not GT_Sprite_HasBounceEffects(CGameSprite, CGameEffect.m_spellLevel, CGameEffect.m_projectileType, CGameEffect.m_school, CGameEffect.m_secondaryType, CGameEffect.m_sourceRes:get()) then
+			if not GT_Sprite_HasBounceEffects(CGameSprite, CGameEffect.m_spellLevel, CGameEffect.m_projectileType, CGameEffect.m_school, CGameEffect.m_secondaryType, CGameEffect.m_sourceRes:get(), {402}, CGameEffect.m_flags) then
 				CGameSprite:applyEffect({
 					["effectID"] = 402, -- invoke lua
 					["res"] = "GTTRLRG2", -- lua func
@@ -83,6 +83,8 @@ function GTTRLRG1(op403CGameEffect, CGameEffect, CGameSprite)
 					--
 					["m_sourceType"] = CGameEffect.m_sourceType,
 					["m_sourceFlags"] = CGameEffect.m_sourceFlags,
+					["m_slotNum"] = CGameEffect.m_slotNum,
+					["m_casterLevel"] = CGameEffect.m_casterLevel,
 					--
 					["sourceID"] = CGameEffect.m_sourceId,
 					["sourceTarget"] = CGameEffect.m_sourceTarget,
