@@ -812,3 +812,5 @@ Usa opzioni di Baldur.lua:           a7_interval_ini
 @631000 = "Aggiungi talento di classe Andatura nel Bosco per i Druidi [Luke (EEex)]"
 
 @632000 = "Aggiungi talento di classe Nemico Giurato per i Ranger [Luke (EEex)]"
+
+@633000 = "Aggiungi talento di classe Trucchetti per gli Incantatori [Luke (EEex)]"
