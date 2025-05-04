@@ -461,7 +461,7 @@ BEGIN
 			COPY "cdtweaks\luke\bam\class\cantrips\blade_ward\ability_icon.bam" "override\%CLERIC_BLADE_WARD%b.bam"
 			//
 			COPY "cdtweaks\luke\bam\class\cantrips\blade_ward\portrait_icon.bam" "override\%CLERIC_BLADE_WARD%d.bam"
-			LAF "ADD_STATDESC_ENTRY" INT_VAR "description" = RESOLVE_STR_REF (@60) STR_VAR "bam_file" = "%CLERIC_BLADE_WARD%d" RET "feedback_icon" = "index" END
+			LAF "ADD_STATDESC_ENTRY" INT_VAR "description" = RESOLVE_STR_REF (@1020) STR_VAR "bam_file" = "%CLERIC_BLADE_WARD%d" RET "feedback_icon" = "index" END
 			//
 			CREATE "spl" "%CLERIC_BLADE_WARD%"
 			COPY_EXISTING "%CLERIC_BLADE_WARD%.spl" "override"
@@ -757,6 +757,7 @@ BEGIN
 	//////////////////////////////
 
 	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lua\utility\spellcasting_disabled.lua" "destRes" = "m_gtutil" END
+	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Cantrips" "sourceFileSpec" = "cdtweaks\luke\lua\class\cantrips.lua" "destRes" = "m_gtcntr" END
 
 	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
 		COPY "cdtweaks\luke\lua\m_gttbls.lua" "override"
