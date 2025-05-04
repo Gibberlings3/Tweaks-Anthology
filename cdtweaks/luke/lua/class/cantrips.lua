@@ -30,7 +30,7 @@ local function GT_Cantrips_MaxUsesPerDay(CGameSprite)
 	end
 	--
 	for k, v in pairs(tbl) do
-		local mxspl = GT_Resource_2DA[string.lower(v)]
+		local mxspl = GT_Resource_2DA["mxspl" .. string.lower(v)]
 		if k == "1" then
 			table.insert(array, tonumber(mxspl[tostring(m_level1)]["1"]))
 		elseif k == "2" then
@@ -99,67 +99,67 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	if isDruid then
 		casterType = 0x1
 		classLevels = "1"
-		mxspl = "MXSPLDRU"
+		mxspl = "DRU"
 	elseif isFighterDruid then
 		casterType = 0x1
 		classLevels = "2"
-		mxspl = "MXSPLDRU"
+		mxspl = "DRU"
 	elseif isCleric or isClericThief or isClericRanger then
 		casterType = 0x1
 		classLevels = "1"
-		mxspl = "MXSPLPRS"
+		mxspl = "PRS"
 	elseif isFighterCleric then
 		casterType = 0x1
 		classLevels = "2"
-		mxspl = "MXSPLPRS"
+		mxspl = "PRS"
 	elseif isShaman then
 		casterType = 0x1
 		classLevels = "1"
-		mxspl = "MXSPLSHM"
+		mxspl = "SHM"
 	elseif isMage or isMageThief then
 		casterType = 0x2
 		classLevels = "1"
-		mxspl = "MXSPLWIZ"
+		mxspl = "WIZ"
 	elseif isFighterMage or isFighterMageThief then
 		casterType = 0x2
 		classLevels = "2"
-		mxspl = "MXSPLWIZ"
+		mxspl = "WIZ"
 	elseif isSorcerer then
 		casterType = 0x2
 		classLevels = "1"
 		if spriteKitStr == "DRAGON_DISCIPLE" then
-			mxspl = "MXSPLDD"
+			mxspl = "DD"
 		else
-			mxspl = "MXSPLSRC"
+			mxspl = "SRC"
 		end
 	elseif isFighterMageCleric then
 		classLevels = "2_3"
-		mxspl = "MXSPLWIZ_MXSPLPRS"
+		mxspl = "WIZ_PRS"
 		casterType = 0x3
 	elseif isClericMage then
 		if EEex_IsBitSet(spriteFlags, 0x4) then -- original class: mage
 			if spriteLevel1 > spriteLevel2 then -- complete dual
 				classLevels = "1_2"
-				mxspl = "MXSPLPRS_MXSPLWIZ"
+				mxspl = "PRS_WIZ"
 				casterType = 0x3
 			else -- incomplete dual
 				classLevels = "1"
-				mxspl = "MXSPLPRS"
+				mxspl = "PRS"
 				casterType = 0x1
 			end
 		elseif EEex_IsBitSet(spriteFlags, 0x5) then -- original class: cleric
 			if spriteLevel2 > spriteLevel1 then -- complete dual
 				classLevels = "1_2"
-				mxspl = "MXSPLPRS_MXSPLWIZ"
+				mxspl = "PRS_WIZ"
 				casterType = 0x3
 			else -- incomplete dual
 				classLevels = "2"
-				mxspl = "MXSPLWIZ"
+				mxspl = "WIZ"
 				casterType = 0x2
 			end
 		else -- multiclass
 			classLevels = "1_2"
-			mxspl = "MXSPLPRS_MXSPLWIZ"
+			mxspl = "PRS_WIZ"
 			casterType = 0x3
 		end
 	end
@@ -218,11 +218,13 @@ function GTCNTRP1(CGameEffect, CGameSprite)
 					--
 					if pHeader.itemType == 2 and not spellcastingDisabled then -- priest
 						if EEex_IsBitSet(casterType, 0x0) then
-							if spellResRef:upper() ~= "%CLERIC_CAUSE_MINOR_WOUNDS%" or (not isGood:evalConditionalAsAIBase(CGameSprite) and string.find(mxspl, "MXSPLPRS", 1, true)) then -- evil clerics only
-								if spellResRef:upper() ~= "%CLERIC_FLARE%" or (mxspl == "MXSPLDRU" or mxspl == "MXSPLSHM") then -- druids/shamans only
-									if spellResRef:upper() ~= "%CLERIC_THORN_WHIP%" or (mxspl == "MXSPLDRU" or mxspl == "MXSPLSHM") then -- druids/shamans only
-										if spellResRef:upper() ~= "%CLERIC_BLADE_WARD%" or string.find(mxspl, "MXSPLPRS", 1, true) then -- clerics only
-											return true
+							if spellResRef:upper() ~= "%CLERIC_CAUSE_MINOR_WOUNDS%" or (not isGood:evalConditionalAsAIBase(CGameSprite) and string.find(mxspl, "PRS", 1, true)) then -- evil clerics only
+								if spellResRef:upper() ~= "%CLERIC_FLARE%" or (mxspl == "DRU" or mxspl == "SHM") then -- druids/shamans only
+									if spellResRef:upper() ~= "%CLERIC_THORN_WHIP%" or (mxspl == "DRU" or mxspl == "SHM") then -- druids/shamans only
+										if spellResRef:upper() ~= "%CLERIC_POISON_SPRAY%" or (mxspl == "DRU" or mxspl == "SHM") then -- druids/shamans only
+											if spellResRef:upper() ~= "%CLERIC_BLADE_WARD%" or string.find(mxspl, "PRS", 1, true) then -- clerics only
+												return true
+											end
 										end
 									end
 								end
