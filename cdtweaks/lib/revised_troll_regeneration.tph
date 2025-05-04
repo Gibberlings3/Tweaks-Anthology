@@ -3,7 +3,7 @@ BEGIN
 	WITH_SCOPE BEGIN
 		COPY_EXISTING_REGEXP "^.+\.cre$" "override"
 			PATCH_MATCH BYTE_AT 0x272 WITH
-				IDS_OF_SYMBOL ("race" "TROLL") BEGIN
+				IDS_OF_SYMBOL ("race" "TROLL") IDS_OF_SYMBOL ("race" "SNOW_TROLL") BEGIN
 					LPF "patch_troll_cre" RET "value_1" = "ret" END
 					//
 					SET "value_2" = 0
