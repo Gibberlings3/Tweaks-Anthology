@@ -24,9 +24,9 @@ local opcodeDefinitions = {
 	--
 	[8] = { ["opcode"] = {38, -1}, ["string"] = {"Silence", "Silenced", "Bard Song Silenced"}, ["icon"] = {34}, ["vfx"] = {}, ["extra"] = {} }, -- silence
 	--
-	[9] = { ["opcode"] = {39, -1}, ["string"] = {"Sleep", "Unconscious"}, ["icon"] = {14, 44, 126, 130}, ["vvc"] = {}, ["extra"] = {{[328] = 0}} }, -- sleep
+	[9] = { ["opcode"] = {39, -1}, ["string"] = {"Sleep", "Unconscious"}, ["icon"] = {14, 44, 126, 130}, ["vfx"] = {}, ["extra"] = {{[328] = 0}} }, -- sleep
 	--
-	[10] = { ["opcode"] = {40, -1}, ["string"] = {"Slow", "Slowed"}, ["icon"] = {41}, ["vfx"] = {}, ["extra"] = {54, 0} }, -- slow
+	[10] = { ["opcode"] = {40, -1}, ["string"] = {"Slow", "Slowed"}, ["icon"] = {41}, ["vfx"] = {}, ["extra"] = {{[0] = -1}, {[54] = -1}} }, -- slow
 	--
 	[11] = { ["opcode"] = {45, -1}, ["string"] = {"Stun", "Stunned"}, ["icon"] = {55}, ["vfx"] = {"CDSTUN", "SPFLAYER", "SPMINDAT"}, ["extra"] = {} }, -- stun
 	--
@@ -119,7 +119,7 @@ local function isInstantEffect(CGameEffectBase)
 	return false
 end
 
-local function processEffect(CGameEffectBase, table, language, displaySubtitles, stored_duration, parent_duration, bit)
+local function isBlockableOrRemovableEffect(CGameEffectBase, table, language, displaySubtitles, stored_duration, parent_duration, bit)
 	if stored_duration == -1 and parent_duration == -1 then
 		if CGameEffectBase.m_effectId == table["opcode"][1] then
 			if table["opcode"][2] == -1 or CGameEffectBase.m_dWFlags == table["opcode"][2] then
@@ -134,7 +134,7 @@ local function processEffect(CGameEffectBase, table, language, displaySubtitles,
 		-- EFF files
 		elseif CGameEffectBase.m_effectId == 177 or CGameEffectBase.m_effectId == 283 then -- Use EFF file
 			-- NB.: In a recursive function, if the innermost call returns ``true``, it does not automatically cause the outermost function to return ``true``. We need to explicitly propagate the true value back up the call stack
-			local result = processEffect(EEex_Resource_Demand(CGameEffectBase.m_res:get(), "eff"), table, language, displaySubtitles, stored_duration, parent_duration, bit) -- recursive call
+			local result = isBlockableOrRemovableEffect(EEex_Resource_Demand(CGameEffectBase.m_res:get(), "eff"), table, language, displaySubtitles, stored_duration, parent_duration, bit) -- recursive call
 			if result then
 				return true
 			end
@@ -167,7 +167,7 @@ local function processEffect(CGameEffectBase, table, language, displaySubtitles,
 	-- EFF files
 	elseif CGameEffectBase.m_effectId == 177 or CGameEffectBase.m_effectId == 283 then -- Use EFF file
 		-- NB.: In a recursive function, if the innermost call returns ``true``, it does not automatically cause the outermost function to return ``true``. We need to explicitly propagate the true value back up the call stack
-		local result = processEffect(EEex_Resource_Demand(CGameEffectBase.m_res:get(), "eff"), table, language, displaySubtitles, stored_duration, parent_duration, bit) -- recursive call
+		local result = isBlockableOrRemovableEffect(EEex_Resource_Demand(CGameEffectBase.m_res:get(), "eff"), table, language, displaySubtitles, stored_duration, parent_duration, bit) -- recursive call
 		if result then
 			return true
 		end
@@ -213,7 +213,7 @@ function GTIMMUNE(op403CGameEffect, CGameEffect, CGameSprite)
 		--
 		if EEex_IsBitSet(original, bit % 32) then
 			--
-			if processEffect(CGameEffect, opcodeDefinitions[bit], language, displaySubtitles, -1, -1, bit) then
+			if isBlockableOrRemovableEffect(CGameEffect, opcodeDefinitions[bit], language, displaySubtitles, -1, -1, bit) then
 				-- set a temporary marker
 				local effectCodes = {
 					{["op"] = 318, ["res"] = "GTIMM403", ["stype"] = CGameEffect.m_savingThrow, ["sbonus"] = CGameEffect.m_saveMod + 2}, -- protection from resource
@@ -249,7 +249,7 @@ function GTIMMUNE(op403CGameEffect, CGameEffect, CGameSprite)
 						EEex_Utility_IterateCPtrList(list, function(effect)
 							if effect.m_sourceRes:get() == parentResRef then
 								if effect.m_effectAmount5 == CGameEffect.m_effectAmount5 then -- time applied
-									if processEffect(effect, opcodeDefinitions[bit], language, displaySubtitles, CGameEffect.m_duration, math.floor((effect.m_duration - effect.m_effectAmount5) / 15), bit) then
+									if isBlockableOrRemovableEffect(effect, opcodeDefinitions[bit], language, displaySubtitles, CGameEffect.m_duration, math.floor((effect.m_duration - effect.m_effectAmount5) / 15), bit) then
 										effect.m_sourceRes:set("GTIMMUNE")
 									end
 								end
@@ -274,7 +274,7 @@ function GTIMMUNE(op403CGameEffect, CGameEffect, CGameSprite)
 					if v["bit"] == bit then
 						if v["m_sourceRes"] == parentResRef then
 							if v["m_effectAmount5"] == CGameEffect.m_effectAmount5 then -- time applied
-								if processEffect(CGameEffect, opcodeDefinitions[bit], language, displaySubtitles, v["duration"], CGameEffect.m_duration, bit) then
+								if isBlockableOrRemovableEffect(CGameEffect, opcodeDefinitions[bit], language, displaySubtitles, v["duration"], CGameEffect.m_duration, bit) then
 									return true
 								end
 							end
@@ -310,7 +310,7 @@ function GTREMOVE(CGameEffect, CGameSprite)
 		if EEex_IsBitSet(original, bit % 32) then
 			--
 			local func = function(effect)
-				if processEffect(effect, opcodeDefinitions[bit], language, displaySubtitles, -1, -1, bit) then
+				if isBlockableOrRemovableEffect(effect, opcodeDefinitions[bit], language, displaySubtitles, -1, -1, bit) then
 					--
 					table.insert(aux["gt_RemovalVia402_Aux"], {
 						["m_sourceRes"] = effect.m_sourceRes:get(),
@@ -335,7 +335,7 @@ function GTREMOVE(CGameEffect, CGameSprite)
 							EEex_Utility_IterateCPtrList(list, function(effect)
 								if v["m_sourceRes"] == effect.m_sourceRes:get() then
 									if v["m_effectAmount5"] == effect.m_effectAmount5 then -- time applied
-										if processEffect(effect, opcodeDefinitions[bit], language, displaySubtitles, v["duration"], effect.m_duration, bit) then
+										if isBlockableOrRemovableEffect(effect, opcodeDefinitions[bit], language, displaySubtitles, v["duration"], effect.m_duration, bit) then
 											effect.m_sourceRes:set("GTREMOVE")
 										end
 									end

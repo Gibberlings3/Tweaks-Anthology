@@ -26,7 +26,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			["effectID"] = 403, -- EEex: Screen Effects
 			["durationType"] = 9,
 			["res"] = "GTIMMUNE", -- Lua func
-			["effectAmount"] = 0x1C00000, -- BIT22 | BIT23 | BIT24
+			["effectAmount"] = 0xE000000, -- BIT25 | BIT26 | BIT27
 			["m_sourceRes"] = "%DRUID_WOODLAND_STRIDE%",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,

@@ -27,7 +27,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		end
 	end)
 	--
-	if spriteRaceStr == "TROLL" and regenerating then
+	if (spriteRaceStr == "TROLL" or spriteRaceStr == "SNOW_TROLL") and regenerating then
 		if not found then
 			-- skip if hit by fire/acid OR if in coma
 			if not aux["gt_IsTrollRegHalted_Aux"] and not (EEex_IsBitSet(spriteGeneralState, 0x0) and sprite.m_derivedStats.m_nResistSlashing == 100) then
