@@ -4,6 +4,52 @@
 +----------------------------------------------------------------------------------+
 --]]
 
+-- Apply Ability (Epic Sneak Attack) --
+
+EEex_Opcode_AddListsResolvedListener(function(sprite)
+	-- Sanity check
+	if not EEex_GameObject_IsSprite(sprite) then
+		return
+	end
+	-- internal function that applies the actual feat
+	local apply = function()
+		-- Mark the creature as 'feat applied'
+		sprite:setLocalInt("gtEpicSneakAttack", 1)
+	end
+	-- Check creature's class / flags
+	local spriteClassStr = GT_Resource_IDSToSymbol["class"][sprite.m_typeAI.m_Class]
+	--
+	local spriteFlags = sprite.m_baseStats.m_flags
+	-- since ``EEex_Opcode_AddListsResolvedListener`` is running after the effect lists have been evaluated, ``m_bonusStats`` has already been added to ``m_derivedStats`` by the engine
+	local spriteLevel1 = sprite.m_derivedStats.m_nLevel1
+	local spriteLevel2 = sprite.m_derivedStats.m_nLevel2
+	local spriteKitStr = EEex_Resource_KitIDSToSymbol(sprite.m_derivedStats.m_nKit)
+	-- any lvl 30+ assassin (single/multi/(complete)dual)
+	local isAssassin = spriteKitStr == "ASSASIN" -- typo in KIT.IDS / KITLIST.2DA
+	--
+	local isThief = spriteClassStr == "THIEF"
+	local isFighterThief = spriteClassStr == "FIGHTER_THIEF" and (EEex_IsBitUnset(spriteFlags, 0x6) or spriteLevel1 > spriteLevel2)
+	local isClericThief = spriteClassStr == "CLERIC_THIEF" and (EEex_IsBitUnset(spriteFlags, 0x6) or spriteLevel1 > spriteLevel2)
+	local isMageThief = spriteClassStr == "MAGE_THIEF" and (EEex_IsBitUnset(spriteFlags, 0x6) or spriteLevel1 > spriteLevel2)
+	--
+	local thiefLevel = spriteClassStr == "THIEF" and spriteLevel1 or spriteLevel2
+	--
+	local applyAbility = (isThief or isFighterThief or isMageThief or isClericThief) and isAssassin and thiefLevel >= 30
+	--
+	if sprite:getLocalInt("gtEpicSneakAttack") == 0 then
+		if applyAbility then
+			apply()
+		end
+	else
+		if applyAbility then
+			-- do nothing
+		else
+			-- Mark the creature as 'feat removed'
+			sprite:setLocalInt("gtEpicSneakAttack", 0)
+		end
+	end
+end)
+
 -- at most once per round (unless ASSASSINATE=1) --
 
 EEex_Sprite_AddBlockWeaponHitListener(function(args)
@@ -13,6 +59,8 @@ EEex_Sprite_AddBlockWeaponHitListener(function(args)
 	local targetSprite = args.targetSprite -- CGameSprite
 	local attackingSprite = args.attackingSprite -- CGameSprite
 	local weaponAbility = args.weaponAbility -- Item_ability_st
+
+	local aux = EEex_GetUDAux(attackingSprite)
 
 	local conditionalString = EEex_Trigger_ParseConditionalString('!GlobalTimerNotExpired("gtRogueSneakAttackTimer","LOCALS")')
 	local isWeaponRanged = EEex_Trigger_ParseConditionalString("IsWeaponRanged(Myself)")
@@ -50,9 +98,46 @@ EEex_Sprite_AddBlockWeaponHitListener(function(args)
 									["noSave"] = true, -- just in case...?
 								})
 
+								--
+								goto continue
+
 							end
 
 						end
+
+						-- Epic Sneak Attack
+						if attackingSprite:getLocalInt("gtEpicSneakAttack") == 1 then
+
+							targetSprite:applyEffect({
+								["effectID"] = 0x124, -- Immunity to backstab (292)
+								["dwFlags"] = 0,
+								["sourceID"] = attackingSprite.m_id,
+								["sourceTarget"] = targetSprite.m_id,
+								["noSave"] = true, -- just in case...?
+							})
+
+							-- mark this attack as 'bypass sneak attack immunity'
+							aux["gt_EpicSneakAttack_Aux"] = true
+
+						end
+
+					end
+
+				else
+
+					-- Epic Sneak Attack
+					if attackingSprite:getLocalInt("gtEpicSneakAttack") == 1 then
+
+						targetSprite:applyEffect({
+							["effectID"] = 0x124, -- Immunity to backstab (292)
+							["dwFlags"] = 0,
+							["sourceID"] = attackingSprite.m_id,
+							["sourceTarget"] = targetSprite.m_id,
+							["noSave"] = true, -- just in case...?
+						})
+
+						-- mark this attack as 'bypass sneak attack immunity'
+						aux["gt_EpicSneakAttack_Aux"] = true
 
 					end
 
@@ -64,9 +149,33 @@ EEex_Sprite_AddBlockWeaponHitListener(function(args)
 
 	end
 
+	::continue::
 	conditionalString:free()
 	isWeaponRanged:free()
 
+end)
+
+-- Epic Sneak Attack: Sneak Attacks will deliver half damage against creatures normally immune to them (Barbarians will still be fully immune... That's a hardcoded feature of their kit...) --
+
+EEex_Sprite_AddAlterBaseWeaponDamageListener(function(context)
+	local effect = context.effect -- CGameEffect
+	local attacker = context.attacker -- CGameSprite
+
+	local aux = EEex_GetUDAux(attacker)
+
+	local damageAmount = effect.m_effectAmount
+
+	if aux["gt_EpicSneakAttack_Aux"] then
+
+		aux["gt_EpicSneakAttack_Aux"] = nil
+
+		if effect.m_effectId == 0xC and effect.m_slotNum == -1 and effect.m_sourceType == 0 and effect.m_sourceRes:get() == "" then -- base weapon damage
+
+			effect.m_effectAmount = math.floor(damageAmount / 2)
+
+		end
+
+	end
 end)
 
 -- crippling strike (assassins: paralysis; stalkers: silence; others: -2 STR) --
@@ -87,7 +196,7 @@ function %ROGUE_SNEAK_ATTACK%(CGameEffect, CGameSprite)
 	-- crippling strike (assassins: paralysis; stalkers: silence; others: -2 str)
 	if CGameEffect.m_effectAmount > 0 then
 
-		local sourceKitStr = GT_Resource_IDSToSymbol["kit"][sourceSprite:getActiveStats().m_nKit]
+		local sourceKitStr = EEex_Resource_KitIDSToSymbol(sourceSprite:getActiveStats().m_nKit)
 		local effectCodes = {}
 		local roll = Infinity_RandomNumber(CGameEffect.m_effectAmount, CGameEffect.m_effectAmount * 6)
 
