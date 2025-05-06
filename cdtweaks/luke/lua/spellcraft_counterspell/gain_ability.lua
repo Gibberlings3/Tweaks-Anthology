@@ -2,13 +2,13 @@
 
 EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- Sanity check
-	if not EEex_GameObject_IsSprite(sprite) then
+	if not EEex_GameObject_IsSprite(sprite) or Infinity_GetCurrentScreenName() == 'CHARGEN' then
 		return
 	end
 	-- internal function that grants the actual feat
 	local gain = function()
 		-- Mark the creature as 'feat granted'
-		sprite:setLocalInt("cdtweaksSpellcraft", 1)
+		sprite:setLocalInt("gtCounterSpell", 1)
 		--
 		sprite:applyEffect({
 			["effectID"] = 172, -- Remove spell
@@ -39,7 +39,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		or (spriteClassStr == "FIGHTER_DRUID" and (EEex_IsBitUnset(spriteFlags, 0x7) or spriteLevel1 > spriteLevel2))
 		or (spriteClassStr == "CLERIC_RANGER" and (EEex_IsBitUnset(spriteFlags, 0x5) or spriteLevel2 > spriteLevel1))
 	--
-	if sprite:getLocalInt("cdtweaksSpellcraft") == 0 then
+	if sprite:getLocalInt("gtCounterSpell") == 0 then
 		if gainAbility then
 			gain()
 		end
@@ -48,9 +48,9 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			-- do nothing
 		else
 			-- Mark the creature as 'feat removed'
-			sprite:setLocalInt("cdtweaksSpellcraft", 0)
+			sprite:setLocalInt("gtCounterSpell", 0)
 			--
-			if sprite:getLocalInt("gtCounterspellMode") == 1 then
+			if sprite:getLocalInt("gtCounterSpellMode") == 1 then
 				sprite:applyEffect({
 					["effectID"] = 146, -- Cast spell
 					["dwFlags"] = 1, -- instant/ignore level

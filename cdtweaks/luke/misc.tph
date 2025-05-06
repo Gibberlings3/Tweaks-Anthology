@@ -465,22 +465,22 @@ BEGIN
 			1 BEGIN
 				OUTER_SET "min" = 0
 				OUTER_SET "max" = 99
-				OUTER_TEXT_SPRINT "prefix" "gtpr"
+				OUTER_TEXT_SPRINT "prefix" "GTPR"
 			END
 			2 BEGIN
 				OUTER_SET "min" = 0
 				OUTER_SET "max" = 99
-				OUTER_TEXT_SPRINT "prefix" "gtwi"
+				OUTER_TEXT_SPRINT "prefix" "GTWI"
 			END
 			3 BEGIN
 				OUTER_SET "min" = 0
 				OUTER_SET "max" = 99
-				OUTER_TEXT_SPRINT "prefix" "gtin"
+				OUTER_TEXT_SPRINT "prefix" "GTIN"
 			END
 			4 BEGIN
 				OUTER_SET "min" = 0
 				OUTER_SET "max" = 99
-				OUTER_TEXT_SPRINT "prefix" "gtcl"
+				OUTER_TEXT_SPRINT "prefix" "GTCL"
 			END
 			DEFAULT
 				FAIL "GT_ADD_SPELL: invalid spell type (%type%)"

@@ -1,0 +1,30 @@
+@0 = "Acid Splash"
+
+@10 = "Fire Bolt"
+
+@20 = "Ray of Frost"
+
+@30 = "Electric Jolt"
+
+@40 = "Poison Spray"
+
+@50 = "Flare"
+
+@60 = "True Strike"
+
+//////////////////////////////
+
+@1000 = "Cure Minor Wounds"
+
+@1010 = "Cause Minor Wounds"
+
+@1020 = "Blade Ward"
+
+@1030 = "Sacred Flame"
+
+@1040 = "Virtue"
+
+@1050 = "Resistance"
+
+@1060 = "Thorn Whip"
+
