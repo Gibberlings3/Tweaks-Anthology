@@ -168,9 +168,9 @@ EEex_Sprite_AddAlterBaseWeaponDamageListener(function(context)
 
 	if aux["gt_EpicSneakAttack_Aux"] then
 
-		if attacker.m_typeAI.m_EnemyAlly > 30 or (GT_Sprite_IsFlanking(attacker.m_nDirection, target.m_nDirection) or attacker:getActiveStats().m_nAssassinate > 0) then -- [GOODCUTOFF]: check if the attacker is flanking its target
+		aux["gt_EpicSneakAttack_Aux"] = nil
 
-			aux["gt_EpicSneakAttack_Aux"] = nil
+		if attacker.m_typeAI.m_EnemyAlly > 30 or (GT_Sprite_IsFlanking(attacker.m_nDirection, target.m_nDirection) or attacker:getActiveStats().m_nAssassinate > 0) then -- [GOODCUTOFF]: check if the attacker is flanking its target
 
 			if effect.m_effectId == 0xC and effect.m_slotNum == -1 and effect.m_sourceType == 0 and effect.m_sourceRes:get() == "" then -- base weapon damage
 
