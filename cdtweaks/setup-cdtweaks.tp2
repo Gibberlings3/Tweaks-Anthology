@@ -3027,6 +3027,20 @@ REQUIRE_PREDICATE GAME_IS "bgee bg2ee eet iwdee" @25
 REQUIRE_PREDICATE FILE_EXISTS ~cdtweaks/languages/%LANGUAGE%/concentration.tra~ @7
 LABEL ~cd_tweaks_alternate_concentration_check_v4~
 
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                                                          \\\\\
+///// Revised Troll Regeneration                                                               \\\\\
+/////                                                                                          \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @270000 DESIGNATED 2700
+GROUP @9
+REQUIRE_PREDICATE GAME_IS "bgee bg2ee eet iwdee" @25
+REQUIRE_PREDICATE MOD_IS_INSTALLED ~EEex.tp2~ 0 @29
+LABEL ~cd_tweaks_revised_troll_regeneration~
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
