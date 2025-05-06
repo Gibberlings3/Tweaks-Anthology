@@ -22,7 +22,7 @@ function GTFLMGRS(op403CGameEffect, CGameEffect, CGameSprite)
 					-- op403 "sees" effects after they have passed their probability roll, but before any saving throws have been made against said effect / other immunity mechanisms have taken place
 					-- opcodes applied here *should* use the same roll for saves and mr checks...
 					-- also, make sure it is *not* reflected
-					if not GT_Sprite_HasBounceEffects(CGameSprite, CGameEffect.m_spellLevel, CGameEffect.m_projectileType, CGameEffect.m_school, CGameEffect.m_secondaryType, CGameEffect.m_sourceRes:get(), {326}, CGameEffect.m_flags) then
+					if not GT_Sprite_HasBounceEffects(CGameSprite, CGameEffect.m_spellLevel, CGameEffect.m_projectileType, CGameEffect.m_school, CGameEffect.m_secondaryType, CGameEffect.m_sourceRes:get(), {326, 12}, CGameEffect.m_flags) then
 						CGameSprite:applyEffect({
 							["effectID"] = 0x146, -- Apply effects list (326)
 							--
