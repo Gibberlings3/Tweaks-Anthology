@@ -106,7 +106,7 @@ EEex_Sprite_AddBlockWeaponHitListener(function(args)
 						end
 
 						-- Epic Sneak Attack
-						if attackingSprite:getLocalInt("gtEpicSneakAttack") == 1 then
+						if attackingSprite:getLocalInt("gtEpicSneakAttack") == 1 and targetSprite:getActiveStats().m_bImmunityToBackStab > 0 then
 
 							targetSprite:applyEffect({
 								["effectID"] = 0x124, -- Immunity to backstab (292)
@@ -126,7 +126,7 @@ EEex_Sprite_AddBlockWeaponHitListener(function(args)
 				else
 
 					-- Epic Sneak Attack
-					if attackingSprite:getLocalInt("gtEpicSneakAttack") == 1 then
+					if attackingSprite:getLocalInt("gtEpicSneakAttack") == 1 and targetSprite:getActiveStats().m_bImmunityToBackStab > 0 then
 
 						targetSprite:applyEffect({
 							["effectID"] = 0x124, -- Immunity to backstab (292)
@@ -160,6 +160,7 @@ end)
 EEex_Sprite_AddAlterBaseWeaponDamageListener(function(context)
 	local effect = context.effect -- CGameEffect
 	local attacker = context.attacker -- CGameSprite
+	local target = context.target -- CGameSprite
 
 	local aux = EEex_GetUDAux(attacker)
 
@@ -167,11 +168,15 @@ EEex_Sprite_AddAlterBaseWeaponDamageListener(function(context)
 
 	if aux["gt_EpicSneakAttack_Aux"] then
 
-		aux["gt_EpicSneakAttack_Aux"] = nil
+		if attacker.m_typeAI.m_EnemyAlly > 30 or (GT_Sprite_IsFlanking(attacker.m_nDirection, target.m_nDirection) or attacker:getActiveStats().m_nAssassinate > 0) then -- [GOODCUTOFF]: check if the attacker is flanking its target
 
-		if effect.m_effectId == 0xC and effect.m_slotNum == -1 and effect.m_sourceType == 0 and effect.m_sourceRes:get() == "" then -- base weapon damage
+			aux["gt_EpicSneakAttack_Aux"] = nil
 
-			effect.m_effectAmount = math.floor(damageAmount / 2)
+			if effect.m_effectId == 0xC and effect.m_slotNum == -1 and effect.m_sourceType == 0 and effect.m_sourceRes:get() == "" then -- base weapon damage
+
+				effect.m_effectAmount = math.floor(damageAmount / 2)
+
+			end
 
 		end
 
