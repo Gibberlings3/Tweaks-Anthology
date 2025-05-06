@@ -26,7 +26,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			["effectID"] = 403, -- Screen effects
 			["durationType"] = 9,
 			["res"] = "GTIMMUNE", -- lua function
-			["effectAmount"] = 0x44, -- BIT2 | BIT6
+			["effectAmount"] = 0x84, -- BIT2 | BIT7
 			["special"] = 1,
 			["m_sourceRes"] = "%ASSASSIN_POISON_SAVE%",
 			["sourceID"] = sprite.m_id,
