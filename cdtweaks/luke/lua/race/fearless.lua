@@ -26,7 +26,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			["effectID"] = 403, -- Screen effects
 			["durationType"] = 9,
 			["res"] = "GTIMMUNE", -- lua function
-			["effectAmount"] = 0x20, -- BIT5
+			["effectAmount"] = 0x40, -- BIT6
 			["special"] = 1,
 			["m_sourceRes"] = "%HALFLING_FEARLESS%",
 			["sourceID"] = sprite.m_id,
