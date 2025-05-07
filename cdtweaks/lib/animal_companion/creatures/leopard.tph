@@ -1,0 +1,173 @@
+/*
++----------+
+| CRE file |
++----------+
+*/
+
+WITH_SCOPE BEGIN
+	ACTION_TO_LOWER "BEASTMASTER_ANIMAL_COMPANION"
+	//
+	CREATE "cre" "%BEASTMASTER_ANIMAL_COMPANION%e"
+	COPY_EXISTING "%BEASTMASTER_ANIMAL_COMPANION%e.cre" "override"
+		LPF "WRITE_CRE_HEADER"
+		INT_VAR
+			"name" = RESOLVE_STR_REF (@5000)
+			"tooltip" = RESOLVE_STR_REF (@5000)
+			//
+			"flags" = BIT1 // no corpse
+			//
+			"curHP" = 1
+			"maxHP" = 1
+			//
+			"animation" = IDS_OF_SYMBOL ("animate" "GREATCAT_LEOPARD")
+			//
+			"metal_color" = 20
+			"minor_color" = 31
+			"major_color" = 31
+			"skin_color" = 7
+			"leather_color" = 14
+			"armor_color" = 20
+			"hair_color" = 0
+			//
+			"AC" = 6
+			//
+			"apr" = 3 // # attacks/round
+			//
+			"sex" = IDS_OF_SYMBOL ("gender" "MALE")
+			// abilities
+			"STR" = 14
+			"INT" = 4
+			"WIS" = 12
+			"DEX" = 15
+			"CON" = 13
+			"CHR" = 6
+			//
+			"morale" = 10
+			"morale_break" = 5
+			"morale_recovery" = 60
+			// IDS
+			"allegiance" = IDS_OF_SYMBOL ("ea" "NEUTRAL")
+			"general" = IDS_OF_SYMBOL ("general" "ANIMAL")
+			"race" = IDS_OF_SYMBOL ("race" "CAT")
+			"class" = IDS_OF_SYMBOL ("class" "CAT")
+			"gender" = IDS_OF_SYMBOL ("gender" "MALE")
+			"alignment" = IDS_OF_SYMBOL ("align" "NEUTRAL")
+		STR_VAR
+			"script_override" = "%BEASTMASTER_ANIMAL_COMPANION%x"
+			"script_class" = "%BEASTMASTER_ANIMAL_COMPANION%y"
+			"script_default" = "%BEASTMASTER_ANIMAL_COMPANION%z"
+			//
+			"deathvar" = "gtAnmlCompLeopard"
+		END
+		// equipment
+		ADD_CRE_ITEM "gtpet05a" #0 #0 #0 "identified&unstealable&undroppable" "weapon" EQUIP
+		ADD_CRE_ITEM "gtpet05a" #0 #0 #0 "identified&unstealable&undroppable" "weapon"
+		ADD_CRE_ITEM "gtpet05a" #0 #0 #0 "identified&unstealable&undroppable" "weapon"
+		ADD_CRE_ITEM "gtpet05a" #0 #0 #0 "identified&unstealable&undroppable" "weapon"
+		// spellbook
+		ADD_MEMORIZED_SPELL "%BEASTMASTER_ANIMAL_COMPANION%#" #0 "innate" // banish
+		// passive traits
+		LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 268 "target" = 1 "timing" = 1 END // clear fog of war
+		LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 232 "target" = 1 "timing" = 1 "parameter2" = 16 "special" = BIT2 STR_VAR "resource" = "%BEASTMASTER_ANIMAL_COMPANION%#" END // cast spell onto myself upon death (suppress spell's name)
+	BUT_ONLY_IF_IT_CHANGES
+END
+
+/*
++-------------+
+| SPL file(s) |
++-------------+
+*/
+
+LAF "GT_ADD_SPELL"
+INT_VAR
+	"type" = 3
+	"level" = 2
+STR_VAR
+	"idsName" = "INNATE_LEOPARD_SNEAK_ATTACK"
+RET
+	"INNATE_LEOPARD_SNEAK_ATTACK" = "resName"
+END
+
+WITH_SCOPE BEGIN
+	ACTION_IF !(FILE_EXISTS_IN_GAME "%INNATE_LEOPARD_SNEAK_ATTACK%.spl") BEGIN
+		ACTION_TO_LOWER "INNATE_LEOPARD_SNEAK_ATTACK"
+		//
+		CREATE "spl" "%INNATE_LEOPARD_SNEAK_ATTACK%"
+		COPY_EXISTING "%INNATE_LEOPARD_SNEAK_ATTACK%.spl" "override"
+			/* Header */
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@5001)
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC "-1"
+			WRITE_LONG DESC "-1"
+			WRITE_LONG 0x18 BIT14 // Ignore dead/wild magic
+			WRITE_SHORT 0x1C 4 // Type: Innate
+			WRITE_LONG 0x34 1 // Level
+			/* Extended Header */
+			LPF ~ADD_SPELL_HEADER~ INT_VAR "range" = 30 END
+			/* Feature Blocks */
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 324 "target" = 2 "parameter1" = IDS_OF_SYMBOL ("kit" "barbarian") "parameter2" = 109 STR_VAR "resource" = "%DEST_RES%" END // Protection from resource
+			PATCH_WITH_SCOPE BEGIN
+				LPF "ADD_SPLPROT_ENTRY" INT_VAR "stat" = IDS_OF_SYMBOL ("STATS" "IMMUNITY_TO_BACKSTAB") STR_VAR "value" = "-1" "relation" = "4" "label" = "STAT(IMMUNITY_TO_BACKSTAB) >= n" RET "index" END
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 324 "target" = 2 "parameter1" = 1 "parameter2" = "%index%" STR_VAR "resource" = "%DEST_RES%" END // Protection from resource (IMMUNITY_TO_BACKSTAB >= 1)
+			END
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 324 "target" = 2 "parameter1" = IDS_OF_SYMBOL ("general" "plant") "parameter2" = 103 STR_VAR "resource" = "%DEST_RES%" END // Protection from resource
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 324 "target" = 2 "parameter2" = 55 STR_VAR "resource" = "%DEST_RES%" END // Protection from resource (RACE=GOLEM || GENERAL=UNDEAD)
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 324 "target" = 2 "parameter1" = IDS_OF_SYMBOL ("general" "weapon") "parameter2" = 103 STR_VAR "resource" = "%DEST_RES%" END // Protection from resource (Animated weapons such as the Mordenkainen's Sword)
+			PATCH_WITH_SCOPE BEGIN
+				PATCH_FOR_EACH "race" IN "mist" "dragon" "beholder" "slime" "demonic" "mephit" "imp" "elemental" "salamander" "genie" "solar" "antisolar" "planatar" "darkplanatar" BEGIN
+					LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 324 "target" = 2 "parameter1" = IDS_OF_SYMBOL ("race" "%race%") "parameter2" = 104 STR_VAR "resource" = "%DEST_RES%" END // Protection from resource
+				END
+			END
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 "parameter1" = 2 STR_VAR "resource" = "%INNATE_LEOPARD_SNEAK_ATTACK%" END // Invoke lua
+		BUT_ONLY
+	END
+END
+
+/*
++-------------+
+| ITM file(s) |
++-------------+
+*/
+
+WITH_SCOPE BEGIN
+	CREATE "itm" "gtpet05a"
+	COPY_EXISTING "gtpet05a.itm" "override"
+		/* Header */
+		WRITE_LONG NAME1 RESOLVE_STR_REF (@5002)
+		WRITE_LONG NAME2 "-1"
+		WRITE_LONG UNIDENTIFIED_DESC "-1"
+		WRITE_LONG DESC "-1"
+		WRITE_LONG 0x18 BIT5 // flags: not copyable (not needed...?)
+		WRITE_SHORT 0x38 1 // maximum in stack
+		WRITE_ASCII 0x3A "IWOLF" #8
+		/* Extended Header */
+		LPF ~ADD_ITEM_HEADER~ INT_VAR "type" = 1 "location" = 1 "range" = 1 "dicenumber" = 1 "dicesize" = 6 "damage_type" = 3 "depletion" = 1 "flags" = BIT0 "overhand" = 34 "backhand" = 33 "thrust" = 33 STR_VAR "icon" = "IWOLF" END // 1d6 (slashing)
+		/* Feature Blocks */
+		LPF "ADD_ITEM_EFFECT" INT_VAR "type" = 1 "target" = 2 "opcode" = 402 "parameter1" = 1 STR_VAR "resource" = "%INNATE_LEOPARD_SNEAK_ATTACK%" END // invoke lua
+	BUT_ONLY_IF_IT_CHANGES
+	//
+	WITH_SCOPE BEGIN
+		ACTION_DEFINE_ASSOCIATIVE_ARRAY "gtLeopardWeaponUpgrades" BEGIN
+			"b" => 0 // magical (+0)
+			"c" => 1 // magical (+1)
+			"d" => 2 // magical (+2)
+			"e" => 3 // magical (+3)
+		END
+		ACTION_PHP_EACH "gtLeopardWeaponUpgrades" AS "id" => "enchantment" BEGIN
+			COPY_EXISTING "gtpet05a.itm" "override\gtpet05%id%.itm"
+				WRITE_LONG 0x18 (THIS BOR BIT6) // flags: magical
+				WRITE_LONG 0x60 "%enchantment%"
+				//
+				LPF "ALTER_ITEM_HEADER" INT_VAR "damage_bonus" = "%enchantment%" "thac0_bonus" = "%enchantment%" END
+			BUT_ONLY_IF_IT_CHANGES
+		END
+	END
+END
+
+/*
++-------------+
+| LUA file(s) |
++-------------+
+*/
+
+LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Innate Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\kit\animal_companion\leopard\sneak_attack.lua" "destRes" = "m_gtspin" END

@@ -13,9 +13,11 @@ function %INNATE_LEOPARD_SNEAK_ATTACK%(CGameEffect, CGameSprite)
 		local conditionalString = EEex_Trigger_ParseConditionalString('!GlobalTimerNotExpired("gtLeopardSneakattTimer","LOCALS")')
 		local responseString = EEex_Action_ParseResponseString('SetGlobalTimer("gtLeopardSneakattTimer","LOCALS",6)')
 		--
+		local isWeaponRanged = EEex_Trigger_ParseConditionalString("IsWeaponRanged(Myself)")
+		--
 		if conditionalString:evalConditionalAsAIBase(sourceSprite) then
-			-- if the target is incapacitated || the target is in combat with someone else || the leopard is invisible
-			if EEex_BAnd(targetActiveStats.m_generalState, 0x100029) ~= 0 or CGameSprite.m_targetId ~= sourceSprite.m_id or sourceSprite:getLocalInt("gtSpriteIsInvisible") == 1 then
+			-- if the target is incapacitated || the target is in combat with someone else || the target is equipped with a ranged weapon
+			if EEex_BAnd(targetActiveStats.m_generalState, 0x100029) ~= 0 or CGameSprite.m_targetId ~= sourceSprite.m_id or isWeaponRanged:evalConditionalAsAIBase(CGameSprite) then
 				responseString:executeResponseAsAIBaseInstantly(sourceSprite)
 				--
 				CGameSprite:applyEffect({
@@ -28,6 +30,7 @@ function %INNATE_LEOPARD_SNEAK_ATTACK%(CGameEffect, CGameSprite)
 			end
 		end
 		--
+		isWeaponRanged:free()
 		responseString:free()
 		conditionalString:free()
 	elseif CGameEffect.m_effectAmount == 2 then -- actual sneak attack

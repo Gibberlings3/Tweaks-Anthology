@@ -1,0 +1,161 @@
+/*
++----------+
+| CRE file |
++----------+
+*/
+
+WITH_SCOPE BEGIN
+	ACTION_TO_LOWER "BEASTMASTER_ANIMAL_COMPANION"
+	//
+	CREATE "cre" "%BEASTMASTER_ANIMAL_COMPANION%a" // bear
+	COPY_EXISTING "%BEASTMASTER_ANIMAL_COMPANION%a.cre" "override"
+		LPF "WRITE_CRE_HEADER"
+		INT_VAR
+			"name" = RESOLVE_STR_REF (@1000)
+			"tooltip" = RESOLVE_STR_REF (@1000)
+			//
+			"flags" = BIT1 // no corpse
+			//
+			"curHP" = 1
+			"maxHP" = 1
+			//
+			"animation" = IDS_OF_SYMBOL ("animate" "BEAR_CAVE")
+			//
+			"metal_color" = 20
+			"minor_color" = 31
+			"major_color" = 31
+			"skin_color" = 7
+			"leather_color" = 14
+			"armor_color" = 20
+			"hair_color" = 0
+			//
+			"AC" = 6
+			//
+			"apr" = 3 // # attacks/round
+			//
+			"sex" = IDS_OF_SYMBOL ("gender" "MALE")
+			// abilities
+			"STR" = 18
+			"STRExtra" = 100
+			"INT" = 4
+			"WIS" = 2
+			"DEX" = 9
+			"CON" = 16
+			"CHR" = 3
+			//
+			"morale" = 10
+			"morale_break" = 4
+			"morale_recovery" = 30
+			// IDS
+			"allegiance" = IDS_OF_SYMBOL ("ea" "NEUTRAL")
+			"general" = IDS_OF_SYMBOL ("general" "ANIMAL")
+			"race" = IDS_OF_SYMBOL ("race" "BEAR")
+			"class" = IDS_OF_SYMBOL ("class" "BEAR_CAVE")
+			"gender" = IDS_OF_SYMBOL ("gender" "MALE")
+			"alignment" = IDS_OF_SYMBOL ("align" "NEUTRAL")
+		STR_VAR
+			"script_override" = "%BEASTMASTER_ANIMAL_COMPANION%x"
+			"script_class" = "%BEASTMASTER_ANIMAL_COMPANION%y"
+			"script_default" = "%BEASTMASTER_ANIMAL_COMPANION%z"
+			//
+			"deathvar" = "gtAnmlCompBear"
+		END
+		// equipment
+		ADD_CRE_ITEM "gtpet01a" #0 #0 #0 "identified&unstealable&undroppable" "weapon" EQUIP
+		// passive traits
+		LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 268 "target" = 1 "timing" = 1 END // clear fog of war
+		LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 232 "target" = 1 "timing" = 1 "parameter2" = 16 "special" = BIT2 STR_VAR "resource" = "%BEASTMASTER_ANIMAL_COMPANION%#" END // cast spell onto myself upon death (suppress spell's name)
+		// spellbook
+		ADD_MEMORIZED_SPELL "%BEASTMASTER_ANIMAL_COMPANION%#" #0 "innate" // banish
+	BUT_ONLY_IF_IT_CHANGES
+END
+
+/*
++----------+
+| SPL file |
++----------+
+*/
+
+LAF "GT_ADD_SPELL"
+INT_VAR
+	"type" = 3
+	"level" = 1
+	"preferredSlot" = 41
+STR_VAR
+	"idsName" = "INNATE_BEAR_HUG"
+RET
+	"INNATE_BEAR_HUG" = "resName"
+END
+
+WITH_SCOPE BEGIN
+	ACTION_IF !(FILE_EXISTS_IN_GAME "%INNATE_BEAR_HUG%.spl") BEGIN
+		ACTION_TO_LOWER "INNATE_BEAR_HUG"
+		//
+		CREATE "spl" "%INNATE_BEAR_HUG%"
+		COPY_EXISTING "%INNATE_BEAR_HUG%.spl" "override"
+			/* Header */
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@1001)
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC "-1"
+			WRITE_LONG DESC "-1"
+			WRITE_LONG 0x18 BIT14 // Ignore dead/wild magic
+			WRITE_SHORT 0x1C 4 // Type: Innate
+			WRITE_LONG 0x34 1 // Level
+			WRITE_ASCII 0x3A ~IBEAR~ #8 // Icon
+			/* Extended Header */
+			LPF ~ADD_SPELL_HEADER~ INT_VAR "range" = 0x7FFF STR_VAR "icon" = "IBEAR" END
+			/* Feature Blocks */
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 STR_VAR "resource" = "%DEST_RES%" END // Invoke lua
+		BUT_ONLY
+	END
+END
+
+/*
++-------------+
+| ITM file(s) |
++-------------+
+*/
+
+WITH_SCOPE BEGIN
+	CREATE "itm" "gtpet01a"
+	COPY_EXISTING "gtpet01a.itm" "override"
+		/* Header */
+		WRITE_LONG NAME1 "-1"
+		WRITE_LONG NAME2 "-1"
+		WRITE_LONG UNIDENTIFIED_DESC "-1"
+		WRITE_LONG DESC "-1"
+		WRITE_LONG 0x18 BIT5 // flags: not copyable (not needed...?)
+		WRITE_SHORT 0x38 1 // maximum in stack
+		WRITE_ASCII 0x3A "IBEAR" #8
+		/* Extended Header */
+		LPF ~ADD_ITEM_HEADER~ INT_VAR "type" = 1 "location" = 1 "range" = 1 "dicenumber" = 1 "dicesize" = 12 "damage_type" = 3 "depletion" = 1 "flags" = BIT0 "overhand" = 34 "backhand" = 33 "thrust" = 33 STR_VAR "icon" = "IBEAR" END // 1d12 (slashing)
+	BUT_ONLY_IF_IT_CHANGES
+	//
+	WITH_SCOPE
+		ACTION_DEFINE_ASSOCIATIVE_ARRAY "gtBearWeaponUpgrades" BEGIN
+			"b" => 0 // magical (+0)
+			"c" => 1 // magical (+1)
+			"d" => 2 // magical (+2)
+			"e" => 3 // magical (+3)
+		END
+		ACTION_PHP_EACH "gtBearWeaponUpgrades" AS "id" => "enchantment" BEGIN
+			COPY_EXISTING "gtpet01a.itm" "override\gtpet01%id%.itm"
+				WRITE_LONG 0x18 (THIS BOR BIT6) // flags: magical
+				WRITE_LONG 0x60 "%enchantment%"
+				//
+				LPF "ALTER_ITEM_HEADER" INT_VAR "damage_bonus" = "%enchantment%" "thac0_bonus" = "%enchantment%" END
+				// equipped effects \\
+				LPF "ADD_ITEM_EQEFFECT" INT_VAR "insert_point" = "-1" "opcode" = 301 "target" = 1 "timing" = 2 "parameter1" = 2 "parameter2" = 1 END // Critical Hit Chance: +10%
+				LPF "ADD_ITEM_EQEFFECT" INT_VAR "insert_point" = "-1" "opcode" = 341 "target" = 1 "timing" = 2 "parameter2" = 1 STR_VAR "resource" = "%INNATE_BEAR_HUG%" END // Deals an extra Xd8 points of slashing damage on a critical hit
+			BUT_ONLY_IF_IT_CHANGES
+		END
+	END
+END
+
+/*
++-------------+
+| LUA file(s) |
++-------------+
+*/
+
+LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Innate Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\kit\animal_companion\bear\hug.lua" "destRes" = "m_gtspin" END

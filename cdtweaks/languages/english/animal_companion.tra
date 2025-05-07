@@ -74,7 +74,7 @@ Base Stats:
 Special Abilities:
 – Permanently (improved) hasted
 – Immunity to Web
-– Web Tangle (unlimited uses per day)
+– Web Tangle (1 use per day, +1 every 5 levels)
 
 
 
@@ -215,6 +215,7 @@ If the caster harms, or attempts to harm, the charmed animal by some overt actio
 Duration: 2d6 rounds.
 "
 @6002 = "Giant Poisonous Snake"
+@6003 = "Morale Modification"
 
 //
 @7000 = "Web Tangle"

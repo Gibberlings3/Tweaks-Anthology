@@ -20,7 +20,7 @@ function %INNATE_SNAKE_CHARM%(CGameEffect, CGameSprite)
 			["duration"] = 6 * charmDuration,
 			["dwFlags"] = 1, -- Charm type: Charmed (hostile)
 			["effectAmount"] = 2, -- Creature type: ANIMAL
-			["savingThrow"] = 0x10, -- petrify/polymorph
+			["savingThrow"] = 0x1, -- spell
 			["saveMod"] = -1 * levelModifier,
 			["m_sourceRes"] = CGameEffect.m_sourceRes:get(),
 			["m_sourceType"] = CGameEffect.m_sourceType,
@@ -33,7 +33,7 @@ function %INNATE_SNAKE_CHARM%(CGameEffect, CGameSprite)
 			["durationType"] = 4,
 			["duration"] = 6 * charmDuration,
 			["res"] = "EFF_E04",
-			["savingThrow"] = 0x10, -- petrify/polymorph
+			["savingThrow"] = 0x1, -- spell
 			["saveMod"] = -1 * levelModifier,
 			["m_sourceRes"] = CGameEffect.m_sourceRes:get(),
 			["m_sourceType"] = CGameEffect.m_sourceType,

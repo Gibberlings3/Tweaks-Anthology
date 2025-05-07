@@ -74,7 +74,7 @@ Statistiche di Base:
 Abilità Speciali:
 – Velocità Migliorata
 – Immunità a Ragnatela
-– Ragnatela (usi illimitati al giorno)
+– Ragnatela (1 uso al giorno, +1 ogni 5 livelli)
 
 
 
@@ -211,6 +211,7 @@ Se il personaggio ferisce (o cerca di ferire) l'animale charmato con qualche azi
 Durata: 2d6 round.
 "
 @6002 = "Serpente Velenoso Gigante"
+@6003 = "Modificatore al Morale"
 
 //
 @7000 = "Ragnatela"
