@@ -1,0 +1,17 @@
+@0 = "Smite Good"
+@1 = "Smite Good
+
+A blackguard may attempt to smite a good aligned enemy with one special melee attack. The blackguard adds his charisma bonus to the attack roll and adds 1 extra point of damage per class level."
+
+@2 = "Smite Evil"
+@3 = "Smite Evil
+
+A paladin may attempt to smite an evil aligned enemy with one special melee attack. The paladin adds his charisma bonus to the attack roll and adds 1 extra point of damage per class level."
+
+@10 = "Invalid Weapon"
+@11 = "Weapon Ineffective"
+@12 = "Hit"
+@13 = "Miss"
+
+@20 = "Unaffected by effects from Smite Good"
+@30 = "Unaffected by effects from Smite Evil"

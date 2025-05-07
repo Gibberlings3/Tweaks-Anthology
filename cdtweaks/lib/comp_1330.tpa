@@ -15,6 +15,6 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.are$~ ~override~
       PATCH_IF type = 2 BEGIN // travel triggers only
         WRITE_LONG (trig_off + 0x60 + (index * 0xc4)) (THIS | BIT9) // adds 'cannot be passed by NPC' flag
       END
-    END 
-  END  
+    END
+  END
   BUT_ONLY

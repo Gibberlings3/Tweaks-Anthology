@@ -17,15 +17,15 @@ ACTION_IF FILE_EXISTS_IN_GAME ~kitlist.2da~ BEGIN
       READ_2DA_ENTRY "%index%" 1 9 "kitname"
       READ_2DA_ENTRY "%index%" 7 9 "usability"
       //PATCH_PRINT ~on index %index%, kitname is %kitname% and usability is %usability%~
-      PATCH_IF (("%kitname%" STRING_COMPARE_CASE "lathander" = 0) AND ("%usability%" STRING_COMPARE_CASE "0x04000000" = 0)) BEGIN 
+      PATCH_IF (("%kitname%" STRING_COMPARE_CASE "lathander" = 0) AND ("%usability%" STRING_COMPARE_CASE "0x04000000" = 0)) BEGIN
         SET lathander = 1
-      END  
+      END
       PATCH_IF (("%kitname%" STRING_COMPARE_CASE "helm" = 0) AND ("%usability%" STRING_COMPARE_CASE "0x02000000" = 0)) BEGIN
         SET helm = 1
-      END  
+      END
       PATCH_IF (("%kitname%" STRING_COMPARE_CASE "talos" = 0) AND ("%usability%" STRING_COMPARE_CASE "0x01000000" = 0)) BEGIN
         SET talos = 1
-      END  
+      END
     END
     BUT_ONLY
 
@@ -58,15 +58,15 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
     READ_BYTE 0x29 use4
     PATCH_IF lathander BEGIN
       SET use4 = (use4 BAND `BIT2)
-    END  
+    END
     PATCH_IF helm BEGIN
       SET use4 = (use4 BAND `BIT1)
-    END  
+    END
     PATCH_IF talos BEGIN
       SET use4 = (use4 BAND `BIT0)
-    END  
+    END
     WRITE_BYTE 0x29 use4
-  END  
+  END
   BUT_ONLY
 
 COPY_EXISTING ~clasweap.2da~ ~override~
@@ -106,13 +106,13 @@ COPY_EXISTING ~clasweap.2da~ ~override~
 ACTION_IF FILE_EXISTS_IN_GAME ~weapprof.2da~ THEN BEGIN
 
   ACTION_IF MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2200~ THEN BEGIN // multiclass grandmastery
-  
+
     OUTER_SET profmax = 5
-  
+
   END ELSE BEGIN
-  
+
     OUTER_SET profmax = 2
-  
+
   END
 
   COPY_EXISTING ~weapprof.2da~  ~override~

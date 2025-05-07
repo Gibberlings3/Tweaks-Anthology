@@ -1,7 +1,7 @@
   ACTION_FOR_EACH drop IN replacemelist BEGIN
-  
+
     ACTION_IF (FILE_EXISTS_IN_GAME ~%drop%.itm~) THEN BEGIN
-  
+
       COPY_EXISTING ~%drop%.itm~ ~override~
         SET charge0 = 0
         SET charge1 = 0
@@ -12,7 +12,7 @@
         FOR (drop_loop = 0 ; drop_loop < abil_num ; ++drop_loop) BEGIN
           READ_BYTE (abil_off + 0x00 + (drop_loop multiply 0x38)) type
           PATCH_IF type = 3 BEGIN
-            READ_SHORT (abil_off + 0x22 + (drop_loop multiply 0x38)) ~charge%drop_loop%~ 
+            READ_SHORT (abil_off + 0x22 + (drop_loop multiply 0x38)) ~charge%drop_loop%~
           END
         END
         BUT_ONLY IF_EXISTS
@@ -30,22 +30,22 @@ insert_reply
 ~~~~~ EVALUATE_BUFFER UNLESS ~GiveItemCreate("%drop%"~
 
     END
-    
+
     ACTION_IF index = 1 BEGIN
-    
+
       COMPILE ~cdtweaks/dlg/dorrick_itm.d~ EVALUATE_BUFFER
-    
+
     END ELSE BEGIN
 
       ACTION_IF game_is_iwdee BEGIN
         ACTION_IF !quip BEGIN
           OUTER_SPRINT destroy ~ActionOverride("%cont%",DestroyItem("%drop%"))~
-        END ELSE BEGIN  
+        END ELSE BEGIN
           OUTER_SPRINT destroy ~ActionOverride("%cont%",SetItemFlags("%drop%",NONDROPABLE,TRUE))~
-        END  
+        END
         EXTEND_BOTTOM ~%area%.bcs~ ~cdtweaks/baf/token_swap.baf~ EVALUATE_BUFFER
       END
-    
+
     END
 
   END

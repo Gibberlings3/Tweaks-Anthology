@@ -47,7 +47,7 @@ COPY_EXISTING ~wwbearwe.cre~ ~override~
       WRITE_LONG 0x28 29187 // bear_polar
     END
   END
-  BUT_ONLY  
+  BUT_ONLY
 
 COPY ~cdtweaks/2da/anisum04.2da~ ~override~
      ~cdtweaks/2da/anisum05.2da~ ~override~
@@ -63,8 +63,8 @@ COPY_EXISTING ~clabdr03.2da~ ~override~
     REPLACE_TEXTUALLY ~CDREPLACE~ ~**** CDREPLACE~
   END
   REPLACE_TEXTUALLY ~CDREPLACE~ ~****~
-  PRETTY_PRINT_2DA  
-  
+  PRETTY_PRINT_2DA
+
 ACTION_FOR_EACH spell IN spcl643 spcl644 BEGIN // grab existing strrefs
 
   COPY_EXISTING ~%spell%.spl~ ~override~
@@ -107,7 +107,7 @@ END ELSE BEGIN
                 ~sppr513.spl~ ~override~
     WRITE_BYTE 0x21 (THIS & `BIT7)
     BUT_ONLY
-    
+
   INCLUDE ~cdtweaks/lib/joinable_npc_array.tpa~
 
   ACTION_PHP_EACH JOINABLE_NPC_ARRAY AS file => dv BEGIN
@@ -135,10 +135,10 @@ END ELSE BEGIN
           END
         END
         BUT_ONLY
-        
+
     END
 
-  END    
+  END
 
 END
 

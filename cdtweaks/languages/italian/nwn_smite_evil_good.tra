@@ -1,0 +1,17 @@
+@0 = "Punire il Bene"
+@1 = "Punire il Bene
+
+Una guardia nera può tentare di colpire un nemico di allineamento buono con uno speciale attacco in mischia. La guardia nera aggiunge il suo bonus di carisma al tiro per colpire ed infligge 1 punto di danno extra per livello."
+
+@2 = "Punire il male"
+@3 = "Punire il male
+
+Un paladino può tentare di colpire un nemico di allineamento malvagio con uno speciale attacco in mischia. Il paladino aggiunge il suo bonus di carisma al tiro per colpire ed infligge 1 punto di danno extra per livello."
+
+@10 = "Arma non Valida"
+@11 = "Arma Inefficace"
+@12 = "Colpito"
+@13 = "Mancato"
+
+@20 = "Non soggetto agli effetti di Punire il Bene"
+@30 = "Non soggetto agli effetti di Punire il Male"

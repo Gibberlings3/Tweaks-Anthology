@@ -22,11 +22,11 @@ COPY ~cdtweaks/bam/cdgchan.bam~  ~override~
      ~cdtweaks/bam/iclck15.bam~  ~override~
      ~cdtweaks/bam/iclck16.bam~  ~override~
      ~cdtweaks/bam/iclck17.bam~  ~override~
-     
+
 INCLUDE ~cdtweaks/lib/common_armor_list.tpa~
 
 ACTION_PHP_EACH cd_common_armor_list AS params => item BEGIN
-  
+
   ACTION_IF (("%params_2%" STRING_COMPARE_CASE "leather" = 0) OR
              ("%params_2%" STRING_COMPARE_CASE "chain" = 0) OR
              ("%params_2%" STRING_COMPARE_CASE "chain_elven" = 0) OR
@@ -53,9 +53,9 @@ ACTION_PHP_EACH cd_common_armor_list AS params => item BEGIN
             WRITE_ASCII 0x44 ~cdgdwchn~ #8
           END
         END
-      END  
+      END
       BUT_ONLY
-      
+
   END // appearance check
 
 END // php_each
@@ -80,7 +80,7 @@ END
 ACTION_FOR_EACH item IN quiver02 quiver04 BEGIN
 
   ACTION_IF ((FILE_EXISTS_IN_GAME ~%item%.itm~) AND (FILE_EXISTS_IN_GAME ~iquiver0.bam~)) THEN BEGIN
-  
+
     COPY_EXISTING ~%item%.itm~ ~override~
       WRITE_ASCII 0x3a ~iquiver0~ #8
       BUT_ONLY

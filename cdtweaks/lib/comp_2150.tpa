@@ -9,7 +9,7 @@
 /////                                                  \\\\\
 ///// PnP restrictions                                 \\\\\
 /////                                                  \\\\\
-  
+
 ACTION_CLEAR_ARRAY cd_pnp_check
 ACTION_CLEAR_ARRAY cd_pnp_table
 ACTION_CLEAR_ARRAY cd_pnp_charges
@@ -20,12 +20,12 @@ INCLUDE ~cdtweaks/lib/pnp_descripts.tpa~  // text replacement macros
 COPY_EXISTING ~itemexcl.2da~ ~override~
   REPLACE_TEXTUALLY ~^bootgr01[ %TAB%]+1[ %TAB%%LNL%%MNL%%WNL%]+~ ~~
   REPLACE_TEXTUALLY ~^shldrng[ %TAB%]+1[ %TAB%%LNL%%MNL%%WNL%]+~ ~~
-  
+
 ACTION_IF FILE_EXISTS ~weidu_external/cdtweaks/2da/cdpnp_final.2da~ BEGIN
   COPY ~weidu_external/cdtweaks/2da/cdpnp_final.2da~ ~weidu_external/cdtweaks/2da/cdpnp.2da~
 END ELSE BEGIN
   COPY ~cdtweaks/2da/cdpnp.2da~ ~weidu_external/cdtweaks/2da/cdpnp.2da~
-END  
+END
 
 // lookup table
 COPY ~weidu_external/cdtweaks/2da/cdpnp.2da~ ~weidu_external/cdtweaks/2da/cdpnp.2da~
@@ -34,7 +34,7 @@ COPY ~weidu_external/cdtweaks/2da/cdpnp.2da~ ~weidu_external/cdtweaks/2da/cdpnp.
     READ_2DA_ENTRY row 0 3 item
     TO_LOWER item
     SET $cd_pnppi("%item%") = 1
-  END  
+  END
 
 COPY_EXISTING ~itemexcl.2da~ ~override~
   COUNT_2DA_ROWS 2 rows
@@ -47,7 +47,7 @@ COPY_EXISTING ~itemexcl.2da~ ~override~
   END
   BUT_ONLY
 
-ACTION_PHP_EACH cd_pnp_check AS item => foo BEGIN 
+ACTION_PHP_EACH cd_pnp_check AS item => foo BEGIN
 
   // don't bother if file isn't present or if it's already on the list
   ACTION_IF FILE_EXISTS_IN_GAME ~%item%.itm~ THEN BEGIN
@@ -87,9 +87,9 @@ COPY ~weidu_external/cdtweaks/2da/cdpnp.2da~ ~weidu_external/cdtweaks/2da/cdpnp.
     READ_2DA_ENTRY index 2 3 0_lore
     DEFINE_ASSOCIATIVE_ARRAY cd_pnp_table BEGIN "%no_ac%", "%0_lore%" => "%orig%" END
   END
-  BUT_ONLY  
-  
-ACTION_PHP_EACH cd_pnp_table AS params => orig BEGIN 
+  BUT_ONLY
+
+ACTION_PHP_EACH cd_pnp_table AS params => orig BEGIN
 
   ACTION_IF FILE_EXISTS_IN_GAME ~%orig%.itm~ THEN BEGIN
 
@@ -143,7 +143,7 @@ ACTION_PHP_EACH cd_pnp_table AS params => orig BEGIN
     ACTION_IF (abil_num < 3) BEGIN // don't bother if new ability is #4 (charges only for first 3 abils)
 
       ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_pnp_charges BEGIN "%orig%" => "%abil_num%" END
-    
+
     END
 
     COPY_EXISTING ~%orig%.itm~ ~override/%params_0%.itm~
@@ -177,7 +177,7 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.[ac]re$~ ~override~
     END ELSE BEGIN
       READ_LONG 0x2bc itm_off ELSE 0
       READ_LONG 0x2c0 itm_num ELSE 0
-    END  
+    END
   END ELSE BEGIN
     READ_LONG  0x78 itm_off ELSE 0
     READ_SHORT 0x76 itm_num ELSE 0
@@ -205,12 +205,12 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.sto$~ ~override~
     END
   END
   BUT_ONLY
-  
+
 // cespenar can use alternate items for upgrades
 ACTION_IF FILE_EXISTS_IN_GAME botsmith.dlg THEN BEGIN
 
   COMPILE ~cdtweaks/dlg/cdpnp.d~
-  
+
 END
 
 COPY + ~weidu_external/cdtweaks/2da/cdpnp.2da~ ~weidu_external/cdtweaks/2da/cdpnp_final.2da~

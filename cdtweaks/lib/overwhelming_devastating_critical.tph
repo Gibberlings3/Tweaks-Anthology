@@ -1,0 +1,58 @@
+DEFINE_ACTION_FUNCTION "OVERWHELMING_DEVASTATING_CRITICAL"
+BEGIN
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"level" = 1
+		"type" = 4
+	STR_VAR
+		"idsName" = "TRUECLASS_FIGHTER_CRITICAL"
+	RET
+		"TRUECLASS_FIGHTER_CRITICAL" = "resName"
+	END
+	//
+	WITH_SCOPE BEGIN
+		ACTION_TO_LOWER "TRUECLASS_FIGHTER_CRITICAL"
+		//
+		CREATE "eff" "%TRUECLASS_FIGHTER_CRITICAL%b"
+		COPY_EXISTING "%TRUECLASS_FIGHTER_CRITICAL%b.eff" "override"
+			WRITE_LONG 0x10 341 // opcode: critical hit effect
+			WRITE_LONG 0x20 1 // mode: by this weapon only
+			WRITE_SHORT 0x2C 100 // prob1
+			WRITE_ASCII 0x30 "%TRUECLASS_FIGHTER_CRITICAL%b" #8 // SPL resref
+		BUT_ONLY
+		//
+		CREATE "spl" "%TRUECLASS_FIGHTER_CRITICAL%b"
+		COPY_EXISTING "%TRUECLASS_FIGHTER_CRITICAL%b.spl" "override"
+			WRITE_LONG NAME1 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC "-1"
+			WRITE_LONG 0x18 (BIT9 BOR BIT10 BOR BIT14 BOR BIT25) // break sanctuary/invisibility, ignore dead/wild magic, castable when silenced
+			WRITE_LONG 0x1C 4 // type: innate
+			WRITE_LONG 0x34 1 // level
+			WRITE_ASCII 0x3A "SPCL905B" #8 // icon
+			//
+			LPF ~ADD_SPELL_HEADER~ STR_VAR "icon" = "SPCL905B" END
+			LPF ~ADD_SPELL_HEADER~ INT_VAR "required_level" = 30 STR_VAR "icon" = "SPCL905B" END
+			//
+			LPF "ADD_SPELL_EFFECT" INT_VAR "header" = 1 "opcode" = 402 "target" = 2 "parameter1" = 1 STR_VAR "resource" = "%DEST_RES%" END // invoke lua
+			LPF "ADD_SPELL_EFFECT" INT_VAR "header" = 2 "opcode" = 402 "target" = 2 "parameter1" = 2 STR_VAR "resource" = "%DEST_RES%" END // invoke lua
+		BUT_ONLY_IF_IT_CHANGES
+	END
+	// Listener: run 'func' each time a sprite has finished evaluating its effects
+	WITH_SCOPE BEGIN
+		OUTER_SET "feedback_strref_overwhelming_crit_hit" = RESOLVE_STR_REF (@0)
+		OUTER_SET "feedback_strref_overwhelming_crit_immune" = RESOLVE_STR_REF (@1)
+		OUTER_SET "feedback_strref_devastating_crit_hit" = RESOLVE_STR_REF (@2)
+		OUTER_SET "feedback_strref_devastating_crit_immune" = RESOLVE_STR_REF (@3)
+		//
+		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lua\utility\damage_type.lua" "destRes" = "m_gtutil" END
+		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Class/Kit Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\class\overwhelming_devastating_critical.lua" "destRes" = "m_gtspcl" END
+	END
+	//
+	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
+		COPY "cdtweaks\luke\lua\m_gttbls.lua" "override"
+	END
+	//
+	ACTION_IF !(FILE_EXISTS_IN_GAME "gtabmod.2da") BEGIN
+		COPY "cdtweaks\luke\2da\gtabmod.2da" "override"
+	END
+END

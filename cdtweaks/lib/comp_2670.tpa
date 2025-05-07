@@ -1,15 +1,17 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                            \\\\\
-///// Dual-wield feat for Rangers                                \\\\\
+///// Limit resting mechanic                                     \\\\\
 /////                                                            \\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 WITH_SCOPE BEGIN
   INCLUDE "cdtweaks\luke\misc.tph"
-  INCLUDE "cdtweaks\lib\dual_wield.tph"
-  WITH_TRA "cdtweaks\languages\english\dual_wield.tra" "cdtweaks\languages\%LANGUAGE%\dual_wield.tra" BEGIN
-    LAF "DUAL_WIELD" END
+  //
+  INCLUDE "cdtweaks\lib\limit_resting_mechanic.tph"
+  //
+  WITH_TRA "cdtweaks\languages\english\limit_resting_mechanic.tra" "cdtweaks\languages\%LANGUAGE%\limit_resting_mechanic.tra" BEGIN
+    LAF "LIMIT_RESTING_MECHANIC" END
   END
 END

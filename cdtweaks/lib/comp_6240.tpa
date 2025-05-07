@@ -1,0 +1,17 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////                                                                 /////
+///// Trackless Step class feat for Rangers                           \\\\\
+/////                                                                 \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+
+WITH_SCOPE BEGIN
+  INCLUDE "cdtweaks\luke\misc.tph"
+  //
+  INCLUDE "cdtweaks\lib\trackless_step.tph"
+  //
+  WITH_TRA "cdtweaks\languages\english\trackless_step.tra" "cdtweaks\languages\%LANGUAGE%\trackless_step.tra" BEGIN
+    LAF "TRACKLESS_STEP" END
+  END
+END

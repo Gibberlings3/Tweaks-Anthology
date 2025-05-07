@@ -9,7 +9,7 @@
 ACTION_IF game_includes_pst THEN BEGIN
 
   ACTION_FOR_EACH file IN 0100tear 0600malm ar0101 ar0300 ar0500 ar0700 ar1101 0200strk 1500gul9 ar0109 ar0400 ar0501 BEGIN
-    
+
     EXTEND_TOP ~%file%.bcs~ ~cdtweaks/baf/a!explor.baf~
 
   END
@@ -17,23 +17,23 @@ ACTION_IF game_includes_pst THEN BEGIN
 END
 
 ACTION_IF game_includes_iwd THEN BEGIN
-  
+
   ACTION_FOR_EACH file IN
     ~AR1000~ // EASTHAVEN (PROLOGUE)
 //    ~AR1100~ // EASTHAVEN (FINALE)
     ~AR2100~ // KULDAHAR
     ~AR9100~ // LONELYWOOD
     BEGIN
-    
+
     ACTION_IF FILE_EXISTS_IN_GAME ~%file%.bcs~ BEGIN
-  
+
       COPY_EXISTING ~%file%.bcs~ ~override~
         DECOMPILE_AND_PATCH BEGIN
           APPEND_FILE ~cdtweaks/baf/reveal.baf~
           REPLACE_TEXTUALLY ~CD_MYAREA_VAR_SCOPE~ ~%SOURCE_RES%~ // bg1 doesn't like MYAREA
         END
         BUT_ONLY
-    
+
     END
 
   END

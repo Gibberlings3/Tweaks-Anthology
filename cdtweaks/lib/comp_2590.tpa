@@ -5,15 +5,15 @@
 /////                                                            \\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-   
+
 OUTER_SET alt_profs = 0
-ACTION_IF ((MOD_IS_INSTALLED ~cdtweaks.tp2~ ~2161~) OR 
+ACTION_IF ((MOD_IS_INSTALLED ~cdtweaks.tp2~ ~2161~) OR
            (MOD_IS_INSTALLED ~cdtweaks.tp2~ ~2162~)) BEGIN // bg profs
-  OUTER_SET alt_profs = 1           
+  OUTER_SET alt_profs = 1
 END
-ACTION_IF ((MOD_IS_INSTALLED ~cdtweaks.tp2~ ~2163~) OR 
+ACTION_IF ((MOD_IS_INSTALLED ~cdtweaks.tp2~ ~2163~) OR
            (MOD_IS_INSTALLED ~cdtweaks.tp2~ ~2164~)) BEGIN // iwd profs
-  OUTER_SET alt_profs = 2           
+  OUTER_SET alt_profs = 2
 END
 
 COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
@@ -44,12 +44,13 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
       WRITE_LONG 0x1e (THIS BAND `BIT22) // remove thief flag
       LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 319 target = 1 parameter1 = 4 parameter2 = 5 timing = 2 special = 1082 END // add back as 319
     END
-  END  
-  BUT_ONLY  
-  
+  END
+  BUT_ONLY
+
 ACTION_IF game_is_bg2ee OR game_is_eet BEGIN // to try and prevent staff of the magi backstab abuse
 
-  COPY_EXISTING ~staf11.itm~ ~override~
+  COPY_EXISTING ~cdgorstf.itm~ ~override~ // staff of the gorgon from SP Collection
+                ~staf11.itm~   ~override~
     READ_LONG  0x6a fx_off
     READ_SHORT 0x70 fx_num
     FOR (index = 0 ; index < fx_num ; ++index) BEGIN
@@ -57,8 +58,8 @@ ACTION_IF game_is_bg2ee OR game_is_eet BEGIN // to try and prevent staff of the 
       PATCH_IF opcode = 20 BEGIN // sanity check: only add invisibility timeout if the staff still causes invis on equip
         LPF ADD_ITEM_EFFECT INT_VAR type = 1 opcode = 101 target = 1 parameter2 = 20 duration = 5 END // successful attack prevents application if invis for five seconds
         SET index = fx_num // kill loop
-      END  
+      END
     END
-    BUT_ONLY  
-    
+    BUT_ONLY IF_EXISTS
+
 END

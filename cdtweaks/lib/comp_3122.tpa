@@ -19,7 +19,7 @@ COPY_EXISTING ~happy.2da~ ~override~
   END
   PRETTY_PRINT_2DA
   BUT_ONLY
-  
+
 // bg1 npc can let shar-teel leave anyway
 ACTION_IF game_includes_bg1 THEN BEGIN
   INCLUDE ~cdtweaks/lib/happy_sharteel.tpa~

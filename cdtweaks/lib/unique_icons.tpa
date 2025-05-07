@@ -10,14 +10,14 @@ END ELSE BEGIN
   END ELSE BEGIN
     OUTER_SPRINT h5 ~h0~ // no good plumed helmets in base oBG2
     OUTER_SPRINT h6 ~h0~ // no good vertically horned helmets in base oBG2
-  END  
-END  
+  END
+END
 
 ACTION_IF game_includes_iwd BEGIN
 
   INCLUDE ~cdtweaks/lib/unique_icons_iwd.tpa~ // load reference array
 
-END ELSE BEGIN  
+END ELSE BEGIN
 
   INCLUDE ~cdtweaks/lib/unique_icons_bg.tpa~ // load reference array
 
@@ -25,21 +25,21 @@ END ELSE BEGIN
     WRITE_ASCII 0x58 ~cplat09~ #8
     BUT_ONLY IF_EXISTS
 
-END  
+END
 
 ACTION_PHP_EACH cd_unique_icons AS params => item BEGIN
-  
+
   ACTION_IF FILE_EXISTS_IN_GAME ~%item%.itm~ BEGIN
-  
+
     COPY_EXISTING ~%item%.itm~ ~override~
       SET replaced = 0
       READ_ASCII   0x3a icon_old
       PATCH_IF (("%always_install_unique_icons%" = 1) OR
-                ("%icon_old%" STRING_COMPARE_CASE "%params_1%" = 0)) BEGIN 
+                ("%icon_old%" STRING_COMPARE_CASE "%params_1%" = 0)) BEGIN
         SET replaced = 1
         PATCH_IF ("%params_3%" STRING_COMPARE_CASE "null") BEGIN // if animation
           WRITE_ASCIIE 0x22 ~%params_3%~
-        END  
+        END
         READ_ASCII 0x22 anim (2)
         WRITE_ASCIIE 0x3a ~%params_0%~ #8
         READ_LONG    0x64 abil_off ELSE 0
@@ -53,72 +53,72 @@ ACTION_PHP_EACH cd_unique_icons AS params => item BEGIN
         END
         CLEAR_ARRAY cd_unique_icons_coloring
         SET coloring = 0
-        PATCH_IF ("%params_4%" STRING_COMPARE_CASE "armor" = 0) BEGIN 
+        PATCH_IF ("%params_4%" STRING_COMPARE_CASE "armor" = 0) BEGIN
           SET coloring = 1
-          DEFINE_ASSOCIATIVE_ARRAY cd_unique_icons_coloring BEGIN    
-            5 => ~%params_7%~      
-            4 => ~%params_6%~  
-            0 => ~%params_5%~    
+          DEFINE_ASSOCIATIVE_ARRAY cd_unique_icons_coloring BEGIN
+            5 => ~%params_7%~
+            4 => ~%params_6%~
+            0 => ~%params_5%~
           END
-        END  
-        PATCH_IF ("%params_4%" STRING_COMPARE_CASE "weapon" = 0) BEGIN 
+        END
+        PATCH_IF ("%params_4%" STRING_COMPARE_CASE "weapon" = 0) BEGIN
           SET coloring = 1
-          DEFINE_ASSOCIATIVE_ARRAY cd_unique_icons_coloring BEGIN    
-            21 => ~%params_10%~     
-            20 => ~%params_9%~   
-            16 => ~%params_8%~    
-          END 
+          DEFINE_ASSOCIATIVE_ARRAY cd_unique_icons_coloring BEGIN
+            21 => ~%params_10%~
+            20 => ~%params_9%~
+            16 => ~%params_8%~
+          END
           PATCH_IF ((original_bg1 OR original_iwd) AND ("%anim%" STRING_COMPARE_CASE "ax" = 0)) BEGIN // original axes
-            DEFINE_ASSOCIATIVE_ARRAY cd_unique_icons_coloring BEGIN    
-              16 => ~%params_10%~ // 16 is used as main ax color in obg/oiwd, not 21   
+            DEFINE_ASSOCIATIVE_ARRAY cd_unique_icons_coloring BEGIN
+              16 => ~%params_10%~ // 16 is used as main ax color in obg/oiwd, not 21
             END
-          END 
-        END   
-        PATCH_IF ("%params_4%" STRING_COMPARE_CASE "shield" = 0) BEGIN 
-          SET coloring = 1
-          DEFINE_ASSOCIATIVE_ARRAY cd_unique_icons_coloring BEGIN    
-            37 => ~%params_14%~      
-            34 => ~%params_13%~         
-            33 => ~%params_12%~  
-            32 => ~%params_11%~ 
           END
-        END  
-        PATCH_IF ("%params_4%" STRING_COMPARE_CASE "helm" = 0) BEGIN 
+        END
+        PATCH_IF ("%params_4%" STRING_COMPARE_CASE "shield" = 0) BEGIN
           SET coloring = 1
-          DEFINE_ASSOCIATIVE_ARRAY cd_unique_icons_coloring BEGIN     
-            53 => ~%params_17%~    
-            52 => ~%params_16%~  
-            48 => ~%params_15%~  
-            50 => ~%params_18%~   
+          DEFINE_ASSOCIATIVE_ARRAY cd_unique_icons_coloring BEGIN
+            37 => ~%params_14%~
+            34 => ~%params_13%~
+            33 => ~%params_12%~
+            32 => ~%params_11%~
+          END
+        END
+        PATCH_IF ("%params_4%" STRING_COMPARE_CASE "helm" = 0) BEGIN
+          SET coloring = 1
+          DEFINE_ASSOCIATIVE_ARRAY cd_unique_icons_coloring BEGIN
+            53 => ~%params_17%~
+            52 => ~%params_16%~
+            48 => ~%params_15%~
+            50 => ~%params_18%~
           END
           PATCH_IF ((original_bg1 OR original_iwd) AND ("%anim%" STRING_COMPARE_CASE "h3" = 0)) BEGIN // plumed helmets
-            DEFINE_ASSOCIATIVE_ARRAY cd_unique_icons_coloring BEGIN    
+            DEFINE_ASSOCIATIVE_ARRAY cd_unique_icons_coloring BEGIN
               50 => ~%params_15%~ // needs a separate plume color
             END
-          END 
+          END
           PATCH_IF ((!MOD_IS_INSTALLED ~1pp/1pp.tp2~ ~208~) AND (!enhanced_edition)) BEGIN
-            DEFINE_ASSOCIATIVE_ARRAY cd_unique_icons_coloring BEGIN    
+            DEFINE_ASSOCIATIVE_ARRAY cd_unique_icons_coloring BEGIN
               48 => ~%params_17%~ // don't use plume as main color
             END
-          END 
-        END   
+          END
+        END
         PATCH_IF coloring BEGIN
           LPF DELETE_EFFECT INT_VAR silent = 1 check_headers = 0 match_opcode = 7 END
           PATCH_PHP_EACH cd_unique_icons_coloring AS loc => color BEGIN
             PATCH_IF IS_AN_INT color BEGIN
               LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 7 target = 1 parameter1 = color parameter2 = loc timing = 2 END
-            END  
+            END
           END
-        END  
-      END  
+        END
+      END
       BUT_ONLY
-  
+
     ACTION_IF ((FILE_EXISTS ~cdtweaks/bam/%params_0%.bam~) AND (replaced = 1) AND (!FILE_EXISTS_IN_GAME ~%params_0%.bam~)) THEN BEGIN // in case it's getting an existing icon; also only copy if needed
 
       COPY ~cdtweaks/bam/%params_0%.bam~ ~override~
-    
+
     END
-  
+
   END
-        
+
 END

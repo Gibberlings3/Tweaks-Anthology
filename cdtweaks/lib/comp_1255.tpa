@@ -14,7 +14,7 @@ COPY_EXISTING ~%TIAX_BCS%.bcs~ ~override~ // catching and updating area variable
   DECOMPILE_AND_PATCH BEGIN
     REPLACE_TEXTUALLY ~,"%SWBaldursGate%",~ ~,"%Beregost_FeldepostsInn_L1%",~
   END
-  BUT_ONLY      
+  BUT_ONLY
 
 ACTION_IF !game_is_bgt THEN BEGIN // all other platforms use GAM file
 

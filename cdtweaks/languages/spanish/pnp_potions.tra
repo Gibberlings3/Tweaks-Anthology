@@ -1,0 +1,13 @@
+@0 = "Bajo los efectos de una poción"
+
+@1 = "La poción que acabáis de beber baja por el camino equivocado... Fuerza y destreza disminuidas en 1 punto permanentemente" [choke]
+
+@2 = "La poción que acabáis de beber baja por el camino equivocado... Todos los efectos activos de la poción han sido eliminados" [choke]
+
+@3 = "La poción que acabáis de beber no parece proporcionar ningún efecto..." [eff_m10]
+
+@4 = "%value% : -50% de eficacia" [eff_m29]
+
+@5 = "%value% : +50% de eficacia" [eff_hand]
+
+@6 = "%value% : +100% de eficacia / Duración permanente" [eff_hand]

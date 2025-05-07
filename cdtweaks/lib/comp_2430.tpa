@@ -40,11 +40,11 @@ ACTION_IF FILE_EXISTS_IN_GAME ~weapprof.2da~ THEN BEGIN
   ACTION_IF MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2200~ THEN BEGIN // multiclass grandmastery
 
     OUTER_SET profmax = 5
-  
+
   END ELSE BEGIN
-  
+
     OUTER_SET profmax = 2
-  
+
   END
 
   COPY_EXISTING ~weapprof.2da~  ~override~

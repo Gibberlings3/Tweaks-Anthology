@@ -12,14 +12,18 @@ used:
   amber, as amber/lib/tob2soa.tph [symbolic link]
   bg2 fixpack, as bg2fixpack/lib/tob2soa.tph [symbolic link]
   g3 anniversary, as g3anniversary/lib/tob2soa.tph [symbolic link]
+  gavin, as gavin/lib/tob2soa.tph [symbolic link]
+  gavin bg2, as gavin_bg2/lib/tob2soa.tph [symbolic link]
   Haldamir, as haldamir/lib/tob2soa.tph [symbolic link]
+  Sarah, as sarahtob/lib/tob2soa.tph [symbolic link]
   SP Collection, as spstuff/lib/tob2soa.tph [symbolic link]
   Tweaks Anthology, as cdtweaks/lib/tob2soa.tph [symbolic link]
+  The Divine Remix, as divine_remix/lib/tob2soa.tph [symbolic link]
 
 platform:
   obg2, specifically SoA--though it should be harmless on other bg2-based engines
- 
-version history: 
+
+version history:
   unknown
 
 */
@@ -54,7 +58,7 @@ APPEND ~ACTION.IDS~ ~337 ReallyForceSpellPointRES(S:RES*,P:Target*)~
 COPY_EXISTING ~action.ids~ ~override~
   REPLACE_TEXTUALLY ~^106 Shout(.*$~ ~106 Shout(I:ID*SHOUTIDS)~
   BUT_ONLY_IF_IT_CHANGES
-  
+
 // additional ToB triggers for SoA
 APPEND ~TRIGGER.IDS~ ~0x00A1 SpellCastOnMeRES(S:Spell*,O:Caster*)~
               UNLESS ~0x00A1 SpellCastOnMeRES(S:Spell\*,O:Caster\*)~
@@ -74,7 +78,7 @@ COPY_EXISTING ~trigger.ids~ ~override~
   BUT_ONLY_IF_IT_CHANGES
 
 ACTION_IF NOT FILE_EXISTS_IN_GAME ~shoutids.ids~ THEN BEGIN
-  
+
 <<<<<<<<./inline/shoutids.ids
 90
 123 HEALME

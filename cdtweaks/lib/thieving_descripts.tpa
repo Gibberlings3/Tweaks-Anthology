@@ -56,7 +56,7 @@ DEFINE_PATCH_MACRO ~thieving_descripts~ BEGIN
 %text_silent_penalty% -%params_7%CDPERCENTAGE~
     END
   END
-  
+
   REPLACE_TEXTUALLY ~CDPERCENTAGE~ ~%~
 
 END

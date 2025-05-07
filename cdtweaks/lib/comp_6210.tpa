@@ -1,0 +1,17 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
+/////                                                            \\\\\////\\\\////
+///// Self Concealment class feat for Monks                                  \\\\\
+/////                                                            \\\\\////\\\\////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
+
+WITH_SCOPE BEGIN
+  INCLUDE "cdtweaks\luke\misc.tph"
+  //
+  INCLUDE "cdtweaks\lib\self_concealment.tph"
+  //
+  WITH_TRA "cdtweaks\languages\english\self_concealment.tra" "cdtweaks\languages\%LANGUAGE%\self_concealment.tra" BEGIN
+    LAF "SELF_CONCEALMENT" END
+  END
+END

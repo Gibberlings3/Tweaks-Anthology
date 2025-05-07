@@ -18,15 +18,15 @@ ACTION_IF !enhanced_edition BEGIN
       OUTER_SET type_match = 17
     END
   END
-  
+
   ACTION_IF FILE_CONTAINS_EVALUATED (~%tra_location%/%LANGUAGE%/game.tra~ ~^[ %TAB%]*@204001[ %TAB%]*=~) BEGIN // if translated strings are available...
 
     OUTER_SET modify_descript = 1 // ...then try to update item descriptions
-  
+
     OUTER_SPRINT unusable_regexp_text      @204001
     OUTER_SPRINT unusable_replacement_text @204002
     OUTER_SPRINT mage_regexp_text          @204003
-  
+
   END
 
 END
@@ -66,9 +66,9 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
               INNER_PATCH_SAVE desc ~%desc%~ BEGIN
                 REPLACE_TEXTUALLY EXACT_MATCH ~%usab_block%~ ~%usab_block_new%~
               END
-              
+
               // check if mage was the only thing that couldn't use
-              INNER_PATCH_SAVE compare ~%desc%~ BEGIN 
+              INNER_PATCH_SAVE compare ~%desc%~ BEGIN
                 REPLACE_TEXTUALLY ~^%unusable_replacement_text%.*[%LNL%%MNL%%WNL%] [^- %TAB%]~ ~~
               END
               // if it was...
@@ -78,14 +78,14 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
                   REPLACE_TEXTUALLY ~[%LNL%%MNL%%WNL%]%unusable_replacement_text%.*~ ~~
                 END
               END
-          
+
               // write changes
               SAY_EVALUATED ~%offset%~ ~%desc%~
             END
 
           END
         END
-        
+
       END
     END
   END
@@ -105,7 +105,7 @@ ACTION_IF FILE_EXISTS_IN_GAME ~weapprof.2da~ THEN BEGIN
         READ_2DA_ENTRY row 1 col_check kit
         SET $style_kits("%kit%") = class
       END
-    END   
+    END
     BUT_ONLY
 
   COPY_EXISTING ~weapprof.2da~ ~override~
@@ -117,9 +117,9 @@ ACTION_IF FILE_EXISTS_IN_GAME ~weapprof.2da~ THEN BEGIN
         READ_2DA_ENTRY 18 col col_count club_check
         PATCH_IF !club_check BEGIN // only if 0 pips
           SET_2DA_ENTRY 18 col col_count 1
-        END  
+        END
       END
-    END  
+    END
     REPLACE_TEXTUALLY ~CD_DELETE_ME~ ~~ // removing it
     PRETTY_PRINT_2DA
     BUT_ONLY

@@ -17,8 +17,8 @@ COPY_EXISTING ~mpalette.bmp~ ~override~
       READ_BYTE (pixel_off + 0x00 + (36 * ((height - 1) - index)) + (3 * column)) blue
       PATCH_IF ((red + green + blue) > 400) BEGIN // this is the brightness check
         SET column = "-10" // if bright enough, kill loop
-      END  
-    END  
+      END
+    END
     PATCH_IF column = 0 BEGIN // if we went through the entire row and it's stil too dark
       FOR (index3 = 1 ; index3 < 10 ; ++index3) BEGIN
         SET red = ((((255 - red) * index3) / 10) + red) // increase 10% each loop
@@ -29,9 +29,9 @@ COPY_EXISTING ~mpalette.bmp~ ~override~
         PATCH_IF blue > 255 BEGIN SET blue = 255 END
         PATCH_IF ((red + green + blue) > 400) BEGIN // this is the brightness check
           SET index3 = 10 // if bright enough, kill loop
-        END 
+        END
       END
-    END      
+    END
     SET mashed = ((red << 16) + (green << 8) + (blue << 0) + (0xff << 24))
     SPRINTF smashed "%x" (mashed)
     SPRINT $cdtextcolors(~%index%~) ~%smashed%~
@@ -50,7 +50,7 @@ ACTION_PHP_EACH JOINABLE_NPC_ARRAY AS file => dv BEGIN
       PATCH_IF ("%SOURCE_RES%" STRING_COMPARE_CASE "wilson9" = 0) BEGIN // wilson soa is "grizzly bear"
         SET name_strref = 86478
         SET tool_strref = 86478
-      END ELSE 
+      END ELSE
       PATCH_IF ("%SOURCE_RES%" STRING_COMPARE_REGEXP "^[Bb][Rr][Aa][Nn][Ww][Ee][0-9]?$" = 0) BEGIN // branwen is "statue"
         PATCH_IF game_is_eet BEGIN
           SET name_strref = 209499
@@ -58,7 +58,7 @@ ACTION_PHP_EACH JOINABLE_NPC_ARRAY AS file => dv BEGIN
         END ELSE BEGIN
           SET name_strref = 9499
           SET tool_strref = 9499
-        END            
+        END
       END
       SET $cd_exclude("%name_strref%") = 1 // want to exclude name
       SET $cd_exclude("%tool_strref%") = 1 // want to exclude tooltip
@@ -69,17 +69,17 @@ ACTION_PHP_EACH JOINABLE_NPC_ARRAY AS file => dv BEGIN
       TO_UPPER name
       DEFINE_ASSOCIATIVE_ARRAY cd_text_colors BEGIN ~%name%~ => ~%textcolor%~ END
       BUT_ONLY
-      
+
   END
 
-END  
+END
 
 /*
 I had considered adding colors to "notable" NPCs, but there's just no clear definition of notable that
-I could consistently apply, so we'll just leave this here. 
-ACTION_FOR_EACH creature IN 
-  ~%tutu_var%gorion~ ~%tutu_var%elmin2~ ~%tutu_var%volo~ ~%tutu_var%sarevo~ ~%tutu_var%scar~ ~%tutu_var%deltan~ ~%tutu_var%belt~ 
-  ~%tutu_var%liia~ ~%tutu_var%mulahe~ ~%tutu_var%tranzi~ ~%tutu_var%davaeo~ ~%tutu_var%angelo~ ~%tutu_var%halbaz~ 
+I could consistently apply, so we'll just leave this here.
+ACTION_FOR_EACH creature IN
+  ~%tutu_var%gorion~ ~%tutu_var%elmin2~ ~%tutu_var%volo~ ~%tutu_var%sarevo~ ~%tutu_var%scar~ ~%tutu_var%deltan~ ~%tutu_var%belt~
+  ~%tutu_var%liia~ ~%tutu_var%mulahe~ ~%tutu_var%tranzi~ ~%tutu_var%davaeo~ ~%tutu_var%angelo~ ~%tutu_var%halbaz~
 BEGIN
 
   COPY_EXISTING ~%creature%.cre~ ~override~
@@ -89,8 +89,8 @@ BEGIN
     DEFINE_ASSOCIATIVE_ARRAY cd_text_colors BEGIN ~%name%~ => ~%textcolor%~ END
     //PATCH_PRINT ~adding to array %name% => %textcolor%~
     BUT_ONLY IF_EXISTS
-      
-END 
+
+END
 */
 
 //ACTION_PHP_EACH cd_text_colors AS name => color BEGIN // debug code used to generate the 'customize' file
@@ -108,52 +108,52 @@ OUTER_FOR (index = 0 ; index <= final_strref ; ++index) BEGIN
 
   ACTION_IF index AND ((index MODULO 10000) = 0) BEGIN // ping every 10000 strings, except 0
     PRINT @419002
-  END  
-  
+  END
+
   ACTION_IF !VARIABLE_IS_SET $cd_exclude("%index%") BEGIN
 
     ACTION_GET_STRREF   index stringm
-    
+
     OUTER_INNER_PATCH_SAVE string2m ~%stringm%~ BEGIN
-    
+
       PATCH_PHP_EACH cd_text_colors AS name => color BEGIN
         REPLACE_TEXTUALLY CASE_SENSITIVE ~\b\(%name%\)\b~ ~^%color%\1^-~
-      END  
-    
+      END
+
     END
-    
+
     ACTION_IF ftlk BEGIN
-      
+
       ACTION_GET_STRREF_F index stringf
-      
+
       OUTER_INNER_PATCH_SAVE string2f ~%stringf%~ BEGIN
-      
+
         PATCH_PHP_EACH cd_text_colors AS name => color BEGIN
           REPLACE_TEXTUALLY ~\b\(%name%\)~ ~^%color%\1^-~
-        END  
-      
+        END
+
       END
-      
+
     END ELSE BEGIN
-      
+
       OUTER_SPRINT stringf  ~~
       OUTER_SPRINT string2f ~~
-    
+
     END
-    
+
     ACTION_IF (("%stringm%" STRING_COMPARE_CASE "%string2m%") OR     // male string changes
                ("%stringf%" STRING_COMPARE_CASE "%string2f%")) BEGIN // female string changes
 
       ACTION_GET_STRREF_S index sound
-      
+
       ACTION_IF ftlk BEGIN
         STRING_SET_EVALUATE index ~%string2m%~ ~%string2f%~ [%sound%]
       END ELSE BEGIN
         STRING_SET_EVALUATE index ~%string2m%~ [%sound%]
-      END   
-      
+      END
+
     END
-  
-  END  
+
+  END
 
 END

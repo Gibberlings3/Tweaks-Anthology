@@ -4,20 +4,20 @@ ACTION_IF enhanced_edition BEGIN // ee has an extra column at the front
 END ELSE BEGIN
   OUTER_SET col_start = 0
   OUTER_SET loop_start = 0 // makes no difference on oBG2, so always set mage line =1
-END 
+END
 
 COPY_EXISTING ~mgsrcreq.2da~ ~override~
   PATCH_IF gnome_kits BEGIN
     COUNT_2DA_ROWS (col_start + 8) rows // do whole things if all kits
-  END ELSE BEGIN 
+  END ELSE BEGIN
     SET rows = 1                        // otherwise just do first, class row
-  END  
+  END
   FOR (row = loop_start ; row < rows ; ++row) BEGIN
     SET_2DA_ENTRY row (col_start + 6) (col_start + 8) 1
   END
   PRETTY_PRINT_2DA
   BUT_ONLY
-  
+
 ACTION_IF !gnome_base BEGIN
 
   COPY_EXISTING ~k_m_g.2da~ ~override~ // insert base class in table
@@ -25,7 +25,7 @@ ACTION_IF !gnome_base BEGIN
 \1~
     REPLACE_EVALUATE ~^\([0-9]+\)[ %TAB%]+~ BEGIN
       SET index = MATCH1 + 1
-    END ~%index% ~  
+    END ~%index% ~
 
 END
 
@@ -62,7 +62,7 @@ ACTION_IF gnome_kits BEGIN
         END
         PATCH_IF available = 1 THEN BEGIN // only if it actually is available do we add it to all races
           READ_2DA_ENTRY row 1 9 kitname
-          SPRINT race g 
+          SPRINT race g
           PATCH_IF (FILE_EXISTS_IN_GAME ~k_%letter%_%race%.2da~) BEGIN
             INNER_ACTION BEGIN
 
@@ -80,24 +80,24 @@ ACTION_IF gnome_kits BEGIN
                   END
                 END
                 BUT_ONLY
-                
+
               COPY_EXISTING ~clsrcreq.2da~ ~override~
                 REPLACE_TEXTUALLY ~^\(%kitname%[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+\)[^ %TAB%]+~ ~\11~
                 BUT_ONLY
-    
+
               ACTION_IF added = 0 THEN BEGIN
                 OUTER_SET index += 1
                 APPEND ~k_%letter%_%race%.2da~ ~%index% %kitno%~
               END
-  
+
             END
           END
         END
       END
     END
     BUT_ONLY
-    
-  ACTION_IF gnome_base BEGIN    
+
+  ACTION_IF gnome_base BEGIN
 
     COPY_EXISTING ~mgsrcreq.2da~ ~override~
       REPLACE_EVALUATE ~^\([0-9x]+[ %TAB%]+ILLUSIONIST[ %TAB%]+.+[%MNL%%LNL%%WNL%]+\)~ BEGIN
@@ -109,5 +109,5 @@ ACTION_IF gnome_kits BEGIN
       BUT_ONLY
 
   END
-  
-END 
+
+END

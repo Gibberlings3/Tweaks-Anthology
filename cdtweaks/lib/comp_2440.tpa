@@ -131,40 +131,40 @@ ACTION_PHP_EACH JOINABLE_NPC_ARRAY AS file => dv BEGIN
 
   ACTION_IF IS_AN_INT dv BEGIN // non-joinable NPC
 
-    COPY_EXISTING ~%file%~ ~override~  
+    COPY_EXISTING ~%file%~ ~override~
       READ_BYTE 0x273 class
       PATCH_IF ((class = 2) OR ((class >= 6) AND (class <= 10)) OR (class = 12) OR ((class >= 16) AND (class <= 18)) OR (class = 20)) BEGIN
         PATCH_IF (class = 18) BEGIN // cleric rangers have warrior levels in the second field, otherwise everyone else is in the first level field
           READ_BYTE 0x235 level
         END ELSE BEGIN
           READ_BYTE 0x234 level
-        END   
+        END
         PATCH_IF level > 6 BEGIN // don't bother unless we have levels high enough to warrant changes
           READ_BYTE 0x53 apr
           // check we're in the allowed range first
-          PATCH_IF (apr < 0) BEGIN // illegal values 
+          PATCH_IF (apr < 0) BEGIN // illegal values
             SET apr = 0 // set to 0
-          END ELSE  
-          PATCH_IF (apr > 10) BEGIN // illegal values 
+          END ELSE
+          PATCH_IF (apr > 10) BEGIN // illegal values
             SET apr = 5 // set to max 5 APR
-          END  
+          END
           PATCH_IF level > 12 BEGIN // +1 APR
             SET apr = apr + 1
             PATCH_IF ((apr > 10) OR (apr = 6)) BEGIN SET apr = 5 END // 5 = 5 APR and 10 = 9/2, so if we end up at 6 or 11 we should be at max 5 APR
-          END ELSE  
+          END ELSE
           PATCH_IF level > 6 BEGIN // +1/2 APR
             PATCH_IF (apr < 5) BEGIN // 1-4 APR (leave 5 alone as it's maxed)
               SET apr = apr + 6
-            END ELSE 
+            END ELSE
             PATCH_IF (apr > 5) BEGIN // 1/2 through 9/2
               SET apr = apr - 5
             END
-          END  
-          WRITE_BYTE 0x53 apr 
+          END
+          WRITE_BYTE 0x53 apr
         END // level check
-      END // class check        
+      END // class check
       BUT_ONLY
-      
+
   END
 
-END  
+END

@@ -1,62 +1,46 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
-///// Setup Messages                                   \\\\\
-/////                                                  \\\\\
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-
-     @3 = ~Requiere el componente 'Permitir lanzar hechizos arcanos con armadura'~
-     @6 = ~Requiere el componente 'Permitir robar y actividades de ladron en armadura pesada'~
-     @8 = ~Este componete es solo para BGT.~
-    @10 = ~Este componente no es necesario para tutu~
-    @12 = ~Se requiere el TOB para este componente.~
-    @14 = ~Este componente es solo para Tutu o BGT.~
-    @15 = ~Este componente es solo para Tutu.~
-    @19 = ~Reglas de la casa de Cam~
-    @20 = ~Ver Leeme?
-  a) Si
-  b) No~
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-/////                                                  \\\\\
 ///// Cosmetic Changes Components                      \\\\\
 /////                                                  \\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-  @5001 = ~SCRIPT DE POLIMORFAR AVATAR:~
-  @5002 = ~Este script deja que el usuario tenga el control sobre el avatar del personaje. Presionad 'S' para activar la pantalla de selección de avatar.(<script>)~
+@5001 = ~SCRIPT DE POLIFORMAR AVATAR:~
+@5002 = ~Este script permite al usuario tener control sobre el avatar del personaje. Pulsa 'S' para activar la pantalla de selección de avatar. (<script>)~
 
- @18001 = ~Archivos Arcanos~
- @18002 = ~Sio'chaire~
- @18003 = ~Tienda de Sio'chaire~
- @18004 = ~Mercancía de Ikert~
- @18005 = ~Bienes de Jayes~
- @18006 = ~Libros de Galoomp~
- @18007 = ~Bienes de Kich~
- @18008 = ~Productos de Min~
- @18009 = ~Mercancía de Wallace~
- @18010 = ~Mercancía de Joluv~
- @18011 = ~Mercancía de Deidre~
- @18012 = ~Suministros de Deli~
- @18013 = ~Objetos mágicos Carnaval~
- @18014 = ~Tienda de descuento de Aello Afortunado~
- @18015 = ~Armas a distancia Carnaval~
- @18016 = ~Armadura Carnaval~
- @18017 = ~Armas mágicas Carnaval~
- @18024 = ~Productos de Mira~
- @18025 = ~Tienda de Lily la Negra~
- @18026 = ~Productos de Perter~
- @18027 = ~a locker~
- @18028 = ~un lugar seguro~
- @18029 = ~la bolsa~
- @18030 = ~esta bolsa~
- @18031 = ~el macuto~
- @18032 = ~el cofre~
- @18033 = ~este cofre~
- @18034 = ~Mercancía de Contrabando de Selence E.~
- @18035 = ~Equipo de campamento~
+@15003 = ~Escudo rojo~ // adpated from bgee strref #27592
+@15004 = ~Garrote de hueso~ // adapted from bg2ee strref #35105
+
+@18001 = ~Archivos Arcanos~
+@18002 = ~Sio'chaire~
+@18003 = ~Tienda de Sio'chaire~
+@18004 = ~Artículos de Ikert~
+@18005 = ~Productos de Jayes~
+@18006 = ~Librería de Galoomp~
+@18007 = ~Productos de Kich~
+@18008 = ~Mercancías de Min~
+@18009 = ~Artículos de Wallace~
+@18010 = ~Artículos de Joluv~
+@18011 = ~Artículos de Deidre~
+@18012 = ~Suministros de Deli~
+@18013 = ~Objetos mágicos de carnaval~
+@18014 = ~Tienda de descuentos de Aello Afortunado~
+@18015 = ~Armas a distancia de carnaval~
+@18016 = ~Armadura de carnaval~
+@18017 = ~Armas mágicas de carnaval~
+@18024 = ~Mercancías de Mira~
+@18025 = ~Tienda de Lirio Negro~
+@18026 = ~Productos de Perter~
+@18027 = ~una taquilla~
+@18028 = ~un lugar seguro~
+@18029 = ~la bolsa~
+@18030 = ~esta bolsa~
+@18031 = ~el bolso~
+@18032 = ~el maletero~
+@18033 = ~este maletero~
+@18034 = ~Productos de contrabando de Selence Hillstar~
+@18035 = ~Equipo de acampada~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -66,34 +50,122 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-@104001 = ~Soldado de Amn~
-@104002 = ~Mago Aprobado~
-@104003 = ~Clérigo de la Milicia~
+@104001 = ~Soldado Amniano~
+@104002 = ~Mago autorizado~
+@104003 = ~Clérigo de la milicia~
 
 @105001 = ~Vuestro objeto drow se ha desintegrado~
 
 @106001 = ~Vuestra armadura se ha roto~
-@106002 = ~Vuestra escudo se ha roto~
-@106003 = ~Vuestra yelmo se ha roto~
+@106002 = ~Vuestro escudo se ha roto~
+@106003 = ~Vuestro yelmo se ha roto~
 
-@107001 = ~Id y esperad en el Mesón del Brazo Amigo. Si las cosas cambian, os veré allí.~
+@107001 = ~Id a esperarnos al Mesón del Brazo Amigo. Si las cosas cambian, nos encontraremos allí.~
 @107002 = ~Por favor, regresad al grupo.~
-@107003 = ~Os enviaré a la esfera planar. Espéradme allí.~
+@107003 = ~Os enviaré de vuelta a la esfera planar... esperadme allí.~
+@107004 = ~Id a esperarnos a la Taberna Cuna de Invierno. Si las cosas cambian, nos encontraremos allí.~
+@107005 = ~Id a esperarnos a la Bodega de la Raíz. Si las cosas cambian, nos encontraremos allí.~
+@107006 = ~Id a esperarnos a la Posada Cadalso Silbante. Si las cosas cambian, nos encontraremos allí.~
+@107007 = ~Hola de nuevo. Un placer como antes.~
+@107008 = ~Tenéis que esperar aquí. Ahora no tengo sitio para vos.~ // bg2 strref 27251
+@107009 = ~Ha sido un placer ir de aventuras con vos. Bien hallado, y hasta la vista.~ // bg2 strref 43200
+@107010 = ~¡Hola!~ [genmg05] // bg2 strref 11082
+@107011 = ~¡Hola!~ [genfg12] // bg2 strref 11119
+@107012 = ~¡Qué pena! Nuestros caminos tienen que separarse. Hasta la próxima, pues.~ // bg2 strref 43202
+@107013 = ~Esperadme en Nashkel. Si las cosas cambian, nos encontraremos en el Templo de Helm.~
+@107014 = ~Si vuelvo a necesitar vuestros servicios, reuníos conmigo en la taberna La Canción del Elfo en Puerta de Baldur.~
+@107015 = ~Iremos por caminos separados por ahora. Esperadme en el Malabarista Jovial en Beregost.~
 
-@108001  = ~Faja de municiones~
-@108002  = ~Esta faja se usa para poder guardar balas, dardos, flechas o virotes.
+@107501 = ~Ahora no necesito vuestra ayuda, pero pronto volveremos a viajar juntos. Hasta entonces, esperadme en el Mesón del Brazo Amigo.~
+@107502 = ~Nuestros caminos deben separarse por un tiempo. Pero si vuelvo a necesitar vuestra ayuda, nos encontraremos en el Malabarista Jovial en Beregost.~
+@107503 = ~Por el momento, cada uno debe buscar su propio destino. No obstante, pronto volveré a necesitar vuestra ayuda... Si os alojáis en la posada de Nashkel, nos veremos allí la próxima vez que vaya al sur.~
+@107504 = ~Deberíamos separarnos ahora. Os buscaré la próxima vez que esté en Puerta de Baldur... Nos vemos en la taberna La Canción del Elfo.~
+@107510 = ~Sería un honor.~
+@107511 = ~Pues claro. No me meteré en problemas mientras no estéis, no señor.~
+@107512 = ~Resulta que tengo algunos negocios en esas regiones. Buscadme allí si alguna vez necesitais más músculo enano.~
+@107513 = ~Muy bien, acepto los términos de nuestro acuerdo. (Mejor seguirles la corriente, no son lo suficientemente inteligentes para entender mis argumentos en contra).~
+@107514 = ~Me irritará la inacción, pero estoy profundamente en deuda con vos. Volved pronto con este clérigo de guerra.~
+@107515 = ~Por supuesto, cariño. Estoy segura de que podré encontrar algo de diversión en vuestra ausencia.~
+@107516 = ~Bueno, podría terminar mi canción con un par de días tranquilos de trabajo. Sin embargo, daros prisa en volver... ¡hay mucho más que ver, estoy seguro!~
+@107517 = ~Hasta las mejores cosas llegan a su fin, dicen, ¿pero tal vez puedan volver de nuevo? Espero el momento en que nuestros caminos se crucen una vez más.~
+@107518 = ~Lo haré, pero aún queda mucho por hacer. No demoréis vuestro regreso.~
+@107519 = ~Ha sido bueno estar con vos. Pero estoy seguro de que estáis actuando sabiamente... Aún así, queda mucho por hacer, así que volvamos a trabajar juntos pronto.~
+@107520 = ~No hay diferencia de cualquier manera. Puedo esperar la muerte tan fácilmente en un lugar como en otro.~
+@107521 = ~Awww... ¿tengo que hacerlo? No quiero ir allí... pero supongo que haré lo que decís. ¡Aunque me enfurruñaré hasta que volváis!~
+@107522 = ~Veo pocas posibilidades de proteger la naturaleza de la gente bajo un techo de madera muerta, rodeado de toda la escualidez humana. Es una muestra de mi confianza en vos que haré lo que decís.~
+@107523 = ~Esa parece una idea notablemente estúpida. Pero supongo que la única forma de convenceros de ello es siguiéndoos la corriente.~
+@107524 = ~Así lo haré, pero espero reunirme pronto con vos. Todavía no tengo mi deuda saldada.~
+@107525 = ~Tiax está complacido por vuestra sumisión creativa. ¡A vuestro regreso, los humildes habitantes de esta posada adorarán la gloria de Tiax!~
+@107526 = ~Lo haré, pero no de buena gana. Estoy lejos de estar a salvo en estas moradas de la gente de la superficie.~
+@107531 = ~Sí, oh omnipresente figura de autoridad.~
+@107532 = ~M-m-m-muy bien, entonces. Buena suerte en vuestros viajes.~
+@107533 = ~Si lo deseáis, lo haré. Habéis demostrado ser todo un líder y ya confío en vuestras decisiones.~ ~Si lo deseáis, lo haré. Habéis demostrado ser todo una líder y ya confío en vuestras decisiones.~
+@107534 = ~¿Estáis seguro? Bubú no cree que haya mucha maldad a la que aporrear sin piedad en una posada. Pero el mal es muy listo, y a menudo bien educado, y puede esconderse en cualquier parte. Nos veremos pronto.~ ~¿Estáis segura? Bubú no cree que haya mucha maldad a la que aporrear sin piedad en una posada. Pero el mal es muy listo, y a menudo bien educado, y puede esconderse en cualquier parte. Nos veremos pronto.~
+@107535 = ~¡Hurra! ¡Una forma de ser útil a nuestra feliz familia! Y sin tener que pasar más tiempo en compañía de tontos.~
+@107536 = ~Como queráis. Un tiempo lejos de vosotros nos vendrá bien a todos, en cualquier caso.~
+@107537 = ~Vale... Supongo que este tipo de cosas también forman parte de lo que hacen los aventureros, aunque no suena interesante...~
+@107538 = ~¿Una oportunidad para un poco de lujo y un descanso de la carretera? No la rechazaré.~
 
+@108001 = ~Cinturón de munición~
+@108002 = ~Este cinturón de hombro es ideal para sostener plomos de honda, dardos, flechas o virotes.
 CARACTERÍSTICAS:
-
-Capacidad: 2.000 virotes, dardos, flechas o balas en total
+Capacidad: 2,000 plomos, dardos, flechas o virotes en total
 Peso: 2 lbs~
-@108003  = ~Contenedor de Pociones~
-@108004  = ~Típicamente llevado por curanderos, este contenedor de cuero permite llevar delicadas botellas de pociones gracias a su interior acolchonado. No importa cuantas pociones lleve dentro, siempre tendrá el mismo peso.
-
+@108003 = ~Estuche de pociones~
+@108004 = ~Este estuche de cuero, que suelen llevar los curanderos que viajan, se pliega y permite al usuario atar delicados frascos de pociones a su lado acolchado con numerosas correas de cuero para guardarlos de forma segura durante el viaje. Independientemente del número de pociones que contenga, siempre pesa lo mismo.
 CARACTERÍSTICAS:
-
 Capacidad: 100 botellas
 Peso: 2 lbs~
+@108005 = ~Bolsa de contención~
+@108006 = ~Al igual que otras bolsas mágicas, ésta parece ser un saco de tela común de unos 2 por 4 pies de tamaño. La bolsa se abre en un espacio no dimensional, y su interior es mayor que sus dimensiones exteriores. Independientemente de lo que se introduzca en este objeto, la bolsa siempre pesa una cantidad fija.~
+
+@108501 = ~Bolsa~
+@108502 = ~Bolsa de gemas~
+@108503 = ~Una bolsa pequeña.~
+@108504 = ~Una bolsa de contención tiene espacio infinito para guardar objetos. Esta resistente bolsa es especialmente adecuada para guardar todo tipo de gemas y joyas. Rechazará cualquier otra cosa que intentes introducir en ella.
+CARACTERÍSTICAS:
+Especial: Puede contener gemas, anillos, amuletos y collares.
+Peso: 1 lbs
+Colócala en una ranura de objeto rápido para abrirla.~
+@108505 = ~Abriendo la bolsa de gemas. Por favor, espere.~
+@108506 = ~Estuche~
+@108507 = ~Estuche de pociones~
+@108508 = ~Un estuche rectangular.~
+@108509 = ~Una bolsa de contención tiene espacio infinito para guardar objetos. Este estuche de cuero, que suelen llevar los curanderos viajeros, se pliega y permite al usuario atar delicados frascos de pociones a su lado acolchado con numerosas correas de cuero para guardarlos de forma segura durante el viaje. La magia del objeto expulsará cualquier otra cosa.
+CARACTERÍSTICAS:
+Especial: Puede contener pociones y botellas.
+Peso: 3 lbs
+Colócalo en una ranura de objeto rápido para abrirlo.~
+@108510 = ~Abriendo el estuche de pociones. Por favor, espere.~
+@108511 = ~Estuche~
+@108512 = ~Estuche de pergaminos~
+@108513 = ~Un estuche.~
+@108514 = ~Una bolsa de pergaminos tiene espacio infinito para guardar objetos. Este robusto estuche permite guardar docenas de pergaminos, a salvo del fuego, la lluvia o los rayos, peligros habituales a los que se enfrenta cualquier mago aventurero. No acepta nada más.
+CARACTERÍSTICAS:
+Especial: Puede contener un gran número de pergaminos.
+Peso: 2 lbs
+Colócalo en una ranura de objeto rápido para abrirlo.~
+@108515 = ~Cinturón~
+@108516 = ~Cinturón de munición~
+@108517 = ~Un cinturón.~
+@108518 = ~Una bolsa de contención tiene espacio infinito para guardar objetos. Gracias a sus numerosas bolsas pequeñas, este cinturón es ideal para guardar plomos de honda, dardos, flechas o virotes. No cabe nada más.
+CARACTERÍSTICAS:
+Especial: Puede contener una gran cantidad de munición (virotes, flechas, plomos y dardos).
+Peso: 2 lbs
+Ponte este cinturón para acceder a su habilidad especial.~
+@108519 = ~Abriendo bolsillos del cinturón de munición. Por favor, espere.~
+@108520 = ~Bolsa~
+@108521 = ~Bolsa de contención~
+@108522 = ~Un bolsa.~
+@108523 = ~Al igual que otras bolsas mágicas, ésta parece ser un saco de tela común de unos 2 por 4 pies de tamaño. El saco se abre en un espacio no dimensional, y su interior es mayor que sus dimensiones exteriores. Independientemente de lo que se introduzca en este objeto, la bolsa siempre pesa una cantidad fija.
+CARACTERÍSTICAS:
+Especial: Puede contener objetos de cualquier tamaño sin límite.
+Peso: 10 lbs
+Colócalo en una ranura de objeto rápido para abrirlo.~
+@108524 = ~Abriendo la bolsa de contención. Espere, por favor.~
+@108525 = ~Abriendo el escuche de pergaminos. Espere, por favor.~
+
+// @109001 through 109026 have been removed, as this component has moved to The Calling
 
 @111001 = ~Posada de Candelero~
 @111002 = ~Cuartel del Clérigo~
@@ -135,7 +207,7 @@ Peso: 2 lbs~
 @111038 = ~Taberna el Eructo del Dragón~
 @111039 = ~Casa del Alcalde~
 @111040 = ~Guarnición~
-@111041 = ~Fuerte Gnoll~
+@111041 = ~Baluarte Gnoll~
 @111042 = ~Entrada a la Mina~
 @111043 = ~Cabina~
 @111044 = ~Escultura~
@@ -191,60 +263,109 @@ Peso: 2 lbs~
 @111094 = ~Salida de la Mina~
 @111095 = ~Salida~
 @111096 = ~Templo de Bhaal~
+@111097 = ~Santuario de Waukin~
+@111098 = ~La Arquería~
+@111099 = ~Almacén del Mercader~
+@111100 = ~Templo de Tempus~
+@111101 = ~Casa de Hrothgar~
+@111102 = ~Taberna Cuna de Invierno~
+@111103 = ~Posada Lomodenieve~
+@111104 = ~Emporio de Pomab~
+@111105 = ~Casa del Viejo Jed~
+@111106 = ~Casa de Apsel~
+@111107 = ~Almacén~
+@111108 = ~Pescadería~
+@111109 = ~Torre de Orrick el Gris~
+@111110 = ~Casa de Arundel~
+@111111 = ~Bazar de enseres de Gerth~
+@111112 = ~Alfarería~
+@111113 = ~Taberna Bodega de la Raíz~
+@111114 = ~Herrería~
+@111115 = ~Posada Sombra al Atardecer~
+@111116 = ~Hogar del Bárbaro Chamán~
+@111117 = ~Templo de Ilmater~
+@111118 = ~Aeronave de Oswald Fiddlebender~
+@111119 = ~Estatua de Tolben~
+@111120 = ~Cabaña de los Hermanos~
+@111121 = ~Casa de Cartwright~
+@111122 = ~Casa del Tonelero~
+@111123 = ~Embarcadero~
+@111124 = ~Posada del Cadalso Silbante~
+@111125 = ~Choza de Purvis~
+@111126 = ~Rincón~
+@111127 = ~Pasaje abovedado~
 
-@114001 = ~Una gema es un mineral que al cortarse o facetarse y pulirse puede coleccionarse o ser usada en joyería.~
+@114001 = ~Una gema es un mineral que, tallado y pulido, puede coleccionarse o utilizarse como joya.~
 
-@115001 = ~Conjurar Animales
+@115001 = ~Conjurar animales
 (Conjuración/Convocación)
 Nivel: 6
 Esfera: Convocación
-Alcance: 60 yardas
+Alcance: 54 metros
 Duración: 4 turnos
-Tiempo de Lanzamiento: 9
-Área de Efecto: Especial
-Tirada de Salvación: Ninguna
-
-DESCRIPCIÓN:
-
-Este conjuro permite al lanzador convocar y controlar dos Hombres-oso de 20 dados de vida. Los osos responderán a todo capricho del lanzador durante toda la duración del conjuro. Los Hombres-oso son más lentos que los Hombres-lobo Mayor, pero también son más duros. Los Hombres-oso son resistentes a los ataques elementales y mágicos y se regeneran rápidamente.~
-@115002 = ~Hombre-oso Mayor~
-@115003 = ~Hombre-oso~
-@115004 = ~Esta garra simbólica representa el control de un Druida Cambiaformas sobre la licantropía. Mientras la garra sea portada, el Cambiaformas se vuelve un Hombre-lobo. Cuando la garra es removida, el Cambiaformas regresa a su forma humana. Las garras de un Hombre-lobo cuentan como armas +2.
-
+Tiempo de lanzamiento: 9
+Área de efecto: Especial
+Tirada de salvación: Ninguna
+Este hechizo permite al lanzador invocar y controlar dos hombres oso de 20 dados de golpe. Los osos responderán a todos los caprichos del lanzador mientras dure el hechizo. Los hombres oso son más lentos que los grandes hombres lobos, pero también son más resistentes. Los hombres oso son resistentes a los ataques elementales y mágicos y se regeneran rápidamente.~
+@115002 = ~Hombre oso mayor~
+@115003 = ~Hombre oso~
+@115004 = ~Esta garra simbólica representa el control de un druida cambiaformas sobre la licantropía. Mientras la empuña, el cambiaformas se convierte en hombre lobo. Cuando se quita la pata, el cambiaformas vuelve a su forma humana. Las garras de un hombre lobo cuentan como armas +2.
 CARACTERÍSTICAS:
-
-Atributos: FUE 19, DES 16, CON 15
-CA Base: 1
-Resistencias: 20% de resistencia mágica, inmunidad a las armas no mágicas
-Ataques por Asalto: 2
+Atributos: 19 FUE, 16 DES, 15 CON
+Clase de armadura base: 1
+Resistencias: 20% resistencia mágica, inmunidad a las armas no mágicas
+Ataques por ronda: 2
 Daño: 1D12
-Tipo de Daño: Cortante
-Factor de Velocidad: 3
-Talento Marcial: Daga
-Tipo: A una mano
+Tipo de daño: Cortante
+Factor de velocidad: 3
+Talento marcial: Daga
+Tipo de arma: A una mano
 ~
-
-@115005 = ~Esta garra simbólica representa el máximo control de un Druida Cambiaformas sobre la licantropía. Mientras es portada por el cambiaformas, éste se convierte en un Hombre-lobo mayor. Cuando la garra sea removida, el Cambiaformas regresa a su forma humana. Las garras de un Hombre-lobo mayor cuentan como armas +3.
-
+@115005 = ~Esta garra simbólica representa el control definitivo de un druida cambiaformas sobre la licantropía. Mientras la empuña, el cambiaformas se convierte en un hombre lobo mayor. Cuando se quita la garra, el cambiaformas vuelve a su forma humana. Las garras de un hombre lobo mayor cuentan como armas +3.
 CARACTERÍSTICAS:
-
-Atributos: FUE 21, DES 20, CON 25
-CA Base: -6
-Tiradas de Salvación Base: 1/1/1/2/1
-Resistencias: 40% de resistencia mágica, 50% de resistencia elemental, inmunidad a las armas no mágicas
-Regeneración: 3 puntos de vida por segundo
-Ataques por Asalto: 3
-GAC0 Base: 6
+Atributos: 21 FUE, 20 DES, 25 CON
+Clase de armadura base: -6
+Tirada de salvación base: 1/1/1/2/1
+Resistencias: 40% resistencia mágica, 50% resistencia elemental, inmunidad a armas no mágicas
+Regeneración: 3 puntos de golpe por segundo
+Ataques por ronda: 3
+GAC0 base: 6
 Daño: 2D8
-Tipo de Daño: Cortante
-Factor de Velocidad: 3
-Talento Marcial: Daga
-Tipo: A una mano
+Tipo de daño: Cortante
+Factor de velocidad: 3
+Talento marcial: Daga
+Tipo de arma: A una mano
 ~
+@115006 = ~Cambio de forma: Hombre lobo
+Fuerza: 19
+Destreza: 16
+Constitución: 15
+Clase de armadura base: 1
+Número de ataques: 2
+Daño: 1d12 (cortante), golpea como un arma +2
+Habilidades especiales:
+- Resistencia mágica: 20%
+- Inmune a armas no mágicas~
+@115007 = ~Cambio de forma: Hombre lobo mayor
+Fuerza: 21
+Destreza: 20
+Constitución: 25
+Clase de armadura base: -6
+Número de ataques: 3
+Daño: 2d8 (cortante)
+Habilidades especiales:
+- Resistencia al fuego: 50%
+- Resistencia al frío: 50%
+- Resistencia a la electricidad: 50%
+- Resistencia al ácido: 50%
+- Resistencia mágica 40%
+- Inmune a armas no mágicas~
+@115008 = ~Garra de hombre lobo~
+@115009 = ~Garra de hombre lobo mayor~
 
 @116002 = ~Tengo la escritura del teatro si es que queréis probar vuestros talentos allí. Samuel es un buen hombre y honrará la escritura en vuestras manos.~
 @116003 = ~Lo siento Raelis, pero no tengo tiempo.~
-@116004 = ~Gracias por la oferta pero debo negarme. No sabría por dónde empezar.~
+@116004 = ~Gracias por la oferta pero debo negarme. No sabría ni por dónde empezar a dirigir un teatro.~
 @116005 = ~¿El teatro de las Cinco Jarras? Me honrará ser el dueño.~ ~¿El teatro de las Cinco Jarras? Me honrará ser la dueña.~
 @116006 = ~Sí, haré como me pedís. Nunca podré deteneros. Sin embargo, debo a mi salvador más que un adiós.~ ~Sí, haré como me pedís. Nunca podré deteneros. Sin embargo, debo a mi salvadora más que un adiós.~
 @116007 = ~Tengo la escritura del teatro si es que queréis probar vuestros talentos allí. Samuel es un buen hombre y honrará la escritura en vuestras manos.~
@@ -265,7 +386,7 @@ Tipo: A una mano
 @116022 = ~Tenéis la bendición de la Arboleda y por eso os doy el Bastón del Trueno y Rayo.~
 @116023 = ~Muy bien. Continuaré siendo el Maestro de Desafíos y el criado hasta que los ritos de ascensión hayan sido completados.~
 
-@122001 = ~Ah, un Carcaj de la abundancia. Puedo encantarlo para que cree mejores virotes, pero os costará. Serán 5.000 piezas de oro.~
+@122001 = ~Ah, un carcaj de la abundancia. Puedo encantarlo para que cree mejores virotes, pero os costará. Serán 5.000 piezas de oro.~
 @122002 = ~Veamos que más tenéis.~
 @122003 = ~La capucha de un ladrón, ¿eh?~
 @122004 = ~Con una botella de antídoto y un anillo de invisibilidad esto podría ser muy útil.~
@@ -273,7 +394,7 @@ Tipo: A una mano
 @122006 = ~¿Qué es esto?~
 @122007 = ~Tengo una receta para ponerle cuernos al Yelmo de la Roca para hacerlo más poderoso. Cuando tengáis las piezas podré construírlo.~
 @122008 = ~Tenéis el Yelmo de la Roca y los dos cuernos. Por 5,000 piezas de oro puedo añadir los cuernos para crear un yelmo para luchadores.~
-@122009 = ~Estos son guanteletes de Bardo.~
+@122009 = ~Estos son guanteletes de bardo.~
 @122010 = ~Los puedo mejorar con algunas gemas. Traedme un diamante, esmeralda, piedra de bribón, y zafiro estrella y os haré este favor.~
 @122011 = ~Machacando este diamante, esmeralda, piedra de bribón, y zafiro estrella puedo mejorarlos. Os costará 5,000 piezas de oro.~
 @122012 = ~Estos son brazales para paladín.~
@@ -309,8 +430,72 @@ Tipo: A una mano
 @122042 = ~¿Podríais agregar sólo la cabeza de veneno por ahora? Os daré 5.000 piezas de oro.~
 @122043 = ~Conozco la receta para dos cabezas del Mayal de las edades. Podéis agregar la cabeza de veneno... o la eléctrica. Son las únicas recetas que tengo, lo siento.~
 @122044 = ~Tenéis tres cabezas aquí... puedo agregar la eléctrica. Para tener cuatro, ¿véis?  Dadme 5,000 piezas de oro y lo haré. ¿Os apetece?~
-@122045 = ~ ¡Ooo! Tenéis cuatro cabezas y puedo agregar la última. Muy pestilente, sí. 5.000 piezas de oro solamente. ¿Os apetece?~
-    
+@122045 = ~¡Ooo! Tenéis cuatro cabezas y puedo agregar la última. Muy pestilente, sí. 5.000 piezas de oro solamente. ¿Os apetece?~
+@122046 = ~Esta es una honda gnómica. Tengo algunos trucos bajo la manga que pueden hacerla más precisa.~
+@122047 = ~Si encontráis un Anillo de Energía, puedo arreglarlo.~
+@122048 = ~Dadme vuestro Anillo de Energía y 5.000 de oro y podremos empezar.~
+
+@123001 = ~Oh, ¿Unas brillantes escamas rojas, verdad? Hago buenas armaduras de escamas, protegen muy bien del fuego.~
+@123002 = ~¿Qué es este montón de brillantes? ¡Ooh, illithium!~
+@123003 = ~Puedo hacer un buen revestimiento para la maza de disrupción. Volved si encontráis una.~
+@123004 = ~¡Oh, y una maza de disrupción! ¡Podéis hacer que la maza dé aún más miedo por sólo 7.500 piezas de oro!~
+@123005 = ~Ugh. Necesitáis lavar esta bolsa.~
+@123006 = ~Guau, mucha plata brillante brillante.~
+@123007 = ~¡Ui! Plata reluciente y brillante. Necesitaría una empuñadura y podría hacer bonita espada de plata brillante.~
+@123008 = ~Bonita y brillante empuñadura, pero necesitáis la parte puntiaguda.~
+@123009 = ~Tenéis una empuñadura y una hoja de plata a juego. Por 7.500 piezas de oro puedo combinar en espada.~
+@123010 = ~De acuerdo, seguiré buscando.~
+@123011 = ~¡Hola! ¡Saludad a Oleaje!~
+@123012 = ~Tenéis una bonita hoja de alabarda, pero necesito el resto.~
+@123013 = ~¿Por qué guardáis este palo? Podría ser una buena alabarda si pudierais encontrar la hoja para ella.~
+@123014 = ~El astil y la hoja de Oleaje. Podría combinar en una bonita y brillante alabarda por 7.500 piezas de oro.~
+@123015 = ~Sigo buscando entonces... Ups. ¡Ya estaba así!~
+@123016 = ~Ui, parece algo de Gesen.~
+@123017 = ~Parece un buen arco de Gesen, pero le falta la cuerda.~
+@123018 = ~Ooh, y una cuerda brillante. 7.500 piezas de oro y podéis tener un bonito arco corto.~
+@123019 = ~Me pregunto por qué lo llaman corto. Sigue siendo demasiado grande para mí. Sigo buscando entonces.~
+@123020 = ~Ooh, brillantes trozos de Igualadora. ¿Por qué no juntáis todo esto?~
+@123021 = ~Oh, porque no tenéis todas las partes de la espada. Puedo ayudaros cuando las tengáis.~
+@123022 = ~¿Quizás no sabéis cómo? Cespenar sabe, oh sí, y por solo 7.500 piezas de oro.~
+@123023 = ~Muy bien, reviso vuestra bolsa de nuevo.~
+@123024 = ~Ooh, gran martillo de trueno. ¡Bzzt! ¡Bzzt!~
+@123025 = ~Vos conseguir el pergamino adecuado, guanteletes de ogro, y un cinturón de gigante de escarcha, ¡y Cespenar hacer esto más mejor!~
+@123026 = ~Puede que no os deis cuenta, pero Cespenar no es enano. Sin embargo, Cespenar conoce algunos trucos de los enanos.~
+@123027 = ~Tomaré este martillo, el pergamino, los guanteletes de ogro, 10.000 piezas de oro y el cinturón de gigante de escarcha y Crom Faeyr estará listo. ¡Gran martillo brillante!~
+@123028 = ~Cespenar sigue buscando entonces.~
+@123029 = ~¡Asquerosas escamas malolientes de ankheg! Sólo 5.000 piezas de oro hacer cota de malla, buena para proteger ácido, brillante y muy verde. ¿Queréis?~
+@123030 = ~OK, Cespenar sigue buscando.~
+@123031 = ~¿Dragón de las sombras? Hacer un buen equipamiento. Armadura, también. Ambos protegen del ácido.~
+@123032 = ~Oh, son escamas de dragón azul. Apestan. Hago buenas armaduras de placas, sin embargo... muy ligeras, muy brillantes.~
+@123033 = ~Oh, son escamas de dragón blanco, ¿verdad? Hago una buena armadura de escamas, tal vez os proteja del frío.~
+@123034 = ~Cualquier armadura de dragón sólo 5.000 piezas de oro. ¿Queréis?~
+@123035 = ~Haced la armadura de escamas de dragón de las sombras.~
+@123036 = ~Haced la armadura de escamas de dragón rojo.~
+
+@125002 = ~¡Largaos, mediana, no tengo paciencia para vuestro parloteo!~
+@125003 = ~De hecho, sí. ¿Por qué lo preguntáis?~
+@125004 = ~Ya he visitado estas ruinas y tengo que decir que su reputación está sobrevalorada.~
+@125005 = ~Esperad hasta que escuchéis lo que tengo que decir. Estas ruinas están listas para ser saqueadas y hay mucho que recoger sin demasiados moretones. Quizás deberíamos hacer equipo. Como vivo aquí con mi tía, conozco bien este lugar; algunos de sus secretos, cómo forzar una cerradura o detectar una trampa. Esto podría ser divertido. ¿Qué decís?~
+@125006 = ~Una idea espléndida. Bienvenida a bordo.~
+@125007 = ~Lo siento mucho, pero tenemos todo lo que necesitamos.~
+@125008 = ~¡Qué ridiculez! ¿Creéis que os necesito? Ya me habéis hecho perder bastante tiempo, ¡ahora largaos!~
+@125009 = ~¡Vaya! ¡No hay necesidad de ser grosero al respecto! ¡Hmph! ¡Nunca se conoce gente agradable en este tipo de trabajo! ¡No me extraña que la gente odie a los aventureros! ¡Adiós!~ ~¡Vaya! ¡No hay necesidad de ser grosera al respecto! ¡Hmph! ¡Nunca se conoce gente agradable en este tipo de trabajo! ¡No me extraña que la gente odie a los aventureros! ¡Adiós!~
+@125010 = ~¡Bien hecho! ¡Oh, es más divertido tener a alguien del oficio con quien hablar! Estoy aquí con mi tía, para enmendarme y todo eso, pero me estoy aburriendo un poco. Tal vez deberíamos trabajar juntos. Conozco este lugar bastante bien; sé algunos secretos, cómo forzar una cerradura o encontrar una trampa. Podría ser divertido. ¿Qué me decís?~ ~¡Bien hecho! ¡Oh, es más divertido tener a alguien del oficio con quien hablar! Estoy aquí con mi tía, para enmendarme y todo eso, pero me estoy aburriendo un poco. Tal vez deberíamos trabajar juntas. Conozco este lugar bastante bien; sé algunos secretos, cómo forzar una cerradura o encontrar una trampa. Podría ser divertido. ¿Qué me decís?~
+@125011 = ~Santa Cacofonía, ¡¿qué oigo, sobrevalorada?! ¡Esto... es... emocionante!  Deberíamos... ...¡deberíamos trabajar juntos! ¡Sí! Podría ser de ayuda. . ...creo que deberíamos ayudarnos mutuamente por un tiempo. Puedo localizar tesoros para vos. ¡Podríais encontrar muchos más con mi ayuda! ¿Qué me decís?~
+@125012 = ~Amigos somos, ¡y de los buenos! Uno para todos y cosas así. Diversión para todos, ¡lo sé!~ ~Amigas somos, ¡y de las buenas! Una para todos y cosas así. Diversión para todos, ¡lo sé!~
+@125013 = ~Bueno, no importa. Nunca consigo hacer amigos en este negocio. Especialmente de los agradables. Adiós entonces.~
+@125014 = ~Supongo que me quedaré aquí deprimida hasta que recuperéis el sentido común y volváis a por mí.~
+@125015 = ~Bueno, si vais a estar rondándome todo el día, tal vez deberíamos trabajar juntos.~
+@125016 = ~No, no me interesan las ruinas.~
+@125017 = ~¡Eh, vos no sois de por aquí! ¡Sí! No hay lustre en vuestras botas, ni broches en vuestros tirantes. No sois comerciantes. Siempre están mucho más presentables. ¡Aww conejitos, aventureros en Gulykin! ¿Vais a saquear las ruinas de Vinoardiente?~
+
+@126001 = ~Poeta del lago Sam~
+@126002 = ~Sam~
+@126003 = ~Poeta del lago Rob~
+@126004 = ~Rob~
+@126005 = ~Poeta del lago Willy~
+@126006 = ~Willy~
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -319,76 +504,156 @@ Tipo: A una mano
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
+@202001 = ~Empuñar con una mano~
+@202002 = ~Empuñar a dos manos~
 @202003 = ~^[ %TAB%]*Tipo[ %TAB%]*:[ %TAB%]*\(a \|de \)?\(una\|1\)[- %TAB%]*\(mano\|puño\).*~
 @202004 = ~Tipo: a dos manos~
-
 @204001 = ~^[ %TAB%]*No \(lo puede usar\|utilizable por\|usable por\|permitido a\)[ %TAB%]*:.*~
 @204002 = ~No permitido a:~
 @204003 = ~[%LNL%%MNL%%WNL%][- %TAB%]*\(El \)?Mago.*~
 
 // Moved from thieving_descripts.tpa
-// See English setup.tra for details on what should be matched by the regular expression
+// Typical weight line for an item, used for a search matching the whole line
 @210001  = ~\(Peso:[ %TAB%]*[0-9]+\)~
-@210002 = ~^[ %TAB%]*Abrir cerraduras:.+$[%MNL%%LNL%%WNL%]+~
+// Typical lock picking penalty line in original armors
+@210002 = ~^\([ %TAB%]*Abrir cerraduras:.+\)\|\([ %TAB%]*.?.?.?[ %TAB%]*Forzar cerraduras:.+\)$[%MNL%%LNL%%WNL%]+~ // lone . at front to catch EE emdash
+// Title for lock picking added after Weight line, penalty is added after this text
 @210003 = ~Abrir cerraduras:~
-@210004 = ~^[ %TAB%]*Encontrar trampas:.+$[%MNL%%LNL%%WNL%]+~
+// Typical find trap penalty line in original armors
+@210004 = ~^\([ %TAB%]*Encontrar trampas:.+\)\|\([ %TAB%]*.?.?.?[ %TAB%]*Detectar trampas:.+\)$[%MNL%%LNL%%WNL%]+~ // lone . at front to catch EE emdash
+// Title for find trap added after Weight line, penalty is added after this text
 @210005 = ~Encontrar/desactivar trampas:~
-@210006 = ~^[ %TAB%]*Robar:.+$[%MNL%%LNL%%WNL%]+~
+// Typical pick pocket penalty line in original armors
+@210006 = ~^[ %TAB%]*.?.?.?[ %TAB%]*Hurtar:.+$[%MNL%%LNL%%WNL%]+~ // lone . at front to catch EE emdash
+// Title for pick pocket added after Weight line, penalty is added after this text
 @210007 = ~Robar:~
-@210008 = ~^[ %TAB%]*Esconderse en las sombras:.+$[%MNL%%LNL%%WNL%]+~
+// Typical hide en shadow penalty line in original armors
+@210008 = ~^[ %TAB%]*.?.?.?[ %TAB%]*Esconderse en las sombras:.+$[%MNL%%LNL%%WNL%]+~ // lone . at front to catch EE emdash
+// Title for hide in shadow added after Weight line, penalty is added after this text
 @210009 = ~Esconderse en las sombras:~
-@210010 = ~^[ %TAB%]*Moverse sigilosamente:.+$[%MNL%%LNL%%WNL%]+~
+// Typical move silently penalty line in original armors
+@210010 = ~^[ %TAB%]*.?.?.?[ %TAB%]*Moverse sigilosamente:.+$[%MNL%%LNL%%WNL%]+~ // lone . at front to catch EE emdash
+// Title for move silently added after Weight line, penalty is added after this text
 @210011 = ~Moverse sigilosamente:~
+// Typical move silently penalty line in original armors
+@210012 = ~^[ %TAB%]*.?.?.?[ %TAB%]*Sigilo:.+$[%MNL%%LNL%%WNL%]+~ // lone . at front to catch EE emdash
+// Title for move silently added after Weight line, penalty is added after this text
+@210013 = ~Sigilo:~
 
 // Moved from arcane_descripts.tpa
-// See English setup.tra for details on what should be matched by the regular expression
+// Typical weight line for an item, used for a search matching the whole line
 @212001 = ~\(Peso:[ %tab%]*[0-9]+\)~
-@212002 = ~Fallar Magia Arcana:~
+// Title for miscast chance added after Weight line, value is added after this text
+@212002 = ~Fallar magia arcana:~
 
 @214001 = ~Bárbaro/Mago~
 @214002 = ~Bárbaro/Clérigo~
 @214003 = ~Bárbaro/Ladrón~
 @214004 = ~Bárbaro/Druida~
 
-@215002 = ~[%LNL%%MNL%%WNL%][ %TAB%]*\(Bonificador de \|Bonificador a la \)?Clase de armadura[ %TAB%]*:.*~
+@215002 = ~[ %TAB%]*.?.?.?[ %TAB%]*Clase de armadura[^:]*:.*$~ // lone . at front to catch EE emdash
 
 @216001 = ~ESPADA CORTA/NINJA TO: Las armas preferidas de varios ladrones y medianos, las espadas cortas y ninja-tos son livianas pero muy útiles.
 
 <DOTS1>
+
 <DOTS2>
+
 <DOTS3>
+
 <DOTS4>
+
 <DOTS5>~
 @216002 = ~KATANA/WAKIZASHI: Las katanas y wakizashis son los mejores ejemplos de la habilidad de un herrero, y requieren ser manejadas con cuidado. A medida que la habilidad se desarrolla, el portador y el arma se unen en un solo ser, dedicado completamente al arte de la guerra. Estas armas son difíciles de encontrar fuera de Kara-Tur, y por debe considerarse seriamente al momento de elegir este talento. Después de todo, las katanas y wakizashis sólo son útiles si las encuentras.
 
 CUIDADO: ¡Las katanas mágicas son difíciles de encontrar en Baldur´s Gate 2!
 
 <DOTS1>
+
 <DOTS2>
+
 <DOTS3>
+
 <DOTS4>
+
 <DOTS5>~
 @216003 = ~CIMITARRA: Esta clase de armas permite al personaje usar armas de hojas curvadas como las cimitarras.
 
 <DOTS1>
+
 <DOTS2>
+
 <DOTS3>
+
 <DOTS4>
+
 <DOTS5>~
 @216004 = ~MAYAL: Los mayales son armas contundentes que se usan para dejar sin sentido a los oponentes. Son difíciles de usar pero con habilidad y práctica son muy útiles.
 
 <DOTS1>
+
 <DOTS2>
+
 <DOTS3>
+
 <DOTS4>
+
 <DOTS5>~
 @216005 = ~MAZA/MANGUAL: La maza es comunmente asociada con los clérigos. Es un arma contundente muy poderosa, similar al garrote, pero diseñada para hacer más daño. El mangual es parecido a la maza, pero suele tener pinchos en lugar de pestañas.
 
 <DOTS1>
+
 <DOTS2>
+
 <DOTS3>
+
 <DOTS4>
+
 <DOTS5>~
+@216007 = ~Talento\( marcial\)?[:-] *~
+@216008 = ~Talento marcial:~
+@216009 = ~Espada corta/Ninja-to~
+@216010 = ~Katana/Wakizashi~
+@216011 = ~Maza/Magual~
+
+@216101 = ~Espada pequeña~
+
+@216301 = ~Espadas grandes~
+@216302 = ~ESPADAS GRANDES: Esta clase de arma permite al personaje utilizar mandobles and espadas bastardas.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216303 = ~ESPADA LARGA: Esta clase de arma permite al personaje utilizar espadas anchas, espadas largas y cimitarras. El ladrón puede elegir esta clase de arma, pero sólo puede usar la espada larga. El druida puede elegir esta clase, pero sólo puede usar cimitarras.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216304 = ~ARMAS DE PROYECTILES: Esta clase de arma permite al personaje utilizar hondas y dardos. Los clérigos pueden elegir esta competencia, pero sólo pueden usar hondas.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+
+// this component deprecated, but the strings below still needed for the components that replace it
 @218001 = ~Alquimia (Mago)~
 @218002 = ~Alquimia (Clérigo)~
 @218003 = ~Alquimia (Ladrón)~
@@ -466,8 +731,24 @@ Esta habilidad permite al ladrón crear hechizos. Los que puede crear son los si
 9) Convocar Monstruo III~
 
 // next two strings used for matching and updating item descriptions
-@223001 = ~CARACTERÍSTICAS:~ // this is used for mataching in the item descripiton, so copy this from an oBG2 item description
+@223001 = ~CARACTERÍSTICAS:~ // this is used for matching in the item description, so copy this from an oBG2 item description
 @223002 = ~Siempre se la considera un arma +%ench% al determinar a quién puede golpear.~
+
+// the next string should match content TO BE REMOVED from the racial description of humans and the help reference for dual-classing
+@235002 = ~Los humanos no pueden ser multiclase.~ // from strref #9550
+
+// the next two strings should match content TO BE REMOVED from the racial description of humans and the help reference for dual-classing
+// you may need to check the EEs, as oBG2 doesn't mention dual-classing in #9550 or #32540
+@237002 = ~ y son la única raza que puede tener dos clases~ // from strref #9550
+@237003 = ~Pertenecer a dos clases es una habilidad que solo poseen los humanos. ~ // from strref #10811
+@237004 = ~ si es humano~ // BG tutorial monk dialogue monktu4 - 32540 in BGEE/SoD
+
+// translators - the next three strings are used to replace game text, so they need to be copied from the game itself
+// get @244001 and @244002 from strref 9588 in bgee/bg2ee/iwdee
+@244001 = ~\* Todos los ataques adicionales se aplican únicamente a las clases luchadoras.~ // last line; if there's a * included then add \ in front of it
+@244002 = ~TABLA DE CASILLAS DE TALENTO~ // line before <DOTS1>, exclude the * if present
+// get @244003 from string 32117 (bg2ee/iwdee) or 24220 (bgee)
+@244003 = ~(solo guerreros)~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -477,16 +758,109 @@ Esta habilidad permite al ladrón crear hechizos. Los que puede crear son los si
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-@315000 = ~Deshabilitar las animaciones de la Capa del espejo, Trampa contra conjuros, y Espejo fisico~
+@318313 = ~Traedme a mi amante, Aerie.~
+@318314 = ~Traedme a mi amante, Jaheira.~
+@318315 = ~Traedme a mi amante, Sir Anomen, Caballero de la Orden.~
+@318316 = ~Traedme a mi amante, Anomen, clérigo de Helm.~
+@318317 = ~Traedme a mi amante, Viconia.~
+@318318 = ~Traedme a mi amante, Dorn.~
+@318319 = ~Traedme a mi amante, Hexxat.~
+@318320 = ~Traedme a mi amante, Neera.~
+@318321 = ~Traedme a mi amante, Rasaad.~
 
-@318313 = ~Deseo a mi amante, Aerie.~
-@318314 = ~Deseo a mi amante, Jaheira.~
-@318315 = ~Deseo a mi amante, Sir Anomen, Caballero de la Orden.~
-@318316 = ~Deseo a mi amante, Anomen, clérigo de Helm.~
-@318317 = ~Deseo a mi amante, Viconia.~
+@322001 = ~Atta~
+@322002 = ~Angel~
 
-@321001 = ~Selecciona un valor mínimo de estadísticas, entre 6 y 15:~
-    
+@324101 = ~Símbolo del genio~
+@324102 = ~Símbolo~
+@324103 = ~Un símbolo indescriptible sin marcas.~
+@324104 = ~¡Saludos! Seleccionad el artículo por el que deseáis canjear vuestro símbolo:~
+
+@324201 = ~Flynn~
+@324202 = ~Mercader ambulante~
+@324203 = ~Harrold~
+@324204 = ~¡Hola viajeros! ¿Podría tener un momento de vuestro tiempo?~
+@324205 = ~Lo siento, no tengo tiempo ahora.~
+@324206 = ~Perdón por la confusión, pero no tengo mercancías que mostrar. Estoy aquí para adquirir artículos exóticos, aunque no tengo oro para daros.~
+@324207 = ~Todo esto... por una pequeña comisión, por supuesto.~
+@324208 = ~En otra ocasión entonces.~
+@324209 = ~¿Qué clase de comisión?~
+@324210 = ~Mi comisión típica es de 1000 piezas de oro, pero puedo ofreceros una variedad de opciones para vuestros intercambios.~
+@324211 = ~¡Eso es muy caro!~
+@324212 = ~Muy bien. ¿Tengo algo de interés?~
+@324213 = ~Cierto, pero mi selección también es insuperable. Y mirar no cuesta nada.~
+@324214 = ~Adiós y buen viaje.~
+@324215 = ~Es bueno oír que llegasteis a salvo. ¿Así que ya sabéis cómo funciona esto?~
+@324216 = ~Lo tengo. ¿Podríais mirar mi mercancía y ver si tengo algo que valga la pena intercambiar?~
+@324217 = ~No, en realidad.~
+@324218 = ~Estoy dispuesto a cambiar mi propio stock exótico por cualquiera que podáis encontrar... quizás tenga algo más útil para un hombre de vuestros talentos.~ ~Estoy dispuesto a cambiar mi propio stock exótico por cualquiera que podáis encontrar... quizás tenga algo más útil para una mujer de vuestros talentos.~
+@324219 = ~Bueno, dejadme ver...~
+@324220 = ~Bienvenidos, viajeros.~
+@324221 = ~No, me temo que no veo nada de interés.~
+@324222 = ~Me gustaría adquirir estos objetos. ¿Os gustaría saber qué tengo para cambiar por ellos?~
+@324223 = ~No estoy dispuesto a intercambiar ninguno de estos.~
+@324224 = ~Oh... parece que no tenéis el oro para pagar mi comisión.~
+@324225 = ~De acuerdo entonces. ¿Os interesa alguno de estos objetos?~
+@324226 = ~No, me temo que no. ¿Qué más podemos intercambiar?~
+@324227 = ~Muy bien.~
+@324228 = ~Gracias. Adiós.~
+// -60 and -80 string series are identical, just with Flynn/Harrold and Lonelywood/Kuldahar exchanged
+@324260 = ~Soy Flynn, un agente de una bolsa de comercio de Puerto Cálim, enviado aquí para buscar artículos exóticos y únicos.~
+@324261 = ~Creo que conocí a su homólogo, Harrold, en Solobosque.~
+@324262 = ~Bien hallado Flynn. ¿Puedo ver vuestra mercancía?~
+@324263 = ~Gracias Flynn, os tendré en cuenta si busco algo.~
+@324264 = ~Hola de nuevo Flynn. ¿Estáis dispuesto a intercambiar algo aquí?~
+@324265 = ~No, no estoy interesado en nada de eso. Adiós Flynn.~ ~No, no estoy interesada en nada de eso. Adiós Flynn.~
+@324266 = ~Gracias Flynn. ¿Hay algo más que queráis intercambiar?~
+@324280 = ~Soy Harrold, un agente de una bolsa de comercio de Puerto Cálim, enviado aquí para buscar artículos exóticos y únicos.~
+@324281 = ~Creo que conocí a su homólogo, Flynn, en Kuldahar.~
+@324282 = ~Bien hallado Harrold. ¿Puedo ver vuestra mercancía?~
+@324283 = ~Gracias Harrold, os tendré en cuenta si busco algo.~
+@324284 = ~Hola de nuevo Harrold. ¿Estáis dispuesto a intercambiar algo aquí?~
+@324285 = ~No, no estoy interesado en nada de eso. Adiós Harrold.~ ~No, no estoy interesada en nada de eso. Adiós Harrold.~
+@324286 = ~Gracias Harrold. ¿Hay algo más que queráis intercambiar?~
+
+@325001 = ~En realidad, ¿podemos ver los artículos que ofrecíais cuando llegamos a Kuldahar?~
+@325002 = ~¿Podemos volver a echar un vistazo a los artículos que ofrecíais a mitad de nuestra estancia aquí?~
+
+@333050 = ~Desactivar aceleración automática~
+@333051 = ~Desactivar aceleración automática
+
+Esta habilidad controla si se aumenta la velocidad de movimiento de los miembros del grupo fuera de combate. Haz clic en la habilidad para desactivarla.~
+@333052 = ~Desactivar aceleración automática
+
+Esta habilidad controla si la velocidad de movimiento y la velocidad de lanzamiento aumentan para los miembros del grupo fuera de combate. Haz clic en la habilidad para desactivarla.~
+@333053 = ~Desactivar aceleración automática
+
+Esta habilidad controla si la velocidad de lanzamiento aumenta para los miembros del grupo fuera de combate. Haz clic en la habilidad para desactivarla.~
+@333054 = ~Aceleración automática~
+@333055 = ~Presteza mejorada~ // bg2 strref #63217
+@333060 = ~Activar aceleración automática~
+@333061 = ~Activar aceleración automática
+
+Esta habilidad controla si se aumenta la velocidad de movimiento de los miembros del grupo fuera de combate. Haz clic en la habilidad para activarla.~
+@333062 = ~Activar aceleración automática
+
+Esta habilidad controla si la velocidad de movimiento y la velocidad de lanzamiento aumentan para los miembros del grupo fuera de combate. Haz clic en la habilidad para activarla.~
+@333063 = ~Activar aceleración automática
+
+Esta habilidad controla si la velocidad de lanzamiento aumenta para los miembros del grupo fuera de combate. Haz clic en la habilidad para activarla.~
+@333070 = ~Bonicaciones de aceleración automática eliminadas~
+
+@335100 = ~Guardado a intervalos~
+@335101 = ~Guardado a intervalos creado~
+@335102 = ~Guardado a intervalos (slot %slot_index%) creado~
+
+@337001 = ~000000003-Mortuary~
+@337002 = ~000000004-Lower Ward~
+@337003 = ~000000005-To Ravel's Maze~
+
+// these two strings will be combined as a prefix and suffix to write "Casting Grease..." to the combat log
+// adjust as needed for your grammar, e.g. if you don't need a prefix then make @341002 = ~~
+// note that you need to include spaces, if needed
+@341002 = ~Lanzando ~
+@341003 = ~...~
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -497,4 +871,14 @@ Esta habilidad permite al ladrón crear hechizos. Los que puede crear son los si
 
 @408001 = ~Cuando le preguntáis por su pasado, KHALID nerviosamente os comenta que ha nacido en la nación de Calimshan. No habla mucho de sus padres, pero os dáis cuenta que su padre comerciante no tenía mucho tiempo para él, dándole más atención a sus medio hermanos. Sin la aprobación de su padre, Khalid no pudo pagar las lecciones para ser aprendiz de mago, así que se unió a la milicia esperando ganar el dinero suficiente. No da muchos detalles de como conoció a Jaheira, pero su adoración hacia ella es obvia. Cuando le preguntáis como conoció a Gorion sólo os dice que han sido amigos, y que muchos lloran su pérdida.~
 
-@411000 = ~Dar constitucion legal de 19 a Kagain~
+// translators: 418001 is strref #10232 from bgee or bg2ee without the 'equipped abilities' block.
+// This is not used on non-EE games since they don't mention equipping effects
+@418001 = ~Este es el legado de Edwin. Tiene la piedra de su familia incrustada.
+
+Peso: 1 lb~
+// translators: 418002 is strref #50818 in obg2 with the part about
+// 'the ring may not be removed from nalia' deleted
+// in english, this is overridden in ee.tra
+@418002 = ~Sello de De'Arnise
+
+El padre de Nalia regaló este anillo a la muchacha en cuanto esta alcanzó la mayoría de edad. Al estar vinculado a la estirpe, es imposible arrebatárselo a su dueña, y sus poderes no pueden ser utilizados por nadie más. El anillo otorga un bonificador +2 a todas las tiradas de salvación, un bonificador +2 a la clase de armadura y un 50% de resistencia al fuego.~

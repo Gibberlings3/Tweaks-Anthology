@@ -10,7 +10,7 @@ ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_3e_druid_aligns BEGIN
 
   DRUID         => 0
   FIGHTER_DRUID => 0
-  
+
 END
 
 // now get kits, if available
@@ -27,10 +27,10 @@ ACTION_IF FILE_EXISTS_IN_GAME ~kitlist.2da~ THEN BEGIN
         END
       END
     END
-    BUT_ONLY    
+    BUT_ONLY
 
 END
-  
+
 // Alignment changes
 COPY_EXISTING ~alignmnt.2da~ ~override~
   PATCH_PHP_EACH cd_3e_druid_aligns AS text => foo BEGIN

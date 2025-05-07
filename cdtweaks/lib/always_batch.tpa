@@ -1,28 +1,28 @@
 DEFINE_ACTION_MACRO cd_tweaks_install BEGIN
 
   ACTION_IF FILE_EXISTS ~cdtweaks/lib/comp_%COMPONENT_NUMBER%_prompts.tpa~ BEGIN // cover prompts in batch and non-batch modes
-  
+
     INCLUDE ~cdtweaks/lib/comp_%COMPONENT_NUMBER%_prompts.tpa~
-    
-  END  
-  
+
+  END
+
   ACTION_IF cd_tweaks_batch_install BEGIN
-  
+
     OUTER_SET ~cdtweaks_%COMPONENT_NUMBER%_installed~ = 1
     COPY + ~%script_file%~ ~%script_file%~
       REPLACE_TEXTUALLY ~\(components=["]?[0-9 ]*\)~ ~\1%COMPONENT_NUMBER% ~
     ABORT @101
-    
-  END ELSE BEGIN 
-    
+
+  END ELSE BEGIN
+
     INCLUDE ~cdtweaks/lib/comp_%COMPONENT_NUMBER%.tpa~
 
   END
 
-END  
+END
 
 ACTION_IF FILE_EXISTS ~cdtweaks/cdtweaks.txt~ THEN BEGIN
-  
+
   INCLUDE ~cdtweaks/cdtweaks.txt~ // config file
 
   ACTION_IF !VARIABLE_IS_SET romance_speed_use_config_values THEN BEGIN OUTER_SET romance_speed_use_config_values = 0 END

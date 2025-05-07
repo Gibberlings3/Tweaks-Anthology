@@ -3,20 +3,20 @@
 any values set here will override values set by scanning the creature files
 you can also override any arbitrary text here with these values.
 
-to activate a line, delete the // at the beginning of it. 
+to activate a line, delete the // at the beginning of it.
 
 Values are case sensitive, so you'll need to adjust colors bor e.g. both
-AJANTIS and Ajantis. 
+AJANTIS and Ajantis.
 
 SETTING COLORS
 color values must start with 0xff. After that the next two letters are
-for the blue value, then the next two for green, and the last two for red. 
+for the blue value, then the next two for green, and the last two for red.
 The two letters represent a value of 0-255 in hex value; you'll need to use
 a color wheel or web color picker to select your own.
 
 */
 
-ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_text_colors BEGIN 
+ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_text_colors BEGIN
 
 //  ~<CHARNAME>~ => ~0xff000000~ /* special for the PC's name */
 

@@ -1,0 +1,8 @@
+IF
+  InParty(Myself)
+  Global("cd_jk_in_party","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("cd_jk_in_party","GLOBAL",1)
+END
+    

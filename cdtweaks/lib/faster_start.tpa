@@ -25,14 +25,14 @@ ACTION_IF silly = 1 BEGIN
     Wait(3)
     ForceSpellPoint([3036.3443],WIZARD_DIMENSION_DOOR)
     Wait(2)~
-    
+
 END ELSE BEGIN
 
   OUTER_SPRINT cut01c_sub
     ~DisplayStringWait(Myself,2854)
     DisplayStringWait("CSImoen",2855)
     ActionOverride("CSImoen",ForceSpell("CSIren",MAGIC_MISSILE_SURE_HIT))~
-    
+
   OUTER_SPRINT cut01e_sub
     ~DisplayStringWait("CSCowl1",2866)
     DisplayStringWait(Myself,2869)~
@@ -95,41 +95,41 @@ ACTION_IF NOT MOD_IS_INSTALLED ~ARESTORATIONP/SETUP-ARESTORATIONP.TP2~ ~13~ BEGI
 
   // bgt uses cut01bgt to bypass Tweaks' mean overwrite of cut01; let's patch it instead (and their current bypass script)
   ACTION_FOR_EACH script IN cut01 cut01bgt BEGIN // delete csthief1-4 spawns
-  
+
     ACTION_IF FILE_EXISTS_IN_GAME ~%script%.bcs~ BEGIN
-  
+
       COPY_EXISTING ~%script%.bcs~ ~override~
         DECOMPILE_AND_PATCH BEGIN
           REPLACE_TEXTUALLY ~CreateCreature("CSTHIEF[1-4]",\[[0-9]+\.[0-9]+\],[^)]+)~ ~~
         END
         BUT_ONLY
-    
+
     END
-  
+
   END
-  
+
   COPY_EXISTING ~cut01a.bcs~ ~override~
     DECOMPILE_AND_PATCH BEGIN
       REPLACE_TEXTUALLY  // shortens irenicus' action queue
-        ~DisplayStringHead(Myself,2841)[ %TAB%%LNL%%MNL%%WNL%]+Wait(3)[ %TAB%%LNL%%MNL%%WNL%]+ForceSpell("CSThief2",CUTSCENE_FLESH_TO_STONE)[ %TAB%%LNL%%MNL%%WNL%]+Wait(1)[ %TAB%%LNL%%MNL%%WNL%]+~ 
+        ~DisplayStringHead(Myself,2841)[ %TAB%%LNL%%MNL%%WNL%]+Wait(3)[ %TAB%%LNL%%MNL%%WNL%]+ForceSpell("CSThief2",CUTSCENE_FLESH_TO_STONE)[ %TAB%%LNL%%MNL%%WNL%]+Wait(1)[ %TAB%%LNL%%MNL%%WNL%]+~
         ~~
       REPLACE_TEXTUALLY ~True()\([ %TAB%%LNL%%MNL%%WNL%]+THEN[ %TAB%%LNL%%MNL%%WNL%]+RESPONSE #100[ %TAB%%LNL%%MNL%%WNL%]+\)CutSceneId("CSThief[1234]")~ ~False() \1 CutsceneID("cdfake")~ // disables csthief1-4
       REPLACE_TEXTUALLY ~True()\([ %TAB%%LNL%%MNL%%WNL%]+THEN[ %TAB%%LNL%%MNL%%WNL%]+RESPONSE #100[ %TAB%%LNL%%MNL%%WNL%]+\)CutSceneId(Player1)~ ~False() \1 CutsceneID("cdfake")~ // disables player1
     END
     BUT_ONLY
-  
+
   COPY_EXISTING ~cut01b.bcs~ ~override~
     DECOMPILE_AND_PATCH BEGIN
       REPLACE_TEXTUALLY ~True()\([ %TAB%%LNL%%MNL%%WNL%]+THEN[ %TAB%%LNL%%MNL%%WNL%]+RESPONSE #100[ %TAB%%LNL%%MNL%%WNL%]+\)CutSceneId("CSThief[1234]")~ ~False() \1 CutsceneID("cdfake")~ // disables csthief1-4
       REPLACE_TEXTUALLY ~True()\([ %TAB%%LNL%%MNL%%WNL%]+THEN[ %TAB%%LNL%%MNL%%WNL%]+RESPONSE #100[ %TAB%%LNL%%MNL%%WNL%]+\)CutSceneId(Player1)~ ~False() \1 CutsceneID("cdfake")~ // disables player1
       REPLACE_TEXTUALLY ~CutSceneId("CSIren")[ %TAB%%LNL%%MNL%%WNL%]+Wait(1)[ %TAB%%LNL%%MNL%%WNL%]+DisplayStringHead(Myself,2844)~ ~CutSceneId("CSIren")~ // no more suffering!
       REPLACE_TEXTUALLY ~SmallWait(2)[ %TAB%%LNL%%MNL%%WNL%]+ApplySpell("CSThief2",SURE_STONE_SHATTER)[ %TAB%%LNL%%MNL%%WNL%]+ActionOverride("CSThief2",DestroySelf())~ ~~ // ee exclusive
-      REPLACE_TEXTUALLY 
+      REPLACE_TEXTUALLY
         ~ForceSpell("CSThief3",CUTSCENE_POWERWORD_KILL)[ %TAB%%LNL%%MNL%%WNL%]+CreateVisualEffectObject("SPFIREPI","CSThief3")[ %TAB%%LNL%%MNL%%WNL%]+PlaySound("EFF_M23C")[ %TAB%%LNL%%MNL%%WNL%]+CreateVisualEffectObject("SPROTECT",Myself)[ %TAB%%LNL%%MNL%%WNL%]+Face([^)]+)[ %TAB%%LNL%%MNL%%WNL%]+ForceSpell("CSThief1",CUTSCENE_POWERWORD_KILL)[ %TAB%%LNL%%MNL%%WNL%]+CreateVisualEffectObject("SPFLSRIN","CSThief1")[ %TAB%%LNL%%MNL%%WNL%]+PlaySound("EFF_M23C")[ %TAB%%LNL%%MNL%%WNL%]+CreateVisualEffectObject("SPROTECT",Myself)[ %TAB%%LNL%%MNL%%WNL%]+ForceSpell("CSThief4",CUTSCENE_POWERWORD_KILL)[ %TAB%%LNL%%MNL%%WNL%]+CreateVisualEffectObject("CALLLIGH","CSThief4")[ %TAB%%LNL%%MNL%%WNL%]+ForceSpell("CSThief2",WIZARD_FLAME_ARROW)[ %TAB%%LNL%%MNL%%WNL%]+CreateVisualEffectObject("ICFIRSDI",Myself)[ %TAB%%LNL%%MNL%%WNL%]+Wait(1)~
         ~~ // no more thief nukes
     END
     BUT_ONLY
-  
+
   COPY_EXISTING ~cut01c.bcs~ ~override~
     DECOMPILE_AND_PATCH BEGIN
       REPLACE_TEXTUALLY ~True()\([ %TAB%%LNL%%MNL%%WNL%]+THEN[ %TAB%%LNL%%MNL%%WNL%]+RESPONSE #100[ %TAB%%LNL%%MNL%%WNL%]+\)CutSceneId(Player1)~ ~False() \1 CutsceneID("cdfake")~ // disables player1
@@ -139,7 +139,7 @@ ACTION_IF NOT MOD_IS_INSTALLED ~ARESTORATIONP/SETUP-ARESTORATIONP.TP2~ ~13~ BEGI
         ~%cut01c_sub%~
     END
     BUT_ONLY
-  
+
   // cut01d only needs alteration if silly version
   ACTION_IF silly = 1 BEGIN
 
@@ -150,9 +150,9 @@ ACTION_IF NOT MOD_IS_INSTALLED ~ARESTORATIONP/SETUP-ARESTORATIONP.TP2~ ~13~ BEGI
           ~CreateCreatureDoor("CSCOWL[1-5]",\[[0-9]+\.[0-9]+\],[^)]+)~ ~~ // disables spawn of cscowl1-5
       END
       BUT_ONLY
-      
+
   END
-  
+
   COPY_EXISTING ~cut01e.bcs~ ~override~
     DECOMPILE_AND_PATCH BEGIN
       REPLACE_TEXTUALLY ~True()\([ %TAB%%LNL%%MNL%%WNL%]+THEN[ %TAB%%LNL%%MNL%%WNL%]+RESPONSE #100[ %TAB%%LNL%%MNL%%WNL%]+\)CutSceneId("CSCowl[1-4]")~ ~False() \1 CutsceneID("cdfake")~ // disables CSCowl1-4
@@ -168,7 +168,7 @@ ACTION_IF NOT MOD_IS_INSTALLED ~ARESTORATIONP/SETUP-ARESTORATIONP.TP2~ ~13~ BEGI
         ~%cut01e_sub%~
     END
     BUT_ONLY
-  
+
   COPY_EXISTING ~cut01f.bcs~ ~override~
     DECOMPILE_AND_PATCH BEGIN
       REPLACE_TEXTUALLY ~True()\([ %TAB%%LNL%%MNL%%WNL%]+THEN[ %TAB%%LNL%%MNL%%WNL%]+RESPONSE #100[ %TAB%%LNL%%MNL%%WNL%]+\)CutSceneId("CSCowl7")~ ~False() \1 CutsceneID("cdfake")~ // disables CSCowl7
@@ -177,7 +177,7 @@ ACTION_IF NOT MOD_IS_INSTALLED ~ARESTORATIONP/SETUP-ARESTORATIONP.TP2~ ~13~ BEGI
         ~%cut01f_sub%~
     END
     BUT_ONLY
-  
+
   COPY_EXISTING ~cut01g.bcs~ ~override~
     DECOMPILE_AND_PATCH BEGIN
       REPLACE_TEXTUALLY ~True()\([ %TAB%%LNL%%MNL%%WNL%]+THEN[ %TAB%%LNL%%MNL%%WNL%]+RESPONSE #100[ %TAB%%LNL%%MNL%%WNL%]+\)CutSceneId("CSCowl9")~ ~False() \1 CutsceneID("cdfake")~ // disables CSCowl9 (doesn't spawn in either)

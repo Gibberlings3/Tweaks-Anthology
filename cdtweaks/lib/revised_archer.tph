@@ -1,15 +1,36 @@
 DEFINE_ACTION_FUNCTION "REVISED_ARCHER"
 BEGIN
-	WITH_SCOPE BEGIN
-		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Functions to be invoked via op402" "sourceFileSpec" = "cdtweaks\luke\lua\revised_archer_402.lua" "destRes" = "m_gt#402" END
-		// Listener: run 'func' each time a sprite has finished evaluating its effects
-		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Listeners" "sourceFileSpec" = "cdtweaks\luke\lua\revised_archer_listener.lua" "destRes" = "m_gtlstn" END
-		//
-		ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
-			COPY "cdtweaks\luke\lua\m_gttbls.lua" "override"
-		END
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"level" = 1
+		"type" = 4
+		"preferredSlot" = 21
+	STR_VAR
+		"idsName" = "ARCHER_CALLED_SHOT"
+	RET
+		"ARCHER_CALLED_SHOT" = "resName"
 	END
-	//
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"level" = 1
+		"type" = 4
+		"preferredSlot" = 22
+	STR_VAR
+		"idsName" = "ARCHER_KIT_BONUS"
+	RET
+		"ARCHER_KIT_BONUS" = "resName"
+	END
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"level" = 1
+		"type" = 4
+		"preferredSlot" = 23
+	STR_VAR
+		"idsName" = "ARCHER_MANYSHOT"
+	RET
+		"ARCHER_MANYSHOT" = "resName"
+	END
+	// update description
 	WITH_SCOPE BEGIN
 		OUTER_SET "new_desc" = RESOLVE_STR_REF (@0)
 		COPY_EXISTING "kitlist.2da" "override"
@@ -25,14 +46,15 @@ BEGIN
 				END
 			END
 		BUT_ONLY
-		//
+		// remove passive trait + Called Shot from CLAB file
 		WITH_SCOPE BEGIN
 			COPY_EXISTING "%clabfile%.2da" "override"
 				PATCH_IF (GAME_IS "bgee bg2ee eet") BEGIN
-					REPLACE_TEXTUALLY CASE_INSENSITIVE EXACT_MATCH "AP_SPCL122" "****"
+					REPLACE_TEXTUALLY CASE_INSENSITIVE EXACT_MATCH "AP_SPCL122" "****" // Missile thac0/damage bonus
 				END ELSE BEGIN
-					REPLACE_TEXTUALLY CASE_INSENSITIVE EXACT_MATCH "AP_SPCL124" "****"
+					REPLACE_TEXTUALLY CASE_INSENSITIVE EXACT_MATCH "AP_SPCL124" "****" // Missile thac0/damage bonus
 				END
+				REPLACE_TEXTUALLY CASE_INSENSITIVE EXACT_MATCH "GA_SPCL121" "****" // Called Shot
 				// formatting
 				PRETTY_PRINT_2DA
 			BUT_ONLY
@@ -52,55 +74,49 @@ BEGIN
 			BUT_ONLY
 		END
 	END
-	// Called Shot (bows only!)
+	// Called Shot (bows only!): Split it into two (arms/legs)
 	WITH_SCOPE BEGIN
-		WITH_SCOPE BEGIN
-			COPY_EXISTING "spcl121.spl" "override\cdcl121.spl"
-				WRITE_LONG NAME1 "-1" // blank name
-				WRITE_LONG NAME2 "-1"
-				WRITE_LONG UNIDENTIFIED_DESC "-1" // blank description
-				WRITE_LONG DESC "-1"
-				WRITE_SHORT 0x1C 4 // innate
-				WRITE_LONG 0x34 1 // level
-				//
-				LPF "DELETE_EFFECT" END // fresh start
-				//
-				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 54 "target" = 2 "parameter1" = "-1" "duration" = 20 END // Base THAC0 bonus
-				//
-				LPF "ADD_SPELL_EFFECT" INT_VAR "header" = 2 "opcode" = 37 "target" = 2 "parameter1" = "-1" "duration" = 15 END // Save vs. spell bonus
-				LPF "ADD_SPELL_EFFECT" INT_VAR "header" = 3 "opcode" = 37 "target" = 2 "parameter1" = "-1" "duration" = 15 END // Save vs. spell bonus
-				LPF "ADD_SPELL_EFFECT" INT_VAR "header" = 4 "opcode" = 37 "target" = 2 "parameter1" = "-1" "duration" = 15 END // Save vs. spell bonus
-				//
-				LPF "ADD_SPELL_EFFECT" INT_VAR "header" = 3 "opcode" = 44 "target" = 2 "parameter1" = "-1" "duration" = 10 END // Strength bonus
-				LPF "ADD_SPELL_EFFECT" INT_VAR "header" = 4 "opcode" = 44 "target" = 2 "parameter1" = "-1" "duration" = 10 END // Strength bonus
-				//
-				LPF "ADD_SPELL_EFFECT" INT_VAR "header" = 4 "opcode" = 12 "target" = 2 "parameter1" = 2 "parameter2" = IDS_OF_SYMBOL ("dmgtype" "missile") "timing" = 1 END // +2 (missile) Damage
-			BUT_ONLY
-		END
+		ACTION_TO_LOWER "ARCHER_CALLED_SHOT"
+		// Arms
+		CREATE "spl" "%ARCHER_CALLED_SHOT%b"
+		COPY_EXISTING "%ARCHER_CALLED_SHOT%b.spl" "override"
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@1)
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC RESOLVE_STR_REF (@2)
+			WRITE_LONG DESC "-1"
+			WRITE_LONG 0x18 (BIT14 BOR BIT25) // ignore dead/wild magic, castable when silenced
+			WRITE_SHORT 0x1C 4 // innate
+			WRITE_LONG 0x34 1 // level
+			WRITE_ASCII 0x3A "%DEST_RES%" #8 // icon
+			//
+			LPF "ADD_SPELL_HEADER" INT_VAR "range" = 30 STR_VAR "icon" = "%DEST_RES%" END
+			//
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 138 "target" = 1 "parameter2" = 8 END // SEQ_SHOOT
+		BUT_ONLY
 		//
-		WITH_SCOPE BEGIN
-			COPY_EXISTING "spcl121.spl" "override"
-				GET_OFFSET_ARRAY "ab_array" SPL_V10_HEADERS
-				PHP_EACH "ab_array" AS "ab_ind" => "ab_off" BEGIN
-					PATCH_IF SHORT_AT ("%ab_off%" + 0x10) > 1 BEGIN
-						WRITE_BYTE "%ab_off%" 0xFF // mark for later deletion
-					END
-				END
-				LPF "DELETE_SPELL_HEADER" INT_VAR "header_type" = 0xFF END // enable deletion
-				//
-				LPF "ALTER_EFFECT" INT_VAR "match_opcode" = 249 STR_VAR "resource" = "cdcl121" END // Ranged hit effect
-			BUT_ONLY
-		END
+		COPY_EXISTING "%ARCHER_CALLED_SHOT%b.spl" "override\%ARCHER_CALLED_SHOT%d.spl"
+			WRITE_LONG NAME1 "-1"
+			//
+			LPF "ALTER_SPELL_EFFECT" INT_VAR "match_opcode" = 138 "target" = 2 "parameter2" = 4 END // SEQ_DAMAGE
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 "parameter1" = 1 STR_VAR "resource" = "%ARCHER_CALLED_SHOT%" END // invoke lua
+		BUT_ONLY
+		// Legs
+		COPY_EXISTING "%ARCHER_CALLED_SHOT%b.spl" "override\%ARCHER_CALLED_SHOT%c.spl"
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@3)
+			WRITE_LONG UNIDENTIFIED_DESC RESOLVE_STR_REF (@4)
+			WRITE_ASCII 0x3A "%DEST_RES%" #8 // icon
+			//
+			LPF "ALTER_SPELL_HEADER" STR_VAR "icon" = "%DEST_RES%" END
+		BUT_ONLY
 		//
-		WITH_SCOPE BEGIN
-			CREATE "eff" "cdcl121"
-			COPY_EXISTING "cdcl121.eff" "override"
-				WRITE_LONG 0x10 402 // Invoke Lua
-				WRITE_LONG 0x14 1 // Self
-				WRITE_SHORT 0x2C 100 // prob1
-				WRITE_ASCII 0x30 "GTCLDSHT" #8 // Lua function
-			BUT_ONLY
-		END
+		COPY_EXISTING "%ARCHER_CALLED_SHOT%c.spl" "override\%ARCHER_CALLED_SHOT%e.spl"
+			WRITE_LONG NAME1 "-1"
+			//
+			LPF "ALTER_SPELL_EFFECT" INT_VAR "match_opcode" = 138 "target" = 2 "parameter2" = 4 END // SEQ_DAMAGE
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 "parameter1" = 2 STR_VAR "resource" = "%ARCHER_CALLED_SHOT%" END // invoke lua
+		BUT_ONLY
+		//
+		COPY "cdtweaks\luke\bam\kit\archer\called_shot_arms.bam" "override\%ARCHER_CALLED_SHOT%b.bam" "cdtweaks\luke\bam\kit\archer\called_shot_legs.bam" "override\%ARCHER_CALLED_SHOT%c.bam"
 	END
 	// Point Blank Shot (bows only!)
 	WITH_SCOPE BEGIN
@@ -116,5 +132,31 @@ BEGIN
 			END
 			PRETTY_PRINT_2DA
 		BUT_ONLY
+	END
+	// lua
+	WITH_SCOPE BEGIN
+		OUTER_SET "feedback_strref_thac0_mod" = RESOLVE_STR_REF (@101)
+		OUTER_SET "feedback_strref_dex_mod" = RESOLVE_STR_REF (@102)
+		OUTER_SET "feedback_strref_bow_only" = RESOLVE_STR_REF (@103)
+		OUTER_SET "feedback_strref_immune" = RESOLVE_STR_REF (@200)
+		OUTER_SET "feedback_strref_AoE" = RESOLVE_STR_REF (@300)
+		//
+		OUTER_SET "feedback_strref_called_shot_arms" = RESOLVE_STR_REF (@1)
+		OUTER_SET "feedback_strref_called_shot_legs" = RESOLVE_STR_REF (@3)
+		OUTER_SET "feedback_strref_hit" = RESOLVE_STR_REF (@400)
+		OUTER_SET "feedback_strref_miss" = RESOLVE_STR_REF (@401)
+		OUTER_SET "feedback_strref_weapon_ineffective" = RESOLVE_STR_REF (@402)
+		//
+		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Class/Kit Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\kit\archer\passive_traits.lua" "destRes" = "m_gtspcl" END
+		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Class/Kit Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\kit\archer\called_shot.lua" "destRes" = "m_gtspcl" END
+		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Class/Kit Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\kit\archer\manyshot.lua" "destRes" = "m_gtspcl" END
+	END
+	//
+	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lua\utility\damage_type.lua" "destRes" = "m_gtutil" END
+	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lua\utility\decode_effect.lua" "destRes" = "m_gtutil" END
+	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lua\utility\display_sprite_message.lua" "destRes" = "m_gtutil" END
+	//
+	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
+		COPY "cdtweaks\luke\lua\m_gttbls.lua" "override"
 	END
 END

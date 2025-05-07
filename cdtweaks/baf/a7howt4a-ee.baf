@@ -1,0 +1,24 @@
+// Prepare transition to Heart of Winter
+IF
+  True()
+THEN
+  RESPONSE #100
+    CutSceneId(Player1Fill)
+    ApplySpellRES("bdresurr",Player1Fill)
+    ApplySpellRES("bdresurr",Player2Fill)
+    ApplySpellRES("bdresurr",Player3Fill)
+    ApplySpellRES("bdresurr",Player4Fill)
+    ApplySpellRES("bdresurr",Player5Fill)
+    ApplySpellRES("bdresurr",Player6Fill)
+    SmallWait(2)
+    ApplySpellRES("bdrejuve",Player1Fill)
+    ApplySpellRES("bdrejuve",Player2Fill)
+    ApplySpellRES("bdrejuve",Player3Fill)
+    ApplySpellRES("bdrejuve",Player4Fill)
+    ApplySpellRES("bdrejuve",Player5Fill)
+    ApplySpellRES("bdrejuve",Player6Fill)
+    SmallWait(2)
+    DayNight(DAWN_END)
+    Wait(1)
+    StartCutScene("a7howt4b")
+END

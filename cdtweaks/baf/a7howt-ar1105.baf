@@ -1,0 +1,43 @@
+IF
+  Global("A7_TRANSITION_CHECK","MYAREA",1)
+  !Global("HOW_COMPLETED","GLOBAL",0)
+THEN
+  RESPONSE #100
+    StartCutSceneMode()
+    SetGlobal("A7_TRANSITION_CHECK","MYAREA",2)
+    StartCutScene("a7howt1")
+END
+
+IF
+  Global("A7_TRANSITION_CHECK","MYAREA",1)
+  Global("HOW_COMPLETED","GLOBAL",0)
+  GlobalLT("Hjollder_Quest","GLOBAL",4)
+THEN
+  RESPONSE #100
+    StartCutSceneMode()
+    SetGlobal("A7_TRANSITION_CHECK","MYAREA",2)
+    StartCutScene("a7howt2a")
+END
+
+IF
+  Global("A7_TRANSITION_CHECK","MYAREA",1)
+  Global("HOW_COMPLETED","GLOBAL",0)
+  GlobalGT("Hjollder_Quest","GLOBAL",3)
+  GlobalLT("Hjollder_Quest","GLOBAL",11)
+THEN
+  RESPONSE #100
+    StartCutSceneMode()
+    SetGlobal("A7_TRANSITION_CHECK","MYAREA",2)
+    StartCutScene("a7howt3a")
+END
+
+IF
+  Global("A7_TRANSITION_CHECK","MYAREA",1)
+  Global("HOW_COMPLETED","GLOBAL",0)
+  GlobalGT("Hjollder_Quest","GLOBAL",10)
+THEN
+  RESPONSE #100
+    StartCutSceneMode()
+    SetGlobal("A7_TRANSITION_CHECK","MYAREA",2)
+    StartCutScene("a7howt4a")
+END

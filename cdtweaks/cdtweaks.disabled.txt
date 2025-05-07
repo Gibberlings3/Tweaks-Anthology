@@ -1,14 +1,14 @@
 /*
 The settings in this file allow for this mod to be installed in an unattended mode, e.g.
 if you install Tweaks Anthology with the Big World Setup. A handful of components will
-otherwise pause WeiDU and wait for input; defining these values ahead of time in this 
+otherwise pause WeiDU and wait for input; defining these values ahead of time in this
 file will instead use the values defined here instead of waiting on user input in the
 middle of installation.
 
-To use this file, rename it as cdtweaks.txt and leave it in the cdtweaks folder. 
+To use this file, rename it as cdtweaks.txt and leave it in the cdtweaks folder.
 */
 
-// The following values are used for the Accelerate/Decelerate Romances component. 
+// The following values are used for the Accelerate/Decelerate Romances component.
 // Set this value to 1 if you want to use the values defined here:
 OUTER_SET romance_speed_use_config_values = 0
 
@@ -23,7 +23,7 @@ OUTER_SET romance_speed_factor = 100
 
 
 
-// The following values are used for the Romance Cheats component. 
+// The following values are used for the Romance Cheats component.
 // Set this value to 1 if you want to use the values defined here:
 OUTER_SET romance_use_config_values = 0
 
@@ -79,6 +79,10 @@ OUTER_SET party_movement_speed_value = 200
 // Set this value to 1 to enable casting spells at increased speed. Default: 0
 OUTER_SET party_casting_speed_enabled = 0
 
+// Set this value to 0 to suppress portrait icons when increased movement or casting speed is active.
+// Default: 1
+OUTER_SET party_movement_speed_display_icons = 1
+
 
 
 
@@ -116,7 +120,7 @@ OUTER_SET interval_save_ini = 1
 
 
 // The following variables will be used for "Remove Racial Restrictions for Single Classes"
-// Set this to 1 to change the INT penalty for half-orcs to -1 to allow for easier dual-classing 
+// Set this to 1 to change the INT penalty for half-orcs to -1 to allow for easier dual-classing
 // into mages, which also requires the "Alter Dual-class Restrictions" component to be installed
 OUTER_SET halforc_dual_to_mage = 0
 
@@ -127,8 +131,8 @@ OUTER_SET halforc_dual_to_mage = 0
 // The following variables will be used for "Maximum HP Creatures [the bigg]"
 // The "cd_max_hp_percentage" and "cd_max_hp_bonus" can be used to raise the hit points of
 // non-joinable NPCs beyond what their maximum should be, e.g. if you'd like enemies to have
-// double their maximum HP for an additional challenge. Note that these boosts will stack with 
-// whatever HP bonuses are provided by your selected difficulty level. For example, if you wanted 
+// double their maximum HP for an additional challenge. Note that these boosts will stack with
+// whatever HP bonuses are provided by your selected difficulty level. For example, if you wanted
 // to simulate Legacy of Bhaal/Heart of Fury hit point totals, you could use '300' and '80' in the
 // respective fields, since LoB/HoF triples hit points and then adds 80 on top.
 // ** These variables can only used to further boost HP, and are ignored for joinable NPCs. **
@@ -138,6 +142,11 @@ OUTER_SET cd_max_hp_bonus = 0
 
 
 
+// The following variable will be used for the "Breakable Iron Non-Magical Shields, Helms, and Armor"
+// component, specifically the two options that degrade armor. In addition to the armor class getting
+// worse, setting this value to 1 will *also* impose a -1 movement penalty to movement speed wile
+// equipped. For comparison walking speed is generally 10 for most creatures.
+OUTER_SET degrade_movement_speed = 0
 
 
 
@@ -149,6 +158,11 @@ OUTER_SET cd_max_hp_bonus = 0
 
 
 
-// DEPRECATED. This variable is ignored by the mod, as it's now handled directly by the installer. 
-// Enabling it or setting a value will have no effect. 
+
+
+
+
+
+// DEPRECATED. This variable is ignored by the mod, as it's now handled directly by the installer.
+// Enabling it or setting a value will have no effect.
 // OUTER_SET always_install_unique_icons = 0

@@ -1,0 +1,15 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
+///// Dual-wield feat for Rangers                                \\\\\
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+WITH_SCOPE BEGIN
+  INCLUDE "cdtweaks\luke\misc.tph"
+  INCLUDE "cdtweaks\lib\dual_wield.tph"
+  WITH_TRA "cdtweaks\languages\english\dual_wield.tra" "cdtweaks\languages\%LANGUAGE%\dual_wield.tra" BEGIN
+    LAF "DUAL_WIELD" END
+  END
+END

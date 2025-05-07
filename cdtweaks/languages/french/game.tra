@@ -292,6 +292,8 @@ Placez-le dans un emplacement d'objet rapide pour l'ouvrir.~
 @111123 = ~Hangar à bateau~
 @111124 = ~Auberge du Gibet Siffleur~
 @111125 = ~Cabane de Purvis~
+// To translate // @111126 = ~Nook~ // From The Calling mod
+// To translate // @111127 = ~Archway~ // From The Calling mod
 
 @114001 = ~Une gemme est un minéral qui a été découpé ou façonné et poli. Il peut être collectionné ou utilisé dans des bijoux.~
 
@@ -678,7 +680,7 @@ Cette capacité permet au prêtre de créer des parchemins de magie divine. Les 
 10) Domination mentale~
 @218012 = ~Écriture de parchemins (Roublard)
 Cette capacité permet au mage de créer des parchemins de faible et moyen niveau. Les parchemins que le mage peut créer sont choisis aléatoirement dans la liste suivante :
-1) Projectile magique 
+1) Projectile magique
 2) Hâte
 3) Boule de feu
 4) Dissipation de la magie
@@ -699,7 +701,7 @@ Cette capacité permet au mage de créer des parchemins de faible et moyen nivea
 // you may need to check the EEs, as oBG2 doesn't mention dual-classing in #9550 or #32540
 @237002 = ~ Ils sont aussi la seule race à pouvoir prétendre à une classe jumelée.~ // from strref #9550
 @237003 = ~Seuls les humains peuvent avoir des classes jumelées. ~ // from strref #10811
-@237004 = ~, si votre personnage est humain.~ // BG tutorial monk dialogue monktu4 - 32540 in BGEE/SoD 
+@237004 = ~, si votre personnage est humain.~ // BG tutorial monk dialogue monktu4 - 32540 in BGEE/SoD
 
 //translators - the next three strings are used to replace game text, so they need to be copied from the game itself
 //get @244001 and @244002 from strref 9588 in bgee/bg2ee/iwdee, 24315 for bgee V2.3
@@ -807,6 +809,16 @@ Cette compétence permet aux membres du groupe d'incanter des sorts plus rapidem
 @335101 = ~Sauvegarde périodique créée~
 @335102 = ~Sauvegarde périodique (emplacement %slot_index%) créée~
 
+// To translate // @337001 = ~000000003-Mortuary~  // From PST ee
+// To translate // @337002 = ~000000004-Lower Ward~  // From PST ee
+// To translate // @337003 = ~000000005-To Ravel's Maze~  // From PST ee
+
+// these two strings will be combined as a prefix and suffix to write "Casting Grease..." to the combat log
+// adjust as needed for your grammar, e.g. if you don't need a prefix then make @341002 = ~~
+// note that you need to include spaces, if needed
+@341002 = ~Incante ~
+@341003 = ~...~
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -817,13 +829,13 @@ Cette compétence permet aux membres du groupe d'incanter des sorts plus rapidem
 
 @408001 = ~Interrogé sur son passé, c'est un KHALID visiblement nerveux qui avoue être né et avoir été élevé en Calimshan. Il ne parle guère de ses parents, mais on sent que son marchand de père n'avait pas une haute opinion de lui et se consacrait davantage à ses demi-frères. Sans l'aide de son père, Khalid n'a pas pu payer pour avoir l'enseignement d'un mage, donc il s'engagea dans la milice de sa ville dans l'espoir de gagner suffisamment d'argent. Et même s'il reste dans le vague quant aux circonstances de sa rencontre avec Jaheira, il est visible qu'il l'adore. Quand on lui demande comment il se fait qu'il ait connu Gorion, il se borne à dire qu'ils étaient amis de longue date et que beaucoup de leurs amis communs vont pleurer sa perte sur leur harpe.~
 
-// translators: 418001 is strref #10232 from bgee or bg2ee without the 'equipped abilities' block. 
+// translators: 418001 is strref #10232 from bgee or bg2ee without the 'equipped abilities' block.
 // This is not used on non-EE games since they don't mention equipping effects
 @418001 = ~Ce bijou de famille atteste du droit de naissance d'Edwin.
 
 Poids : 1~
-// translators: 418002 is strref #50818 in obg2 with the part about 
-// 'the ring may not be removed from nalia' deleted 
+// translators: 418002 is strref #50818 in obg2 with the part about
+// 'the ring may not be removed from nalia' deleted
 // in english, this is overridden in ee.tra
 @418002 = ~Chevalière de'Arnise
 

@@ -14,6 +14,6 @@ ACTION_FOR_EACH spell IN sppr417 sppr713 spwish07 spwish46 ohbresto cdpr417 BEGI
     COPY_EXISTING ~%spell%.spl~ ~override~
       LPF DELETE_SPELL_EFFECT INT_VAR opcode_to_delete = 93 END
       BUT_ONLY
-      
+
   END
 END

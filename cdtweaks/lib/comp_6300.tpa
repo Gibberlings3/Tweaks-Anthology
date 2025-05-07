@@ -1,0 +1,18 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
+/////                                                            \\\\\////\\\\////
+///// Smite Evil / Good Class Feat for Paladins / Blackguards                \\\\\
+/////                                                            \\\\\////\\\\////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
+
+WITH_SCOPE BEGIN
+  INCLUDE "cdtweaks\luke\misc.tph"
+  INCLUDE "cdtweaks\ardanis\functions.tph"
+  //
+  INCLUDE "cdtweaks\lib\nwn_smite_evil_good.tph"
+  //
+  WITH_TRA "cdtweaks\languages\english\nwn_smite_evil_good.tra" "cdtweaks\languages\%LANGUAGE%\nwn_smite_evil_good.tra" BEGIN
+    LAF "NWN_SMITE_EVIL_GOOD" END
+  END
+END

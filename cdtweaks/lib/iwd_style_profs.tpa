@@ -67,7 +67,7 @@ DEFINE_PATCH_MACRO ~prof_descripts~ BEGIN
   END
   PATCH_IF ("%new_weap%" STRING_COMPARE_CASE "") BEGIN // make sure new_weap is actually set before blindly patching
     REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%.+$~ ~%prof_text% %new_weap%~
-  END	
+  END
 
 END
 
@@ -157,7 +157,7 @@ ACTION_FOR_EACH file IN weapprof racethac BEGIN
 
       READ_2DA_ENTRY 0 0 3 foo
       SET_2DA_ENTRY 0 0 3 ~CD_DELETE_ME %foo%~
-    
+
       // for profs being merged, take the highest of both values
       COUNT_2DA_COLS col_num
       FOR (col = col_start; col < col_num; ++col) BEGIN
@@ -229,7 +229,7 @@ ACTION_FOR_EACH file IN weapprof racethac BEGIN
         END "%line_club%"
 
       END ELSE BEGIN
-        
+
         REPLACE_EVALUATE ~^115\([ %TAB%]+\)CLUB\([ %TAB%]+.+\)$~ BEGIN
           SPRINT line_club "96%MATCH1%CLUB%MATCH2%"
         END "96%MATCH1%CLUB%MATCH2%"
@@ -246,7 +246,7 @@ ACTION_FOR_EACH file IN weapprof racethac BEGIN
       REPLACE_TEXTUALLY ~^\(CLUB\|EXTRAPROFICIENCY1\)[ %TAB%]+115\([ %TAB%]+.+\)$~ ~%line_dagg%~
 
       PATCH_IF (col_start = 4) BEGIN
-    
+
         REPLACE_EVALUATE ~^\(MACE[ %TAB%]+\)101\([ %TAB%]+.+\)$~ BEGIN
           SPRINT line_mace "%MATCH1%103%MATCH2%"
         END "%MATCH1%101%MATCH2%"
@@ -267,9 +267,9 @@ ACTION_FOR_EACH file IN weapprof racethac BEGIN
         REPLACE_EVALUATE ~^97\([ %TAB%]+\)WARHAMMER\([ %TAB%]+.+\)$~ BEGIN
           SPRINT line_hamm "101%MATCH1%WARHAMMER%MATCH2%"
         END "%line_xbow%"
-      
+
       END
-      
+
       REPLACE_TEXTUALLY ~^101[ %TAB%]+MACE\([ %TAB%]+.+\)$~ ~%line_hamm%~
       REPLACE_TEXTUALLY ~^MACE[ %TAB%]+101\([ %TAB%]+.+\)$~ ~%line_hamm%~
 
@@ -329,7 +329,7 @@ ACTION_FOR_EACH file IN weapprof racethac BEGIN
       BUT_ONLY
 
   END
-  
+
 END
 
 COPY_EXISTING ~stats.ids~ ~override~

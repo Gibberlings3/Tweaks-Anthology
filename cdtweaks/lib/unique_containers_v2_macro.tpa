@@ -20,36 +20,36 @@ END
 DEFINE_ACTION_MACRO cd_unique_legwork BEGIN
 
   ACTION_IF idic > last BEGIN
-  
+
     PRINT ~maximum number of bags in this category reached, skipping...~
-    
-  END ELSE BEGIN  
+
+  END ELSE BEGIN
 
     ACTION_IF ((FILE_EXISTS_IN_GAME ~%item%.itm~) AND (FILE_EXISTS_IN_GAME ~%item%.sto~)) THEN BEGIN
-    
+
       COPY ~cdtweaks/bam/%icon%%idic%.bam~ ~override~
       COPY_EXISTING ~%item%.itm~ ~override~
         WRITE_ASCIIE 0x3a ~%icon%%idic%~ #8 //Inventory icon
         BUT_ONLY
-        
-      ACTION_IF names BEGIN  
-      
-        OUTER_SET string = idic + string_offset    
+
+      ACTION_IF names BEGIN
+
+        OUTER_SET string = idic + string_offset
         COPY ~weidu_external/cdtweaks/unique_containers_working.tpa~ ~weidu_external/cdtweaks/unique_containers_working.tpa~
-          REPLACE_TEXTUALLY ~//replaceme~ 
+          REPLACE_TEXTUALLY ~//replaceme~
 "COPY_EXISTING ~%item%.itm~ ~override~
               ~%item%.sto~ ~override~
   SAY 0x0c @%string%
   BUT_ONLY
-  
+
 //replaceme"
-      
+
       END // names check
 
       OUTER_SET idic   += 1
 
     END // file_exists check
-    
-  END // max check  
-  
-END  
+
+  END // max check
+
+END

@@ -1,5 +1,5 @@
 // the faster cutscenes eliminate that running thief that gets killed --
-// he has a long bow that you normally want to give to Minsc, etc. 
+// he has a long bow that you normally want to give to Minsc, etc.
 IF
   Global("EaseArrows","AR0602",0)
 THEN

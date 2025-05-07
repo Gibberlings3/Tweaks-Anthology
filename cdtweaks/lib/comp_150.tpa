@@ -8,40 +8,40 @@
 
 ACTION_IF game_is_eet OR game_is_bgee BEGIN
 
-  COPY ~cdtweaks/lib/unique_names_bgee.tph~ ~weidu_external/cdtweaks/unique_names_bgee.tph~ 
+  COPY ~cdtweaks/lib/unique_names_bgee.tph~ ~weidu_external/cdtweaks/unique_names_bgee.tph~
     PATCH_IF game_is_eet BEGIN
       REPLACE_EVALUATE ~^ +\([0-9]+\) +=>~ BEGIN // adjust srrefs if eet game
         SET string = MATCH1 + 200000
       END ~    %string% =>~
     END
-    
+
   INCLUDE ~weidu_external/cdtweaks/unique_names_bgee.tph~
 
-END 
+END
 
 ACTION_IF game_is_eet OR game_is_bg2ee BEGIN
-    
+
   INCLUDE ~cdtweaks/lib/unique_names_bg2ee.tph~ // no processing needed for bg2ee
-  
+
 END
 
 <<<<<<<<./inline/unique_names.tph
 >>>>>>>>
 
-COPY ~./inline/unique_names.tph~ ~weidu_external/cdtweaks/unique_names.tph~ 
+COPY ~./inline/unique_names.tph~ ~weidu_external/cdtweaks/unique_names.tph~
 
 ACTION_PHP_EACH cd_unique_names AS strref => process BEGIN
 
   ACTION_IF process BEGIN
     APPEND_OUTER ~weidu_external/cdtweaks/unique_names.tph~ ~STRING_SET %strref% @%process%~
   END ELSE BEGIN
-    ACTION_GET_STRREF strref text  
+    ACTION_GET_STRREF strref text
     OUTER_INNER_PATCH_SAVE text ~%text%~ BEGIN
       REPLACE_TEXTUALLY ~[ %TAB%]+\+[0-9]+[ %TAB%]*$~ ~~ // eliminate +x at eol
     END
     APPEND_OUTER ~weidu_external/cdtweaks/unique_names.tph~ "STRING_SET %strref% ~%text%~"
-  END  
+  END
 
-END     
-    
+END
+
 INCLUDE ~weidu_external/cdtweaks/unique_names.tph~

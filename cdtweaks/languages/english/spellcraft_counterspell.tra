@@ -1,0 +1,16 @@
+@1 = "Counterspell (Abjuration)"
+@2 = "Counterspell (Conjuration)"
+@3 = "Counterspell (Divination)"
+@4 = "Counterspell (Enchantment/Charm)"
+@5 = "Counterspell (Illusion/Phantasm)"
+@6 = "Counterspell (Evocation)"
+@7 = "Counterspell (Necromancy)"
+@8 = "Counterspell (Alteration)"
+
+@100 = "Counterspelling"
+@101 = "Counterspell Mode"
+@102 = "Counterspell Mode On"
+@103 = "Counterspell Mode Off"
+
+@200 = "Spellcraft"
+@201 = "is about to cast"

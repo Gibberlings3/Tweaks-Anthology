@@ -20,10 +20,12 @@ END
 
 // add portrait change opcodes to edwin transform spells
 COPY_EXISTING ~spin662.spl~ ~override~ // return to edwin
+  LPF DELETE_EFFECT INT_VAR match_opcode = 107 END
   LPF ADD_SPELL_EFFECT INT_VAR opcode = 107 target = 2 parameter2 = 1 timing = 1 STR_VAR resource = nedwinm END // large portrait
   LPF ADD_SPELL_EFFECT INT_VAR opcode = 107 target = 2 parameter2 = 0 timing = 1 STR_VAR resource = nedwins END // small portrait
 
 // add portrait change opcodes to edwin transform spells
 COPY_EXISTING ~spin916.spl~ ~override~ // change to edwina
+  LPF DELETE_EFFECT INT_VAR match_opcode = 107 END
   LPF ADD_SPELL_EFFECT INT_VAR opcode = 107 target = 2 parameter2 = 1 timing = 1 STR_VAR resource = royo4l END // large portrait
   LPF ADD_SPELL_EFFECT INT_VAR opcode = 107 target = 2 parameter2 = 0 timing = 1 STR_VAR resource = royo4m END // small portrait

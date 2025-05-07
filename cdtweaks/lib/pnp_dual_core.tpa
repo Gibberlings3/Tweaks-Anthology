@@ -18,7 +18,7 @@ ADD_KIT ~D5FIGHT~
   SAY #10174
   SAY #9556
   //___________________________________________________________________________________
-  
+
 ACTION_IF enhanced_edition THEN BEGIN
   LAF fl#add_kit_ee
     INT_VAR

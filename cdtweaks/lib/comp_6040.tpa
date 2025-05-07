@@ -1,0 +1,15 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
+///// Weapon Finesse for Thieves                                 \\\\\
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+WITH_SCOPE BEGIN
+  INCLUDE "cdtweaks\luke\misc.tph"
+  INCLUDE "cdtweaks\lib\weapon_finesse.tph"
+  WITH_TRA "cdtweaks\languages\english\weapon_finesse.tra" "cdtweaks\languages\%LANGUAGE%\weapon_finesse.tra" BEGIN
+    LAF "WEAPON_FINESSE" END
+  END
+END

@@ -1,0 +1,10 @@
+// End the game normally if HoW campaign has already been completed
+IF
+  True()
+THEN
+  RESPONSE #100
+    CutSceneId([PC][0.0.10000.10000])
+    UnhideGUI()
+    MultiPlayerSync()
+    EndCredits()
+END

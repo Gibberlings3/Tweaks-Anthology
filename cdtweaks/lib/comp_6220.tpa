@@ -1,0 +1,18 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
+/////                                                            \\\\\////\\\\////
+///// Parry Mode kit feat for Blades and Swashbucklers                       \\\\\
+/////                                                            \\\\\////\\\\////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
+
+WITH_SCOPE BEGIN
+  INCLUDE "cdtweaks\luke\misc.tph"
+  INCLUDE "cdtweaks\ardanis\functions.tph"
+  //
+  INCLUDE "cdtweaks\lib\parry.tph"
+  //
+  WITH_TRA "cdtweaks\languages\english\parry.tra" "cdtweaks\languages\%LANGUAGE%\parry.tra" BEGIN
+    LAF "PARRY" END
+  END
+END

@@ -34,7 +34,7 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
 ACTION_IF !regen_items BEGIN // don't bother if no items
 
   PRINT @338001
-  
+
 END ELSE BEGIN
 
   COPY_EXISTING ~action.ids~ ~override~
@@ -44,9 +44,9 @@ END ELSE BEGIN
 
   OUTER_SET area_script_offset = 0x94 + (0x10 * game_is_iwd2) // iwd2 offst is at 0xa4, all others 0x94
 
-  OUTER_SET mastarea_count = 0 
+  OUTER_SET mastarea_count = 0
   COPY_EXISTING ~mastarea.2da~ ~override~
-    REPLACE_EVALUATE ~^\([^ %TAB%]+\)\([ %TAB%]+value\)~ BEGIN 
+    REPLACE_EVALUATE ~^\([^ %TAB%]+\)\([ %TAB%]+value\)~ BEGIN
       SET mastarea_count += 1
       DEFINE_ASSOCIATIVE_ARRAY cd_regen_areas BEGIN ~%MATCH1%~ => ~%mastarea_count%~ END
     END ~%MATCH1%%MATCH2%~
@@ -60,31 +60,31 @@ END ELSE BEGIN
         PATCH_IF ("%area%" STRING_COMPARE_CASE "^fw[0-9][0-9][0-9][0-9]$" = 0) BEGIN // tutu area
           INNER_PATCH_SAVE script "%area%" BEGIN
             REPLACE_TEXTUALLY "fw" "_ar"
-          END 
+          END
         END ELSE BEGIN
           SPRINT script ~%area%~
         END
         WRITE_ASCIIE area_script_offset ~%script%~ #8
-      END      
+      END
       DEFINE_ASSOCIATIVE_ARRAY cd_regen_area_scripts BEGIN ~%script%~ => ~%num%~ END
       BUT_ONLY IF_EXISTS
-      
+
   END
 
   ACTION_PHP_EACH cd_regen_area_scripts AS script => num BEGIN
 
     EXTEND_BOTTOM ~%script%.bcs~ ~cdtweaks/baf/regen.baf~ EVALUATE_BUFFER
-    
+
   END
-  
+
   ACTION_IF game_is_iwd2 BEGIN
 
     COPY ~cdtweaks/spl/cdregen_iwd2.spl~ ~override/cdregen.spl~
-    
-  END ELSE BEGIN  
+
+  END ELSE BEGIN
 
     COPY ~cdtweaks/spl/cdregen.spl~ ~override~
-    
-  END  
-  
+
+  END
+
 END

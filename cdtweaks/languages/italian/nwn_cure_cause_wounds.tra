@@ -1,0 +1,206 @@
+@0 = "Cura Ferite Leggere
+(Necromanzia)
+Livello: 1
+Sfera: Guarigione
+Raggio d'azione: Tocco
+Durata: Istantanea
+Tempo di lancio: 5
+Area d'effetto: 1 creatura
+Tiro-salvezza: Nessuno
+
+Lanciando questo incantesimo e ponendo la sua mano su una creatura, il personaggio guarisce 1d8 Punti Ferita (+1 per livello, fino a +5) e cura l'Intossicazione. Questo incantesimo non ha effetto su costrutti o creature extraplanari.
+
+Da notare che questo incantesimo ha un effetto opposto sui non morti, danneggiandoli anziché curarli (un tiro-salvezza contro Incantesimi effettuato con successo dimezza i danni)."
+
+@1 = "Cura Ferite Moderate
+(Necromanzia)
+Livello: 2
+Sfera: Guarigione
+Raggio d'azione: Tocco
+Durata: Istantanea
+Tempo di lancio: 5
+Area d'effetto: 1 creatura
+Tiro-salvezza: Nessuno
+
+Una versione più potente dell'incantesimo di 1° livello Cura Ferite Leggere, Cura Ferite Medie guarisce 2d8 Punti Ferita (+1 per livello, fino a +10) e cura l'Intossicazione. Questo incantesimo non ha effetto su costrutti o creature extraplanari.
+
+Da notare che questo incantesimo ha un effetto opposto sui non morti, danneggiandoli anziché curarli (un tiro-salvezza contro Incantesimi effettuato con successo dimezza i danni)."
+
+@2 = "Cura Ferite Medie
+(Necromanzia)
+Livello: 3
+Sfera: Guarigione
+Raggio d'azione: Tocco
+Durata: Istantanea
+Tempo di lancio: 5
+Area d'effetto: 1 creatura
+Tiro-salvezza: Nessuno
+
+Lanciando questo incantesimo e ponendo la sua mano su una creatura, il personaggio guarisce 3d8 Punti Ferita (+1 per livello, fino a +15) e cura l'Intossicazione. Questo incantesimo non ha effetto su costrutti o creature extraplanari.
+
+Da notare che questo incantesimo ha un effetto opposto sui non morti, danneggiandoli anziché curarli (un tiro-salvezza contro Incantesimi effettuato con successo dimezza i danni)."
+
+@3 = "Cura Ferite Gravi
+(Necromanzia)
+Livello: 4
+Sfera: Guarigione
+Raggio d'azione: Tocco
+Durata: Istantanea
+Tempo di lancio: 7
+Area d'effetto: 1 creatura
+Tiro-salvezza: Nessuno
+
+Lanciando questo incantesimo e ponendo la sua mano su una creatura, il personaggio guarisce 4d8 Punti Ferita (+1 per livello, fino a +20) e cura l'Intossicazione. Questo incantesimo non ha effetto su costrutti o creature extraplanari.
+
+Da notare che questo incantesimo ha un effetto opposto sui non morti, danneggiandoli anziché curarli (un tiro-salvezza contro Incantesimi effettuato con successo dimezza i danni)."
+
+@4 = "Cura Ferite Critiche
+(Necromanzia)
+Livello: 5
+Sfera: Guarigione
+Raggio d'azione: Tocco
+Durata: Istantanea
+Tempo di lancio: 8
+Area d'effetto: 1 creatura
+Tiro-salvezza: Nessuno
+
+Lanciando questo incantesimo e ponendo la sua mano su una creatura, il personaggio guarisce 5d8 Punti Ferita (+1 per livello, fino a +25) e cura l'Intossicazione. Questo incantesimo non ha effetto su costrutti o creature extraplanari. Non può essere lanciato da personaggi di allineamento malvagio.
+
+Da notare che questo incantesimo ha un effetto opposto sui non morti, danneggiandoli anziché curarli (un tiro-salvezza contro Incantesimi effettuato con successo dimezza i danni)."
+
+@5 = "Cura Ferite Leggere di Massa
+(Necromanzia)
+Livello: 5
+Sfera: Guarigione
+Raggio d'azione: 0
+Durata: Istantanea
+Tempo di lancio: 5
+Area d'effetto: Raggio di 4,5 metri
+Tiro-salvezza: Nessuno
+
+Quando questo incantesimo viene lanciato, il personaggio deve visualizzare chiaramente i volti dei suoi compagni e concentrarsi sull'unità del gruppo. Una volta completato l'incantesimo, tutti i membri del gruppo sono curati di 1d8+1 Punto Ferita per livello. La guarigione è permanente finché la creatura non subisce ulteriori danni; le ferite inflitte guariranno (o potranno essere guarite) proprio come una normale ferita. Questo incantesimo non ha effetto su costrutti o creature extraplanari. Non può essere lanciato da personaggi di allineamento malvagio.
+
+Da notare che questo incantesimo ha un effetto opposto sui non morti, danneggiandoli anziché curarli (un tiro-salvezza contro Incantesimi effettuato con successo dimezza i danni)."
+
+@6 = "Guarigione
+(Necromanzia)
+Livello: 6
+Sfera: Guarigione
+Raggio d'azione: Tocco
+Durata: Istantanea
+Tempo di lancio: 9
+Area d'effetto: 1 creatura
+Tiro-salvezza: Nessuno
+
+Guarigione spazza via malattie e ferite dalla creatura bersaglio. Cura Cecità, Malattia, Veleno, Intossicazione e Regressione Mentale e riporta tutti i Punti Ferita della creatura al livello massimo. Questo incantesimo non ha effetto su costrutti o creature extraplanari. Non può essere lanciato da personaggi di allineamento malvagio.
+
+Da notare che questo incantesimo ha un effetto opposto sui non morti, riducendo i loro Punti Ferita a 1d4 (un tiro-salvezza contro Incantesimi effettuato con successo nega gli effetti)."
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+@100 = "Causa Ferite Leggere
+(Necromanzia)
+Livello: 1
+Sfera: Guarigione
+Raggio d'azione: Tocco
+Durata: Istantanea
+Tempo di lancio: 5
+Area d'effetto: 1 creatura
+Tiro-salvezza: 1/2
+
+Lanciando questo incantesimo e toccando una creatura, il personaggio infligge 1d8 punti (+1 punto per livello, fino a +5) di danno al corpo della creatura (un tiro-salvezza contro Incantesimi effettuato con successo dimezza i danni). Questo incantesimo non ha effetto su costrutti e creature extraplanari. Non può essere lanciato dai personaggi di allineamento buono.
+
+Da notare che questo incantesimo ha un effetto opposto sui non morti, curandoli anziché danneggiarli."
+
+@101 = "Causa Ferite Moderate
+(Necromanzia)
+Livello: 2
+Sfera: Guarigione
+Raggio d'azione: Tocco
+Durata: Istantanea
+Tempo di lancio: 5
+Area d'effetto: 1 creatura
+Tiro-salvezza: 1/2
+
+Lanciando questo incantesimo e toccando una creatura, il personaggio infligge 2d8 punti (+1 punto per livello, fino a +10) di danno al corpo della creatura (un tiro-salvezza contro Incantesimi effettuato con successo dimezza i danni). Questo incantesimo non ha effetto su costrutti e creature extraplanari. Non può essere lanciato dai personaggi di allineamento buono.
+
+Da notare che questo incantesimo ha un effetto opposto sui non morti, curandoli anziché danneggiarli."
+
+@102 = "Causa Ferite Medie
+(Necromanzia)
+
+Livello: 3
+Sfera: Guarigione
+Raggio d'azione: Tocco
+Durata: Istantanea
+Tempo di lancio: 5
+Area d'effetto: 1 creatura
+Tiro-salvezza: 1/2
+
+Lanciando questo incantesimo e toccando una creatura, il sacerdote infligge 3d8 punti (+1 punto per livello, fino a +15) di danno (un tiro-salvezza contro Incantesimi effettuato con successo dimezza il danno) al corpo della creatura. Questo incantesimo non ha effetto su costrutti o creature extraplanari. Causa Ferite Medie non può essere lanciato da personaggi di allineamento buono.
+
+Da notare che questo incantesimo ha un effetto opposto sui non morti, curandoli anziché danneggiarli."
+
+@103 = "Causa Ferite Gravi
+(Necromanzia)
+Livello: 4
+Sfera: Guarigione
+Raggio d'azione: Tocco
+Durata: Istantanea
+Tempo di lancio: 5
+Area d'effetto: 1 creatura
+Tiro-salvezza: 1/2
+
+Lanciando questo incantesimo e toccando una creatura, il personaggio infligge 4d8 punti (+1 punto per livello, fino a +20) di danno al corpo della creatura (un tiro-salvezza contro Incantesimi effettuato con successo dimezza i danni). Questo incantesimo non ha effetto su costrutti e creature extraplanari. Non può essere lanciato dai personaggi di allineamento buono.
+
+Da notare che questo incantesimo ha un effetto opposto sui non morti, curandoli anziché danneggiarli."
+
+@104 = "Causa Ferite Critiche
+(Necromanzia)
+Livello: 5
+Sfera: Guarigione
+Raggio d'azione: Tocco
+Durata: Istantanea
+Tempo di lancio: 8
+Area d'effetto: 1 creatura
+Tiro-salvezza: 1/2
+
+Lanciando questo incantesimo e toccando una creatura, il personaggio infligge 5d8 punti (+1 punto per livello, fino a +25) di danno da magia al corpo della creatura (un tiro-salvezza contro Incantesimi effettuato con successo dimezza i danni). Questo incantesimo non ha effetto su costrutti e creature extraplanari. Non può essere lanciato dai personaggi di allineamento buono.
+
+Da notare che questo incantesimo ha un effetto opposto sui non morti, curandoli anziché danneggiarli."
+
+@105 = "Causa Ferite Leggere di Massa
+(Necromanzia)
+Livello: 5
+Sfera: Guarigione
+Raggio d'azione: 0
+Durata: Istantanea
+Tempo di lancio: 5
+Area d'effetto: Raggio di 4,5 metri
+Tiro-salvezza: 1/2
+
+Lanciando questo incantesimo, il personaggio infligge 1d8+1 punti di danno per livello di esperienza del lanciatore ai nemici nelle vicinanze. Un tiro-salvezza contro Incantesimi effettuato con successo dimezza il danno. Questo incantesimo non ha effetto su costrutti o creature extraplanari. Può essere lanciato solo da personaggi di allineamento malvagio.
+
+Da notare che questo incantesimo ha un effetto opposto sui non morti, curandoli anziché danneggiarli."
+
+@106 = "Ferire
+(Necromanzia)
+Livello: 6
+Sfera: Guarigione
+Raggio d'azione: Tocco
+Durata: Istantanea
+Tempo di lancio: 9
+Area d'effetto: 1 creatura
+Tiro-salvezza: Neg.
+
+Quando questo incantesimo viene lanciato, il personaggio ottiene la capacità di toccare un bersaglio e di infliggergli un terribile danno, riducendo i suoi Punti Ferita a 1d4. Un tiro-salvezza contro Incantesimi effettuato con successo nega gli effetti. Questo incantesimo non ha effetto su costrutti o creature extraplanari. Può essere lanciato solo da personaggi di allineamento malvagio.
+
+Da notare che questo incantesimo ha un effetto opposto sui non morti, riportando i loro Punti Ferita al livello massimo anziché danneggiarli."
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+@200 = "Imposizione delle Mani
+
+Il Paladino incanala energia positiva per curare la creatura toccata, restituendo 2 Punti Ferita per livello del Paladino. Questa abilità non ha effetto su creature incorporee, extraplanari o non viventi.
+
+Da notare che questa abilità ha un effetto opposto sui non morti, danneggiandoli anziché curarli (un tiro-salvezza contro Incantesimi effettuato con successo dimezza i danni)."

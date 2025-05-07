@@ -1,0 +1,18 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
+/////                                                            \\\\\////\\\\////
+///// Cantrips for Spellcasters                                              \\\\\
+/////                                                            \\\\\////\\\\////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
+
+WITH_SCOPE BEGIN
+  INCLUDE "cdtweaks\luke\misc.tph"
+  INCLUDE "cdtweaks\ardanis\functions.tph"
+  //
+  INCLUDE "cdtweaks\lib\cantrips.tph"
+  //
+  WITH_TRA "cdtweaks\languages\english\cantrips.tra" "cdtweaks\languages\%LANGUAGE%\cantrips.tra" BEGIN
+    LAF "CANTRIPS" END
+  END
+END

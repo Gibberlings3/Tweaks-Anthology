@@ -1,0 +1,53 @@
+DEFINE_ACTION_FUNCTION "COWLED_WIZARDS"
+BEGIN
+	// patch relevant area scripts \\
+	WITH_SCOPE BEGIN
+		COPY_EXISTING
+			"ar0020.bcs" "override" // City Gates
+			"ar0300.bcs" "override" // The Docks
+			"ar0400.bcs" "override" // Slums
+			"ar0500.bcs" "override" // Bridge District
+			"ar0700.bcs" "override" // Waukeen's Promenade
+			"ar0900.bcs" "override" // Temple District
+			"ar1000.bcs" "override" // Government District
+			//
+			DECOMPILE_AND_PATCH BEGIN
+				// first relevant block
+				SET "found" = INDEX_BUFFER (CASE_SENSITIVE EXACT_MATCH ~CreateCreatureObjectDoor("COWENF2",LastTrigger,0,0,0)~)
+				//
+				PATCH_IF ("%found%" >= 0) BEGIN
+					SET "start" = RINDEX_BUFFER (CASE_SENSITIVE EXACT_MATCH ~SpellCast([PC],0)~ "%found%")
+					SET "end" = INDEX_BUFFER (CASE_INSENSITIVE EVALUATE_REGEXP ~$~ "%start%")
+					//
+					DELETE_BYTES "%start%" ("%end%" - "%start%")
+					//
+					INSERT_BYTES "%start%" STRING_LENGTH ~Global("gt_CowledWizardsTriggered","GLOBAL",1)~
+					WRITE_ASCII "%start%" ~Global("gt_CowledWizardsTriggered","GLOBAL",1)~
+					//
+					SET "found" = INDEX_BUFFER (CASE_SENSITIVE EXACT_MATCH ~CreateCreatureObjectDoor("COWENF2",LastTrigger,0,0,0)~)
+					INSERT_BYTES "%found%" STRING_LENGTH ~SetGlobal("gt_CowledWizardsTriggered","GLOBAL",0)~
+					WRITE_ASCII "%found%" ~SetGlobal("gt_CowledWizardsTriggered","GLOBAL",0)~
+				END
+				// second relevant block
+				SET "found" = INDEX_BUFFER (CASE_SENSITIVE EVALUATE_REGEXP ~[ %TAB%]*GlobalTimerNotExpired("SpellsBad","GLOBAL")~)
+				//
+				PATCH_IF ("%found%" >= 0) BEGIN
+					SET "start" = RINDEX_BUFFER (CASE_SENSITIVE EXACT_MATCH ~SpellCast([PC],0)~)
+					SET "end" = INDEX_BUFFER (CASE_INSENSITIVE EVALUATE_REGEXP ~$~ "%start%")
+					//
+					DELETE_BYTES "%start%" ("%end%" - "%start%")
+					//
+					INSERT_BYTES "%start%" STRING_LENGTH ~Global("gt_CowledWizardsTriggered","GLOBAL",1)~
+					WRITE_ASCII "%start%" ~Global("gt_CowledWizardsTriggered","GLOBAL",1)~
+					//
+					SET "found" = INDEX_BUFFER (CASE_SENSITIVE EXACT_MATCH ~Wait(1)~ "%start%")
+					INSERT_BYTES "%found%" STRING_LENGTH ~SetGlobal("gt_CowledWizardsTriggered","GLOBAL",0)~
+					WRITE_ASCII "%found%" ~SetGlobal("gt_CowledWizardsTriggered","GLOBAL",0)~
+				END
+			END
+		BUT_ONLY_IF_IT_CHANGES
+	END
+	// lua
+	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lua\utility\decode_spell.lua" "destRes" = "m_gtutil" END
+	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Misc Tweaks" "sourceFileSpec" = "cdtweaks\luke\lua\tweaks\cowled_wizards.lua" "destRes" = "m_gttwks" END
+END

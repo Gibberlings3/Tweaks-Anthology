@@ -293,7 +293,7 @@ BEGIN
 			END
 		END
 	BUT_ONLY
-  
+
 END
 
 ////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\
@@ -456,9 +456,11 @@ BEGIN
 END
 
 /*
-=====================================================================================================
-**APPEND_LUA_FUNCTION**
-=====================================================================================================
++----------------------------------------------------------------------------------------+
+| APPEND_LUA_FUNCTION                                                                    |
++----------------------------------------------------------------------------------------+
+| Appends the specified lua chunk to a new or existing lua file (if not already present) |
++----------------------------------------------------------------------------------------+
 */
 
 DEFINE_DIMORPHIC_FUNCTION "APPEND_LUA_FUNCTION"
@@ -469,12 +471,16 @@ STR_VAR
 BEGIN
 	<<<<<<<< .../cdtweaks-inlined/empty
 	>>>>>>>>
+	// sanity check
+	ACTION_IF (STRING_LENGTH "%destRes%" > 8) OR ("%destRes%" STRING_CONTAINS_REGEXP "^m_") BEGIN
+		FAIL "APPEND_LUA_FUNCTION: invalid ``destRes`` parameter (%destRes%)"
+	END
 	//
 	ACTION_IF !(FILE_EXISTS_IN_GAME "%destRes%.lua") BEGIN
 		COPY ".../cdtweaks-inlined/empty" "override\%destRes%.lua"
 			DELETE_BYTES 0x0 BUFFER_LENGTH
 			INSERT_BYTES 0x0 STRING_LENGTH "-- %description% --%WNL%%WNL%"
-			WRITE_ASCII 0x0 "-- %description% --%WNL%%WNL%"
+			WRITE_ASCII 0x0 "-- ***%description%*** --%WNL%%WNL%"
 		BUT_ONLY_IF_IT_CHANGES
 	END
 	//
@@ -485,4 +491,231 @@ BEGIN
 	COPY_EXISTING "%destRes%.lua" "override"
 		APPEND_FILE_EVALUATE TEXT "%sourceFileSpec%"
 	BUT_ONLY UNLESS "%fileContent%"
+END
+
+/*
++-----------------------------------+
+| Custom ADD_SPELL                  |
++-----------------------------------+
+| Adds a new entry to "gtspell.ids" |
+| - "gtwi***" for wizard spells     |
+| - "gtpr***" for priest spells     |
+| - "gtin***" for innate spells     |
+| - "gtcl***" for class/kit spells  |
++-----------------------------------+
+*/
+
+DEFINE_DIMORPHIC_FUNCTION "GT_ADD_SPELL"
+INT_VAR
+	"type" = 3 // GTINXXX
+	"level" = 0
+	"sort" = 1 // boolean
+	"preferredSlot" = 0
+STR_VAR
+	"idsName" = "INNATE_NO_NAME"
+RET
+	"resName"
+BEGIN
+	OUTER_TEXT_SPRINT "resName" ""
+	// sanity check
+	ACTION_IF ("%preferredSlot%" >= 0 AND "%preferredSlot%" <= 99) BEGIN
+		ACTION_IF ("%preferredSlot%" < 10) BEGIN
+			OUTER_TEXT_SPRINT "preferredSlot" "0%preferredSlot%"
+		END
+	END ELSE BEGIN
+		OUTER_TEXT_SPRINT "preferredSlot" "00"
+	END
+	//
+	ACTION_IF !(FILE_EXISTS_IN_GAME "gtspell.ids") BEGIN
+		COPY_EXISTING "spell.ids" "override\gtspell.ids"
+			DELETE_BYTES 0x0 BUFFER_LENGTH
+		BUT_ONLY
+	END
+	//
+	ACTION_IF (IDS_OF_SYMBOL ("GTSPELL" "%idsName%") == "-1") BEGIN
+		ACTION_MATCH "%type%" WITH
+			1 BEGIN
+				OUTER_SET "min" = 0
+				OUTER_SET "max" = 99
+				OUTER_TEXT_SPRINT "prefix" "GTPR"
+			END
+			2 BEGIN
+				OUTER_SET "min" = 0
+				OUTER_SET "max" = 99
+				OUTER_TEXT_SPRINT "prefix" "GTWI"
+			END
+			3 BEGIN
+				OUTER_SET "min" = 0
+				OUTER_SET "max" = 99
+				OUTER_TEXT_SPRINT "prefix" "GTIN"
+			END
+			4 BEGIN
+				OUTER_SET "min" = 0
+				OUTER_SET "max" = 99
+				OUTER_TEXT_SPRINT "prefix" "GTCL"
+			END
+			DEFAULT
+				FAIL "GT_ADD_SPELL: invalid spell type (%type%)"
+		END
+		//
+		ACTION_IF !(RESOURCE_CONTAINS "gtspell.ids" "^%type%%level%%preferredSlot%[ %TAB%]+") BEGIN
+			APPEND "GTSPELL.IDS" "%type%%level%%preferredSlot% %idsName%"
+			OUTER_TEXT_SPRINT "resName" "%prefix%%level%%preferredSlot%"
+		END ELSE BEGIN
+			OUTER_FOR ("i" = "%min%" ; "%i%" <= "%max%" ; "i" += 1) BEGIN
+				ACTION_IF (STRING_LENGTH "%i%" == 1) BEGIN
+					OUTER_TEXT_SPRINT "i" "0%i%"
+				END
+				ACTION_IF !(RESOURCE_CONTAINS "gtspell.ids" "^%type%%level%%i%[ %TAB%]+") BEGIN
+					APPEND "GTSPELL.IDS" "%type%%level%%i% %idsName%"
+					OUTER_TEXT_SPRINT "resName" "%prefix%%level%%i%"
+					OUTER_SET "i" = "%max%" // kill FOR-loop
+				END
+			END
+		END
+		//
+		ACTION_IF "%sort%" BEGIN
+			LAF "SORT_IDS_FILE" STR_VAR "idsFile" = "gtspell" END
+		END
+	END ELSE BEGIN
+		LAF "GT_RES_NUM_OF_SPELL_NAME" STR_VAR "spell_name" = "%idsName%" RET "resName" = "spell_res" END
+	END
+END
+
+// auxiliary function //
+
+DEFINE_DIMORPHIC_FUNCTION "GT_RES_NUM_OF_SPELL_NAME"
+STR_VAR
+	"spell_name" = ""
+RET
+	"spell_num"
+	"spell_res"
+BEGIN
+	OUTER_TEXT_SPRINT "spell_res" ""
+	OUTER_SET "spell_num" = "-1"
+	//
+	COPY_EXISTING - "gtspell.ids" "override"
+		COUNT_2DA_COLS "cols"
+		READ_2DA_ENTRIES_NOW "read_gtspell" "%cols%"
+		FOR ("i" = 0 ; "%i%" < "%read_gtspell%" ; "i" += 1) BEGIN
+			READ_2DA_ENTRY_FORMER "read_gtspell" "%i%" 1 "current_spell_name"
+			PATCH_IF ("%current_spell_name%" STR_EQ "%spell_name%") BEGIN
+				READ_2DA_ENTRY_FORMER "read_gtspell" "%i%" 0 "spell_num"
+				INNER_PATCH "%spell_num%" BEGIN
+					READ_ASCII 0x0 "type" (1)
+					READ_ASCII 0x1 "spell_id" (3)
+					PATCH_MATCH "%type%" WITH
+						1 BEGIN
+							TEXT_SPRINT "spell_res" "gtpr%spell_id%"
+						END
+						2 BEGIN
+							TEXT_SPRINT "spell_res" "gtwi%spell_id%"
+						END
+						3 BEGIN
+							TEXT_SPRINT "spell_res" "gtin%spell_id%"
+						END
+						4 BEGIN
+							TEXT_SPRINT "spell_res" "gtcl%spell_id%"
+						END
+						DEFAULT
+							PATCH_FAIL "Should not happen"
+					END
+				END
+				SET "i" = "%read_gtspell%" // kill FOR-loop
+			END
+		END
+	BUT_ONLY_IF_IT_CHANGES
+END
+
+// auxiliary function //
+
+DEFINE_DIMORPHIC_FUNCTION "GT_NAME_NUM_OF_SPELL_RES"
+STR_VAR
+	"spell_res" = ""
+RET
+	"spell_num"
+	"spell_name"
+BEGIN
+	OUTER_TEXT_SPRINT "spell_name" ""
+	OUTER_SET "spell_num" = "-1"
+	//
+	COPY_EXISTING - "gtspell.ids" "override"
+		COUNT_2DA_COLS "cols"
+		READ_2DA_ENTRIES_NOW "read_gtspell" "%cols%"
+		FOR ("i" = 0 ; "%i%" < "%read_gtspell%" ; "i" += 1) BEGIN
+			READ_2DA_ENTRY_FORMER "read_gtspell" "%i%" 0 "current_spell_num"
+			INNER_PATCH "%spell_res%" BEGIN
+				READ_ASCII 0x2 "type" (2)
+				READ_ASCII 0x4 "spell_id" (3)
+				PATCH_MATCH "%type%" WITH
+					"pr" BEGIN
+						TEXT_SPRINT "spell_num" "1%spell_id%"
+					END
+					"wi" BEGIN
+						TEXT_SPRINT "spell_num" "2%spell_id%"
+					END
+					"in" BEGIN
+						TEXT_SPRINT "spell_num" "3%spell_id%"
+					END
+					"cl" BEGIN
+						TEXT_SPRINT "spell_num" "4%spell_id%"
+					END
+					DEFAULT
+						PATCH_FAIL "Should not happen"
+				END
+			END
+			PATCH_IF ("%current_spell_num%" == "%spell_num%") BEGIN
+				READ_2DA_ENTRY_FORMER "read_gtspell" "%i%" 1 "spell_name"
+				SET "i" = "%read_gtspell%" // kill FOR-loop
+			END
+		END
+	BUT_ONLY_IF_IT_CHANGES
+END
+
+/*
++------------------------------------------------------------------------------------------------------+
+| SORT_IDS_FILE                                                                                        |
++------------------------------------------------------------------------------------------------------+
+| Sort "%idsFile%" in ascending numerical order                                                        |
+| - Do not use without a real reason (it may take up to several seconds... probably not a big deal...) |
++------------------------------------------------------------------------------------------------------+
+*/
+
+DEFINE_DIMORPHIC_FUNCTION "SORT_IDS_FILE"
+STR_VAR
+	"idsFile" = ""
+BEGIN
+	ACTION_CLEAR_ARRAY "ids_sorted"
+	//
+	COPY_EXISTING "%idsFile%.ids" "override"
+		COUNT_2DA_COLS "cols"
+		READ_2DA_ENTRIES_NOW "sort_ids_file" "%cols%"
+		// Header
+		READ_2DA_ENTRY_FORMER "sort_ids_file" 0 0 "value"
+		PATCH_IF ("%value%" STR_EQ "IDS") BEGIN
+			SET "#_entries" = "%sort_ids_file%" - 1
+		END ELSE BEGIN
+			SET "#_entries" = "%sort_ids_file%"
+		END
+		// Body
+		FOR ("row" = 0 ; "%row%" < "%sort_ids_file%" ; "row" += 1) BEGIN
+			READ_2DA_ENTRY_FORMER "sort_ids_file" "%row%" 0 "value"
+			PATCH_IF ("%value%" STRING_COMPARE_CASE "IDS") BEGIN
+				READ_2DA_ENTRY_FORMER "sort_ids_file" "%row%" 1 "identifier"
+				DEFINE_ASSOCIATIVE_ARRAY "ids_sorted" BEGIN
+					"%value%" , "%row%" => "%identifier%" // preserve duplicate entries
+				END
+			END
+		END
+		// Main
+		DELETE_BYTES 0x0 BUFFER_LENGTH
+		INSERT_2DA_ROW 0 0 "IDS V1.0"
+		INSERT_2DA_ROW 1 0 "%#_entries%"
+		SORT_ARRAY_INDICES "ids_sorted" NUMERICALLY
+		SET "row" = 2
+		PHP_EACH "ids_sorted" AS "value" => "identifier" BEGIN
+			INSERT_2DA_ROW "%row%" 0 "%value% %identifier%"
+			SET "row" += 1
+		END
+	BUT_ONLY_IF_IT_CHANGES
 END

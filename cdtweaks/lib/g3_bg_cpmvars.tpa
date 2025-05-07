@@ -7,9 +7,9 @@
 A library to declare variabes to allow unified installations of BG content
 across all platforms: oBG, BGEE or the conversions BGT, EET, and Tutu.
 
-This particular library is for oBG games. 
+This particular library is for oBG games.
 
-One of these four libraries (EET is in the local EET folder) should be called 
+One of these four libraries (EET is in the local EET folder) should be called
 from a GAME_IS check, for example Tweaks:
 
 https://github.com/Gibberlings3/Tweaks-Anthology/blob/master/cdtweaks/lib/g3_cpmvars_master.tpa
@@ -24,8 +24,8 @@ used:
 
 platform:
   obg
- 
-version history: 
+
+version history:
   unknown
 
 */
@@ -33,7 +33,7 @@ version history:
 /* Declaration of BG Platform Variables */
 
 // note from Cam - this is in no way correct. This is copied from the bgee file, since it's the closest to BG assets,
-// and then I double-checked the vars that were actually important for Tweaks w.r.t. BG components. 
+// and then I double-checked the vars that were actually important for Tweaks w.r.t. BG components.
 
 //ACTION_IF GAME_IS ~bg1 totsc~ THEN BEGIN
 	/* tp2, d, and baf parsing variables */

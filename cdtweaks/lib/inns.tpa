@@ -1,3 +1,5 @@
+INCLUDE ~cdtweaks/lib/inns_jk_fix.tpa~      
+
 COMPILE ~cdtweaks/dlg/jaheij-fix.d~ //Bug correction in JAHEIJ.DLG from original BG1
 
 COPY ~cdtweaks/dlg/depart_obg.d~ ~weidu_external/cdtweaks/dlg/depart-tmp.d~ // Ajantis

@@ -188,7 +188,7 @@ ACTION_PHP_EACH JOINABLE_NPC_ARRAY AS file => dv BEGIN
         END // col_no patch_if
       END // end free_pips patch_if
       BUT_ONLY
-      
+
   END
-  
+
 END

@@ -11,7 +11,7 @@ INCLUDE ~cdtweaks/lib/joinable_npc_array.tpa~
 
 ACTION_PHP_EACH JOINABLE_NPC_ARRAY AS file => dv BEGIN
 
-  ACTION_IF ("%dv%" STRING_COMPARE_CASE "minsc" = 0) BEGIN 
+  ACTION_IF ("%dv%" STRING_COMPARE_CASE "minsc" = 0) BEGIN
 
     COPY_EXISTING ~%file%~ ~override~
       SET boo = "-1"
@@ -31,17 +31,17 @@ ACTION_PHP_EACH JOINABLE_NPC_ARRAY AS file => dv BEGIN
           PATCH_IF item_idx = boo BEGIN
             WRITE_SHORT (slot_off + (index * 0x02)) "-1" // delete all existing boo references
           END
-        END    
-        FOR (index = 21 ; index < 37 ; ++index) BEGIN  
+        END
+        FOR (index = 21 ; index < 37 ; ++index) BEGIN
           READ_SHORT (slot_off + (index * 0x02)) item_idx
           PATCH_IF item_idx = 0xffff BEGIN              // if empty slot...
             WRITE_SHORT (slot_off + (index * 0x02)) boo // add boo
             SET index = 37 // kill loop
           END
-        END    
+        END
       END
-      BUT_ONLY  
-      
+      BUT_ONLY
+
   END
 
 END
@@ -50,7 +50,7 @@ END
 ACTION_FOR_EACH spell IN wwboo wwfboo wwnoboo BEGIN
 
   ACTION_IF FILE_EXISTS_IN_GAME ~%spell%.spl~ BEGIN
-  
+
     COPY_EXISTING "%spell%.spl" override
       LPF ALTER_EFFECT STR_VAR check_globals = 0 match_opcode = 143 opcode = 122 parameter1 = 0 END
       BUT_ONLY

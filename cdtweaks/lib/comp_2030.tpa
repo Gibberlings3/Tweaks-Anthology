@@ -37,7 +37,7 @@ ACTION_IF game_is_bgt BEGIN
   // change existing breakage spell to point to new spell
   COPY_EXISTING ~%ref%.itm~ ~override~
     LPF ALTER_EFFECT INT_VAR check_headers = 1 check_globals = 0 match_opcode = 309 STR_VAR resource = EVAL ~%ref%~ END
-    
+
   COPY_EXISTING ~dplayer2.bcs~ ~override~
                 ~dplayer3.bcs~ ~override~
     DECOMPILE_AND_PATCH BEGIN
@@ -52,5 +52,5 @@ END
 ACTION_IF FILE_EXISTS_IN_GAME botsmith.dlg THEN BEGIN
 
   COMPILE ~cdtweaks/dlg/2hkatanas.d~
-  
+
 END

@@ -6,7 +6,7 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-ACTION_IF FILE_EXISTS_IN_GAME ~traplimt.2da~ THEN BEGIN 
+ACTION_IF FILE_EXISTS_IN_GAME ~traplimt.2da~ THEN BEGIN
 
   COPY_EXISTING ~traplimt.2da~ ~override~
     COUNT_2DA_ROWS 2 rows
@@ -22,7 +22,7 @@ END ELSE BEGIN
 
   COPY_EXISTING ~trapsnar.pro~ ~override/ag#snar.pro~
   ADD_PROJECTILE ~override/ag#snar.pro~
-  
+
   COPY_EXISTING ~spcl411.spl~ ~override~
                 ~spcl415.spl~ ~override~
     READ_LONG  0x64 ab_off
@@ -31,24 +31,24 @@ END ELSE BEGIN
       WRITE_SHORT (ab_off+i*0x28+0x26) ag#snar
     END
     BUT_ONLY
-  
+
   ACTION_IF FILE_EXISTS_IN_GAME ~trapboom.pro~ THEN BEGIN // if ToB
 
     COPY_EXISTING ~trapboom.pro~ ~override/ag#boom.pro~
     COPY_EXISTING ~trapspik.pro~ ~override/ag#spik.pro~
     COPY_EXISTING ~traptime.pro~ ~override/ag#time.pro~
-  
+
     ADD_PROJECTILE ~override/ag#boom.pro~
     ADD_PROJECTILE ~override/ag#spik.pro~
     ADD_PROJECTILE ~override/ag#time.pro~
-  
+
     COPY_EXISTING ~spcl910b.spl~ ~override~
       READ_LONG  0x64 ab_off
       READ_SHORT 0x68 ab_num
       FOR(i=0; i<ab_num; i+=1) BEGIN
         WRITE_SHORT (ab_off+i*0x28+0x26) ag#spik
       END
-  
+
     COPY_EXISTING ~spcl911b.spl~ ~override~
       READ_LONG  0x64 ab_off
       READ_SHORT 0x68 ab_num
@@ -56,7 +56,7 @@ END ELSE BEGIN
         WRITE_SHORT (ab_off+i*0x28+0x26) ag#boom
       END
       BUT_ONLY
-  
+
     COPY_EXISTING ~spcl912b.spl~ ~override~
       READ_LONG  0x64 ab_off
       READ_SHORT 0x68 ab_num

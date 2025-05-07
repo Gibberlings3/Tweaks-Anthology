@@ -7,17 +7,17 @@ INCLUDE ~cdtweaks/lib/game_checks.tpa~ // sets game_is_foo vars, others
 ACTION_IF enhanced_edition BEGIN // ee games
 
   OUTER_SPRINT ~tra_location~ ~cdtweaks/languages~
-  
+
   LOAD_TRA ~cdtweaks/languages/%LANGUAGE%/ee.tra~
 
 END ELSE BEGIN
 
   OUTER_SPRINT ~tra_location~ ~weidu_external/cdtweaks/languages~
 
-  // convert strings from UTF-8 for originals  
+  // convert strings from UTF-8 for originals
   ACTION_DEFINE_ARRAY cdnoconvert BEGIN weidu ee END
   ACTION_DEFINE_ARRAY cdreload BEGIN game END
-  LAF HANDLE_CHARSETS INT_VAR from_utf8 = 1 infer_charsets = 1 
+  LAF HANDLE_CHARSETS INT_VAR from_utf8 = 1 infer_charsets = 1
                       STR_VAR default_language = ~english~ tra_path = ~cdtweaks/languages~ out_path = ~weidu_external/cdtweaks/languages~ noconvert_array = cdnoconvert reload_array = cdreload END
 
   ACTION_IF game_is_soa OR game_is_tob OR game_is_bgt OR game_is_ca OR game_is_tutu OR game_is_tutu_totsc OR game_is_iwd-in-bg2 THEN BEGIN
@@ -28,20 +28,20 @@ END ELSE BEGIN
 
     INCLUDE ~cdtweaks/lib/tob2soa.tph~ // add tob scripting to soa games; written such that it shouldn't change anything if used on tob
 
-  END 
-  
+  END
+
   ACTION_IF original_iwd AND MOD_IS_INSTALLED ~ab/ab.tp2~ ~0~ BEGIN
-    
+
     INCLUDE ~cdtweaks/lib/ab_fixes.tpa~ // trying to fix the more egregious broken files of AB
-    
-  END  
 
-END  
+  END
 
-INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro 
+END
+
+INCLUDE ~cdtweaks/lib/g3_cpmvars_master.tpa~ // sets bg/bgee/bgt/eet/tutu vars, cd_extend_bg_area_script macro
 
 ACTION_IF MOD_IS_INSTALLED ~tobex/tobex.tp2~ ~0~ THEN BEGIN OUTER_SET is_tobex = 1 END ELSE BEGIN OUTER_SET is_tobex = 0 END // TobEx
-  
+
 ACTION_IF game_is_eet BEGIN
   OUTER_SET bg2_chapter = 12
 END ELSE BEGIN

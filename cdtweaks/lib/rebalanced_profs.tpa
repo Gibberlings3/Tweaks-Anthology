@@ -20,7 +20,7 @@ DEFINE_PATCH_MACRO ~prof_descripts~ BEGIN
   END
   PATCH_IF ("%new_weap%" STRING_COMPARE_CASE "") BEGIN // make sure new_weap is actually set before blindly patching
     REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%.+$~ ~%prof_text% %new_weap%~
-  END	
+  END
 
 END
 
@@ -111,7 +111,7 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~ // item changes
           END
         END
       END
-    END  
+    END
     PATCH_IF ((prof = 91) OR (prof = 94) OR (prof = 95) OR (prof = 100) OR (prof = 101)) BEGIN
       // update descriptions
       PATCH_FOR_EACH offset IN 0x50 0x54 BEGIN
@@ -153,7 +153,7 @@ COPY_EXISTING ~weapprof.2da~ ~override~
 ACTION_FOR_EACH kitname IN samurai mlsamura BEGIN
 
   ACTION_IF FILE_EXISTS_IN_GAME ~%kitname%.2da~ THEN BEGIN
-  
+
     // find samurai kit in kitlist
     COPY_EXISTING ~kitlist.2da~ ~override~
       COUNT_2DA_ROWS ~9~ "rows"
@@ -165,11 +165,11 @@ ACTION_FOR_EACH kitname IN samurai mlsamura BEGIN
         END
       END
       BUT_ONLY
-      
+
     COPY_EXISTING ~weapprof.2da~ ~override~
       SET_2DA_ENTRY 14 ("%samurai%" + 22) ("%samurai%" + 23) 1
       BUT_ONLY
-  
+
   END
 
 END

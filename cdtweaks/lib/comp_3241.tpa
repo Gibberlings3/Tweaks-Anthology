@@ -21,7 +21,7 @@ COPY_EXISTING ~de1tres.itm~ ~override~
   SAY 0x54 @324103
   WRITE_ASCII 0x3a ~cdtokeni~
   WRITE_ASCII 0x44 ~gtreas01~
-  
+
 COPY ~cdtweaks/dlg/cdrandom.d~   ~weidu_external/cdtweaks/random/cdrandom.d~
 COPY ~cdtweaks/baf/cdrandom.baf~ ~weidu_external/cdtweaks/random/cdrandom.baf~
 
@@ -37,12 +37,12 @@ ACTION_IF game_is_iwdee OR game_is_iwd-in-bg2 THEN BEGIN // if modern engine
     INCLUDE ~cdtweaks/lib/iwdee_rndtres.tpa~ // replaces IWD references with IWDEE's RNDTRE schema in random.2da
 
   END
-  
+
   ACTION_FOR_EACH item IN gopoof mring1 BEGIN // ee lacks these items
     ACTION_IF !FILE_EXISTS_IN_GAME ~%item%.itm~ BEGIN
       COPY ~cdtweaks/itm/%item%.itm~ ~override~
     END
-  END    
+  END
 
   COPY ~weidu_external/cdtweaks/random/cdrandom.baf~ ~weidu_external/cdtweaks/random/cdrandom.baf~
     REPLACE_TEXTUALLY ~EquipItem("gopoof",1)~ ~DestroyItem("gopoof")~
@@ -99,7 +99,7 @@ COPY ~weidu_external/cdtweaks/random/random.2da~ ~weidu_external/cdtweaks/random
         ACTION_IF index = 1 BEGIN // special for orrick's random-via-dialogue
 
           COMPILE ~cdtweaks/dlg/dorrick.d~ EVALUATE_BUFFER
-        
+
         END
 
         COPY_EXISTING ~%table%.2da~ ~override~
@@ -131,7 +131,7 @@ insert_state
           REPLACE_TEXTUALLY ~percentage~ ~%~
 
         INCLUDE ~weidu_external/cdtweaks/random/%item%.tpa~
-          
+
         COPY_EXISTING ~%area%.are~ ~override~
           WRITE_ASCIIE 0x94 ~%area%~ #8
           BUT_ONLY

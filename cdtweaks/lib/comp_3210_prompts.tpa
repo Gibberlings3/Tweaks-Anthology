@@ -14,7 +14,7 @@ ACTION_IF FILE_EXISTS ~weidu_external/cdtweaks/batch_%COMPONENT_NUMBER%.tpa~ BEG
 
   INCLUDE ~weidu_external/cdtweaks/batch_%COMPONENT_NUMBER%.tpa~
   DELETE + ~weidu_external/cdtweaks/batch_%COMPONENT_NUMBER%.tpa~
-  
+
 END ELSE BEGIN
 
   OUTER_SPRINT minimum_stats_strength_text     @321008
@@ -130,7 +130,7 @@ END ELSE BEGIN
     END
 
   END
-  
+
 END
 
 ACTION_IF cd_tweaks_batch_install BEGIN
@@ -146,5 +146,5 @@ OUTER_SET minimum__stats_charisma = %minimum_stats_charisma%
 
   COPY + ~./inline/cdtweaks_batch.tpa~ ~weidu_external/cdtweaks/batch_%COMPONENT_NUMBER%.tpa~ EVALUATE_BUFFER
     REPLACE_TEXTUALLY ~__~ ~_~
-    
+
 END

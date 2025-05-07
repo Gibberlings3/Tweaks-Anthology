@@ -11,7 +11,7 @@ ACTION_IF FILE_EXISTS_IN_GAME ~mxsplsrc.2da~ THEN BEGIN
   COPY ~cdtweaks/2da/un_mxsplsrc.2da~ ~override/mxsplsrc.2da~
 
   ACTION_IF FILE_EXISTS_IN_GAME mxspldd.2da THEN BEGIN
-  
+
     COPY_EXISTING ~mxsplsrc.2da~ ~override/mxspldd.2da~
       FOR (row = 0 ; row < 50 ; ++row) BEGIN
         FOR (col = 1 ; col < 10 ; ++col) BEGIN
@@ -20,7 +20,7 @@ ACTION_IF FILE_EXISTS_IN_GAME ~mxsplsrc.2da~ THEN BEGIN
             SET_2DA_ENTRY row col 10 (spells - 2)
           END
         END
-      END  
+      END
   END
 
   ACTION_IF (MOD_IS_INSTALLED ~tomeandblood.tp2~ ~95~) BEGIN

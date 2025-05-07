@@ -44,16 +44,16 @@ COPY ~weidu_external/cdtweaks/random/random.2da~ ~weidu_external/cdtweaks/random
           REPLACE_TEXTUALLY ~\([ %TAB%]+\*\)*~ ~~
           REPLACE_TEXTUALLY ~multiply~ ~*~
           REPLACE_TEXTUALLY ~percentage~ ~%~
-      
+
         INCLUDE ~weidu_external/cdtweaks/random/%item%.tpa~
 
         COPY_EXISTING ~%area%.are~ ~override~
           WRITE_ASCIIE 0x94 ~%area%~ #8
           BUT_ONLY
-      
+
         COPY ~weidu_external/cdtweaks/random/%item%.baf~ ~weidu_external/cdtweaks/random/%item%.baf~
           REPLACE_TEXTUALLY ~replaceme[12]~ ~~
-      
+
         EXTEND_TOP    ~%area%.bcs~ ~cdtweaks/baf/areatop.baf~ EVALUATE_BUFFER
         EXTEND_BOTTOM ~%area%.bcs~ ~weidu_external/cdtweaks/random/%item%.baf~  EVALUATE_BUFFER
 
@@ -64,7 +64,7 @@ COPY ~weidu_external/cdtweaks/random/random.2da~ ~weidu_external/cdtweaks/random
   BUT_ONLY
 
 ACTION_IF game_is_iwd-in-bg2 BEGIN
-  
+
   COPY_EXISTING ~ar3501.bcs~ ~override~
                 ~ar3502.bcs~ ~override~
                 ~ar3503.bcs~ ~override~

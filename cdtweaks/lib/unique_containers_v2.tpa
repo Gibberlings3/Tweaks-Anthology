@@ -5,135 +5,135 @@ OUTER_SET    string_offset = 100
 OUTER_SET    idic          = 0
 OUTER_SET    last          = 28
 OUTER_SPRINT icon          ~t-bgem~
-ACTION_FOR_EACH item IN 
-  ~bag02~ ~bag02_~ ~bag02b~ ~bag02c~ ~bag02d~ ~bag02e~ ~bag02f~ ~bag02g~ ~bag02h~ ~bag02h_~ ~bag02i~ ~bag02j~ ~bag02nej~ 
-  ~bgbag01~ ~c!bag02~ ~cmbag01~ ~e_bgem1~ ~e_bgem2~ ~e_bgem3~ ~gembg01~ ~gembg02~ ~gembg03~ ~gembg04~ ~gembg05~ ~gembg06~ 
-  ~gembg07~ ~gembg08~ ~gittgem~ ~mebag02~ ~mhbag02~ ~swbag02b~ ~swbag02c~ ~t-bgem01~ ~t-bgem04~ ~t-bgem05~ ~t-bgem06~ 
+ACTION_FOR_EACH item IN
+  ~bag02~ ~bag02_~ ~bag02b~ ~bag02c~ ~bag02d~ ~bag02e~ ~bag02f~ ~bag02g~ ~bag02h~ ~bag02h_~ ~bag02i~ ~bag02j~ ~bag02nej~
+  ~bgbag01~ ~c!bag02~ ~cmbag01~ ~e_bgem1~ ~e_bgem2~ ~e_bgem3~ ~gembg01~ ~gembg02~ ~gembg03~ ~gembg04~ ~gembg05~ ~gembg06~
+  ~gembg07~ ~gembg08~ ~gittgem~ ~mebag02~ ~mhbag02~ ~swbag02b~ ~swbag02c~ ~t-bgem01~ ~t-bgem04~ ~t-bgem05~ ~t-bgem06~
   ~thbag01~ ~u!bag02~ ~wb_gem~ ~g_gem~
 BEGIN
 
   LAM cd_unique_legwork
 
-END  
+END
 
 // scroll cases (normal)
 OUTER_SET    string_offset = 200
 OUTER_SET    idic          = 0
 OUTER_SET    last          = 25
 OUTER_SPRINT icon          ~t-bscr~
-ACTION_FOR_EACH item IN 
-  ~bag03~ ~bag03_~ ~bag03b~ ~bag03c~ ~bag03d~ ~bag03e~ ~bag03f~ ~bag03g~ ~bag03h~ ~bag03h_~ ~bag03i~ ~bag03j~ ~bag03l~ 
-  ~bag03nej~ ~bgbag02~ ~c!bag03~ ~cbmysscr~ ~cmbag03~ ~e_bscro1~ ~e_bscro2~ ~e_bscro3~ ~gittperg~ ~mhbag03~ ~scrcs01~ 
-  ~scrcs02~ ~scrcs03~ ~scrcs04~ ~scrcs05~ ~scrcs06~ ~scrcs07~ ~scrcs08~ ~scrcs09~ ~scrcs10~ ~scrlcase~ ~swbag03b~ ~swbag03~ 
+ACTION_FOR_EACH item IN
+  ~bag03~ ~bag03_~ ~bag03b~ ~bag03c~ ~bag03d~ ~bag03e~ ~bag03f~ ~bag03g~ ~bag03h~ ~bag03h_~ ~bag03i~ ~bag03j~ ~bag03l~
+  ~bag03nej~ ~bgbag02~ ~c!bag03~ ~cbmysscr~ ~cmbag03~ ~e_bscro1~ ~e_bscro2~ ~e_bscro3~ ~gittperg~ ~mhbag03~ ~scrcs01~
+  ~scrcs02~ ~scrcs03~ ~scrcs04~ ~scrcs05~ ~scrcs06~ ~scrcs07~ ~scrcs08~ ~scrcs09~ ~scrcs10~ ~scrlcase~ ~swbag03b~ ~swbag03~
   ~t-bscr02~ ~thbag02~ ~wb_scr~ ~g_scr~
 BEGIN
 
   LAM cd_unique_legwork
 
-END   
+END
 
 // scroll cases (book bags)
 OUTER_SET    string_offset = 200
 OUTER_SET    idic          = 40
 OUTER_SET    last          = 48
 OUTER_SPRINT icon          ~t-bscr~
-ACTION_FOR_EACH item IN 
-  ~bbbkbg1~ ~bbbkbg2~ ~bbbkbg3~ ~bbbkbg4~ ~bbbkbg5~ ~bbbkbg6~ ~bbbkbg7~ ~bbbkbg8~ ~bbbkbg9~    
+ACTION_FOR_EACH item IN
+  ~bbbkbg1~ ~bbbkbg2~ ~bbbkbg3~ ~bbbkbg4~ ~bbbkbg5~ ~bbbkbg6~ ~bbbkbg7~ ~bbbkbg8~ ~bbbkbg9~
 BEGIN
 
   LAM cd_unique_legwork
 
-END   
+END
 
 // scroll cases (iwd cases)
 OUTER_SET    string_offset = 200
 OUTER_SET    idic          = 60
 OUTER_SET    last          = 68
 OUTER_SPRINT icon          ~t-bscr~
-ACTION_FOR_EACH item IN 
-  ~bbsccs1~ ~bbsccs2~ ~bbsccs3~ ~bbsccs4~ ~bbsccs5~ ~bbsccs6~ ~bbsccs7~ ~bbsccs8~ ~bbsccs9~   
+ACTION_FOR_EACH item IN
+  ~bbsccs1~ ~bbsccs2~ ~bbsccs3~ ~bbsccs4~ ~bbsccs5~ ~bbsccs6~ ~bbsccs7~ ~bbsccs8~ ~bbsccs9~
 BEGIN
 
   LAM cd_unique_legwork
 
-END   
+END
 
 // bags of holding
 OUTER_SET    string_offset = 300
 OUTER_SET    idic          = 0
 OUTER_SET    last          = 42
 OUTER_SPRINT icon          ~t-bhld~
-ACTION_FOR_EACH item IN 
-  ~bag04~ ~bag04b~ ~bag04c~ ~bag04d~ ~bag04e~ ~bag04f~ ~bag04rot~ ~bag04ts~ ~bag19a~ ~bag19b~ ~bag19c~ ~bag19d~ ~bag19e~ 
-  ~bag19~ ~bag20~ ~bag21~ ~bag22~ ~bag23~ ~bag24~ ~bag25~ ~bag26~ ~bag27~ ~bag27a~ ~bag28~ ~bag29~ ~bag30~ ~bag31~ ~bagh01~ 
-  ~bagh02~ ~bagh03~ ~bgbag03~ ~bpbag04~ ~c!bag04~ ~cbmysbag~ ~cdbag04~ ~cdhold1~ ~cdhold2~ ~cdhold3~ ~cmbag04~ ~d1bag~ ~d1bg1bag~ 
+ACTION_FOR_EACH item IN
+  ~bag04~ ~bag04b~ ~bag04c~ ~bag04d~ ~bag04e~ ~bag04f~ ~bag04rot~ ~bag04ts~ ~bag19a~ ~bag19b~ ~bag19c~ ~bag19d~ ~bag19e~
+  ~bag19~ ~bag20~ ~bag21~ ~bag22~ ~bag23~ ~bag24~ ~bag25~ ~bag26~ ~bag27~ ~bag27a~ ~bag28~ ~bag29~ ~bag30~ ~bag31~ ~bagh01~
+  ~bagh02~ ~bagh03~ ~bgbag03~ ~bpbag04~ ~c!bag04~ ~cbmysbag~ ~cdbag04~ ~cdhold1~ ~cdhold2~ ~cdhold3~ ~cmbag04~ ~d1bag~ ~d1bg1bag~
   ~dsbag01~ ~e_bhold1~ ~e_bhold2~ ~e_bhold3~ ~gittcont~ ~mhbag04~ ~ruckzack~ ~s#bag02~ ~t-bhld01~ ~tcbag04~ ~thbag05~ ~g_hold~
 BEGIN
 
   LAM cd_unique_legwork
 
-END  
+END
 
 // ammo belts
 OUTER_SET    string_offset = 400
 OUTER_SET    idic          = 0
 OUTER_SET    last          = 29
 OUTER_SPRINT icon          ~t-bamm~
-ACTION_FOR_EACH item IN 
-  ~bag05~ ~ammobelt~ ~bag05ts~ ~bag07~ ~bgbag04~ ~c!ammo~ ~cdammo1~ ~cdammo2~ ~cdammo3~ ~cdammo4~ ~cdammo~ ~e_bmiss1~ 
+ACTION_FOR_EACH item IN
+  ~bag05~ ~ammobelt~ ~bag05ts~ ~bag07~ ~bgbag04~ ~c!ammo~ ~cdammo1~ ~cdammo2~ ~cdammo3~ ~cdammo4~ ~cdammo~ ~e_bmiss1~
   ~e_bmiss2~ ~e_bmiss3~ ~gittcana~ ~hfbag05~ ~mhbag05~ ~sgammo2~ ~sgammo~ ~t-bamm01~ ~t-bamm02~ ~t-bamm03~ ~tcbag05~ ~thbag04~ ~g_ammo~
 BEGIN
 
   LAM cd_unique_legwork
 
-END   
+END
 
 // arrow quivers
 OUTER_SET    string_offset = 400
 OUTER_SET    idic          = 60
 OUTER_SET    last          = 68
 OUTER_SPRINT icon          ~t-bamm~
-ACTION_FOR_EACH item IN 
+ACTION_FOR_EACH item IN
   ~bbquiv1~ ~bbquiv2~ ~bbquiv3~ ~bbquiv4~ ~bbquiv5~ ~bbquiv6~ ~bbquiv7~ ~bbquiv8~ ~bbquiv9~
 BEGIN
 
   LAM cd_unique_legwork
 
-END  
+END
 
 // bolt cases
 OUTER_SET    string_offset = 400
 OUTER_SET    idic          = 80
 OUTER_SET    last          = 88
 OUTER_SPRINT icon          ~t-bamm~
-ACTION_FOR_EACH item IN 
+ACTION_FOR_EACH item IN
   ~bbquivb1~ ~bbquivb2~ ~bbquivb3~ ~bbquivb4~ ~bbquivb5~ ~bbquivb6~ ~bbquivb7~ ~bbquivb8~ ~bbquivb9~
 BEGIN
 
   LAM cd_unique_legwork
 
-END  
+END
 
 // potion cases
 OUTER_SET    string_offset = 500
 OUTER_SET    idic          = 0
 OUTER_SET    last          = 32
 OUTER_SPRINT icon          ~t-bptn~
-ACTION_FOR_EACH item IN 
-  ~bag06~ ~bag06_~ ~bag06b~ ~bag06c~ ~bag06c_~ ~bag06d~ ~bag06ts~ ~bbpbag1~ ~bbpbag2~ ~bbpbag3~ ~bbpbag4~ ~bbpbag5~ ~bbpbag6~ 
-  ~bbpbag7~ ~bbpbag8~ ~bbpbag9~ ~bgbag05~ ~bpbag06~ ~c!potion~ ~cdpotio2~ ~cdpotion~ ~cmbag06~ ~e_bpotn1~ ~e_bpotn2~ ~e_bpotn3~ 
-  ~gittpoci~ ~hfbag06~ ~mhbag06~ ~potncase~ ~ptnbg01~ ~ptnbg02~ ~ptnbg03~ ~ptnbg04~ ~ptnbg05~ ~ptnbg06~ ~ptnbg07~ ~ptnbg08~ 
+ACTION_FOR_EACH item IN
+  ~bag06~ ~bag06_~ ~bag06b~ ~bag06c~ ~bag06c_~ ~bag06d~ ~bag06ts~ ~bbpbag1~ ~bbpbag2~ ~bbpbag3~ ~bbpbag4~ ~bbpbag5~ ~bbpbag6~
+  ~bbpbag7~ ~bbpbag8~ ~bbpbag9~ ~bgbag05~ ~bpbag06~ ~c!potion~ ~cdpotio2~ ~cdpotion~ ~cmbag06~ ~e_bpotn1~ ~e_bpotn2~ ~e_bpotn3~
+  ~gittpoci~ ~hfbag06~ ~mhbag06~ ~potncase~ ~ptnbg01~ ~ptnbg02~ ~ptnbg03~ ~ptnbg04~ ~ptnbg05~ ~ptnbg06~ ~ptnbg07~ ~ptnbg08~
   ~ptnbg09~ ~ptnbg10~ ~s#bag01~ ~sgpotion~ ~t-bptn01~ ~t-bptn02~ ~thbag03~ ~wb_pot~ ~g_pot~
 BEGIN
 
   LAM cd_unique_legwork
 
-END  
+END
 
 ACTION_IF names BEGIN
 
   WITH_TRA ~%tra_location%/%LANGUAGE%/unique_containers.tra~ BEGIN
     INCLUDE ~weidu_external/cdtweaks/unique_containers_working.tpa~
-  END  
-  
-END  
+  END
+
+END

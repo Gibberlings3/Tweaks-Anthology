@@ -27,7 +27,7 @@ BEGIN
     READ_BYTE 0x33 fx_type
   END ELSE BEGIN
     SET fx_type = 0
-  END    
+  END
   FOR (index = 0 ; index < item_slot_cloak ; ++index) BEGIN
     PATCH_IF index > item_slot_cont BEGIN SET index = item_slot_cloak END // skip over quivers
     READ_SHORT (off_slots + (index * 0x02)) item_idx
@@ -38,7 +38,7 @@ BEGIN
           SET found = 1
           SET index = item_slot_cloak // kill loop
         END
-      END   
+      END
     END
   END
   // Check if the immunity is already present amongst its effects
@@ -51,7 +51,7 @@ BEGIN
       PATCH_IF ((opcode = backstab_op) AND ((!param2_check) OR ((param2_check = 1) AND (param2 != 0)))) BEGIN
         SET found = 1
         SET index = fx_num // kill loop
-      END  
+      END
     END
   END
   PATCH_IF !found BEGIN
@@ -62,8 +62,8 @@ BEGIN
       WRITE_BYTE  (fx_off + 0x0c + (0x10 * fx_type)) 9 // timing
     PATCH_IF param2_check BEGIN
       WRITE_LONG  (fx_off + 0x08 + (0x10 * fx_type)) 1 // parameter2
-    END  
-    WRITE_LONG offset_fx_num (THIS + 1) 
+    END
+    WRITE_LONG offset_fx_num (THIS + 1)
     PATCH_IF offset_general = 0x271 BEGIN // cre v1 (bg2/ee)
       PATCH_FOR_EACH offset IN 0x2a8 0x2b0 0x2b8 0x2bc 0x2c0 BEGIN
         READ_LONG offset off_check
@@ -71,7 +71,7 @@ BEGIN
           WRITE_LONG offset (THIS + (0x30 + (0xd8 * fx_type)))
         END
       END
-    END     
+    END
     PATCH_IF offset_general = 0x2d9 BEGIN // cre v9 (iwd)
       PATCH_FOR_EACH offset IN 0x308 0x310 0x318 0x320 0x324 BEGIN
         READ_LONG offset off_check
@@ -79,7 +79,7 @@ BEGIN
           WRITE_LONG offset (THIS + (0x30 + (0xd8 * fx_type)))
         END
       END
-    END     
+    END
     PATCH_IF offset_general = 0x385 BEGIN // cre v2.2 (iwd2)
       PATCH_FOR_EACH offset IN 0x5fa 0x602 0x60a 0x612 0x616 BEGIN // abil, song, shape, item slos, items
         READ_LONG offset off_check
@@ -93,57 +93,57 @@ BEGIN
         PATCH_IF off_check >= fx_off BEGIN
           WRITE_LONG offset (THIS + (0x30 + (0xd8 * fx_type)))
         END
-      END  
-    END  
+      END
+    END
   END
 END
- 
+
 //DEFINE_ACTION_FUNCTION "BACKSTAB_IMMUNITY"
 //BEGIN
 ACTION_IF !(MOD_IS_INSTALLED ~EEex.tp2~ 0) BEGIN
-  WITH_SCOPE BEGIN    
-  
+  WITH_SCOPE BEGIN
+
     ACTION_FOR_EACH entry IN undead plant weapon BEGIN
       OUTER_SET ~general_%entry%~ = IDS_OF_SYMBOL ("GENERAL" "%entry%")
     END
-  
+
     ACTION_FOR_EACH entry IN slime beholder demonic mephit imp dragon elemental salamander mist solar antisolar planatar darkplanatar golem shambling_mound drake tanari BEGIN
       OUTER_SET ~race_%entry%~ = IDS_OF_SYMBOL ("RACE" "%entry%")
     END
-  
+
     ACTION_FOR_EACH entry IN golem_flesh BEGIN
       OUTER_SET ~class_%entry%~ = IDS_OF_SYMBOL ("CLASS" "%entry%")
     END
-    
+
     OUTER_SET backstab_op = 292
     OUTER_SET offset_general = 0x271 // cre v1 (bg2/ee)
     OUTER_SET offset_item_slot = 0x2b8 // cre v1 (bg2/ee)
     OUTER_SET offset_fx = 0x2c4 // cre v1 (bg2/ee)
     OUTER_SET item_slot_cont = 13 // go from 0 to this number for equipped items
-    OUTER_SET item_slot_cloak = 17 // plus the cloak 
+    OUTER_SET item_slot_cloak = 17 // plus the cloak
     OUTER_SET param2_check = 1
 
     ACTION_IF game_is_iwd2 OR original_iwd BEGIN
-      OUTER_SET backstab_op = 287 
+      OUTER_SET backstab_op = 287
       OUTER_SET param2_check = 0
       ACTION_IF game_is_iwd2 BEGIN
         OUTER_SET offset_general = 0x385 // cre v2.2 (iwd2)
         OUTER_SET offset_item_slot = 0x612 // cre v2.2 (iwd2)
         OUTER_SET offset_fx = 0x61e // cre v2.2 (iwd2)
         OUTER_SET item_slot_cont = 17 // go from 0 to this number for equipped items
-        OUTER_SET item_slot_cloak = 22 // plus the cloak 
-      END ELSE BEGIN   
+        OUTER_SET item_slot_cloak = 22 // plus the cloak
+      END ELSE BEGIN
         OUTER_SET offset_general = 0x2d9 // cre v9 (iwd)
         OUTER_SET offset_item_slot = 0x320 //  cre v9 (iwd)
         OUTER_SET offset_fx = 0x32c // cre v9 (iwd)
-      END  
-    END      
+      END
+    END
     OUTER_SET offset_race  = offset_general + 1
     OUTER_SET offset_class = offset_general + 2
     OUTER_SET offset_item_list = offset_item_slot + 0x04
     OUTER_SET offset_item_num  = offset_item_slot + 0x08
     OUTER_SET offset_fx_num = offset_fx + 0x04
-  
+
     COPY_EXISTING_REGEXP ~^.+\.itm$~ ~override~ // luckily the same code works for v2 (iwd2) and v1 (all others)
       READ_LONG  0x6a fx_off
       READ_SHORT 0x6e fx_idx
@@ -154,10 +154,10 @@ ACTION_IF !(MOD_IS_INSTALLED ~EEex.tp2~ 0) BEGIN
         PATCH_IF ((opcode = backstab_op) AND ((!param2_check) OR ((param2_check = 1) AND (param2 != 0)))) BEGIN
           DEFINE_ASSOCIATIVE_ARRAY cd_backstab_items BEGIN ~%SOURCE_RES%~ => 1 END
           SET index = fx_num // kill loop
-        END          
+        END
       END
       BUT_ONLY
-      
+
     COPY_EXISTING_REGEXP "^.+\.cre$" "override"
       SET "found" = 0
       PATCH_MATCH BYTE_AT offset_general WITH // GENERAL check
@@ -172,21 +172,21 @@ ACTION_IF !(MOD_IS_INSTALLED ~EEex.tp2~ 0) BEGIN
       END
       PATCH_IF !("%found%") BEGIN
         PATCH_MATCH BYTE_AT offset_race WITH // RACE check
-          race_slime       
-          race_beholder    
-          race_demonic     
-          race_mephit      
-          race_imp         
-          race_dragon      
-          race_elemental   
-          race_salamander  
-          race_mist        
-          race_solar       
-          race_antisolar   
-          race_planatar    
-          race_darkplanatar    
-          race_shambling_mound     
-          race_drake     
+          race_slime
+          race_beholder
+          race_demonic
+          race_mephit
+          race_imp
+          race_dragon
+          race_elemental
+          race_salamander
+          race_mist
+          race_solar
+          race_antisolar
+          race_planatar
+          race_darkplanatar
+          race_shambling_mound
+          race_drake
           race_tanari
           BEGIN
             LPF "BACKSTAB_IMMUNITY_HELPER" END
@@ -203,7 +203,7 @@ ACTION_IF !(MOD_IS_INSTALLED ~EEex.tp2~ 0) BEGIN
               PATCH_IF BYTE_AT offset_class != class_golem_flesh BEGIN
                 LPF "BACKSTAB_IMMUNITY_HELPER" END
               END
-            END  
+            END
           END
           DEFAULT
         END

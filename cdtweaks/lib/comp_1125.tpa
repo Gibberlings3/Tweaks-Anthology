@@ -14,7 +14,7 @@ OUTER_SET bull01_name = RESOLVE_STR_REF (@112503)
 COPY_EXISTING ~arow01.itm~ ~override~
               ~bolt01.itm~ ~override~
               ~bull01.itm~ ~override~
-  READ_LONG 0x64 abil_off       
+  READ_LONG 0x64 abil_off
   READ_ASCII (abil_off       ) "ability" (56) // read in whole ability
   READ_SHORT (abil_off + 0x1e) "fx_num"
   PATCH_IF ("fx_num" != 0) BEGIN
@@ -28,17 +28,17 @@ COPY_EXISTING ~arow01.itm~ ~override~
     SPRINT arow01_ability "%ability%"
     SPRINT arow01_effects "%effects%"
     SET    arow01_fx_num = fx_num
-  END ELSE  
+  END ELSE
   PATCH_IF ("%SOURCE_RES%" STRING_COMPARE_CASE "bull01" = 0) BEGIN
     SPRINT bull01_ability "%ability%"
     SPRINT bull01_effects "%effects%"
     SET    bull01_fx_num = fx_num
-  END ELSE BEGIN  
+  END ELSE BEGIN
     SPRINT bolt01_ability "%ability%"
     SPRINT bolt01_effects "%effects%"
     SET    bolt01_fx_num = fx_num
   END
-  BUT_ONLY  
+  BUT_ONLY
 
 // now insert ability to any launcher
 PRINT @1
@@ -47,19 +47,19 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
   PATCH_MATCH "%item_type%" WITH
     15 BEGIN // bows
       SPRINT ability "%arow01_ability%"
-      SPRINT imported_effects "%arow01_effects%" 
+      SPRINT imported_effects "%arow01_effects%"
       SET imported_fx_num = "%arow01_fx_num%"
       SET name = "%arow01_name%"
     END
-    18 BEGIN // sling   
+    18 BEGIN // sling
       SPRINT ability "%bull01_ability%"
-      SPRINT imported_effects "%bull01_effects%" 
+      SPRINT imported_effects "%bull01_effects%"
       SET imported_fx_num = "%bull01_fx_num%"
       SET name = "%bull01_name%"
     END
     27 BEGIN // crossbows
       SPRINT ability "%bolt01_ability%"
-      SPRINT imported_effects "%bolt01_effects%" 
+      SPRINT imported_effects "%bolt01_effects%"
       SET imported_fx_num = "%bolt01_fx_num%"
       SET name = "%bolt01_name%"
     END
@@ -71,7 +71,7 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
     SET inserted = 0
     SET new_fx = 0
     FOR (index = 0 ; index < abil_num ; ++index) BEGIN
-      PATCH_IF inserted BEGIN 
+      PATCH_IF inserted BEGIN
         WRITE_SHORT (abil_off + 0x20 + (index * 0x38)) (THIS + new_fx) // if already inserted, just correct the effect index
       END ELSE BEGIN
         READ_BYTE (abil_off +        (index * 0x38)) type
@@ -83,32 +83,32 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
           SET new_fx = abil_fx_num + imported_fx_num
           PATCH_IF (index < 2) BEGIN // for adjusting tooltip
             DEFINE_ASSOCIATIVE_ARRAY cd_abil_table BEGIN "%SOURCE_RES%","%name%","%index%" => 0 END
-          END  
+          END
           PATCH_IF new_fx BEGIN // if we also clone existing effects
             READ_LONG 0x6a fx_off
             PATCH_IF abil_fx_num BEGIN // if we also need to clone existing effects
               READ_ASCII   (fx_off + (abil_fx_idx * 0x30)) effects (abil_fx_num * 0x30)
               INSERT_BYTES (fx_off + (abil_fx_idx * 0x30)) (abil_fx_num * 0x30) // create new effect(s)
               WRITE_ASCIIE (fx_off + (abil_fx_idx * 0x30)) "%effects%"          // write in info
-            END    
+            END
             PATCH_IF imported_fx_num BEGIN // if we also clone existing effects
               INSERT_BYTES (fx_off + (abil_fx_idx * 0x30)) (imported_fx_num * 0x30) // create new effect(s)
               WRITE_ASCIIE (fx_off + (abil_fx_idx * 0x30)) "%imported_effects%"     // write in info
-            END     
-          END   
+            END
+          END
           INSERT_BYTES (abil_off +        (index * 0x38)) 0x38        // create new ability
           WRITE_ASCIIE (abil_off +        (index * 0x38)) "%ability%" // write in info
           WRITE_BYTE   (abil_off + 0x10 + (index * 0x38)) 0           // no launcher required
           WRITE_SHORT  (abil_off + 0x1e + (index * 0x38)) new_fx      // combine existing + imported effects
           WRITE_SHORT  (abil_off + 0x20 + (index * 0x38)) abil_fx_idx // use correct index
-          WRITE_SHORT  (abil_off + 0x22 + (index * 0x38)) 0           // no charges             
-        END 
+          WRITE_SHORT  (abil_off + 0x22 + (index * 0x38)) 0           // no charges
+        END
       END
     END
     PATCH_IF inserted BEGIN
       WRITE_SHORT 0x68 abil_num
       WRITE_LONG  0x6a (THIS + 0x38)
-    END  
+    END
   END
   BUT_ONLY
 
@@ -121,20 +121,20 @@ ACTION_IF FILE_EXISTS_IN_GAME ~tooltip.2da~ BEGIN
         DEFINE_ASSOCIATIVE_ARRAY cd_abil_table BEGIN "%info_0%","%info_1%","%info_2%" => 1 END // => 1 tells appends in next step to ignore this entry
         PATCH_IF info_2 = 0 BEGIN
           SPRINT replacement ~%info_0% %info_1% %MATCH1% %MATCH2%~
-        END ELSE  
+        END ELSE
         PATCH_IF info_2 = 1 BEGIN
           SPRINT replacement ~%info_0% %MATCH1% %info_1% %MATCH2%~
         END ELSE BEGIN // info_2 = 2
           SPRINT replacement ~%info_0% %MATCH1% %MATCH2% %info_1%~
-        END   
-      END ~%replacement%~  
+        END
+      END ~%replacement%~
     END
     BUT_ONLY
 
   ACTION_PHP_EACH cd_abil_table AS info => key BEGIN
 
     ACTION_IF key = 0 BEGIN
-    
+
       ACTION_IF info_2 = 0 BEGIN APPEND ~tooltip.2da~ ~%info_0% %info_1% -1 -1~ END ELSE
       ACTION_IF info_2 = 1 BEGIN APPEND ~tooltip.2da~ ~%info_0% -1 %info_1% -1~ END ELSE BEGIN
                                  APPEND ~tooltip.2da~ ~%info_0% -1 -1 %info_1%~ END
@@ -143,7 +143,7 @@ ACTION_IF FILE_EXISTS_IN_GAME ~tooltip.2da~ BEGIN
 
   END
 
-  COPY_EXISTING ~tooltip.2da~ ~override~ 
+  COPY_EXISTING ~tooltip.2da~ ~override~
     PRETTY_PRINT_2DA
 
-END  
+END

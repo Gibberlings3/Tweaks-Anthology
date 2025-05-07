@@ -1,49 +1,15 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                            \\\\\
-///// Allow Monks to Wear Helmets                                \\\\\
+///// Expanded monk equipment                                    \\\\\
 /////                                                            \\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-// monks generally not listed in unusability block, so skip description updates for oBG2
-COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
-  READ_SHORT 0x1c type
-  PATCH_IF type = 7 BEGIN // headgear
-    READ_LONG 0x1e flags
-    PATCH_IF (((flags & BIT7) = 0) AND ((flags & BIT11) = 0)) BEGIN // if usable by single-class clerics and fighters
-      WRITE_LONG 0x1e (flags BAND `BIT29) // removes monk flag
-    END
-  END
-  BUT_ONLY
+/////                                                            \\\\\
+///// allow helmets                                              \\\\\
+/////                                                            \\\\\
 
-ACTION_IF !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~10~ THEN BEGIN // skip if 'no helmet animations' installed
-
-  // helmets don't work on monk animation, so replace with cleric animation
-  ACTION_CLEAR_ARRAY cd_new_anims
-  ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_new_anims BEGIN
-    6000, 6500, CHMC, CHMM => monk_male_human    // clone cleric animations into monk animations
-    6010, 6510, CHFC, CHFM => monk_female_human 
-  END
-    
-  ACTION_PHP_EACH cd_new_anims AS anims => entry BEGIN
-        
-    APPEND ~animate.ids~ ~0x%anims_1% %entry%~ UNLESS ~^0x%anims_1%~
-
-    ACTION_IF enhanced_edition BEGIN
-
-      COPY_EXISTING ~%anims_1%.ini~ ~override~ // remove helmet animations from monk animations
-        REPLACE_TEXTUALLY ~equip_helmet[ %TAB%]*=[ %TAB%]*1~ ~equip_helmet=0~
-        BUT_ONLY
-      
-    END ELSE BEGIN
-    
-      COPY_EXISTING_REGEXP GLOB ~^%anims_2%\(.+\)\.bam$~ ~override/%anims_3%\1.bam~
-                                ~^%anims_2%\(.+\)\.plt$~ ~override/%anims_3%\1.plt~
-        IF_EXISTS // in case there are no plts
-    
-    END
-
-  END  
-  
-END
+OUTER_SET monk_helmets = 1
+OUTER_SET monk_staves  = 0
+INCLUDE ~cdtweaks/lib/monk_usability.tpa~

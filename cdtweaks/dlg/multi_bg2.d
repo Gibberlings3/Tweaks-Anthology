@@ -22,7 +22,7 @@ APPEND ~multig~
     IF ~Global("CDMultiNPCNo_copper","GLOBAL",7)~ THEN DO ~IncrementGlobal("CDMultiNPCNo_copper","GLOBAL",1) EscapeAreaMove("AR0406",1435,1976,6)~ EXIT
     IF ~Global("CDMultiNPCNo_copper","GLOBAL",8)~ THEN DO ~SetGlobal("CDMultiNPCNo_copper","GLOBAL",0)       EscapeAreaMove("AR0406",1532,1909,6)~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN pocket SAY @107009
     IF ~Global("CDMultiNPCNo_pocket","GLOBAL",0)~ THEN DO ~IncrementGlobal("CDMultiNPCNo_pocket","GLOBAL",1) CreateVisualEffectObject("SPDIMNDR",Myself) Wait(2) MoveBetweenAreas("AR4500",[2552.1445],3)~ EXIT
     IF ~Global("CDMultiNPCNo_pocket","GLOBAL",1)~ THEN DO ~IncrementGlobal("CDMultiNPCNo_pocket","GLOBAL",1) CreateVisualEffectObject("SPDIMNDR",Myself) Wait(2) MoveBetweenAreas("AR4500",[2472.1288],2)~ EXIT

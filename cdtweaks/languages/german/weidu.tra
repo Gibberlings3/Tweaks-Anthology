@@ -76,6 +76,9 @@ veraendern~
 @120000 = ~Imoen TdB Dialogbehebung~
 @121000 = ~BG Schrittgeschwindigkeiten verwenden (BETA)~
 @122000 = ~Cromwell wertet Gegenstaende der Wachenden Festung auf~
+@136000 = ~Automatischer Uebergang zur "Herz des Winters"-Erweiterung~
+@136001 = ~Keine Aenderung im Hauptspiel~
+@136100 = ~Entferne Hjollder aus Kuldahar~
 @201000 = ~PnP Zauberfortschrittsfabellen~
 @202000 = ~Zweihaendige Bastardschwerter~
 @203000 = ~Zweihaendige Katanas~
@@ -183,7 +186,10 @@ Wesen (BETA)~
 @312400 = ~Verhindern Sie den Romance zwischen Aerie und Haer'Dalis am Anfang~
 @312500 = ~Neutrale Charaktere machen glueckliche Bemerkungen bei 
 durchschnittlichem Ruf~
-@313000 = ~Keine Fallen oder Schloesser (Weimer)~
+@313000 = ~Keine Fallen oder Schloesser (Weimer, argent77)~
+@313001 = ~Entferne Fallen komplett~
+@313010 = ~Entferne nur schaedliche Effekte von Fallen~
+@313020 = ~Entferne schaedliche Effekte von Fallen und durch Alarme herbeigerufene Kreaturen~
 @314000 = ~Schnellere Kapitel 1+2 Zwischensequenzen und Traeume~
 @314001 = ~Originale von Ease-of-Use (Karzak, Blucher)~
 @314100 = ~Nicht verrueckte Version~
