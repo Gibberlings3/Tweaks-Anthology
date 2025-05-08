@@ -64,7 +64,7 @@ function GTTRLRG1(op403CGameEffect, CGameEffect, CGameSprite)
 		if EEex_IsMaskSet(CGameEffect.m_dWFlags, dmgtype["FIRE"]) or EEex_IsMaskSet(CGameEffect.m_dWFlags, dmgtype["ACID"]) then
 			-- make sure it is *not* reflected/deflected
 			if not GT_Sprite_HasBounceEffects(CGameSprite, CGameEffect.m_spellLevel, CGameEffect.m_projectileType, CGameEffect.m_school, CGameEffect.m_secondaryType, CGameEffect.m_sourceRes:get(), {402, 12}, CGameEffect.m_flags) then
-				if not GT_Sprite_HasImmunityEffects(CGameSprite, CGameEffect.m_spellLevel, CGameEffect.m_projectileType, CGameEffect.m_school, CGameEffect.m_secondaryType, CGameEffect.m_sourceRes:get(), {402, 12}, CGameEffect.m_flags) then
+				if not GT_Sprite_HasImmunityEffects(CGameSprite, CGameEffect.m_spellLevel, CGameEffect.m_projectileType, CGameEffect.m_school, CGameEffect.m_secondaryType, CGameEffect.m_sourceRes:get(), {402, 12}, CGameEffect.m_flags, CGameEffect.m_savingThrow) then
 					CGameSprite:applyEffect({
 						["effectID"] = 402, -- invoke lua
 						["res"] = "GTTRLRG2", -- lua func

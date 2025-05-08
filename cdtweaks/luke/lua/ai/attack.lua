@@ -4,7 +4,7 @@
 +--------------------+
 --]]
 
--- give priority to your racial enemy --
+-- give priority to your racial enemy (if any) --
 
 local function GT_AI_Attack_HatedRace(array, raceID) -- f.i.: array = {"UNDEAD", "0.HUMAN.MAGE_ALL", 0.0.MONK}
 	local toReturn = {}
@@ -64,72 +64,81 @@ local function GT_AI_Attack_EA(array) -- f.i.: array = {"UNDEAD", "0.HUMAN.MAGE_
 	return toReturn
 end
 
+-- The following module provides functions to calculate SHA digest --
+
+local sha = require("gt.sha2")
+
 -- check if the currently equipped weapon is effective / can deal non-zero damage --
 
-local function GT_AI_Attack_WeaponCheck(weaponResRef, sprite)
+local function GT_AI_Attack_WeaponCheck(weaponResRef, target)
 	local attackerINT = EEex_LuaDecode_Object:getActiveStats().m_nINT
 	--
 	local gtintmod = GT_Resource_2DA["gtintmod"]
 	local dnum = tonumber(gtintmod[string.format("%s", attackerINT)]["DICE_NUM"])
 	local dsize = tonumber(gtintmod[string.format("%s", attackerINT)]["DICE_SIZE"])
 	--
-	local toReturn = false
-	--
-	EEex_LuaDecode_Object:setStoredScriptingTarget("GT_AI_Attack_WeaponCheck", sprite)
-	local isWeaponValid = EEex_Trigger_ParseConditionalString('WeaponEffectiveVs(EEex_Target("GT_AI_Attack_WeaponCheck"),MAINHAND) \n WeaponCanDamage(EEex_Target("GT_AI_Attack_WeaponCheck"),MAINHAND)')
-	--
-	local stats = GT_Resource_SymbolToIDS["stats"]
-	--
-	local timerExpired = false
-	local timerAlreadyApplied = false
-	--
-	EEex_Utility_IterateCPtrList(EEex_LuaDecode_Object.m_timedEffectList, function(effect)
-		if effect.m_effectId == 401 and effect.m_special == stats["GT_AI_TIMER"] and effect.m_dWFlags == 1 and effect.m_effectAmount == 1 and effect.m_effectAmount2 == sprite.m_id and effect.m_res:get() == weaponResRef then
-			if effect.m_durationType == 1 then
-				timerExpired = true
-				return true
-			else
-				timerAlreadyApplied = true
-				return true
-			end
-		end
-	end)
-	--
-	if not isWeaponValid:evalConditionalAsAIBase(EEex_LuaDecode_Object) then
-		if timerExpired then
-			-- do nothing, target not valid
-		else
-			if not timerAlreadyApplied then
-				EEex_GameObject_ApplyEffect(EEex_LuaDecode_Object,
-				{
-					["effectID"] = 401, -- Set extended stat
-					["special"] = stats["GT_AI_TIMER"],
-					["dwFlags"] = 1, -- mode: set
-					["effectAmount"] = 1,
-					["durationType"] = 4, -- delay / permanent
-					["duration"] = 6 * math.random(dnum, dnum * dsize),
-					["m_effectAmount2"] = sprite.m_id, -- p3
-					["res"] = weaponResRef,
-					["m_sourceRes"] = "GTAITMRS", -- non-empty parent resref so that we can clear it when the combat ends
-					["sourceID"] = EEex_LuaDecode_Object.m_id,
-					["sourceTarget"] = EEex_LuaDecode_Object.m_id,
-				})
-			end
-			toReturn = true
-		end
-	else
-		toReturn = true
+	local aux = EEex_GetUDAux(EEex_LuaDecode_Object)
+	if not aux["gtAI_DetectableStates_Aux"] then
+		aux["gtAI_DetectableStates_Aux"] = {}
 	end
 	--
-	isWeaponValid:free()
+	local m_gameTime = EngineGlobals.g_pBaldurChitin.m_pObjectGame.m_worldTime.m_gameTime
 	--
+	local toReturn = false
+	--
+	local hash = sha.sha256(weaponResRef)
+	--
+	EEex_LuaDecode_Object:setStoredScriptingTarget("GT_AI_Attack_WeaponCheck", target)
+	local isWeaponValid = EEex_Trigger_ParseConditionalString('WeaponEffectiveVs(EEex_Target("GT_AI_Attack_WeaponCheck"),MAINHAND) \n WeaponCanDamage(EEex_Target("GT_AI_Attack_WeaponCheck"),MAINHAND)')
+	--
+	if not isWeaponValid:evalConditionalAsAIBase(EEex_LuaDecode_Object) then
+		for _, v in ipairs(aux["gtAI_DetectableStates_Aux"]) do
+			if v.mode == 100 then
+				if v.hash == hash then
+					if v.id == target.m_id then
+						if m_gameTime >= v.expirationTime then
+							-- timer expired: target not valid
+						else
+							-- timer already running: target valid
+							toReturn = true
+						end
+						--
+						goto continue
+					end
+				end
+			end
+		end
+		-- timer not set: target valid
+		table.insert(aux["gtAI_DetectableStates_Aux"],
+			{
+				["hash"] = hash,
+				["id"] = target.m_id,
+				["expirationTime"] = 90 * math.random(dnum, dnum * dsize), -- 90 ticks ~ 1 round
+				["mode"] = 100,
+			}
+		)
+		--
+		toReturn = true
+	else
+		toReturn = true -- op120 not detected: target valid
+	end
+	--
+	::continue::
+	isWeaponValid:free()
 	return toReturn
 end
 
--- check if the target is immune / can bounce projectile --
+-- check if the target is immune to the specified level/projectile/school/sectype/resref/opcode(s) --
 
-local function GT_AI_Attack_ProjectileCheck(projectileIdx, msectype, sprite)
+local function GT_AI_Attack_HasImmunityEffects(target, level, projectileType, school, sectype, resref, opcodes, flags, savetype)
 	local attackerINT = EEex_LuaDecode_Object:getActiveStats().m_nINT
+	--
+	local aux = EEex_GetUDAux(EEex_LuaDecode_Object)
+	if not aux["gtAI_DetectableStates_Aux"] then
+		aux["gtAI_DetectableStates_Aux"] = {}
+	end
+	--
+	local m_gameTime = EngineGlobals.g_pBaldurChitin.m_pObjectGame.m_worldTime.m_gameTime
 	--
 	local gtintmod = GT_Resource_2DA["gtintmod"]
 	local dnum = tonumber(gtintmod[string.format("%s", attackerINT)]["DICE_NUM"])
@@ -137,128 +146,160 @@ local function GT_AI_Attack_ProjectileCheck(projectileIdx, msectype, sprite)
 	--
 	local toReturn = false
 	--
-	local stats = GT_Resource_SymbolToIDS["stats"]
+	local hash = sha.sha256(tostring(level) .. tostring(projectileType) .. tostring(school) .. tostring(sectype) .. resref .. (opcodes and GT_LuaTool_ArrayToString(opcodes) or "nil") .. tostring(flags) .. tostring(savetype))
 	--
-	local timerExpired = false
-	local timerAlreadyApplied = false
-	--
-	EEex_Utility_IterateCPtrList(EEex_LuaDecode_Object.m_timedEffectList, function(effect)
-		if effect.m_effectId == 401 and effect.m_special == stats["GT_AI_TIMER"] and effect.m_dWFlags == 1 and effect.m_effectAmount == 2 and effect.m_effectAmount2 == sprite.m_id and effect.m_effectAmount3 == projectileIdx then
-			if effect.m_durationType == 1 then
-				timerExpired = true
-				return true
-			else
-				timerAlreadyApplied = true
-				return true
-			end
-		end
-	end)
-	--
-	local found = false
-	local immune_bounce_projectile = function(effect)
-		if effect.m_effectId == 0x53 and effect.m_dWFlags == projectileIdx then -- Immunity to projectile (83) -> CAN block effects of Secondary Type ``MagicAttack``
-			found = true
-			return true
-		elseif effect.m_effectId == 0xC5 and effect.m_dWFlags == projectileIdx and msectype ~= 4 then -- Physical mirror (197) -> CANNOT bounce effects of Secondary Type ``MagicAttack``
-			found = true
-			return true
-		end
-	end
-	--
-	EEex_Utility_IterateCPtrList(sprite.m_timedEffectList, immune_bounce_projectile)
-	if not found then
-		EEex_Utility_IterateCPtrList(sprite.m_equipedEffectList, immune_bounce_projectile)
-	end
+	local found = GT_Sprite_HasImmunityEffects(target, level, projectileType, school, sectype, resref, opcodes, flags, savetype)
 	--
 	if found then
-		if timerExpired then
-			-- target not valid
-		else
-			if not timerAlreadyApplied then
-				EEex_GameObject_ApplyEffect(EEex_LuaDecode_Object,
-				{
-					["effectID"] = 401, -- Set extended stat
-					["special"] = stats["GT_AI_TIMER"],
-					["dwFlags"] = 1, -- mode: set
-					["effectAmount"] = 2,
-					["durationType"] = 4,
-					["duration"] = 6 * math.random(dnum, dnum * dsize),
-					["m_effectAmount2"] = sprite.m_id, -- p3
-					["m_effectAmount3"] = projectileIdx, -- p4
-					["m_sourceRes"] = "GTAITMRS", -- non-empty parent resref so that we can clear it when combat ends
-					["sourceID"] = EEex_LuaDecode_Object.m_id,
-					["sourceTarget"] = EEex_LuaDecode_Object.m_id,
-				})
+		for _, v in ipairs(aux["gtAI_DetectableStates_Aux"]) do
+			if v.mode == 0 then
+				if v.hash == hash then
+					if v.id == target.m_id then
+						if m_gameTime >= v.expirationTime then
+							-- timer expired: target not valid
+						else
+							-- timer already running: target valid
+							toReturn = true
+						end
+						--
+						goto continue
+					end
+				end
 			end
-			toReturn = true
 		end
-	else
+		-- timer not set: target valid
+		table.insert(aux["gtAI_DetectableStates_Aux"],
+			{
+				["hash"] = hash,
+				["id"] = target.m_id,
+				["expirationTime"] = 90 * math.random(dnum, dnum * dsize), -- 90 ticks ~ 1 round
+				["mode"] = 0,
+			}
+		)
+		--
 		toReturn = true
+	else
+		toReturn = true -- immunity not detected: target valid
 	end
 	--
+	::continue::
+	return toReturn
+end
+
+-- check if the target can bounce the specified level/projectile/school/sectype/resref/opcode(s) --
+
+local function GT_AI_Attack_HasBounceEffects(target, level, projectileType, school, sectype, resref, opcodes, flags)
+	local attackerINT = EEex_LuaDecode_Object:getActiveStats().m_nINT
+	--
+	local aux = EEex_GetUDAux(EEex_LuaDecode_Object)
+	if not aux["gtAI_DetectableStates_Aux"] then
+		aux["gtAI_DetectableStates_Aux"] = {}
+	end
+	--
+	local m_gameTime = EngineGlobals.g_pBaldurChitin.m_pObjectGame.m_worldTime.m_gameTime
+	--
+	local gtintmod = GT_Resource_2DA["gtintmod"]
+	local dnum = tonumber(gtintmod[string.format("%s", attackerINT)]["DICE_NUM"])
+	local dsize = tonumber(gtintmod[string.format("%s", attackerINT)]["DICE_SIZE"])
+	--
+	local toReturn = false
+	--
+	local hash = sha.sha256(tostring(level) .. tostring(projectileType) .. tostring(school) .. tostring(sectype) .. resref .. (opcodes and GT_LuaTool_ArrayToString(opcodes) or "nil") .. tostring(flags))
+	--
+	local found = GT_Sprite_HasBounceEffects(target, level, projectileType, school, sectype, resref, opcodes, flags)
+	--
+	if found then
+		for _, v in ipairs(aux["gtAI_DetectableStates_Aux"]) do
+			if v.mode == 1 then
+				if v.hash == hash then
+					if v.id == target.m_id then
+						if m_gameTime >= v.expirationTime then
+							-- timer expired: target not valid
+						else
+							-- timer already running: target valid
+							toReturn = true
+						end
+						--
+						goto continue
+					end
+				end
+			end
+		end
+		-- timer not set: target valid
+		table.insert(aux["gtAI_DetectableStates_Aux"],
+			{
+				["hash"] = hash,
+				["id"] = target.m_id,
+				["expirationTime"] = 90 * math.random(dnum, dnum * dsize), -- 90 ticks ~ 1 round
+				["mode"] = 1,
+			}
+		)
+		--
+		toReturn = true
+	else
+		toReturn = true -- immunity not detected: target valid
+	end
+	--
+	::continue::
 	return toReturn
 end
 
 -- extra (custom) checks --
 
-local function GT_AI_Attack_ExtraCheck(string, sprite)
+local function GT_AI_Attack_ExtraCheck(string, target)
 	local attackerINT = EEex_LuaDecode_Object:getActiveStats().m_nINT
+	--
+	local aux = EEex_GetUDAux(EEex_LuaDecode_Object)
+	if not aux["gtAI_DetectableStates_Aux"] then
+		aux["gtAI_DetectableStates_Aux"] = {}
+	end
 	--
 	local gtintmod = GT_Resource_2DA["gtintmod"]
 	local dnum = tonumber(gtintmod[string.format("%s", attackerINT)]["DICE_NUM"])
 	local dsize = tonumber(gtintmod[string.format("%s", attackerINT)]["DICE_SIZE"])
 	--
+	local m_gameTime = EngineGlobals.g_pBaldurChitin.m_pObjectGame.m_worldTime.m_gameTime
+	--
 	local toReturn = false
 	--
 	local conditionalString = EEex_Trigger_ParseConditionalString(string)
 	--
-	local stats = GT_Resource_SymbolToIDS["stats"]
+	local hash = sha.sha256(string)
 	--
-	local timerExpired = false
-	local timerAlreadyApplied = false
-	--
-	EEex_Utility_IterateCPtrList(EEex_LuaDecode_Object.m_timedEffectList, function(effect)
-		if effect.m_effectId == 401 and effect.m_special == stats["GT_AI_TIMER"] and effect.m_dWFlags == 1 and effect.m_effectAmount == 3 and effect.m_effectAmount2 == sprite.m_id and effect.m_effectAmount3 == GT_AI_SimpleHash(string) then
-			if effect.m_durationType == 1 then
-				timerExpired = true
-				return true
-			else
-				timerAlreadyApplied = true
-				return true
+	if not conditionalString:evalConditionalAsAIBase(target) then
+		for _, v in ipairs(aux["gtAI_DetectableStates_Aux"]) do
+			if v.mode == 101 then
+				if v.hash == hash then
+					if v.id == target.m_id then
+						if m_gameTime >= v.expirationTime then
+							-- timer expired: target not valid
+						else
+							-- timer already running: target valid
+							toReturn = true
+						end
+						--
+						goto continue
+					end
+				end
 			end
 		end
-	end)
-	--
-	--EEex_LuaDecode_Object:setStoredScriptingTarget("gt_target", sprite)
-	--
-	if not conditionalString:evalConditionalAsAIBase(sprite) then
-		if timerExpired then
-			-- do nothing, target not valid
-		else
-			if not timerAlreadyApplied then
-				EEex_GameObject_ApplyEffect(EEex_LuaDecode_Object,
-				{
-					["effectID"] = 401, -- Set extended stat
-					["special"] = stats["GT_AI_TIMER"],
-					["dwFlags"] = 1, -- mode: set
-					["effectAmount"] = 3,
-					["durationType"] = 4, -- delay / permanent
-					["duration"] = 6 * math.random(dnum, dnum * dsize),
-					["m_effectAmount2"] = sprite.m_id, -- p3
-					["m_effectAmount3"] = GT_AI_SimpleHash(string), -- p4
-					["m_sourceRes"] = "GTAITMRS", -- non-empty parent resref so that we can clear it when the combat ends
-					["sourceID"] = EEex_LuaDecode_Object.m_id,
-					["sourceTarget"] = EEex_LuaDecode_Object.m_id,
-				})
-			end
-			toReturn = true
-		end
-	else
+		-- timer not set: target valid
+		table.insert(aux["gtAI_DetectableStates_Aux"],
+			{
+				["hash"] = hash,
+				["id"] = target.m_id,
+				["expirationTime"] = 90 * math.random(dnum, dnum * dsize), -- 90 ticks ~ 1 round
+				["mode"] = 101,
+			}
+		)
+		--
 		toReturn = true
+	else
+		toReturn = true -- immunity not detected: target valid
 	end
 	--
+	::continue::
 	conditionalString:free()
-	--
 	return toReturn
 end
 
@@ -296,6 +337,8 @@ function GT_AI_Attack(table)
 	--
 	local attackerActiveStats = EEex_Sprite_GetActiveStats(EEex_LuaDecode_Object)
 	--
+	local projectileFlags = mainHandAbility.type == 1 and -1 or GT_AI_IsAoE(mainHandAbility.missileType - 1)
+	--
 	local toReturn = nil
 	--
 	local targetIDS = table["targetIDS"] -- f.i.: targetIDS = {"UNDEAD", "0.HUMAN.MAGE_ALL", "0.0.MONK", "PLANT.ELF.SHAMAN.0.MALE.NEUTRAL"}
@@ -322,14 +365,25 @@ function GT_AI_Attack(table)
 			local itrSpriteActiveStats = EEex_Sprite_GetActiveStats(itrSprite)
 			--
 			if EEex_BAnd(itrSpriteActiveStats.m_generalState, 0xFC0) == 0 then -- skip dead creatures (this also includes "frozen" / "petrified" creatures...)
+				--
 				if itrSpriteActiveStats.m_bSanctuary == 0 then -- ``Target`` must not be sanctuaried
 					if EEex_IsBitUnset(itrSpriteActiveStats.m_generalState, 0x4) or attackerActiveStats.m_bSeeInvisible > 0 then -- if ``Target`` is invisible, then ``attacker`` must be able to see through invisibility
-						if GT_AI_Attack_WeaponCheck(mainHandResRef, itrSprite) then
-							if mainHandAbility.type == 1 or GT_AI_Attack_ProjectileCheck(mainHandAbility.missileType - 1, mainHandAbility.secondaryType, itrSprite) then
-								if not table["extra"] or GT_AI_Attack_ExtraCheck(table["extra"], itrSprite) then
-									if GT_AI_Attack_InPartyCheck(itrSprite) then
-										toReturn = itrSprite -- CGameSprite
-										goto continue
+						--
+						if mainHandAbility.type == 1 or GT_AI_AoECheck(mainHandAbility, EEex_LuaDecode_Object, itrSprite) then
+							--
+							if GT_AI_Attack_WeaponCheck(mainHandResRef, itrSprite) then
+								--
+								if mainHandAbility.type == 1 or GT_AI_Attack_HasImmunityEffects(itrSprite, 0, mainHandAbility.missileType - 1, mainHandAbility.school, mainHandAbility.secondaryType, mainHandResRef, table["opcode"], projectileFlags, table["ignoreOp101"] or 0x0) then
+									if mainHandAbility.type == 1 or GT_AI_Attack_HasBounceEffects(itrSprite, 0, mainHandAbility.missileType - 1, mainHandAbility.school, mainHandAbility.secondaryType, mainHandResRef, table["opcode"], projectileFlags) then
+										--
+										if not table["extra"] or GT_AI_Attack_ExtraCheck(table["extra"], itrSprite) then
+											--
+											if GT_AI_Attack_InPartyCheck(itrSprite) then
+												--
+												toReturn = itrSprite -- CGameSprite
+												goto continue
+											end
+										end
 									end
 								end
 							end
@@ -365,3 +419,4 @@ function GT_AI_Attack(table)
 	--
 	return toReturn -- CGameSprite
 end
+

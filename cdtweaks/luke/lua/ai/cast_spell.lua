@@ -64,32 +64,31 @@ end
 
 local function GT_AI_CastSpell_SpellcastingDisabled(pHeader, pAbility)
 	local toReturn = false
-	local found = false
 	--
 	local spellcastingDisabled = function(effect)
 		if pAbility.quickSlotType == 2 and effect.m_effectId == 144 and effect.m_dWFlags == 2 then -- location: cast spell button
-			found = true
+			toReturn = true
 			return true
 		end
 		if pAbility.quickSlotType == 4 and effect.m_effectId == 144 and effect.m_dWFlags == 13 then -- location: innate ability button
-			found = true
+			toReturn = true
 			return true
 		end
 		--
 		if pAbility.quickSlotType == 2 and effect.m_effectId == 145 and effect.m_dWFlags == 0 and pHeader.itemType == 1 then
-			found = true
+			toReturn = true
 			return true
 		end
 		if pAbility.quickSlotType == 2 and effect.m_effectId == 145 and effect.m_dWFlags == 1 and pHeader.itemType == 2 then
-			found = true
+			toReturn = true
 			return true
 		end
 		if effect.m_effectId == 145 and effect.m_dWFlags == 2 and not (pHeader.itemType == 1 or pHeader.itemType == 2) then
-			found = true
+			toReturn = true
 			return true
 		end
 		if effect.m_effectId == 145 and effect.m_dWFlags == 3 and EEex_IsBitUnset(pHeader.itemFlags, 14) then
-			found = true
+			toReturn = true
 			return true
 		end
 	end
@@ -98,22 +97,87 @@ local function GT_AI_CastSpell_SpellcastingDisabled(pHeader, pAbility)
 		toReturn = true
 	else
 		EEex_Utility_IterateCPtrList(EEex_LuaTrigger_Object.m_timedEffectList, spellcastingDisabled)
-		if not found then
+		if not toReturn then
 			EEex_Utility_IterateCPtrList(EEex_LuaTrigger_Object.m_equipedEffectList, spellcastingDisabled)
 		end
+	end
+	--
+	return toReturn
+end
+
+-- The following module provides functions to calculate SHA digest --
+
+local sha = require("gt.sha2")
+
+-- check if the target is immune to the specified level/projectile/school/sectype/resref/opcode(s) --
+
+local function GT_AI_CastSpell_HasImmunityEffects(target, level, projectileType, school, sectype, resref, opcodes, flags, savetype)
+	local casterINT = EEex_LuaTrigger_Object:getActiveStats().m_nINT
+	--
+	local aux = EEex_GetUDAux(EEex_LuaTrigger_Object)
+	if not aux["gtAI_DetectableStates_Aux"] then
+		aux["gtAI_DetectableStates_Aux"] = {}
+	end
+	--
+	local m_gameTime = EngineGlobals.g_pBaldurChitin.m_pObjectGame.m_worldTime.m_gameTime
+	--
+	local gtintmod = GT_Resource_2DA["gtintmod"]
+	local dnum = tonumber(gtintmod[string.format("%s", casterINT)]["DICE_NUM"])
+	local dsize = tonumber(gtintmod[string.format("%s", casterINT)]["DICE_SIZE"])
+	--
+	local toReturn = false
+	--
+	local hash = sha.sha256(tostring(level) .. tostring(projectileType) .. tostring(school) .. tostring(sectype) .. resref .. (opcodes and GT_LuaTool_ArrayToString(opcodes) or "nil") .. tostring(flags) .. tostring(savetype))
+	--
+	local found = GT_Sprite_HasImmunityEffects(target, level, projectileType, school, sectype, resref, opcodes, flags, savetype)
+	--
+	if found then
+		for _, v in ipairs(aux["gtAI_DetectableStates_Aux"]) do
+			if v.mode == 0 then
+				if v.hash == hash then
+					if v.id == target.m_id then
+						if m_gameTime >= v.expirationTime then
+							-- timer expired: target not valid
+						else
+							-- timer already running: target valid
+							toReturn = true
+						end
+						--
+						goto continue
+					end
+				end
+			end
+		end
+		-- timer not set: target valid
+		table.insert(aux["gtAI_DetectableStates_Aux"],
+			{
+				["hash"] = hash,
+				["id"] = target.m_id,
+				["expirationTime"] = 90 * math.random(dnum, dnum * dsize), -- 90 ticks ~ 1 round
+				["mode"] = 0,
+			}
+		)
 		--
-		if found then
-			toReturn = true
-		end
+		toReturn = true
+	else
+		toReturn = true -- immunity not detected: target valid
 	end
 	--
+	::continue::
 	return toReturn
 end
 
--- check if the target is immune / can bounce projectile --
+-- check if the target can bounce the specified level/projectile/school/sectype/resref/opcode(s) --
 
-local function GT_AI_CastSpell_ProjectileCheck(projectileIdx, msectype, sprite)
+local function GT_AI_CastSpell_HasBounceEffects(target, level, projectileType, school, sectype, resref, opcodes, flags)
 	local casterINT = EEex_LuaTrigger_Object:getActiveStats().m_nINT
+	--
+	local aux = EEex_GetUDAux(EEex_LuaTrigger_Object)
+	if not aux["gtAI_DetectableStates_Aux"] then
+		aux["gtAI_DetectableStates_Aux"] = {}
+	end
+	--
+	local m_gameTime = EngineGlobals.g_pBaldurChitin.m_pObjectGame.m_worldTime.m_gameTime
 	--
 	local gtintmod = GT_Resource_2DA["gtintmod"]
 	local dnum = tonumber(gtintmod[string.format("%s", casterINT)]["DICE_NUM"])
@@ -121,72 +185,57 @@ local function GT_AI_CastSpell_ProjectileCheck(projectileIdx, msectype, sprite)
 	--
 	local toReturn = false
 	--
-	local stats = GT_Resource_SymbolToIDS["stats"]
+	local hash = sha.sha256(tostring(level) .. tostring(projectileType) .. tostring(school) .. tostring(sectype) .. resref .. (opcodes and GT_LuaTool_ArrayToString(opcodes) or "nil") .. tostring(flags))
 	--
-	local timerExpired = false
-	local timerAlreadyApplied = false
-	--
-	EEex_Utility_IterateCPtrList(EEex_LuaTrigger_Object.m_timedEffectList, function(effect)
-		if effect.m_effectId == 401 and effect.m_special == stats["GT_AI_TIMER"] and effect.m_dWFlags == 1 and effect.m_effectAmount == 10 and effect.m_effectAmount2 == sprite.m_id and effect.m_effectAmount3 == projectileIdx then
-			if effect.m_durationType == 1 then
-				timerExpired = true
-				return true
-			else
-				timerAlreadyApplied = true
-				return true
-			end
-		end
-	end)
-	--
-	local found = false
-	local immune_bounce_projectile = function(effect)
-		if effect.m_effectId == 0x53 and effect.m_dWFlags == projectileIdx then -- Immunity to projectile (83) -> CAN block effects of Secondary Type ``MagicAttack``
-			found = true
-			return true
-		elseif effect.m_effectId == 0xC5 and effect.m_dWFlags == projectileIdx and msectype ~= 4 then -- Physical mirror (197) -> CANNOT bounce effects of Secondary Type ``MagicAttack``
-			found = true
-			return true
-		end
-	end
-	--
-	EEex_Utility_IterateCPtrList(sprite.m_timedEffectList, immune_bounce_projectile)
-	if not found then
-		EEex_Utility_IterateCPtrList(sprite.m_equipedEffectList, immune_bounce_projectile)
-	end
+	local found = GT_Sprite_HasBounceEffects(target, level, projectileType, school, sectype, resref, opcodes, flags)
 	--
 	if found then
-		if timerExpired then
-			-- target not valid
-		else
-			if not timerAlreadyApplied then
-				EEex_GameObject_ApplyEffect(EEex_LuaTrigger_Object,
-				{
-					["effectID"] = 401, -- Set extended stat
-					["special"] = stats["GT_AI_TIMER"],
-					["dwFlags"] = 1, -- mode: set
-					["effectAmount"] = 10,
-					["durationType"] = 4,
-					["duration"] = 6 * math.random(dnum, dnum * dsize),
-					["m_effectAmount2"] = sprite.m_id,
-					["m_effectAmount3"] = projectileIdx,
-					["m_sourceRes"] = "GTAITMRS", -- non-empty parent resref so that we can clear it when combat ends
-					["sourceID"] = EEex_LuaTrigger_Object.m_id,
-					["sourceTarget"] = EEex_LuaTrigger_Object.m_id,
-				})
+		for _, v in ipairs(aux["gtAI_DetectableStates_Aux"]) do
+			if v.mode == 1 then
+				if v.hash == hash then
+					if v.id == target.m_id then
+						if m_gameTime >= v.expirationTime then
+							-- timer expired: target not valid
+						else
+							-- timer already running: target valid
+							toReturn = true
+						end
+						--
+						goto continue
+					end
+				end
 			end
-			toReturn = true
 		end
-	else
+		-- timer not set: target valid
+		table.insert(aux["gtAI_DetectableStates_Aux"],
+			{
+				["hash"] = hash,
+				["id"] = target.m_id,
+				["expirationTime"] = 90 * math.random(dnum, dnum * dsize), -- 90 ticks ~ 1 round
+				["mode"] = 1,
+			}
+		)
+		--
 		toReturn = true
+	else
+		toReturn = true -- immunity not detected: target valid
 	end
 	--
+	::continue::
 	return toReturn
 end
 
--- check if the target is immune / can bounce mschool --
+-- check if the target can trap the specified level --
 
-local function GT_AI_CastSpell_MschoolCheck(mschool, msectype, sprite)
+local function GT_AI_CastSpell_HasTrapEffect(target, level, sectype, flags)
 	local casterINT = EEex_LuaTrigger_Object:getActiveStats().m_nINT
+	--
+	local aux = EEex_GetUDAux(EEex_LuaTrigger_Object)
+	if not aux["gtAI_DetectableStates_Aux"] then
+		aux["gtAI_DetectableStates_Aux"] = {}
+	end
+	--
+	local m_gameTime = EngineGlobals.g_pBaldurChitin.m_pObjectGame.m_worldTime.m_gameTime
 	--
 	local gtintmod = GT_Resource_2DA["gtintmod"]
 	local dnum = tonumber(gtintmod[string.format("%s", casterINT)]["DICE_NUM"])
@@ -194,378 +243,43 @@ local function GT_AI_CastSpell_MschoolCheck(mschool, msectype, sprite)
 	--
 	local toReturn = false
 	--
-	local stats = GT_Resource_SymbolToIDS["stats"]
+	local hash = sha.sha256(tostring(level) .. tostring(sectype) .. tostring(flags))
 	--
-	local timerExpired = false
-	local timerAlreadyApplied = false
-	--
-	EEex_Utility_IterateCPtrList(EEex_LuaTrigger_Object.m_timedEffectList, function(effect)
-		if effect.m_effectId == 401 and effect.m_special == stats["GT_AI_TIMER"] and effect.m_dWFlags == 1 and effect.m_effectAmount == 11 and effect.m_effectAmount2 == sprite.m_id and effect.m_effectAmount3 == mschool then
-			if effect.m_durationType == 1 then
-				timerExpired = true
-				return true
-			else
-				timerAlreadyApplied = true
-				return true
-			end
-		end
-	end)
-	--
-	local found = false
-	local immune_bounce_mschool = function(effect)
-		if effect.m_effectId == 0xCA and effect.m_dWFlags == mschool and msectype ~= 4 then -- Reflect spell school (202) -> CANNOT bounce effects of Secondary Type ``MagicAttack``
-			found = true
-			return true
-		elseif effect.m_effectId == 0xCC and effect.m_dWFlags == mschool and msectype ~= 4 then -- Protection from spell school (204) -> CANNOT block effects of Secondary Type ``MagicAttack``
-			found = true
-			return true
-		elseif effect.m_effectId == 0xDF and effect.m_dWFlags == mschool and msectype ~= 4 then -- Spell school deflection (223) -> CANNOT block effects of Secondary Type ``MagicAttack``
-			found = true
-			return true
-		elseif effect.m_effectId == 0xE3 and effect.m_dWFlags == mschool and msectype ~= 4 then -- Spell school turning (227) -> CANNOT bounce effects of Secondary Type ``MagicAttack``
-			found = true
-			return true
-		end
-	end
-	--
-	EEex_Utility_IterateCPtrList(sprite.m_timedEffectList, immune_bounce_mschool)
-	if not found then
-		EEex_Utility_IterateCPtrList(sprite.m_equipedEffectList, immune_bounce_mschool)
-	end
+	local found = GT_Sprite_HasTrapEffect(target, level, sectype, flags)
 	--
 	if found then
-		if timerExpired then
-			-- target not valid
-		else
-			if not timerAlreadyApplied then
-				EEex_GameObject_ApplyEffect(EEex_LuaTrigger_Object,
-				{
-					["effectID"] = 401, -- Set extended stat
-					["special"] = stats["GT_AI_TIMER"],
-					["dwFlags"] = 1, -- mode: set
-					["effectAmount"] = 11,
-					["durationType"] = 4,
-					["duration"] = 6 * math.random(dnum, dnum * dsize),
-					["m_effectAmount2"] = sprite.m_id, -- p3
-					["m_effectAmount3"] = mschool, -- p4
-					["m_sourceRes"] = "GTAITMRS", -- non-empty parent resref so that we can clear it when combat ends
-					["sourceID"] = EEex_LuaTrigger_Object.m_id,
-					["sourceTarget"] = EEex_LuaTrigger_Object.m_id,
-				})
+		for _, v in ipairs(aux["gtAI_DetectableStates_Aux"]) do
+			if v.mode == 2 then
+				if v.hash == hash then
+					if v.id == target.m_id then
+						if m_gameTime >= v.expirationTime then
+							-- timer expired: target not valid
+						else
+							-- timer already running: target valid
+							toReturn = true
+						end
+						--
+						goto continue
+					end
+				end
 			end
-			toReturn = true
 		end
-	else
+		-- timer not set: target valid
+		table.insert(aux["gtAI_DetectableStates_Aux"],
+			{
+				["hash"] = hash,
+				["id"] = target.m_id,
+				["expirationTime"] = 90 * math.random(dnum, dnum * dsize), -- 90 ticks ~ 1 round
+				["mode"] = 2,
+			}
+		)
+		--
 		toReturn = true
-	end
-	--
-	return toReturn
-end
-
--- check if the target is immune / can bounce msectype --
-
-local function GT_AI_CastSpell_MsectypeCheck(msectype, sprite)
-	local casterINT = EEex_LuaTrigger_Object:getActiveStats().m_nINT
-	--
-	local gtintmod = GT_Resource_2DA["gtintmod"]
-	local dnum = tonumber(gtintmod[string.format("%s", casterINT)]["DICE_NUM"])
-	local dsize = tonumber(gtintmod[string.format("%s", casterINT)]["DICE_SIZE"])
-	--
-	local toReturn = false
-	--
-	local stats = GT_Resource_SymbolToIDS["stats"]
-	--
-	local timerExpired = false
-	local timerAlreadyApplied = false
-	--
-	EEex_Utility_IterateCPtrList(EEex_LuaTrigger_Object.m_timedEffectList, function(effect)
-		if effect.m_effectId == 401 and effect.m_special == stats["GT_AI_TIMER"] and effect.m_dWFlags == 1 and effect.m_effectAmount == 12 and effect.m_effectAmount2 == sprite.m_id and effect.m_effectAmount3 == msectype then
-			if effect.m_durationType == 1 then
-				timerExpired = true
-				return true
-			else
-				timerAlreadyApplied = true
-				return true
-			end
-		end
-	end)
-	--
-	local found = false
-	local immune_bounce_msectype = function(effect)
-		if effect.m_effectId == 0xCB and effect.m_dWFlags == msectype and msectype ~= 4 then -- Reflect spell type (203) -> CANNOT bounce effects of Secondary Type ``MagicAttack``
-			found = true
-			return true
-		elseif effect.m_effectId == 0xCD and effect.m_dWFlags == msectype and msectype ~= 4 then -- Protection from spell type (205) -> CANNOT block effects of Secondary Type ``MagicAttack``
-			found = true
-			return true
-		elseif effect.m_effectId == 0xE2 and effect.m_dWFlags == msectype then -- Spell type deflection (226) -> CAN block effects of Secondary Type ``MagicAttack``
-			found = true
-			return true
-		elseif effect.m_effectId == 0xE4 and effect.m_dWFlags == msectype and msectype ~= 4 then -- Spell type turning (228) -> CANNOT bounce effects of Secondary Type ``MagicAttack``
-			found = true
-			return true
-		end
-	end
-	--
-	EEex_Utility_IterateCPtrList(sprite.m_timedEffectList, immune_bounce_msectype)
-	if not found then
-		EEex_Utility_IterateCPtrList(sprite.m_equipedEffectList, immune_bounce_msectype)
-	end
-	--
-	if found then
-		if timerExpired then
-			-- target not valid
-		else
-			if not timerAlreadyApplied then
-				EEex_GameObject_ApplyEffect(EEex_LuaTrigger_Object,
-				{
-					["effectID"] = 401, -- Set extended stat
-					["special"] = stats["GT_AI_TIMER"],
-					["dwFlags"] = 1, -- mode: set
-					["effectAmount"] = 12,
-					["durationType"] = 4,
-					["duration"] = 6 * math.random(dnum, dnum * dsize),
-					["m_effectAmount2"] = sprite.m_id, -- p3
-					["m_effectAmount3"] = msectype, -- p4
-					["m_sourceRes"] = "GTAITMRS", -- non-empty parent resref so that we can clear it when combat ends
-					["sourceID"] = EEex_LuaTrigger_Object.m_id,
-					["sourceTarget"] = EEex_LuaTrigger_Object.m_id,
-				})
-			end
-			toReturn = true
-		end
 	else
-		toReturn = true
+		toReturn = true -- immunity not detected: target valid
 	end
 	--
-	return toReturn
-end
-
--- check if the target is immune / can bounce / can trap spell level --
-
-local function GT_AI_CastSpell_LevelCheck(level, msectype, sprite)
-	local casterINT = EEex_LuaTrigger_Object:getActiveStats().m_nINT
-	--
-	local gtintmod = GT_Resource_2DA["gtintmod"]
-	local dnum = tonumber(gtintmod[string.format("%s", casterINT)]["DICE_NUM"])
-	local dsize = tonumber(gtintmod[string.format("%s", casterINT)]["DICE_SIZE"])
-	--
-	local toReturn = false
-	--
-	local stats = GT_Resource_SymbolToIDS["stats"]
-	--
-	local timerExpired = false
-	local timerAlreadyApplied = false
-	--
-	EEex_Utility_IterateCPtrList(EEex_LuaTrigger_Object.m_timedEffectList, function(effect)
-		if effect.m_effectId == 401 and effect.m_special == stats["GT_AI_TIMER"] and effect.m_dWFlags == 1 and effect.m_effectAmount == 13 and effect.m_effectAmount2 == sprite.m_id and effect.m_effectAmount3 == level then
-			if effect.m_durationType == 1 then
-				timerExpired = true
-				return true
-			else
-				timerAlreadyApplied = true
-				return true
-			end
-		end
-	end)
-	--
-	local found = false
-	local immune_bounce_trap_level = function(effect)
-		if effect.m_effectId == 0x66 and effect.m_effectAmount == level then -- Immunity to spell level (102) -> CAN block effects of Secondary Type ``MagicAttack``
-			found = true
-			return true
-		elseif effect.m_effectId == 0xC7 and effect.m_effectAmount == level and msectype ~= 4 then -- Reflect spell level (199) -> CANNOT bounce effects of Secondary Type ``MagicAttack``
-			found = true
-			return true
-		elseif effect.m_effectId == 0xC8 and effect.m_dWFlags == level and msectype ~= 4 then -- Spell turning (200) -> CANNOT bounce effects of Secondary Type ``MagicAttack``
-			found = true
-			return true
-		elseif effect.m_effectId == 0xC9 and effect.m_dWFlags == level and msectype ~= 4 then -- Spell deflection (201) -> CANNOT block effects of Secondary Type ``MagicAttack``
-			found = true
-			return true
-		elseif effect.m_effectId == 0x103 and effect.m_dWFlags == level and msectype ~= 4 then -- Spell trap (259) -> CANNOT trap effects of Secondary Type ``MagicAttack``
-			found = true
-			return true
-		end
-	end
-	--
-	EEex_Utility_IterateCPtrList(sprite.m_timedEffectList, immune_bounce_trap_level)
-	if not found then
-		EEex_Utility_IterateCPtrList(sprite.m_equipedEffectList, immune_bounce_trap_level)
-	end
-	--
-	if found then
-		if timerExpired then
-			-- target not valid
-		else
-			if not timerAlreadyApplied then
-				EEex_GameObject_ApplyEffect(EEex_LuaTrigger_Object,
-				{
-					["effectID"] = 401, -- Set extended stat
-					["special"] = stats["GT_AI_TIMER"],
-					["dwFlags"] = 1, -- mode: set
-					["effectAmount"] = 13,
-					["durationType"] = 4,
-					["duration"] = 6 * math.random(dnum, dnum * dsize),
-					["m_effectAmount2"] = sprite.m_id, -- p3
-					["m_effectAmount3"] = level, -- p4
-					["m_sourceRes"] = "GTAITMRS", -- non-empty parent resref so that we can clear it when combat ends
-					["sourceID"] = EEex_LuaTrigger_Object.m_id,
-					["sourceTarget"] = EEex_LuaTrigger_Object.m_id,
-				})
-			end
-			toReturn = true
-		end
-	else
-		toReturn = true
-	end
-	--
-	return toReturn
-end
-
--- check if the target is immune / can bounce spell resref --
-
-local function GT_AI_CastSpell_ResRefCheck(resref, msectype, sprite)
-	local casterINT = EEex_LuaTrigger_Object:getActiveStats().m_nINT
-	--
-	local gtintmod = GT_Resource_2DA["gtintmod"]
-	local dnum = tonumber(gtintmod[string.format("%s", casterINT)]["DICE_NUM"])
-	local dsize = tonumber(gtintmod[string.format("%s", casterINT)]["DICE_SIZE"])
-	--
-	local toReturn = false
-	--
-	local stats = GT_Resource_SymbolToIDS["stats"]
-	--
-	local timerExpired = false
-	local timerAlreadyApplied = false
-	--
-	EEex_Utility_IterateCPtrList(EEex_LuaTrigger_Object.m_timedEffectList, function(effect)
-		if effect.m_effectId == 401 and effect.m_special == stats["GT_AI_TIMER"] and effect.m_dWFlags == 1 and effect.m_effectAmount == 14 and effect.m_effectAmount2 == sprite.m_id and effect.m_res:get() == resref then
-			if effect.m_durationType == 1 then
-				timerExpired = true
-				return true
-			else
-				timerAlreadyApplied = true
-				return true
-			end
-		end
-	end)
-	--
-	local found = false
-	local immune_bounce_resref = function(effect)
-		if effect.m_effectId == 0xCE and effect.m_res:get() == resref then -- Protection from spell (206) -> CAN block effects of Secondary Type ``MagicAttack``
-			found = true
-			return true
-		elseif effect.m_effectId == 0xCF and effect.m_res:get() == resref and msectype ~= 4 then -- Reflect specified spell (207) -> CANNOT bounce effects of Secondary Type ``MagicAttack``
-			found = true
-			return true
-		end
-	end
-	--
-	EEex_Utility_IterateCPtrList(sprite.m_timedEffectList, immune_bounce_resref)
-	if not found then
-		EEex_Utility_IterateCPtrList(sprite.m_equipedEffectList, immune_bounce_resref)
-	end
-	--
-	if found then
-		if timerExpired then
-			-- target not valid
-		else
-			if not timerAlreadyApplied then
-				EEex_GameObject_ApplyEffect(EEex_LuaTrigger_Object,
-				{
-					["effectID"] = 401, -- Set extended stat
-					["special"] = stats["GT_AI_TIMER"],
-					["dwFlags"] = 1, -- mode: set
-					["effectAmount"] = 14,
-					["durationType"] = 4,
-					["duration"] = 6 * math.random(dnum, dnum * dsize),
-					["m_effectAmount2"] = sprite.m_id, -- p3
-					["res"] = resref, -- res
-					["m_sourceRes"] = "GTAITMRS", -- non-empty parent resref so that we can clear it when combat ends
-					["sourceID"] = EEex_LuaTrigger_Object.m_id,
-					["sourceTarget"] = EEex_LuaTrigger_Object.m_id,
-				})
-			end
-			toReturn = true
-		end
-	else
-		toReturn = true
-	end
-	--
-	return toReturn
-end
-
--- check if the target is immune / can bounce opcode --
-
-local function GT_AI_CastSpell_OpcodeCheck(opcode, msectype, sprite)
-	local casterINT = EEex_LuaTrigger_Object:getActiveStats().m_nINT
-	--
-	local gtintmod = GT_Resource_2DA["gtintmod"]
-	local dnum = tonumber(gtintmod[string.format("%s", casterINT)]["DICE_NUM"])
-	local dsize = tonumber(gtintmod[string.format("%s", casterINT)]["DICE_SIZE"])
-	--
-	local toReturn = false
-	--
-	local stats = GT_Resource_SymbolToIDS["stats"]
-	--
-	local timerExpired = false
-	local timerAlreadyApplied = false
-	--
-	EEex_Utility_IterateCPtrList(EEex_LuaTrigger_Object.m_timedEffectList, function(effect)
-		if effect.m_effectId == 401 and effect.m_special == stats["GT_AI_TIMER"] and effect.m_dWFlags == 1 and effect.m_effectAmount == 15 and effect.m_effectAmount2 == sprite.m_id and effect.m_effectAmount3 == opcode then
-			if effect.m_durationType == 1 then
-				timerExpired = true
-				return true
-			else
-				timerAlreadyApplied = true
-				return true
-			end
-		end
-	end)
-	--
-	local found = false
-	local immune_bounce_opcode = function(effect)
-		if effect.m_effectId == 0x65 and effect.m_dWFlags == opcode then -- Immunity to effect (101) -> CAN block effects of Secondary Type ``MagicAttack``
-			found = true
-			return true
-		elseif effect.m_effectId == 0xC6 and effect.m_dWFlags == opcode and msectype ~= 4 then -- Reflect specified effect (198) -> CANNOT bounce effects of Secondary Type ``MagicAttack``
-			found = true
-			return true
-		end
-	end
-	--
-	EEex_Utility_IterateCPtrList(sprite.m_timedEffectList, immune_bounce_opcode)
-	if not found then
-		EEex_Utility_IterateCPtrList(sprite.m_equipedEffectList, immune_bounce_opcode)
-	end
-	--
-	if found then
-		if timerExpired then
-			-- target not valid
-		else
-			if not timerAlreadyApplied then
-				EEex_GameObject_ApplyEffect(EEex_LuaTrigger_Object,
-				{
-					["effectID"] = 401, -- Set extended stat
-					["special"] = stats["GT_AI_TIMER"],
-					["dwFlags"] = 1, -- mode: set
-					["effectAmount"] = 15,
-					["durationType"] = 4,
-					["duration"] = 6 * math.random(dnum, dnum * dsize),
-					["m_effectAmount2"] = sprite.m_id, -- p3
-					["m_effectAmount3"] = opcode, -- p4
-					["m_sourceRes"] = "GTAITMRS", -- non-empty parent resref so that we can clear it when combat ends
-					["sourceID"] = EEex_LuaTrigger_Object.m_id,
-					["sourceTarget"] = EEex_LuaTrigger_Object.m_id,
-				})
-			end
-			toReturn = true
-		end
-	else
-		toReturn = true
-	end
-	--
+	::continue::
 	return toReturn
 end
 
@@ -647,6 +361,8 @@ function GT_AI_CastSpell(table)
 	--
 	targetIDS = GT_AI_CastSpell_EA(targetIDS, table["mode"])
 	--
+	local projectileFlags = GT_AI_IsAoE(spellAbility.missileType - 1)
+	--
 	if not GT_AI_CastSpell_SpellcastingDisabled(spellHeader, spellAbility) then
 		if EEex_IsBitSet(spellFlags, 25) or EEex_IsBitUnset(casterActiveStats.m_generalState, 12) or string.upper(spellResRef) == "SPWI219" then -- if Vocalize || Castable when silenced || !STATE_SILENCED
 			if casterSpellFailureAmount < 60 then -- should we randomize...?
@@ -657,35 +373,22 @@ function GT_AI_CastSpell(table)
 					for _, itrSprite in ipairs(spriteArray) do
 						local itrSpriteActiveStats = EEex_Sprite_GetActiveStats(itrSprite)
 						--
-						if spellAbility.actionType == 5 or spellAbility.actionType == 7 then -- Ability target: Caster
-							targetSprite = EEex_LuaTrigger_Object
-							goto continue
-						else
-							if EEex_BAnd(itrSpriteActiveStats.m_generalState, 0xFC0) == 0 then -- skip dead creatures (this also includes "frozen" / "petrified" creatures...)
-								if itrSpriteActiveStats.m_bSanctuary == 0 or spellAbility.actionType == 4 then -- if ``Target`` is sanctuaried, then the spell must be AoE
-									if not EEex_IsBitSet(itrSpriteActiveStats.m_generalState, 0x4) or (spellAbility.actionType == 4 or casterActiveStats.m_bSeeInvisible > 0) then -- if ``Target`` is invisible, then ``caster`` should be able to see through invisibility || the spell should be able to target invisible creatures || the spell is AoE
-										if not EEex_IsBitSet(itrSpriteActiveStats.m_generalState, 22) or (spellAbility.actionType == 4 or EEex_IsBitSet(spellFlags, 24) or casterActiveStats.m_bSeeInvisible > 0) then -- if ``Target`` is improved/weak invisible, then ``caster`` should be able to see through invisibility || the spell should be able to target invisible creatures || the spell is AoE
+						if EEex_BAnd(itrSpriteActiveStats.m_generalState, 0xFC0) == 0 then -- skip dead creatures (this also includes "frozen" / "petrified" creatures...)
+							--
+							if itrSpriteActiveStats.m_bSanctuary == 0 or spellAbility.actionType == 4 then -- if ``Target`` is sanctuaried, then the spell must be AoE
+								if not EEex_IsBitSet(itrSpriteActiveStats.m_generalState, 0x4) or (spellAbility.actionType == 4 or casterActiveStats.m_bSeeInvisible > 0) then -- if ``Target`` is invisible, then ``caster`` should be able to see through invisibility || the spell should be able to target invisible creatures || the spell is AoE
+									if not EEex_IsBitSet(itrSpriteActiveStats.m_generalState, 22) or (spellAbility.actionType == 4 or EEex_IsBitSet(spellFlags, 24) or casterActiveStats.m_bSeeInvisible > 0) then -- if ``Target`` is improved/weak invisible, then ``caster`` should be able to see through invisibility || the spell should be able to target invisible creatures || the spell is AoE
+										--
+										if GT_AI_AoECheck(spellAbility, nil, itrSprite) then
 											--
-											if GT_AI_CastSpell_MschoolCheck(spellSchool, spellSectype, itrSprite) then
-												if GT_AI_CastSpell_MsectypeCheck(spellSectype, itrSprite) then
-													if GT_AI_CastSpell_ProjectileCheck(spellAbility.missileType - 1, spellSectype, itrSprite) then
-														if GT_AI_CastSpell_ResRefCheck(spellResRef, spellSectype, itrSprite) then
-															if GT_AI_CastSpell_LevelCheck(spellLevel, spellSectype, itrSprite) then
-																if GT_AI_CastSpell_InPartyCheck(itrSprite) then
-																	--
-																	local cnt = 0
-																	for _, op in ipairs(table["opcode"]) do
-																		if GT_AI_CastSpell_OpcodeCheck(op, spellSectype, itrSprite) then
-																			cnt = cnt + 1
-																		end
-																	end
-																	--
-																	if not table["opcode"] or cnt == #table["opcode"] then -- all checks passed
-																		targetSprite = itrSprite -- CGameSprite
-																		goto continue
-																	end
-																end
-															end
+											if GT_AI_CastSpell_HasImmunityEffects(itrSprite, spellLevel, spellAbility.missileType - 1, spellSchool, spellSectype, spellResRef, table["opcode"], projectileFlags, table["ignoreOp101"] or 0x0) then
+												if GT_AI_CastSpell_HasBounceEffects(itrSprite, spellLevel, spellAbility.missileType - 1, spellSchool, spellSectype, spellResRef, table["opcode"], projectileFlags) then
+													if GT_AI_CastSpell_HasTrapEffect(itrSprite, spellLevel, spellSectype, projectileFlags) then
+														--
+														if GT_AI_CastSpell_InPartyCheck(itrSprite) then
+															--
+															targetSprite = itrSprite -- CGameSprite
+															goto continue
 														end
 													end
 												end
@@ -705,3 +408,4 @@ function GT_AI_CastSpell(table)
 	EEex_LuaTrigger_Object:setStoredScriptingTarget("gt_ScriptingTarget_CastSpell", targetSprite)
 	return targetSprite ~= nil
 end
+

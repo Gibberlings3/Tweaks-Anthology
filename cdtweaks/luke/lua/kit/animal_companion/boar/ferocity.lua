@@ -22,6 +22,9 @@ function %INNATE_ANIMAL_FEROCITY%(CGameEffect, CGameSprite)
 			{["op"] = 44, ["p1"] = math.random(6)}, -- STR mod (+1d6)
 			{["op"] = 10, ["p1"] = math.random(6)}, -- CON mod (+1d6)
 			--{["op"] = 317, ["p2"] = 2}, -- Haste (movement rate only)
+			{["op"] = 101, ["p2"] = 5}, -- immunity to effect
+			{["op"] = 101, ["p2"] = 76}, -- immunity to effect
+			{["op"] = 101, ["p2"] = 128}, -- immunity to effect
 			{["op"] = 403, ["p1"] = 0x208002, ["res"] = "GTIMMUNE"}, -- screen effects (confusion, charm, feeblemind)
 			--{["op"] = 142, ["p2"] = 4} -- icon: Berserk
 			{["op"] = 215, ["res"] = "ICSTRENI", ["p2"] = 1, ["dur"] = 2}, -- vfx

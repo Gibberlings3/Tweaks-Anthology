@@ -109,7 +109,8 @@ WITH_SCOPE BEGIN
 		LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 268 "target" = 1 "timing" = 1 END // clear fog of war
 		LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 232 "target" = 1 "timing" = 1 "parameter2" = 16 "special" = BIT2 STR_VAR "resource" = "%BEASTMASTER_ANIMAL_COMPANION%#" END // cast spell onto myself upon death (suppress spell's name)
 		// immunity to web-based attacks
-		LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 403 "target" = 1 "timing" = 9 "parameter1" = BIT23 STR_VAR "resource" = "GTIMMUNE" END // screen effects based on op157 (web)
+		LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 101 "target" = 1 "timing" = 9 "parameter2" = 157 END // immunity to op157 (web) : needed for GT_AI_CastSpell_HasImmunityEffects() &c.
+		LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 403 "target" = 1 "timing" = 9 "parameter1" = BIT26 STR_VAR "resource" = "GTIMMUNE" END // screen effects based on op157 (web)
 		LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 83 "target" = 1 "timing" = 9 "parameter2" = IDS_OF_SYMBOL ("projectl" "webtrav") END
 		LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 83 "target" = 1 "timing" = 9 "parameter2" = IDS_OF_SYMBOL ("projectl" "web1p") END
 	BUT_ONLY_IF_IT_CHANGES

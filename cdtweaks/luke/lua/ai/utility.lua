@@ -4,20 +4,6 @@
 +------------------------+
 --]]
 
--- Simple hash function --
-
-function GT_AI_SimpleHash(str)
-	local hash = 0
-	for i = 1, #str do
-		hash = (hash * 31 + str:byte(i)) % 2^31
-	end
-	-- Ensure the hash is a signed 32-bit integer
-	if hash >= 2^31 then
-		hash = hash - 2^32
-	end
-	return hash
-end
-
 -- Assume actions "MoveToPoint()" and "Attack()" are player-issued commands (as a result, do not interrupt them) --
 
 function GT_AI_InterruptableActions()
@@ -134,22 +120,10 @@ function GT_AI_ClearTimers()
 		local everyone = EEex_Area_GetAllOfTypeInRange(globalScriptRunnerArea, globalScriptRunner.m_pos.x, globalScriptRunner.m_pos.y, GT_AI_ObjectType["ANYONE"], 0x7FFF, false, nil, nil)
 		--
 		for _, itrSprite in ipairs(everyone) do
-			local found = false
-			EEex_Utility_IterateCPtrList(itrSprite.m_timedEffectList, function(effect)
-				if effect.m_effectId == 401 and effect.m_sourceRes:get() == "GTAITMRS" then
-					found = true
-					return true
-				end
-			end)
+			local aux = EEex_GetUDAux(itrSprite)
 			--
-			if found then
-				itrSprite:applyEffect({
-					["effectID"] = 321, -- Remove effects by resource
-					["res"] = "GTAITMRS",
-					["noSave"] = true,
-					["sourceID"] = itrSprite.m_id,
-					["sourceTarget"] = itrSprite.m_id,
-				})
+			if aux["gtAI_DetectableStates_Aux"] then
+				aux["gtAI_DetectableStates_Aux"] = nil
 			end
 		end
 	end
@@ -161,20 +135,107 @@ function GT_AI_CurrentCastingHasRunOut(resref)
 	local toReturn = true
 	--
 	local found = false
-	local currentCastingHasRunOut = function(effect)
+	local func = function(effect)
 		if effect.m_sourceRes:get() == resref then
 			found = true
 			return true
 		end
 	end
 	--
-	EEex_Utility_IterateCPtrList(EEex_LuaTrigger_Object.m_timedEffectList, currentCastingHasRunOut)
+	EEex_Utility_IterateCPtrList(EEex_LuaTrigger_Object.m_timedEffectList, func)
 	if not found then
-		EEex_Utility_IterateCPtrList(EEex_LuaTrigger_Object.m_equipedEffectList, currentCastingHasRunOut)
+		-- guess we can safely ignore equipped effects, right...?
+		--EEex_Utility_IterateCPtrList(EEex_LuaTrigger_Object.m_equipedEffectList, func)
 	end
 	--
 	if found then
 		toReturn = false
+	end
+	--
+	return toReturn
+end
+
+-- AoE check (see f.i. friendly fire) --
+
+function GT_AI_AoECheck(pAbility, scriptRunner, targetSprite)
+	local toReturn = true
+	--
+	if scriptRunner == nil then
+		scriptRunner = EEex_LuaTrigger_Object -- CGameSprite
+	end
+	--
+	local proResRef = GT_Resource_IDSToSymbol["projectl"][pAbility.missileType - 1]
+	local abilityTarget = pAbility.actionType
+	--
+	if proResRef and abilityTarget then -- sanity check
+		local pHeader = EEex_Resource_Demand(proResRef, "pro")
+		--
+		if pHeader then -- sanity check
+			local m_wFileType = pHeader.m_wFileType
+			--
+			if m_wFileType == 3 then -- AoE
+				local m_dwAreaFlags = pHeader.m_dwAreaFlags
+				local m_triggerRange = pHeader.m_triggerRange
+				local m_explosionRange = pHeader.m_explosionRange
+				--
+				local triggerRadius = math.floor(m_triggerRange / 16) - 1
+				local explosionSize = math.floor(m_explosionRange / 16) - 1
+				--
+				local conditionalString
+				toReturn = false
+				--
+				if EEex_IsBitSet(m_dwAreaFlags, 0x6) and EEex_IsBitSet(m_dwAreaFlags, 0x7) then -- affect only allies (i.e. party-friendly)
+					if abilityTarget == 5 or abilityTarget == 7 then -- AoE centered on caster (f.i. Chant)
+						conditionalString = EEex_Trigger_ParseConditionalString(string.format("Range(NearestAllyOf(Myself), %d) \n Range(NearestAllyOf(Myself), %d)", triggerRadius, explosionSize))
+					else -- f.i. Haste
+						scriptRunner:setStoredScriptingTarget("GT_AI_AoECheck", targetSprite)
+						conditionalString = EEex_Trigger_ParseConditionalString(string.format('TriggerOverride(EEex_Target("GT_AI_AoECheck"), Range(NearestAllyOf(Myself), %d)) \n TriggerOverride(EEex_Target("GT_AI_AoECheck"), Range(NearestAllyOf(Myself), %d))', triggerRadius, explosionSize))
+					end
+				elseif EEex_IsBitSet(m_dwAreaFlags, 0x6) then -- affect only enemies (i.e. party-friendly)
+					if abilityTarget == 5 or abilityTarget == 7 then -- AoE centered on caster (f.i. Chant)
+						conditionalString = EEex_Trigger_ParseConditionalString(string.format("Range(NearestEnemyOf(Myself), %d) \n Range(NearestEnemyOf(Myself), %d)", triggerRadius, explosionSize))
+					else -- f.i. Curse
+						scriptRunner:setStoredScriptingTarget("GT_AI_AoECheck", targetSprite)
+						conditionalString = EEex_Trigger_ParseConditionalString(string.format('TriggerOverride(EEex_Target("GT_AI_AoECheck"), Range(NearestAllyOf(Myself), %d)) \n TriggerOverride(EEex_Target("GT_AI_AoECheck"), Range(NearestAllyOf(Myself), %d))', triggerRadius, explosionSize))
+					end
+				else -- try avoiding friendly fire
+					if abilityTarget == 5 or abilityTarget == 7 then -- AoE centered on caster (f.i. Sunfire)
+						conditionalString = EEex_Trigger_ParseConditionalString(string.format("Range(NearestEnemyOf(Myself), %d) \n Range(NearestEnemyOf(Myself), %d) \n !Range(NearestAllyOf(Myself), %d) \n !Range(NearestAllyOf(Myself), %d)", triggerRadius, explosionSize, triggerRadius + math.floor(triggerRadius / 2) , explosionSize + math.floor(explosionSize / 2)))
+					else -- f.i. Fireball, Arrow of Detonation
+						scriptRunner:setStoredScriptingTarget("GT_AI_AoECheck", targetSprite)
+						conditionalString = EEex_Trigger_ParseConditionalString(string.format('TriggerOverride(EEex_Target("GT_AI_AoECheck"), Range(NearestAllyOf(Myself), %d)) \n TriggerOverride(EEex_Target("GT_AI_AoECheck"), Range(NearestAllyOf(Myself), %d)) \n !TriggerOverride(EEex_Target("GT_AI_AoECheck"), Range(NearestEnemyOf(Myself), %d)) \n !TriggerOverride(EEex_Target("GT_AI_AoECheck"), Range(NearestEnemyOf(Myself), %d))', triggerRadius, explosionSize, triggerRadius + math.floor(triggerRadius / 2), explosionSize + math.floor(explosionSize / 2)))
+					end
+				end
+				--
+				if conditionalString:evalConditionalAsAIBase(scriptRunner) then
+					toReturn = true
+				end
+				--
+				conditionalString:free()
+			end
+		end
+	end
+	--
+	return toReturn
+end
+
+-- Is AoE missile (i.e., can bypass some deflection/reflection/trap opcodes) --
+
+function GT_AI_IsAoE(projectileType)
+	local toReturn = 0x0
+	--
+	local proResRef = GT_Resource_IDSToSymbol["projectl"][projectileType]
+	--
+	if proResRef then -- sanity check
+		local pHeader = EEex_Resource_Demand(proResRef, "pro")
+		--
+		if pHeader then -- sanity check
+			local m_wFileType = pHeader.m_wFileType
+			--
+			if m_wFileType == 3 then -- AoE
+				toReturn = EEex_SetBit(toReturn, 0x2)
+			end
+		end
 	end
 	--
 	return toReturn
