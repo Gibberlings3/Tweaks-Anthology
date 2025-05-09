@@ -142,7 +142,11 @@ END
 // creature animation files
 WITH_SCOPE BEGIN
 	ACTION_IF !(FILE_EXISTS_IN_GAME "mbbma1.bam") BEGIN
-		COPY "cdtweaks\luke\bam\animation\beetle_bombardier" "override"
+		ACTION_BASH_FOR "cdtweaks\luke\animation\beetle_bombardier" "^.+\.\(bam\|wav\|bmp\|ini\)$" BEGIN
+			ACTION_IF !(FILE_EXISTS_IN_GAME "%BASH_FOR_FILE%") BEGIN
+				COPY "%BASH_FOR_FILESPEC%" "override"
+			END
+		END
 	END
 END
 

@@ -114,7 +114,11 @@ END
 // creature animation files
 WITH_SCOPE BEGIN
 	ACTION_IF !(FILE_EXISTS_IN_GAME "mboaa1.bam") BEGIN
-		COPY "cdtweaks\luke\bam\animation\boar_wild" "override"
+		ACTION_BASH_FOR "cdtweaks\luke\animation\boar_wild" "^.+\.\(bam\|wav\|bmp\|ini\)$" BEGIN
+			ACTION_IF !(FILE_EXISTS_IN_GAME "%BASH_FOR_FILE%") BEGIN
+				COPY "%BASH_FOR_FILESPEC%" "override"
+			END
+		END
 	END
 END
 

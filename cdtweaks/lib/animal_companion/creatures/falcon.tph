@@ -7,15 +7,28 @@
 // creature animation files
 WITH_SCOPE BEGIN
 	ACTION_IF IDS_OF_SYMBOL ("animate" "GT_NWN_FALCON") == "-1" BEGIN
-		COPY "cdtweaks\luke\bam\animation\falcon" "override"
+		COPY "cdtweaks\luke\animation\falcon" "override"
 		LAF "FIND_FREE_ANIM_SLOT" INT_VAR "slotMin" = 0xE000 RET "slot" END
 		OUTER_PATCH "" BEGIN
 			SPRINTF "hexNumber" "%x" ("%slot%")
 		END
 		OUTER_PATCH_SAVE "hexNumber" "%hexNumber%" BEGIN
-			REPLACE_TEXTUALLY CASE_INSENSITIVE EVALUATE_REGEXP "^0x" ""
+			REPLACE_TEXTUALLY CASE_SENSITIVE EVALUATE_REGEXP "^0x" ""
 		END
 		COPY "cdtweaks\luke\ini\e###.ini" "override\%hexNumber%.ini"
+			REPLACE_TEXTUALLY CASE_SENSITIVE EXACT_MATCH "PLACEHOLDER" "GT_NWN_FALCON"
+			// [monster_icewind]
+			REPLACE_TEXTUALLY CASE_SENSITIVE EXACT_MATCH "resref=" "resref=gtfc"
+			REPLACE_TEXTUALLY CASE_SENSITIVE EXACT_MATCH "detected_by_infravision=0" "detected_by_infravision=1"
+			// [sounds]
+			REPLACE_TEXTUALLY CASE_SENSITIVE EXACT_MATCH "attack=" "attack=amb_e43a,blank,blank"
+			REPLACE_TEXTUALLY CASE_SENSITIVE EXACT_MATCH "die=" "die=amb_e43b"
+			REPLACE_TEXTUALLY CASE_SENSITIVE EXACT_MATCH "head_turn=blank,blank,blank,blank,blank,blank" "head_turn=amb_e43a,amb_e43b,blank,blank,blank,blank"
+			REPLACE_TEXTUALLY CASE_SENSITIVE EXACT_MATCH "attack_slash=" "attack_slash=amb_e43a,blank,blank"
+			REPLACE_TEXTUALLY CASE_SENSITIVE EXACT_MATCH "attack_backslash=" "attack_backslash=amb_e43a,blank,blank"
+			REPLACE_TEXTUALLY CASE_SENSITIVE EXACT_MATCH "attack_jab=" "attack_jab=amb_e43a,blank,blank"
+			REPLACE_TEXTUALLY CASE_SENSITIVE EXACT_MATCH "battle_cry=" "battle_cry=amb_e43a"
+		BUT_ONLY
 		APPEND "animate.ids" "0x%hexNumber% GT_NWN_FALCON"
 	END
 END
