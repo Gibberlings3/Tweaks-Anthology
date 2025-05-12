@@ -1348,6 +1348,21 @@ LABEL ~cd_tweaks_fai_container_restoration~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 BEGIN @125000 DESIGNATED 1250 DEPRECATED @18 // deprecated in favor of individual components, below
+// undeprecated, but into comp 1257
+
+/////                                                  \\\\\
+///// move all npcs                                    \\\\\
+/////                                                  \\\\\
+
+BEGIN @125700 DESIGNATED 1257 
+GROUP @13
+REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25
+REQUIRE_PREDICATE NOT FILE_EXISTS ~override/dw#npc_start_loc.mrk~ @16 // scs version of same
+REQUIRE_PREDICATE ((!FILE_EXISTS ~override/x#aloramove.g3~) AND  // bg1 npc does these separately
+                   (!FILE_EXISTS ~override/x#eldothmove.g3~) AND // bg1 npc does these separately
+                   (!FILE_EXISTS ~override/x#quaylemove.g3~) AND // bg1 npc does these separately
+                   (!FILE_EXISTS ~override/x#tiaxmove.g3~)) @16  // bg1 npc does these separately
+LABEL ~cd_tweaks_move_bg_npcs_all~
 
 /////                                                  \\\\\
 ///// Move NPCs From Baldur's Gate: alora              \\\\\
@@ -1358,6 +1373,11 @@ GROUP @13
 REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25
 REQUIRE_PREDICATE NOT FILE_EXISTS ~override/dw#npc_start_loc.mrk~ @16 // scs version of same
 REQUIRE_PREDICATE !FILE_EXISTS ~override/x#aloramove.g3~ @16 // bg1 npc does these separately
+// skip if 1257 is installed--have to use var checks in batch mode since the component isn't really installed
+REQUIRE_PREDICATE (((!VARIABLE_IS_SET cd_tweaks_batch_install OR !cd_tweaks_batch_install) AND       // if not in batch mods
+                       (!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1257~) ) OR                 // just a normal component check 
+                   ((VARIABLE_IS_SET cd_tweaks_batch_install AND cd_tweaks_batch_install) AND        // if we're in batch mode
+                       (!VARIABLE_IS_SET cdtweaks_1257_installed OR !cdtweaks_1257_installed) )) @24 // check for variable instead
 LABEL ~cd_tweaks_move_bg_npcs_alora~
 
 /////                                                  \\\\\
@@ -1369,6 +1389,11 @@ GROUP @13
 REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25
 REQUIRE_PREDICATE NOT FILE_EXISTS ~override/dw#npc_start_loc.mrk~ @16 // scs version of same
 REQUIRE_PREDICATE !FILE_EXISTS ~override/x#eldothmove.g3~ @16 // bg1 npc does these separately
+// skip if 1257 is installed--have to use var checks in batch mode since the component isn't really installed
+REQUIRE_PREDICATE (((!VARIABLE_IS_SET cd_tweaks_batch_install OR !cd_tweaks_batch_install) AND       // if not in batch mods
+                       (!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1257~) ) OR                 // just a normal component check 
+                   ((VARIABLE_IS_SET cd_tweaks_batch_install AND cd_tweaks_batch_install) AND        // if we're in batch mode
+                       (!VARIABLE_IS_SET cdtweaks_1257_installed OR !cdtweaks_1257_installed) )) @24 // check for variable instead
 LABEL ~cd_tweaks_move_bg_npcs_eldoth~
 
 /////                                                  \\\\\
@@ -1380,6 +1405,11 @@ GROUP @13
 REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25
 REQUIRE_PREDICATE NOT FILE_EXISTS ~override/dw#npc_start_loc.mrk~ @16 // scs version of same
 REQUIRE_PREDICATE !FILE_EXISTS ~override/x#quaylemove.g3~ @16 // bg1 npc does these separately
+// skip if 1257 is installed--have to use var checks in batch mode since the component isn't really installed
+REQUIRE_PREDICATE (((!VARIABLE_IS_SET cd_tweaks_batch_install OR !cd_tweaks_batch_install) AND       // if not in batch mods
+                       (!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1257~) ) OR                 // just a normal component check 
+                   ((VARIABLE_IS_SET cd_tweaks_batch_install AND cd_tweaks_batch_install) AND        // if we're in batch mode
+                       (!VARIABLE_IS_SET cdtweaks_1257_installed OR !cdtweaks_1257_installed) )) @24 // check for variable instead
 LABEL ~cd_tweaks_move_bg_npcs_quayle~
 
 /////                                                  \\\\\
@@ -1391,6 +1421,11 @@ GROUP @13
 REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25
 REQUIRE_PREDICATE NOT FILE_EXISTS ~override/dw#npc_start_loc.mrk~ @16 // scs version of same
 //REQUIRE_PREDICATE !FILE_EXISTS ~override/x#quaylemove.g3~ @16 // bg1 npc doesn't move her
+// skip if 1257 is installed--have to use var checks in batch mode since the component isn't really installed
+REQUIRE_PREDICATE (((!VARIABLE_IS_SET cd_tweaks_batch_install OR !cd_tweaks_batch_install) AND       // if not in batch mods
+                       (!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1257~) ) OR                 // just a normal component check 
+                   ((VARIABLE_IS_SET cd_tweaks_batch_install AND cd_tweaks_batch_install) AND        // if we're in batch mode
+                       (!VARIABLE_IS_SET cdtweaks_1257_installed OR !cdtweaks_1257_installed) )) @24 // check for variable instead
 LABEL ~cd_tweaks_move_bg_npcs_sharteel~
 
 /////                                                  \\\\\
@@ -1402,6 +1437,11 @@ GROUP @13
 REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25
 REQUIRE_PREDICATE NOT FILE_EXISTS ~override/dw#npc_start_loc.mrk~ @16 // scs version of same
 REQUIRE_PREDICATE !FILE_EXISTS ~override/x#tiaxmove.g3~ @16 // bg1 npc does these separately
+// skip if 1257 is installed--have to use var checks in batch mode since the component isn't really installed
+REQUIRE_PREDICATE (((!VARIABLE_IS_SET cd_tweaks_batch_install OR !cd_tweaks_batch_install) AND       // if not in batch mods
+                       (!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1257~) ) OR                 // just a normal component check 
+                   ((VARIABLE_IS_SET cd_tweaks_batch_install AND cd_tweaks_batch_install) AND        // if we're in batch mode
+                       (!VARIABLE_IS_SET cdtweaks_1257_installed OR !cdtweaks_1257_installed) )) @24 // check for variable instead
 LABEL ~cd_tweaks_move_bg_npcs_tiax~
 
 /////                                                  \\\\\
@@ -1413,6 +1453,11 @@ GROUP @13
 REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25
 REQUIRE_PREDICATE NOT FILE_EXISTS ~override/dw#npc_start_loc.mrk~ @16 // scs version of same
 //REQUIRE_PREDICATE !FILE_EXISTS ~override/x#quaylemove.g3~ @16 // bg1 npc doesn't move her
+// skip if 1257 is installed--have to use var checks in batch mode since the component isn't really installed
+REQUIRE_PREDICATE (((!VARIABLE_IS_SET cd_tweaks_batch_install OR !cd_tweaks_batch_install) AND       // if not in batch mods
+                       (!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1257~) ) OR                 // just a normal component check 
+                   ((VARIABLE_IS_SET cd_tweaks_batch_install AND cd_tweaks_batch_install) AND        // if we're in batch mode
+                       (!VARIABLE_IS_SET cdtweaks_1257_installed OR !cdtweaks_1257_installed) )) @24 // check for variable instead
 LABEL ~cd_tweaks_move_bg_npcs_viconia~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
