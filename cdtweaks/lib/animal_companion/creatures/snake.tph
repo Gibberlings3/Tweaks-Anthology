@@ -85,6 +85,8 @@ WITH_SCOPE BEGIN
 		BUT_ONLY
 		//
 		COPY_EXISTING "%INNATE_SNAKE_GRASP%.spl" "override\%INNATE_SNAKE_GRASP%b.spl"
+			WRITE_LONG NAME1 "-1"
+			//
 			LPF "DELETE_SPELL_EFFECT" INT_VAR "opcode_to_delete" = 324 END
 			LPF "ALTER_EFFECT" INT_VAR "match_opcode" = 402 "parameter1" = 1 END
 		BUT_ONLY_IF_IT_CHANGES
