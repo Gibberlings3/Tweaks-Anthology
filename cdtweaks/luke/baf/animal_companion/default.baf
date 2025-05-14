@@ -201,6 +201,22 @@ THEN
 		Continue()
 END
 
+// Grasp (snake) \\
+IF
+	ActionListEmpty()
+	OR(2)
+		!Name("gtAnmlCompSnake", Myself)
+		!EEex_LuaTrigger("return GT_AI_ResRefCheck('%INNATE_SNAKE_GRASP%')")
+	HaveSpellRES("%INNATE_SNAKE_GRASP%")
+	See(NearestEnemyOf(Myself))
+	EEex_LuaTrigger("return GT_AI_CastSpell({ ['resref'] = '%INNATE_SNAKE_GRASP%', ['opcode'] = {185}, ['targetIDS'] = {'HUMANOID'}, ['mode'] = 0 })")
+THEN
+	RESPONSE #100
+		SpellRES("%INNATE_SNAKE_GRASP%",EEex_Target("gt_ScriptingTarget_CastSpell"))
+	RESPONSE #50
+		Continue()
+END
+
 // Web Tangle (sword spider) \\
 IF
 	ActionListEmpty()
