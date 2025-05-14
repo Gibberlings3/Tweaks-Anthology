@@ -31,7 +31,7 @@ Here is a list of the animal companions that the Beast Master can summon:
 CAVE BEAR
 
 Base Stats:
-– Hit Points: as per its master
+– Hit Points: as per a beastmaster of the same level
 – Armor Class: 6 (+1 every 5 levels)
 – THAC0: as per a ranger of the same level
 – Saves: as per a ranger of the same level
@@ -47,7 +47,7 @@ Special Abilities:
 WINTER WOLF
 
 Base Stats:
-– Hit Points: as per its master
+– Hit Points: as per a beastmaster of the same level
 – Armor Class: 5 (+1 every 5 levels)
 – THAC0: as per a ranger of the same level
 – Saves: as per a ranger of the same level
@@ -64,7 +64,7 @@ Special Abilities:
 SWORD SPIDER
 
 Base Stats:
-– Hit Points: as per its master
+– Hit Points: as per a beastmaster of the same level
 – Armor Class: 3 (+1 every 5 levels)
 – THAC0: as per a ranger of the same level
 – Saves: as per a ranger of the same level
@@ -81,7 +81,7 @@ Special Abilities:
 LEOPARD
 
 Base Stats:
-– Hit Points: as per its master
+– Hit Points: as per a beastmaster of the same level
 – Armor Class: 6 (+1 every 5 levels)
 – THAC0: as per a ranger of the same level
 – Saves: as per a ranger of the same level
@@ -99,7 +99,7 @@ Special Abilities:
 DIRE BOAR
 
 Base Stats:
-– Hit Points: as per its master
+– Hit Points: as per a beastmaster of the same level
 – Armor Class: 7 (+1 every 5 levels)
 – THAC0: as per a ranger of the same level
 – Saves: as per a ranger of the same level
@@ -111,18 +111,18 @@ Special Abilities:
 
 
 
-GIANT POISONOUS SNAKE
+GIANT CONSTRICTOR SNAKE
 
 Base Stats:
-– Hit Points: as per its master
+– Hit Points: as per a beastmaster of the same level
 – Armor Class: 5 (+1 every 5 levels)
 – THAC0: as per a ranger of the same level
 – Saves: as per a ranger of the same level
 – Str(3), Int(1), Wis(2), Dex(16), Con(12), Cha(3)
-– Combat: 1 attack per round for 1d3 piercing damage (+1 every 5 levels, starting from level 10, capped at +3 at level 20)
+– Combat: 2 attacks per round for 2d4 piercing damage (+1 every 5 levels, starting from level 10, capped at +3 at level 20)
 
 Special Abilities:
-– Each successful hit will inject poison into the target, dealing an extra 2d6 points of damage with no Saving Throw. Moreover, if the target fails a Saving Throw vs. Poison, it will lose 30% of its maximum Hit Points within 20 seconds
+– Constriction Attack (1 use per day, +1 every 5 levels)
 – Suffers a -1 morale modifier when flames are used against it
 – Charm Animal (unlimited uses per day)
 
@@ -131,7 +131,7 @@ Special Abilities:
 BOMBARDIER BEETLE
 
 Base Stats:
-– Hit Points: as per its master
+– Hit Points: as per a beastmaster of the same level
 – Armor Class: 4 (+1 every 5 levels)
 – THAC0: as per a ranger of the same level
 – Saves: as per a ranger of the same level
@@ -146,7 +146,7 @@ Special Abilities:
 FALCON
 
 Base Stats:
-– Hit Points: as per its master
+– Hit Points: as per a beastmaster of the same level
 – Armor Class: 5 (+1 every 5 levels)
 – THAC0: as per a ranger of the same level
 – Saves: as per a ranger of the same level
