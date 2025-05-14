@@ -202,7 +202,7 @@ function GT_AnimalCompanion_LevelUp()
 		["gtAnmlCompBeetle"] = nil,
 		["gtAnmlCompBear"] = nil,
 		["gtAnmlCompFalcon"] = nil,
-		["gtAnmlCompSnake"] = nil, -- unlimited uses per day
+		["gtAnmlCompSnake"] = "%INNATE_SNAKE_GRASP%",
 		["gtAnmlCompLeopard"] = nil,
 		["gtAnmlCompSpider"] = "%INNATE_SPIDER_WEB_TANGLE%",
 		["gtAnmlCompWolf"] = "%INNATE_WINTER_WOLF_FROST_BREATH%",
