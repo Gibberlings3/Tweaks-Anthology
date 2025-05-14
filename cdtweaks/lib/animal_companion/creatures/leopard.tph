@@ -60,10 +60,10 @@ WITH_SCOPE BEGIN
 			"deathvar" = "gtAnmlCompLeopard"
 		END
 		// equipment
-		ADD_CRE_ITEM "gtpet05a" #0 #0 #0 "identified&unstealable&undroppable" "weapon" EQUIP
-		ADD_CRE_ITEM "gtpet05a" #0 #0 #0 "identified&unstealable&undroppable" "weapon"
-		ADD_CRE_ITEM "gtpet05a" #0 #0 #0 "identified&unstealable&undroppable" "weapon"
-		ADD_CRE_ITEM "gtpet05a" #0 #0 #0 "identified&unstealable&undroppable" "weapon"
+		ADD_CRE_ITEM "gtpet05a" #0 #0 #0 "identified&unstealable&undroppable" "weapon1" EQUIP
+		ADD_CRE_ITEM "gtpet05a" #0 #0 #0 "identified&unstealable&undroppable" "weapon2"
+		ADD_CRE_ITEM "gtpet05a" #0 #0 #0 "identified&unstealable&undroppable" "weapon3"
+		ADD_CRE_ITEM "gtpet05a" #0 #0 #0 "identified&unstealable&undroppable" "weapon4"
 		// spellbook
 		ADD_MEMORIZED_SPELL "%BEASTMASTER_ANIMAL_COMPANION%#" #0 "innate" // banish
 		// passive traits
