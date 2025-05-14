@@ -29,6 +29,7 @@ EEex_Sprite_AddQuickListsCheckedListener(function(sprite, resref, changeAmount)
 	local resrefSources = {
 		["%INNATE_WINTER_WOLF_FROST_BREATH%"] = true,
 		["%INNATE_SNAKE_CHARM%"] = true,
+		["%INNATE_SNAKE_GRASP%"] = true,
 		["%INNATE_SPIDER_WEB_TANGLE%"] = true,
 		["%INNATE_ANIMAL_FEROCITY%"] = true,
 	}
