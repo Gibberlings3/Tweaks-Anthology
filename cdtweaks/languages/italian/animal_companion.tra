@@ -31,7 +31,7 @@ Ecco un elenco dei compagni animali che l'Addestratore di Animali può evocare:
 ORSO DELLE CAVERNE
 
 Statistiche di Base:
-– Punti Ferita: pari a quelli del suo padrone
+– Punti Ferita: pari a quello di un addestratore di animali di uguale livello
 – Classe Armatura: 6 (+1 ogni 5 livelli)
 – THAC0: pari a quello di un ranger di uguale livello
 – Tiri-salvezza: pari a quelli di un ranger di uguale livello
@@ -47,7 +47,7 @@ Abilità Speciali:
 LUPO INVERNALE
 
 Statistiche di Base:
-– Punti Ferita: pari a quelli del suo padrone
+– Punti Ferita: pari a quello di un addestratore di animali di uguale livello
 – Classe Armatura: 5 (+1 ogni 5 livelli)
 – THAC0: pari a quello di un ranger di uguale livello
 – Tiri-salvezza: pari a quelli di un ranger di uguale livello
@@ -64,7 +64,7 @@ Abilità Speciali:
 RAGNO SPADACCINO
 
 Statistiche di Base:
-– Punti Ferita: pari a quelli del suo padrone
+– Punti Ferita: pari a quello di un addestratore di animali di uguale livello
 – Classe Armatura: 3 (+1 ogni 5 livelli)
 – THAC0: pari a quello di un ranger di uguale livello
 – Tiri-salvezza: pari a quelli di un ranger di uguale livello
@@ -81,7 +81,7 @@ Abilità Speciali:
 LEOPARDO
 
 Statistiche di Base:
-– Punti Ferita: pari a quelli del suo padrone
+– Punti Ferita: pari a quello di un addestratore di animali di uguale livello
 – Classe Armatura: 6 (+1 ogni 5 livelli)
 – THAC0: pari a quello di un ranger di uguale livello
 – Tiri-salvezza: pari a quelli di un ranger di uguale livello
@@ -99,7 +99,7 @@ Abilità Speciali:
 CINGHIALE CRUDELE
 
 Statistiche di Base:
-– Punti Ferita: pari a quelli del suo padrone
+– Punti Ferita: pari a quello di un addestratore di animali di uguale livello
 – Classe Armatura: 7 (+1 ogni 5 livelli)
 – THAC0: pari a quello di un ranger di uguale livello
 – Tiri-salvezza: pari a quelli di un ranger di uguale livello
@@ -111,26 +111,27 @@ Abilità Speciali:
 
 
 
-SERPENTE VELENOSO GIGANTE
+SERPENTE STRITOLATORE GIGANTE
 
 Statistiche di Base:
-– Punti Ferita: pari a quelli del suo padrone
+– Punti Ferita: pari a quello di un addestratore di animali di uguale livello
 – Classe Armatura: 5 (+1 ogni 5 livelli)
 – THAC0: pari a quello di un ranger di uguale livello
 – Tiri-salvezza: pari a quelli di un ranger di uguale livello
 – For(3), Int(1), Sag(2), Des(16), Cos(12), Car(3)
-– Danno: 1 attacco per round che infligge 1d3 danni perforanti (+1 ogni 5 livelli, a partire dal livello 10, fino a un massimo di +3 al livello 20)
+– Danno: 2 attacchi per round che infligge 2d4 danni perforanti (+1 ogni 5 livelli, a partire dal livello 10, fino a un massimo di +3 al livello 20)
 
 Abilità Speciali:
-– Tutti gli attacchi messi a segno inietteranno del veleno nel bersaglio, infliggendo 2d6 punti di danno senza alcun tiro-salvezza. In aggiunta a ciò, se il bersaglio fallisce un tiro-salvezza contro Veleno, perderà il 30% dei suoi Punti Ferita Massimi in 20 secondi
 – Penalità pari a -1 al morale ogni qual volta viene colpito dal fuoco
+– Charmare Animali (usi illimitati al giorno)
+– Stritolamento (1 uso al giorno, +1 ogni 5 livelli)
 
 
 
 SCARABEO BOMBARDIERE
 
 Statistiche di Base:
-– Punti Ferita: pari a quelli del suo padrone
+– Punti Ferita: pari a quello di un addestratore di animali di uguale livello
 – Classe Armatura: 4 (+1 ogni 5 livelli)
 – THAC0: pari a quello di un ranger di uguale livello
 – Tiri-salvezza: pari a quelli di un ranger di uguale livello
@@ -145,7 +146,7 @@ Abilità Speciali:
 FALCO
 
 Statistiche di Base:
-– Punti Ferita: pari a quelli del suo padrone
+– Punti Ferita: pari a quello di un addestratore di animali di uguale livello
 – Classe Armatura: 5 (+1 ogni 5 livelli)
 – THAC0: pari a quello di un ranger di uguale livello
 – Tiri-salvezza: pari a quelli di un ranger di uguale livello
