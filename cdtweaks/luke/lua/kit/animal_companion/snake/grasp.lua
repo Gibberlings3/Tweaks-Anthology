@@ -23,7 +23,7 @@ function %INNATE_SNAKE_GRASP%(CGameEffect, CGameSprite)
 			-- free the coiled victim upon death
 			do
 				local effectCodes = {
-					{["op"] = 0xE8, ["p2"] = 16}, -- cast spell on condition (232), cond: Die()
+					--{["op"] = 0xE8, ["p2"] = 16}, -- cast spell on condition (232), cond: Die()
 					{["op"] = 0x92, ["p2"] = 1, ["tmg"] = 4}, -- cast spell (146), mode: instant/ignore level (nuke aux upon expiration)
 				}
 				--
@@ -35,7 +35,7 @@ function %INNATE_SNAKE_GRASP%(CGameEffect, CGameSprite)
 						["durationType"] = attributes["tmg"] or 0,
 						["duration"] = (6 * 5) + (6 * levelModifier),
 						["m_sourceRes"] = CGameEffect.m_sourceRes:get(),
-						--["m_sourceType"] = CGameEffect.m_sourceType,
+						["m_sourceType"] = CGameEffect.m_sourceType,
 						["sourceID"] = sourceSprite.m_id,
 						["sourceTarget"] = sourceSprite.m_id,
 					})
@@ -45,7 +45,7 @@ function %INNATE_SNAKE_GRASP%(CGameEffect, CGameSprite)
 			-- nuke aux upon target death
 			do
 				local effectCodes = {
-					{["op"] = 0xE8, ["p2"] = 16, ["res"] = "%INNATE_SNAKE_GRASP%B", ["spec"] = 0x2}, -- cast spell on condition (232), cond: Die(), spec: Fire subspell as effect source (the creature that casts the spell) instead of effect host (the creature the effect is attached to)
+					--{["op"] = 0xE8, ["p2"] = 16, ["res"] = "%INNATE_SNAKE_GRASP%B", ["spec"] = 0x2}, -- cast spell on condition (232), cond: Die(), spec: Fire subspell as effect source (the creature that casts the spell) instead of effect host (the creature the effect is attached to)
 					{["op"] = 0xB9, ["p2"] = 2}, -- hold II (185)
 					{["op"] = 0xCE, ["res"] = "%INNATE_SNAKE_GRASP%", ["p1"] = %feedback_strref_already_constricted%}, -- protection from spell (206), string: already constricted
 				}
@@ -59,7 +59,7 @@ function %INNATE_SNAKE_GRASP%(CGameEffect, CGameSprite)
 						["special"] = attributes["spec"] or 0,
 						["duration"] = (6 * 5) + (6 * levelModifier),
 						["m_sourceRes"] = CGameEffect.m_sourceRes:get(),
-						--["m_sourceType"] = CGameEffect.m_sourceType,
+						["m_sourceType"] = CGameEffect.m_sourceType,
 						["sourceID"] = CGameEffect.m_sourceId,
 						["sourceTarget"] = CGameEffect.m_sourceTarget,
 					})
@@ -88,24 +88,60 @@ function %INNATE_SNAKE_GRASP%(CGameEffect, CGameSprite)
 			["sourceTarget"] = sourceSprite.m_id,
 		})
 		--
-		victim:applyEffect({
-			["effectID"] = 321, -- remove effects by resource
-			["res"] = "%INNATE_SNAKE_GRASP%",
-			["noSave"] = true,
-			["sourceID"] = victim.m_id,
-			["sourceTarget"] = victim.m_id,
-		})
-		victim:applyEffect({
-			["effectID"] = 139, -- feedback string
-			["effectAmount"] = %feedback_strref_break_free%,
-			["noSave"] = true,
-			["sourceID"] = victim.m_id,
-			["sourceTarget"] = victim.m_id,
-		})
-		--
-		sourceAux["gt_InnateSnakeGrasp_CoiledVictim"] = nil
+		if victim then
+			victim:applyEffect({
+				["effectID"] = 321, -- remove effects by resource
+				["res"] = "%INNATE_SNAKE_GRASP%",
+				["noSave"] = true,
+				["sourceID"] = victim.m_id,
+				["sourceTarget"] = victim.m_id,
+			})
+			victim:applyEffect({
+				["effectID"] = 139, -- feedback string
+				["effectAmount"] = %feedback_strref_break_free%,
+				["noSave"] = true,
+				["sourceID"] = victim.m_id,
+				["sourceTarget"] = victim.m_id,
+			})
+			--
+			sourceAux["gt_InnateSnakeGrasp_CoiledVictim"] = nil
+		end
 	end
 end
+
+-- make sure to nuke the aux upon death (we do not trust op232). This is because auxiliary values are not cleared upon death --
+-- also, make sure to clear delayed op146 on the snake upon victim's death --
+
+EEex_Opcode_AddListsResolvedListener(function(sprite)
+	-- Sanity check
+	if not EEex_GameObject_IsSprite(sprite) then
+		return
+	end
+	--
+	local aux = EEex_GetUDAux(sprite)
+	local victim = aux["gt_InnateSnakeGrasp_CoiledVictim"] -- CGameSprite
+	--
+	if victim then
+		local found = false
+		EEex_Utility_IterateCPtrList(victim.m_timedEffectList, function(effect)
+			if effect.m_effectId == 185 and effect.m_sourceId == sprite.m_id then
+				found = true
+				return true
+			end
+		end)
+		--
+		if not found then
+			sprite:applyEffect({
+				["effectID"] = 146, -- cast spell
+				["dwFlags"] = 1, -- instant/ignore level
+				["res"] = "%INNATE_SNAKE_GRASP%B",
+				["noSave"] = true,
+				["sourceID"] = sprite.m_id,
+				["sourceTarget"] = sprite.m_id,
+			})
+		end
+	end
+end)
 
 -- free the coiled victim upon getting petrified/frozen/stunned/mazed/imprisoned/... --
 
@@ -127,7 +163,10 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	end)
 	--
 	if victim then
-		if EEex_BAnd(sprite.m_derivedStats.m_generalState, 0x80102FEF) ~= 0 or not EEex_UDEqual(sprite.m_pArea, victim.m_pArea) or isMazed then
+		sprite:setStoredScriptingTarget("GT_InnateSnakeGrasp_RangeCheck", victim)
+		local conditionalString = EEex_Trigger_ParseConditionalString('Range(EEex_Target("GT_InnateSnakeGrasp_RangeCheck"),4)')
+		--
+		if EEex_BAnd(sprite.m_derivedStats.m_generalState, 0x80102FEF) ~= 0 or not EEex_UDEqual(sprite.m_pArea, victim.m_pArea) or isMazed or not conditionalString:evalConditionalAsAIBase(sprite) then
 			sprite:applyEffect({
 				["effectID"] = 146, -- cast spell
 				["dwFlags"] = 1, -- instant/ignore level
@@ -137,6 +176,8 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 				["sourceTarget"] = sprite.m_id,
 			})
 		end
+		--
+		conditionalString:free()
 	end
 end)
 
@@ -163,49 +204,60 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		end
 	end)
 	--
-	if constricted and EEex_GameObject_Get(id) then
-		local src = EEex_GameObject_Get(id)
-		local srcAux = EEex_GetUDAux(src)
-		--
-		if not timerRunning then
-			-- fetch components of check
-			local strmod = GT_Resource_2DA["strmod"]
-			local strmodex = GT_Resource_2DA["strmodex"]
+	if constricted then
+		if EEex_GameObject_Get(id) then
+			local src = EEex_GameObject_Get(id)
+			local srcAux = EEex_GetUDAux(src)
 			--
-			local strBonus = tonumber(strmod[tostring(sprite.m_derivedStats.m_nSTR)]["BEND_BARS_LIFT_GATES"])
-			local strExtraBonus = sprite.m_derivedStats.m_nSTR == 18 and tonumber(strmodex[tostring(sprite.m_derivedStats.m_nSTRExtra)]["BEND_BARS_LIFT_GATES"]) or 0
-			--
-			local roll = math.random(tonumber(strmod["19"]["BEND_BARS_LIFT_GATES"]))
-			--
-			if strBonus + strExtraBonus >= roll then
-				src:applyEffect({
-					["effectID"] = 146, -- cast spell
-					["dwFlags"] = 1, -- instant/ignore level
-					["res"] = "%INNATE_SNAKE_GRASP%B",
-					["noSave"] = true,
-					["sourceID"] = src.m_id,
-					["sourceTarget"] = src.m_id,
-				})
-			else
-				-- set timer (+1d6 crushing damage)
-				sprite:applyEffect({
-					["effectID"] = 401, -- Set extended stat
-					["special"] = stats["GT_DUMMY_STAT"],
-					["m_scriptName"] = "gtInnateSnakeGraspTimer",
-					["duration"] = 6,
-					["noSave"] = true,
-					["m_sourceRes"] = "%INNATE_SNAKE_GRASP%",
-					["sourceID"] = src.m_id,
-					["sourceTarget"] = sprite.m_id,
-				})
-				sprite:applyEffect({
-					["effectID"] = 12, -- Damage
-					["numDice"] = 1,
-					["diceSize"] = 6,
-					["sourceID"] = src.m_id,
-					["sourceTarget"] = sprite.m_id,
-				})
+			if not timerRunning then
+				-- fetch components of check
+				local strmod = GT_Resource_2DA["strmod"]
+				local strmodex = GT_Resource_2DA["strmodex"]
+				--
+				local strBonus = tonumber(strmod[tostring(sprite.m_derivedStats.m_nSTR)]["BEND_BARS_LIFT_GATES"])
+				local strExtraBonus = sprite.m_derivedStats.m_nSTR == 18 and tonumber(strmodex[tostring(sprite.m_derivedStats.m_nSTRExtra)]["BEND_BARS_LIFT_GATES"]) or 0
+				--
+				local roll = math.random(tonumber(strmod["19"]["BEND_BARS_LIFT_GATES"]))
+				--
+				if strBonus + strExtraBonus >= roll then
+					src:applyEffect({
+						["effectID"] = 146, -- cast spell
+						["dwFlags"] = 1, -- instant/ignore level
+						["res"] = "%INNATE_SNAKE_GRASP%B",
+						["noSave"] = true,
+						["sourceID"] = src.m_id,
+						["sourceTarget"] = src.m_id,
+					})
+				else
+					-- set timer (+1d6 crushing damage)
+					sprite:applyEffect({
+						["effectID"] = 401, -- Set extended stat
+						["special"] = stats["GT_DUMMY_STAT"],
+						["m_scriptName"] = "gtInnateSnakeGraspTimer",
+						["duration"] = 6,
+						["noSave"] = true,
+						["m_sourceRes"] = "%INNATE_SNAKE_GRASP%",
+						["sourceID"] = src.m_id,
+						["sourceTarget"] = sprite.m_id,
+					})
+					sprite:applyEffect({
+						["effectID"] = 12, -- Damage
+						["numDice"] = 1,
+						["diceSize"] = 6,
+						["sourceID"] = src.m_id,
+						["sourceTarget"] = sprite.m_id,
+					})
+				end
 			end
+		else
+			sprite:applyEffect({
+				["effectID"] = 146, -- cast spell
+				["dwFlags"] = 1, -- instant/ignore level
+				["res"] = "%INNATE_SNAKE_GRASP%B",
+				["noSave"] = true,
+				["sourceID"] = sprite.m_id,
+				["sourceTarget"] = sprite.m_id,
+			})
 		end
 	end
 end)
@@ -294,17 +346,22 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 				--
 				local roll = math.random(20) -- 1d20
 				--
-				if victim and roll <= 4 then -- 20% chance
+				sprite:setStoredScriptingTarget("GT_InnateSnakeGrasp_InWeaponRangeCheck", victim)
+				local conditionalString = EEex_Trigger_ParseConditionalString('InWeaponRange(EEex_Target("GT_InnateSnakeGrasp_InWeaponRangeCheck"))')
+				--
+				if victim and roll <= 4 and conditionalString:evalConditionalAsAIBase(sprite) then -- 20% chance + InWeaponRange()
 					-- store original ``m_actionID`` and ``m_acteeID``
 					-- NB.: this is because we recall some weirdness with ``AttackReevaluate()`` and how it stores its target!
 					attackerAux["gt_InnateSnakeGrasp_StrikeVictim"] = {
 						["actionID"] = m_curAction.m_actionID,
-						["acteeID"] = m_curAction.m_acteeID, -- CAIObjectType
+						["instance"] = m_curAction.m_acteeID.m_Instance,
 					}
 					--
 					m_curAction.m_actionID = 105 -- ``AttackOneRound()``
 					m_curAction.m_acteeID.m_Instance = victim.m_id
 				end
+				--
+				conditionalString:free()
 			end
 		end
 	elseif attackerAux["gt_InnateSnakeGrasp_StrikeVictim"] then
@@ -312,8 +369,8 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		if actionSources[m_curAction.m_actionID] and attackerAux["gt_InnateSnakeGrasp_StrikeVictim"]["actionID"] then
 			m_curAction.m_actionID = attackerAux["gt_InnateSnakeGrasp_StrikeVictim"]["actionID"]
 		end
-		if actionSources[m_curAction.m_actionID] and attackerAux["gt_InnateSnakeGrasp_StrikeVictim"]["acteeID"] then
-			m_curAction.m_acteeID = attackerAux["gt_InnateSnakeGrasp_StrikeVictim"]["acteeID"]
+		if actionSources[m_curAction.m_actionID] and attackerAux["gt_InnateSnakeGrasp_StrikeVictim"]["instance"] then
+			m_curAction.m_acteeID.m_Instance = attackerAux["gt_InnateSnakeGrasp_StrikeVictim"]["instance"]
 		end
 		--
 		attackerAux["gt_InnateSnakeGrasp_StrikeVictim"] = nil
