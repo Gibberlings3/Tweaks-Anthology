@@ -373,8 +373,8 @@ function GT_AI_Attack(table)
 							--
 							if GT_AI_Attack_WeaponCheck(mainHandResRef, itrSprite) then
 								--
-								if mainHandAbility.type == 1 or GT_AI_Attack_HasImmunityEffects(itrSprite, 0, mainHandAbility.missileType - 1, mainHandAbility.school, mainHandAbility.secondaryType, mainHandResRef, table["opcode"], projectileFlags, table["ignoreOp101"] or 0x0) then
-									if mainHandAbility.type == 1 or GT_AI_Attack_HasBounceEffects(itrSprite, 0, mainHandAbility.missileType - 1, mainHandAbility.school, mainHandAbility.secondaryType, mainHandResRef, table["opcode"], projectileFlags) then
+								if mainHandAbility.type == 1 or GT_AI_Attack_HasImmunityEffects(itrSprite, 0, mainHandAbility.missileType - 1, mainHandAbility.school, mainHandAbility.secondaryType, "", table["opcode"], projectileFlags, table["ignoreOp101"] or 0x0) then
+									if mainHandAbility.type == 1 or GT_AI_Attack_HasBounceEffects(itrSprite, 0, mainHandAbility.missileType - 1, mainHandAbility.school, mainHandAbility.secondaryType, "", table["opcode"], projectileFlags) then
 										--
 										if not table["extra"] or GT_AI_Attack_ExtraCheck(table["extra"], itrSprite) then
 											--

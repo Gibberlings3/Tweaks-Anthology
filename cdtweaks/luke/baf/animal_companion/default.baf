@@ -55,6 +55,9 @@ END
 IF
 	GlobalTimerNotExpired("gt_BlindTimer","LOCALS")
 	ActionListEmpty()
+	OR(2)
+		!Name("gtAnmlCompSnake", Myself)
+		!EEex_LuaTrigger("return GT_AI_ResRefCheck('%INNATE_SNAKE_GRASP%')")
 	ActuallyInCombat()
 	StateCheck(Myself,STATE_BLIND)
 	!Range(NearestEnemyOf(Myself),2)
@@ -110,6 +113,9 @@ IF
 	Global("gt_RandomWalk","LOCALS",1)
 	CheckStatGT(Myself,7,INT)
 	ActionListEmpty()
+	OR(2)
+		!Name("gtAnmlCompSnake", Myself)
+		!EEex_LuaTrigger("return GT_AI_ResRefCheck('%INNATE_SNAKE_GRASP%')")
 	ActuallyInCombat()
 	StateCheck(Myself,STATE_INVISIBLE)
 	!StateCheck(Myself,STATE_BLIND)
@@ -127,6 +133,9 @@ IF
 	Global("gt_RandomWalk","LOCALS",2)
 	CheckStatGT(Myself,7,INT)
 	ActionListEmpty()
+	OR(2)
+		!Name("gtAnmlCompSnake", Myself)
+		!EEex_LuaTrigger("return GT_AI_ResRefCheck('%INNATE_SNAKE_GRASP%')")
 	ActuallyInCombat()
 	StateCheck(Myself,STATE_INVISIBLE)
 	!StateCheck(Myself,STATE_BLIND)
@@ -179,6 +188,9 @@ END
 // Charm (snake) \\
 IF
 	ActionListEmpty()
+	OR(2)
+		!Name("gtAnmlCompSnake", Myself)
+		!EEex_LuaTrigger("return GT_AI_ResRefCheck('%INNATE_SNAKE_GRASP%')")
 	HaveSpellRES("%INNATE_SNAKE_CHARM%")
 	See(NearestEnemyOf(Myself))
 	EEex_LuaTrigger("return GT_AI_CastSpell({ ['resref'] = '%INNATE_SNAKE_CHARM%', ['opcode'] = {5}, ['targetIDS'] = {'ANIMAL'}, ['mode'] = 0 })")
@@ -206,7 +218,7 @@ END
 IF
 	ActionListEmpty()
 	HaveSpellRES("%INNATE_ANIMAL_FEROCITY%")
-	EEex_LuaTrigger("return GT_AI_CurrentCastingHasRunOut('%INNATE_ANIMAL_FEROCITY%')")
+	!EEex_LuaTrigger("return GT_AI_ResRefCheck('%INNATE_ANIMAL_FEROCITY%')")
 	See(NearestEnemyOf(Myself))
 THEN
 	RESPONSE #100
@@ -223,6 +235,9 @@ END
 
 IF
 	ActionListEmpty()
+	OR(2)
+		!Name("gtAnmlCompSnake", Myself)
+		!EEex_LuaTrigger("return GT_AI_ResRefCheck('%INNATE_SNAKE_GRASP%')")
 	See(NearestEnemyOf(Myself))
 THEN
 	RESPONSE #100

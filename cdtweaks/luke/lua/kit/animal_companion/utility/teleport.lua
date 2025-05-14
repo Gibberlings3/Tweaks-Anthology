@@ -1,9 +1,9 @@
 --[[
-+-----------------------------------------------------------------+
-| Make sure both the animal and its summoner are in the same area |
-+-----------------------------------------------------------------+
++-----------------------------------------------------------------------------------+
+| Make sure both the animal and its summoner are in the same area (not working...?) |
++-----------------------------------------------------------------------------------+
 --]]
-
+--[[
 EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- sanity check
 	if not EEex_GameObject_IsSprite(sprite) or not sprite.m_pArea then
@@ -25,7 +25,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	--
 	local m_scriptName = sprite.m_scriptName:get()
 	--
-	if deathvarSources[m_scriptName] then
+	if deathvarSources[m_scriptName] and summoner then
 		if not EEex_UDEqual(sprite.m_pArea, summoner.m_pArea) then
 			sprite:applyEffect({
 				["effectID"] = 186, -- move to area
@@ -41,4 +41,4 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		end
 	end
 end)
-
+--]]

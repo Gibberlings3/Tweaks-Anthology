@@ -196,6 +196,7 @@ Duration: 5 rounds, +1 round every 5 levels.
 
 //
 @4000 = "Falcon"
+@4001 = "Blinded"
 
 //
 @5000 = "Leopard"
@@ -214,8 +215,16 @@ If the caster harms, or attempts to harm, the charmed animal by some overt actio
 
 Duration: 2d6 rounds.
 "
-@6002 = "Giant Poisonous Snake"
+@6002 = "Giant Constrictor Snake"
 @6003 = "Morale Modification"
+@6004 = "Constriction Attack"
+@6005 = "Constriction Attack
+
+The targeted creature is constricted for 5 rounds (+1 round per 5 levels). Constricted creatures can escape the coils with a successful open doors roll (19+ Strength creatures automatically break free). Anyone who attempts to free a captive by hacking at the constrictor has a 20% chance of striking the victim instead.
+Large creatures, incorporeal creatures, slimes, elementals &c. cannot be constricted.
+"
+@6006 = "The targeted creature is already constricted"
+@6007 = "The creature breaks free"
 
 //
 @7000 = "Web Tangle"

@@ -131,7 +131,7 @@ WITH_SCOPE BEGIN
 		LPF ~ADD_ITEM_HEADER~ INT_VAR "type" = 1 "location" = 1 "range" = 1 "dicenumber" = 1 "dicesize" = 12 "damage_type" = 3 "depletion" = 1 "flags" = BIT0 "overhand" = 34 "backhand" = 33 "thrust" = 33 STR_VAR "icon" = "IBEAR" END // 1d12 (slashing)
 	BUT_ONLY_IF_IT_CHANGES
 	//
-	WITH_SCOPE
+	WITH_SCOPE BEGIN
 		ACTION_DEFINE_ASSOCIATIVE_ARRAY "gtBearWeaponUpgrades" BEGIN
 			"b" => 0 // magical (+0)
 			"c" => 1 // magical (+1)

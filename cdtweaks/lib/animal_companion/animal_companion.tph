@@ -93,9 +93,9 @@ BEGIN
 		ACTION_CLEAR_ARRAY "cdtweaksAnimalCompanion"
 		ACTION_DEFINE_ASSOCIATIVE_ARRAY "cdtweaksAnimalCompanion" BEGIN
 			"%BEASTMASTER_ANIMAL_COMPANION%a", "bear" => 100 // cave bear
-			"%BEASTMASTER_ANIMAL_COMPANION%c", "beetle" => 101 // bombardier beetle
-			"%BEASTMASTER_ANIMAL_COMPANION%b", "boar" => 102 // dire boar
-			"%BEASTMASTER_ANIMAL_COMPANION%d", "falcon" => 103 // falcon
+			"%BEASTMASTER_ANIMAL_COMPANION%b", "beetle" => 101 // bombardier beetle
+			"%BEASTMASTER_ANIMAL_COMPANION%c", "boar" => 102 // dire boar (icon: courtesy of zenblack)
+			"%BEASTMASTER_ANIMAL_COMPANION%d", "falcon" => 103 // falcon (icon: courtesy of zenblack)
 			"%BEASTMASTER_ANIMAL_COMPANION%e", "leopard" => 104 // leopard
 			"%BEASTMASTER_ANIMAL_COMPANION%f", "snake" => 105 // giant poisonous snake
 			"%BEASTMASTER_ANIMAL_COMPANION%g", "spider" => 106 // sword spider
@@ -188,8 +188,8 @@ BEGIN
 		ACTION_CLEAR_ARRAY "cdtweaksAnimalCompanion"
 		ACTION_DEFINE_ASSOCIATIVE_ARRAY "cdtweaksAnimalCompanion" BEGIN
 			"override" => "%BEASTMASTER_ANIMAL_COMPANION%x"
-			"default" => "%BEASTMASTER_ANIMAL_COMPANION%y"
-			"class" => "%BEASTMASTER_ANIMAL_COMPANION%z"
+			"class" => "%BEASTMASTER_ANIMAL_COMPANION%y"
+			"default" => "%BEASTMASTER_ANIMAL_COMPANION%z"
 		END
 		//
 		ACTION_PHP_EACH "cdtweaksAnimalCompanion" AS "k" => "v" BEGIN

@@ -195,6 +195,7 @@ Durata: 5 round, +1 round ogni 5 livelli.
 
 //
 @4000 = "Falco"
+@4001 = "Accecato"
 
 //
 @5000 = "Leopardo"
@@ -210,8 +211,16 @@ Se il bersaglio fallisce il suo tiro-salvezza, percepirà il lanciatore come un 
 Se il personaggio ferisce (o cerca di ferire) l'animale charmato con qualche azione deliberata, lo charme viene infranto. Se due o più effetti di charme sono usati con successo sulla creatura, il più recente ha la precedenza.
 Durata: 2d6 round.
 "
-@6002 = "Serpente Velenoso Gigante"
+@6002 = "Serpente Stritolatore Gigante"
 @6003 = "Modificatore al Morale"
+@6004 = "Stritolare"
+@6005 = "Stritolare
+
+La creatura selezionata viene stritolata per 5 round (+1 round ogni 5 livelli). Le creature stritolate possono liberarsi effettuando con successo un tiro per forzare serrature (se il bersaglio ha Forza pari a 19 o superiore, si libera automaticamente). Chiunque tenti di liberare la vittima attaccando il serpente ha il 20% di possibilità di colpire lei anzichè il serpente.
+Le creature troppo grandi, incorporee, le melme, gli elementali e &c. non possono essere stritolate.
+"
+@6006 = "La creatura selezionata è già stritolata"
+@6007 = "La creatura si libera dalla presa"
 
 //
 @7000 = "Ragnatela"

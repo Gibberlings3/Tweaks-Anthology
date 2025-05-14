@@ -129,27 +129,22 @@ function GT_AI_ClearTimers()
 	end
 end
 
--- Check if the target is already affected by effects from the specified resref --
+-- Check if the target is affected by effects from the specified resref --
 
-function GT_AI_CurrentCastingHasRunOut(resref)
-	local toReturn = true
+function GT_AI_ResRefCheck(resref)
+	local toReturn = false
 	--
-	local found = false
 	local func = function(effect)
 		if effect.m_sourceRes:get() == resref then
-			found = true
+			toReturn = true
 			return true
 		end
 	end
 	--
 	EEex_Utility_IterateCPtrList(EEex_LuaTrigger_Object.m_timedEffectList, func)
-	if not found then
+	if not toReturn then
 		-- guess we can safely ignore equipped effects, right...?
 		--EEex_Utility_IterateCPtrList(EEex_LuaTrigger_Object.m_equipedEffectList, func)
-	end
-	--
-	if found then
-		toReturn = false
 	end
 	--
 	return toReturn

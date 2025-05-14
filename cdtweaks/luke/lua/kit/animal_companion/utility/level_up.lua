@@ -51,15 +51,50 @@ function GT_AnimalCompanion_LevelUp()
 		})
 	end
 	-- Update HP
-	EEex_LuaAction_Object:applyEffect({
-		["effectID"] = 18, -- max HP bonus
-		["durationType"] = 1,
-		["dwFlags"] = 4, -- set, don't update current HP
-		["effectAmount"] = summonerSprite.m_baseStats.m_maxHitPointsBase,
-		["noSave"] = true,
-		["sourceID"] = EEex_LuaAction_Object.m_id,
-		["sourceTarget"] = EEex_LuaAction_Object.m_id,
-	})
+	do
+		local hpclass = GT_Resource_2DA["hpclass"]
+		local hptbl = hpclass["BEAST_MASTER"]["TABLE"]
+		--
+		local data = EEex_Resource_Load2DA(hptbl)
+		local nX, nY = data:getDimensions()
+		nX = nX - 2
+		nY = nY - 1
+		--
+		local m_maxHitPointsBase = 0
+		for rowIndex = 0, nY do
+			if tonumber(data:getRowLabel(rowIndex)) <= summonerBaseLevel then
+				local sides = tonumber(data:getAtPoint(0, rowIndex))
+				local rolls = tonumber(data:getAtPoint(1, rowIndex))
+				local modifier = tonumber(data:getAtPoint(2, rowIndex))
+				--
+				m_maxHitPointsBase = m_maxHitPointsBase + (sides * rolls) + modifier
+			end
+		end
+		--
+		if creatureBaseLevel == 0 then
+			EEex_LuaAction_Object:applyEffect({
+				["effectID"] = 18, -- max HP bonus
+				["durationType"] = 1,
+				["dwFlags"] = 1, -- set, update current HP
+				["effectAmount"] = m_maxHitPointsBase,
+				["noSave"] = true,
+				["sourceID"] = EEex_LuaAction_Object.m_id,
+				["sourceTarget"] = EEex_LuaAction_Object.m_id,
+			})
+		else
+			EEex_LuaAction_Object:applyEffect({
+				["effectID"] = 18, -- max HP bonus
+				["durationType"] = 1,
+				["dwFlags"] = 4, -- set, don't update current HP
+				["effectAmount"] = m_maxHitPointsBase,
+				["noSave"] = true,
+				["sourceID"] = EEex_LuaAction_Object.m_id,
+				["sourceTarget"] = EEex_LuaAction_Object.m_id,
+			})
+		end
+		--
+		data:free()
+	end
 	-- Update THAC0
 	local thac0 = GT_Resource_2DA["thac0"]
 	EEex_LuaAction_Object:applyEffect({

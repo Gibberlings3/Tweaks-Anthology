@@ -32,7 +32,7 @@ WITH_SCOPE BEGIN
 			/* Extended Header */
 			PATCH_WITH_SCOPE BEGIN
 				FOR ("i" = 5 ; "%i%" <= 40 ; "i" += 5) BEGIN
-					LPF ~ADD_SPELL_HEADER~ INT_VAR "required_level" = ("%i%" == 5 ? 1 : "%i%") "range" = 30 "projectile" = IDS_OF_SYMBOL ("MISSILE" "New_Cone_Of_Cold") "target" = 4 STR_VAR "icon" = ~%WIZARD_CONE_OF_COLD%B~ END
+					LPF ~ADD_SPELL_HEADER~ INT_VAR "required_level" = ("%i%" == 5 ? 1 : "%i%") "range" = 25 "projectile" = IDS_OF_SYMBOL ("MISSILE" "New_Cone_Of_Cold") "target" = 4 STR_VAR "icon" = ~%WIZARD_CONE_OF_COLD%B~ END
 					/* Feature Blocks */
 					LPF "ADD_SPELL_EFFECT" INT_VAR "header" = SHORT_AT 0x68 "opcode" = 12 "target" = 2 "parameter2" = IDS_OF_SYMBOL ("dmgtype" "COLD") "dicenumber" = 6 "dicesize" = 4 "savingthrow" = BIT1 "savebonus" = "-1" * (("%i%" / 5) - 1) "special" = BIT8 END // Damage (6d4, save vs. breath for half)
 				END

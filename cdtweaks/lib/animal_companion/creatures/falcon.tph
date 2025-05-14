@@ -161,7 +161,7 @@ WITH_SCOPE BEGIN
 		LPF "ADD_ITEM_EFFECT" INT_VAR "type" = 1 "opcode" = 146 "target" = 2 "parameter2" = 1 "probability1" = 25 "probability2" = 1 STR_VAR "resource" = "%INNATE_HAWK_BLIND%" END // Cast spell
 	BUT_ONLY_IF_IT_CHANGES
 	//
-	WITH_SCOPE
+	WITH_SCOPE BEGIN
 		ACTION_DEFINE_ASSOCIATIVE_ARRAY "gtFalconWeaponUpgrades" BEGIN
 			"b" => 0 // magical (+0)
 			"c" => 1 // magical (+1)
@@ -169,12 +169,13 @@ WITH_SCOPE BEGIN
 			"e" => 3 // magical (+3)
 		END
 		ACTION_PHP_EACH "gtFalconWeaponUpgrades" AS "id" => "enchantment" BEGIN
-		COPY_EXISTING "gtpet04a.itm" "override\gtpet04%id%.itm"
-			WRITE_LONG 0x18 (THIS BOR BIT6) // flags: magical
-			WRITE_LONG 0x60 "%enchantment%"
-			//
-			LPF "ALTER_ITEM_HEADER" INT_VAR "damage_bonus" = "%enchantment%" "thac0_bonus" = "%enchantment%" END
-		BUT_ONLY_IF_IT_CHANGES
+			COPY_EXISTING "gtpet04a.itm" "override\gtpet04%id%.itm"
+				WRITE_LONG 0x18 (THIS BOR BIT6) // flags: magical
+				WRITE_LONG 0x60 "%enchantment%"
+				//
+				LPF "ALTER_ITEM_HEADER" INT_VAR "damage_bonus" = "%enchantment%" "thac0_bonus" = "%enchantment%" END
+			BUT_ONLY_IF_IT_CHANGES
+		END
 	END
 END
 
@@ -185,6 +186,6 @@ END
 */
 
 WITH_SCOPE BEGIN
-	OUTER_SET "feedback_strref_blind" = RESOLVE_STR_REF (@5003)
+	OUTER_SET "feedback_strref_blind" = RESOLVE_STR_REF (@4001)
 	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Innate Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\kit\animal_companion\falcon\blind.lua" "destRes" = "m_gtspin" END
 END

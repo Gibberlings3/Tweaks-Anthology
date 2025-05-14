@@ -73,6 +73,17 @@ END
 +----------+
 */
 
+// creature animation files
+WITH_SCOPE BEGIN
+	ACTION_BASH_FOR "cdtweaks\luke\animation\beetle_bombardier" "^.+\.\(bam\|wav\|bmp\|ini\)$" BEGIN
+		ACTION_IF !(FILE_EXISTS_IN_GAME "%BASH_FOR_FILE%") BEGIN
+			ACTION_TO_LOWER "BASH_FOR_FILESPEC"
+			COPY "%BASH_FOR_FILESPEC%" "override"
+		END
+	END
+	APPEND "animate.ids" "0xE220 BEETLE_BLACK" UNLESS "BEETLE_BLACK"
+END
+
 WITH_SCOPE BEGIN
 	ACTION_TO_LOWER "BEASTMASTER_ANIMAL_COMPANION"
 	//
@@ -122,9 +133,9 @@ WITH_SCOPE BEGIN
 			"gender" = IDS_OF_SYMBOL ("gender" "FEMALE")
 			"alignment" = IDS_OF_SYMBOL ("align" "NEUTRAL")
 		STR_VAR
-			"script_override" = "%BEASTMASTER_ANIMAL_COMPANION%#"
-			"script_class" = "%BEASTMASTER_ANIMAL_COMPANION%£"
-			"script_default" = "%BEASTMASTER_ANIMAL_COMPANION%_"
+			"script_override" = "%BEASTMASTER_ANIMAL_COMPANION%x"
+			"script_class" = "%BEASTMASTER_ANIMAL_COMPANION%y"
+			"script_default" = "%BEASTMASTER_ANIMAL_COMPANION%z"
 			//
 			"deathvar" = "gtAnmlCompBeetle"
 		END
@@ -137,17 +148,6 @@ WITH_SCOPE BEGIN
 		// spellbook
 		ADD_MEMORIZED_SPELL "%BEASTMASTER_ANIMAL_COMPANION%#" #0 "innate" // banish
 	BUT_ONLY_IF_IT_CHANGES
-END
-
-// creature animation files
-WITH_SCOPE BEGIN
-	ACTION_IF !(FILE_EXISTS_IN_GAME "mbbma1.bam") BEGIN
-		ACTION_BASH_FOR "cdtweaks\luke\animation\beetle_bombardier" "^.+\.\(bam\|wav\|bmp\|ini\)$" BEGIN
-			ACTION_IF !(FILE_EXISTS_IN_GAME "%BASH_FOR_FILE%") BEGIN
-				COPY "%BASH_FOR_FILESPEC%" "override"
-			END
-		END
-	END
 END
 
 /*
@@ -171,7 +171,7 @@ WITH_SCOPE BEGIN
 		LPF ~ADD_ITEM_HEADER~ INT_VAR "type" = 1 "location" = 1 "range" = 1 "dicenumber" = 2 "dicesize" = 6 "damage_type" = 3 "depletion" = 1 "flags" = BIT0 "overhand" = 34 "backhand" = 33 "thrust" = 33 END // 2d6 (Slashing)
 	BUT_ONLY_IF_IT_CHANGES
 	//
-	WITH_SCOPE
+	WITH_SCOPE BEGIN
 		ACTION_DEFINE_ASSOCIATIVE_ARRAY "gtBeetleWeaponUpgrades" BEGIN
 			"b" => 0 // magical (+0)
 			"c" => 1 // magical (+1)
