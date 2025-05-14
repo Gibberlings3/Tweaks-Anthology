@@ -195,6 +195,7 @@ WITH_SCOPE BEGIN
 		LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 232 "target" = 1 "timing" = 1 "parameter2" = 16 "special" = BIT2 STR_VAR "resource" = "%BEASTMASTER_ANIMAL_COMPANION%#" END // cast spell onto myself upon death (suppress spell's name)
 		// spellbook
 		ADD_MEMORIZED_SPELL "%INNATE_SNAKE_CHARM%" #0 "innate"
+		ADD_MEMORIZED_SPELL "%INNATE_SNAKE_GRASP%" #0 "innate"
 		ADD_MEMORIZED_SPELL "%BEASTMASTER_ANIMAL_COMPANION%#" #0 "innate" // banish
 	BUT_ONLY_IF_IT_CHANGES
 END
