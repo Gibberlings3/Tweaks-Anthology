@@ -353,6 +353,7 @@ function GT_AI_CastSpell(table)
 	--
 	local casterLevel = EEex_Sprite_GetCasterLevelForSpell(EEex_LuaTrigger_Object, spellResRef, true)
 	local spellAbility = EEex_Resource_GetSpellAbilityForLevel(spellHeader, casterLevel)
+	local spellRange = spellAbility.range * 16
 	local spellLevel = GT_AI_CastSpell_GetTrueSpellLevel(spellHeader, spellAbility)
 	--
 	local targetSprite = nil
@@ -369,7 +370,7 @@ function GT_AI_CastSpell(table)
 			if EEex_IsBitSet(spellFlags, 25) or EEex_IsBitUnset(casterActiveStats.m_generalState, 12) or string.upper(spellResRef) == "SPWI219" then -- if Vocalize || Castable when silenced || !STATE_SILENCED
 				if casterSpellFailureAmount < 60 then -- should we randomize...?
 					for _, aiObjectTypeString in ipairs(targetIDS) do
-						local spriteArray = EEex_Sprite_GetAllOfTypeStringInRange(EEex_LuaTrigger_Object, string.format("[%s]", aiObjectTypeString), EEex_LuaTrigger_Object:virtual_GetVisualRange(), nil, nil, nil)
+						local spriteArray = EEex_Sprite_GetAllOfTypeStringInRange(EEex_LuaTrigger_Object, string.format("[%s]", aiObjectTypeString), spellRange < EEex_LuaTrigger_Object:virtual_GetVisualRange() and spellRange or EEex_LuaTrigger_Object:virtual_GetVisualRange(), nil, nil, nil)
 						local spriteArray = GT_AI_ShuffleSprites(spriteArray)
 						--
 						for _, itrSprite in ipairs(spriteArray) do
