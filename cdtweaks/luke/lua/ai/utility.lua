@@ -150,19 +150,19 @@ function GT_AI_ResRefCheck(resref)
 	return toReturn
 end
 
--- AoE check (see f.i. friendly fire) --
+-- AoE radius check (try avoiding friendly fire) --
 
-function GT_AI_AoECheck(pAbility, scriptRunner, targetSprite)
+function GT_AI_AoERadiusCheck(missileType, scriptRunner, targetSprite)
 	local toReturn = true
 	--
 	if scriptRunner == nil then
 		scriptRunner = EEex_LuaTrigger_Object -- CGameSprite
 	end
 	--
-	local proResRef = GT_Resource_IDSToSymbol["projectl"][pAbility.missileType - 1]
-	local abilityTarget = pAbility.actionType
+	local proResRef = GT_Resource_IDSToSymbol["projectl"][missileType]
+	--local abilityTarget = pAbility.actionType
 	--
-	if proResRef and abilityTarget then -- sanity check
+	if proResRef then -- sanity check
 		local pHeader = EEex_Resource_Demand(proResRef, "pro")
 		--
 		if pHeader then -- sanity check
@@ -176,30 +176,13 @@ function GT_AI_AoECheck(pAbility, scriptRunner, targetSprite)
 				local triggerRadius = math.floor(m_triggerRange / 16) - 1
 				local explosionSize = math.floor(m_explosionRange / 16) - 1
 				--
-				local conditionalString
+				scriptRunner:setStoredScriptingTarget("GT_AI_AoERadiusCheck", targetSprite)
+				local conditionalString = EEex_Trigger_ParseConditionalString(string.format('TriggerOverride(EEex_Target("GT_AI_AoERadiusCheck"), Range(NearestAllyOf(Myself), %d)) \n TriggerOverride(EEex_Target("GT_AI_AoERadiusCheck"), Range(NearestAllyOf(Myself), %d))', triggerRadius, explosionSize)) -- affect only allies (i.e. party-friendly); see f.i. Haste / affect only enemies (i.e. party-friendly); see f.i. Curse
+				--
 				toReturn = false
 				--
-				if EEex_IsBitSet(m_dwAreaFlags, 0x6) and EEex_IsBitSet(m_dwAreaFlags, 0x7) then -- affect only allies (i.e. party-friendly)
-					if abilityTarget == 5 or abilityTarget == 7 then -- AoE centered on caster (f.i. Chant)
-						conditionalString = EEex_Trigger_ParseConditionalString(string.format("Range(NearestAllyOf(Myself), %d) \n Range(NearestAllyOf(Myself), %d)", triggerRadius, explosionSize))
-					else -- f.i. Haste
-						scriptRunner:setStoredScriptingTarget("GT_AI_AoECheck", targetSprite)
-						conditionalString = EEex_Trigger_ParseConditionalString(string.format('TriggerOverride(EEex_Target("GT_AI_AoECheck"), Range(NearestAllyOf(Myself), %d)) \n TriggerOverride(EEex_Target("GT_AI_AoECheck"), Range(NearestAllyOf(Myself), %d))', triggerRadius, explosionSize))
-					end
-				elseif EEex_IsBitSet(m_dwAreaFlags, 0x6) then -- affect only enemies (i.e. party-friendly)
-					if abilityTarget == 5 or abilityTarget == 7 then -- AoE centered on caster (f.i. Chant)
-						conditionalString = EEex_Trigger_ParseConditionalString(string.format("Range(NearestEnemyOf(Myself), %d) \n Range(NearestEnemyOf(Myself), %d)", triggerRadius, explosionSize))
-					else -- f.i. Curse
-						scriptRunner:setStoredScriptingTarget("GT_AI_AoECheck", targetSprite)
-						conditionalString = EEex_Trigger_ParseConditionalString(string.format('TriggerOverride(EEex_Target("GT_AI_AoECheck"), Range(NearestAllyOf(Myself), %d)) \n TriggerOverride(EEex_Target("GT_AI_AoECheck"), Range(NearestAllyOf(Myself), %d))', triggerRadius, explosionSize))
-					end
-				else -- try avoiding friendly fire
-					if abilityTarget == 5 or abilityTarget == 7 then -- AoE centered on caster (f.i. Sunfire)
-						conditionalString = EEex_Trigger_ParseConditionalString(string.format("Range(NearestEnemyOf(Myself), %d) \n Range(NearestEnemyOf(Myself), %d) \n !Range(NearestAllyOf(Myself), %d) \n !Range(NearestAllyOf(Myself), %d)", triggerRadius, explosionSize, triggerRadius + math.floor(triggerRadius / 2) , explosionSize + math.floor(explosionSize / 2)))
-					else -- f.i. Fireball, Arrow of Detonation
-						scriptRunner:setStoredScriptingTarget("GT_AI_AoECheck", targetSprite)
-						conditionalString = EEex_Trigger_ParseConditionalString(string.format('TriggerOverride(EEex_Target("GT_AI_AoECheck"), Range(NearestAllyOf(Myself), %d)) \n TriggerOverride(EEex_Target("GT_AI_AoECheck"), Range(NearestAllyOf(Myself), %d)) \n !TriggerOverride(EEex_Target("GT_AI_AoECheck"), Range(NearestEnemyOf(Myself), %d)) \n !TriggerOverride(EEex_Target("GT_AI_AoECheck"), Range(NearestEnemyOf(Myself), %d))', triggerRadius, explosionSize, triggerRadius + math.floor(triggerRadius / 2), explosionSize + math.floor(explosionSize / 2)))
-					end
+				if EEex_IsBitUnset(m_dwAreaFlags, 0x6) and EEex_IsBitUnset(m_dwAreaFlags, 0x7) then -- try avoiding friendly fire (see f.i. Fireball, Arrow of Detonation)
+					conditionalString = EEex_Trigger_ParseConditionalString(string.format('TriggerOverride(EEex_Target("GT_AI_AoERadiusCheck"), Range(NearestAllyOf(Myself), %d)) \n TriggerOverride(EEex_Target("GT_AI_AoERadiusCheck"), Range(NearestAllyOf(Myself), %d)) \n !TriggerOverride(EEex_Target("GT_AI_AoERadiusCheck"), Range(NearestEnemyOf(Myself), %d)) \n !TriggerOverride(EEex_Target("GT_AI_AoERadiusCheck"), Range(NearestEnemyOf(Myself), %d))', triggerRadius, explosionSize, triggerRadius + math.floor(triggerRadius / 2), explosionSize + math.floor(explosionSize / 2)))
 				end
 				--
 				if conditionalString:evalConditionalAsAIBase(scriptRunner) then
@@ -214,10 +197,11 @@ function GT_AI_AoECheck(pAbility, scriptRunner, targetSprite)
 	return toReturn
 end
 
--- Is AoE missile (i.e., can bypass some deflection/reflection/trap opcodes) --
+-- Check if AoE missile (i.e., can bypass some deflection/reflection/trap opcodes) --
 
-function GT_AI_IsAoE(projectileType)
-	local toReturn = 0x0
+function GT_AI_IsAoEMissile(projectileType)
+	local flags = 0x0
+	local m_secondaryProjectile = -1
 	--
 	local proResRef = GT_Resource_IDSToSymbol["projectl"][projectileType]
 	--
@@ -228,11 +212,12 @@ function GT_AI_IsAoE(projectileType)
 			local m_wFileType = pHeader.m_wFileType
 			--
 			if m_wFileType == 3 then -- AoE
-				toReturn = EEex_SetBit(toReturn, 0x2)
+				flags = 0x4 -- BIT2 (Bypasses deflection/reflection/trap opcodes)
+				m_secondaryProjectile = pHeader.m_secondaryProjectile
 			end
 		end
 	end
 	--
-	return toReturn
+	return flags, m_secondaryProjectile - 1
 end
 

@@ -337,7 +337,14 @@ function GT_AI_Attack(table)
 	--
 	local attackerActiveStats = EEex_Sprite_GetActiveStats(EEex_LuaDecode_Object)
 	--
-	local projectileFlags = mainHandAbility.type == 1 and -1 or GT_AI_IsAoE(mainHandAbility.missileType - 1)
+	local mainHandMissileType = mainHandAbility.missileType - 1
+	local bypassDeflectionReflectionTrap, explosionProjectile
+	--
+	if mainHandAbility.type == 1 then
+		bypassDeflectionReflectionTrap, explosionProjectile = 0, -1
+	else
+		bypassDeflectionReflectionTrap, explosionProjectile = GT_AI_IsAoEMissile(mainHandMissileType)
+	end
 	--
 	local toReturn = nil
 	--
@@ -369,12 +376,12 @@ function GT_AI_Attack(table)
 				if itrSpriteActiveStats.m_bSanctuary == 0 then -- ``Target`` must not be sanctuaried
 					if EEex_IsBitUnset(itrSpriteActiveStats.m_generalState, 0x4) or attackerActiveStats.m_bSeeInvisible > 0 then -- if ``Target`` is invisible, then ``attacker`` must be able to see through invisibility
 						--
-						if mainHandAbility.type == 1 or GT_AI_AoECheck(mainHandAbility, EEex_LuaDecode_Object, itrSprite) then
+						if mainHandAbility.type == 1 or GT_AI_AoERadiusCheck(mainHandMissileType, EEex_LuaDecode_Object, itrSprite) then
 							--
 							if GT_AI_Attack_WeaponCheck(mainHandResRef, itrSprite) then
 								--
-								if mainHandAbility.type == 1 or GT_AI_Attack_HasImmunityEffects(itrSprite, 0, mainHandAbility.missileType - 1, mainHandAbility.school, mainHandAbility.secondaryType, "", table["opcode"], projectileFlags, table["ignoreOp101"] or 0x0) then
-									if mainHandAbility.type == 1 or GT_AI_Attack_HasBounceEffects(itrSprite, 0, mainHandAbility.missileType - 1, mainHandAbility.school, mainHandAbility.secondaryType, "", table["opcode"], projectileFlags) then
+								if mainHandAbility.type == 1 or GT_AI_Attack_HasImmunityEffects(itrSprite, 0, explosionProjectile == -1 and mainHandMissileType or explosionProjectile, mainHandAbility.school, mainHandAbility.secondaryType, "", table["opcode"], bypassDeflectionReflectionTrap, table["ignoreOp101"] or 0x0) then
+									if mainHandAbility.type == 1 or GT_AI_Attack_HasBounceEffects(itrSprite, 0, explosionProjectile == -1 and mainHandMissileType or explosionProjectile, mainHandAbility.school, mainHandAbility.secondaryType, "", table["opcode"], bypassDeflectionReflectionTrap) then
 										--
 										if not table["extra"] or GT_AI_Attack_ExtraCheck(table["extra"], itrSprite) then
 											--

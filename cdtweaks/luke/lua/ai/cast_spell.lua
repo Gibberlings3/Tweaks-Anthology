@@ -361,7 +361,8 @@ function GT_AI_CastSpell(table)
 	--
 	targetIDS = GT_AI_CastSpell_EA(targetIDS, table["mode"])
 	--
-	local projectileFlags = GT_AI_IsAoE(spellAbility.missileType - 1)
+	local spellMissileType = spellAbility.missileType - 1
+	local bypassDeflectionReflectionTrap, explosionProjectile = GT_AI_IsAoEMissile(spellMissileType)
 	--
 	if not GT_AI_CastSpell_SpellcastingDisabled(spellHeader, spellAbility) then
 		if EEex_IsBitSet(spellFlags, 25) or EEex_IsBitUnset(casterActiveStats.m_generalState, 12) or string.upper(spellResRef) == "SPWI219" then -- if Vocalize || Castable when silenced || !STATE_SILENCED
@@ -379,11 +380,11 @@ function GT_AI_CastSpell(table)
 								if not EEex_IsBitSet(itrSpriteActiveStats.m_generalState, 0x4) or (spellAbility.actionType == 4 or casterActiveStats.m_bSeeInvisible > 0) then -- if ``Target`` is invisible, then ``caster`` should be able to see through invisibility || the spell should be able to target invisible creatures || the spell is AoE
 									if not EEex_IsBitSet(itrSpriteActiveStats.m_generalState, 22) or (spellAbility.actionType == 4 or EEex_IsBitSet(spellFlags, 24) or casterActiveStats.m_bSeeInvisible > 0) then -- if ``Target`` is improved/weak invisible, then ``caster`` should be able to see through invisibility || the spell should be able to target invisible creatures || the spell is AoE
 										--
-										if GT_AI_AoECheck(spellAbility, nil, itrSprite) then
+										if GT_AI_AoERadiusCheck(spellMissileType, nil, itrSprite) then
 											--
-											if GT_AI_CastSpell_HasImmunityEffects(itrSprite, spellLevel, spellAbility.missileType - 1, spellSchool, spellSectype, spellResRef, table["opcode"], projectileFlags, table["ignoreOp101"] or 0x0) then
-												if GT_AI_CastSpell_HasBounceEffects(itrSprite, spellLevel, spellAbility.missileType - 1, spellSchool, spellSectype, spellResRef, table["opcode"], projectileFlags) then
-													if GT_AI_CastSpell_HasTrapEffect(itrSprite, spellLevel, spellSectype, projectileFlags) then
+											if GT_AI_CastSpell_HasImmunityEffects(itrSprite, spellLevel, explosionProjectile == -1 and spellMissileType or explosionProjectile, spellSchool, spellSectype, spellResRef, table["opcode"], bypassDeflectionReflectionTrap, table["ignoreOp101"] or 0x0) then
+												if GT_AI_CastSpell_HasBounceEffects(itrSprite, spellLevel, explosionProjectile == -1 and spellMissileType or explosionProjectile, spellSchool, spellSectype, spellResRef, table["opcode"], bypassDeflectionReflectionTrap) then
+													if GT_AI_CastSpell_HasTrapEffect(itrSprite, spellLevel, spellSectype, bypassDeflectionReflectionTrap) then
 														--
 														if GT_AI_CastSpell_InPartyCheck(itrSprite) then
 															--
