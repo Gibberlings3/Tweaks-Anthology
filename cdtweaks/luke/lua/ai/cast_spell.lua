@@ -365,31 +365,33 @@ function GT_AI_CastSpell(table)
 	local bypassDeflectionReflectionTrap, explosionProjectile = GT_AI_IsAoEMissile(spellMissileType)
 	--
 	if not GT_AI_CastSpell_SpellcastingDisabled(spellHeader, spellAbility) then
-		if EEex_IsBitSet(spellFlags, 25) or EEex_IsBitUnset(casterActiveStats.m_generalState, 12) or string.upper(spellResRef) == "SPWI219" then -- if Vocalize || Castable when silenced || !STATE_SILENCED
-			if casterSpellFailureAmount < 60 then -- should we randomize...?
-				for _, aiObjectTypeString in ipairs(targetIDS) do
-					local spriteArray = EEex_Sprite_GetAllOfTypeStringInRange(EEex_LuaTrigger_Object, string.format("[%s]", aiObjectTypeString), EEex_LuaTrigger_Object:virtual_GetVisualRange(), nil, nil, nil)
-					local spriteArray = GT_AI_ShuffleSprites(spriteArray)
-					--
-					for _, itrSprite in ipairs(spriteArray) do
-						local itrSpriteActiveStats = EEex_Sprite_GetActiveStats(itrSprite)
+		if EEex_Sprite_GetCastTimer(EEex_LuaTrigger_Object) == -1 or casterActiveStats.m_bAuraCleansing > 0 then -- aura check
+			if EEex_IsBitSet(spellFlags, 25) or EEex_IsBitUnset(casterActiveStats.m_generalState, 12) or string.upper(spellResRef) == "SPWI219" then -- if Vocalize || Castable when silenced || !STATE_SILENCED
+				if casterSpellFailureAmount < 60 then -- should we randomize...?
+					for _, aiObjectTypeString in ipairs(targetIDS) do
+						local spriteArray = EEex_Sprite_GetAllOfTypeStringInRange(EEex_LuaTrigger_Object, string.format("[%s]", aiObjectTypeString), EEex_LuaTrigger_Object:virtual_GetVisualRange(), nil, nil, nil)
+						local spriteArray = GT_AI_ShuffleSprites(spriteArray)
 						--
-						if EEex_BAnd(itrSpriteActiveStats.m_generalState, 0xFC0) == 0 then -- skip dead creatures (this also includes "frozen" / "petrified" creatures...)
+						for _, itrSprite in ipairs(spriteArray) do
+							local itrSpriteActiveStats = EEex_Sprite_GetActiveStats(itrSprite)
 							--
-							if itrSpriteActiveStats.m_bSanctuary == 0 or spellAbility.actionType == 4 then -- if ``Target`` is sanctuaried, then the spell must be AoE
-								if not EEex_IsBitSet(itrSpriteActiveStats.m_generalState, 0x4) or (spellAbility.actionType == 4 or casterActiveStats.m_bSeeInvisible > 0) then -- if ``Target`` is invisible, then ``caster`` should be able to see through invisibility || the spell should be able to target invisible creatures || the spell is AoE
-									if not EEex_IsBitSet(itrSpriteActiveStats.m_generalState, 22) or (spellAbility.actionType == 4 or EEex_IsBitSet(spellFlags, 24) or casterActiveStats.m_bSeeInvisible > 0) then -- if ``Target`` is improved/weak invisible, then ``caster`` should be able to see through invisibility || the spell should be able to target invisible creatures || the spell is AoE
-										--
-										if GT_AI_AoERadiusCheck(spellMissileType, nil, itrSprite) then
+							if EEex_BAnd(itrSpriteActiveStats.m_generalState, 0xFC0) == 0 then -- skip dead creatures (this also includes "frozen" / "petrified" creatures...)
+								--
+								if itrSpriteActiveStats.m_bSanctuary == 0 or spellAbility.actionType == 4 then -- if ``Target`` is sanctuaried, then the spell must be AoE
+									if not EEex_IsBitSet(itrSpriteActiveStats.m_generalState, 0x4) or (spellAbility.actionType == 4 or casterActiveStats.m_bSeeInvisible > 0) then -- if ``Target`` is invisible, then ``caster`` should be able to see through invisibility || the spell should be able to target invisible creatures || the spell is AoE
+										if not EEex_IsBitSet(itrSpriteActiveStats.m_generalState, 22) or (spellAbility.actionType == 4 or EEex_IsBitSet(spellFlags, 24) or casterActiveStats.m_bSeeInvisible > 0) then -- if ``Target`` is improved/weak invisible, then ``caster`` should be able to see through invisibility || the spell should be able to target invisible creatures || the spell is AoE
 											--
-											if GT_AI_CastSpell_HasImmunityEffects(itrSprite, spellLevel, explosionProjectile == -1 and spellMissileType or explosionProjectile, spellSchool, spellSectype, spellResRef, table["opcode"], bypassDeflectionReflectionTrap, table["ignoreOp101"] or 0x0) then
-												if GT_AI_CastSpell_HasBounceEffects(itrSprite, spellLevel, explosionProjectile == -1 and spellMissileType or explosionProjectile, spellSchool, spellSectype, spellResRef, table["opcode"], bypassDeflectionReflectionTrap) then
-													if GT_AI_CastSpell_HasTrapEffect(itrSprite, spellLevel, spellSectype, bypassDeflectionReflectionTrap) then
-														--
-														if GT_AI_CastSpell_InPartyCheck(itrSprite) then
+											if GT_AI_AoERadiusCheck(spellMissileType, nil, itrSprite) then
+												--
+												if GT_AI_CastSpell_HasImmunityEffects(itrSprite, spellLevel, explosionProjectile == -1 and spellMissileType or explosionProjectile, spellSchool, spellSectype, spellResRef, table["opcode"], bypassDeflectionReflectionTrap, table["ignoreOp101"] or 0x0) then
+													if GT_AI_CastSpell_HasBounceEffects(itrSprite, spellLevel, explosionProjectile == -1 and spellMissileType or explosionProjectile, spellSchool, spellSectype, spellResRef, table["opcode"], bypassDeflectionReflectionTrap) then
+														if GT_AI_CastSpell_HasTrapEffect(itrSprite, spellLevel, spellSectype, bypassDeflectionReflectionTrap) then
 															--
-															targetSprite = itrSprite -- CGameSprite
-															goto continue
+															if GT_AI_CastSpell_InPartyCheck(itrSprite) then
+																--
+																targetSprite = itrSprite -- CGameSprite
+																goto continue
+															end
 														end
 													end
 												end
