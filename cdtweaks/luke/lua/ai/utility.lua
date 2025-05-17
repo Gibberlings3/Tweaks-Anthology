@@ -169,27 +169,50 @@ function GT_AI_AoERadiusCheck(missileType, scriptRunner, targetSprite)
 			local m_wFileType = pHeader.m_wFileType
 			--
 			if m_wFileType == 3 then -- AoE
+				toReturn = false
+				--
 				local m_dwAreaFlags = pHeader.m_dwAreaFlags
 				local m_triggerRange = pHeader.m_triggerRange
 				local m_explosionRange = pHeader.m_explosionRange
+				local m_coneSize = pHeader.m_coneSize
 				--
-				local triggerRadius = math.floor(m_triggerRange / 16) - 1
-				local explosionSize = math.floor(m_explosionRange / 16) - 1
+				local allies, enemies = {}
+				local alliesWithinRange, enemiesWithinRange = 0
 				--
-				scriptRunner:setStoredScriptingTarget("GT_AI_AoERadiusCheck", targetSprite)
-				local conditionalString = EEex_Trigger_ParseConditionalString(string.format('TriggerOverride(EEex_Target("GT_AI_AoERadiusCheck"), Range(NearestAllyOf(Myself), %d)) \n TriggerOverride(EEex_Target("GT_AI_AoERadiusCheck"), Range(NearestAllyOf(Myself), %d))', triggerRadius, explosionSize)) -- affect only allies (i.e. party-friendly); see f.i. Haste / affect only enemies (i.e. party-friendly); see f.i. Curse
-				--
-				toReturn = false
-				--
-				if EEex_IsBitUnset(m_dwAreaFlags, 0x6) and EEex_IsBitUnset(m_dwAreaFlags, 0x7) then -- try avoiding friendly fire (see f.i. Fireball, Arrow of Detonation)
-					conditionalString = EEex_Trigger_ParseConditionalString(string.format('TriggerOverride(EEex_Target("GT_AI_AoERadiusCheck"), Range(NearestAllyOf(Myself), %d)) \n TriggerOverride(EEex_Target("GT_AI_AoERadiusCheck"), Range(NearestAllyOf(Myself), %d)) \n !TriggerOverride(EEex_Target("GT_AI_AoERadiusCheck"), Range(NearestEnemyOf(Myself), %d)) \n !TriggerOverride(EEex_Target("GT_AI_AoERadiusCheck"), Range(NearestEnemyOf(Myself), %d))', triggerRadius, explosionSize, triggerRadius + math.floor(triggerRadius / 2), explosionSize + math.floor(explosionSize / 2)))
+				if targetSprite.m_typeAI.m_EnemyAlly < 30 then -- [GOODCUTOFF]
+					allies = EEex_Sprite_GetAllOfTypeInRange(targetSprite, GT_AI_ObjectType["GOODCUTOFF"], 448, nil, nil, nil)
+					enemies = EEex_Sprite_GetAllOfTypeInRange(targetSprite, GT_AI_ObjectType["EVILCUTOFF"], 448, nil, nil, nil)
+				elseif targetSprite.m_typeAI.m_EnemyAlly > 200 then -- [EVILCUTOFF]
+					allies = EEex_Sprite_GetAllOfTypeInRange(targetSprite, GT_AI_ObjectType["EVILCUTOFF"], 448, nil, nil, nil)
+					enemies = EEex_Sprite_GetAllOfTypeInRange(targetSprite, GT_AI_ObjectType["GOODCUTOFF"], 448, nil, nil, nil)
 				end
 				--
-				if conditionalString:evalConditionalAsAIBase(scriptRunner) then
-					toReturn = true
+				if EEex_IsBitUnset(m_dwAreaFlags, 0x6) and EEex_IsBitUnset(m_dwAreaFlags, 0x7) then -- party-unfriendly, try avoiding friendly fire (see f.i. Fireball, Arrow of Detonation)
+					for _, itrSprite in ipairs(enemies) do
+						if GT_Sprite_IsWithinAoE(scriptRunner.m_pos.x, scriptRunner.m_pos.y, itrSprite.m_pos.x, itrSprite.m_pos.y, scriptRunner.m_nDirection, EEex_IsBitSet(m_dwAreaFlags, 11) and m_coneSize or 360, m_explosionRange) then
+							enemiesWithinRange = 1
+							break
+						end
+					end
+					--
+					for _, itrSprite in ipairs(allies) do
+						if GT_Sprite_IsWithinAoE(scriptRunner.m_pos.x, scriptRunner.m_pos.y, itrSprite.m_pos.x, itrSprite.m_pos.y, scriptRunner.m_nDirection, EEex_IsBitSet(m_dwAreaFlags, 11) and m_coneSize or 360, m_explosionRange) then
+							alliesWithinRange = alliesWithinRange + 1
+						end
+					end
+				elseif EEex_IsBitSet(m_dwAreaFlags, 0x6) then -- party-friendly, see f.i. Bless/Haste/Curse
+					for _, itrSprite in ipairs(allies) do
+						if GT_Sprite_IsWithinAoE(scriptRunner.m_pos.x, scriptRunner.m_pos.y, itrSprite.m_pos.x, itrSprite.m_pos.y, scriptRunner.m_nDirection, EEex_IsBitSet(m_dwAreaFlags, 11) and m_coneSize or 360, m_explosionRange) then
+							alliesWithinRange = alliesWithinRange + 1
+						end
+					end
 				end
 				--
-				conditionalString:free()
+				if enemiesWithinRange == 0 then
+					if #allies == 0 or math.random(0, #allies) <= alliesWithinRange then
+						toReturn = true
+					end
+				end
 			end
 		end
 	end
