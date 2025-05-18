@@ -29,6 +29,13 @@ BEGIN
 <<<<<<<< .../inlined/cdtweaks/3400/hint_block.baf
 IF
   %campaign_check%
+  OR(6)
+    InMyArea(Player1)
+    InMyArea(Player2)
+    InMyArea(Player3)
+    InMyArea(Player4)
+    InMyArea(Player5)
+    InMyArea(Player6)
 THEN
 %response_list%
 END
