@@ -260,9 +260,6 @@ BEGIN
 	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Immunities via 403 / Removal via 402" "sourceFileSpec" = "cdtweaks\luke\lua\immunity_removal.lua" "destRes" = "m_gtimrm" END
 
 	// crypto library (https://github.com/Egor-Skriptunoff/pure_lua_SHA)
-	ACTION_IF !DIRECTORY_EXISTS "lua" BEGIN
-		MKDIR "lua"
-	END
 	ACTION_IF !DIRECTORY_EXISTS "lua\gt" BEGIN
 		MKDIR "lua\gt"
 	END
