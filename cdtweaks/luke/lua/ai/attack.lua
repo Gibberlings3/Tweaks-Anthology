@@ -337,13 +337,14 @@ function GT_AI_Attack(table)
 	--
 	local attackerActiveStats = EEex_Sprite_GetActiveStats(EEex_LuaDecode_Object)
 	--
-	local mainHandMissileType = mainHandAbility.missileType - 1
+	local mainHandMissileType = mainHandAbility.missileType -- "missile.ids"
+	local projectileIndex = mainHandMissileType - 1 -- "projectl.ids"
 	local bypassDeflectionReflectionTrap, explosionProjectile
 	--
 	if mainHandAbility.type == 1 then
 		bypassDeflectionReflectionTrap, explosionProjectile = 0, -1
 	else
-		bypassDeflectionReflectionTrap, explosionProjectile = GT_AI_IsAoEMissile(mainHandMissileType)
+		bypassDeflectionReflectionTrap, explosionProjectile = GT_AI_IsAoEMissile(projectileIndex)
 	end
 	--
 	local toReturn = nil
@@ -380,8 +381,8 @@ function GT_AI_Attack(table)
 							--
 							if GT_AI_Attack_WeaponCheck(mainHandResRef, itrSprite) then
 								--
-								if mainHandAbility.type == 1 or GT_AI_Attack_HasImmunityEffects(itrSprite, 0, explosionProjectile == -1 and mainHandMissileType or explosionProjectile, mainHandAbility.school, mainHandAbility.secondaryType, "", table["opcode"], bypassDeflectionReflectionTrap, table["ignoreOp101"] or 0x0) then
-									if mainHandAbility.type == 1 or GT_AI_Attack_HasBounceEffects(itrSprite, 0, explosionProjectile == -1 and mainHandMissileType or explosionProjectile, mainHandAbility.school, mainHandAbility.secondaryType, "", table["opcode"], bypassDeflectionReflectionTrap) then
+								if mainHandAbility.type == 1 or GT_AI_Attack_HasImmunityEffects(itrSprite, 0, explosionProjectile == -1 and projectileIndex or explosionProjectile, mainHandAbility.school, mainHandAbility.secondaryType, "", table["opcode"], bypassDeflectionReflectionTrap, table["ignoreOp101"] or 0x0) then
+									if mainHandAbility.type == 1 or GT_AI_Attack_HasBounceEffects(itrSprite, 0, explosionProjectile == -1 and projectileIndex or explosionProjectile, mainHandAbility.school, mainHandAbility.secondaryType, "", table["opcode"], bypassDeflectionReflectionTrap) then
 										--
 										if not table["extra"] or GT_AI_Attack_ExtraCheck(table["extra"], itrSprite) then
 											--

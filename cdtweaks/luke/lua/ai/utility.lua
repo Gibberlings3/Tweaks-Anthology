@@ -10,23 +10,6 @@ function GT_AI_InterruptableActions()
 	return not (EEex_LuaTrigger_Object.m_curAction.m_actionID == 3 or EEex_LuaTrigger_Object.m_curAction.m_actionID == 23)
 end
 
--- Check if the aura is free (or under the effects of Improved Alacrity) --
-
-function GT_AI_AuraFree(useItem)
-	-- sanity check
-	if useItem == nil then
-		useItem = false -- default to false if omitted
-	elseif type(useItem) ~= "boolean" then
-		useItem = true -- default to true if not boolean
-	end
-	--
-	if useItem then
-		return EEex_Sprite_GetCastTimer(EEex_LuaTrigger_Object) == -1
-	else
-		return (EEex_Sprite_GetCastTimer(EEex_LuaTrigger_Object) == -1 or EEex_LuaTrigger_Object:getActiveStats().m_bAuraCleansing > 0)
-	end
-end
-
 -- Select a weapon (chosen at random from SLOT_WEAPON[1-4] / SLOT_FIST) --
 
 function GT_AI_SelectWeapon()
@@ -159,7 +142,7 @@ function GT_AI_AoERadiusCheck(missileType, scriptRunner, targetSprite)
 		scriptRunner = EEex_LuaTrigger_Object -- CGameSprite
 	end
 	--
-	local proResRef = GT_Resource_IDSToSymbol["projectl"][missileType]
+	local proResRef = GT_Resource_IDSToSymbol["projectl"][missileType - 1]
 	--local abilityTarget = pAbility.actionType
 	--
 	if proResRef then -- sanity check
@@ -171,7 +154,7 @@ function GT_AI_AoERadiusCheck(missileType, scriptRunner, targetSprite)
 			if m_wFileType == 3 then -- AoE
 				toReturn = false
 				-- NB.: the projectile starts at an offset from the caster!!!
-				local projX, projY, projZ = EEex_Projectile_GetStartingPosForID(missileType + 1, scriptRunner, {
+				local projX, projY, projZ = EEex_Projectile_GetStartingPosForID(missileType, scriptRunner, {
 					["targetObject"] = targetSprite,
 				})
 				--
