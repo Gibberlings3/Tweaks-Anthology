@@ -136,89 +136,149 @@ end
 -- AoE radius check (try avoiding friendly fire) --
 
 function GT_AI_AoERadiusCheck(missileType, scriptRunner, targetSprite)
+
 	local toReturn = true
-	--
+
 	if scriptRunner == nil then
 		scriptRunner = EEex_LuaTrigger_Object -- CGameSprite
 	end
-	--
+
+	if targetSprite == nil then
+		EEex_Error("GT_AI_AoERadiusCheck: ``targetSprite`` is nil")
+	end
+
+	-- BG2:EE -> 250, CONECOLD.PRO
+	-- IWD:EE -> 335, IDPRO25.PRO
+	-- local proResRef = "IDPRO25"
 	local proResRef = GT_Resource_IDSToSymbol["projectl"][missileType - 1]
-	--local abilityTarget = pAbility.actionType
-	--
-	if proResRef then -- sanity check
-		local pHeader = EEex_Resource_Demand(proResRef, "pro")
-		--
-		if pHeader then -- sanity check
-			local m_wFileType = pHeader.m_wFileType
-			--
-			if m_wFileType == 3 then -- AoE
-				toReturn = false
-				-- NB.: the projectile starts at an offset from the caster!!!
-				local projX, projY, projZ = EEex_Projectile_GetStartingPosForID(missileType, scriptRunner, {
-					["targetObject"] = targetSprite,
-				})
-				--
-				local m_dwAreaFlags = pHeader.m_dwAreaFlags
-				--local m_triggerRange = pHeader.m_triggerRange
-				local m_explosionRange = pHeader.m_explosionRange
-				local m_coneSize = pHeader.m_coneSize
-				--
-				local allies, enemies = {}, {}
-				local alliesWithinRange, enemiesWithinRange = 0, 0
-				--
+
+	if proResRef == nil then
+		return true
+	end
+
+	local pHeader = EEex_Resource_Demand(proResRef, "pro")
+
+	if pHeader == nil then
+		return true
+	end
+
+	local m_wFileType = pHeader.m_wFileType
+
+	if m_wFileType == 3 then -- AoE
+
+		local projectile = CProjectile.DecodeProjectile(missileType, scriptRunner)
+
+		if projectile == nil then
+			return true
+		end
+
+		toReturn = false
+
+		EEex_Utility_TryFinally(function()
+
+			-- NB.: the projectile starts at an offset from the caster!!!
+			local projX, projY, projZ = projectile:getStartingPos(scriptRunner, {
+				["targetObject"] = targetSprite,
+			})
+
+			local m_dwAreaFlags = pHeader.m_dwAreaFlags
+			local m_explosionRange = pHeader.m_explosionRange
+			local m_bIgnoreLOS = EEex_IsBitSet(m_dwAreaFlags, 12)
+			local m_checkForNonSprites = EEex_IsBitSet(m_dwAreaFlags, 1)
+			local m_terrainTable = projectile.m_terrainTable
+			local m_coneSize = pHeader.m_coneSize
+
+			local tryToHit, tryToAvoid = {}, {}
+
+			local findObjects = function(aiType)
+				if EEex_IsBitSet(m_dwAreaFlags, 11) then
+					-- cone
+					return scriptRunner.m_pArea:getAllOfTypeInRange(projX, projY, aiType, m_explosionRange, not m_bIgnoreLOS, m_checkForNonSprites, m_terrainTable)
+				else
+					-- circle
+					return targetSprite:getAllOfTypeInRange(aiType, m_explosionRange, not m_bIgnoreLOS, m_checkForNonSprites, m_terrainTable)
+				end
+			end
+
+			if EEex_IsBitUnset(m_dwAreaFlags, 6) and EEex_IsBitUnset(m_dwAreaFlags, 7) then
+
+				-- EA-unfriendly, try avoiding friendly fire (see f.i. Fireball, Arrow of Detonation)
+				-- Assuming target EA is what I want to hit with this spell
+
 				if targetSprite.m_typeAI.m_EnemyAlly < 30 then -- [GOODCUTOFF]
-					if EEex_IsBitSet(m_dwAreaFlags, 11) then -- cone
-						allies = scriptRunner.m_pArea:getAllOfTypeInRange(projX, projY, GT_AI_ObjectType["GOODCUTOFF"], m_explosionRange)
-						enemies = scriptRunner.m_pArea:getAllOfTypeInRange(projX, projY, GT_AI_ObjectType["EVILCUTOFF"], m_explosionRange)
-					else -- circle
-						allies = EEex_Sprite_GetAllOfTypeInRange(targetSprite, GT_AI_ObjectType["GOODCUTOFF"], m_explosionRange, nil, nil, nil)
-						enemies = EEex_Sprite_GetAllOfTypeInRange(targetSprite, GT_AI_ObjectType["EVILCUTOFF"], m_explosionRange, nil, nil, nil)
-					end
+					tryToHit = findObjects(GT_AI_ObjectType["GOODCUTOFF"])
+					tryToAvoid = findObjects(GT_AI_ObjectType["EVILCUTOFF"])
 				elseif targetSprite.m_typeAI.m_EnemyAlly > 200 then -- [EVILCUTOFF]
-					if EEex_IsBitSet(m_dwAreaFlags, 11) then -- cone
-						allies = scriptRunner.m_pArea:getAllOfTypeInRange(projX, projY, GT_AI_ObjectType["EVILCUTOFF"], m_explosionRange)
-						enemies = scriptRunner.m_pArea:getAllOfTypeInRange(projX, projY, GT_AI_ObjectType["GOODCUTOFF"], m_explosionRange)
-					else -- circle
-						allies = EEex_Sprite_GetAllOfTypeInRange(targetSprite, GT_AI_ObjectType["EVILCUTOFF"], m_explosionRange, nil, nil, nil)
-						enemies = EEex_Sprite_GetAllOfTypeInRange(targetSprite, GT_AI_ObjectType["GOODCUTOFF"], m_explosionRange, nil, nil, nil)
-					end
+					tryToHit = findObjects(GT_AI_ObjectType["EVILCUTOFF"])
+					tryToAvoid = findObjects(GT_AI_ObjectType["GOODCUTOFF"])
 				end
-				--
-				if EEex_IsBitUnset(m_dwAreaFlags, 0x6) and EEex_IsBitUnset(m_dwAreaFlags, 0x7) then -- party-unfriendly, try avoiding friendly fire (see f.i. Fireball, Arrow of Detonation)
-					for _, itrSprite in ipairs(enemies) do
-						if EEex_IsBitUnset(m_dwAreaFlags, 11) or GT_Sprite_TestCone(m_coneSize, projX, projY, targetSprite.m_pos.x, targetSprite.m_pos.y, itrSprite.m_pos.x, itrSprite.m_pos.y) then
-							enemiesWithinRange = 1
-							goto continue
-						end
+
+			elseif EEex_IsBitSet(m_dwAreaFlags, 6) then
+
+				-- EA-friendly, see f.i. Bless/Haste/Curse
+
+				if EEex_IsBitSet(m_dwAreaFlags, 7) then
+					-- Only allies of caster
+					if scriptRunner.m_typeAI.m_EnemyAlly < 30 then -- [GOODCUTOFF]
+						tryToHit = findObjects(GT_AI_ObjectType["GOODCUTOFF"])
+					elseif scriptRunner.m_typeAI.m_EnemyAlly > 200 then -- [EVILCUTOFF]
+						tryToHit = findObjects(GT_AI_ObjectType["EVILCUTOFF"])
 					end
-					--
-					for _, itrSprite in ipairs(allies) do
-						if itrSprite.m_id ~= targetSprite.m_id then -- skip main target in case of cones
-							if EEex_IsBitUnset(m_dwAreaFlags, 11) or GT_Sprite_TestCone(m_coneSize, projX, projY, targetSprite.m_pos.x, targetSprite.m_pos.y, itrSprite.m_pos.x, itrSprite.m_pos.y) then
-								alliesWithinRange = alliesWithinRange + 1
-							end
-						end
-					end
-				elseif EEex_IsBitSet(m_dwAreaFlags, 0x6) then -- party-friendly, see f.i. Bless/Haste/Curse
-					for _, itrSprite in ipairs(allies) do
-						if itrSprite.m_id ~= targetSprite.m_id then -- skip main target in case of cones
-							if EEex_IsBitUnset(m_dwAreaFlags, 11) or GT_Sprite_TestCone(m_coneSize, projX, projY, targetSprite.m_pos.x, targetSprite.m_pos.y, itrSprite.m_pos.x, itrSprite.m_pos.y) then
-								alliesWithinRange = alliesWithinRange + 1
-							end
-						end
-					end
-				end
-				--
-				::continue::
-				if enemiesWithinRange == 0 then
-					if #allies == 0 or math.random(0, #allies) <= alliesWithinRange then
-						toReturn = true
+				else
+					-- Only enemies of caster
+					if scriptRunner.m_typeAI.m_EnemyAlly < 30 then -- [GOODCUTOFF]
+						tryToHit = findObjects(GT_AI_ObjectType["EVILCUTOFF"])
+					elseif scriptRunner.m_typeAI.m_EnemyAlly > 200 then -- [EVILCUTOFF]
+						tryToHit = findObjects(GT_AI_ObjectType["GOODCUTOFF"])
 					end
 				end
 			end
-		end
+
+			local toHitWithinRange = 0
+			local toAvoidWithinRange = 0
+
+			--print("--- Projection")
+
+			--[[
+			print(string.format("scriptRunner: %s, targetSprite: %s, scriptRunnerPos: (%d,%d), targetSpritePos: (%d,%d), proj: (%d,%d)",
+				scriptRunner:getName(), targetSprite:getName(),
+				scriptRunner.m_pos.x, scriptRunner.m_pos.y,
+				targetSprite.m_pos.x, targetSprite.m_pos.y,
+				projX, projY
+			))
+			--]]
+
+			--print("trying to hit:")
+			for _, itrSprite in ipairs(tryToHit) do
+				--print(string.format("  itrSprite: %s (%d,%d)", itrSprite:getName(), itrSprite.m_pos.x, itrSprite.m_pos.y))
+				if EEex_IsBitUnset(m_dwAreaFlags, 11) or (
+					itrSprite.m_id ~= scriptRunner.m_id
+					and GT_Sprite_TestCone(m_coneSize, projX, projY, targetSprite.m_pos.x, targetSprite.m_pos.y, itrSprite.m_pos.x, itrSprite.m_pos.y)
+				) then
+					--print("    "..itrSprite:getName())
+					toHitWithinRange = toHitWithinRange + 1
+				end
+			end
+
+			--print("trying to avoid:")
+			for _, itrSprite in ipairs(tryToAvoid) do
+				--print(string.format("  itrSprite: %s (%d,%d)", itrSprite:getName(), itrSprite.m_pos.x, itrSprite.m_pos.y))
+				if EEex_IsBitUnset(m_dwAreaFlags, 11) or (
+					itrSprite.m_id ~= scriptRunner.m_id
+					and GT_Sprite_TestCone(m_coneSize, projX, projY, targetSprite.m_pos.x, targetSprite.m_pos.y, itrSprite.m_pos.x, itrSprite.m_pos.y)
+				) then
+					--print("    "..itrSprite:getName())
+					toAvoidWithinRange = toAvoidWithinRange + 1
+				end
+			end
+
+			if math.random(0, toHitWithinRange) > toAvoidWithinRange then -- NB.: the source *might* hit a friendly target (provided that: # unfriendly targets > # friendly targets)
+				toReturn = true
+			end
+		end,
+		function() projectile:virtual_Destruct(true) end)
 	end
-	--
+
 	return toReturn
 end
 

@@ -19,6 +19,8 @@ function GT_AnimalCompanion_LevelUp()
 	else
 		summonerBaseLevel = summonerSprite.m_baseStats.m_level1
 	end
+	-- Update creature's racial enemy
+	EEex_LuaAction_Object.m_baseStats.m_hatedRace = summonerSprite.m_baseStats.m_hatedRace
 	-- Update creature's level
 	EEex_LuaAction_Object:applyEffect({
 		["effectID"] = 96, -- level change

@@ -176,13 +176,7 @@ IF
 	EEex_LuaTrigger("return GT_AI_CastSpell({ ['resref'] = '%INNATE_WINTER_WOLF_FROST_BREATH%', ['opcode'] = {12}, ['targetIDS'] = {'0'}, ['mode'] = 0 })")
 THEN
 	RESPONSE #100
-		EEex_SpellObjectOffsetRES("%INNATE_WINTER_WOLF_FROST_BREATH%",EEex_Target("gt_ScriptingTarget_CastSpell"),[-1.-1])
-	RESPONSE #100
-		EEex_SpellObjectOffsetRES("%INNATE_WINTER_WOLF_FROST_BREATH%",EEex_Target("gt_ScriptingTarget_CastSpell"),[-1.1])
-	RESPONSE #100
-		EEex_SpellObjectOffsetRES("%INNATE_WINTER_WOLF_FROST_BREATH%",EEex_Target("gt_ScriptingTarget_CastSpell"),[1.-1])
-	RESPONSE #100
-		EEex_SpellObjectOffsetRES("%INNATE_WINTER_WOLF_FROST_BREATH%",EEex_Target("gt_ScriptingTarget_CastSpell"),[1.1])
+		EEex_SpellObjectOffsetRES("%INNATE_WINTER_WOLF_FROST_BREATH%",EEex_Target("gt_ScriptingTarget_CastSpell"),[0.0])
 END
 
 // Charm (snake) \\

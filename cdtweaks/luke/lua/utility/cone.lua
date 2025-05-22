@@ -2,7 +2,11 @@
 
 local function isPtInArc(ptEdgeX, ptEdgeY, nCheckAngle, ptCheckX, ptCheckY)
 
+	--print(string.format("  [isPtInArc] ptEdge: (%d,%d), nCheckAngle: %d, ptCheck: (%d,%d)",
+		--ptEdgeX, ptEdgeY, nCheckAngle, ptCheckX, ptCheckY))
+
 	if ptCheckX == 0 and ptCheckY == 0 then
+		--print("    result: true")
 		return true
 	end
 
@@ -15,9 +19,11 @@ local function isPtInArc(ptEdgeX, ptEdgeY, nCheckAngle, ptCheckX, ptCheckY)
 
 	local fClampedCosine = math.max(-1.0, math.min(fCosine, 1.0))
 	local fRadians = math.acos(fClampedCosine)
-	local nAngle = (fRadians * 180 / math.pi)
+	local nAngle = math.floor((fRadians * 180 / math.pi)) -- truncating to match engine
 
-	return nAngle <= nCheckAngle / 2
+	local result = nAngle <= nCheckAngle / 2
+	--print(string.format("    result: %s", result and "true" or "false"))
+	return result
 end
 
 function GT_Sprite_TestCone(angle, ox, oy, tx, ty, px, py)
