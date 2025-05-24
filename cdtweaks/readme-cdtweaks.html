@@ -1348,9 +1348,12 @@
         Freeze two characters in melee range, one with a Blade Barrier (or Globe of Blades, or Circle of Bones, or any mod spell that uses the same mechanics), and the spell triggers several times to no immediate effect... until stopped time wears off. Then all of those suspended triggers hit at once, for a potential massive burst of damage (this is especially noticeable if the characters are hasted). </p>
       <p> This component adds a workaround to prevent the aforementioned issue. In particular, it makes sure that such spells are properly &quot;paused&quot; during Time Stop and are triggered only once per round (regardless of Haste/Slow). </p>
       <p> <strong>Dynamic FPS Change</strong><br />
-        <em><abbr title="Baldur's Gate: Enhanced Edition">EEex</abbr></em></p>
-      <p> This component will automatically adjust FPS during playthrough.<br />
-        When in combat or cutscene, will lock FPS to 30. Otherwise, will set them to 60. </p>
+        <em>BGEE, <abbr title="Baldur's Gate II">BG2</abbr>EE, IWDEE, EET (requires <abbr title="ToB Extender">EEex</abbr>)</em></p>
+      <p>
+        This component will automatically adjust FPS during playthrough.<br>
+        When in combat or cutscene, will lock FPS to 30. Otherwise, will set them to 60.
+      </p>
+
     </div>
     <div class="ribbon_rectangle_h3">
       <h3> <a id="contents_npc" name="contents_npc"></a>Joinable <abbr title="Non-Player Character">NPC</abbr> Tweaks </h3>
@@ -2053,6 +2056,277 @@ Notes:
           </ul>
         </li>
       </ul>
+
+      <p> <strong>Animal Companion Class Feat for Beastmasters [Luke]</strong><br />
+        <em>BGEE, <abbr title="Baldur's Gate II">BG2</abbr>EE, IWDEE, EET (requires <abbr title="ToB Extender">EEex</abbr>)</em><em></em></p>
+        <p>
+          This component is aimed at tweaking the existing Find Familiar ability available to Beastmasters.<br />
+
+          The ability is now called Summon Animal Companion, and the ranger can now choose among eight different creatures. Moreover, the summoned creature is no longer tied to CHARNAME (bg/bg2) or one of the Player-created characters (iwd)... This means that a party consisting of six Beastmasters can have up to six animal companions!
+        </p>
+        <p>
+          List of available animals:
+          <ul>
+            <li>
+              Cave Bear
+              <ul>
+                <li>
+                  Base Stats:
+                  <ul>
+                    <li>Hit Points: as per a beastmaster of the same level.</li>
+                    <li>Armor Class: 6 (+1 every 5 levels).</li>
+                    <li>THAC0: as per a ranger of the same level.</li>
+                    <li>Saves: as per a ranger of the same level.</li>
+                    <li>Str(18/100), Int(4), Wis(2), Dex(9), Con(16), Cha(3).</li>
+                    <li>Combat: 3 attacks per round for 1d12 slashing damage (+1 every 5 levels, starting from level 10, capped at +3 at level 20).</li>
+                  </ul>
+                  <li>
+                    Special Abilities:
+                    <ul>
+                      <li>Critical Hit Chance: +10% (starting from level 5).</li>
+                      <li>Deals an extra 2d8 points of damage on a critical hit (starting from level 5).</li>
+                    </ul>
+                  </li>
+                </li>
+              </ul>
+            </li>
+
+            <li>
+              Winter Wolf
+              <ul>
+                <li>
+                  Base Stats:
+                  <ul>
+                    <li>Hit Points: as per a beastmaster of the same level.</li>
+                    <li>Armor Class: 5 (+1 every 5 levels).</li>
+                    <li>THAC0: as per a ranger of the same level.</li>
+                    <li>Saves: as per a ranger of the same level.</li>
+                    <li>Cold Resistance: 125%.</li>
+                    <li>Fire Resistance: -25%.</li>
+                    <li>Str(18), Int(10), Wis(8), Dex(12), Con(16), Cha(6).</li>
+                    <li>Combat: 1 attack per round for 2d4 piercing damage (+1 every 5 levels, starting from level 10, capped at +3 at level 20).</li>
+                  </ul>
+                  <li>
+                    Special Abilities:
+                    <ul>
+                      <li>
+                        Frost Breath (1 use per day, +1 every 5 levels).
+                        <ul>
+                          <li>The creature can unleash a stream of frost, causing 6d4 points of cold damage (cone-shaped area originating at the creature's lungs and extending outward in a cone 17 ft. long with a 90-deg. arc). A save vs. breath weapon is allowed for half damage.</li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </li>
+              </ul>
+            </li>
+
+            <li>
+              Sword Spider
+              <ul>
+                <li>
+                  Base Stats:
+                  <ul>
+                    <li>Hit Points: as per a beastmaster of the same level.</li>
+                    <li>Armor Class: 3 (+1 every 5 levels).</li>
+                    <li>THAC0: as per a ranger of the same level.</li>
+                    <li>Saves: as per a ranger of the same level.</li>
+                    <li>Str(16), Int(10), Wis(2), Dex(14), Con(14), Cha(3).</li>
+                    <li>Combat: 2 attacks per round for 2d6 piercing damage (+1 every 5 levels, starting from level 10, capped at +3 at level 20).</li>
+                  </ul>
+                  <li>
+                    Special Abilities:
+                    <ul>
+                      <li>Permanently (improved) hasted.</li>
+                      <li>Immunity to Web.</li>
+                      <li>
+                        Web Tangle (1 use per day, +1 every 5 levels).
+                        <ul>
+                          <li>Targeted creature must save vs. Breath or be webbed for 2d6 rounds. Large creatures are unaffected.</li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </li>
+              </ul>
+            </li>
+
+            <li>
+              Leopard
+              <ul>
+                <li>
+                  Base Stats:
+                  <ul>
+                    <li>Hit Points: as per a beastmaster of the same level.</li>
+                    <li>Armor Class: 6 (+1 every 5 levels).</li>
+                    <li>THAC0: as per a ranger of the same level.</li>
+                    <li>Saves: as per a ranger of the same level.</li>
+                    <li>Hide in Shadows: 10 (+5 every level).</li>
+                    <li>Move Silently: 10 (+5 every level).</li>
+                    <li>Str(14), Int(4), Wis(12), Dex(15, +1 every 10 levels), Con(13), Cha(6).</li>
+                    <li>Combat: 3 attacks per round for 1d6 slashing damage (+1 every 5 levels, starting from level 10, capped at +3 at level 20).</li>
+                  </ul>
+                  <li>
+                    Special Abilities:
+                    <ul>
+                      <li>May Hide in Shadows.</li>
+                      <li>
+                        May perform sneak attacks as per an assassin of the same level (see <a href="https://gibberlings3.github.io/iesdp/files/2da/2da_bgee/sneakatt.htm"><code>sneakatt.2da</code></a>).
+                        <ul>
+                          <li>Sneak attacks are limited to max one per round.</li>
+                          <li>The targeted creature must be flat-footed (i.e., equipped with a ranged weapon / idle or helpless / in combat with someone else).</li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </li>
+              </ul>
+            </li>
+
+            <li>
+              Dire Boar
+              <ul>
+                <li>
+                  Base Stats:
+                  <ul>
+                    <li>Hit Points: as per a beastmaster of the same level.</li>
+                    <li>Armor Class: 7 (+1 every 5 levels).</li>
+                    <li>THAC0: as per a ranger of the same level.</li>
+                    <li>Saves: as per a ranger of the same level.</li>
+                    <li>Str(16), Int(4), Wis(2), Dex(10), Con(16), Cha(3).</li>
+                    <li>Combat: 1 attack per round for 3d4 piercing damage (+1 every 5 levels, starting from level 10, capped at +3 at level 20).</li>
+                  </ul>
+                  <li>
+                    Special Abilities:
+                    <ul>
+                      <li>
+                        Ferocity (1 use per day, +1 every 5 levels).
+                        <ul>
+                          <li>+1d6 Strength.</li>
+                          <li>+1d6 Constitution.</li>
+                          <li>Immunity to confusion, charm, and feeblemind.</li>
+                          <li>Duration: 5 rounds, +1 round every 5 levels.</li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </li>
+              </ul>
+            </li>
+
+            <li>
+              Giant Constrictor Snake
+              <ul>
+                <li>
+                  Base Stats:
+                  <ul>
+                    <li>Hit Points: as per a beastmaster of the same level.</li>
+                    <li>Armor Class: 5 (+1 every 5 levels).</li>
+                    <li>THAC0: as per a ranger of the same level.</li>
+                    <li>Saves: as per a ranger of the same level.</li>
+                    <li>Str(3), Int(1), Wis(2), Dex(16), Con(12), Cha(3).</li>
+                    <li>Combat: 2 attacks per round for 2d4 piercing damage (+1 every 5 levels, starting from level 10, capped at +3 at level 20).</li>
+                  </ul>
+                  <li>
+                    Special Abilities:
+                    <ul>
+                      <li>Suffers a -1 morale modifier when flames are used against it.</li>
+                      <li>
+                        Charm Animal (unlimited uses per day)
+                        <ul>
+                          <li>Targeted animal is charmed for 2d6 rounds upon a failed save vs. spell.</li>
+                        </ul>
+                      </li>
+                      <li>
+                        Constriction Attack (1 use per day, +1 every 5 levels)
+                        <ul>
+                          <li>
+                            Targeted creature is constricted for 5 rounds (+1 round per 5 levels). Notice that:
+                            <ul>
+                              <li>
+                                Once per round, constricted creatures can escape the coils with a successful open doors roll. If failed, the creature suffers 1d6 crushing damage.
+                                <ul>
+                                  <li>19+ Strength creatures automatically break free.</li>
+                                </ul>
+                              </li>
+                              <li>The victim automatically breaks free if the snake gets petrified/frozen/stunned/mazed/imprisoned &c.</li>
+                              <li>The victim automatically breaks free if the snake takes an hostile action (such as attacking or using a special ability), or if it moves away from the victim.</li>
+                              <li>Anyone who attempts to free a captive by hacking at the constrictor has a 20% chance of striking the victim instead.</li>
+                              <li>Large creatures, incorporeal creatures, slimes, elementals &c. cannot be constricted.</li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </li>
+              </ul>
+            </li>
+
+            <li>
+              Bombardier Beetle
+              <ul>
+                <li>
+                  Base Stats:
+                  <ul>
+                    <li>Hit Points: as per a beastmaster of the same level.</li>
+                    <li>Armor Class: 4 (+1 every 5 levels).</li>
+                    <li>THAC0: as per a ranger of the same level.</li>
+                    <li>Saves: as per a ranger of the same level.</li>
+                    <li>Str(3), Int(1), Wis(1), Dex(10), Con(14), Cha(1).</li>
+                    <li>Combat: 1 attack per round for 2d6 slashing damage (+1 every 5 levels, starting from level 10, capped at +3 at level 20).</li>
+                  </ul>
+                  <li>
+                    Special Abilities:
+                    <ul>
+                      <li>When attacked, there is a 50% chance each round that it will fire off a cloud of reeking, reddish, acidic vapor from its abdomen. This cloud causes 3d4 points of acid damage to any creature within range. Furthermore, the sound caused by the release of the vapor has a 20% chance of stunning, and a like chance for deafening. Stunning lasts for 2d4 rounds, Deafening lasts 2d6 rounds.</li>
+                    </ul>
+                  </li>
+                </li>
+              </ul>
+            </li>
+
+            <li>
+              Falcon
+              <ul>
+                <li>
+                  Base Stats:
+                  <ul>
+                    <li>Hit Points: as per a beastmaster of the same level.</li>
+                    <li>Armor Class: 5 (+1 every 5 levels).</li>
+                    <li>THAC0: as per a ranger of the same level.</li>
+                    <li>Saves: as per a ranger of the same level.</li>
+                    <li>Str(5), Int(1), Wis(14), Dex(16), Con(8), Cha(6).</li>
+                    <li>Combat: 3 attacks per round for 1d1 piercing damage (+1 every 5 levels, starting from level 10, capped at +3 at level 20).</li>
+                  </ul>
+                  <li>
+                    Special Abilities:
+                    <ul>
+                      <li>Target must save vs. Breath or be blinded for 1d10 rounds (25% chance per hit).</li>
+                      <li>Increased visual range.</li>
+                    </ul>
+                  </li>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </p>
+
+        <p>
+          Notes:
+          <ul>
+            <li>Use: selected, limited to Beastmasters (starting from level 1).</li>
+            <!-- <li>The animal companion will automatically teleport to his summoner if they are in different areas.</li> -->
+            <li>Both the animal companion and his master share the same racial enemy.</li>
+            <li>
+              The animal companion will automatically level up along with his summoner.
+              <ul>
+                <li>Note that it must not be level drained in order to level up.</li>
+              </ul>
+            </li>
+          </ul>
+        </p>
+
     </div>
     <div class="ribbon_rectangle_h2"> <a id="Contact" name="Contact"></a>
       <h2> Contact Information </h2>

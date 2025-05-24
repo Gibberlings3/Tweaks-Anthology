@@ -1,13 +1,13 @@
 -- Returns true if the specified object can currently deflect the given level/projectile/school/sectype/resref/opcode(s) --
 
-function GT_Sprite_HasImmunityEffects(sprite, level, projectileType, school, sectype, resref, opcodes, flags)
+function GT_Sprite_HasImmunityEffects(sprite, level, projectileType, school, sectype, resref, opcodes, flags, savetype)
 	local toReturn = false
 
 	local func = function(effect)
 		if effect.m_effectId == 0x53 and effect.m_dWFlags == projectileType then -- Immunity to projectile (83) -> CAN block effects of Secondary Type ``MagicAttack``
 			toReturn = true
 			return true
-		elseif effect.m_effectId == 0x65 and GT_LuaTool_ArrayContains(opcodes, effect.m_dWFlags) then -- Immunity to opcode (101)
+		elseif effect.m_effectId == 0x65 and GT_LuaTool_ArrayContains(opcodes, effect.m_dWFlags) and EEex_IsBitUnset(savetype, 23) then -- Immunity to opcode (101)
 			toReturn = true
 			return true
 		elseif effect.m_effectId == 0x66 and effect.m_effectAmount == level then -- Immunity to spell level (102) -> CAN block effects of Secondary Type ``MagicAttack``

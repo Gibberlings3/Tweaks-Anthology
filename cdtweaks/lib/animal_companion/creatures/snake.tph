@@ -1,0 +1,266 @@
+/*
++-------------+
+| SPL file(s) |
++-------------+
+*/
+
+LAF "GT_ADD_SPELL"
+INT_VAR
+	"type" = 3
+	"level" = 1
+STR_VAR
+	"idsName" = "INNATE_SNAKE_CHARM"
+RET
+	"INNATE_SNAKE_CHARM" = "resName"
+END
+
+WITH_SCOPE BEGIN
+	ACTION_IF !(FILE_EXISTS_IN_GAME "%INNATE_SNAKE_CHARM%.spl") BEGIN
+		ACTION_TO_LOWER "INNATE_SNAKE_CHARM"
+		//
+		CREATE "spl" "%INNATE_SNAKE_CHARM%"
+		COPY_EXISTING "%INNATE_SNAKE_CHARM%.spl" "override"
+			/* Header */
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@6000)
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC RESOLVE_STR_REF (@6001)
+			WRITE_LONG DESC "-1"
+			WRITE_LONG 0x18 (BIT14 BOR BIT25) // Ignore dead/wild magic, Castable when silenced
+			WRITE_SHORT 0x1C 4 // Type: Innate
+			WRITE_LONG 0x34 1 // Level
+			WRITE_ASCII 0x3A ~%WIZARD_CHARM_PERSON%C~ #8 // Icon
+			/* Extended Header */
+			LPF ~ADD_SPELL_HEADER~ INT_VAR "range" = 30 "projectile" = IDS_OF_SYMBOL ("MISSILE" "Gaze") STR_VAR "icon" = ~%WIZARD_CHARM_PERSON%B~ END
+			/* Feature Blocks */
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 324 "target" = 2 "parameter2" = 8 STR_VAR "resource" = "%DEST_RES%" END // immunity to resource and message (GENERAL!=ANIMAL)
+			//LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 324 "target" = 2 "parameter2" = 128 "parameter1" = 2 STR_VAR "resource" = "%DEST_RES%" END // immunity to resource and message (STAT(INT)>=2)
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 STR_VAR "resource" = "%DEST_RES%" END // invoke lua
+		BUT_ONLY
+	END
+END
+
+////////////////////
+
+LAF "GT_ADD_SPELL"
+INT_VAR
+	"type" = 3
+	"level" = 1
+STR_VAR
+	"idsName" = "INNATE_SNAKE_GRASP"
+RET
+	"INNATE_SNAKE_GRASP" = "resName"
+END
+
+WITH_SCOPE BEGIN
+	ACTION_IF !(FILE_EXISTS_IN_GAME "%INNATE_SNAKE_GRASP%.spl") BEGIN
+		ACTION_TO_LOWER "INNATE_SNAKE_GRASP"
+		//
+		CREATE "spl" "%INNATE_SNAKE_GRASP%"
+		COPY_EXISTING "%INNATE_SNAKE_GRASP%.spl" "override"
+			/* Header */
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@6004)
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC RESOLVE_STR_REF (@6005)
+			WRITE_LONG DESC "-1"
+			WRITE_LONG 0x18 (BIT14 BOR BIT25) // Ignore dead/wild magic, Castable when silenced
+			WRITE_SHORT 0x1C 4 // Type: Innate
+			WRITE_LONG 0x34 1 // Level
+			WRITE_ASCII 0x3A ~SPIRITS~ #8 // Icon
+			/* Extended Header */
+			LPF ~ADD_SPELL_HEADER~ INT_VAR "range" = 0 "projectile" = IDS_OF_SYMBOL ("MISSILE" "None") STR_VAR "icon" = ~SPIRITS~ END
+			/* Feature Blocks */
+			PATCH_WITH_SCOPE BEGIN
+				PATCH_FOR_EACH "race" IN "SLIME" "SHADOW" "SPECTRE" "WRAITH" "MIST" "ELEMENTAL" "DEMILICH" "SPECTRAL_UNDEAD" BEGIN
+					LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 324 "target" = 2 "parameter2" = 104 "parameter1" = IDS_OF_SYMBOL ("race" "%race%") STR_VAR "resource" = "%DEST_RES%" END // immunity to resource and message
+				END
+			END
+			PATCH_WITH_SCOPE BEGIN
+				PATCH_FOR_EACH "class" IN "SPECTRAL_TROLL" "SPIDER_WRAITH" BEGIN
+					LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 324 "target" = 2 "parameter2" = 105 "parameter1" = IDS_OF_SYMBOL ("class" "%class%") STR_VAR "resource" = "%DEST_RES%" END // immunity to resource and message
+				END
+			END
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 324 "target" = 2 "parameter2" = 13 STR_VAR "resource" = "%DEST_RES%" END // immunity to resource and message (PERSONALSPACE>3)
+			//
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 STR_VAR "resource" = "%DEST_RES%" END // invoke lua
+		BUT_ONLY
+		//
+		COPY_EXISTING "%INNATE_SNAKE_GRASP%.spl" "override\%INNATE_SNAKE_GRASP%b.spl"
+			WRITE_LONG NAME1 "-1"
+			//
+			LPF "DELETE_SPELL_EFFECT" INT_VAR "opcode_to_delete" = 324 END
+			LPF "ALTER_EFFECT" INT_VAR "match_opcode" = 402 "parameter1" = 1 END
+		BUT_ONLY_IF_IT_CHANGES
+	END
+END
+
+////////////////////
+
+LAF "GT_ADD_SPELL"
+INT_VAR
+	"type" = 3
+	"level" = 1
+STR_VAR
+	"idsName" = "INNATE_SNAKE_RETREAT_FROM_OPEN_FLAMES"
+RET
+	"INNATE_SNAKE_RETREAT_FROM_OPEN_FLAMES" = "resName"
+END
+
+WITH_SCOPE BEGIN
+	ACTION_IF !(FILE_EXISTS_IN_GAME "%INNATE_SNAKE_RETREAT_FROM_OPEN_FLAMES%.spl") BEGIN
+		ACTION_TO_LOWER "INNATE_SNAKE_RETREAT_FROM_OPEN_FLAMES"
+		//
+		CREATE "spl" "%INNATE_SNAKE_RETREAT_FROM_OPEN_FLAMES%"
+		COPY_EXISTING "%INNATE_SNAKE_RETREAT_FROM_OPEN_FLAMES%.spl" "override"
+			/* Header */
+			WRITE_LONG NAME1 "-1"
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC "-1"
+			WRITE_LONG DESC "-1"
+			WRITE_LONG 0x18 (BIT14) // Ignore dead/wild magic
+			WRITE_SHORT 0x1C 4 // Type: Innate
+			WRITE_LONG 0x34 1 // Level
+			/* Extended Header */
+			LPF ~ADD_SPELL_HEADER~ INT_VAR "range" = 30 "projectile" = IDS_OF_SYMBOL ("MISSILE" "None") END
+			/* Feature Blocks */
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 0x17 "target" = 2 "parameter1" = "-1" "duration" = 6 "special" = 1 STR_VAR "resource" = "%DEST_RES%" END // morale modifier (23)
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 139 "target" = 2 "parameter1" = RESOLVE_STR_REF (@6003) END // feedback string
+		BUT_ONLY
+	END
+END
+
+/*
++----------+
+| CRE file |
++----------+
+*/
+
+WITH_SCOPE BEGIN
+	ACTION_TO_LOWER "BEASTMASTER_ANIMAL_COMPANION"
+	//
+	CREATE "cre" "%BEASTMASTER_ANIMAL_COMPANION%f"
+	COPY_EXISTING "%BEASTMASTER_ANIMAL_COMPANION%f.cre" "override"
+		LPF "WRITE_CRE_HEADER"
+		INT_VAR
+			"name" = RESOLVE_STR_REF (@6002)
+			"tooltip" = RESOLVE_STR_REF (@6002)
+			//
+			"flags" = BIT1 // no corpse
+			//
+			"curHP" = 1
+			"maxHP" = 1
+			//
+			"animation" = IDS_OF_SYMBOL ("animate" "SNAKE")
+			//
+			"metal_color" = 94
+			"minor_color" = 94
+			"major_color" = 94
+			"skin_color" = 94
+			"leather_color" = 94
+			"armor_color" = 94
+			"hair_color" = 94
+			//
+			"AC" = 5
+			//
+			"apr" = 2 // # attacks/round
+			//
+			"sex" = IDS_OF_SYMBOL ("gender" "FEMALE")
+			// abilities
+			"STR" = 3
+			"INT" = 1
+			"WIS" = 2
+			"DEX" = 16
+			"CON" = 12
+			"CHR" = 3
+			//
+			"morale" = 16
+			"morale_break" = 3
+			"morale_recovery" = 30
+			// IDS
+			"allegiance" = IDS_OF_SYMBOL ("ea" "NEUTRAL")
+			"general" = IDS_OF_SYMBOL ("general" "ANIMAL")
+			"race" = IDS_OF_SYMBOL ("race" "REPTILE")
+			"class" = IDS_OF_SYMBOL ("class" "NO_CLASS")
+			"gender" = IDS_OF_SYMBOL ("gender" "FEMALE")
+			"alignment" = IDS_OF_SYMBOL ("align" "NEUTRAL")
+		STR_VAR
+			"script_override" = "%BEASTMASTER_ANIMAL_COMPANION%x"
+			"script_class" = "%BEASTMASTER_ANIMAL_COMPANION%y"
+			"script_default" = "%BEASTMASTER_ANIMAL_COMPANION%z"
+			//
+			"deathvar" = "gtAnmlCompSnake"
+		END
+		// equipment
+		ADD_CRE_ITEM "gtpet06a" #0 #0 #0 "identified&unstealable&undroppable" "weapon" EQUIP
+		// passive traits
+		LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 268 "target" = 1 "timing" = 1 END // clear fog of war
+		LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 403 "target" = 1 "timing" = 9 STR_VAR "resource" = "%INNATE_SNAKE_RETREAT_FROM_OPEN_FLAMES%" END // screen effects
+		LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 232 "target" = 1 "timing" = 1 "parameter2" = 16 "special" = BIT2 STR_VAR "resource" = "%BEASTMASTER_ANIMAL_COMPANION%#" END // cast spell onto myself upon death (suppress spell's name)
+		// spellbook
+		ADD_MEMORIZED_SPELL "%INNATE_SNAKE_CHARM%" #0 "innate"
+		ADD_MEMORIZED_SPELL "%INNATE_SNAKE_GRASP%" #0 "innate"
+		ADD_MEMORIZED_SPELL "%BEASTMASTER_ANIMAL_COMPANION%#" #0 "innate" // banish
+	BUT_ONLY_IF_IT_CHANGES
+END
+
+/*
++-------------+
+| ITM file(s) |
++-------------+
+*/
+
+WITH_SCOPE BEGIN
+	CREATE "itm" "gtpet06a"
+	COPY_EXISTING "gtpet06a.itm" "override"
+		/* Header */
+		WRITE_LONG NAME1 "-1"
+		WRITE_LONG NAME2 "-1"
+		WRITE_LONG UNIDENTIFIED_DESC "-1"
+		WRITE_LONG DESC "-1"
+		WRITE_LONG 0x18 BIT5 // flags: not copyable (not needed...?)
+		WRITE_SHORT 0x38 1 // maximum in stack
+		WRITE_ASCII 0x3A "SPIRITS" #8
+		/* Extended Header */
+		LPF ~ADD_ITEM_HEADER~ INT_VAR "type" = 1 "location" = 1 "range" = 1 "dicenumber" = 2 "dicesize" = 4 "damage_type" = 1 "depletion" = 1 "flags" = BIT0 "overhand" = 34 "backhand" = 33 "thrust" = 33 STR_VAR "icon" = "SPIRITS" END // 2d4 (piercing)
+		/* Feature Block(s) */
+		//LPF "ADD_ITEM_EFFECT" INT_VAR "type" = 1 "opcode" = 318 "target" = 2 "parameter2" = 55 STR_VAR "resource" = "%DEST_RES%" END // Protection from resource (RACE=GOLEM || GENERAL=UNDEAD)
+		//LPF "ADD_ITEM_EFFECT" INT_VAR "type" = 1 "opcode" = 318 "target" = 2 "parameter2" = 77 STR_VAR "resource" = "%DEST_RES%" END // Protection from resource (STAT RESISTPOISON >= 100)
+		//LPF "ADD_ITEM_EFFECT" INT_VAR "type" = 1 "opcode" = 12 "target" = 2 "parameter2" = IDS_OF_SYMBOL ("dmgtype" "POISON") "dicenumber" = 2 "dicesize" = 6 END // Damage (2d6 Poison, no save)
+		//LPF "ADD_ITEM_EFFECT" INT_VAR "type" = 1 "opcode" = 25 "target" = 2 "duration" = 20 "parameter1" = 30 "parameter2" = 1 "savingthrow" = BIT2 "savebonus" = 1 END // Poison (30% of total maximum Hit Points within 20 seconds after contact)
+	BUT_ONLY_IF_IT_CHANGES
+	//
+	WITH_SCOPE BEGIN
+		ACTION_DEFINE_ASSOCIATIVE_ARRAY "gtSnakeWeaponUpgrades" BEGIN
+			"b" => 0 // magical (+0)
+			"c" => 1 // magical (+1)
+			"d" => 2 // magical (+2)
+			"e" => 3 // magical (+3)
+		END
+		ACTION_PHP_EACH "gtSnakeWeaponUpgrades" AS "id" => "enchantment" BEGIN
+			COPY_EXISTING "gtpet06a.itm" "override\gtpet06%id%.itm"
+				WRITE_LONG 0x18 (THIS BOR BIT6) // flags: magical
+				WRITE_LONG 0x60 "%enchantment%"
+				//
+				LPF "ALTER_ITEM_HEADER" INT_VAR "damage_bonus" = "%enchantment%" "thac0_bonus" = "%enchantment%" END
+				//
+				//LPF "ALTER_EFFECT" INT_VAR "match_savingthrow" = BIT2 "savebonus" = "%enchantment%" * "-1" END
+				//LPF "ALTER_EFFECT" INT_VAR "match_opcode" = 318 STR_VAR "resource" = "%DEST_RES%" END
+			BUT_ONLY_IF_IT_CHANGES
+		END
+	END
+END
+
+/*
++-------------+
+**LUA file(s) |
++-------------+
+*/
+
+LAF "ADD_EXTENDED_STAT" STR_VAR "identifier" = "GT_DUMMY_STAT" END
+WITH_SCOPE BEGIN
+	OUTER_SET "feedback_strref_already_constricted" = RESOLVE_STR_REF (@6006)
+	OUTER_SET "feedback_strref_break_free" = RESOLVE_STR_REF (@6007)
+	//
+	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Innate Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\kit\animal_companion\snake\charm.lua" "destRes" = "m_gtspin" END
+	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Innate Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\kit\animal_companion\snake\grasp.lua" "destRes" = "m_gtspin" END
+	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Innate Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\kit\animal_companion\snake\retreat_from_open_flames.lua" "destRes" = "m_gtspin" END
+END

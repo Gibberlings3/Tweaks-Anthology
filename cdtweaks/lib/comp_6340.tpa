@@ -1,0 +1,19 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
+/////                                                            \\\\\////\\\\////
+///// Animal Companion for Beastmasters                                      \\\\\
+/////                                                            \\\\\////\\\\////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
+
+WITH_SCOPE BEGIN
+  INCLUDE "cdtweaks\luke\misc.tph"
+  INCLUDE "cdtweaks\ardanis\functions.tph"
+  INCLUDE "cdtweaks\argent\find_free_anim_slot.tph"
+  //
+  INCLUDE "cdtweaks\lib\animal_companion\animal_companion.tph"
+  //
+  WITH_TRA "cdtweaks\languages\english\animal_companion.tra" "cdtweaks\languages\%LANGUAGE%\animal_companion.tra" BEGIN
+    LAF "GT_ANIMAL_COMPANION" END
+  END
+END

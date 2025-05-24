@@ -217,7 +217,7 @@ EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
 												if found > 0 then
 													-- check for Spell Immunity and Spell Turning
 													if not GT_Sprite_HasBounceEffects(sprite, 0, 0, found, 0, cdtweaks_Counterspell_OppositionSchool[found][2], {-1}, 0) then
-														if not GT_Sprite_HasImmunityEffects(sprite, 0, 0, found, 0, cdtweaks_Counterspell_OppositionSchool[found][2], {-1}, 0) then
+														if not GT_Sprite_HasImmunityEffects(sprite, 0, 0, found, 0, cdtweaks_Counterspell_OppositionSchool[found][2], {-1}, 0, 0) then
 															-- remove spell (so as to cancel the spell being cast)
 															if not isCantrip then
 																action.m_actionID = 147 -- RemoveSpell()

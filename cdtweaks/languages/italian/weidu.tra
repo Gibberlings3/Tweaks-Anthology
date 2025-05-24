@@ -38,6 +38,7 @@ o rimpiazzata da - un'altra facente parte di uno dei mods installati.~
 @29 = "Questo componente richiede EEex (https://github.com/Bubb13/EEex)."
 @30 = "Talenti in stile NWN"
 @31 = ~Questo componente richiede l'opzione di gioco "Attacco Furtivo 3E" (https://github.com/Argent77/A7-HiddenGameplayOptions).~
+@32 = "Questo componente richiede LuaJIT (https://github.com/Bubb13/EEex, componente #1)."
 
 // questo componente non è pronto, puoi saltare la traduzione di questo blocco
 //@100 = ~Programma di installazione automatizzato~
@@ -816,3 +817,5 @@ Usa opzioni di Baldur.lua:           a7_interval_ini
 @632000 = "Aggiungi talento di classe Nemico Giurato per i Ranger [Luke (EEex)]"
 
 @633000 = "Aggiungi talento di classe Trucchetti per gli Incantatori [Luke (EEex)]"
+
+@634000 = "Aggiungi talento di classe Compagno Animale per gli Addestratori di Animali [Luke (EEex)]"

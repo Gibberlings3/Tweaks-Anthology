@@ -163,24 +163,45 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		return
 	end
 	--
-	local conditionalString = EEex_Trigger_ParseConditionalString('!GlobalTimerNotExpired("gtDirtyFightingTimer","LOCALS")')
-	local responseString = EEex_Action_ParseResponseString('SetGlobalTimer("gtDirtyFightingTimer","LOCALS",6)')
+	local stats = GT_Resource_SymbolToIDS["stats"]
+	--
+	local found = false
+	EEex_Utility_IterateCPtrList(sprite.m_timedEffectList, function(effect)
+		if effect.m_effectId == 401 and effect.m_special == stats["GT_DUMMY_STAT"] and effect.m_scriptName:get() == "gtDirtyFightingTimer" then -- dummy opcode that acts as a marker/timer
+			found = true
+			return true
+		end
+	end)
+	--local conditionalString = EEex_Trigger_ParseConditionalString('!GlobalTimerNotExpired("gtDirtyFightingTimer","LOCALS")')
+	--local responseString = EEex_Action_ParseResponseString('SetGlobalTimer("gtDirtyFightingTimer","LOCALS",6)')
 	--
 	local spriteAux = EEex_GetUDAux(sprite)
 	--
 	if sprite:getLocalInt("gtThiefDirtyFighting") == 1 then
 		if sprite.m_startedSwing == 1 then
-			if conditionalString:evalConditionalAsAIBase(sprite) then
-				responseString:executeResponseAsAIBaseInstantly(sprite)
+			if not found then
+				-- set timer
+				sprite:applyEffect({
+					["effectID"] = 401, -- Set extended stat
+					["special"] = stats["GT_DUMMY_STAT"],
+					["noSave"] = true,
+					["m_scriptName"] = "gtDirtyFightingTimer",
+					["duration"] = 90,
+					["durationType"] = 10, -- instant/limited (ticks)
+					["sourceID"] = sprite.m_id,
+					["sourceTarget"] = sprite.m_id,
+				})
+				--
 				spriteAux["gt_ThiefDirtyFighting_FirstAttack"] = true
 			end
 		else
-			if not conditionalString:evalConditionalAsAIBase(sprite) and spriteAux["gt_ThiefDirtyFighting_FirstAttack"] then
+			if found and spriteAux["gt_ThiefDirtyFighting_FirstAttack"] then
 				spriteAux["gt_ThiefDirtyFighting_FirstAttack"] = false
 			end
 		end
 	end
 	--
-	conditionalString:free()
-	responseString:free()
+	--conditionalString:free()
+	--responseString:free()
 end)
+

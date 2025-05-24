@@ -38,6 +38,7 @@
 @29 = ~Requires EEex: https://github.com/Bubb13/EEex ~
 @30 = ~NWN-Style Feats~
 @31 = ~Requires in-game option "3E Sneak Attack" (https://github.com/Argent77/A7-HiddenGameplayOptions).~
+@32 = ~Requires LuaJIT: https://github.com/Bubb13/EEex, component #1~
 
 @100 = ~Batch Installer -- EXPERIMENTAL, use at own risk. Check the readme.~
 @101 = ~
@@ -903,3 +904,7 @@ Use Baldur.lua options: a7_interval_ini
 @631000 = "Woodland Stride Class Feat for Druids [Luke (EEex)]"
 
 @632000 = "Bane of Enemies Class Feat for Rangers [Luke (EEex)]"
+
+@633000 = "Cantrips Class Feat for Spellcasters [Luke (EEex)]"
+
+@634000 = "Animal Companion Class Feat for Beastmasters [Luke (EEex)]"
