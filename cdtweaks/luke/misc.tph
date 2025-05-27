@@ -84,10 +84,80 @@ BEGIN
 END
 
 /*
-+----------------------------------------------------------+
-| Add a new entry to "statdesc.2da" (tweaked from CamDawg) |
-+----------------------------------------------------------+
+==========================================================================================================================================================================================================
+**ADD_SPLPROT_ENTRY** - Adds a new entry to "SPLPROT.2DA" and returns its index. If an identical entry already exists it will return the index of that entry instead (borrowed from Argent77, tweaked by me)
+==========================================================================================================================================================================================================
 */
+
+DEFINE_DIMORPHIC_FUNCTION "ADD_SPLPROT_ENTRY"
+INT_VAR
+	"stat"      = "-1" // a code from STATS.IDS or an extended stat code starting at 0x100 (256).
+STR_VAR
+	"value"     = "*" // either a numeric value that is evaluated by "stat", or a default value "*" for specific stats. Note: "-1" indicates a user-defined value.
+	"relation"  = "*" // specifies how to evaluate the value. Note: Not all extended stats require a relation code. Use "*" in this case.
+	"label"     = "" // user-friendly identifier
+RET
+	"index" // Entry number that can be used to refer to this operation in various effect opcodes. Returns "-1" on error.
+BEGIN
+	// Initialize
+	OUTER_SET "index" = "-1"
+	// Main
+	ACTION_IF ("%stat%" >= 0) BEGIN
+		OUTER_PATCH "" BEGIN
+			SPRINTF "valueHex" "%x" ("%stat%")
+		END
+		ACTION_IF (~%value%~ STRING_EQUAL ~~) BEGIN
+			OUTER_TEXT_SPRINT "value" ~*~
+		END
+		ACTION_IF (~%relation%~ STRING_EQUAL ~~) BEGIN
+			OUTER_TEXT_SPRINT "relation" ~*~
+		END
+		// Add the specified entry or return its index if already present
+		COPY_EXISTING ~splprot.2da~ ~override~
+			READ_2DA_ENTRIES_NOW "read_splprot" 4
+			// Search for identical entries
+			FOR ("idx" = 0; "%idx%" < "%read_splprot%"; "idx" += 1) BEGIN
+				READ_2DA_ENTRY_FORMER "read_splprot" "%idx%" 1 "curStat"
+				PATCH_IF (~%stat%~ STRING_EQUAL ~%curStat%~ OR ~%valueHex%~ STRING_EQUAL_CASE ~%curStat%~) BEGIN
+					READ_2DA_ENTRY_FORMER "read_splprot" "%idx%" 2 "curValue"
+					PATCH_IF (~%value%~ STRING_EQUAL ~%curValue%~) BEGIN
+						READ_2DA_ENTRY_FORMER "read_splprot" "%idx%" 3 "curRelation"
+						PATCH_IF (~%relation%~ STRING_EQUAL ~%curRelation%~) BEGIN
+							SET "index" = "%idx%" // If already present, return its index
+							SET "idx" = "%read_splprot%" // Kill FOR-loop
+						END
+					END
+				END
+			END
+			// If not already present, add it...
+			PATCH_IF ("%index%" < 0) BEGIN
+				// Make sure we provided an identifier!
+				PATCH_IF ("%label%" STRING_COMPARE_CASE "") BEGIN
+					// Sanity check
+					INNER_PATCH_SAVE "label" "%label%" BEGIN
+						REPLACE_TEXTUALLY CASE_INSENSITIVE EVALUATE_REGEXP "[ %TAB%%WNL%%MNL%%LNL%]" ""
+					END
+					// Add new entry
+					PATCH_IF ("%stat%" >= 0x100) BEGIN
+						TEXT_SPRINT "line" ~%read_splprot%_%label% %valueHex% %value% %relation%~
+					END ELSE BEGIN
+						TEXT_SPRINT "line" ~%read_splprot%_%label% %stat% %value% %relation%~
+					END
+					INSERT_2DA_ROW "%read_splprot%" 4 ~%line%~
+					// Prettify
+					PRETTY_PRINT_2DA
+					SET "index" = "%read_splprot%"
+				END ELSE BEGIN
+					PATCH_FAIL "ADD_SPLPROT_ENTRY: ~label~ cannot be empty. Please specify a human-friendly identifier (f.i. ~ALIGNMENTBITS!=MASK_LCNEUTRAL~)"
+				END
+			END
+		BUT_ONLY_IF_IT_CHANGES
+	END
+END
+
+////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\
+// Add a new entry to "statdesc.2da" (tweaked from CamDawg) \\
+////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\////\\\\
 
 DEFINE_DIMORPHIC_FUNCTION "ADD_STATDESC_ENTRY"
 INT_VAR
@@ -394,6 +464,136 @@ BEGIN
 END
 
 /*
++------------------+
+| WRITE_CRE_HEADER |
++------------------+
+*/
+
+DEFINE_PATCH_FUNCTION "WRITE_CRE_HEADER"
+INT_VAR
+	"name" = SLONG_AT NAME1
+	"tooltip" = SLONG_AT NAME2
+	//
+	"flags" = LONG_AT 0x10
+	//
+	"curHP" = SHORT_AT 0x24
+	"maxHP" = SHORT_AT 0x26
+	//
+	"animation" = LONG_AT 0x28
+	//
+	"metal_color" = BYTE_AT 0x2C
+	"minor_color" = BYTE_AT 0x2D
+	"major_color" = BYTE_AT 0x2E
+	"skin_color" = BYTE_AT 0x2F
+	"leather_color" = BYTE_AT 0x30
+	"armor_color" = BYTE_AT 0x31
+	"hair_color" = BYTE_AT 0x32
+	//
+	"hide_in_shadows" = BYTE_AT 0x45
+	"move_silently" = BYTE_AT 0x68
+	//
+	"AC" = SHORT_AT 0x48
+	//
+	"apr" = BYTE_AT 0x53 // # attacks/round
+	//
+	"fire_resistance" = BYTE_AT 0x59
+	"cold_resistance" = BYTE_AT 0x5A
+	//
+	"sex" = BYTE_AT 0x237
+	// abilities
+	"STR" = BYTE_AT 0x238
+	"STRExtra" = BYTE_AT 0x239
+	"INT" = BYTE_AT 0x23A
+	"WIS" = BYTE_AT 0x23B
+	"DEX" = BYTE_AT 0x23C
+	"CON" = BYTE_AT 0x23D
+	"CHR" = BYTE_AT 0x23E
+	//
+	"morale" = BYTE_AT 0x23F
+	"morale_break" = BYTE_AT 0x240
+	"morale_recovery" = SHORT_AT 0x242
+	// IDS
+	"allegiance" = BYTE_AT 0x270
+	"general" = BYTE_AT 0x271
+	"race" = BYTE_AT 0x272
+	"class" = BYTE_AT 0x273
+	"specifics" = BYTE_AT 0x274
+	"gender" = BYTE_AT 0x275
+	"alignment" = BYTE_AT 0x27B
+STR_VAR
+	"script_override" = "SAME"
+	"script_class" = "SAME"
+	"script_default" = "SAME"
+	//
+	"deathvar" = "SAME"
+BEGIN
+	WRITE_LONG NAME1 "%name%"
+	WRITE_LONG NAME2 "%tooltip%"
+	//
+	WRITE_LONG 0x10 "%flags%"
+	//
+	WRITE_SHORT 0x24 "%curHP%"
+	WRITE_SHORT 0x26 "%maxHP%"
+	//
+	WRITE_LONG 0x28 "%animation%"
+	//
+	WRITE_BYTE 0x2C "%metal_color%"
+	WRITE_BYTE 0x2D "%minor_color%"
+	WRITE_BYTE 0x2E "%major_color%"
+	WRITE_BYTE 0x2F "%skin_color%"
+	WRITE_BYTE 0x30 "%leather_color%"
+	WRITE_BYTE 0x31 "%armor_color%"
+	WRITE_BYTE 0x32 "%hair_color%"
+	//
+	WRITE_BYTE 0x45 "%hide_in_shadows%"
+	WRITE_BYTE 0x68 "%move_silently%"
+	//
+	WRITE_SHORT 0x46 "%AC%" // natural AC
+	WRITE_SHORT 0x48 "%AC%" // effective AC
+	//
+	WRITE_BYTE 0x53 "%apr%" // # attacks/round
+	//
+	WRITE_BYTE 0x59 "%fire_resistance%"
+	WRITE_BYTE 0x5A "%cold_resistance%"
+	//
+	WRITE_BYTE 0x237 "%sex%"
+	// abilities
+	WRITE_BYTE 0x238 "%STR%"
+	WRITE_BYTE 0x239 "%STRExtra%"
+	WRITE_BYTE 0x23A "%INT%"
+	WRITE_BYTE 0x23B "%WIS%"
+	WRITE_BYTE 0x23C "%DEX%"
+	WRITE_BYTE 0x23D "%CON%"
+	WRITE_BYTE 0x23E "%CHR%"
+	//
+	WRITE_BYTE 0x23F "%morale%"
+	WRITE_BYTE 0x240 "%morale_break%"
+	WRITE_SHORT 0x242 "%morale_recovery%"
+	//
+	PATCH_IF ("%script_override%" STRING_COMPARE_CASE "same") BEGIN
+		WRITE_ASCII SCRIPT_OVERRIDE "%script_override%" #8
+	END
+	PATCH_IF ("%script_class%" STRING_COMPARE_CASE "same") BEGIN
+		WRITE_ASCII SCRIPT_CLASS "%script_class%" #8
+	END
+	PATCH_IF ("%script_default%" STRING_COMPARE_CASE "same") BEGIN
+		WRITE_ASCII SCRIPT_DEFAULT "%script_default%" #8
+	END
+	//
+	PATCH_IF ("%deathvar%" STRING_COMPARE_CASE "same") BEGIN
+		WRITE_ASCII DEATHVAR "%deathvar%" #32
+	END
+	// IDS
+	WRITE_BYTE 0x270 "%allegiance%"
+	WRITE_BYTE 0x271 "%general%"
+	WRITE_BYTE 0x272 "%race%"
+	WRITE_BYTE 0x273 "%class%"
+	WRITE_BYTE 0x274 "%specifics%"
+	WRITE_BYTE 0x275 "%gender%"
+	WRITE_BYTE 0x27B "%alignment%"
+END
+
+/*
 +----------------------------------------------------------------------------------------+
 | APPEND_LUA_FUNCTION                                                                    |
 +----------------------------------------------------------------------------------------+
@@ -477,22 +677,22 @@ BEGIN
 			1 BEGIN
 				OUTER_SET "min" = 0
 				OUTER_SET "max" = 99
-				OUTER_TEXT_SPRINT "prefix" "gtpr"
+				OUTER_TEXT_SPRINT "prefix" "GTPR"
 			END
 			2 BEGIN
 				OUTER_SET "min" = 0
 				OUTER_SET "max" = 99
-				OUTER_TEXT_SPRINT "prefix" "gtwi"
+				OUTER_TEXT_SPRINT "prefix" "GTWI"
 			END
 			3 BEGIN
 				OUTER_SET "min" = 0
 				OUTER_SET "max" = 99
-				OUTER_TEXT_SPRINT "prefix" "gtin"
+				OUTER_TEXT_SPRINT "prefix" "GTIN"
 			END
 			4 BEGIN
 				OUTER_SET "min" = 0
 				OUTER_SET "max" = 99
-				OUTER_TEXT_SPRINT "prefix" "gtcl"
+				OUTER_TEXT_SPRINT "prefix" "GTCL"
 			END
 			DEFAULT
 				FAIL "GT_ADD_SPELL: invalid spell type (%type%)"

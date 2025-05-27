@@ -7,6 +7,9 @@
 -- clerics can spontaneously cast Cure/Cause Wounds spells upon pressing the Left Alt key when in "Cast Spell" mode (F7) --
 
 function %PRIEST_SPONTANEOUS_CAST%(CGameEffect, CGameSprite)
+	local isEvil = EEex_Trigger_ParseConditionalString("Alignment(Myself,MASK_EVIL)")
+	local isGood = EEex_Trigger_ParseConditionalString("Alignment(Myself,MASK_GOOD)")
+	--
 	return EEex_Actionbar_GetOp214ButtonDataItr(EEex_Utility_SelectItr(3, EEex_Utility_FilterItr(
 		EEex_Utility_ChainItrs(
 			CGameSprite:getKnownPriestSpellsWithAbilityIterator(1, 7)
@@ -17,17 +20,24 @@ function %PRIEST_SPONTANEOUS_CAST%(CGameEffect, CGameSprite)
 					local spellIDS = 1 .. spellResRef:sub(-3)
 					local symbol = GT_Resource_IDSToSymbol["spell"][tonumber(spellIDS)]
 					--
-					if symbol then
-						if CGameEffect.m_effectAmount == 1 then
-							return (symbol == "CLERIC_CURE_LIGHT_WOUNDS" or symbol == "CLERIC_CURE_MODERATE_WOUNDS" or symbol == "CLERIC_CURE_MEDIUM_WOUNDS" or symbol == "CLERIC_CURE_SERIOUS_WOUNDS" or symbol == "CLERIC_CURE_CRITICAL_WOUNDS")
-						elseif CGameEffect.m_effectAmount == 2 then
-							return (symbol == "CLERIC_CAUSE_LIGHT_WOUNDS" or symbol == "CLERIC_CAUSE_MODERATE_WOUNDS" or symbol == "CLERIC_CAUSE_MEDIUM_WOUNDS" or symbol == "CLERIC_CAUSE_SERIOUS_WOUNDS" or symbol == "CLERIC_CAUSE_CRITICAL_WOUNDS")
+					if symbol then -- sanity check
+						if symbol == "CLERIC_CURE_LIGHT_WOUNDS" or symbol == "CLERIC_CURE_MODERATE_WOUNDS" or symbol == "CLERIC_CURE_MEDIUM_WOUNDS" or symbol == "CLERIC_CURE_SERIOUS_WOUNDS" or symbol == "CLERIC_CURE_CRITICAL_WOUNDS" then -- good only
+							if isGood:evalConditionalAsAIBase(CGameSprite) then
+								return true
+							end
+						elseif symbol == "CLERIC_CAUSE_LIGHT_WOUNDS" or symbol == "CLERIC_CAUSE_MODERATE_WOUNDS" or symbol == "CLERIC_CAUSE_MEDIUM_WOUNDS" or symbol == "CLERIC_CAUSE_SERIOUS_WOUNDS" or symbol == "CLERIC_CAUSE_CRITICAL_WOUNDS" then -- evil only
+							if isEvil:evalConditionalAsAIBase(CGameSprite) then
+								return true
+							end
 						end
 					end
 				end
 			end
 		end
 	)))
+	--
+	isEvil:free()
+	isGood:free()
 end
 
 -- clerics can spontaneously cast Cure/Cause Wounds spells upon pressing the Left Alt key when in "Cast Spell" mode (F7) --
@@ -38,12 +48,13 @@ EEex_Key_AddPressedListener(function(key)
 		return
 	end
 	-- check for op145
-	local found = GT_Utility_Sprite_CheckForEffect(sprite, {["op"] = 0x91, ["p2"] = 1}) or GT_Utility_Sprite_CheckForEffect(sprite, {["op"] = 0x91, ["p2"] = 3})
+	local spellcastingDisabled = GT_Sprite_SpellcastingDisabled(sprite, 0x2)
 	--
 	local lastState = EEex_Actionbar_GetLastState()
-	-- Check creature's class / flags / alignment
-	local isEvil = EEex_Trigger_ParseConditionalString("Alignment(Myself,MASK_EVIL)")
-	local isGood = EEex_Trigger_ParseConditionalString("Alignment(Myself,MASK_GOOD)")
+	local state = EEex_Actionbar_GetState()
+	--
+	local aux = EEex_GetUDAux(sprite)
+	-- Check creature's class / flags
 	local spriteClassStr = GT_Resource_IDSToSymbol["class"][sprite.m_typeAI.m_Class]
 	local spriteFlags = sprite.m_baseStats.m_flags
 	local spriteLevel1 = sprite.m_derivedStats.m_nLevel1
@@ -55,66 +66,37 @@ EEex_Key_AddPressedListener(function(key)
 		or (spriteClassStr == "CLERIC_THIEF" and (EEex_IsBitUnset(spriteFlags, 0x5) or spriteLevel2 > spriteLevel1))
 		or (spriteClassStr == "CLERIC_MAGE" and (EEex_IsBitUnset(spriteFlags, 0x5) or spriteLevel2 > spriteLevel1))
 	--
-	if not found then
+	if not spellcastingDisabled then -- op145 check...
 		if canSpontaneouslyCast then
-			if (lastState >= 1 and lastState <= 21) and EEex_Sprite_GetCastTimer(sprite) == -1 and sprite.m_typeAI.m_EnemyAlly == 2 and key == 0x400000E2 and (EEex_Actionbar_GetState() == 103 or EEex_Actionbar_GetState() == 113) then -- if PC, the Left Alt key is pressed, and the aura is free ...
-				if isGood:evalConditionalAsAIBase(sprite) then
-					--
-					local effectCodes = {
-						{["op"] = 321, ["res"] = "%PRIEST_SPONTANEOUS_CAST%"}, -- remove effects by resource
-						{["op"] = 232, ["p2"] = 16, ["res"] = "%PRIEST_SPONTANEOUS_CAST%B"}, -- cast spl on condition (condition: Die(); target: self)
-						{["op"] = 214, ["p1"] = 1, ["p2"] = 3, ["res"] = "%PRIEST_SPONTANEOUS_CAST%"}, -- select spell
-					}
-					--
-					for _, attributes in ipairs(effectCodes) do
-						sprite:applyEffect({
-							["effectID"] = attributes["op"] or EEex_Error("opcode number not specified"),
-							["effectAmount"] = attributes["p1"] or 0,
-							["dwFlags"] = attributes["p2"] or 0,
-							["res"] = attributes["res"] or "",
-							["durationType"] = 1,
-							["m_sourceRes"] = "%PRIEST_SPONTANEOUS_CAST%",
-							["sourceID"] = sprite.m_id,
-							["sourceTarget"] = sprite.m_id,
-						})
+			if sprite.m_typeAI.m_EnemyAlly == 2 then -- [PC] check...
+				if (lastState >= 1 and lastState <= 21) and (state == 103 or state == 113) then -- Cast Spell (F7) mode check...
+					if EEex_Sprite_GetCastTimer(sprite) == -1 or sprite:getActiveStats().m_bAuraCleansing > 0 then -- aura check...
+						if key == EEex_Key_GetFromName("Left Alt") then -- if the Left Alt key is pressed...
+							sprite:applyEffect({
+								["effectID"] = 214, -- select spell
+								["dwFlags"] = 3, -- from lua
+								["noSave"] = true,
+								["res"] = "%PRIEST_SPONTANEOUS_CAST%",
+								["sourceID"] = sprite.m_id,
+								["sourceTarget"] = sprite.m_id,
+							})
+							--
+							aux["gt_SpontaneousCast_Actionbar_LastState"] = lastState -- store it for later restoration
+						end
 					end
-					--
-					sprite:setLocalInt("gtSpontaneousCastActionbar", lastState) -- store it for later restoration
-				elseif isEvil:evalConditionalAsAIBase(sprite) then
-					--
-					local effectCodes = {
-						{["op"] = 321, ["res"] = "%PRIEST_SPONTANEOUS_CAST%"}, -- remove effects by resource
-						{["op"] = 232, ["p2"] = 16, ["res"] = "%PRIEST_SPONTANEOUS_CAST%B"}, -- cast spl on condition (condition: Die(); target: self)
-						{["op"] = 214, ["p1"] = 2, ["p2"] = 3, ["res"] = "%PRIEST_SPONTANEOUS_CAST%"}, -- select spell
-					}
-					--
-					for _, attributes in ipairs(effectCodes) do
-						sprite:applyEffect({
-							["effectID"] = attributes["op"] or EEex_Error("opcode number not specified"),
-							["effectAmount"] = attributes["p1"] or 0,
-							["dwFlags"] = attributes["p2"] or 0,
-							["res"] = attributes["res"] or "",
-							["durationType"] = 1,
-							["m_sourceRes"] = "%PRIEST_SPONTANEOUS_CAST%",
-							["sourceID"] = sprite.m_id,
-							["sourceTarget"] = sprite.m_id,
-						})
-					end
-					--
-					sprite:setLocalInt("gtSpontaneousCastActionbar", lastState) -- store it for later restoration
 				end
 			end
 		end
 	end
-	--
-	isGood:free()
-	isEvil:free()
 end)
 
 -- check if the caster has at least 1 spell of appropriate level memorized (f.i. at least 1 spell of level 1 if it intends to spontaneously cast Cure/Cause Light Wounds). If so, decrement (unmemorize) all spells of that level by 1 --
+-- restore the previous actionbar state after starting an action --
 
 EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
-	if sprite:getLocalInt("gtSpontaneousCastActionbar") > 0 then
+	local aux = EEex_GetUDAux(sprite)
+	--
+	if aux["gt_SpontaneousCast_Actionbar_LastState"] then
 		if action.m_actionID == 191 then -- SpellNoDec()
 			--
 			local spellResRef = action.m_string1.m_pchData:get()
@@ -159,27 +141,10 @@ EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
 			end
 		end
 		--
-		EEex_Actionbar_SetState(sprite:getLocalInt("gtSpontaneousCastActionbar"))
-		--
-		sprite:applyEffect({
-			["effectID"] = 146, -- Cast spell
-			["dwFlags"] = 1, -- instant/ignore level
-			["res"] = "%PRIEST_SPONTANEOUS_CAST%B",
-			["sourceID"] = sprite.m_id,
-			["sourceTarget"] = sprite.m_id,
-		})
+		if EEex_UDEqual(sprite, EEex_Sprite_GetSelected()) then
+			EEex_Actionbar_SetState(aux["gt_SpontaneousCast_Actionbar_LastState"])
+		end
+		aux["gt_SpontaneousCast_Actionbar_LastState"] = nil
 	end
 end)
 
--- reset var to 0 if the caster dies while being in "Cast Spell" mode (F7) / after starting an action --
-
-function %PRIEST_SPONTANEOUS_CAST%B(CGameEffect, CGameSprite)
-	CGameSprite:applyEffect({
-		["effectID"] = 321, -- Remove effects by resource
-		["res"] = "%PRIEST_SPONTANEOUS_CAST%",
-		["sourceID"] = CGameSprite.m_id,
-		["sourceTarget"] = CGameSprite.m_id,
-	})
-	--
-	CGameSprite:setLocalInt("gtSpontaneousCastActionbar", 0)
-end

@@ -1,17 +1,15 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                            \\\\\
-///// Alter Concentration Check                                  \\\\\
+///// NWN-ish Armor vs. Dexterity                                \\\\\
 /////                                                            \\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 WITH_SCOPE BEGIN
   INCLUDE "cdtweaks\luke\misc.tph"
-  //
-  INCLUDE "cdtweaks\lib\concentration.tph"
-  //
-  WITH_TRA "cdtweaks\languages\english\concentration.tra" "cdtweaks\languages\%LANGUAGE%\concentration.tra" BEGIN
-    LAF "ALTERNATE_CONCENTRATION_CHECK" INT_VAR "version" = 0 END
+  INCLUDE "cdtweaks\lib\nwn-ish_armor_vs_dex.tph"
+  WITH_TRA "cdtweaks\languages\english\nwn-ish_armor_vs_dex.tra" "cdtweaks\languages\%LANGUAGE%\nwn-ish_armor_vs_dex.tra" BEGIN
+    LAF "NWN-ISH_ARMOR_VS_DEX" END
   END
 END

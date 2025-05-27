@@ -4,34 +4,48 @@
 +------------------------------------------------------+
 --]]
 
---[[function %INNATE_ANIMAL_LAST_STAND%(op403CGameEffect, CGameEffect, CGameSprite)
-	local immunityToKill = EEex_Trigger_ParseConditionalString("EEex_IsImmuneToOpcode(Myself,13)")
-	--
-	if not immunityToKill:evalConditionalAsAIBase(CGameSprite) and CGameEffect.m_effectId == 0xD then
-		CGameSprite:applyEffect({
-			["effectID"] = CGameEffect.m_effectId,
-			["durationType"] = CGameEffect.m_durationType,
-			["duration"] = CGameEffect.m_duration,
-			["dwFlags"] = CGameEffect.m_dWFlags,
-			["effectAmount"] = CGameEffect.m_effectAmount,
-			["savingThrow"] = CGameEffect.m_savingThrow,
-			["saveMod"] = CGameEffect.m_saveMod,
-			["m_maxLevel"] = CGameEffect.m_maxLevel,
-			["m_minLevel"] = CGameEffect.m_minLevel,
-			["spellLevel"] = CGameEffect.m_spellLevel,
-			["m_sourceFlags"] = CGameEffect.m_sourceFlags,
-			["m_slotNum"] = CGameEffect.m_slotNum,
-			["m_casterLevel"] = CGameEffect.m_casterLevel,
-			["m_sourceRes"] = CGameEffect.m_sourceRes,
-			["m_sourceType"] = CGameEffect.m_sourceType,
-			["noSave"] = true, -- ignore immunity provided by op208
-			["sourceID"] = CGameEffect.m_sourceId,
-			["sourceTarget"] = CGameEffect.m_sourceTarget,
-		})
-		--
-		return true
+function %INNATE_ANIMAL_LAST_STAND%(op403CGameEffect, CGameEffect, CGameSprite)
+	if CGameEffect.m_effectId == 0xD then -- kill target (op13)
+		if not GT_Sprite_HasBounceEffects(CGameSprite, CGameEffect.m_spellLevel, CGameEffect.m_projectileType, CGameEffect.m_school, CGameEffect.m_secondaryType, CGameEffect.m_sourceRes:get(), {13}, CGameEffect.m_flags) then
+			if not GT_Sprite_HasImmunityEffects(CGameSprite, CGameEffect.m_spellLevel, CGameEffect.m_projectileType, CGameEffect.m_school, CGameEffect.m_secondaryType, CGameEffect.m_sourceRes:get(), {13}, CGameEffect.m_flags, CGameEffect.m_savingThrow) then
+				if not GT_Sprite_HasTrapEffect(CGameSprite, CGameEffect.m_spellLevel, CGameEffect.m_secondaryType, CGameEffect.m_flags) then
+					CGameSprite:applyEffect({
+						["effectID"] = CGameEffect.m_effectId, -- Kill target
+						["dwFlags"] = CGameEffect.m_dWFlags,
+						["effectAmount"] = CGameEffect.m_effectAmount,
+						--
+						["savingThrow"] = CGameEffect.m_savingThrow,
+						["saveMod"] = CGameEffect.m_saveMod,
+						["m_flags"] = CGameEffect.m_flags,
+						--
+						["durationType"] = CGameEffect.m_durationType,
+						["duration"] = CGameEffect.m_duration,
+						--
+						["spellLevel"] = CGameEffect.m_spellLevel,
+						["m_projectileType"] = CGameEffect.m_projectileType,
+						["m_school"] = CGameEffect.m_school,
+						["m_secondaryType"] = CGameEffect.m_secondaryType,
+						["m_sourceRes"] = CGameEffect.m_sourceRes:get(),
+						--
+						["m_sourceType"] = CGameEffect.m_sourceType,
+						["m_sourceFlags"] = CGameEffect.m_sourceFlags,
+						["m_casterLevel"] = CGameEffect.m_casterLevel,
+						["m_slotNum"] = CGameEffect.m_slotNum,
+						["m_maxLevel"] = CGameEffect.m_maxLevel,
+						["m_minLevel"] = CGameEffect.m_minLevel,
+						--
+						["noSave"] = true, -- ignore immunity provided by op208
+						--
+						["sourceID"] = CGameEffect.m_sourceId,
+						["sourceTarget"] = CGameEffect.m_sourceTarget,
+					})
+					--
+					return true
+				end
+			end
+		end
 	end
-end--]]
+end
 
 -- The boar/bear will fight for (1d4/1d4+1) rounds after reaching 0 hit points. The creature will go berserk attacking friends and foes alike --
 
@@ -62,7 +76,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	--
 	local roll = modifier + Infinity_RandomNumber(1, 4) -- 1d4 / 1d4+1
 	--
-	if sprite:getLocalInt("cdtweaksAnimalLastStand") == 1 then
+	if sprite:getLocalInt("gtAnimalLastStand") == 1 then
 		if sprite.m_nLastDamageTaken >= sprite.m_baseStats.m_hitPoints and sprite:getLocalInt("gtAnimalRunningWild") == 0 then
 			sprite:setLocalInt("gtAnimalRunningWild", 1)
 			--
@@ -107,7 +121,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- internal function that applies the actual feat
 	local apply = function()
 		-- Mark the creature as 'feat applied'
-		sprite:setLocalInt("cdtweaksAnimalLastStand", 1)
+		sprite:setLocalInt("gtAnimalLastStand", 1)
 		--
 		sprite:applyEffect({
 			["effectID"] = 321, -- Remove effects by resource
@@ -123,15 +137,14 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
 		})
-		--[[sprite:applyEffect({
+		sprite:applyEffect({
 			["effectID"] = 403, -- Screen effects
-			["effectAmount"] = modifier,
 			["durationType"] = 9,
 			["res"] = "%INNATE_ANIMAL_LAST_STAND%", -- Lua func
 			["m_sourceRes"] = "%INNATE_ANIMAL_LAST_STAND%",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
-		})--]]
+		})
 
 	end
 	-- Check creature's general / class / race / animate
@@ -152,7 +165,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		end
 	end
 	--
-	if sprite:getLocalInt("cdtweaksAnimalLastStand") == 0 then
+	if sprite:getLocalInt("gtAnimalLastStand") == 0 then
 		if applyAbility then
 			apply()
 		end
@@ -161,7 +174,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			-- do nothing
 		else
 			-- Mark the creature as 'feat removed'
-			sprite:setLocalInt("cdtweaksAnimalLastStand", 0)
+			sprite:setLocalInt("gtAnimalLastStand", 0)
 			--
 			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource

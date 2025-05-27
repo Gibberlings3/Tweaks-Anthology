@@ -1,0 +1,30 @@
+/*
++------------+
+| Initialize |
++------------+
+*/
+
+IF
+	Global("gtAnmlCompSetup","LOCALS",0)
+THEN
+	RESPONSE #100
+		SetGlobal("gtAnmlCompSetup","LOCALS",1)
+		ChangeEnemyAlly(Myself,NEUTRAL) // I shouldn't be controlled by the player
+		ApplySpellRES("GTEMPTY",Myself) // Absolutely empty spell, with a useless effect: (Opcode #0 with all fields 0'd, Target=Self, Probability1=100)
+		MakeGlobal() // Non-instant action, allows our spell to apply and gets the engine to realize I am no longer a controlled creature. Familiars must also be global
+		AddFamiliar() // Actually get the engine to promote me into being a familiar
+		ChangeEnemyAlly(Myself,FAMILIAR) // Remember that I am a familiar
+		ApplySpellRES("GTEMPTY",Myself) // AddFamiliar() is buggy and clears all of my ai-type values (except EA) until I am updated, force update
+		Continue()
+END
+
+// fix "MakeGlobal()" messing up with GENERAL upon saving and reloading //
+
+IF
+	OnCreation()
+THEN
+	RESPONSE #100
+		EEex_LuaAction("GT_AnimalCompanion_FixGeneral()")
+		Continue()
+END
+

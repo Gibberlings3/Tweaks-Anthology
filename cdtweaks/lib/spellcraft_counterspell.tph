@@ -111,8 +111,10 @@ BEGIN
 		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Innate Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\spellcraft_counterspell\gain_ability.lua" "destRes" = "m_gtspin" END
 	END
 	//
-	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Utility" "sourceFileSpec" = "cdtweaks\luke\lua\utility\decode_spell.lua" "destRes" = "m_gtutil" END
-	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Utility" "sourceFileSpec" = "cdtweaks\luke\lua\utility\check_for_effect.lua" "destRes" = "m_gtutil" END
+	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lua\utility\has_immunity_effects.lua" "destRes" = "m_gtutil" END
+	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lua\utility\has_bounce_effects.lua" "destRes" = "m_gtutil" END
+	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lua\utility\decode_spell.lua" "destRes" = "m_gtutil" END
+	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lua\utility\display_sprite_message.lua" "destRes" = "m_gtutil" END
 	//LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Lua Tools" "sourceFileSpec" = "cdtweaks\luke\lua\tool\wrap_userdata.lua" "destRes" = "m_gttool" END
 	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "AI-related stuff" "sourceFileSpec" = "cdtweaks\luke\lua\ai\object_type.lua" "destRes" = "m_gt#ai" END
 	//

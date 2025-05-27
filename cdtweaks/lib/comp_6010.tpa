@@ -1,17 +1,29 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                            \\\\\
+<<<<<<<< HEAD:cdtweaks/lib/comp_6010.tpa
 ///// Knockdown class feat for Fighters and Monks                \\\\\
+========
+///// Alter Concentration Check                                  \\\\\
+>>>>>>>> upstream/master:cdtweaks/lib/comp_2690.tpa
 /////                                                            \\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 WITH_SCOPE BEGIN
   INCLUDE "cdtweaks\luke\misc.tph"
+<<<<<<<< HEAD:cdtweaks/lib/comp_6010.tpa
   INCLUDE "cdtweaks\ardanis\functions.tph"
   //
   INCLUDE "cdtweaks\lib\knockdown.tph"
   WITH_TRA "cdtweaks\languages\english\knockdown.tra" "cdtweaks\languages\%LANGUAGE%\knockdown.tra" BEGIN
     LAF "KNOCKDOWN" END
+========
+  //
+  INCLUDE "cdtweaks\lib\concentration.tph"
+  //
+  WITH_TRA "cdtweaks\languages\english\concentration.tra" "cdtweaks\languages\%LANGUAGE%\concentration.tra" BEGIN
+    LAF "ALTERNATE_CONCENTRATION_CHECK" INT_VAR "version" = 0 END
+>>>>>>>> upstream/master:cdtweaks/lib/comp_2690.tpa
   END
 END

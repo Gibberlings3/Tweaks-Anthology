@@ -1023,7 +1023,7 @@
       </ul>
       <p> So to sum up, its core features are now all built around the <em>bow</em> (instead of any missile weapon). </p>
       <p> <strong>Make Bears and Boars continue fighting after reaching 0 hit points [Luke]</strong><br />
-        <em><abbr title="Enhanced Edition">EEex</abbr></em></p>
+        <em>BGEE, <abbr title="Baldur's Gate II">BG2</abbr>EE, IWDEE, EET (requires <abbr title="ToB Extender">EEex</abbr>)</em></p>
       <p>This component aims at implementing the PnP behavior <em>Make Bears and Boars continue fighting after reaching 0 hit points</em>.</p>
       <p> In particular, after reaching 0 hit points, the creature will not immediately die, but go berserk for a small number rounds (Brown / Cave bears: 1d4, Polar bears / boars: 1d4+1), attacking friends and foes alike.</p>
       <p>Notes:</p>
@@ -1032,21 +1032,17 @@
         <li>Spells such as Finger of Death or Power Word, Kill can still immediately slay the creature.</li>
       </ul>
       <p> <strong>Make Grease Ignitable [Luke]</strong><br />
-        <em><abbr title="Enhanced Edition">EEex</abbr></em></p>
-      <p> &quot;Greased&quot; characters suffer 3d6 (save vs. breath for half) addition fire damage for 1d3 rounds when hit by fire. </p>
+        <em>BGEE, <abbr title="Baldur's Gate II">BG2</abbr>EE, IWDEE, EET (requires <abbr title="ToB Extender">EEex</abbr>)</em></p>
+      <p> &quot;Greased&quot; characters suffer 3d6 (save vs. breath for half) additional fire damage for 1d3 rounds when hit by fire. </p>
       <p> <strong>Make Infravision Useful [Luke]</strong><br />
-        <em><abbr title="Enhanced Edition">EEex</abbr></em></p>
-      <p>
-        All creatures without the Infravision ability will incur a -4 penalty to THAC0 in darkness (Dungeon or night areas), as per AD&D rules.
-      </p>
-      <p>
-        Notes:
-      </p>
-        <ul>
-          <li>This rule change only applies to playable races.</li>
-        </ul>
+        <em>BGEE, <abbr title="Baldur's Gate II">BG2</abbr>EE, IWDEE, EET (requires <abbr title="ToB Extender">EEex</abbr>)</em></p>
+      <p> All creatures without the Infravision ability will incur a -4 penalty to THAC0 in darkness (Dungeon or night areas), as per AD&amp;D rules. </p>
+      <p> Notes: </p>
+      <ul>
+        <li>This rule change only applies to playable races.</li>
+      </ul>
       <p> <strong>Alternate Concentration Checks [Luke]</strong><br />
-        <em><abbr title="Enhanced Edition">EEex</abbr></em></p>
+        <em>BGEE, <abbr title="Baldur's Gate II">BG2</abbr>EE, IWDEE, EET (requires <abbr title="ToB Extender">EEex</abbr>)</em></p>
       <p> By default, any damage a spellcaster takes will cause them to fail their spellcasting.
         This component alters this mechanic and comes into four different variants: </p>
       <ol>
@@ -1055,6 +1051,10 @@
         <li>Spell disrupted if (1d20 - 1) + Luck &le; Spell Level + 15</li>
         <li>Spell disrupted if (1d20 - 1) + &lfloor;(Constitution / 2)&rfloor; - 5 &le; Spell Level + Damage Taken</li>
       </ol>
+      <p> <strong>Revised Troll Regeneration [Luke]</strong><br />
+        <em>BGEE, <abbr title="Baldur's Gate II">BG2</abbr>EE, IWDEE, EET (requires <abbr title="ToB Extender">EEex</abbr>)</em></p>
+      <p> This component randomizes the rate at which trolls regenerate lost hit points (new rate: 1d6 / round).<br />
+        On top of that, any time they take fire or acid damage their regeneration is halted for one round (not cumulative). </p>
     </div>
     <div class="ribbon_rectangle_h3">
       <h3> <a id="contents_convenience" name="contents_convenience"></a>Convenience Tweaks and/or Cheats </h3>
@@ -1332,34 +1332,24 @@
       <p> <strong>More Stoneskin Feedback</strong><br />
         <em><abbr title="Baldur's Gate II">BGEE, BG2</abbr>EE, IWDEE, EET (requires <abbr title="ToB Extender">EEex</abbr>)</em></p>
       <p> Whenever a stoneskinned creature gets hit, this component will notify the player about the number of skins left. </p>
-
       <p> <strong>Extra Dispel Feedback</strong><br />
         <em><abbr title="Baldur's Gate II">BGEE, BG2</abbr>EE, IWDEE, EET (requires <abbr title="ToB Extender">EEex</abbr>)</em></p>
-      <p>This component will clearly display in the combat log what gets dispelled (something like "Magical effect(s) removed: Bless").</p>
-
+      <p>This component will clearly display in the combat log what gets dispelled (something like &quot;Magical effect(s) removed: Bless&quot;).</p>
       <p> <strong>More Sensible Fireshield</strong><br />
         <em><abbr title="Baldur's Gate II">BGEE, BG2</abbr>EE, IWDEE, EET (requires <abbr title="ToB Extender">EEex</abbr>)</em></p>
-      <p>
-        Due to the way the game engine works, there are a couple of issues with Fireshield-like spells (f.i. Fireshield Blue/Red, Keldorn's sword, &c.).
-        <ol>
-          <li>If one creature with a fireshield up hits another, damage bounces back and forth every tick until either one of the creatures is dead or they're out of range of each other.</li>
-          <li>Both ranged attacks (should you ever use a ranged weapon in close combat) and poison may trigger the retaliation damage.</li>
-        </ol>
-       <p>This component adds a workaround to prevent these issues. In particular, it makes sure only true melee attacks can trigger the retaliation damage and that the damage is only applied once per hit.</p>
-
-
+      <p> Due to the way the game engine works, there are a couple of issues with Fireshield-like spells (f.i. Fireshield Blue/Red, Keldorn's sword, &amp;c.). </p>
+      <ol>
+        <li>If one creature with a fireshield up hits another, damage bounces back and forth every tick until either one of the creatures is dead or they're out of range of each other.</li>
+        <li>Both ranged attacks (should you ever use a ranged weapon in close combat) and poison may trigger the retaliation damage.</li>
+      </ol>
+      <p>This component adds a workaround to prevent these issues. In particular, it makes sure only true melee attacks can trigger the retaliation damage and that the damage is only applied once per hit.</p>
       <p> <strong>More Sensible Blade Barrier</strong><br />
         <em><abbr title="Baldur's Gate II">BGEE, BG2</abbr>EE, IWDEE, EET (requires <abbr title="ToB Extender">EEex</abbr>)</em></p>
-      <p>
-        Due to the way the game engine works, Blade Barrier and similar spells interact very oddly with time stop effects.<br>
-        Freeze two characters in melee range, one with a Blade Barrier (or Globe of Blades, or Circle of Bones, or any mod spell that uses the same mechanics), and the spell triggers several times to no immediate effect... until stopped time wears off. Then all of those suspended triggers hit at once, for a potential massive burst of damage (this is especially noticeable if the characters are hasted).
-      </p>
-      <p>
-        This component adds a workaround to prevent the aforementioned issue. In particular, it makes sure that such spells are properly "paused" during Time Stop and are triggered only once per round (regardless of Haste/Slow).
-    </p>
-
+      <p> Due to the way the game engine works, Blade Barrier and similar spells interact very oddly with time stop effects.<br />
+        Freeze two characters in melee range, one with a Blade Barrier (or Globe of Blades, or Circle of Bones, or any mod spell that uses the same mechanics), and the spell triggers several times to no immediate effect... until stopped time wears off. Then all of those suspended triggers hit at once, for a potential massive burst of damage (this is especially noticeable if the characters are hasted). </p>
+      <p> This component adds a workaround to prevent the aforementioned issue. In particular, it makes sure that such spells are properly &quot;paused&quot; during Time Stop and are triggered only once per round (regardless of Haste/Slow). </p>
       <p> <strong>Dynamic FPS Change</strong><br />
-        <em><abbr title="Baldur's Gate: Enhanced Edition">EEex</abbr></em></p>
+        <em>BGEE, <abbr title="Baldur's Gate II">BG2</abbr>EE, IWDEE, EET (requires <abbr title="ToB Extender">EEex</abbr>)</em></p>
       <p>
         This component will automatically adjust FPS during playthrough.<br>
         When in combat or cutscene, will lock FPS to 30. Otherwise, will set them to 60.
@@ -1946,32 +1936,33 @@
       <p> <strong>Uncanny Dodge Class Feat for Barbarians and Rogues [Luke]</strong><br />
         <em>BGEE, <abbr title="Baldur's Gate II">BG2</abbr>EE, IWDEE, EET (requires <abbr title="ToB Extender">EEex</abbr>)</em></p>
       <p>Barbarians and Rogues gain a +2 bonus on saving throws made to avoid traps. Use is automatic, available from level 1. </p>
-
       <p> <strong>NWN-ish Sneak Attack / Crippling Strike class feat for Thieves and Stalkers [Luke]</strong><br />
         <em>BGEE, <abbr title="Baldur's Gate II">BG2</abbr>EE, IWDEE, EET (requires <abbr title="ToB Extender">EEex</abbr>)</em></p>
-      <p>
-        This component reworks the Sneak Attack mechanic so as to make it more similar to the one in NWN (sort of). To sum up:</p>
-        <ul>
-          <li>Use: automatic, but limited to once per round.</li>
-          <li>Crippling Strike:
-            <ul>
-              <li>Assassins: the targeted creature must Save vs. Death at <code>-1 * (X - 1)</code> or be paralyzed for <code>Xd6</code> rounds (see <a href="https://gibberlings3.github.io/iesdp/files/2da/2da_bgee/crippstr.htm"><code>crippstr.2da</code></a> for the value of <code>X</code>). Not cumulative.</li>
-              <li>Stalkers: the targeted creature must Save vs. Death at <code>-1 * (X - 1)</code> or be silenced for <code>Xd6</code> rounds (see <a href="https://gibberlings3.github.io/iesdp/files/2da/2da_bgee/crippstr.htm"><code>crippstr.2da</code></a> for the value of <code>X</code>). Not cumulative.</li>
-              <li>Otherwise: the targeted creature must Save vs. Death at <code>-1 * (X - 1)</code> or lose <code>2</code> points of STR for <code>Xd6</code> rounds (see <a href="https://gibberlings3.github.io/iesdp/files/2da/2da_bgee/crippstr.htm"><code>crippstr.2da</code></a> for the value of <code>X</code>). This is cumulative, but cannot drop STR below 1.</li>
-            </ul>
-          </li>
-          <li>Additionally, even if enemies are not required to flank their target in order to perform a sneak attack, their target must still be flat-footed (i.e., the attacker must be invisible or the target must be in combat with someone else/idle/helpless).</li>
-        </ul>
+      <p> This component reworks the Sneak Attack mechanic so as to make it more similar to the one in NWN (sort of). To sum up:</p>
+      <ul>
+        <li>Use: automatic, but limited to once per round.</li>
+        <li>Crippling Strike:
+          <ul>
+            <li>Assassins: the targeted creature must Save vs. Death at <code>-1 * (X - 1)</code> or be paralyzed for <code>Xd6</code> rounds (see <a href="https://gibberlings3.github.io/iesdp/files/2da/2da_bgee/crippstr.htm"><code>crippstr.2da</code></a> for the value of <code>X</code>). Not cumulative.</li>
+            <li>Stalkers: the targeted creature must Save vs. Death at <code>-1 * (X - 1)</code> or be silenced for <code>Xd6</code> rounds (see <a href="https://gibberlings3.github.io/iesdp/files/2da/2da_bgee/crippstr.htm"><code>crippstr.2da</code></a> for the value of <code>X</code>). Not cumulative.</li>
+            <li>Otherwise: the targeted creature must Save vs. Death at <code>-1 * (X - 1)</code> or lose <code>2</code> points of STR for <code>Xd6</code> rounds (see <a href="https://gibberlings3.github.io/iesdp/files/2da/2da_bgee/crippstr.htm"><code>crippstr.2da</code></a> for the value of <code>X</code>). This is cumulative, but cannot drop STR below 1.</li>
+          </ul>
+        </li>
+        <li> Epic Sneak Attack: sneak attacks performed by level 30+ Assassins will deliver half damage against creatures normally immune to them.
+          <ul>
+            <li>NB.: Barbarians will still be fully immune to them.</li>
+          </ul>
+        </li>
+        <li>Additionally, even if enemies are not required to flank their target in order to perform a sneak attack, their target must still be flat-footed (i.e., the target must either wield a ranged weapon or be in combat with someone else or be idle/helpless).</li>
+      </ul>
       <p> <strong>Evasion class feat for Thieves and Monks [Luke]</strong><br />
         <em>BGEE, <abbr title="Baldur's Gate II">BG2</abbr>EE, IWDEE, EET (requires <abbr title="ToB Extender">EEex</abbr>)</em></p>
-      <p>
-        Whenever a Save vs. Breath is allowed for half damage, the character instead takes no damage if he succeeds at the save.<br />
-        Use is automatic, but limited to Monks and Rogues (available from level 1).
-      </p>
+      <p> Whenever a Save vs. Breath is allowed for half damage, the character instead takes no damage if he succeeds at the save.<br />
+        Use is automatic, but limited to Monks and Rogues (available from level 1). </p>
       <p> <strong>Spell Penetration Class Feat for Spellcasters [Luke]</strong><br />
-      <em>BGEE, <abbr title="Baldur's Gate II">BG2</abbr>EE, IWDEE, EET (requires <abbr title="ToB Extender">EEex</abbr>)</em><em></em></p>
+        <em>BGEE, <abbr title="Baldur's Gate II">BG2</abbr>EE, IWDEE, EET (requires <abbr title="ToB Extender">EEex</abbr>)</em></p>
       <p>A spellcaster with this feat gains a bonus equal to their caster level on checks to beat a creature's spell resistance.</p>
-      Notes:
+      <p>Notes:</p>
       <ul>
         <li>Use: automatic (available from level 1).</li>
         <li>Bards, Paladins and Rangers are not eligible for this feat.</li>
@@ -1979,22 +1970,19 @@
         <li>The bonus is capped at 30.</li>
       </ul>
       <p> <strong>Smite Evil / Good class feat for Paladins / Blackguards [Luke]</strong><br />
-      <em>BGEE, <abbr title="Baldur's Gate II">BG2</abbr>EE, IWDEE, EET (requires <abbr title="ToB Extender">EEex</abbr>)</em><em></em></p>
-      <p>
-        NWN-style Smite Evil / Good class feat.
-        <ul>
-          <li>A paladin may attempt to smite an evil aligned enemy with one special melee attack. The paladin adds his charisma bonus to the attack roll and adds 1 extra point of damage per class level.</li>
-          <li>A blackguard may attempt to smite a good aligned enemy with one special melee attack. The blackguard adds his charisma bonus to the attack roll and adds 1 extra point of damage per class level.</li>
-        </ul>
-      </p>
-      Notes:
+        <em>BGEE, <abbr title="Baldur's Gate II">BG2</abbr>EE, IWDEE, EET (requires <abbr title="ToB Extender">EEex</abbr>)</em></p>
+      <p> NWN-style Smite Evil / Good class feat. </p>
+      <ul>
+        <li>A paladin may attempt to smite an evil aligned enemy with one special melee attack. The paladin adds his charisma bonus to the attack roll and adds 1 extra point of damage per class level.</li>
+        <li>A blackguard may attempt to smite a good aligned enemy with one special melee attack. The blackguard adds his charisma bonus to the attack roll and adds 1 extra point of damage per class level.</li>
+      </ul>
+Notes:
       <ul>
         <li>Use: selected (available from level 1, +1 use per day per 5 levels).</li>
         <li>You cannot smite with your fists. The same holds for ranged weapons and magically created weapons.</li>
         <li>In case of dual-wielding, the character will always smite with the main hand weapon.</li>
         <li>On-hit effects of the weapon (if any) apply as normal.</li>
-        <li>
-          Here is how the thac0 bonus scales with charisma:
+        <li> Here is how the thac0 bonus scales with charisma:
           <table>
             <tbody>
               <tr>
@@ -2073,20 +2061,338 @@
           </table>
         </li>
       </ul>
-
       <p> <strong>Woodland Stride Class Feat for Druids [Luke]</strong><br />
-      <em>BGEE, <abbr title="Baldur's Gate II">BG2</abbr>EE, IWDEE, EET (requires <abbr title="ToB Extender">EEex</abbr>)</em><em></em></p>
-      <p>
-        The character is immune to the grease, web, and entangle effects.<br />
-        Use is automatic, but limited to Druids (starting from level 2).
-      </p>
-
+        <em>BGEE, <abbr title="Baldur's Gate II">BG2</abbr>EE, IWDEE, EET (requires <abbr title="ToB Extender">EEex</abbr>)</em></p>
+      <p> The character is immune to the grease, web, and entangle effects.<br />
+        Use is automatic, but limited to Druids (starting from level 2). </p>
       <p> <strong>Bane of Enemies Class Feat for Rangers [Luke]</strong><br />
-      <em>BGEE, <abbr title="Baldur's Gate II">BG2</abbr>EE, IWDEE, EET (requires <abbr title="ToB Extender">EEex</abbr>)</em><em></em></p>
-      <p>
-        Any weapon the character wields against its favored enemy is treated as a bane weapon for that creature type (+2 to hit and an additional +2d6 damage).<br />
-        Use is automatic, but limited to Rangers (level 21+).
-      </p>
+        <em>BGEE, <abbr title="Baldur's Gate II">BG2</abbr>EE, IWDEE, EET (requires <abbr title="ToB Extender">EEex</abbr>)</em></p>
+      <p> Any weapon the character wields against its favored enemy is treated as a bane weapon for that creature type (+2 to hit and an additional +2d6 damage).<br />
+        Use is automatic, but limited to Rangers (level 21+). </p>
+      <p> <strong>Cantrips for Spellcasters [Luke]</strong><br />
+        <em>BGEE, <abbr title="Baldur's Gate II">BG2</abbr>EE, IWDEE, EET (requires <abbr title="ToB Extender">EEex</abbr>)</em></p>
+      <p> A cantrip is a spell of the lowest spell level (0). Cantrips are simple spells, with minor effects that do not improve as caster level increases. They are considered so simple that a wizard is allowed to cast cantrips from an opposition spell school. </p>
+      <p> List of cantrips: </p>
+      <ul>
+        <li>Acid Splash: 1d6 acid damage, save vs. spell negates (available to: wizards, sorcerers).</li>
+        <li>Ray of Frost: 1d6 cold damage, save vs. spell negates (available to: wizards, sorcerers).</li>
+        <li>Fire Bolt: 1d6 fire damage, save vs. spell negates (available to: wizards, sorcerers).</li>
+        <li>Electric Jolt: 1d6 electrical damage, save vs. spell negates (available to: wizards, sorcerers).</li>
+        <li>Poison Spray: 1d6 poison damage, save vs. spell negates (available to: wizards, sorcerers, druids, shamans).</li>
+        <li>Flare: -1 penalty to attack rolls for 10 rounds, save vs. spell negates  (available to: wizards, sorcerers, druids, shamans).</li>
+        <li>True Strike: +1 bonus on your next attack roll, castable while silenced (available to: wizards, sorcerers).</li>
+        <li> Blade Ward: caster takes only half damage from weapon attacks for 2 turns (available to: clerics).
+          <ul>
+            <li>Critical Hits will steal deal full damage.</li>
+            <li>Magical weapons will still deal full damage.</li>
+          </ul>
+        </li>
+        <li>Virtue: +1d6 additional Hit Points for 1 turn (available to: clerics, druids, shamans).</li>
+        <li>Resistance: +1 to all saves for 2 turns (available to: clerics, druids, shamans).</li>
+        <li> Thorn Whip: 1d6 piercing damage, pulls the targeted creature closer to the caster, save vs. spell negates (available to: druids, shamans).
+          <ul>
+            <li>Large creatures cannot be pulled</li>
+          </ul>
+        </li>
+        <li> Cure Minor Wounds: restores 4 hit points (available to: clerics, druids, shamans).
+          <ul>
+            <li>Constructs and extraplanar creatures are unaffected by this spell.</li>
+            <li>Undead will instead suffer 4 magic damage (save vs. spell for half).</li>
+          </ul>
+        </li>
+        <li> Cause Minor Wounds: 4 magic damage (save vs. spell for half) (available to: neutral or evil clerics).
+          <ul>
+            <li>Constructs and extraplanar creatures are unaffected by this spell.</li>
+            <li>Undead will instead be healed for 4 points of damage.</li>
+          </ul>
+        </li>
+      </ul>
+      <p> Notes: </p>
+      <ul>
+        <li>You can access the Cantrips submenu by pressing the <code>Right Alt</code> key while being in &quot;Cast Spell&quot; mode (F7 button).</li>
+        <li> The number of cantrips castable per day scales with the number of level 1 spells castable per day (minus 1; minimum 1).
+          <ul>
+            <li>For instance, a level 1 Druid can only cast 1 cantrip per day.</li>
+            <li>For instance, a level 12 Druid can cast up to (6 - 1 = 5) cantrips per day.</li>
+          </ul>
+        </li>
+        <li>Bards, Rangers and Paladins cannot cast cantrips.</li>
+        <li> Since these spells are level 0 spells, they are automatically deflected/turned/trapped by Spell Deflection/Spell Turning/Spell Trap &amp;c.
+          <ul>
+            <li>In particular, note that if there are <code>X</code> levels left and a cantrip is cast at the wizard, the spell will be absorbed/turned/trapped while <u>not</u> decrementing <code>X</code>.</li>
+          </ul>
+        </li>
+      </ul>
+
+      <p> <strong>Animal Companion Class Feat for Beastmasters [Luke]</strong><br />
+        <em>BGEE, <abbr title="Baldur's Gate II">BG2</abbr>EE, IWDEE, EET (requires <abbr title="ToB Extender">EEex</abbr>)</em><em></em></p>
+        <p>
+          This component is aimed at tweaking the existing Find Familiar ability available to Beastmasters.<br />
+
+          The ability is now called Summon Animal Companion, and the ranger can now choose among eight different creatures. Moreover, the summoned creature is no longer tied to CHARNAME (bg/bg2) or one of the Player-created characters (iwd)... This means that a party consisting of six Beastmasters can have up to six animal companions!
+        </p>
+        <p>
+          List of available animals:
+          <ul>
+            <li>
+              Cave Bear
+              <ul>
+                <li>
+                  Base Stats:
+                  <ul>
+                    <li>Hit Points: as per a beastmaster of the same level.</li>
+                    <li>Armor Class: 6 (+1 every 5 levels).</li>
+                    <li>THAC0: as per a ranger of the same level.</li>
+                    <li>Saves: as per a ranger of the same level.</li>
+                    <li>Str(18/100), Int(4), Wis(2), Dex(9), Con(16), Cha(3).</li>
+                    <li>Combat: 3 attacks per round for 1d12 slashing damage (+1 every 5 levels, starting from level 10, capped at +3 at level 20).</li>
+                  </ul>
+                  <li>
+                    Special Abilities:
+                    <ul>
+                      <li>Critical Hit Chance: +10% (starting from level 5).</li>
+                      <li>Deals an extra 2d8 points of damage on a critical hit (starting from level 5).</li>
+                    </ul>
+                  </li>
+                </li>
+              </ul>
+            </li>
+
+            <li>
+              Winter Wolf
+              <ul>
+                <li>
+                  Base Stats:
+                  <ul>
+                    <li>Hit Points: as per a beastmaster of the same level.</li>
+                    <li>Armor Class: 5 (+1 every 5 levels).</li>
+                    <li>THAC0: as per a ranger of the same level.</li>
+                    <li>Saves: as per a ranger of the same level.</li>
+                    <li>Cold Resistance: 125%.</li>
+                    <li>Fire Resistance: -25%.</li>
+                    <li>Str(18), Int(10), Wis(8), Dex(12), Con(16), Cha(6).</li>
+                    <li>Combat: 1 attack per round for 2d4 piercing damage (+1 every 5 levels, starting from level 10, capped at +3 at level 20).</li>
+                  </ul>
+                  <li>
+                    Special Abilities:
+                    <ul>
+                      <li>
+                        Frost Breath (1 use per day, +1 every 5 levels).
+                        <ul>
+                          <li>The creature can unleash a stream of frost, causing 6d4 points of cold damage (cone-shaped area originating at the creature's lungs and extending outward in a cone 17 ft. long with a 90-deg. arc). A save vs. breath weapon is allowed for half damage.</li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </li>
+              </ul>
+            </li>
+
+            <li>
+              Sword Spider
+              <ul>
+                <li>
+                  Base Stats:
+                  <ul>
+                    <li>Hit Points: as per a beastmaster of the same level.</li>
+                    <li>Armor Class: 3 (+1 every 5 levels).</li>
+                    <li>THAC0: as per a ranger of the same level.</li>
+                    <li>Saves: as per a ranger of the same level.</li>
+                    <li>Str(16), Int(10), Wis(2), Dex(14), Con(14), Cha(3).</li>
+                    <li>Combat: 2 attacks per round for 2d6 piercing damage (+1 every 5 levels, starting from level 10, capped at +3 at level 20).</li>
+                  </ul>
+                  <li>
+                    Special Abilities:
+                    <ul>
+                      <li>Permanently (improved) hasted.</li>
+                      <li>Immunity to Web.</li>
+                      <li>
+                        Web Tangle (1 use per day, +1 every 5 levels).
+                        <ul>
+                          <li>Targeted creature must save vs. Breath or be webbed for 2d6 rounds. Large creatures are unaffected.</li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </li>
+              </ul>
+            </li>
+
+            <li>
+              Leopard
+              <ul>
+                <li>
+                  Base Stats:
+                  <ul>
+                    <li>Hit Points: as per a beastmaster of the same level.</li>
+                    <li>Armor Class: 6 (+1 every 5 levels).</li>
+                    <li>THAC0: as per a ranger of the same level.</li>
+                    <li>Saves: as per a ranger of the same level.</li>
+                    <li>Hide in Shadows: 10 (+5 every level).</li>
+                    <li>Move Silently: 10 (+5 every level).</li>
+                    <li>Str(14), Int(4), Wis(12), Dex(15, +1 every 10 levels), Con(13), Cha(6).</li>
+                    <li>Combat: 3 attacks per round for 1d6 slashing damage (+1 every 5 levels, starting from level 10, capped at +3 at level 20).</li>
+                  </ul>
+                  <li>
+                    Special Abilities:
+                    <ul>
+                      <li>May Hide in Shadows.</li>
+                      <li>
+                        May perform sneak attacks as per an assassin of the same level (see <a href="https://gibberlings3.github.io/iesdp/files/2da/2da_bgee/sneakatt.htm"><code>sneakatt.2da</code></a>).
+                        <ul>
+                          <li>Sneak attacks are limited to max one per round.</li>
+                          <li>The targeted creature must be flat-footed (i.e., equipped with a ranged weapon / idle or helpless / in combat with someone else).</li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </li>
+              </ul>
+            </li>
+
+            <li>
+              Dire Boar
+              <ul>
+                <li>
+                  Base Stats:
+                  <ul>
+                    <li>Hit Points: as per a beastmaster of the same level.</li>
+                    <li>Armor Class: 7 (+1 every 5 levels).</li>
+                    <li>THAC0: as per a ranger of the same level.</li>
+                    <li>Saves: as per a ranger of the same level.</li>
+                    <li>Str(16), Int(4), Wis(2), Dex(10), Con(16), Cha(3).</li>
+                    <li>Combat: 1 attack per round for 3d4 piercing damage (+1 every 5 levels, starting from level 10, capped at +3 at level 20).</li>
+                  </ul>
+                  <li>
+                    Special Abilities:
+                    <ul>
+                      <li>
+                        Ferocity (1 use per day, +1 every 5 levels).
+                        <ul>
+                          <li>+1d6 Strength.</li>
+                          <li>+1d6 Constitution.</li>
+                          <li>Immunity to confusion, charm, and feeblemind.</li>
+                          <li>Duration: 5 rounds, +1 round every 5 levels.</li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </li>
+              </ul>
+            </li>
+
+            <li>
+              Giant Constrictor Snake
+              <ul>
+                <li>
+                  Base Stats:
+                  <ul>
+                    <li>Hit Points: as per a beastmaster of the same level.</li>
+                    <li>Armor Class: 5 (+1 every 5 levels).</li>
+                    <li>THAC0: as per a ranger of the same level.</li>
+                    <li>Saves: as per a ranger of the same level.</li>
+                    <li>Str(3), Int(1), Wis(2), Dex(16), Con(12), Cha(3).</li>
+                    <li>Combat: 2 attacks per round for 2d4 piercing damage (+1 every 5 levels, starting from level 10, capped at +3 at level 20).</li>
+                  </ul>
+                  <li>
+                    Special Abilities:
+                    <ul>
+                      <li>Suffers a -1 morale modifier when flames are used against it.</li>
+                      <li>
+                        Charm Animal (unlimited uses per day)
+                        <ul>
+                          <li>Targeted animal is charmed for 2d6 rounds upon a failed save vs. spell.</li>
+                        </ul>
+                      </li>
+                      <li>
+                        Constriction Attack (1 use per day, +1 every 5 levels)
+                        <ul>
+                          <li>
+                            Targeted creature is constricted for 5 rounds (+1 round per 5 levels). Notice that:
+                            <ul>
+                              <li>
+                                Once per round, constricted creatures can escape the coils with a successful open doors roll. If failed, the creature suffers 1d6 crushing damage.
+                                <ul>
+                                  <li>19+ Strength creatures automatically break free.</li>
+                                </ul>
+                              </li>
+                              <li>The victim automatically breaks free if the snake gets petrified/frozen/stunned/mazed/imprisoned &c.</li>
+                              <li>The victim automatically breaks free if the snake takes an hostile action (such as attacking or using a special ability), or if it moves away from the victim.</li>
+                              <li>Anyone who attempts to free a captive by hacking at the constrictor has a 20% chance of striking the victim instead.</li>
+                              <li>Large creatures, incorporeal creatures, slimes, elementals &c. cannot be constricted.</li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </li>
+              </ul>
+            </li>
+
+            <li>
+              Bombardier Beetle
+              <ul>
+                <li>
+                  Base Stats:
+                  <ul>
+                    <li>Hit Points: as per a beastmaster of the same level.</li>
+                    <li>Armor Class: 4 (+1 every 5 levels).</li>
+                    <li>THAC0: as per a ranger of the same level.</li>
+                    <li>Saves: as per a ranger of the same level.</li>
+                    <li>Str(3), Int(1), Wis(1), Dex(10), Con(14), Cha(1).</li>
+                    <li>Combat: 1 attack per round for 2d6 slashing damage (+1 every 5 levels, starting from level 10, capped at +3 at level 20).</li>
+                  </ul>
+                  <li>
+                    Special Abilities:
+                    <ul>
+                      <li>When attacked, there is a 50% chance each round that it will fire off a cloud of reeking, reddish, acidic vapor from its abdomen. This cloud causes 3d4 points of acid damage to any creature within range. Furthermore, the sound caused by the release of the vapor has a 20% chance of stunning, and a like chance for deafening. Stunning lasts for 2d4 rounds, Deafening lasts 2d6 rounds.</li>
+                    </ul>
+                  </li>
+                </li>
+              </ul>
+            </li>
+
+            <li>
+              Falcon
+              <ul>
+                <li>
+                  Base Stats:
+                  <ul>
+                    <li>Hit Points: as per a beastmaster of the same level.</li>
+                    <li>Armor Class: 5 (+1 every 5 levels).</li>
+                    <li>THAC0: as per a ranger of the same level.</li>
+                    <li>Saves: as per a ranger of the same level.</li>
+                    <li>Str(5), Int(1), Wis(14), Dex(16), Con(8), Cha(6).</li>
+                    <li>Combat: 3 attacks per round for 1d1 piercing damage (+1 every 5 levels, starting from level 10, capped at +3 at level 20).</li>
+                  </ul>
+                  <li>
+                    Special Abilities:
+                    <ul>
+                      <li>Target must save vs. Breath or be blinded for 1d10 rounds (25% chance per hit).</li>
+                      <li>Increased visual range.</li>
+                    </ul>
+                  </li>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </p>
+
+        <p>
+          Notes:
+          <ul>
+            <li>Use: selected, limited to Beastmasters (starting from level 1).</li>
+            <!-- <li>The animal companion will automatically teleport to his summoner if they are in different areas.</li> -->
+            <li>Both the animal companion and his master share the same racial enemy.</li>
+            <li>
+              The animal companion will automatically level up along with his summoner.
+              <ul>
+                <li>Note that it must not be level drained in order to level up.</li>
+              </ul>
+            </li>
+          </ul>
+        </p>
 
     </div>
     <div class="ribbon_rectangle_h2"> <a id="Contact" name="Contact"></a>

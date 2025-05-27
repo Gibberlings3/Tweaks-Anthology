@@ -19,15 +19,14 @@ COPY_EXISTING ~%ALORA_BCS%.bcs~ ~override~ // catching and updating area variabl
 ACTION_IF original_bg1 THEN BEGIN
 
   INCLUDE ~cdtweaks/lib/BG1areacheck_emulation.tpa~ // clever bit of code from Zed that allows us to check areas; should also work on IWD
-
+  
+  OUTER_SPRINT alora_area_check ~Global("Z!EmulAreaCheck","GLOBAL",4000)~ 
   COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/x#aloramoves.d~
 
 END ELSE BEGIN
 
-  COPY ~cdtweaks/dlg/x#aloramoves.d~ ~cdtweaks/dlg/x#aloramoves_ac.d~
-    REPLACE_TEXTUALLY ~Global("Z!EmulAreaCheck","GLOBAL",4000)~ ~AreaCheck("%Gullykin%")~
-
-  COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/x#aloramoves_ac.d~
+  OUTER_SPRINT alora_area_check ~AreaCheck("%Gullykin%")~
+  COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/x#aloramoves.d~
 
 END
 
