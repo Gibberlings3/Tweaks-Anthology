@@ -1,15 +1,15 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                            \\\\\
-///// Weapon Finesse for Thieves                                 \\\\\
+///// Revised Troll Regeneration                                 \\\\\
 /////                                                            \\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 WITH_SCOPE BEGIN
   INCLUDE "cdtweaks\luke\misc.tph"
-  INCLUDE "cdtweaks\lib\weapon_finesse.tph"
-  WITH_TRA "cdtweaks\languages\english\weapon_finesse.tra" "cdtweaks\languages\%LANGUAGE%\weapon_finesse.tra" BEGIN
-    LAF "WEAPON_FINESSE" END
-  END
+  //
+  INCLUDE "cdtweaks\lib\revised_troll_regeneration.tph"
+  //
+  LAF "REVISED_TROLL_REGENERATION" END
 END

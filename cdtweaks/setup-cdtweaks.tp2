@@ -3080,49 +3080,8 @@ LABEL ~cd_tweaks_alternate_concentration_check_v4~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-BEGIN @269001 DESIGNATED 2690
+BEGIN @270000 DESIGNATED 2700
 GROUP @9
-SUBCOMPONENT @269000
-REQUIRE_PREDICATE MOD_IS_INSTALLED ~EEex.tp2~ 0 @29
-REQUIRE_PREDICATE GAME_IS "bgee bg2ee eet iwdee" @25
-REQUIRE_PREDICATE FILE_EXISTS ~cdtweaks/languages/%LANGUAGE%/concentration.tra~ @7
-LABEL ~cd_tweaks_alternate_concentration_check_v1~
-
-/////                                                            \\\\\
-///// (1d20 - 1) + (Constitution / 2) - 5 <= Spell Level + 15    \\\\\
-/////                                                            \\\\\
-
-BEGIN @269002 DESIGNATED 2691
-GROUP @9
-SUBCOMPONENT @269000
-REQUIRE_PREDICATE MOD_IS_INSTALLED ~EEex.tp2~ 0 @29
-REQUIRE_PREDICATE GAME_IS "bgee bg2ee eet iwdee" @25
-REQUIRE_PREDICATE FILE_EXISTS ~cdtweaks/languages/%LANGUAGE%/concentration.tra~ @7
-LABEL ~cd_tweaks_alternate_concentration_check_v2~
-
-/////                                                            \\\\\
-///// (1d20 - 1) + Luck <= Spell Level + 15                      \\\\\
-/////                                                            \\\\\
-
-BEGIN @269003 DESIGNATED 2692
-GROUP @9
-SUBCOMPONENT @269000
-REQUIRE_PREDICATE MOD_IS_INSTALLED ~EEex.tp2~ 0 @29
-REQUIRE_PREDICATE GAME_IS "bgee bg2ee eet iwdee" @25
-REQUIRE_PREDICATE FILE_EXISTS ~cdtweaks/languages/%LANGUAGE%/concentration.tra~ @7
-LABEL ~cd_tweaks_alternate_concentration_check_v3~
-
-/////                                                                        \\\\\
-///// (1d20 - 1) + (Constitution / 2) - 5 <= Spell Level + Damage Taken      \\\\\
-/////                                                                        \\\\\
-
-BEGIN @269004 DESIGNATED 2693
-GROUP @9
-SUBCOMPONENT @269000
-REQUIRE_PREDICATE MOD_IS_INSTALLED ~EEex.tp2~ 0 @29
-REQUIRE_PREDICATE GAME_IS "bgee bg2ee eet iwdee" @25
-REQUIRE_PREDICATE FILE_EXISTS ~cdtweaks/languages/%LANGUAGE%/concentration.tra~ @7
-LABEL ~cd_tweaks_alternate_concentration_check_v4~
 REQUIRE_PREDICATE GAME_IS "bgee bg2ee eet iwdee" @25
 REQUIRE_PREDICATE MOD_IS_INSTALLED ~EEex.tp2~ 0 @29
 LABEL ~cd_tweaks_revised_troll_regeneration~

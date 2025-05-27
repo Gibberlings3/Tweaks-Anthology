@@ -1,15 +1,17 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                            \\\\\
-///// Weapon Finesse for Thieves                                 \\\\\
+///// Limit resting mechanic                                     \\\\\
 /////                                                            \\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 WITH_SCOPE BEGIN
   INCLUDE "cdtweaks\luke\misc.tph"
-  INCLUDE "cdtweaks\lib\weapon_finesse.tph"
-  WITH_TRA "cdtweaks\languages\english\weapon_finesse.tra" "cdtweaks\languages\%LANGUAGE%\weapon_finesse.tra" BEGIN
-    LAF "WEAPON_FINESSE" END
+  //
+  INCLUDE "cdtweaks\lib\limit_resting_mechanic.tph"
+  //
+  WITH_TRA "cdtweaks\languages\english\limit_resting_mechanic.tra" "cdtweaks\languages\%LANGUAGE%\limit_resting_mechanic.tra" BEGIN
+    LAF "LIMIT_RESTING_MECHANIC" END
   END
 END
