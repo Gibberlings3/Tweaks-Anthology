@@ -1,9 +1,23 @@
 DEFINE_ACTION_FUNCTION "DEFENSIVE_ROLL"
 BEGIN
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"level" = 4
+		"type" = 4
+	STR_VAR
+		"idsName" = "THIEF_DEFENSIVE_ROLL"
+	RET
+		"THIEF_DEFENSIVE_ROLL" = "resName"
+	END
+	//
 	WITH_SCOPE BEGIN
 		OUTER_SET "feedback_strref" = RESOLVE_STR_REF (@0)
-		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Functions to be invoked via op403" "sourceFileSpec" = "cdtweaks\luke\lua\defensive_roll.lua" "destRes" = "m_gt#403" END
+		// Listener: run 'func' each time a sprite has finished evaluating its effects
+		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Class/Kit Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\class\defensive_roll.lua" "destRes" = "m_gtspcl" END
 	END
-	// Listener: run 'func' each time a sprite has finished evaluating its effects
-	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Listeners" "sourceFileSpec" = "cdtweaks\luke\lua\defensive_roll_apply.lua" "destRes" = "m_gtlstn" END
+	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lua\utility\decode_effect.lua" "destRes" = "m_gtutil" END
+	//
+	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
+		COPY "cdtweaks\luke\lua\m_gttbls.lua" "override"
+	END
 END

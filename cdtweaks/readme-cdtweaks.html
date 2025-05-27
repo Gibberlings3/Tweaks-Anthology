@@ -935,13 +935,14 @@
       </ul>
       <p>On top of that: </p>
       <ul>
-        <li> The amount of damage / healing is randomized. In particular:
+        <li>
+          The amount of damage / healing is randomized. In particular:
           <ul>
-            <li>Cure / Cause Light Wounds: 1d8 (+1 per caster level, up to +5)</li>
-            <li>Cure / Cause Moderate Wounds: 2d8 (+1 per caster level, up to +10)</li>
-            <li>Cure / Cause Medium Wounds: 3d8 (+1 per caster level, up to +15)</li>
-            <li>Cure / Cause Serious Wounds: 4d8 (+1 per caster level, up to +20)</li>
-            <li>Cure / Cause Critical Wounds: 5d8 (+1 per caster level, up to +25)</li>
+            <li>Cure / Cause Light Wounds: 1d8 (+1 per caster level, up to +5); Save vs. Spell for half damage</li>
+            <li>Cure / Cause Moderate Wounds: 2d8 (+1 per caster level, up to +10); Save vs. Spell for half damage</li>
+            <li>Cure / Cause Medium Wounds: 3d8 (+1 per caster level, up to +15); Save vs. Spell for half damage</li>
+            <li>Cure / Cause Serious Wounds: 4d8 (+1 per caster level, up to +20); Save vs. Spell for half damage</li>
+            <li>Cure / Cause Critical Wounds: 5d8 (+1 per caster level, up to +25); Save vs. Spell for half damage</li>
           </ul>
         </li>
         <li> Cure Wounds spells / abilities have a reverse effect on Undead, harming instead of healing them
@@ -999,28 +1000,8 @@
       <p> Permanent potions, such as potions of healing, and potions that can end prematurely, such as Potion of Invisibility, would be considered still in effect for 1 turn (60 seconds) after drinking them.</p>
       <p> The aforementioned special events can occur only upon quaffing potions. As a result, there is no risk in using 1 Oil (f.i. Oil of Speed) and 1 Potion, as oils are applied to the skin, not consumed, so they wouldn't mix. </p>
       <p> <strong>Limit Resting Mechanic [Luke]</strong><br />
-        <em><abbr title="Enhanced Edition">EEex</abbr></em></p>
-      <p> This component simply forces Rangers to wield light armors (or no armor) in order to benefit from Two-Weapon Fighting.</p>
+        <em>BGEE, <abbr title="Baldur's Gate II">BG2</abbr>EE, IWDEE, EET (requires <abbr title="ToB Extender">EEex</abbr>)</em></p>
       <p> This component simply forces the Party to rest at most once per 24 in-game hours (does not prevent scripted resting).</p>
-      <p> <strong>&quot;Force&quot; the Archer kit to use bows [Luke]</strong><br />
-        <em><abbr title="Enhanced Edition">EEex</abbr></em></p>
-      <p> This component aims at making sure the Archer is really the epitome of skill with the <em>bow</em>.
-        As a result, after installing it, its abilities modify as follows:</p>
-      <ul>
-        <li> +1 to hit and damage rolls with <em>bows</em> every 3 levels </li>
-        <li> May achieve Grand Mastery (5 slots) in <em>longbows</em> and <em>shortbows</em>
-          <ul>
-            <li>May only Specialize (2 slots) in crossbows</li>
-          </ul>
-        </li>
-        <li> When equipped with a <em>bow</em>, it may use the Called Shot ability once per day </li>
-        <li> New passive trait: Point Blank Shot
-          <ul>
-            <li>When wielding a <em>bow</em>, the Archer negates the -8 thac0 penalty for using ranged weapons in close combat</li>
-          </ul>
-        </li>
-      </ul>
-      <p> So to sum up, its core features are now all built around the <em>bow</em> (instead of any missile weapon). </p>
       <p> <strong>Make Bears and Boars continue fighting after reaching 0 hit points [Luke]</strong><br />
         <em>BGEE, <abbr title="Baldur's Gate II">BG2</abbr>EE, IWDEE, EET (requires <abbr title="ToB Extender">EEex</abbr>)</em></p>
       <p>This component aims at implementing the PnP behavior <em>Make Bears and Boars continue fighting after reaching 0 hit points</em>.</p>
@@ -1611,16 +1592,82 @@
       </ul>
       Here is how the bonus scales with charisma:
       <ul>
-        <li> starting from 10, every +2 points of charisma result in +1 bonus to all saves
-          <ul>
-            <li>So a 18 CHA character will get a +4 bonus</li>
-          </ul>
-        </li>
-        <li> starting from 10, every -2 points of charisma result in -1 penalty to all saves
-          <ul>
-            <li>So a 8 CHA character will get a -1 penalty</li>
-          </ul>
-        </li>
+        <table>
+          <tbody>
+            <tr>
+              <th> Charisma </th>
+              <th> Modifier </th>
+            </tr>
+            <tr>
+              <td> 0 </td>
+              <td> -20 </td>
+            </tr>
+            <tr>
+              <td> 1 </td>
+              <td> -6 </td>
+            </tr>
+            <tr>
+              <td> 2 </td>
+              <td> -4 </td>
+            </tr>
+            <tr>
+              <td> 3 </td>
+              <td> -3 </td>
+            </tr>
+            <tr>
+              <td> 4 </td>
+              <td> -2 </td>
+            </tr>
+            <tr>
+              <td> 5 </td>
+              <td> -1 </td>
+            </tr>
+            <tr>
+              <td> 6 to 15 </td>
+              <td> 0 </td>
+            </tr>
+            <tr>
+              <td> 16 </td>
+              <td> +1 </td>
+            </tr>
+            <tr>
+              <td> 17 </td>
+              <td> +2 </td>
+            </tr>
+            <tr>
+              <td> 18 </td>
+              <td> +2 </td>
+            </tr>
+            <tr>
+              <td> 19 </td>
+              <td> +3 </td>
+            </tr>
+            <tr>
+              <td> 20 </td>
+              <td> +3 </td>
+            </tr>
+            <tr>
+              <td> 21 </td>
+              <td> +4 </td>
+            </tr>
+            <tr>
+              <td> 22 </td>
+              <td> +4 </td>
+            </tr>
+            <tr>
+              <td> 23 </td>
+              <td> +4 </td>
+            </tr>
+            <tr>
+              <td> 24 </td>
+              <td> +5 </td>
+            </tr>
+            <tr>
+              <td> 25 </td>
+              <td> +5 </td>
+            </tr>
+          </tbody>
+        </table>
       </ul>
       <p> <strong>Good Aim Racial Feat for Halflings [Luke]</strong><br />
         <em>BGEE, <abbr title="Baldur's Gate II">BG2</abbr>EE, IWDEE, EET (requires <abbr title="ToB Extender">EEex</abbr>)</em></p>
@@ -1658,9 +1705,96 @@
       <p> This component aims at implementing the NWN feat Circle Kick. If the character succeeds in hitting an opponent with an unarmed attack, that character gets an additional free attack against another, nearby enemy. There is a maximum of one free attack per round.Use is automatic, but only available to Monks.</p>
       <p><strong>NWN-ish Barbarian Rage [Luke]</strong><br />
         <em>BGEE, <abbr title="Baldur's Gate II">BG2</abbr>EE, IWDEE, EET (requires <abbr title="ToB Extender">EEex</abbr>)</em></p>
-      <p>TBD</p>
+      <p>
+        This component aims at implementing the NWN Barbarian Rage.
+      </p>
+      <p>
+        The character is enraged for 7 rounds (plus a number of rounds equal to his Constitution modifier, see table below), which grants the character a +4 bonus to Strength and Constitution, a -2 penalty to Armor Class, and a +2 bonus to Saving Throws vs. Spell.
+        <ul>
+          <li><i>Terrifying Rage</i>: While the barbarian is raging, any enemy (with less than the barbarian's hit dice) that comes close to him must make a Save vs. Death or become panicked for 1d3 rounds. Opponents with the same hit dice as the barbarian will not flee but will receive a -2 penalty to attack and saving throw rolls. Creatures with more than the barbarian's hit dice are not affected by the rage.</li>
+          <li><i>Thundering Rage</i>: Any weapon the barbarian wields while in a rage does an additional 2d6 points of damage on a critical hit. There is a 25% chance for a creature hit by one of the barbarian's weapons to be deafened for 3 rounds.</li>
+          <li>
+            <table>
+              <tbody>
+                <tr>
+                  <th> Constitution </th>
+                  <th> Modifier </th>
+                </tr>
+                <tr>
+                  <td> 0 </td>
+                  <td> -20 </td>
+                </tr>
+                <tr>
+                  <td> 1 </td>
+                  <td> -6 </td>
+                </tr>
+                <tr>
+                  <td> 2 </td>
+                  <td> -4 </td>
+                </tr>
+                <tr>
+                  <td> 3 </td>
+                  <td> -3 </td>
+                </tr>
+                <tr>
+                  <td> 4 </td>
+                  <td> -2 </td>
+                </tr>
+                <tr>
+                  <td> 5 </td>
+                  <td> -1 </td>
+                </tr>
+                <tr>
+                  <td> 6 to 15 </td>
+                  <td> 0 </td>
+                </tr>
+                <tr>
+                  <td> 16 </td>
+                  <td> +1 </td>
+                </tr>
+                <tr>
+                  <td> 17 </td>
+                  <td> +2 </td>
+                </tr>
+                <tr>
+                  <td> 18 </td>
+                  <td> +2 </td>
+                </tr>
+                <tr>
+                  <td> 19 </td>
+                  <td> +3 </td>
+                </tr>
+                <tr>
+                  <td> 20 </td>
+                  <td> +3 </td>
+                </tr>
+                <tr>
+                  <td> 21 </td>
+                  <td> +4 </td>
+                </tr>
+                <tr>
+                  <td> 22 </td>
+                  <td> +4 </td>
+                </tr>
+                <tr>
+                  <td> 23 </td>
+                  <td> +4 </td>
+                </tr>
+                <tr>
+                  <td> 24 </td>
+                  <td> +5 </td>
+                </tr>
+                <tr>
+                  <td> 25 </td>
+                  <td> +5 </td>
+                </tr>
+              </tbody>
+            </table>
+          </li>
+        </ul>
+      </p>
       <p> <strong>&quot;Force&quot; the Archer kit to use bows [Luke]</strong><br />
-        <em><abbr title="Enhanced Edition">EEex</abbr></em></p>
+        <em>BGEE, <abbr title="Baldur's Gate II">BG2</abbr>EE, IWDEE, EET (requires <abbr title="ToB Extender">EEex</abbr>)</em></p>
       <p> This component aims at making sure the Archer is really the epitome of skill with the <em>bow</em>.
         As a result, after installing it, its abilities modify as follows: </p>
       <ul>
@@ -1909,7 +2043,7 @@
         <li>A paladin may attempt to smite an evil aligned enemy with one special melee attack. The paladin adds his charisma bonus to the attack roll and adds 1 extra point of damage per class level.</li>
         <li>A blackguard may attempt to smite a good aligned enemy with one special melee attack. The blackguard adds his charisma bonus to the attack roll and adds 1 extra point of damage per class level.</li>
       </ul>
-Notes:
+      Notes:
       <ul>
         <li>Use: selected (available from level 1, +1 use per day per 5 levels).</li>
         <li>You cannot smite with your fists. The same holds for ranged weapons and magically created weapons.</li>

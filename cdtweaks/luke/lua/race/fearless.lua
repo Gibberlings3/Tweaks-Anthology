@@ -1,4 +1,10 @@
--- cdtweaks, Fearless (Halflings): This racial feat grants a +2 bonus on saving throws against fear effects --
+--[[
++------------------------------------------------------+
+| cdtweaks, NWN-ish Fearless racial feat for Halflings |
++------------------------------------------------------+
+--]]
+
+-- Apply ability --
 
 EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- sanity check
@@ -8,20 +14,21 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- internal function that applies the actual feat
 	local apply = function()
 		-- Mark the creature as 'feat applied'
-		sprite:setLocalInt("cdtweaksFearless", 1)
+		sprite:setLocalInt("gtHalflingFearless", 1)
 		--
 		sprite:applyEffect({
 			["effectID"] = 321, -- Remove effects by resource
-			["durationType"] = 1,
-			["res"] = "CDHLFRLS",
+			["res"] = "%HALFLING_FEARLESS%",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
 		})
 		sprite:applyEffect({
 			["effectID"] = 403, -- Screen effects
 			["durationType"] = 9,
-			["res"] = "GTHLFRLS", -- lua function
-			["m_sourceRes"] = "CDHLFRLS",
+			["res"] = "GTIMMUNE", -- lua function
+			["effectAmount"] = 0x40, -- BIT6
+			["special"] = 1,
+			["m_sourceRes"] = "%HALFLING_FEARLESS%",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
 		})
@@ -29,7 +36,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			["effectID"] = 142, -- Display portrait icon
 			["durationType"] = 9,
 			["dwFlags"] = %feedback_icon%,
-			["m_sourceRes"] = "CDHLFRLS",
+			["m_sourceRes"] = "%HALFLING_FEARLESS%",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
 		})
@@ -39,7 +46,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	--
 	local applyAbility = spriteRaceStr == "HALFLING"
 	--
-	if sprite:getLocalInt("cdtweaksFearless") == 0 then
+	if sprite:getLocalInt("gtHalflingFearless") == 0 then
 		if applyAbility then
 			apply()
 		end
@@ -48,12 +55,11 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			-- do nothing
 		else
 			-- Mark the creature as 'feat removed'
-			sprite:setLocalInt("cdtweaksFearless", 0)
+			sprite:setLocalInt("gtHalflingFearless", 0)
 			--
 			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource
-				["durationType"] = 1,
-				["res"] = "CDHLFRLS",
+				["res"] = "%HALFLING_FEARLESS%",
 				["sourceID"] = sprite.m_id,
 				["sourceTarget"] = sprite.m_id,
 			})

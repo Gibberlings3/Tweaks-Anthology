@@ -1,0 +1,19 @@
+@0 = "Barbarian Rage
+
+The character is enraged for 7 rounds (plus a number of rounds equal to his Constitution modifier), which grants the character a +4 bonus to Strength and Constitution, a -2 penalty to Armor Class, and a +2 bonus to Saving Throws vs. Spell.
+
+Terrifying Rage: While the barbarian is raging, any enemy (with less than the barbarian's hit dice) that comes close to him must make a Save vs. Death or become panicked for 1d3 rounds. Opponents with the same hit dice as the barbarian will not flee but will receive a -2 penalty to attack and saving throw rolls. Creatures with more than the barbarian's hit dice are not affected by the rage.
+
+Thundering Rage: Any weapon the barbarian wields while in a rage does an additional 2d6 points of damage on a critical hit. There is a 25% chance for a creature hit by one of the barbarian's weapons to be deafened for 3 rounds.
+"
+
+@1 = "Terrifying Rage"
+
+@2 = "Thundering Rage (Critical Hit)"
+@3 = "Thundering Rage (Deafness)"
+@4 = "Deafened"
+
+@5 = "The selected character is already under the effects of Barbarian Rage"
+@6 = "Trembling with fear"
+@7 = "Panic"
+@8 = "Unaffected by effects from Terrifying Rage"

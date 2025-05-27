@@ -1,15 +1,24 @@
 DEFINE_ACTION_FUNCTION "DUAL_WIELD"
 BEGIN
-	WITH_SCOPE BEGIN
-		ACTION_IF !(FILE_EXISTS_IN_GAME "gtmharmr.bam") BEGIN
-			COPY "cdtweaks\bam\gtmharmr.bam" "override"
-		END
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"level" = 3
+		"type" = 4
+	STR_VAR
+		"idsName" = "RANGER_DUAL_WIELD"
+	RET
+		"RANGER_DUAL_WIELD" = "resName"
 	END
 	//
 	WITH_SCOPE BEGIN
-		LAF "ADD_STATDESC_ENTRY" INT_VAR "description" = RESOLVE_STR_REF (@0) STR_VAR "bam_file" = "gtmharmr" RET "feedback_icon" = "index" END
+		ACTION_TO_LOWER "RANGER_DUAL_WIELD"
+		//COPY "cdtweaks\luke\bam\class\dual_wield.bam" "override\%RANGER_DUAL_WIELD%d.bam" // courtesy of zenblack
+	END
+	//
+	WITH_SCOPE BEGIN
+		//LAF "ADD_STATDESC_ENTRY" INT_VAR "description" = RESOLVE_STR_REF (@0) STR_VAR "bam_file" = "%RANGER_DUAL_WIELD%D" RET "feedback_icon" = "index" END
 		// Listener: run 'func' each time a sprite has finished evaluating its effects
-		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Listeners" "sourceFileSpec" = "cdtweaks\luke\lua\dual_wield.lua" "destRes" = "m_gtlstn" END
+		LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Class/Kit Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\class\dual_wield.lua" "destRes" = "m_gtspcl" END
 		//
 		ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
 			COPY "cdtweaks\luke\lua\m_gttbls.lua" "override"
