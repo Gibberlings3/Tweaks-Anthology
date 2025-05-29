@@ -81,7 +81,8 @@ END ELSE BEGIN
                (type = 33) OR      // gold
                (type = 34) OR      // gems
                (type = 59)) AND    // furs or pelts
-              (fx_num = 0)) BEGIN  // with no global effects
+              (fx_num = 0) AND     // with no global effects
+              ("%SOURCE_RES%" STRING_COMPARE_CASE "ac#mg19j")) BEGIN // item from Throne of the Mad God shouldn't be stackable
       SET add = 1
       READ_SHORT 0x68 abil_num ELSE 0
       READ_LONG  0x64 abil_off ELSE 0
