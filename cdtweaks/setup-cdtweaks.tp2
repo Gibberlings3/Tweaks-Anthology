@@ -6,6 +6,8 @@ ALWAYS
 
   ACTION_IF ((FILE_EXISTS ~dlc/sod-dlc.zip~) OR (FILE_EXISTS ~sod-dlc.zip~)) THEN BEGIN FAIL @27 END // DLC Merger check
 
+  OUTER_TEXT_SPRINT "gtPathToLib" "cdtweaks\luke\lib"
+
   ACTION_IF !COMPONENT_NUMBER BEGIN
 
     INCLUDE ~cdtweaks/lib/comp_0.tpa~
