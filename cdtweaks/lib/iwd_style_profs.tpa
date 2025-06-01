@@ -10,7 +10,7 @@ ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_prof_numeric_map BEGIN
    97 => 101 // hammer
    98 => 106 // spear
    99 => 100 // halberd
-//  100 =>  98 // flail/mstar to flail
+  100 =>  98 // flail/mstar to flail
   101 => 103 // mace
   102 => 107 // staff
   103 =>  97 // crossbow
