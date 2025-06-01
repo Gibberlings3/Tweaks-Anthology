@@ -205,7 +205,7 @@ BEGIN
             WRITE_BYTE   (fx_off + 0x12 + (new_fx * 0x30)) 100  // probability
             WRITE_ASCIIE (fx_off + 0x14 + (new_fx * 0x30)) ~%2h%~ #8
           INSERT_BYTES   (fx_off       ) 0x38         // new ability
-            WRITE_BYTE   (fx_off       ) 3            // magical
+            WRITE_BYTE   (fx_off       ) 1            // melee
             WRITE_BYTE   (fx_off + 0x01) 1            // ID to use
             WRITE_SHORT  (fx_off + 0x02) 3            // in item slots
             WRITE_ASCIIE (fx_off + 0x04) ~%2h_bam%~ #8 // item bam
