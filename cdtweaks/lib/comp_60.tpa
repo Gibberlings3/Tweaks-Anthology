@@ -23,8 +23,9 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~ // animation adjustments
     READ_SHORT 0x68 abil_num
     PATCH_IF ((((use_type = 0) AND ((prof = 100) OR (prof = 101))) OR // for bg2-based games w/ proficiencies
                ((use_type = 1) AND (type = 22))) AND                  // otherwise use item type
-               ("%anim%" STRING_COMPARE_CASE "ms" = 0)) BEGIN         // and has the morningstar animation
-      WRITE_ASCII 0x22 "MC" // change morningstars to mace animations
+               ("%anim%" STRING_COMPARE_CASE "fl" = 0)) BEGIN         // and has the flail animation
+      WRITE_ASCII 0x22 "MS" // change morningstars to morningstar animations
+      SPRINT anim ms
     END
     SET overhead = 0
     PATCH_IF (((flags & BIT1) = 0) AND                         // one-handed...
