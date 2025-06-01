@@ -210,24 +210,34 @@ ACTION_FOR_EACH file IN weapprof racethac BEGIN
       FOR (row = (skip_rows + 1) ; row < (skip_rows + 13) ; ++row) BEGIN // eliminate first profs
         SET_2DA_ENTRY row label_col col_num UNUSED // ref
       END
+      // for ees, include shaman as necessary on descriptions
+      PATCH_IF enhanced_edition BEGIN SPRINT cd_shaman @216102 END ELSE BEGIN SPRINT cd_shaman ~~ END 
+      SET cd_ss_name = RESOLVE_STR_REF(@216101)
+      SET cd_ss_desc = RESOLVE_STR_REF(@216103)
+      SET cd_ls_desc = RESOLVE_STR_REF(@216104)
+      SET cd_bw_desc = RESOLVE_STR_REF(@216105)
+      SET cd_sp_desc = RESOLVE_STR_REF(@216106)
+      SET cd_ax_desc = RESOLVE_STR_REF(@216107)
+      SET cd_bl_desc = RESOLVE_STR_REF(@216108)
+      SET cd_hb_desc = RESOLVE_STR_REF(@216109)
+      SET cd_mi_desc = RESOLVE_STR_REF(@216110)
       PATCH_IF (col_start = 4) BEGIN // descript updates only needed for weapprof
-        SET_2DA_ENTRY 21 2 col_num 8733
-        SET_2DA_ENTRY 21 3 col_num 9591
-        SET_2DA_ENTRY 22 2 col_num 9401 // spiked
-        SET_2DA_ENTRY 22 3 col_num 9594
-        SET_2DA_ENTRY 23 2 col_num cd_prof_name
-        SET_2DA_ENTRY 23 3 col_num 9590
-        REPLACE ~cd_prof_name~ @216101
-        SET_2DA_ENTRY 24 2 col_num 8668
-        SET_2DA_ENTRY 24 3 col_num 9589
-        SET_2DA_ENTRY 25 2 col_num 9402  // axe
-        SET_2DA_ENTRY 25 3 col_num 9595
-        SET_2DA_ENTRY 26 2 col_num 9400
-        SET_2DA_ENTRY 26 3 col_num 9593
-        SET_2DA_ENTRY 27 2 col_num 9403
-        SET_2DA_ENTRY 27 3 col_num 9596
-        SET_2DA_ENTRY 28 2 col_num 8734
-        SET_2DA_ENTRY 28 3 col_num 9592
+        SET_2DA_ENTRY 21 2 col_num 8733           // bows
+        SET_2DA_ENTRY 21 3 col_num ~%cd_bw_desc%~
+        SET_2DA_ENTRY 22 2 col_num 9401           // spiked
+        SET_2DA_ENTRY 22 3 col_num ~%cd_sp_desc%~
+        SET_2DA_ENTRY 23 2 col_num ~%cd_ss_name%~ // small sword name
+        SET_2DA_ENTRY 23 3 col_num ~%cd_ss_desc%~
+        SET_2DA_ENTRY 24 2 col_num 8668           // large sword
+        SET_2DA_ENTRY 24 3 col_num ~%cd_ls_desc%~
+        SET_2DA_ENTRY 25 2 col_num 9402           // axe
+        SET_2DA_ENTRY 25 3 col_num ~%cd_ax_desc%~
+        SET_2DA_ENTRY 26 2 col_num 9400           // blunt
+        SET_2DA_ENTRY 26 3 col_num ~%cd_bl_desc%~
+        SET_2DA_ENTRY 27 2 col_num 9403           // missile 
+        SET_2DA_ENTRY 27 3 col_num ~%cd_mi_desc%~
+        SET_2DA_ENTRY 28 2 col_num 8734           // spear
+        SET_2DA_ENTRY 28 3 col_num ~%cd_hb_desc%~
         PATCH_IF (tb#tutu_realloc_style = 1) BEGIN // eliminate weapon styles
           FOR (row = 29 ; row < 33 ; ++row) BEGIN
             SET_2DA_ENTRY row 2 col_num 0      // name
