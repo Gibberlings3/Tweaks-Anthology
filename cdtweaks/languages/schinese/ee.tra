@@ -1,5 +1,39 @@
 // this file is used to override strings in game.tra for EE games
 // it will NOT be re-encoded for EE games, so put it in the correct charset for your language
+@216001 = ~短剑/忍者刀: 盗贼及半身人爱用的武器；~短剑和忍者刀虽然轻巧，但却也相当好用。
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216009 = ~短剑/忍者刀~
+@216104 = ~大型剑：该武器类别允许角色使用巨剑、阔剑、双手剑、长剑、武士刀、胁差、忍者刀和弯刀。德鲁伊%cd_shaman% 可以选择这个类别，但仅限于使用弯刀。武僧可以选择这个类别，但不能使用巨剑剑或双手剑。
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216303 = ~大型剑类武器：该武器类别允许角色使用阔剑、长剑、武士刀、胁差、忍者刀和弯刀。德鲁伊%cd_shaman%可以选择这个类别，但仅限于使用弯刀。
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
 
 //#50818 in obg2
 @418002 = ~这个戒指是娜里亚的父亲在她成年时送给她的。它与她的血缘有关，因此不能从娜里亚的身上取下，它的力量也不能被他人所用。这个戒指使所有豁免+2、防御等级+2，及对火焰抗性+50%。
