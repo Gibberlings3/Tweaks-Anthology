@@ -38,8 +38,8 @@ div.quote {
     <div class="section">
       <p> <strong><a href="http://www.gibberlings3.net/">A Gibberlings Three Mod</a><br />
         Project Lead: </strong><a href="https://www.gibberlings3.net/profile/8-camdawg/">CamDawg</a><br />
-        <strong>Authors: </strong><a href="https://www.gibberlings3.net/profile/30-andyr/">Andyr</a>, <a href="https://www.gibberlings3.net/profile/426-the-bigg/">the bigg</a>, <a href="https://www.gibberlings3.net/profile/1067-davidw/">DavidW</a>, <a href="https://www.gibberlings3.net/profile/2061-grogerson/">grogerson</a>, <a href="https://www.gibberlings3.net/profile/100-idobek/">Idobek</a>, <a href="https://www.gibberlings3.net/profile/10256-luke/">Luke</a>, and Wes Weimer<br />
-        <strong>Contributors: </strong>Angel, Ardanis/GeN1e, argent77, aVENGER, Blucher, Davide Carte, Daeros Trollkiller, Domi, Fouinto, Galactygon, icelus, Icendoan, japheth, jcompton, Karzak, Kevin Dorner (aka Baldurdash), Lava, Luiz, Mike1072, Miloch, plainab, Richardson, Sabre, sarevok57, subtledoctor, Wendy Yung, Zed Nocear<br />
+        <strong>Authors: </strong><a href="https://www.gibberlings3.net/profile/30-andyr/">Andyr</a>, <a href="https://www.gibberlings3.net/profile/3876-argent77/">argent77</a>, <a href="https://www.gibberlings3.net/profile/426-the-bigg/">the bigg</a>, <a href="https://www.gibberlings3.net/profile/1067-davidw/">DavidW</a>, <a href="https://www.gibberlings3.net/profile/2061-grogerson/">grogerson</a>, <a href="https://www.gibberlings3.net/profile/100-idobek/">Idobek</a>, <a href="https://www.gibberlings3.net/profile/10256-luke/">Luke</a>, and Wes Weimer<br />
+        <strong>Contributors: </strong>Angel, Ardanis/GeN1e, aVENGER, Blucher, Davide Carte, Daeros Trollkiller, Domi, Fouinto, Galactygon, icelus, Icendoan, japheth, jcompton, Karzak, Kevin Dorner (aka Baldurdash), Lava, Luiz, Mike1072, Miloch, plainab, Richardson, Sabre, sarevok57, subtledoctor, Wendy Yung, Zed Nocear<br />
         <strong>On the web: </strong><a href="https://www.gibberlings3.net/mods/tweaks/tweaks/">Home page</a>, <a href="https://www.gibberlings3.net/forums/forum/34-tweaks-anthology-forum/">discussion forum</a>, <a href="https://discord.gg/yTzjMTb">Discord</a>, and <a href="https://www.gibberlings3.net/gallery/album/27-tweaks-anthology/">preview gallery</a> </p>
       <p> <strong>Version 17 (WIP)</strong><br />
         <strong>Languages:</strong> Chinese, Czech, English, French, German, Italian, Korean, Polish, Russian, and Spanish<br />
@@ -945,7 +945,7 @@ div.quote {
       <p>This component allows monks to use helmets, staves, or both. Any helmet and/or staff that is usable by single-class clerics and fighters will be made available to monks. </p>
       <ul>
         <li> <em>Helmets:</em> One of the issues with monks, especially for players on the harder difficulties, is that they have no way to receive critical hit protection. Only on oBG2, since monks have <a href="https://www.gibberlings3.net/gallery/image/509-mask-of-king-strohm-vs-monks/">a serious animation glitch</a> when wearing helmets, it will also change their base animation to be a cleric unless the <strong>Remove Helmet Animations</strong> component is also installed. </li>
-        <li><em>Staves: </em>This allows monks to use staves. If staves are enabled the monk animation has to be switched to a cleric animation since the normal monk animation doesn't support staff animations. Monks will be able to place the same number of weapon pips into staves that they can do in clubs. </li>
+        <li><em>Staves: </em>This allows monks to use staves. If staves are enabled the monk animation has to be switched to a cleric animation since the normal monk animation doesn't support staff animations. Monks will be able to place the same number of weapon pips into staves that they can do in clubs and will get access to the Two-Handed weapon style. </li>
         <li><em>Both: </em>Enables both of the above options. </li>
       </ul>
       <p><strong> Thieves Can Backstab With More Weapons With &quot;Use Any Item&quot; or as Dual- and Multi-Classes</strong><br />
@@ -2425,7 +2425,14 @@ div.quote {
             <li> PsT items are now better handled by the various stacking tweaks; most notably charms are now handled by <strong>Increase Potion Stacking</strong> instead of <strong>Increase Jewelry, Gem, and Miscellaneous Item Stacks</strong></li>
             <li>Fixed a potential issue where the <strong>Separate Resist Fire/Cold Icon into Separate Icons</strong> component would leave the original icons instead of just replacing them</li>
             <li><strong>Increase Party Movement Speed and/or Casting Speed Outside of Combat</strong> could sometimes not clear haste during combat. In addition there are also now more options for this component available in the customization text file, cdtweaks.txt. </li>
-            <li><strong>Alter Weapon Proficiency System</strong> could double-apply a racial bonus with ranged weapons by e.g. applying the bonus to a bow and also to an arrow. Also cleaned up some text errors. Weapons which provide their own bonus to use (e.g. Black Blade of Disaster) were not being updated to the new proficiencies. </li>
+            <li><strong>Alter Weapon Proficiency System</strong> had a couple of fixes:
+              <ul>
+                <li>It could double-apply a racial bonus with ranged weapons by e.g. applying the bonus to a bow and also to an arrow. </li>
+                <li> Weapons which provide their own bonus to use (e.g. Black Blade of Disaster) were not being updated to the new proficiencies. </li>
+                <li>The BG and IWD options now have better, more accurate, more consistent proficiency descriptions. </li>
+                <li>For the IWD option, existing flail profs could be mapped to halberd</li>
+              </ul>
+            </li>
             <li>Fixed a small error in <strong>Personalize Automatic Save Names</strong></li>
             <li><strong>Proficiency Rules on Dual-Classed Characters</strong> was giving fighter/mages an extra spell on every level</li>
             <li><strong>Alter Hostile Rest Spawns</strong> could fail on area files with unusual structure; this is now better identified and handled</li>
@@ -2435,7 +2442,7 @@ div.quote {
             <li> <strong>Faster Chapter One and Two Cutscenes and Dreams </strong>could miss patching a script on oBG2. It's also now available for BGT and EET games. </li>
             <li><strong>Rest Anywhere</strong> wasn't targeting the correct area bits on some platforms</li>
             <li> <strong>Allow <abbr title="Non-Player Character">NPC</abbr> Pairs to Separate</strong> now works for NPC pairs in SoD (Khalid/Jaheira and Minsc/Dynaheir)</li>
-            <li>Harrold's dialogue in <strong>Friendly Random Drops</strong> &gt; <em>Exchange with merchants</em> is copied and updated from Flynn's dialogue, but due to a code typo several references were not being updated correctly</li>
+            <li>Harrold's dialogue in <strong>Friendly Random Drops</strong> &gt; <em>Exchange with merchants</em> is copied and updated from Flynn's dialogue, but due to a code typo several references were not being updated correctly. Also fixed an issue where the third levle Dragon's Eye drop could be blank because the component was not providing stacks of 0 for the ammo that could drop. </li>
             <li>During the original three Bio romances for males (Aerie, Jaheira, Viconia) they snipe at each other during LTs and eventually  force a decision on the player of which romance to pursue. Surprisingly, these were never disabled by the <em>Allow multiple romances</em> option of <strong>Romance Cheats</strong>. The altercations will still occur, but all of the romances will still continue. </li>
             <li><strong>Two-Handed Axes</strong> could have minor errors if Braegar was installed due to the compatibility code</li>
             <li><strong>Maximum <abbr title="Hit Points">HP</abbr> Creatures</strong> now accounts for the non-standard dice sizes of Dwarven Defenders (d12) and Dragon Disciples (d6). </li>
@@ -2451,11 +2458,16 @@ div.quote {
             <li>The 'large sword' description text from <em><abbr title="Baldur's Gate">BG</abbr>-style weapon proficiencies</em> in <strong>Alter Weapon Proficiency System</strong> was updated, as it incorrectly stated thieves would only get access to long swords. </li>
             <li>A dialogue fix for the NORH, as part of <strong>Multiple Strongholds</strong>, was being executed as part of the de'Arnise Keep changes</li>
             <li><strong>Move <abbr title="Non-Player Characters">NPCs</abbr> to Convenient Locations</strong> now has a 'move everyone' option. Also fixed a small bit of Alora's dialogue breaking immutability. </li>
+            <li><strong>Maximum <abbr title="Hit Points">HP</abbr> Creatures</strong> will now roll through level 20 if <strong>Allow <abbr title="Hit Points">HP</abbr> Rolls Through Level 20</strong> is installed</li>
+            <li>The IWD options of the <strong>Alter Paladin Spell Progression Table</strong> and <strong>Alter Ranger Spell Progression Table</strong> lower the level where these classes get their first spell; however their caster levels are still pegged to when they used to get their first spell. Their caster levels are now adjusted to match. </li>
+            <li><strong>Weapon Animation Tweaks</strong> will no longer change morningstars to use the mace animation. </li>
+            <li>Items created by <strong>Two-Handed X</strong> and <strong>Wear Multiple Protection Items</strong> &gt; <em><abbr title="Pen and Paper">PnP</abbr> restrictions</em> will no longer get charges drained by creatures like nishruu or magic golems</li>
           </ul>
         </li>
         <li>Mod conflict issues:
           <ul>
             <li>A number of updates for EE Fixpack compatibility</li>
+            <li><strong>Increase Jewelry, Gem, and Miscellaneous Item Stacks</strong> could interfere with a criticla item from Throne of Mad God, so that specific item is not made stackable</li>
             <li>Resolved a potential conflict between the <strong>Friendly Random Drops</strong> component and IWD Fixpack</li>
             <li>A couple of components within Anthology would conflict if they were installed out of the order they are presented in the installer. These conflicts have been resolved between <strong>Send BioWare <abbr title="Non-Player Characters">NPCs</abbr> to an Inn</strong> and <strong>More Interjections; </strong><strong>Disable Portrait Icons Added by Equipped Items</strong> and <strong>Separate Resist Fire/Cold Icon into Separate Icons</strong>; all of the <strong>Two-Handed X</strong> components and the variants of <strong>Alter Weapon Proficiency System</strong></li>
             <li><strong>Use <abbr title="Baldur's Gate">BG</abbr> Walking Speeds</strong> will now apply to Grey the Dog</li>
@@ -2466,6 +2478,8 @@ div.quote {
             <li>The various two-handed items created by the <strong>Two-Handed X</strong> components are no longer usable by Amber as she refuses to use two-handed weapons</li>
             <li> <strong>Add Map Notes</strong> will now account for changes from The Calling to the Gnoll Stronghold</li>
             <li><strong>Thieves Can Backstab With More Weapons With &quot;Use Any Item&quot; or as Dual- and Multi-Classes</strong> now accounts for the Staff of the Gorgon from SP Collection</li>
+            <li> <strong>Allow Arcane Spellcasting in Armor</strong> previously worked with the Eldritch Knight from Artisan's kit pack which allowed it to cast in armor. The component now also works with Armored Casting from Bardic Wonders. </li>
+            <li>Resolved a conflict between <strong>Friendly Random Drops</strong> and the IWDEE-specific Item Tweaks component from SubtleD's Item Tweaks </li>
           </ul>
         </li>
         <li>Internal stuff:
