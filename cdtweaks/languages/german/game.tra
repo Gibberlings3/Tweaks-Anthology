@@ -50,6 +50,35 @@
 @107001 = ~Wartet auf uns im Freundlichen Arm. Wenn sich die Dinge ändern, werden wir Euch dort treffen.~
 @107002 = ~Bitte schließt Euch wieder unserer Gruppe an.~
 @107003 = ~Ich schicke Euch fürs erste zurück in das Einsprengsel... wartet dort auf mich.~
+@107501 = ~Ich benötige Eure Hilfe im Moment nicht, aber wir werden bald wieder zusammen reisen. Wartet bis dahin im Freundlichen Arm auf mich.~
+@107502 = ~Unsere Pfade müssen nun für eine Weile auseinanderlaufen. Falls ich jedoch Eure Hilfe wieder benötige sollte, sollten wir uns im Windigen Schwindler in Beregost verabreden.~
+@107503 = ~Vorläufig sollte jeder von uns sein eigenes Schicksal suchen. Obgleich ich Eure Hilfe bald genug wieder benötigen werde - wenn Ihr Euer Quartier im Gasthaus in Nashkel bezieht, werde ich Euch dort treffen, wenn ich das nächste Mal im Süden bin.~
+@107504 = ~Wir sollten uns nun trennen. Ich werde bei Euch vorbeischauen, wenn ich das nächste mal in Baldurs Tor bin - trefft mich in der Taverne Elfgesang.~
+@107510 = ~Es wäre eine Ehre.~
+@107511 = ~Sicherlich. Ich werde nicht in irgendwelche Schwierigkeiten geraten, während Ihr weg seid, nein mein Herr.~
+@107512 = ~Wie der Zufall so will, habe ich dort in der Nähe ohnehin Geschäfte zu erledigen. Sucht dort nach mir, wenn Ihr wieder einmal zwergische Muskelkraft benötigt.~
+@107513 = ~Sehr gut, ich akzeptiere dies unter den Bedingungen unserer Vereinbarung. (Es ist das beste, ihnen ihren Willen zu lassen, sie sind nicht intelligent genug um die Argumente, die gegen dieses Vorhaben sprechen, zu verstehen.)~
+@107514 = ~Ich werde mich an der Untätigkeit verschleißen, aber ich stehe tief in Eurer Schuld. Kehrt bald zu diesem Kriegspriester zurück.~
+@107515 = ~Natürlich, Liebling. Ich bin sicher, dass ich dort in der Lage bin während Eurer Abwesenheit Unterhaltung zu finden.~
+@107516 = ~Tja, mein Lied könnte ein paar Tage ruhiger Arbeit gebrauchen. Beeilt Euch trotzdem zurückzukommen - es gibt noch viel mehr zu sehen, da bin ich mir sicher!~
+@107517 = ~Selbst die besten Dinge vergehen, sagt man, aber vielleicht können sie zurückkommen? Ich erwarte den Moment, an dem sich unsere Pfade einmal mehr kreuzen.~
+@107518 = ~Ich werde es machen, aber vieles bleibt noch zu tun. Verzögert Eure Rückkehr nicht.~
+@107519 = ~Es war schön bei Euch zu sein. Aber ich bin mir sicher, dass Ihr Euch weise verhaltet... Dennoch bleibt Vieles unerledigt. Wir sollten bald wieder zusammenarbeiten.~
+@107520 = ~Es macht so oder so keinen Unterschied. Ich kann auf den Tod an einem Ort genauso gut warten wie an einem anderen.~
+@107521 = ~Ahhh... muss ich? Ich will nicht dorthin gehen... aber ich nehme an, ich werde tun, was Ihr sagt. Obwohl ich bis zu Eurer Rückkehr schmollen werde!~
+@107522 = ~Ich sehe wenig Zukunftsaussicht für den Schutz der Natur, wenn man sich unter einem Dach aus totem Holz zusammendrängt umgeben vom Abschaum der Menschheit. Es ist ein Zeichen meines Vertrauens, dass ich tun werde, was Ihr sagt.~
+@107523 = ~Das scheint eine beachtenswert dämliche Idee zu sein. Aber ich nehme an, die einzige Möglichkeit Euch davon zu überzeugen ist dabei mitzuspielen.~
+@107524 = ~Ich werde es tun, aber ich hoffe, dass ich mich bald wieder anschließen kann. Ich habe meine Schuld noch nicht zurückgezahlt.~
+@107525 = ~Tiax ist von Eurer kreativen Unterwürfigkeit angetan. Bei Eurer Rückkehr werden die niederen Stammgäste dieser Gaststätte die Herrlichkeit verehren, die Tiax ist!~
+@107526 = ~Ich werde es tun, aber nicht gern. Ich bin alles andere als sicher in diesen Behausungen des Oberflächenvolkes.~
+@107531 = ~Ja, oh allgegenwärtige Autoritätsperson.~
+@107532 = ~S-s-s-sehr gut dann. Viel Glück auf Euren Reisen.~
+@107533 = ~Wenn Ihr dies erwünscht, so werde ich dem Folge leisten. Ihr habt bewiesen, dass Ihr ein fähiger Führer seid und ich setzte Vertrauen in Eure Entscheidungen.~
+@107534 = ~Seid Ihr sicher? Boo glaubt nicht, dass es in dieser Gaststätte viel Böses gibt, das gnadenlos niedergeschlagen werden kann. Aber das Böse ist sehr schlau und oft gut erzogen und kann sich überall verstecken. Wir werden Euch bald wiedersehen.~
+@107535 = ~Hurra! Eine Möglichkeit, wie ich für unserer glücklichen viele nützlich sein kann! Und das ohne noch mehr Zeit in der Gesellschaft von Narren verbringen zu müssen.~
+@107536 = ~Wie Ihr wollt. In einiger Zeit wird dies auf jeden Fall gut für uns alle sein.~
+@107537 = ~Alles klar - ich glaube, diese Dinge sind auch Teil von dem, was Abenteurer tun müssen, obwohl es nicht spannend klingt...~
+@107538 = ~Eine Möglichkeit für etwas Luxus und eine Rast von der Straße? Das sollte ich nicht ablehnen.~
 @108001 = ~Munitionsgürtel~
 @108002 = ~Der Schultergürtel ist ideal dafür geeignet, Schleuderkugeln, Wurfpfeile, Pfeile oder Bolzen aufzubewahren.
 EIGENSCHAFTEN:
@@ -60,6 +89,11 @@ Gewicht: 2~
 EIGENSCHAFTEN:
 Kapazität: 100 Tränke
 Gewicht: 2~
+@108005 = ~Nimmervoller Beutel~
+@108006 = ~Auch dieser magische Beutel wirkt, wie alle magischen Beutel, wie ein einfacher Stoffsack von ungefähr 60 cm x 120 cm Größe. Der Nimmervolle Beutel öffnet sich in einen außerdimensionalen Raum und ist innen wesentlich größer als außen. Unabhängig davon, was man hineintut, wiegt der Beutel immer das Gleiche.
+EIGENSCHAFTEN:
+Kapazität: 100 Gegenstände
+Gewicht: 5~
 @111001 = ~Wirtshaus in Kerzenburg~
 @111002 = ~Priesterquartiere~
 @111003 = ~Tempel von Oghma~
@@ -274,6 +308,22 @@ Typ: 1-händig
 @122043 = ~Ich kenne Rezepte für zwei Waffenköpfe für den Flegel der Zeitalter. Ihr könnt den Waffenkopf des Giftes hinzufügen... oder den mit Elektrizität. Leider habe ich nur die Rezepte.~
 @122044 = ~Ihr habt hier drei Waffenköpfe... Ich kann den Waffenkopf der Elektrizität hinzufügen. Also vier Waffenköpfe, versteht Ihr? 5.000 Goldmünzen und ich kann es tun. Wollt Ihr?~
 @122045 = ~Oho! Ihr habt vier Waffenköpfe und ich kann den letzten hinzufügen. Dieser hier ist ausgesprochen gefährlich. 5.000 Goldmünzen und ich mach es, einverstanden? Wollt Ihr?~
+@125002 = ~Haut ab, Halbling, ich ertrage Euer Gequatsche nicht!~
+@125003 = ~In der Tat, ja, das wollen wir. Warum fragt Ihr?~
+@125004 = ~Ich war bereits dort und muss sagen: Die Ruinen werden überschätzt.~
+@125005 = ~Wartet bis Ihr hört, was ich zu sagen habe. Es ist an der Zeit, diese Ruine zu plündern, und man wird sicher einige gute Sachen finden, ohne sich allzuviele blaue Flecken zu holen. Vielleicht sollten wir zusammenarbeiten. Da ich hier mit meiner Tante lebe, kenne ich die Gegend ziemlich gut. Ebenso kenne ich ein paar Geheimnisse und weiß, wie man Schlösser öffnet und Fallen entschärft. Könnte ganz lustig werden. Was meint Ihr?~
+@125006 = ~Hervorragende Idee! Willkommen an Bord.~
+@125007 = ~Es tut mir wirklich leid, aber wir haben alles, was wir brauchen.~
+@125008 = ~Lächerlich! Wofür seid Ihr mir nützlich? Ihr habt schon genug meiner Zeit gestohlen, verschwindet!~
+@125009 = ~Nun! Kein Grund, unhöflich zu werden! Hmpf! In dieser Berufsgruppe gibt es einfach keine netten Leute! Kein Wunder, dass alle Welt Abenteurer verabscheut! Auf Nimmerwiedersehn!~
+@125010 = ~Gut, abgemacht! Oh, es ist so schön, mit jemandem vom gleichen Fach zu reden! Sie haben mich hierher zu meiner Tante geschickt, damit ich mich bessere und so, aber ich langweile mich. Vielleicht sollten wir zusammenarbeiten. Ich kenne die Gegend hier ziemlich gut. Ebenso kenne ich auch ein paar Geheimnisse und weiß, wie man Schlösser öffnet und Fallen entschärft. Könnte ganz lustig werden. Was meint Ihr?~
+@125011 = ~Heiliger Katzenjammer! Na, das *ist* aber aufregend! Wir solten... wir sollten zusammenarbeiten! Ja! Ich könnte Hilfe gebr... äh... ich meine, wir könnten uns gegenseitig helfen. Ich könnte für Euch die Wertsachen auskundschaften. Ihr dürft auch das meiste behalten. Was meint Ihr?~
+@125012 = ~Wir sind Freunde, und sogar gute Freunde! Einer für alle und so was! Spaß für uns alle, ich hab's ja *gewusst*!~
+@125013 = ~Ah gut, dann eben nicht. Nie finde ich in diesem Beruf Freunde. Erst recht keine guten Freunde. Na dann, lebt wohl.~
+@125014 = ~Ich glaube, ich werde hier einfach Trübsal blasen, bis Ihr wieder bei Verstand seid und mich holt.~
+@125015 = ~Nun, wenn Ihr mir sowieso die ganze Zeit wie ein kleines Hündchen nachlauft, dann sollten wir wohl wirklich besser zusammenarbeiten.~
+@125016 = ~Nein, ich interessiere mich nicht für Ruinen.~
+@125017 = ~He, Ihr seid nicht von hier! Genauuu! Ihr habt kein Wachs auf Euren Stiefeln und keine Schnalle an den Gamaschen. Ihr seid keine Kaufleute. Die laufen viel besser gekleidet herum. Ach herrje, Abenteurer in Gullykin! Wollt Ihr die Feuerweinruine plündern?~
 @202003 = ~^[ %TAB%]*Typ[ %TAB%]*:[ %TAB%]*\(1\|ein\)[- %TAB%]*händig.*~
 @202004 = ~Typ: 2-händig~
 @204001 = ~^[ %TAB%]*Kann nicht verwendet werden von[ %TAB%]*:.*~
@@ -412,46 +462,75 @@ Diese Fertigkeit erlaubt es einem Schurken, Schriftrollen mit Zaubern niederer b
 @223001 = ~EIGENSCHAFTEN:~ // this is used for mataching in the item descripiton, so copy this from an oBG2 item description
 @223002 = ~Gilt immer als eine magische Waffe +%ench%, wenn es darum geht, was es verletzten kann.~
 
-@315000 = ~Die schrecklichen Animationen von Spiegelumhang, Zauberfalle und Physischer Spiegel ausschalten~
+@235002 = ~, jedoch keine Klassenkombinationen wählen~ // from strref #9550
+
+@237002 = ~ und eine doppelte Klassenzugehörigkeit besitzen~ // from strref #9550
+@237003 = ~Eine doppelte Klassenzugehörigkeit ist eine Eigenart, die nur Menschen besitzen können. ~ // from strref #10811
+@237004 = ~menschlichen ~ // BG tutorial monk dialogue monktu4 - 32540 in BGEE/SoD 
+
+@244001 = ~\* Alle zusätzlichen Angriffe sind nur für Krieger-Klassen verfügbar.~ // last line; if there's a * included then add \ in front of it
+@244002 = ~Tabelle für Waffenfertigkeiten:~ // line before <DOTS1>, exclude the * if present
+@244003 = ~(nur für Krieger)~
+
 @318313 = ~Bring mir meine Geliebte, Aerie.~
 @318314 = ~Bring mir meine Geliebte, Jaheira.~
 @318315 = ~Bring mir meinen Geliebten, Sir Anomen, Ritter des Ordens.~
 @318316 = ~Bring mir meinen Geliebten, Anomen, Priester von Helm.~
 @318317 = ~Bring mir meine Geliebte, Viconia.~
-@321001 = ~Waehle den minimalen Wert der Eigenschaften, zwischen 6 und 15:~
+@318318 = ~Bring mir meinen Geliebten, Dorn.~
+@318319 = ~Bring mir meine Geliebte, Hexxat.~
+@318320 = ~Bring mir meine Geliebte, Neera.~
+@318321 = ~Bring mir meinen Geliebten, Rasaad.~
+
+@322001 = ~Pferd~
+@322002 = ~Pferd~
+
+
+
+@333050 = ~Deaktiviere Automatische Hast~
+@333051 = ~Deaktiviere Automatische Hast
+
+Diese Fähigkeit steuert, ob das Bewegungstempo für Gruppenmitglieder außerhalb des Kampfes erhöht wird. Durch Klicken wird diese Fähigkeit deaktiviert.~
+@333052 = ~Deaktiviere Automatische Hast
+
+Diese Fähigkeit steuert, ob das Bewegungstempo und die Zauberzeit für Gruppenmitglieder außerhalb des Kampfes erhöht wird. Durch Klicken wird diese Fähigkeit deaktiviert.~
+@333053 = ~Deaktiviere Automatische Hast
+
+Diese Fähigkeit steuert, ob die Zauberzeit für Gruppenmitglieder außerhalb des Kampfes erhöht wird. Durch Klicken wird diese Fähigkeit deaktiviert.~
+@333054 = ~Automatische Hast~
+@333055 = ~Verbesserte Hast~ // bg2 strref #63217
+@333060 = ~Aktiviere Automatische Hast~
+@333061 = ~Aktiviere Automatische Hast
+
+Diese Fähigkeit steuert, ob das Bewegungstempo für Gruppenmitglieder außerhalb des Kampfes erhöht wird. Durch Klicken wird diese Fähigkeit aktiviert.~
+@333062 = ~Aktiviere Automatische Hast
+
+Diese Fähigkeit steuert, ob das Bewegungstempo und die Zauberzeit für Gruppenmitglieder außerhalb des Kampfes erhöht wird. Durch Klicken wird diese Fähigkeit aktiviert.~
+@333063 = ~Aktiviere Automatische Hast
+
+Diese Fähigkeit steuert, ob die Zauberzeit für Gruppenmitglieder außerhalb des Kampfes erhöht wird. Durch Klicken wird diese Fähigkeit aktiviert.~
+@333070 = ~Boni von Automatischer Hast entfernt~
+
+@335100 = ~Speicherstand~
+@335101 = ~Speicherstand angelegt~
+@335102 = ~Speicherstand %slot_index% angelegt~
+
 @337001 = ~000000003-Leichenhalle~
 @337002 = ~000000004-Handelsbezirk~
 @337003 = ~000000005-Zu Ravels Irrgarten~
+
+// these two strings will be combined as a prefix and suffix to write "Casting Grease..." to the combat log
+// adjust as needed for your grammar, e.g. if you don't need a prefix then make @341002 = ~~
+// note that you need to include spaces, if needed
+@341002 = ~Wirke ~
+@341003 = ~...~
+
 @408001 = ~Als er nach seiner Vergangenheit gefragt wird, enthüllt KHALID nervös, dass er in der Nation von Calimshan geboren wurde und dort aufgewachsen ist. Er redet nicht viel über seine Eltern, aber Ihr erhaltet das Gefühl, dass sein Vater, ein Händler, wenig an ihn dachte und er viel mehr Aufmerksamkeit Khalids Halbbrüdern widmete. Ohne Unterstützung seines Vaters war Khalid nicht imstande das Lehrgeld zu bezahlen, um Magier zu werden. Deshalb trat er in die Stadtmiliz ein, in der Hoffnung, dadurch genügend Geld zu verdienen. Er geht nicht ins Detail, wie er Jaheira kennen gelernt hat, aber seine Verehrung für sie liegt auf der Hand. Wenn er danach gefragt wird, wie er Gorion kennen lernte, sagt er nur, dass sie lange Freunde waren und dass viele gemeinsame Bekannte seinen Verlust in einem Harfenlied beklagen.~
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-/////                                                  \\\\\
-///// Ex-SCS components                                \\\\\
-///// Automatically copied over from SCS TRA files     \\\\\
-/////                                                  \\\\\
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-@506000 = ~Animation vom Spiegelumhang entfernen (belasst ihn für andere Zauber und Wirkungen, die dieselbe Graphik verwenden)~
-@507001 = ~Macht den Anfangs-Kerker ein bisschen schwerer~
-@507002 = ~Macht die Bardenfestung für alle Klassen zugänglich~
-@507003 = ~Macht die Klerikerfestung für alle Klassen zugänglich~
-@507004 = ~Macht die Druidenfestung für alle Klassen zugänglich~
-@507005 = ~Macht die Kämpferfestung für alle Klassen zugänglich~
-@507006 = ~Macht die Paladinfestung für alle Klassen zugänglich~
-@507007 = ~Macht die Waldläuferfestung für alle Klassen zugänglich~
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-/////                                                  \\\\\
-///// Ex-SCS components                                \\\\\
-///// Automatically copied over from SCS TRA files     \\\\\
-/////                                                  \\\\\
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-@506000 = ~Animation vom Spiegelumhang entfernen (belasst ihn für andere Zauber und Wirkungen, die dieselbe Graphik verwenden)~
-@507001 = ~Macht die Bardenfestung für alle Klassen zugänglich~
-@507002 = ~Macht die Klerikerfestung für alle Klassen zugänglich~
-@507003 = ~Macht die Druidenfestung für alle Klassen zugänglich~
-@507004 = ~Macht die Kämpferfestung für alle Klassen zugänglich~
-@507005 = ~Macht die Paladinfestung für alle Klassen zugänglich~
-@507007 = ~Macht die Waldläuferfestung für alle Klassen zugänglich~
-@507008 = ~Macht die Diebesfestung für alle Klassen zugänglich~
+
+@418001 = ~Dies ist Edwins Geburtsrecht, in das der Familienstein eingelegt ist.
+
+EIGENSCHAFTEN:
+
+Gewicht: 1~
+@418002 = ~Siegelring der de'Arnise
+Der Vater von Nalia hat ihr diesen Ring zu ihrem 18. Geburtstag überreicht. Der Ring ist auf magischem Weg an sie gebunden und auch seine Kräfte können nur von ihr genutzt werden. Durch den Ring erhält sie +2 auf alle Rettungswürfe, -2 auf RK und +50% Feuerresistenz.~
