@@ -28,8 +28,13 @@ ACTION_IF game_is_iwdee THEN BEGIN // iwdee uses slightly different placement fo
 ~ar3602   TG4Tres  AR3602Chest3             0
 ar4005   DE5Tres  Yuan-tiChampion1         1
 ar8002   UD6Tres  Kelly                    1
-AR4001   TG5Tres  Chest2                   0
-ar9100   EXTRES3  Alpheus                  1~
+AR4001   TG5Tres  Chest2                   0~
+
+  ACTION_IF !MOD_IS_INSTALLED ~subtled_item_tweaks/subtled_item_tweaks.tp2~ ~140~ THEN BEGIN // replaces rndtre77 with 2x quost as drops, so don't bother processing
+
+    APPEND_OUTER ~weidu_external/cdtweaks/random/random.2da~ ~ar9100   EXTRES3  Alpheus                  1~
+
+  END
 
 END
 

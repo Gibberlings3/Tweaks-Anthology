@@ -1,19 +1,31 @@
+  ACTION_CLEAR_ARRAY cd_dupe_check
+  
   ACTION_FOR_EACH drop IN replacemelist BEGIN
+    
+    OUTER_SET dupe = 0 // dupe check   
+    ACTION_PHP_EACH cd_dupe_check AS dcheck => foo BEGIN
+      ACTION_IF ("%drop%" STRING_COMPARE_CASE "%dcheck%" = 0) BEGIN // matches
+        OUTER_SET dupe = 1
+      END
+    END     
 
-    ACTION_IF ((FILE_EXISTS_IN_GAME ~%drop%.itm~) AND      // make sure it exists and
-               (~%drop%~ STRING_COMPARE_CASE "amul04") AND // is not a generic item
-               (~%drop%~ STRING_COMPARE_CASE "amul14") AND // is not a generic item
-               (~%drop%~ STRING_COMPARE_CASE "arowtrn") AND // is not a generic item
-               (~%drop%~ STRING_COMPARE_CASE "trnbolt") AND // is not a generic item
-               (~%drop%~ STRING_COMPARE_CASE "bow07") AND // is not a generic item
-               (~%drop%~ STRING_COMPARE_CASE "dagg03") AND // is not a generic item
-               (~%drop%~ STRING_COMPARE_CASE "sw1h02") AND // is not a generic item
-               (~%drop%~ STRING_COMPARE_CASE "shld02") AND // is not a generic item
-               (~%drop%~ STRING_COMPARE_CASE "chan02") AND // is not a generic item
-               (~%drop%~ STRING_COMPARE_CASE "plat02") AND // is not a generic item
-               (~%drop%~ STRING_COMPARE_CASE "hamm02") AND // is not a generic item
-               (~%drop%~ STRING_COMPARE_CASE "leat05") AND // is not a generic item
-               (~%drop%~ STRING_COMPARE_CASE "blun05")) THEN BEGIN
+    ACTION_IF ((dupe = 0) AND                                      // passed the dupe check and 
+               (FILE_EXISTS_IN_GAME ~%drop%.itm~) AND              // make sure it exists and
+               (~%drop%~ STRING_COMPARE_CASE "amul04") AND         // is not a generic item
+               (~%drop%~ STRING_COMPARE_CASE "amul14") AND         // is not a generic item
+               (~%drop%~ STRING_COMPARE_CASE "arowtrn") AND        // is not a generic item
+               (~%drop%~ STRING_COMPARE_CASE "trnbolt") AND        // is not a generic item
+               (~%drop%~ STRING_COMPARE_CASE "bow07") AND          // is not a generic item
+               (~%drop%~ STRING_COMPARE_CASE "dagg03") AND         // is not a generic item
+               (~%drop%~ STRING_COMPARE_CASE "sw1h02") AND         // is not a generic item
+               (~%drop%~ STRING_COMPARE_CASE "shld02") AND         // is not a generic item
+               (~%drop%~ STRING_COMPARE_CASE "chan02") AND         // is not a generic item
+               (~%drop%~ STRING_COMPARE_CASE "plat02") AND         // is not a generic item
+               (~%drop%~ STRING_COMPARE_CASE "hamm02") AND         // is not a generic item
+               (~%drop%~ STRING_COMPARE_CASE "leat05") AND         // is not a generic item
+               (~%drop%~ STRING_COMPARE_CASE "blun05")) THEN BEGIN // is not a generic item
+
+      ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_dupe_check BEGIN ~%drop%~ => 1 END 
 
       COPY_EXISTING ~%drop%.itm~ ~override~
         READ_LONG 0x0c string

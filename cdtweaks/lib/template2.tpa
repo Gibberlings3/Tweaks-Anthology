@@ -15,6 +15,13 @@
             READ_SHORT (abil_off + 0x22 + (drop_loop multiply 0x38)) ~charge%drop_loop%~
           END
         END
+        PATCH_IF !charge0 BEGIN // check for stackable ammo - namely lookng for tranquil bolts and translocation arrows
+          READ_SHORT 0x1c type
+          READ_SHORT 0x38 stack
+          PATCH_IF ((stack > 1) AND ((type = 5) OR (type = 14) OR (type = 31))) BEGIN // arrows, bullets, bolts
+            SET charge0 = 8
+          END
+        END
         BUT_ONLY IF_EXISTS
 
       COPY_EXISTING ~%drop%.itm~ ~override~
