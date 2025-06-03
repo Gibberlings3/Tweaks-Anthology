@@ -50,7 +50,7 @@ ACTION_IF game_includes_bg1 THEN BEGIN
       REPLACE_TEXTUALLY ~\bActivate("narlen")~   ~Activate("narlen") SetGlobal("CDNarlenExists","GLOBAL",1)~
       REPLACE_TEXTUALLY ~Deactivate("narlen")~ ~Deactivate("narlen") SetGlobal("CDNarlenExists","GLOBAL",0)~
     END
-    BUT_ONLY IF ~CDNarlenExists~ IF_EXISTS
+    BUT_ONLY UNLESS ~CDNarlenExists~ IF_EXISTS
 
   COPY_EXISTING ~%NWBaldursGate%.are~      ~override~ // ar0100
                 ~%NBaldursGate%.are~       ~override~ // ar0200
