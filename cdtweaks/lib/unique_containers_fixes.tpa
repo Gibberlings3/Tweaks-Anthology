@@ -583,18 +583,6 @@ ACTION_IF FILE_EXISTS_IN_GAME ~wardwizs.sto~ BEGIN //TDD
   BUT_ONLY
 END
 
-ACTION_IF FILE_EXISTS_IN_GAME ~wwelle.dlg~ BEGIN //UB
-  ACTION_IF NOT FILE_EXISTS_IN_GAME ~u!bag02.itm~ BEGIN //Check bag fix doesn't already exist
-    COPY_EXISTING ~bag02.itm~ ~override/u!bag02.itm~
-    COPY_EXISTING ~bag02.sto~ ~override/u!bag02.sto~
-    COPY_EXISTING ~wwelle.dlg~ ~override~
-      DECOMPILE_AND_PATCH BEGIN
-      REPLACE_TEXTUALLY CASE_INSENSITIVE EXACT_MATCH ~"BAG02"~ ~"u!bag02"~
-      END
-    BUT_ONLY
-  END
-END
-
 ACTION_IF FILE_EXISTS_IN_GAME ~sackgr04.itm~ BEGIN //Undying or DoS
   COPY_EXISTING ~cmmagin1.sto~ ~override~ //Dwarven Hammer
     PATCH_IF SOURCE_SIZE > 0x9b BEGIN
