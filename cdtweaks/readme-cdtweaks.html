@@ -2416,7 +2416,7 @@ div.quote {
         <li>Fixes/Improvements:
           <ul>
             <li>The component to remove the experience cap also tries to extend kit ability tables to level 50, if they don't already extend that far. The algorithm to extend the tables has been adjusted to (hopefully) capture the 'one use per X levels' abilities better. </li>
-            <li> <strong>Reveal City Maps When Entering Area</strong> now works on EET</li>
+            <li> <strong>Reveal City Maps When Entering Area</strong> now works on EET. By necessity this component also fixes a script loop for an area in BG proper on oBG/Tutu games but due to a bad logic check it was not being applied</li>
             <li><strong>Restore <abbr title="Shadows of Amn">SoA</abbr> Load Screen Logo</strong> would not work on a few edge cases and has been fixed</li>
             <li>Revamped the <strong>Gradual Drow Item Disintegration</strong> component, and also made it better account for EE changes</li>
             <li>Added two variants to <strong>Breakable Iron Non-Magical Shields, Helms, and Armor</strong> to allow armor to gradually degrade rather than just break. Streamlined helmet breakage to be more robust by no longer requiring any scripting and fixed a bug where items could break in the Black Pits campaign. </li>
@@ -2442,23 +2442,20 @@ div.quote {
             <li> <strong>Faster Chapter One and Two Cutscenes and Dreams </strong>could miss patching a script on oBG2. It's also now available for BGT and EET games. </li>
             <li><strong>Rest Anywhere</strong> wasn't targeting the correct area bits on some platforms</li>
             <li> <strong>Allow <abbr title="Non-Player Character">NPC</abbr> Pairs to Separate</strong> now works for NPC pairs in SoD (Khalid/Jaheira and Minsc/Dynaheir)</li>
-            <li>Harrold's dialogue in <strong>Friendly Random Drops</strong> &gt; <em>Exchange with merchants</em> is copied and updated from Flynn's dialogue, but due to a code typo several references were not being updated correctly. Also fixed an issue where the third levle Dragon's Eye drop could be blank because the component was not providing stacks of 0 for the ammo that could drop. </li>
+            <li>Harrold's dialogue in <strong>Friendly Random Drops</strong> &gt; <em>Exchange with merchants</em> is copied and updated from Flynn's dialogue, but due to a code typo several references were not being updated correctly. Also fixed an issue where the third level Dragon's Eye drop could be blank because the component was not providing stacks of 0 for the ammo that could drop. </li>
             <li>During the original three Bio romances for males (Aerie, Jaheira, Viconia) they snipe at each other during LTs and eventually  force a decision on the player of which romance to pursue. Surprisingly, these were never disabled by the <em>Allow multiple romances</em> option of <strong>Romance Cheats</strong>. The altercations will still occur, but all of the romances will still continue. </li>
             <li><strong>Two-Handed Axes</strong> could have minor errors if Braegar was installed due to the compatibility code</li>
-            <li><strong>Maximum <abbr title="Hit Points">HP</abbr> Creatures</strong> now accounts for the non-standard dice sizes of Dwarven Defenders (d12) and Dragon Disciples (d6). </li>
+            <li><strong>Maximum <abbr title="Hit Points">HP</abbr> Creatures</strong> now accounts for the non-standard dice sizes of Dwarven Defenders (d12) and Dragon Disciples (d6). It will also roll through level 20 if <strong>Allow <abbr title="Hit Points">HP</abbr> Rolls Through Level 20</strong> is installed</li>
             <li><strong>Everyone Gets Bonus <abbr title="Attacks Per Round">APR</abbr> from Specialization</strong> was not providing APR bonuses to monks or non-joinable NPCs</li>
             <li>Fixed an issue with <strong>More Interjections</strong> that would occur specifically on reinstalls</li>
-            <li>Items created or altered by the <strong>Two-Handed X</strong> components now better resist attacks from creatures that drain item charges</li>
             <li>Added a config option for <strong>Maximum <abbr title="Hit Points">HP</abbr> Creatures</strong> to change the percentage or add a flat bonus</li>
             <li>The various components that change druids to use cleric XP progression didn't work on IWDEE due to bad whitespace detection. </li>
             <li><strong>No Traps or Locks</strong> now has two more variants to better refine which traps to remove</li>
             <li>Khalid and Jaheira could leave permanently if sent to the FAI with <strong>Send BioWare <abbr title="Non-Player Characters">NPCs</abbr> to an Inn</strong> on oBG or Tutu games</li>
             <li><strong>Increase Party Movement Speed and/or Casting Speed Outside of Combat</strong> now uses a custom portrait icon for its haste effects, added a customization config option, and slightly updated its in-game text</li>
             <li><strong>Allow Monks to Wear Helmets</strong> has been renamed to <strong>Expand Usable Monk Equipment</strong>, as it now allows monks to use staves, helmets, or both. </li>
-            <li>The 'large sword' description text from <em><abbr title="Baldur's Gate">BG</abbr>-style weapon proficiencies</em> in <strong>Alter Weapon Proficiency System</strong> was updated, as it incorrectly stated thieves would only get access to long swords. </li>
             <li>A dialogue fix for the NORH, as part of <strong>Multiple Strongholds</strong>, was being executed as part of the de'Arnise Keep changes</li>
             <li><strong>Move <abbr title="Non-Player Characters">NPCs</abbr> to Convenient Locations</strong> now has a 'move everyone' option. Also fixed a small bit of Alora's dialogue breaking immutability. </li>
-            <li><strong>Maximum <abbr title="Hit Points">HP</abbr> Creatures</strong> will now roll through level 20 if <strong>Allow <abbr title="Hit Points">HP</abbr> Rolls Through Level 20</strong> is installed</li>
             <li>The IWD options of the <strong>Alter Paladin Spell Progression Table</strong> and <strong>Alter Ranger Spell Progression Table</strong> lower the level where these classes get their first spell; however their caster levels are still pegged to when they used to get their first spell. Their caster levels are now adjusted to match. </li>
             <li><strong>Weapon Animation Tweaks</strong> will no longer change morningstars to use the mace animation. </li>
             <li>Items created by <strong>Two-Handed X</strong> and <strong>Wear Multiple Protection Items</strong> &gt; <em><abbr title="Pen and Paper">PnP</abbr> restrictions</em> will no longer get charges drained by creatures like nishruu or magic golems</li>
@@ -2466,19 +2463,18 @@ div.quote {
         </li>
         <li>Mod conflict issues:
           <ul>
-            <li>A number of updates for EE Fixpack compatibility</li>
-            <li><strong>Increase Jewelry, Gem, and Miscellaneous Item Stacks</strong> could interfere with a criticla item from Throne of Mad God, so that specific item is not made stackable</li>
-            <li>Resolved a potential conflict between the <strong>Friendly Random Drops</strong> component and IWD Fixpack</li>
+            <li>A number of updates for <a href="https://www.gibberlings3.net/mods/fixes/eefp/">EE Fixpack</a> compatibility</li>
+            <li><strong>Increase Jewelry, Gem, and Miscellaneous Item Stacks</strong> could interfere with a critical item from Throne of Mad God, so that specific item is no longer altered</li>
+            <li>Resolved a potential conflict between the <strong>Friendly Random Drops</strong> component and <a href="https://www.gibberlings3.net/mods/fixes/iwd_fixpack/">IWD Fixpack</a></li>
             <li>A couple of components within Anthology would conflict if they were installed out of the order they are presented in the installer. These conflicts have been resolved between <strong>Send BioWare <abbr title="Non-Player Characters">NPCs</abbr> to an Inn</strong> and <strong>More Interjections; </strong><strong>Disable Portrait Icons Added by Equipped Items</strong> and <strong>Separate Resist Fire/Cold Icon into Separate Icons</strong>; all of the <strong>Two-Handed X</strong> components and the variants of <strong>Alter Weapon Proficiency System</strong></li>
-            <li><strong>Use <abbr title="Baldur's Gate">BG</abbr> Walking Speeds</strong> will now apply to Grey the Dog</li>
+            <li><strong>Use <abbr title="Baldur's Gate">BG</abbr> Walking Speeds</strong> will now apply to <a href="https://www.gibberlings3.net/mods/npcs/grey-the-dog/">Grey the Dog</a></li>
             <li><strong>Taerom Makes Additional Ankheg Armors</strong> will now skip if the same component from Tweaks and Tricks is installed</li>
-            <li>Resolved a conflict between <strong>Allow Arcane Spellcasting in Heavy Armor</strong> and Artisan's Eldritch Knight. The Eldritch Knight is allowed to cast in armor without penalty but was receiving the same miscast penalties as others, which is now fixed. </li>
+            <li>Resolved a conflict between <strong>Allow Arcane Spellcasting in Heavy Armor</strong> and Artisan's Eldritch Knight and Bardic Wonders. Both had an option for armored casting but were still receiving miscast penalties; these penalties no longer apply</li>
             <li>Two druid helmets added by DSotSC were being made unusable by <strong>Change Equipment Restrictions for Druid Multi- and Dual-Classes</strong></li>
-            <li>Various components now account better for the updated IWD2 Ease-of-Use mod and the new Talents of Faerun mod, mainly by skipping if functionally similar components are already installed</li>
-            <li>The various two-handed items created by the <strong>Two-Handed X</strong> components are no longer usable by Amber as she refuses to use two-handed weapons</li>
-            <li> <strong>Add Map Notes</strong> will now account for changes from The Calling to the Gnoll Stronghold</li>
-            <li><strong>Thieves Can Backstab With More Weapons With &quot;Use Any Item&quot; or as Dual- and Multi-Classes</strong> now accounts for the Staff of the Gorgon from SP Collection</li>
-            <li> <strong>Allow Arcane Spellcasting in Armor</strong> previously worked with the Eldritch Knight from Artisan's kit pack which allowed it to cast in armor. The component now also works with Armored Casting from Bardic Wonders. </li>
+            <li>Various components now account better for the updated IWD2 Ease-of-Use mod and the new <a href="https://www.gibberlings3.net/mods/tweaks/tof/">Talents of Faer&ucirc;n</a> mod, mainly by skipping if functionally similar components are already installed</li>
+            <li>The various two-handed items created by the <strong>Two-Handed X</strong> components are no longer usable by <a href="https://www.gibberlings3.net/mods/npcs/amber/">Amber</a> as she refuses to use two-handed weapons</li>
+            <li> <strong>Add Map Notes</strong> will now account for changes from <a href="https://www.gibberlings3.net/mods/quests/thecalling/">The Calling</a> to the Gnoll Stronghold</li>
+            <li><strong>Thieves Can Backstab With More Weapons With &quot;Use Any Item&quot; or as Dual- and Multi-Classes</strong> now accounts for the Staff of the Gorgon from <a href="https://www.gibberlings3.net/mods/kits/spc/">SP Collection</a></li>
             <li>Resolved a conflict between <strong>Friendly Random Drops</strong> and the IWDEE-specific Item Tweaks component from SubtleD's Item Tweaks </li>
           </ul>
         </li>
@@ -2487,6 +2483,7 @@ div.quote {
             <li>Exchanges for <strong>Friendly Random Drops</strong> &gt; <em>Exchange with merchants</em> are now flagged in dialogue as 'execute immediately' in the EEs</li>
             <li>Upgraded to a custom variant of k4thos's joinable NPC detection for more reliable detection of joinable NPCs. All components which had to distinguish between joinables vs. non-joinables now uses the new code. </li>
             <li>Standardized and updated multiple libraries as part of an internal re-organization process</li>
+            <li><strong>Unique Containers</strong> has a rash of fixes for bags from other mods; the code targeting bags from Unfinished Business was removed as the mod fixed these issues a while back</li>
           </ul>
         </li>
       </ul>
