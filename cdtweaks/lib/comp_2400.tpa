@@ -6,17 +6,21 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
+// maintenance note: this is crosslinked; use mod-agnostic paths
+// * cdtweaks/lib/comp_2400.tpa
+// * iwdification/tpa/comp_2400.tpa
+
 /////                                                            \\\\\
 ///// Rangers Use HoW Spell Progression                          \\\\\
 /////                                                            \\\\\
 
 ACTION_IF game_is_iwd2 THEN BEGIN
 
-  COPY ~cdtweaks/2da/iwd_mxsplran.2da~ ~override/mxsplrgr.2da~
+  COPY ~%MOD_FOLDER%/2da/iwd_mxsplran.2da~ ~override/mxsplrgr.2da~
 
 END ELSE BEGIN
 
-  COPY ~cdtweaks/2da/iwd_mxsplran.2da~ ~override/mxsplran.2da~
+  COPY ~%MOD_FOLDER%/2da/iwd_mxsplran.2da~ ~override/mxsplran.2da~
 
 END
 
@@ -24,8 +28,8 @@ END
 // since we're moving up their first spell 2 levels, we increase their casting level manually by 2
 ACTION_IF FILE_EXISTS_IN_GAME ~kitlist.2da~ BEGIN
 
-  COPY ~cdtweaks/spl/cdtarans.spl~ ~override~
-       ~cdtweaks/eff/cdtarans.eff~ ~override~
+  COPY ~%MOD_FOLDER%/spl/cdtarans.spl~ ~override~
+       ~%MOD_FOLDER%/eff/cdtarans.eff~ ~override~
 
   ACTION_CLEAR_ARRAY cd_ranger_kits
   ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_ranger_kits BEGIN clabrn01 => 12 END
