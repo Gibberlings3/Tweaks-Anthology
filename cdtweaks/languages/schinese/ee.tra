@@ -1,6 +1,6 @@
 // this file is used to override strings in game.tra for EE games
 // it will NOT be re-encoded for EE games, so put it in the correct charset for your language
-@216001 = ~短剑/忍者刀: 盗贼及半身人爱用的武器；~短剑和忍者刀虽然轻巧，但却也相当好用。
+@216001 = ~短剑/忍者刀: 盗贼及半身人爱用的武器；短剑和忍者刀虽然轻巧，但却也相当好用。
 
 <DOTS1>
 
