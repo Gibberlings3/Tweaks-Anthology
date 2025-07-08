@@ -212,6 +212,7 @@ ACTION_FOR_EACH file IN weapprof racethac BEGIN
       END
       // for ees, include shaman as necessary on descriptions
       PATCH_IF enhanced_edition BEGIN SPRINT cd_shaman @216102 END ELSE BEGIN SPRINT cd_shaman ~~ END 
+      PATCH_IF MOD_IS_INSTALLED ~cd_project_javelin.tp2~ ~1~ BEGIN SPRINT cd_javelins @216111 END ELSE BEGIN SPRINT cd_javelins ~~ END 
       SET cd_ss_name = RESOLVE_STR_REF(@216101)
       SET cd_ss_desc = RESOLVE_STR_REF(@216103)
       SET cd_ls_desc = RESOLVE_STR_REF(@216104)

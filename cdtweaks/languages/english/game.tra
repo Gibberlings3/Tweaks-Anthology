@@ -692,7 +692,7 @@ WARNING: Magical katanas and wakizashis are very rare outside of Kara-Tur, so ca
 <DOTS4>
 
 <DOTS5>~
-@216109 = ~SPEARS: This weapon class allows the character to use spears and halberds. Druids%cd_shaman% can choose this category, but are restricted to spears only.
+@216109 = ~SPEARS: This weapon class allows the character to use spears%cd_javelins% and halberds. Druids%cd_shaman% can choose this category, but cannot use halberds.
 
 <DOTS1>
 
@@ -714,6 +714,7 @@ WARNING: Magical katanas and wakizashis are very rare outside of Kara-Tur, so ca
 <DOTS4>
 
 <DOTS5>~
+@216111 = ~, javelins,~ 
 
 @216301 = ~Great Sword~
 @216302 = ~GREAT SWORDS: This weapon class allows the character to use two-handed swords and bastard swords.
@@ -839,7 +840,7 @@ WARNING: Magical katanas and wakizashis are very rare outside of Kara-Tur, so ca
 <DOTS4>
 
 <DOTS5>~
-@216313 = ~SPEARS:  This weapon class allows the character to use spears.
+@216313 = ~SPEARS:  This weapon class allows the character to use spears%cd_javelins%.
 
 <DOTS1>
 
@@ -861,6 +862,8 @@ WARNING: Magical katanas and wakizashis are very rare outside of Kara-Tur, so ca
 <DOTS4>
 
 <DOTS5>~
+// keep the leading space
+@216315 = ~ and javelins~ 
 
 // this component deprecated, but the strings below still needed for the components that replace it
 @218001 = ~Alchemy (Mage)~
