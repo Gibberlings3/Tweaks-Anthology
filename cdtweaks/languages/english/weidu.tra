@@ -435,9 +435,10 @@ The uninstall messages above are normal and expected.
 
 @242000 = ~Loosen Equipment Restrictions for Cleric Multi- and Dual-Classes~
 
-@243000 = ~Loosen equipment restrictions for druid multi- and dual-classes~
+@242900 = ~Loosen equipment restrictions (without dual-class adjustment, see readme)~
+@243000 = ~Loosen equipment restrictions (with dual-class adjustment, see readme)~
 @243001 = ~Change Equipment Restrictions for Druid Multi- and Dual-Classes~
-@243100 = ~Tighten equipment restrictions for druid multi- and dual-classes [Angel]~
+@243100 = ~Tighten equipment restrictions [Angel]~
 
 @244000 = ~Everyone Gets Bonus APR from Specialization [subtledoctor]~
 

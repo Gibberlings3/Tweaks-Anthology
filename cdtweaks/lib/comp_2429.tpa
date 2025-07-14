@@ -10,5 +10,5 @@
 ///// Loosen Equipment Restrictions for Druid Multis - dc fix    \\\\\
 /////                                                            \\\\\
 
-OUTER_SET dc_fix = 1
+OUTER_SET dc_fix = 0
 INCLUDE ~cdtweaks/lib/druid_loosen.tpa~
