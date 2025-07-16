@@ -4,7 +4,7 @@
 +-----------------------+
 --]]
 
-function GT_AnimalCompanion_LevelUp()
+function GT_NWN_AnmlComp_LevelUp()
 	local summonerID = EEex_LuaAction_Object.m_lSummonedBy.m_Instance
 	local summonerSprite = EEex_GameObject_Get(summonerID)
 	--
@@ -20,7 +20,7 @@ function GT_AnimalCompanion_LevelUp()
 		summonerBaseLevel = summonerSprite.m_baseStats.m_level1
 	end
 	-- Update creature's racial enemy
-	EEex_LuaAction_Object.m_baseStats.m_hatedRace = summonerSprite.m_baseStats.m_hatedRace
+	--EEex_LuaAction_Object.m_baseStats.m_hatedRace = summonerSprite.m_baseStats.m_hatedRace
 	-- Update creature's level
 	EEex_LuaAction_Object:applyEffect({
 		["effectID"] = 96, -- level change
@@ -111,14 +111,14 @@ function GT_AnimalCompanion_LevelUp()
 	-- Upgrade creature weapon
 	local items = EEex_LuaAction_Object.m_equipment.m_items -- Array<CItem*,39>
 	local weaponUpgrades = {
-		["gtAnmlCompBear"] = {"01B", "01C", "01D", "01E"},
-		["gtAnmlCompBeetle"] = {"02B", "02C", "02D", "02E"},
-		["gtAnmlCompBoar"] = {"03B", "03C", "03D", "03E"},
-		["gtAnmlCompFalcon"] = {"04B", "04C", "04D", "04E"},
-		["gtAnmlCompLeopard"] = {"05B", "05C", "05D", "05E"},
-		["gtAnmlCompSnake"] = {"06B", "06C", "06D", "06E"},
-		["gtAnmlCompSpider"] = {"07B", "07C", "07D", "07E"},
-		["gtAnmlCompWolf"] = {"08B", "08C", "08D", "08E"},
+		["gtNWNAnmlCompBear"] = {"01B", "01C", "01D", "01E"},
+		["gtNWNAnmlCompBeetle"] = {"02B", "02C", "02D", "02E"},
+		["gtNWNAnmlCompBoar"] = {"03B", "03C", "03D", "03E"},
+		["gtNWNAnmlCompFalcon"] = {"04B", "04C", "04D", "04E"},
+		["gtNWNAnmlCompLeopard"] = {"05B", "05C", "05D", "05E"},
+		["gtNWNAnmlCompSnake"] = {"06B", "06C", "06D", "06E"},
+		["gtNWNAnmlCompSpider"] = {"07B", "07C", "07D", "07E"},
+		["gtNWNAnmlCompWolf"] = {"08B", "08C", "08D", "08E"},
 	}
 	for i = 35, 38 do -- WEAPON[1-4]
 		local item = items:get(i) -- CItem
@@ -165,7 +165,7 @@ function GT_AnimalCompanion_LevelUp()
 		end
 	end
 	-- Update creature's DEX / HiS / MS
-	if EEex_LuaAction_Object.m_scriptName:get() == "gtAnmlCompLeopard" then
+	if EEex_LuaAction_Object.m_scriptName:get() == "gtNWNAnmlCompLeopard" then
 		for i = creatureBaseLevel + 1, summonerBaseLevel do
 			if i % 10 == 0 then
 				EEex_LuaAction_Object:applyEffect({
@@ -201,14 +201,14 @@ function GT_AnimalCompanion_LevelUp()
 	end
 	-- Special abilities
 	local specialAbilities = {
-		["gtAnmlCompBeetle"] = nil,
-		["gtAnmlCompBear"] = nil,
-		["gtAnmlCompFalcon"] = nil,
-		["gtAnmlCompSnake"] = "%INNATE_SNAKE_GRASP%",
-		["gtAnmlCompLeopard"] = nil,
-		["gtAnmlCompSpider"] = "%INNATE_SPIDER_WEB_TANGLE%",
-		["gtAnmlCompWolf"] = "%INNATE_WINTER_WOLF_FROST_BREATH%",
-		["gtAnmlCompBoar"] = "%INNATE_ANIMAL_FEROCITY%",
+		["gtNWNAnmlCompBeetle"] = nil,
+		["gtNWNAnmlCompBear"] = nil,
+		["gtNWNAnmlCompFalcon"] = nil,
+		["gtNWNAnmlCompSnake"] = "%INNATE_SNAKE_GRASP%",
+		["gtNWNAnmlCompLeopard"] = nil,
+		["gtNWNAnmlCompSpider"] = "%INNATE_SPIDER_WEB_TANGLE%",
+		["gtNWNAnmlCompWolf"] = "%INNATE_WINTER_WOLF_FROST_BREATH%",
+		["gtNWNAnmlCompBoar"] = "%INNATE_ANIMAL_FEROCITY%",
 	}
 	if specialAbilities[EEex_LuaAction_Object.m_scriptName:get()] then
 		for i = creatureBaseLevel + 1, summonerBaseLevel do

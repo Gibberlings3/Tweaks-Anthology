@@ -9,16 +9,13 @@ function %INNATE_BEAR_HUG%(CGameEffect, CGameSprite)
 	local sourceActiveStats = EEex_Sprite_GetActiveStats(sourceSprite)
 	local sourceClassStr = GT_Resource_IDSToSymbol["class"][sourceSprite.m_typeAI.m_Class]
 	--
-	local equipment = sourceSprite.m_equipment -- CGameSpriteEquipment
-	local selectedWeapon = equipment.m_items:get(equipment.m_selectedWeapon) -- CItem
-	local selectedWeaponHeader = selectedWeapon.pRes.pHeader -- Item_Header_st
-	local selectedWeaponAbility = EEex_Resource_GetItemAbility(selectedWeaponHeader, equipment.m_selectedWeaponAbility) -- Item_ability_st
+	local selectedWeapon = GT_Sprite_GetSelectedWeapon(sourceSprite)
 	--
-	local immunityToDamage = EEex_Trigger_ParseConditionalString("EEex_IsImmuneToOpcode(Myself,12)")
+	local conditionalString = "EEex_IsImmuneToOpcode(Myself,12)"
 	--
 	local targetActiveStats = EEex_Sprite_GetActiveStats(CGameSprite)
 	--
-	local op12DamageType, ACModifier = GT_Utility_DamageTypeConverter(selectedWeaponAbility.damageType, targetActiveStats)
+	local damageTypeIDS, ACModifier = GT_Sprite_ItmDamageTypeToIDS(selectedWeapon["ability"].damageType, targetActiveStats)
 	--
 	local levelModifier = math.floor(sourceActiveStats.m_nLevel1 / 5) -- +1 every 5 levels
 	--
@@ -38,11 +35,11 @@ function %INNATE_BEAR_HUG%(CGameEffect, CGameSprite)
 		diceSize = 6
 	end
 	--
-	if not immunityToDamage:evalConditionalAsAIBase(CGameSprite) then
+	if not GT_Trigger_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, conditionalString) then
 		EEex_GameObject_ApplyEffect(CGameSprite,
 		{
 			["effectID"] = 0xC, -- Damage
-			["dwFlags"] = op12DamageType * 0x10000, -- mode: normal
+			["dwFlags"] = damageTypeIDS * 0x10000, -- mode: normal
 			["numDice"] = numDice + levelModifier,
 			["diceSize"] = diceSize,
 			["m_sourceRes"] = CGameEffect.m_sourceRes:get(),
@@ -61,6 +58,4 @@ function %INNATE_BEAR_HUG%(CGameEffect, CGameSprite)
 			["sourceTarget"] = CGameEffect.m_sourceTarget,
 		})
 	end
-	--
-	immunityToDamage:free()
 end

@@ -4,7 +4,7 @@
 +---------------------------------------------------------+
 --]]
 
-local cdtweaks_MonkSelfConcealment_FeedbackStrrefs = {
+local gt_NWN_SelfConcealment_FeedbackStrrefs = {
 	[10] = %strref_10%,
 	[20] = %strref_20%,
 	[30] = %strref_30%,
@@ -22,7 +22,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- internal function that applies the actual feat (translucency + icon)
 	local apply = function(percentage)
 		-- Update tracking var
-		sprite:setLocalInt("gtMonkSelfConcealment", percentage)
+		sprite:setLocalInt("gtNWNSelfConcealment", percentage)
 		--
 		local effectCodes = {
 			{["op"] = 321, ["res"] = "%MONK_SELF_CONCEALMENT%"}, -- Remove effects by resource
@@ -53,19 +53,19 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- lvl 10+ monks; 16+ DEX
 	local applyAbility = spriteClassStr == "MONK" and spriteLevel1 >= 10 and spriteDEX >= 16
 	--
-	if sprite:getLocalInt("gtMonkSelfConcealment") == 0 then
+	if sprite:getLocalInt("gtNWNSelfConcealment") == 0 then
 		if applyAbility then
 			apply(percentage)
 		end
 	else
 		if applyAbility then
 			-- check if ``percentage`` has changed since the last application
-			if sprite:getLocalInt("gtMonkSelfConcealment") ~= percentage then
+			if sprite:getLocalInt("gtNWNSelfConcealment") ~= percentage then
 				apply(percentage)
 			end
 		else
 			-- Mark the creature as 'feat removed'
-			sprite:setLocalInt("gtMonkSelfConcealment", 0)
+			sprite:setLocalInt("gtNWNSelfConcealment", 0)
 			--
 			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource
@@ -82,11 +82,11 @@ end)
 EEex_Sprite_AddBlockWeaponHitListener(function(args)
 	local targetSprite = args.targetSprite -- CGameSprite
 	--
-	if math.random(100) <= targetSprite:getLocalInt("gtMonkSelfConcealment") then -- 1d100 roll
+	if math.random(100) <= targetSprite:getLocalInt("gtNWNSelfConcealment") then -- 1d100 roll
 		-- display some feedback
 		targetSprite:applyEffect({
 			["effectID"] = 139, -- Display string
-			["effectAmount"] = cdtweaks_MonkSelfConcealment_FeedbackStrrefs[targetSprite:getLocalInt("gtMonkSelfConcealment")],
+			["effectAmount"] = gt_NWN_SelfConcealment_FeedbackStrrefs[targetSprite:getLocalInt("gtNWNSelfConcealment")],
 			["sourceID"] = targetSprite.m_id,
 			["sourceTarget"] = targetSprite.m_id,
 		})

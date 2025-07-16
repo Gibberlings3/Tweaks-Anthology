@@ -1,0 +1,131 @@
+DEFINE_ACTION_FUNCTION "NWN_SMITE_EVIL_GOOD"
+BEGIN
+	// Remove existing Smite Evil ability
+	WITH_SCOPE BEGIN
+		OUTER_TEXT_SPRINT "smite_evil_old" ""
+		//
+		ACTION_IF IDS_OF_SYMBOL ("spell" "PALADIN_SMITE_EVIL") >= 0 BEGIN
+			LAF "RES_NUM_OF_SPELL_NAME" STR_VAR "spell_name" = "PALADIN_SMITE_EVIL" RET "smite_evil_old" = "spell_res" END
+		END ELSE BEGIN
+			ACTION_IF MOD_IS_INSTALLED "setup-iwdification.tp2" 100 BEGIN
+				OUTER_TEXT_SPRINT "smite_evil_old" "CDIPLSE"
+			END
+		END
+		//
+		ACTION_IF ("%smite_evil_old%" STRING_COMPARE_CASE "") BEGIN
+			ACTION_CLEAR_ARRAY "gt_pal_clabs"
+			ACTION_DEFINE_ASSOCIATIVE_ARRAY "gt_pal_clabs" BEGIN // start with base class tables
+				"clabpa01" => 1 // generic paladin abilities
+			END
+			// add kit tables dynamically by reading kitlist
+			COPY_EXISTING "kitlist.2da" "override"
+				COUNT_2DA_COLS "cols"
+				READ_2DA_ENTRIES_NOW "read_kitlist" "%cols%"
+				FOR ("i" = 0 ; "%i%" < "%read_kitlist%" ; "i" += 1) BEGIN
+					READ_2DA_ENTRY_FORMER "read_kitlist" "%i%" 8 "class"
+					PATCH_IF ("%class%" == IDS_OF_SYMBOL ("class" "PALADIN")) BEGIN
+						READ_2DA_ENTRY_FORMER "read_kitlist" "%i%" 5 "clab"
+						DEFINE_ASSOCIATIVE_ARRAY "gt_pal_clabs" BEGIN
+							"%clab%" => 1
+						END
+					END
+				END
+			BUT_ONLY
+			// remove Smite Evil ability from all tables
+			ACTION_PHP_EACH "gt_pal_clabs" AS "clab" => "_" BEGIN
+				COPY_EXISTING "%clab%.2da" "override"
+					REPLACE_TEXTUALLY CASE_INSENSITIVE EXACT_MATCH "GA_%smite_evil_old%" "****"
+					// formatting
+					PRETTY_PRINT_2DA
+				BUT_ONLY
+			END
+		END
+	END
+	//
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"level" = 1
+		"preferredSlot" = 22
+		"type" = 4
+	STR_VAR
+		"idsName" = "PALADIN_SMITE_EVIL"
+	RET
+		"PALADIN_SMITE_EVIL" = "resName"
+	END
+	//
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"level" = 1
+		"preferredSlot" = 23
+		"type" = 4
+	STR_VAR
+		"idsName" = "BLACKGUARD_SMITE_GOOD"
+	RET
+		"BLACKGUARD_SMITE_GOOD" = "resName"
+	END
+	//
+	WITH_SCOPE BEGIN
+		ACTION_TO_LOWER "PALADIN_SMITE_EVIL"
+		//
+		COPY "cdtweaks\luke\bam\class\smite_evil.bam" "override\%PALADIN_SMITE_EVIL%b.bam"
+		//
+		CREATE "spl" "%PALADIN_SMITE_EVIL%"
+		COPY_EXISTING "%PALADIN_SMITE_EVIL%.spl" "override"
+			WRITE_ASCII 0x10 "EFF_M08" #8 // casting sound
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@2)
+			WRITE_LONG UNIDENTIFIED_DESC RESOLVE_STR_REF (@3)
+			WRITE_ASCII 0x3A "%DEST_RES%b" #8 // icon
+			WRITE_LONG DESC "-1"
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG 0x18 (BIT14 BOR BIT25 BOR BIT9 BOR BIT10) // ignore dead/wild magic, castable when silenced, Break Sanctuary, Hostile
+			WRITE_SHORT 0x1C 4 // type: innate
+			WRITE_LONG 0x34 1 // level
+			//
+			LPF "ADD_SPELL_HEADER" INT_VAR "range" = 1 STR_VAR "icon" = "%DEST_RES%b" END
+			//
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 138 "target" = 1 END // SetSequence(SEQ_ATTACK)
+		BUT_ONLY_IF_IT_CHANGES
+	END
+	//
+	WITH_SCOPE BEGIN
+		ACTION_TO_LOWER "BLACKGUARD_SMITE_GOOD"
+		//
+		COPY "cdtweaks\luke\bam\kit\smite_good.bam" "override\%BLACKGUARD_SMITE_GOOD%b.bam"
+		//
+		COPY_EXISTING "%PALADIN_SMITE_EVIL%.spl" "override\%BLACKGUARD_SMITE_GOOD%.spl"
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@0)
+			WRITE_LONG UNIDENTIFIED_DESC RESOLVE_STR_REF (@1)
+			WRITE_ASCII 0x3A "%DEST_RES%b" #8 // icon
+			//
+			LPF "ALTER_SPELL_HEADER" STR_VAR "icon" = "%DEST_RES%b" END
+		BUT_ONLY_IF_IT_CHANGES
+	END
+	//
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "AI-related stuff" "sourceFileSpec" = "cdtweaks\luke\lib\ai\object_type.lua" "destRes" = "m_gt#ai" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\damage_type.lua" "destRes" = "m_gtsprt" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\display_message.lua" "destRes" = "m_gtsprt" END
+	//
+	WITH_SCOPE BEGIN
+		OUTER_SET "feedback_strref_invalid_weapon" = RESOLVE_STR_REF (@10)
+		OUTER_SET "feedback_strref_weapon_ineffective" = RESOLVE_STR_REF (@11)
+		OUTER_SET "feedback_strref_hit" = RESOLVE_STR_REF (@12)
+		OUTER_SET "feedback_strref_miss" = RESOLVE_STR_REF (@13)
+		//
+		OUTER_SET "feedback_strref_smite_good" = RESOLVE_STR_REF (@0)
+		OUTER_SET "feedback_strref_not_good" = RESOLVE_STR_REF (@20)
+		//
+		OUTER_SET "feedback_strref_smite_evil" = RESOLVE_STR_REF (@2)
+		OUTER_SET "feedback_strref_not_evil" = RESOLVE_STR_REF (@30)
+		//
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Class/Kit Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\class\smite_evil.lua" "destRes" = "m_gtspcl" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Class/Kit Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\kit\smite_good.lua" "destRes" = "m_gtspcl" END
+	END
+	//
+	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
+		COPY "cdtweaks\luke\lib\resource\tables.lua" "override\m_gttbls.lua"
+	END
+	//
+	ACTION_IF !(FILE_EXISTS_IN_GAME "gtabmod.2da") BEGIN
+		COPY "cdtweaks\luke\lib\2da\gtabmod.2da" "override"
+	END
+END

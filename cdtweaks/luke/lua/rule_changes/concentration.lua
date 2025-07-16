@@ -4,22 +4,7 @@
 +---------------------------------------------------------------------+
 --]]
 
-local function cdtweaks_AlterConcentrationCheck_DisplaySpriteMessage(sprite, messageStr)
-
-	local message = EEex_NewUD("CMessageDisplayText")
-
-	EEex_RunWithStackManager({
-		{ ["name"] = "messageStr", ["struct"] = "CString", ["constructor"] = {["args"] = {messageStr} } } },
-		function(manager)
-			local id = sprite.m_id
-			message:Construct(sprite:GetName(true), manager:getUD("messageStr"), 0xBED7D7, 0xBED7D7, -1, id, id)
-		end
-	)
-
-	EngineGlobals.g_pBaldurChitin.m_cMessageHandler:AddMessage(message, false);
-end
-
-function cdtweaks_AlterConcentrationCheck(sprite, damageData)
+function gtAlterConcentrationCheck(sprite, damageData)
 
 	local curAction = sprite.m_curAction
 
@@ -44,10 +29,10 @@ function cdtweaks_AlterConcentrationCheck(sprite, damageData)
 
 	-- Feedback
 	if not disrupted then
-		GT_Utility_DisplaySpriteMessage(sprite,
+		GT_Sprite_DisplayMessage(sprite,
 			string.format("%s : %d > %d : [%d (1d20 - 1) + %d (%s)] > [%d (%s) + %d (%s)]",
-			Infinity_FetchString(%feedback_strref_concentr_check%), casterRoll, attackerRoll, roll, %value1%, Infinity_FetchString(%feedback_strref_value1%), spellLevel, Infinity_FetchString(%feedback_strref_spell_level%), %value2%, Infinity_FetchString(%feedback_strref_value2%)),
-			0x8D6140, 0x8D6140 -- Dark Muddish Brown
+				Infinity_FetchString(%feedback_strref_concentr_check%), casterRoll, attackerRoll, roll, %value1%, Infinity_FetchString(%feedback_strref_value1%), spellLevel, Infinity_FetchString(%feedback_strref_spell_level%), %value2%, Infinity_FetchString(%feedback_strref_value2%)),
+			0x8D6140 -- Dark Muddish Brown
 		)
 	end
 

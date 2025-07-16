@@ -14,7 +14,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- internal function that applies the actual feat
 	local apply = function(raceID)
 		-- Mark the creature as 'feat applied'
-		sprite:setLocalInt("gtRangerBaneOfEnemies", raceID)
+		sprite:setLocalInt("gtNWNBaneOfEnemies", raceID)
 		--
 		sprite:applyEffect({
 			["effectID"] = 321, -- Remove effects by resource
@@ -50,33 +50,27 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		})
 	end
 	-- Check creature's class / flags
-	local spriteClassStr = GT_Resource_IDSToSymbol["class"][sprite.m_typeAI.m_Class]
-	--
-	local spriteFlags = sprite.m_baseStats.m_flags
+	local class = GT_Resource_SymbolToIDS["class"]
 	-- since ``EEex_Opcode_AddListsResolvedListener`` is running after the effect lists have been evaluated, ``m_bonusStats`` has already been added to ``m_derivedStats`` by the engine
-	local spriteLevel1 = sprite.m_derivedStats.m_nLevel1
-	local spriteLevel2 = sprite.m_derivedStats.m_nLevel2
 	local m_nHatedRace = sprite.m_derivedStats.m_nHatedRace
-	-- any lvl 21+ ranger (single/multi/(complete)dual)
-	local isRanger = spriteClassStr == "RANGER"
-	local isClericRanger = spriteClassStr == "CLERIC_RANGER" and (EEex_IsBitUnset(spriteFlags, 0x8) or spriteLevel1 > spriteLevel2)
-	local rangerLevel = spriteClassStr == "RANGER" and spriteLevel1 or spriteLevel2
+	-- any lvl 21+ ranger (single/multi/(complete)dual, not fallen)
+	local isRangerAll = GT_Sprite_CheckIDS(sprite, class["RANGER_ALL"], 5, true)
 	--
-	local applyAbility = (isRanger or isClericRanger) and rangerLevel >= 21 and m_nHatedRace > 0
+	local applyAbility = isRangerAll and GT_Trigger_EvalConditional["parseConditionalString"](sprite, sprite, "ClassLevelGT(Myself,WARRIOR,20)") and m_nHatedRace > 0
 	--
-	if sprite:getLocalInt("gtRangerBaneOfEnemies") == 0 then
+	if sprite:getLocalInt("gtNWNBaneOfEnemies") == 0 then
 		if applyAbility then
 			apply(m_nHatedRace)
 		end
 	else
 		if applyAbility then
 			-- check if ``m_nHatedRace`` has changed since the last application
-			if m_nHatedRace ~= sprite:getLocalInt("gtRangerBaneOfEnemies") then
+			if m_nHatedRace ~= sprite:getLocalInt("gtNWNBaneOfEnemies") then
 				apply(m_nHatedRace)
 			end
 		else
 			-- Mark the creature as 'feat removed'
-			sprite:setLocalInt("gtRangerBaneOfEnemies", 0)
+			sprite:setLocalInt("gtNWNBaneOfEnemies", 0)
 			--
 			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource
@@ -93,13 +87,9 @@ end)
 function %RANGER_BANE_OF_ENEMIES%(CGameEffect, CGameSprite)
 	local sourceSprite = EEex_GameObject_Get(CGameEffect.m_sourceId) -- CGameSprite
 	--
-	local equipment = sourceSprite.m_equipment -- CGameSpriteEquipment
-	local selectedWeapon = equipment.m_items:get(equipment.m_selectedWeapon) -- CItem
+	local selectedWeapon = GT_Sprite_GetSelectedWeapon(sourceSprite)
 	--
-	local selectedWeaponHeader = selectedWeapon.pRes.pHeader -- Item_Header_st
-	local selectedWeaponAbility = EEex_Resource_GetItemAbility(selectedWeaponHeader, equipment.m_selectedWeaponAbility) -- Item_ability_st
-	--
-	if selectedWeaponAbility.type == 1 and sourceSprite.m_leftAttack == 1 then -- if attacking with offhand...
+	if selectedWeapon["ability"].type == 1 and sourceSprite.m_leftAttack == 1 then -- if attacking with offhand...
 		local items = sourceSprite.m_equipment.m_items -- Array<CItem*,39>
 		local offHand = items:get(9) -- CItem
 		--
@@ -108,7 +98,7 @@ function %RANGER_BANE_OF_ENEMIES%(CGameEffect, CGameSprite)
 			local itemTypeStr = EEex_Resource_ItemCategoryIDSToSymbol(pHeader.itemType)
 			--
 			if itemTypeStr ~= "SHIELD" then -- if not shield, then overwrite item ability...
-				selectedWeaponAbility = EEex_Resource_GetItemAbility(pHeader, 0) -- Item_ability_st
+				selectedWeapon["ability"] = EEex_Resource_GetItemAbility(pHeader, 0) -- Item_ability_st
 			end
 		end
 	end
@@ -116,13 +106,13 @@ function %RANGER_BANE_OF_ENEMIES%(CGameEffect, CGameSprite)
 	local targetActiveStats = EEex_Sprite_GetActiveStats(CGameSprite)
 	local targetRaceID = CGameSprite.m_typeAI.m_Race
 	--
-	local op12DamageType, ACModifier = GT_Utility_DamageTypeConverter(selectedWeaponAbility.damageType, targetActiveStats)
+	local damageTypeIDS, ACModifier = GT_Sprite_ItmDamageTypeToIDS(selectedWeapon["ability"].damageType, targetActiveStats)
 	--
-	if targetRaceID == sourceSprite:getLocalInt("gtRangerBaneOfEnemies") then -- race check
+	if targetRaceID == sourceSprite:getLocalInt("gtNWNBaneOfEnemies") then -- race check
 		EEex_GameObject_ApplyEffect(CGameSprite,
 		{
 			["effectID"] = 0xC, -- Damage
-			["dwFlags"] = op12DamageType * 0x10000, -- mode: normal
+			["dwFlags"] = damageTypeIDS * 0x10000, -- mode: normal
 			["numDice"] = 2,
 			["diceSize"] = 6,
 			["m_sourceRes"] = CGameEffect.m_sourceRes:get(),

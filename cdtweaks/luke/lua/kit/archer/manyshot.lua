@@ -28,16 +28,15 @@
 		end
 		--
 		local originatingSprite = context["originatingSprite"] -- CGameSprite
+		local sourceActiveStats = EEex_Sprite_GetActiveStats(originatingSprite) -- CDerivedStats
+		--
 		local targetSprite = EEex_GameObject_Get(originatingSprite.m_targetId) -- CGameSprite
 		local targetActiveStats = EEex_Sprite_GetActiveStats(targetSprite) -- CDerivedStats
 		--
-		local equipment = originatingSprite.m_equipment
-		local selectedWeapon = equipment.m_items:get(equipment.m_selectedWeapon) -- CItem
-		local selectedWeaponHeader = selectedWeapon.pRes.pHeader -- Item_Header_st
-		local selectedWeaponTypeStr = EEex_Resource_ItemCategoryIDSToSymbol(selectedWeaponHeader.itemType)
-		local selectedWeaponAbility = EEex_Resource_GetCItemAbility(selectedWeapon, equipment.m_selectedWeaponAbility) -- Item_ability_st
+		local selectedWeapon = GT_Sprite_GetSelectedWeapon(originatingSprite)
+		local selectedWeaponTypeStr = EEex_Resource_ItemCategoryIDSToSymbol(selectedWeapon["header"].itemType)
 		--
-		local op12DamageType, ACModifier = GT_Utility_DamageTypeConverter(selectedWeaponAbility.damageType, targetActiveStats)
+		local damageTypeIDS, ACModifier = GT_Sprite_ItmDamageTypeToIDS(selectedWeapon["ability"].damageType, targetActiveStats)
 		-- Bow with arrows equipped || bow with unlimited ammo equipped
 		if selectedWeaponTypeStr == "ARROW" or selectedWeaponTypeStr == "BOW" then
 			--
@@ -47,23 +46,27 @@
 				local damageBonus = sourceActiveStats.m_nDamageBonus -- op73
 				local damageBonusRight = sourceActiveStats.m_DamageBonusRight -- wspecial.2da
 				local missileDamageBonus = sourceActiveStats.m_nMissileDamageBonus -- op286 (STAT 168)
+				-- op179
+				local damageVsTypeBonus = GT_Sprite_DamageVsTypeBonus(originatingSprite, targetSprite)
+				-- racial enemy
+				local racialEnemy = GT_Sprite_GetRacialEnemyBonus(originatingSprite, targetSprite)
 				--
-				local modifier = damageBonus + damageBonusRight + missileDamageBonus
+				local modifier = damageBonus + damageBonusRight + missileDamageBonus + damageVsTypeBonus + racialEnemy
 				--
 				projectile:AddEffect(GT_Utility_DecodeEffect(
 					{
 						["effectID"] = 0xC, -- Damage
-						["effectAmount"] = (selectedWeaponAbility.damageDiceCount == 0 and selectedWeaponAbility.damageDice == 0 and selectedWeaponAbility.damageDiceBonus == 0) and 0 or (modifier + selectedWeaponAbility.damageDiceBonus),
-						["numDice"] = selectedWeaponAbility.damageDiceCount,
-						["diceSize"] = selectedWeaponAbility.damageDice,
-						["dwFlags"] = op12DamageType * 0x10000,
+						["effectAmount"] = (selectedWeapon["ability"].damageDiceCount == 0 and selectedWeapon["ability"].damageDice == 0 and selectedWeapon["ability"].damageDiceBonus == 0) and 0 or (modifier + selectedWeapon["ability"].damageDiceBonus),
+						["numDice"] = selectedWeapon["ability"].damageDiceCount,
+						["diceSize"] = selectedWeapon["ability"].damageDice,
+						["dwFlags"] = damageTypeIDS * 0x10000,
 						--
 						["sourceX"] = originatingSprite.m_pos.x,
 						["sourceY"] = originatingSprite.m_pos.y,
 						["targetX"] = targetSprite.m_pos.x,
 						["targetY"] = targetSprite.m_pos.y,
 						--
-						["m_projectileType"] = selectedWeaponAbility.missileType - 1,
+						["m_projectileType"] = selectedWeapon["ability"].missileType - 1,
 						--
 						["sourceID"] = originatingSprite.m_id,
 						["sourceTarget"] = targetSprite.m_id,
@@ -72,10 +75,10 @@
 			end
 			-- Add on-hit effect(s) (ammo)
 			do
-				local currentEffectAddress = EEex_UDToPtr(selectedWeaponHeader) + selectedWeaponHeader.effectsOffset + selectedWeaponAbility.startingEffect * Item_effect_st.sizeof
+				local currentEffectAddress = EEex_UDToPtr(selectedWeapon["header"]) + selectedWeapon["header"].effectsOffset + selectedWeapon["ability"].startingEffect * Item_effect_st.sizeof
 				--
-				for i = 1, selectedWeaponAbility.effectCount do
-					pEffect = EEex_PtrToUD(currentEffectAddress, "Item_effect_st")
+				for i = 1, selectedWeapon["ability"].effectCount do
+					local pEffect = EEex_PtrToUD(currentEffectAddress, "Item_effect_st")
 					--
 					projectile:AddEffect(GT_Utility_DecodeEffect(
 						{
@@ -95,12 +98,12 @@
 							["saveMod"] = pEffect.saveMod,
 							["special"] = pEffect.special,
 							--
-							["m_school"] = selectedWeaponAbility.school,
-							["m_secondaryType"] = selectedWeaponAbility.secondaryType,
+							["m_school"] = selectedWeapon["ability"].school,
+							["m_secondaryType"] = selectedWeapon["ability"].secondaryType,
 							["m_flags"] = EEex_RShift(pEffect.durationType, 8),
-							["m_projectileType"] = selectedWeaponAbility.missileType - 1,
+							["m_projectileType"] = selectedWeapon["ability"].missileType - 1,
 							--
-							["m_sourceRes"] = selectedWeapon.pRes.resref:get(),
+							["m_sourceRes"] = selectedWeapon["weapon"].pRes.resref:get(),
 							["m_sourceType"] = 2,
 							--
 							["sourceX"] = originatingSprite.m_pos.x,
@@ -117,14 +120,12 @@
 				end
 			end
 			-- Add on-hit effect(s) (launcher)
-			local selectedLauncher = originatingSprite:getLauncher(selectedWeapon:getAbility(equipment.m_selectedWeaponAbility)) -- CItem
-			--
-			if selectedLauncher then
-				local pHeader = selectedLauncher.pRes.pHeader -- Item_Header_st
+			if selectedWeapon["launcher"] then
+				local pHeader = selectedWeapon["launcher"].pRes.pHeader -- Item_Header_st
 				--
 				local pAbility
 				for i = 1, pHeader.abilityCount do
-					pAbility = EEex_Resource_GetCItemAbility(selectedLauncher, i - 1) -- Item_ability_st
+					pAbility = EEex_Resource_GetCItemAbility(selectedWeapon["launcher"], i - 1) -- Item_ability_st
 					if pAbility.type == 0x4 then -- Launcher
 						break
 					end
@@ -158,7 +159,7 @@
 							["m_flags"] = EEex_RShift(pEffect.durationType, 8),
 							["m_projectileType"] = pAbility.missileType - 1,
 							--
-							["m_sourceRes"] = selectedLauncher.pRes.resref:get(),
+							["m_sourceRes"] = selectedWeapon["launcher"].pRes.resref:get(),
 							["m_sourceType"] = 2,
 							--
 							["sourceX"] = originatingSprite.m_pos.x,
@@ -199,7 +200,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- internal function that applies the actual passive HLA
 	local apply = function()
 		-- Mark the creature as 'HLA applied'
-		sprite:setLocalInt("gtArcherManyshot", 1)
+		sprite:setLocalInt("gtNWNManyshot", 1)
 		--
 		sprite:applyEffect({
 			["effectID"] = 321, -- Remove effects by resource
@@ -217,21 +218,17 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		})
 	end
 	-- Check creature's / class / kit / levels
-	local spriteClassStr = GT_Resource_IDSToSymbol["class"][sprite.m_typeAI.m_Class]
-	--
-	local spriteFlags = sprite.m_baseStats.m_flags
+	local class = GT_Resource_SymbolToIDS["class"]
 	-- since ``EEex_Opcode_AddListsResolvedListener`` is running after the effect lists have been evaluated, ``m_bonusStats`` has already been added to ``m_derivedStats`` by the engine
-	local spriteLevel1 = sprite.m_derivedStats.m_nLevel1
-	local spriteLevel2 = sprite.m_derivedStats.m_nLevel2
 	local spriteKitStr = EEex_Resource_KitIDSToSymbol(sprite.m_derivedStats.m_nKit)
+	-- any ranger (single/multi/(complete)dual, not fallen)
+	local isRangerAll = GT_Sprite_CheckIDS(sprite, class["RANGER_ALL"], 5, true)
 	-- Level 25+ && Archer kit
-	local applyAbility = spriteKitStr == "FERALAN"
-		and ((spriteClassStr == "RANGER" and spriteLevel1 >= 25)
-			-- incomplete dual-class characters are not supposed to benefit from this passive feat
-			or (spriteClassStr == "CLERIC_RANGER" and (EEex_IsBitUnset(spriteFlags, 0x8) or spriteLevel1 > spriteLevel2) and spriteLevel2 >= 25))
-		and EEex_IsBitUnset(spriteFlags, 10) -- not Fallen Ranger
+	local conditionalString = "ClassLevelGT(Myself,WARRIOR,24)"
 	--
-	if sprite:getLocalInt("gtArcherManyshot") == 0 then
+	local applyAbility = spriteKitStr == "FERALAN" and isRangerAll and GT_Trigger_EvalConditional["parseConditionalString"](sprite, sprite, conditionalString)
+	--
+	if sprite:getLocalInt("gtNWNManyshot") == 0 then
 		if applyAbility then
 			apply()
 		end
@@ -240,7 +237,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			-- Do nothing
 		else
 			-- Mark the creature as 'HLA removed'
-			sprite:setLocalInt("gtArcherManyshot", 0)
+			sprite:setLocalInt("gtNWNManyshot", 0)
 			--
 			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource

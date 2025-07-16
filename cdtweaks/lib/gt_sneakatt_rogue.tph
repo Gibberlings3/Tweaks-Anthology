@@ -1,0 +1,44 @@
+DEFINE_ACTION_FUNCTION "SNEAKATT_ROGUE"
+BEGIN
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"level" = 4
+		"type" = 4
+	STR_VAR
+		"idsName" = "ROGUE_SNEAK_ATTACK"
+	RET
+		"ROGUE_SNEAK_ATTACK" = "resName"
+	END
+	//
+	WITH_SCOPE BEGIN
+		COPY_EXISTING "backstab.spl" "override"
+			// fresh start
+			LPF "DELETE_SPELL_EFFECT" INT_VAR "opcode_to_delete" = "-1" END
+			//
+			GET_OFFSET_ARRAY "ab_array" SPL_V10_HEADERS
+			PHP_EACH "ab_array" AS "ab_ind" => "ab_off" BEGIN
+				READ_SHORT ("%ab_off%" + 0x10) "min_level"
+				//
+				LPF "ADD_SPELL_EFFECT" INT_VAR "header" = ("%ab_ind%" + 1) "opcode" = 402 "target" = 2 "parameter1" = ("%min_level%" - 1) STR_VAR "resource" = "%ROGUE_SNEAK_ATTACK%" END // invoke lua
+			END
+		BUT_ONLY
+	END
+	// Listener(s)
+	OUTER_SET "feedback_strref_paralyzed" = RESOLVE_STR_REF (@0)
+	OUTER_SET "feedback_strref_already_paralyzed" = RESOLVE_STR_REF (@1)
+	//
+	OUTER_SET "feedback_strref_silenced" = RESOLVE_STR_REF (@10)
+	OUTER_SET "feedback_strref_already_silenced" = RESOLVE_STR_REF (@11)
+	//
+	OUTER_SET "feedback_strref_str_mod" = RESOLVE_STR_REF (@20)
+	//
+	OUTER_SET "feedback_strref_immune" = RESOLVE_STR_REF (@100)
+	//
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Class/Kit Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\class\sneak_attack.lua" "destRes" = "m_gtspcl" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\is_flanking.lua" "destRes" = "m_gtsprt" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\check_ids.lua" "destRes" = "m_gtsprt" END
+	//
+	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
+		COPY "cdtweaks\luke\lib\resource\tables.lua" "override\m_gttbls.lua"
+	END
+END

@@ -1,0 +1,45 @@
+DEFINE_ACTION_FUNCTION "CIRCLE_KICK"
+BEGIN
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"level" = 8
+		"type" = 4
+	STR_VAR
+		"idsName" = "MONK_CIRCLE_KICK"
+	RET
+		"MONK_CIRCLE_KICK" = "resName"
+	END
+	//
+	WITH_SCOPE BEGIN
+		ACTION_TO_LOWER "MONK_CIRCLE_KICK"
+		//
+		CREATE "eff" "%MONK_CIRCLE_KICK%b"
+		COPY_EXISTING "%MONK_CIRCLE_KICK%b.eff" "override"
+			WRITE_LONG 0x10 402 // invoke lua
+			WRITE_SHORT 0x2C 100 // prob1
+			WRITE_LONG 0x1C 1 // parameter1
+			WRITE_ASCII 0x30 "%MONK_CIRCLE_KICK%" #8 // lua function
+		BUT_ONLY
+		//
+		CREATE "spl" "%MONK_CIRCLE_KICK%b"
+		COPY_EXISTING "%MONK_CIRCLE_KICK%b.spl" "override"
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@0)
+			WRITE_LONG 0x18 BIT14 // flags: ignore dead/wild magic
+			WRITE_SHORT 0x1C 4 // type: innate
+			WRITE_LONG 0x34 1 // level
+			//
+			LPF "ADD_SPELL_HEADER" INT_VAR "range" = 30 END
+			//
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 "parameter1" = 2 STR_VAR "resource" = "%MONK_CIRCLE_KICK%" END // invoke lua
+		BUT_ONLY_IF_IT_CHANGES
+	END
+	// Listener: run 'func' each time a sprite has finished evaluating its effects
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Class/Kit Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\class\circle_kick.lua" "destRes" = "m_gtspcl" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "AI-related stuff" "sourceFileSpec" = "cdtweaks\luke\lib\ai\object_type.lua" "destRes" = "m_gt#ai" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\damage_type.lua" "destRes" = "m_gtsprt" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\check_ids.lua" "destRes" = "m_gtsprt" END
+	//
+	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
+		COPY "cdtweaks\luke\lib\resource\tables.lua" "override\m_gttbls.lua"
+	END
+END

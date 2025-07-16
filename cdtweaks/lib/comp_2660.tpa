@@ -7,9 +7,9 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
 
 WITH_SCOPE BEGIN
-  INCLUDE "cdtweaks\luke\misc.tph"
+  INCLUDE "cdtweaks\luke\lib\install.tph"
   //
-  INCLUDE "cdtweaks\lib\innate_animal_last_stand.tph"
+  INCLUDE "cdtweaks\lib\gt_animal_last_stand.tph"
   //
-  LAF "INNATE_ANIMAL_LAST_STAND" END
+  LAF "ANIMAL_LAST_STAND" END
 END

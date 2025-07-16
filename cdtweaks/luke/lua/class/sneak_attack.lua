@@ -14,29 +14,21 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- internal function that applies the actual feat
 	local apply = function()
 		-- Mark the creature as 'feat applied'
-		sprite:setLocalInt("gtEpicSneakAttack", 1)
+		sprite:setLocalInt("gtNWNEpicSneakAttack", 1)
 	end
 	-- Check creature's class / flags
-	local spriteClassStr = GT_Resource_IDSToSymbol["class"][sprite.m_typeAI.m_Class]
-	--
-	local spriteFlags = sprite.m_baseStats.m_flags
+	local class = GT_Resource_SymbolToIDS["class"]
 	-- since ``EEex_Opcode_AddListsResolvedListener`` is running after the effect lists have been evaluated, ``m_bonusStats`` has already been added to ``m_derivedStats`` by the engine
-	local spriteLevel1 = sprite.m_derivedStats.m_nLevel1
-	local spriteLevel2 = sprite.m_derivedStats.m_nLevel2
 	local spriteKitStr = EEex_Resource_KitIDSToSymbol(sprite.m_derivedStats.m_nKit)
 	-- any lvl 30+ assassin (single/multi/(complete)dual)
+	local isThiefAll = GT_Sprite_CheckIDS(sprite, class["THIEF_ALL"], 5)
 	local isAssassin = spriteKitStr == "ASSASIN" -- typo in KIT.IDS / KITLIST.2DA
 	--
-	local isThief = spriteClassStr == "THIEF"
-	local isFighterThief = spriteClassStr == "FIGHTER_THIEF" and (EEex_IsBitUnset(spriteFlags, 0x6) or spriteLevel1 > spriteLevel2)
-	local isClericThief = spriteClassStr == "CLERIC_THIEF" and (EEex_IsBitUnset(spriteFlags, 0x6) or spriteLevel1 > spriteLevel2)
-	local isMageThief = spriteClassStr == "MAGE_THIEF" and (EEex_IsBitUnset(spriteFlags, 0x6) or spriteLevel1 > spriteLevel2)
+	local conditionalString = "ClassLevelGT(Myself,ROGUE,29)"
 	--
-	local thiefLevel = spriteClassStr == "THIEF" and spriteLevel1 or spriteLevel2
+	local applyAbility = isThiefAll and isAssassin and GT_Trigger_EvalConditional["parseConditionalString"](sprite, sprite, conditionalString)
 	--
-	local applyAbility = (isThief or isFighterThief or isMageThief or isClericThief) and isAssassin and thiefLevel >= 30
-	--
-	if sprite:getLocalInt("gtEpicSneakAttack") == 0 then
+	if sprite:getLocalInt("gtNWNEpicSneakAttack") == 0 then
 		if applyAbility then
 			apply()
 		end
@@ -45,7 +37,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			-- do nothing
 		else
 			-- Mark the creature as 'feat removed'
-			sprite:setLocalInt("gtEpicSneakAttack", 0)
+			sprite:setLocalInt("gtNWNEpicSneakAttack", 0)
 		end
 	end
 end)
@@ -62,8 +54,8 @@ EEex_Sprite_AddBlockWeaponHitListener(function(args)
 
 	local aux = EEex_GetUDAux(attackingSprite)
 
-	local conditionalString = EEex_Trigger_ParseConditionalString('!GlobalTimerNotExpired("gtRogueSneakAttackTimer","LOCALS")')
-	local isWeaponRanged = EEex_Trigger_ParseConditionalString("IsWeaponRanged(Myself)")
+	local conditionalString = '!GlobalTimerNotExpired("gtNWNSneakAttRogueTimer","LOCALS")'
+	local targetSelectedWeapon = GT_Sprite_GetSelectedWeapon(targetSprite)
 
 	if EngineGlobals.g_pBaldurChitin.m_pObjectGame.m_options.m_b3ESneakAttack == 1 then
 
@@ -73,7 +65,7 @@ EEex_Sprite_AddBlockWeaponHitListener(function(args)
 
 				if attackingSprite:getActiveStats().m_nAssassinate == 0 then
 
-					if not conditionalString:evalConditionalAsAIBase(attackingSprite) then
+					if not GT_Trigger_EvalConditional["parseConditionalString"](attackingSprite, attackingSprite, conditionalString) then
 
 						targetSprite:applyEffect({
 							["effectID"] = 0x124, -- Immunity to backstab (292)
@@ -88,7 +80,7 @@ EEex_Sprite_AddBlockWeaponHitListener(function(args)
 						-- make the AI less "cheaty": if the targeted creature is attacking the enemy rogue with a melee weapon and is not helpless, block the incoming sneak attack
 						if attackingSprite.m_typeAI.m_EnemyAlly > 200 then -- if [EVILCUTOFF]
 
-							if (targetSprite.m_targetId == attackingSprite.m_id) and not (isWeaponRanged:evalConditionalAsAIBase(targetSprite)) and EEex_BAnd(targetSprite:getActiveStats().m_generalState, 0x100029) == 0 then
+							if (targetSprite.m_targetId == attackingSprite.m_id) and (targetSelectedWeapon["ability"].type == 1) and EEex_BAnd(targetSprite:getActiveStats().m_generalState, 0x100029) == 0 then
 
 								targetSprite:applyEffect({
 									["effectID"] = 0x124, -- Immunity to backstab (292)
@@ -106,7 +98,7 @@ EEex_Sprite_AddBlockWeaponHitListener(function(args)
 						end
 
 						-- Epic Sneak Attack
-						if attackingSprite:getLocalInt("gtEpicSneakAttack") == 1 and targetSprite:getActiveStats().m_bImmunityToBackStab > 0 then
+						if attackingSprite:getLocalInt("gtNWNEpicSneakAttack") == 1 and targetSprite:getActiveStats().m_bImmunityToBackStab > 0 then
 
 							targetSprite:applyEffect({
 								["effectID"] = 0x124, -- Immunity to backstab (292)
@@ -117,7 +109,7 @@ EEex_Sprite_AddBlockWeaponHitListener(function(args)
 							})
 
 							-- mark this attack as 'bypass sneak attack immunity'
-							aux["gt_EpicSneakAttack_Aux"] = true
+							aux["gt_NWN_EpicSneakAttack_BypassOp292"] = true
 
 						end
 
@@ -126,7 +118,7 @@ EEex_Sprite_AddBlockWeaponHitListener(function(args)
 				else
 
 					-- Epic Sneak Attack
-					if attackingSprite:getLocalInt("gtEpicSneakAttack") == 1 and targetSprite:getActiveStats().m_bImmunityToBackStab > 0 then
+					if attackingSprite:getLocalInt("gtNWNEpicSneakAttack") == 1 and targetSprite:getActiveStats().m_bImmunityToBackStab > 0 then
 
 						targetSprite:applyEffect({
 							["effectID"] = 0x124, -- Immunity to backstab (292)
@@ -137,7 +129,7 @@ EEex_Sprite_AddBlockWeaponHitListener(function(args)
 						})
 
 						-- mark this attack as 'bypass sneak attack immunity'
-						aux["gt_EpicSneakAttack_Aux"] = true
+						aux["gt_NWN_EpicSneakAttack_BypassOp292"] = true
 
 					end
 
@@ -150,8 +142,6 @@ EEex_Sprite_AddBlockWeaponHitListener(function(args)
 	end
 
 	::continue::
-	conditionalString:free()
-	isWeaponRanged:free()
 
 end)
 
@@ -166,9 +156,9 @@ EEex_Sprite_AddAlterBaseWeaponDamageListener(function(context)
 
 	local damageAmount = effect.m_effectAmount
 
-	if aux["gt_EpicSneakAttack_Aux"] then
+	if aux["gt_NWN_EpicSneakAttack_BypassOp292"] then
 
-		aux["gt_EpicSneakAttack_Aux"] = nil
+		aux["gt_NWN_EpicSneakAttack_BypassOp292"] = nil
 
 		if attacker.m_typeAI.m_EnemyAlly > 30 or (GT_Sprite_IsFlanking(attacker.m_nDirection, target.m_nDirection) or attacker:getActiveStats().m_nAssassinate > 0) then -- [GOODCUTOFF]: check if the attacker is flanking its target
 
@@ -189,13 +179,13 @@ function %ROGUE_SNEAK_ATTACK%(CGameEffect, CGameSprite)
 
 	local sourceSprite = EEex_GameObject_Get(CGameEffect.m_sourceId)
 
-	local isImmuneToSilence = EEex_Trigger_ParseConditionalString("EEex_IsImmuneToOpcode(Myself,38)")
-	local isImmuneToParalysis = EEex_Trigger_ParseConditionalString("EEex_IsImmuneToOpcode(Myself,109)")
+	local isImmuneToSilence = "EEex_IsImmuneToOpcode(Myself,38)"
+	local isImmuneToParalysis = "EEex_IsImmuneToOpcode(Myself,109)"
 
 	-- max 1 sneak attack per round if not ASSASSINATE=1
-	local responseString = EEex_Action_ParseResponseString('SetGlobalTimer("gtRogueSneakAttackTimer","LOCALS",6)')
+	local responseString = 'SetGlobalTimer("gtNWNSneakAttRogueTimer","LOCALS",6)'
 	if sourceSprite:getActiveStats().m_nAssassinate == 0 then
-		responseString:executeResponseAsAIBaseInstantly(sourceSprite)
+		GT_Action_ExecuteResponse["parseResponseString"](sourceSprite, sourceSprite, responseString)
 	end
 
 	-- crippling strike (assassins: paralysis; stalkers: silence; others: -2 str)
@@ -207,7 +197,7 @@ function %ROGUE_SNEAK_ATTACK%(CGameEffect, CGameSprite)
 
 		if sourceKitStr == "ASSASIN" then -- typo in "kit.ids" file
 
-			if not isImmuneToParalysis:evalConditionalAsAIBase(CGameSprite) then
+			if not GT_Trigger_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, isImmuneToParalysis) then
 				effectCodes = {
 					{["op"] = 0x6D, ["p2"] = 2, ["dur"] = 6 * roll, ["effsource"] = "%ROGUE_SNEAK_ATTACK%B"}, -- Paralyze (109) (EA=ANYONE)
 					{["op"] = 0x8E, ["p2"] = 13, ["dur"] = 6 * roll, ["effsource"] = "%ROGUE_SNEAK_ATTACK%B"} -- Display portrait icon (142): held
@@ -222,7 +212,7 @@ function %ROGUE_SNEAK_ATTACK%(CGameEffect, CGameSprite)
 
 		elseif sourceKitStr == "STALKER" then
 
-			if not isImmuneToSilence:evalConditionalAsAIBase(CGameSprite) then
+			if not GT_Trigger_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, isImmuneToSilence) then
 				effectCodes = {
 					{["op"] = 0x26, ["dur"] = 6 * roll, ["effsource"] = "%ROGUE_SNEAK_ATTACK%C"}, -- Silence (38)
 					{["op"] = 0x8E, ["p2"] = 34, ["dur"] = 6 * roll, ["effsource"] = "%ROGUE_SNEAK_ATTACK%C"} -- Display portrait icon (142): silenced
@@ -270,9 +260,5 @@ function %ROGUE_SNEAK_ATTACK%(CGameEffect, CGameSprite)
 		end
 
 	end
-
-	responseString:free()
-	isImmuneToParalysis:free()
-	isImmuneToSilence:free()
 
 end

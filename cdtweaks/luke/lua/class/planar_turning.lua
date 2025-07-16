@@ -36,7 +36,8 @@ function %PRIEST_PLANAR_TURNING%(CGameEffect, CGameSprite)
 	--
 	local sourceSprite = EEex_GameObject_Get(CGameEffect.m_sourceId)
 	--
-	local isEvil = EEex_Trigger_ParseConditionalString("Alignment(Myself,MASK_EVIL)")
+	local align = GT_Resource_SymbolToIDS["align"]
+	local isEvil = GT_Sprite_CheckIDS(sourceSprite, align["MASK_EVIL"], 8)
 	--
 	local sourceActiveStats = EEex_Sprite_GetActiveStats(sourceSprite)
 	local targetActiveStats = EEex_Sprite_GetActiveStats(CGameSprite)
@@ -60,7 +61,7 @@ function %PRIEST_PLANAR_TURNING%(CGameEffect, CGameSprite)
 				}
 			end
 		else -- destroy or take control
-			if isEvil:evalConditionalAsAIBase(sourceSprite) then -- take control
+			if isEvil then -- take control
 				effectCodes = {
 					{["op"] = 174, ["res"] = "ACT_06"}, -- play sound
 					{["op"] = 141, ["p2"] = 24}, -- lighting effects (invocation air)
@@ -91,6 +92,4 @@ function %PRIEST_PLANAR_TURNING%(CGameEffect, CGameSprite)
 			})
 		end
 	end
-	--
-	isEvil:free()
 end

@@ -227,9 +227,10 @@ END
 									//
 									LPF "DELETE_EFFECT" INT_VAR "check_globals" = 0 "check_headers" = (GAME_IS "iwdee" ? 1 : 0) "match_opcode" = 324 "match_parameter2" = 104 END
 									LPF "DELETE_EFFECT" INT_VAR "check_globals" = 0 "check_headers" = (GAME_IS "iwdee" ? 1 : 0) "match_opcode" = 324 "match_parameter2" = 55 END
-									// 
-									LPF "CLONE_EFFECT" INT_VAR "multi_match" = 1 "check_globals" = 0 "match_opcode" = "%key_4%" == 0 ? 17 : 12 "resist_dispel" = "%key_4%" == 0 ? BIT0 : BIT1 "opcode" = 326 "parameter1" = 0 "parameter2" = 1 "dicenumber" = 0 "dicesize" = 0 "special" = 0 "probability1" = 100 "probability2" = 0 "savingthrow" = ("%DEST_RES%" STRING_MATCHES_REGEXP "^\(%CLERIC_HEAL%\|spwm168\|%HEAL_NO_VISUAL%\|%FINAL_HEAL%\)$") == 0 ? BIT0 : 0 STR_VAR "insert" = "first" "resource" = "%value%" END
-									LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 326 "resist_dispel" = "%key_4%" == 0 ? BIT1 : BIT0 "opcode" = 318 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%value%" "resource" = "%DEST_RES%" END
+									// use op146*p2=1 to preserve caster level (op326 ignores it)
+									LPF "CLONE_EFFECT" INT_VAR "multi_match" = 1 "check_globals" = 0 "match_opcode" = "%key_4%" == 0 ? 17 : 12 "resist_dispel" = "%key_4%" == 0 ? BIT0 : BIT1 "opcode" = 146 "parameter1" = 0 "parameter2" = 1 "dicenumber" = 0 "dicesize" = 0 "special" = 0 "probability1" = 100 "probability2" = 0 "savingthrow" = ("%DEST_RES%" STRING_MATCHES_REGEXP "^\(%CLERIC_HEAL%\|spwm168\|%HEAL_NO_VISUAL%\|%FINAL_HEAL%\)$") == 0 ? BIT0 : 0 STR_VAR "insert" = "first" "resource" = "%value%" END
+									//LPF "CLONE_EFFECT" INT_VAR "multi_match" = 1 "check_globals" = 0 "match_opcode" = "%key_4%" == 0 ? 17 : 12 "resist_dispel" = "%key_4%" == 0 ? BIT0 : BIT1 "opcode" = 326 "parameter1" = 0 "parameter2" = 1 "dicenumber" = 0 "dicesize" = 0 "special" = 0 "probability1" = 100 "probability2" = 0 "savingthrow" = ("%DEST_RES%" STRING_MATCHES_REGEXP "^\(%CLERIC_HEAL%\|spwm168\|%HEAL_NO_VISUAL%\|%FINAL_HEAL%\)$") == 0 ? BIT0 : 0 STR_VAR "insert" = "first" "resource" = "%value%" END
+									LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 146 "resist_dispel" = "%key_4%" == 0 ? BIT1 : BIT0 "opcode" = 318 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%value%" "resource" = "%DEST_RES%" END
 									// 
 									LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 318 "match_parameter2" = 1 "opcode" = 324 "parameter1" = IDS_OF_SYMBOL ("RACE" "GOLEM") "parameter2" = 104 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%DEST_RES%" END
 									LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 318 "match_parameter2" = 1 "opcode" = 324 "parameter1" = IDS_OF_SYMBOL ("RACE" "DEMONIC") "parameter2" = 104 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%DEST_RES%" END
@@ -362,7 +363,7 @@ END
 									WRITE_LONG DESC "-1"
 									WRITE_SHORT 0x22 0 // Casting animation
 									WRITE_ASCII 0x10 "" #8 // blank casting sound
-									WRITE_BYTE 0x27 "%key_4%" == 0 ? 10 : 13 // Secondary type: OFFENSIVEDAMAGE / NON-COMBAT
+									WRITE_BYTE 0x27 ("%key_4%" == 0 ? 10 : 13) // Secondary type: OFFENSIVEDAMAGE / NON-COMBAT
 									/* Abilities */
 									GET_OFFSET_ARRAY "ab_array" SPL_V10_HEADERS
 									PHP_EACH "ab_array" AS "ab_ind" => "ab_off" BEGIN
@@ -481,7 +482,7 @@ END
 													END
 												END
 												//
-												326 BEGIN
+												146 BEGIN
 													READ_ASCII ("%fx_off%" + 0x14) "ITMSPL_effect_resource"
 													PATCH_MATCH "%ITMSPL_effect_resource%" WITH
 														"%DEST_RES%" BEGIN
@@ -501,6 +502,8 @@ END
 										LPF "CLONE_EFFECT" INT_VAR "silent" = 1 "check_globals" = 0 "check_headers" = "%key_4%" == 1 ? 1 : 0 "header" = "%ab_ind%" "match_opcode" = 17 "opcode" = 139 "parameter1" = "%strref%" "parameter2" = 0 "dicenumber" = 0 "dicesize" = 0 STR_VAR "insert" = "last" END
 										// clear save type if healing subspell
 										LPF "ALTER_EFFECT" INT_VAR "silent" = 1 "check_globals" = 0 "check_headers" = "%key_4%" == 1 ? 1 : 0 "header" = "%ab_ind%" "savingthrow" = 0 END
+										// GENERAL!=UNDEAD are unaffected
+										LPF "CLONE_EFFECT" INT_VAR "multi_match" = 1 "check_globals" = 0 "header" = "%ab_ind%" "match_opcode" = "%key_4%" == 0 ? 17 : 12 "opcode" = 318 "parameter1" = 0 "parameter2" = 2 "probability1" = 100 "probability2" = 0 "special" = 0 STR_VAR "resource" = "%DEST_RES%" "insert" = "first" END
 										// Clean up
 										LPF "DELETE_EFFECT" INT_VAR "check_globals" = 0 "header" = "%ab_ind%" "match_opcode" = 999 END
 									END

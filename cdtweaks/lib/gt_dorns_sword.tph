@@ -1,0 +1,50 @@
+DEFINE_ACTION_FUNCTION "DORNS_SWORD"
+BEGIN
+	// update weapon
+	COPY_EXISTING "sw2hd1.itm" "override" // Rancor +1
+		LPF "DELETE_EFFECT" INT_VAR "match_opcode" = 232 STR_VAR "match_resource" = "ohdsw2" END // not needed
+	BUT_ONLY
+	// update main SPL file
+	COPY_EXISTING "ohdsw1.spl" "override"
+		LPF "ADD_SPELL_EFFECT" INT_VAR "insert_point" = 0 "opcode" = 402 "target" = 1 "parameter1" = 1 STR_VAR "resource" = "GTSW2HD1" END // Invoke lua
+		LPF "ALTER_EFFECT" INT_VAR "silent" = 1 "match_opcode" = 221 "opcode" = 321 "parameter1" = 0 "parameter2" = 0 STR_VAR "resource" = "%DEST_RES%" END // Remove effects by resource
+	BUT_ONLY
+	// update scripts
+	WITH_SCOPE BEGIN
+		COPY_EXISTING "dorn.bcs" "override"
+					"dorn25.bcs" "override"
+			DECOMPILE_AND_PATCH BEGIN
+				SET "found" = INDEX_BUFFER (CASE_INSENSITIVE EXACT_MATCH ~!HasItemEquipedReal("sw2hd1",Myself)~)
+				PATCH_IF ("%found%" >= 0) BEGIN
+					SET "start" = RINDEX_BUFFER (CASE_SENSITIVE EVALUATE_REGEXP "^IF$" "%found%")
+					SET "end" = INDEX_BUFFER (CASE_SENSITIVE EVALUATE_REGEXP "^END$" "%found%") + STRING_LENGTH "END"
+					DELETE_BYTES "%start%" ("%end%" - "%start%")
+				END
+				SET "found" = INDEX_BUFFER (CASE_INSENSITIVE EXACT_MATCH ~ApplySpellRES("ohdsw3",Myself)~)
+				PATCH_IF ("%found%" >= 0) BEGIN
+					SET "start" = RINDEX_BUFFER (CASE_SENSITIVE EVALUATE_REGEXP "^IF$" "%found%")
+					SET "end" = INDEX_BUFFER (CASE_SENSITIVE EVALUATE_REGEXP "^END$" "%found%") + STRING_LENGTH "END"
+					DELETE_BYTES "%start%" ("%end%" - "%start%")
+				END
+			END
+		BUT_ONLY IF_EXISTS
+	END
+	// update CREs
+	COPY_EXISTING "dorn.cre" "override"
+				"dorn2.cre" "override"
+				"dorn4.cre" "override"
+				"dorn6.cre" "override"
+				"dorn7.cre" "override"
+				// bg2
+				"dorn8.cre" "override"
+				"dorn9.cre" "override"
+				"dorn10.cre" "override"
+				"dorn12.cre" "override"
+				"dorn14.cre" "override"
+				"ohb2dorn.cre" "override"
+		LPF "DELETE_EFFECT" INT_VAR "match_opcode" = 206 STR_VAR "match_resource" = "ohdsw2" END
+		LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 402 "target" = 1 "timing" = 9 "parameter1" = 2 STR_VAR "resource" = "GTSW2HD1" END // Invoke lua
+	BUT_ONLY IF_EXISTS
+	// lua magic
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Joinable NPC Tweaks" "sourceFileSpec" = "cdtweaks\luke\lua\npc\dorns_sword.lua" "destRes" = "m_gt#npc" END
+END

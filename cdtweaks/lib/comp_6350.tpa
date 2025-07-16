@@ -1,0 +1,17 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
+/////                                                            \\\\\////\\\\////
+///// Opportunist class feat for Rogues                                      \\\\\
+/////                                                            \\\\\////\\\\////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
+
+WITH_SCOPE BEGIN
+  INCLUDE "cdtweaks\luke\lib\install.tph"
+  //
+  INCLUDE "cdtweaks\lib\gt_opportunist.tph"
+  //
+  WITH_TRA "cdtweaks\languages\english\gt_opportunist.tra" "cdtweaks\languages\%LANGUAGE%\gt_opportunist.tra" BEGIN
+    LAF "OPPORTUNIST" END
+  END
+END

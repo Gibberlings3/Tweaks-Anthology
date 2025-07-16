@@ -7,8 +7,8 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
 
 WITH_SCOPE BEGIN
-  INCLUDE "cdtweaks\luke\misc.tph"
+  INCLUDE "cdtweaks\luke\lib\install.tph"
   //
-  INCLUDE "cdtweaks\lib\dynamic_fps_change.tph"
+  INCLUDE "cdtweaks\lib\gt_dynamic_fps_change.tph"
   LAF "DYNAMIC_FPS_CHANGE" END
 END

@@ -14,8 +14,8 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- internal function that applies the actual penalty
 	local apply = function(modifierRight, modifierLeft)
 		-- Update tracking vars
-		sprite:setLocalInt("gtRangerDualWieldRight", modifierRight)
-		sprite:setLocalInt("gtRangerDualWieldLeft", modifierLeft)
+		sprite:setLocalInt("gtNWNDualWieldRight", modifierRight)
+		sprite:setLocalInt("gtNWNDualWieldLeft", modifierLeft)
 		--
 		sprite:applyEffect({
 			["effectID"] = 321, -- Remove effects by resource
@@ -51,13 +51,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		--]]
 	end
 	-- Check creature's equipment / class
-	local equipment = sprite.m_equipment
-	local selectedWeapon = equipment.m_items:get(equipment.m_selectedWeapon)
-	local selectedWeaponHeader = selectedWeapon.pRes.pHeader
-	--
-	local selectedWeaponHeaderFlags = selectedWeaponHeader.itemFlags
-	local selectedWeaponAbility = EEex_Resource_GetItemAbility(selectedWeaponHeader, equipment.m_selectedWeaponAbility) -- Item_ability_st
-	local selectedWeaponAbilityType = selectedWeaponAbility.type
+	local selectedWeapon = GT_Sprite_GetSelectedWeapon(sprite)
 	--
 	local items = sprite.m_equipment.m_items -- Array<CItem*,39>
 	--
@@ -92,37 +86,34 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	local modifierRight = curThac0RightPenalty - maxThac0RightPenalty
 	local modifierLeft = curThac0LeftPenalty - maxThac0LeftPenalty
 	--
-	local spriteClassStr = GT_Resource_IDSToSymbol["class"][sprite.m_typeAI.m_Class]
+	local class = GT_Resource_SymbolToIDS["class"]
 	--
 	local itemflag = GT_Resource_SymbolToIDS["itemflag"]
-	--
-	local spriteFlags = sprite.m_baseStats.m_flags
 	-- If the Ranger is dual-wielding, is equipped with medium or heavy armor, and the bonus is non-zero...
-	local applyAbility = EEex_BAnd(selectedWeaponHeaderFlags, itemflag["TWOHANDED"]) == 0
-		and equipment.m_selectedWeapon ~= 34 -- skip if magically created weapon
-		and selectedWeaponAbilityType == 1 -- type: melee
+	local isRangerAll = GT_Sprite_CheckIDS(sprite, class["RANGER_ALL"], 5, true)
+	--
+	local applyAbility = EEex_BAnd(selectedWeapon["header"].itemFlags, itemflag["TWOHANDED"]) == 0
+		and selectedWeapon["slot"] ~= 34 -- skip if magically created weapon
+		and selectedWeapon["ability"].type == 1 -- type: melee
 		and offHand and offHandTypeStr ~= "SHIELD"
 		and armor and armorTypeStr == "ARMOR" and (armorAnimation == "3A" or armorAnimation == "4A")
-		and (spriteClassStr == "RANGER"
-			-- incomplete dual-class characters are not supposed to benefit from Dual-Wield
-			or (spriteClassStr == "CLERIC_RANGER" and (EEex_IsBitUnset(spriteFlags, 0x8) or spriteLevel1 > spriteLevel2)))
-		and EEex_IsBitUnset(spriteFlags, 10) -- not Fallen Ranger
+		and isRangerAll -- any ranger (single/multi/(complete)dual, not fallen)
 		and (modifierRight ~= 0 or modifierLeft ~= 0)
 	--
-	if sprite:getLocalInt("gtRangerDualWieldRight") == 0 and sprite:getLocalInt("gtRangerDualWieldLeft") == 0 then
+	if sprite:getLocalInt("gtNWNDualWieldRight") == 0 and sprite:getLocalInt("gtNWNDualWieldLeft") == 0 then
 		if applyAbility then
 			apply(modifierRight, modifierLeft)
 		end
 	else
 		if applyAbility then
 			-- Check if ``m_nProficiency2Weapon`` has changed since the last application
-			if modifierRight ~= sprite:getLocalInt("gtRangerDualWieldRight") or modifierLeft ~= sprite:getLocalInt("gtRangerDualWieldLeft") then
+			if modifierRight ~= sprite:getLocalInt("gtNWNDualWieldRight") or modifierLeft ~= sprite:getLocalInt("gtNWNDualWieldLeft") then
 				apply(modifierRight, modifierLeft)
 			end
 		else
 			-- Mark the creature as 'malus removed'
-			sprite:setLocalInt("gtRangerDualWieldRight", 0)
-			sprite:setLocalInt("gtRangerDualWieldLeft", 0)
+			sprite:setLocalInt("gtNWNDualWieldRight", 0)
+			sprite:setLocalInt("gtNWNDualWieldLeft", 0)
 			--
 			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource

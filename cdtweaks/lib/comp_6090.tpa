@@ -7,9 +7,10 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 WITH_SCOPE BEGIN
-  INCLUDE "cdtweaks\luke\misc.tph"
-  INCLUDE "cdtweaks\lib\good_aim.tph"
-  WITH_TRA "cdtweaks\languages\english\good_aim.tra" "cdtweaks\languages\%LANGUAGE%\good_aim.tra" BEGIN
+  INCLUDE "cdtweaks\luke\lib\install.tph"
+  INCLUDE "cdtweaks\lib\gt_good_aim.tph"
+  //
+  WITH_TRA "cdtweaks\languages\english\gt_good_aim.tra" "cdtweaks\languages\%LANGUAGE%\gt_good_aim.tra" BEGIN
     LAF "GOOD_AIM" END
   END
 END

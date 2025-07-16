@@ -1035,7 +1035,11 @@
         <em>BGEE, <abbr title="Baldur's Gate II">BG2</abbr>EE, IWDEE, EET (requires <abbr title="ToB Extender">EEex</abbr>)</em></p>
       <p> This component randomizes the rate at which trolls regenerate lost hit points (new rate: 1d6 / round).<br />
         On top of that, any time they take fire or acid damage their regeneration is halted for one round (not cumulative). </p>
-    </div>
+
+      <p> <strong>Automatically unsummon summoned creatures if the summoner gets slained prematurely [Luke]</strong><br />
+        <em>BGEE, <abbr title="Baldur's Gate II">BG2</abbr>EE, IWDEE, EET (requires <abbr title="ToB Extender">EEex</abbr>)</em></p>
+      <p> Pretty much what the title says. Whenever a creature gets killed, its summoned minions (if any) will be automatically unsummoned (does not affect familiars).</p>
+      </div>
     <div class="ribbon_rectangle_h3">
       <h3> <a id="contents_convenience" name="contents_convenience"></a>Convenience Tweaks and/or Cheats </h3>
     </div>
@@ -1335,6 +1339,11 @@
         When in combat or cutscene, will lock FPS to 30. Otherwise, will set them to 60.
       </p>
 
+      <p> <strong>More Sensible Morentherene</strong><br />
+        <em><abbr title="Baldur's Gate II">SoD</abbr>, EET (requires <abbr title="ToB Extender">EEex</abbr>)</em></p>
+      <p>Due to the way the game engine works, party items that cast spell effects might awake Morentherene - even if the player didn't intend to actually cast an ordinary spell.
+        This component simply makes sure that such items do not trigger Morentherene. </p>
+
     </div>
     <div class="ribbon_rectangle_h3">
       <h3> <a id="contents_npc" name="contents_npc"></a>Joinable <abbr title="Non-Player Character">NPC</abbr> Tweaks </h3>
@@ -1534,9 +1543,10 @@
             </li>
           </ul>
         </li>
-        <li> Due to technical reasons, Shamans and Sorcerers are currently unsupported.
+        <li>
+          Paladins and Rangers are not eligible for Spellcraft / Counterspell.
           <ul>
-            <li>This will change in the (near?) future...</li>
+            <li>Bards are only eligible for Spellcraft.</li>
           </ul>
         </li>
       </ul>
@@ -1672,11 +1682,11 @@
       <p> <strong>Good Aim Racial Feat for Halflings [Luke]</strong><br />
         <em>BGEE, <abbr title="Baldur's Gate II">BG2</abbr>EE, IWDEE, EET (requires <abbr title="ToB Extender">EEex</abbr>)</em></p>
       <p>This passive feat grants Halflings a +1 THAC0 bonus with throwing weapons (i.e. throwing daggers, throwing axes, throwing hammers, darts).</p>
-      <p> <strong>Cleave Class Feat for Fighters [Luke]</strong><br />
+      <p> <strong>Cleave Class Feat for Fighters and Monks [Luke]</strong><br />
         <em>BGEE, <abbr title="Baldur's Gate II">BG2</abbr>EE, IWDEE, EET (requires <abbr title="ToB Extender">EEex</abbr>)</em></p>
       <p> This component aims at implementing the NWN feat Cleave.
         If the character kills an opponent, he gets a free attack against any opponent who is within melee weapon range.</p>
-      <p> Use is automatic, but only available to Fighters.</p>
+      <p> Use is automatic, but only available to Fighters and Monks.</p>
       <p> <strong>Sneak Attack Class Feat for Blackguards [Luke]</strong><br />
         <em>BGEE, <abbr title="Baldur's Gate II">BG2</abbr>EE, IWDEE, EET (requires <abbr title="ToB Extender">EEex</abbr>)</em></p>
       <p> This component adds the passive feat Sneak Attack to Blackguards.
@@ -1685,7 +1695,12 @@
       <ul>
         <li>Use: automatic, but limited to once per round.</li>
         <li>Creatures without discernible anatomies (see component <strong>Make Certain Creatures Immune to Backstab/Sneak Attack</strong> ) or that are otherwise immune to sneak attacks, either via spells/items or naturally (f.i. Barbarians), are unaffected by this feat.</li>
-        <li>Sneak attacks can be made with both melee and ranged weapons.</li>
+        <li>
+          Sneak attacks can be made with both melee and ranged weapons.
+          <ul>
+            <li>However, the weapon must be usable by single-class thieves!</li>
+          </ul>
+        </li>
       </ul>
       <p> <strong>Fearless Racial Feat for Halflings [Luke]</strong><br />
         <em>BGEE, <abbr title="Baldur's Gate II">BG2</abbr>EE, IWDEE, EET (requires <abbr title="ToB Extender">EEex</abbr>)</em></p>
@@ -1856,12 +1871,17 @@
       <p> <strong>Overwhelming/Devastating Critical Class Feat for Trueclass Fighters [Luke]</strong><br />
         <em>BGEE, <abbr title="Baldur's Gate II">BG2</abbr>EE, IWDEE, EET (requires <abbr title="ToB Extender">EEex</abbr>)</em></p>
       <p> This component aims at giving Trueclass Fighters the passive feats Overwhelming/Devastating Critical. </p>
-      <p> <em>Overwhelming Critical:</em> If the character is wielding a weapon with which they are a grandmaster they will deal an Overwhelming Critical, resulting in 2d6 extra points of damage on a successful critical hit. Upon reaching level 30, critical hits become <em>Devastating Criticals</em>, forcing the character's target to make a Save vs. Death or die instantly. </p>
+      <p> <em>Overwhelming Critical:</em> If the character is wielding a weapon with which they are a grandmaster they will deal an Overwhelming Critical, resulting in 3x damage on a successful critical hit (instead of 2x damage). Upon reaching level 30, critical hits become <em>Devastating Criticals</em>, forcing the character's target to make a Save vs. Death or die instantly (in addition to dealing 3x damage). </p>
       <p> Notes: </p>
       <ul>
-        <li>Use: automatic, but only available to Trueclass Fighters.</li>
-        <li>Creatures who are immune to critical hits are not affected by these feats.</li>
-        <li>Only the mainhand weapon can trigger these feats (in case of dual-wielding).</li>
+        <li>Use: automatic, but only available to Trueclass Fighters. 19+ Strength required.</li>
+        <li>
+          Creatures who are immune to critical hits are not affected by these feats.
+          <ul>
+            <li>However, they will still suffer 2x damage in case of Devastating Critical!</li>
+          </ul>
+        </li>
+        <li>Only the mainhand weapon can trigger Devastating Critical (in case of dual-wielding).</li>
         <li>Devastating Critical: the saving throw penalty scales with either Strength (melee weapons) or Dexterity (ranged weapons). In particular:</li>
       </ul>
       <table>
@@ -2451,7 +2471,7 @@
           <ul>
             <li>Use: selected, limited to Beastmasters (starting from level 1).</li>
             <!-- <li>The animal companion will automatically teleport to his summoner if they are in different areas.</li> -->
-            <li>Both the animal companion and his master share the same racial enemy.</li>
+            <!-- <li>Both the animal companion and his master share the same racial enemy.</li> -->
             <li>
               The animal companion will automatically level up along with his summoner.
               <ul>

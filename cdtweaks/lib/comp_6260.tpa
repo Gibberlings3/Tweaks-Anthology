@@ -7,9 +7,9 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
 
 WITH_SCOPE BEGIN
-  INCLUDE "cdtweaks\luke\misc.tph"
+  INCLUDE "cdtweaks\luke\lib\install.tph"
   //
-  INCLUDE "cdtweaks\lib\uncanny_dodge.tph"
+  INCLUDE "cdtweaks\lib\gt_uncanny_dodge.tph"
   //
   LAF "UNCANNY_DODGE" END
 END

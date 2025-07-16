@@ -7,12 +7,12 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
 
 WITH_SCOPE BEGIN
-  INCLUDE "cdtweaks\luke\misc.tph"
+  INCLUDE "cdtweaks\luke\lib\install.tph"
   INCLUDE "cdtweaks\ardanis\functions.tph"
   //
-  INCLUDE "cdtweaks\lib\parry.tph"
+  INCLUDE "cdtweaks\lib\gt_parry.tph"
   //
-  WITH_TRA "cdtweaks\languages\english\parry.tra" "cdtweaks\languages\%LANGUAGE%\parry.tra" BEGIN
+  WITH_TRA "cdtweaks\languages\english\gt_parry.tra" "cdtweaks\languages\%LANGUAGE%\gt_parry.tra" BEGIN
     LAF "PARRY" END
   END
 END

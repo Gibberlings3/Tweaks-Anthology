@@ -1,0 +1,788 @@
+DEFINE_ACTION_FUNCTION "CANTRIPS"
+BEGIN
+
+	// Wizard \\
+
+	//
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"type" = 2
+	STR_VAR
+		"idsName" = "WIZARD_ACID_SPLASH"
+	RET
+		"WIZARD_ACID_SPLASH" = "resName"
+	END
+	//
+	WITH_SCOPE BEGIN
+		ACTION_IF !(FILE_EXISTS_IN_GAME "%WIZARD_ACID_SPLASH%.spl") BEGIN
+			ACTION_TO_LOWER "WIZARD_ACID_SPLASH"
+			//
+			COPY "cdtweaks\luke\bam\class\cantrips\acid_splash\ability_icon.bam" "override\%WIZARD_ACID_SPLASH%b.bam"
+			//
+			WITH_SCOPE BEGIN
+				ACTION_CLEAR_ARRAY "gt_cosmetic"
+				ACTION_DEFINE_ASSOCIATIVE_ARRAY "gt_cosmetic" BEGIN
+					"wav" => "#tra_60"
+					"bam" => "vsphert"
+					//"bam" => "vspherx"
+					//"vvc" => "vspherx"
+					//"wav" => "#eff_m34"
+				END
+				//
+				ACTION_PHP_EACH "gt_cosmetic" AS "ext" => "res" BEGIN
+					ACTION_IF !(FILE_EXISTS_IN_GAME "%res%.%ext%") BEGIN
+						COPY "cdtweaks\luke\%ext%\%res%.%ext%" "override"
+					END
+				END
+			END
+			//
+			ACTION_IF IDS_OF_SYMBOL ("missile" "Vitriolic_Sphere") == "-1" BEGIN
+				ADD_PROJECTILE "cdtweaks\luke\pro\idpro316.pro" "Vitriolic_Sphere"
+			END
+			//
+			CREATE "spl" "%WIZARD_ACID_SPLASH%"
+			COPY_EXISTING "%WIZARD_ACID_SPLASH%.spl" "override"
+				WRITE_LONG NAME1 RESOLVE_STR_REF (@0)
+				WRITE_ASCII 0x10 "CAS_M03" #8 // casting sound
+				WRITE_LONG UNIDENTIFIED_DESC "-1"
+				WRITE_ASCII 0x3A "%DEST_RES%b" #8 // icon
+				WRITE_LONG DESC "-1"
+				WRITE_LONG NAME2 "-1"
+				WRITE_LONG 0x18 (BIT9 BOR BIT10) // Break Sanctuary, Hostile
+				WRITE_SHORT 0x1C 1 // type: wizard
+				WRITE_BYTE 0x25 2 // CONJURER
+				WRITE_BYTE 0x27 10 // OFFENSIVEDAMAGE
+				WRITE_SHORT 0x22 14 // Conjuration
+				//
+				LPF "ADD_SPELL_HEADER" INT_VAR "range" = 30 "speed" = 4 "projectile" = IDS_OF_SYMBOL ("missile" "Vitriolic_Sphere") STR_VAR "icon" = "%DEST_RES%b" END
+				//
+				LPF "ADD_SPELL_CFEFFECT" INT_VAR "opcode" = 177 "target" = 1 "timing" = 1 "parameter2" = 2 STR_VAR "resource" = "GT#CNTRP" END // use EFF file
+				//
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 "resist_dispel" = BIT1 STR_VAR "resource" = "GTCNTRP2" END // invoke lua
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 215 "target" = 2 "resist_dispel" = BIT1 "timing" = 1 STR_VAR "resource" = "SHACID" END // vfx
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 12 "target" = 2 "resist_dispel" = BIT0 "parameter2" = IDS_OF_SYMBOL ("dmgtype" "ACID") "dicenumber" = 1 "dicesize" = 6 "savingthrow" = BIT0 END // damage (1d6, save vs. spell to negate)
+			BUT_ONLY_IF_IT_CHANGES
+		END
+	END
+
+	//
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"type" = 2
+	STR_VAR
+		"idsName" = "WIZARD_FIRE_BOLT"
+	RET
+		"WIZARD_FIRE_BOLT" = "resName"
+	END
+	//
+	WITH_SCOPE BEGIN
+		ACTION_IF !(FILE_EXISTS_IN_GAME "%WIZARD_FIRE_BOLT%.spl") BEGIN
+			ACTION_TO_LOWER "WIZARD_FIRE_BOLT"
+			//
+			COPY "cdtweaks\luke\bam\class\cantrips\fire_bolt\ability_icon.bam" "override\%WIZARD_FIRE_BOLT%b.bam"
+			//
+			COPY_EXISTING "%WIZARD_ACID_SPLASH%.spl" "override\%WIZARD_FIRE_BOLT%.spl"
+				WRITE_LONG NAME1 RESOLVE_STR_REF (@10)
+				WRITE_ASCII 0x10 "CAS_M06" #8 // casting sound
+				WRITE_ASCII 0x3A "%DEST_RES%b" #8 // icon
+				WRITE_BYTE 0x25 6 // INVOKER
+				WRITE_SHORT 0x22 15 // Invocation
+				//
+				LPF "ALTER_SPELL_HEADER" INT_VAR "projectile" = IDS_OF_SYMBOL ("missile" "Fireball_Just_Projectile") STR_VAR "icon" = "%DEST_RES%b" END
+				//
+				LPF "ALTER_EFFECT" INT_VAR "match_opcode" = 215 "parameter2" = 1 "timing" = 0 "duration" = 1 STR_VAR "resource" = "ICFIRSDI" END
+				LPF "ALTER_EFFECT" INT_VAR "match_opcode" = 0xC "parameter2" = IDS_OF_SYMBOL ("dmgtype" "FIRE") END
+			BUT_ONLY_IF_IT_CHANGES
+		END
+	END
+
+	//
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"type" = 2
+	STR_VAR
+		"idsName" = "WIZARD_RAY_OF_FROST"
+	RET
+		"WIZARD_RAY_OF_FROST" = "resName"
+	END
+	//
+	WITH_SCOPE BEGIN
+		ACTION_IF !(FILE_EXISTS_IN_GAME "%WIZARD_RAY_OF_FROST%.spl") BEGIN
+			ACTION_TO_LOWER "WIZARD_RAY_OF_FROST"
+			//
+			COPY "cdtweaks\luke\bam\class\cantrips\ray_of_frost\ability_icon.bam" "override\%WIZARD_RAY_OF_FROST%b.bam"
+			//
+			COPY_EXISTING "%WIZARD_ACID_SPLASH%.spl" "override\%WIZARD_RAY_OF_FROST%.spl"
+				WRITE_LONG NAME1 RESOLVE_STR_REF (@20)
+				WRITE_ASCII 0x3A "%DEST_RES%b" #8 // icon
+				//
+				LPF "ALTER_SPELL_HEADER" INT_VAR "projectile" = IDS_OF_SYMBOL ("missile" "Scorcher_Ice") STR_VAR "icon" = "%DEST_RES%b" END
+				//
+				LPF "ALTER_EFFECT" INT_VAR "match_opcode" = 215 "parameter2" = 1 "timing" = 0 "duration" = 1 STR_VAR "resource" = "COLDH" END
+				LPF "ALTER_EFFECT" INT_VAR "match_opcode" = 0xC "parameter2" = IDS_OF_SYMBOL ("dmgtype" "COLD") END
+			BUT_ONLY_IF_IT_CHANGES
+		END
+	END
+
+	//
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"type" = 2
+	STR_VAR
+		"idsName" = "WIZARD_ELECTRIC_JOLT"
+	RET
+		"WIZARD_ELECTRIC_JOLT" = "resName"
+	END
+	//
+	WITH_SCOPE BEGIN
+		ACTION_IF !(FILE_EXISTS_IN_GAME "%WIZARD_ELECTRIC_JOLT%.spl") BEGIN
+			ACTION_TO_LOWER "WIZARD_ELECTRIC_JOLT"
+			//
+			COPY "cdtweaks\luke\bam\class\cantrips\electric_jolt\ability_icon.bam" "override\%WIZARD_ELECTRIC_JOLT%b.bam"
+			//
+			WITH_SCOPE BEGIN
+				ACTION_CLEAR_ARRAY "gt_cosmetic"
+				ACTION_DEFINE_ASSOCIATIVE_ARRAY "gt_cosmetic" BEGIN
+					"bam" => "electrh"
+					"vvc" => "electrh"
+				END
+				//
+				ACTION_PHP_EACH "gt_cosmetic" AS "ext" => "res" BEGIN
+					ACTION_IF !(FILE_EXISTS_IN_GAME "%res%.%ext%") BEGIN
+						COPY "cdtweaks\luke\%ext%\%res%.%ext%" "override"
+					END
+				END
+			END
+			//
+			COPY_EXISTING "%WIZARD_ACID_SPLASH%.spl" "override\%WIZARD_ELECTRIC_JOLT%.spl"
+				WRITE_LONG NAME1 RESOLVE_STR_REF (@30)
+				WRITE_ASCII 0x3A "%DEST_RES%b" #8 // icon
+				WRITE_BYTE 0x25 6 // INVOKER
+				WRITE_SHORT 0x22 15 // Invocation
+				//
+				LPF "ALTER_SPELL_HEADER" INT_VAR "projectile" = IDS_OF_SYMBOL ("missile" "None") STR_VAR "icon" = "%DEST_RES%b" END
+				//
+				LPF "ALTER_EFFECT" INT_VAR "match_opcode" = 215 "parameter2" = 1 "timing" = 0 "duration" = 1 STR_VAR "resource" = "ELECTRH" END
+				LPF "ALTER_EFFECT" INT_VAR "match_opcode" = 0xC "parameter2" = IDS_OF_SYMBOL ("dmgtype" "ELECTRICITY") END
+			BUT_ONLY_IF_IT_CHANGES
+		END
+	END
+
+	//
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"type" = 2
+	STR_VAR
+		"idsName" = "WIZARD_POISON_SPRAY"
+	RET
+		"WIZARD_POISON_SPRAY" = "resName"
+	END
+	//
+	WITH_SCOPE BEGIN
+		ACTION_IF !(FILE_EXISTS_IN_GAME "%WIZARD_POISON_SPRAY%.spl") BEGIN
+			ACTION_TO_LOWER "WIZARD_POISON_SPRAY"
+			//
+			COPY "cdtweaks\luke\bam\class\cantrips\poison_spray\ability_icon.bam" "override\%WIZARD_POISON_SPRAY%b.bam"
+			//
+			COPY_EXISTING "%WIZARD_ACID_SPLASH%.spl" "override\%WIZARD_POISON_SPRAY%.spl"
+				WRITE_LONG NAME1 RESOLVE_STR_REF (@40)
+				WRITE_ASCII 0x3A "%DEST_RES%b" #8 // icon
+				//
+				LPF "ALTER_SPELL_HEADER" INT_VAR "projectile" = IDS_OF_SYMBOL ("missile" "None") STR_VAR "icon" = "%DEST_RES%b" END
+				//
+				LPF "ALTER_EFFECT" INT_VAR "match_opcode" = 215 "parameter2" = 1 "timing" = 0 "duration" = 1 STR_VAR "resource" = "POISON" END
+				LPF "ALTER_EFFECT" INT_VAR "match_opcode" = 0xC "parameter2" = IDS_OF_SYMBOL ("dmgtype" "POISON") END
+			BUT_ONLY_IF_IT_CHANGES
+		END
+	END
+
+	//
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"type" = 2
+	STR_VAR
+		"idsName" = "WIZARD_FLARE"
+	RET
+		"WIZARD_FLARE" = "resName"
+	END
+	//
+	WITH_SCOPE BEGIN
+		ACTION_IF !(FILE_EXISTS_IN_GAME "%WIZARD_FLARE%.spl") BEGIN
+			ACTION_TO_LOWER "WIZARD_FLARE"
+			//
+			COPY "cdtweaks\luke\bam\class\cantrips\flare\ability_icon.bam" "override\%WIZARD_FLARE%b.bam"
+			//
+			CREATE "spl" "%WIZARD_FLARE%"
+			COPY_EXISTING "%WIZARD_FLARE%.spl" "override"
+				WRITE_LONG NAME1 RESOLVE_STR_REF (@50)
+				WRITE_ASCII 0x10 "CAS_M06" #8 // casting sound
+				WRITE_LONG UNIDENTIFIED_DESC "-1"
+				WRITE_ASCII 0x3A "%DEST_RES%b" #8 // icon
+				WRITE_LONG DESC "-1"
+				WRITE_LONG NAME2 "-1"
+				WRITE_LONG 0x18 (BIT9 BOR BIT10) // Break Sanctuary, Hostile
+				WRITE_SHORT 0x1C 1 // type: wizard
+				WRITE_BYTE 0x25 6 // INVOKER
+				WRITE_BYTE 0x27 12 // COMBINATION
+				WRITE_SHORT 0x22 15 // Invocation
+				//
+				LPF "ADD_SPELL_HEADER" INT_VAR "range" = 30 "speed" = 4 "projectile" = IDS_OF_SYMBOL ("missile" "Sun_Soulray") STR_VAR "icon" = "%DEST_RES%b" END
+				//
+				LPF "ADD_SPELL_CFEFFECT" INT_VAR "opcode" = 177 "target" = 1 "timing" = 1 "parameter2" = 2 STR_VAR "resource" = "GT#CNTRP" END // use EFF file
+				//
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 "resist_dispel" = BIT1 STR_VAR "resource" = "GTCTR402" END // invoke lua
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 140 "target" = 2 "resist_dispel" = BIT1 "parameter1" = IDS_OF_SYMBOL ("missile" "Sun_Soulray") - 1 END // casting glow
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 321 "target" = 2 "resist_dispel" = BIT0 "savingthrow" = BIT0 STR_VAR "resource" = "%DEST_RES%" END // refresh without stacking
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 54 "target" = 2 "resist_dispel" = BIT0 "parameter1" = "-1" "duration" = 60 "savingthrow" = BIT0 END // -1 thac0
+			BUT_ONLY_IF_IT_CHANGES
+		END
+	END
+
+	//
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"type" = 2
+	STR_VAR
+		"idsName" = "WIZARD_TRUE_STRIKE"
+	RET
+		"WIZARD_TRUE_STRIKE" = "resName"
+	END
+	//
+	WITH_SCOPE BEGIN
+		ACTION_IF !(FILE_EXISTS_IN_GAME "%WIZARD_TRUE_STRIKE%.spl") BEGIN
+			ACTION_TO_LOWER "WIZARD_TRUE_STRIKE"
+			//
+			COPY "cdtweaks\luke\bam\class\cantrips\true_strike\ability_icon.bam" "override\%WIZARD_TRUE_STRIKE%b.bam"
+			//
+			COPY "cdtweaks\luke\bam\class\cantrips\true_strike\portrait_icon.bam" "override\%WIZARD_TRUE_STRIKE%d.bam"
+			LAF "ADD_STATDESC_ENTRY" INT_VAR "description" = RESOLVE_STR_REF (@60) STR_VAR "bam_file" = "%WIZARD_TRUE_STRIKE%d" RET "feedback_icon" = "index" END
+			//
+			CREATE "spl" "%WIZARD_TRUE_STRIKE%"
+			COPY_EXISTING "%WIZARD_TRUE_STRIKE%.spl" "override"
+				WRITE_LONG NAME1 RESOLVE_STR_REF (@60)
+				WRITE_ASCII 0x10 "CAS_M04" #8 // casting sound
+				WRITE_LONG UNIDENTIFIED_DESC "-1"
+				WRITE_ASCII 0x3A "%DEST_RES%b" #8 // icon
+				WRITE_LONG DESC "-1"
+				WRITE_LONG NAME2 "-1"
+				WRITE_LONG 0x18 (BIT9 BOR BIT10 BOR BIT25) // Break Sanctuary, Hostile, Castable when silenced
+				WRITE_SHORT 0x1C 1 // type: wizard
+				WRITE_BYTE 0x25 3 // DIVINER
+				WRITE_BYTE 0x27 12 // COMBINATION
+				WRITE_SHORT 0x22 16 // Divination
+				//
+				LPF "ADD_SPELL_HEADER" INT_VAR "target" = 5 "speed" = 4 STR_VAR "icon" = "%DEST_RES%b" END
+				//
+				LPF "ADD_SPELL_CFEFFECT" INT_VAR "opcode" = 177 "target" = 1 "timing" = 1 "parameter2" = 2 STR_VAR "resource" = "GT#CNTRP" END // use EFF file
+				//
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 321 "target" = 1 "resist_dispel" = BIT0 | BIT1  STR_VAR "resource" = "%DEST_RES%" END // refresh without stacking
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 141 "target" = 1 "resist_dispel" = BIT0 | BIT1 "parameter2" = 28 END // lighting effects (Divination air)
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 142 "target" = 1 "resist_dispel" = BIT0 | BIT1 "parameter2" = "%feedback_icon%" "duration" = 120 END // feedback icon
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 174 "target" = 1 "resist_dispel" = BIT0 | BIT1 "timing" = 4 "duration" = 120 STR_VAR "resource" = "EFF_E02" END // sfx
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 278 "target" = 1 "resist_dispel" = BIT0 | BIT1 "parameter1" = 1 "duration" = 120 END // thac0 bonus
+			BUT_ONLY_IF_IT_CHANGES
+			//
+			LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Wizard Spells" "sourceFileSpec" = "cdtweaks\luke\lua\wizard\true_strike.lua" "destRes" = "m_gtspwi" END
+		END
+	END
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"type" = 1
+	STR_VAR
+		"idsName" = "CLERIC_CURE_MINOR_WOUNDS"
+	RET
+		"CLERIC_CURE_MINOR_WOUNDS" = "resName"
+	END
+	//
+	WITH_SCOPE BEGIN
+		ACTION_IF !(FILE_EXISTS_IN_GAME "%CLERIC_CURE_MINOR_WOUNDS%.spl") BEGIN
+			ACTION_TO_LOWER "CLERIC_CURE_MINOR_WOUNDS"
+			//
+			COPY "cdtweaks\luke\bam\class\cantrips\cure_minor_wounds\ability_icon.bam" "override\%CLERIC_CURE_MINOR_WOUNDS%b.bam"
+			//
+			CREATE "spl" "%CLERIC_CURE_MINOR_WOUNDS%"
+			COPY_EXISTING "%CLERIC_CURE_MINOR_WOUNDS%.spl" "override"
+				WRITE_LONG NAME1 RESOLVE_STR_REF (@1000)
+				WRITE_ASCII 0x10 "CAS_P07" #8 // casting sound
+				WRITE_LONG UNIDENTIFIED_DESC "-1"
+				WRITE_ASCII 0x3A "%DEST_RES%b" #8 // icon
+				WRITE_LONG DESC "-1"
+				WRITE_LONG NAME2 "-1"
+				//WRITE_LONG 0x18 (BIT9 BOR BIT10 BOR BIT25) // Break Sanctuary, Hostile
+				WRITE_SHORT 0x1C 2 // type: priest
+				WRITE_BYTE 0x25 7 // NECROMANCER
+				WRITE_BYTE 0x27 13 // NON-COMBAT
+				WRITE_SHORT 0x22 9 // Necromancy
+				//
+				LPF "ADD_SPELL_HEADER" INT_VAR "range" = 0 "speed" = 4 STR_VAR "icon" = "%DEST_RES%b" END
+				//
+				LPF "ADD_SPELL_CFEFFECT" INT_VAR "opcode" = 177 "target" = 1 "timing" = 1 "parameter2" = 2 STR_VAR "resource" = "GT#CNTRP" END // use EFF file
+				//
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 326 "target" = 2 "resist_dispel" = BIT0 "parameter2" = 1 STR_VAR "resource" = "%DEST_RES%B" END // harm undead
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 318 "target" = 2 "resist_dispel" = BIT1 "parameter2" = 1 STR_VAR "resource" = "%DEST_RES%" END
+				//
+				PATCH_WITH_SCOPE BEGIN
+					PATCH_FOR_EACH "race" IN "golem" "demonic" "mephit" "imp" "elemental" "salamander" "genie" "solar" "antisolar" "planatar" "darkplanatar" BEGIN
+						LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 324 "target" = 2 "parameter1" = IDS_OF_SYMBOL ("race" "%race%") "parameter2" = 104 "resist_dispel" = BIT1 STR_VAR "resource" = "%DEST_RES%" END // Immunity to resource and message
+					END
+				END
+				//
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 17 "target" = 2 "resist_dispel" = BIT1 "parameter1" = 4 END // current hp bonus
+				PATCH_IF GAME_IS "iwdee" BEGIN
+					LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 61 "target" = 2 "resist_dispel" = BIT1 "parameter1" = (0 << 8) + (126 << 16) + (255 << 24) "parameter2" = 0 + (30 << 16) "timing" = 1 END // rgb fade
+					LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 215 "target" = 2 "resist_dispel" = BIT1 "timing" = 1 STR_VAR "resource" = "CLWOUNH" END // play vfx
+				END ELSE BEGIN
+					LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 61 "target" = 2 "resist_dispel" = BIT1 "parameter1" = (60 << 8) + (120 << 16) + (240 << 24) "parameter2" = 0 + (50 << 16) "timing" = 1 END // rgb fade
+					LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 215 "target" = 2 "resist_dispel" = BIT1 "parameter2" = 1 "duration" = 2 STR_VAR "resource" = "SPHEALIN" END // play vfx
+				END
+			BUT_ONLY_IF_IT_CHANGES
+			//
+			COPY_EXISTING "%CLERIC_CURE_MINOR_WOUNDS%.spl" "override\%CLERIC_CURE_MINOR_WOUNDS%b.spl"
+				WRITE_LONG NAME1 "-1"
+				WRITE_ASCII 0x10 "" #8 // blank casting sound
+				WRITE_BYTE 0x27 10 // OFFENSIVEDAMAGE
+				WRITE_SHORT 0x22 0 // blank casting animation
+				//
+				LPF "DELETE_EFFECT" INT_VAR "check_headers" = 0 END
+				//
+				LPF "ALTER_EFFECT" INT_VAR "match_opcode" = 17 "parameter2" = IDS_OF_SYMBOL ("dmgtype" "MAGIC") "savingthrow" = BIT0 "special" = BIT8 "opcode" = 12 END // save vs. spell for half damage
+				PATCH_IF GAME_IS "iwdee" BEGIN
+					LPF "ALTER_EFFECT" INT_VAR "match_opcode" = 61 "parameter1" = (255 << 8) + (0 << 16) + (0 << 24) END // rgb fade
+					LPF "ALTER_EFFECT" INT_VAR "match_opcode" = 215 STR_VAR "resource" = "CLDAMAH" END // play vfx
+				END ELSE BEGIN
+					LPF "ADD_SPELL_EFFECT" INT_VAR "match_opcode" = 61 "parameter1" = (255 << 8) + (0 << 16) + (0 << 24) END // rgb fade
+					LPF "ADD_SPELL_EFFECT" INT_VAR "match_opcode" = 215 "duration" = 1 STR_VAR "resource" = "SPCAUSEW" END // play vfx
+				END
+				//
+				PATCH_FOR_EACH "opcode_to_delete" IN 318 324 326 146 164 BEGIN
+					LPF "DELETE_SPELL_EFFECT" INT_VAR "opcode_to_delete" END
+				END
+			BUT_ONLY_IF_IT_CHANGES
+		END
+	END
+
+	//
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"type" = 1
+	STR_VAR
+		"idsName" = "CLERIC_CAUSE_MINOR_WOUNDS"
+	RET
+		"CLERIC_CAUSE_MINOR_WOUNDS" = "resName"
+	END
+	//
+	WITH_SCOPE BEGIN
+		ACTION_IF !(FILE_EXISTS_IN_GAME "%CLERIC_CAUSE_MINOR_WOUNDS%.spl") BEGIN
+			ACTION_TO_LOWER "CLERIC_CAUSE_MINOR_WOUNDS"
+			//
+			COPY "cdtweaks\luke\bam\class\cantrips\cause_minor_wounds\ability_icon.bam" "override\%CLERIC_CAUSE_MINOR_WOUNDS%b.bam"
+			//
+			CREATE "spl" "%CLERIC_CAUSE_MINOR_WOUNDS%"
+			COPY_EXISTING "%CLERIC_CAUSE_MINOR_WOUNDS%.spl" "override"
+				WRITE_LONG NAME1 RESOLVE_STR_REF (@1010)
+				WRITE_ASCII 0x10 "CAS_P07" #8 // casting sound
+				WRITE_LONG UNIDENTIFIED_DESC "-1"
+				WRITE_ASCII 0x3A "%DEST_RES%b" #8 // icon
+				WRITE_LONG DESC "-1"
+				WRITE_LONG NAME2 "-1"
+				WRITE_LONG 0x18 (BIT9 BOR BIT10) // Break Sanctuary, Hostile
+				WRITE_SHORT 0x1C 2 // type: priest
+				WRITE_BYTE 0x25 7 // NECROMANCER
+				WRITE_BYTE 0x27 10 // OFFENSIVEDAMAGE
+				WRITE_SHORT 0x22 9 // Necromancy
+				//
+				LPF "ADD_SPELL_HEADER" INT_VAR "range" = 0 "speed" = 4 STR_VAR "icon" = "%DEST_RES%b" END
+				//
+				LPF "ADD_SPELL_CFEFFECT" INT_VAR "opcode" = 177 "target" = 1 "timing" = 1 "parameter2" = 2 STR_VAR "resource" = "GT#CNTRP" END // use EFF file
+				//
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 "resist_dispel" = BIT1 STR_VAR "resource" = "GTCNTRP2" END // invoke lua
+				//
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 326 "target" = 2 "resist_dispel" = BIT1 "parameter2" = 1 STR_VAR "resource" = "%DEST_RES%B" END // harm undead
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 318 "target" = 2 "resist_dispel" = BIT0 "parameter2" = 1 STR_VAR "resource" = "%DEST_RES%" END
+				//
+				PATCH_WITH_SCOPE BEGIN
+					PATCH_FOR_EACH "race" IN "golem" "demonic" "mephit" "imp" "elemental" "salamander" "genie" "solar" "antisolar" "planatar" "darkplanatar" BEGIN
+						LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 324 "target" = 2 "parameter1" = IDS_OF_SYMBOL ("race" "%race%") "parameter2" = 104 "resist_dispel" = BIT0 STR_VAR "resource" = "%DEST_RES%" END // Immunity to resource and message
+					END
+				END
+				//
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 12 "parameter2" = IDS_OF_SYMBOL ("dmgtype" "MAGIC") "savingthrow" = BIT0 "special" = BIT8 "target" = 2 "resist_dispel" = BIT0 "parameter1" = 4 END // damage (save vs. spell for half damage)
+				PATCH_IF GAME_IS "iwdee" BEGIN
+					LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 61 "target" = 2 "resist_dispel" = BIT0 "parameter1" = (255 << 8) + (0 << 16) + (0 << 24) "parameter2" = 0 + (30 << 16) "timing" = 1 END // rgb fade
+					LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 215 "target" = 2 "resist_dispel" = BIT0 "timing" = 1 STR_VAR "resource" = "CLDAMAH" END // play vfx
+				END ELSE BEGIN
+					LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 61 "target" = 2 "resist_dispel" = BIT0 "parameter1" = (255 << 8) + (0 << 16) + (0 << 24) "parameter2" = 0 + (50 << 16) "timing" = 1 END // rgb fade
+					LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 215 "target" = 2 "resist_dispel" = BIT0 "parameter2" = 1 "duration" = 1 STR_VAR "resource" = "SPCAUSEW" END // play vfx
+				END
+			BUT_ONLY_IF_IT_CHANGES
+			//
+			COPY_EXISTING "%CLERIC_CAUSE_MINOR_WOUNDS%.spl" "override\%CLERIC_CAUSE_MINOR_WOUNDS%b.spl"
+				WRITE_LONG NAME1 "-1"
+				WRITE_ASCII 0x10 "" #8 // blank casting sound
+				WRITE_BYTE 0x27 13 // NON-COMBAT
+				WRITE_SHORT 0x22 0 // blank casting animation
+				//
+				LPF "DELETE_EFFECT" INT_VAR "check_headers" = 0 END
+				//
+				LPF "ALTER_EFFECT" INT_VAR "match_opcode" = 12 "parameter2" = 0 "special" = 0 "opcode" = 17 END // current hp bonus
+				PATCH_IF GAME_IS "iwdee" BEGIN
+					LPF "ALTER_EFFECT" INT_VAR "match_opcode" = 61 "parameter1" = (0 << 8) + (126 << 16) + (255 << 24) END // rgb fade
+					LPF "ALTER_EFFECT" INT_VAR "match_opcode" = 215 STR_VAR "resource" = "CLWOUNH" END // play vfx
+				END ELSE BEGIN
+					LPF "ADD_SPELL_EFFECT" INT_VAR "match_opcode" = 61 "parameter1" = (60 << 8) + (120 << 16) + (240 << 24) END // rgb fade
+					LPF "ADD_SPELL_EFFECT" INT_VAR "match_opcode" = 215 "duration" = 2 STR_VAR "resource" = "SPHEALIN" END // play vfx
+				END
+				//
+				PATCH_FOR_EACH "opcode_to_delete" IN 318 324 326 402 BEGIN
+					LPF "DELETE_SPELL_EFFECT" INT_VAR "opcode_to_delete" END
+				END
+				//
+				LPF "ALTER_EFFECT" INT_VAR "savingthrow" = 0 "resist_dispel" = BIT1 END
+			BUT_ONLY_IF_IT_CHANGES
+		END
+	END
+
+	//
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"type" = 1
+	STR_VAR
+		"idsName" = "CLERIC_BLADE_WARD"
+	RET
+		"CLERIC_BLADE_WARD" = "resName"
+	END
+	//
+	WITH_SCOPE BEGIN
+		ACTION_IF !(FILE_EXISTS_IN_GAME "%CLERIC_BLADE_WARD%.spl") BEGIN
+			ACTION_TO_LOWER "CLERIC_BLADE_WARD"
+			//
+			COPY "cdtweaks\luke\bam\class\cantrips\blade_ward\ability_icon.bam" "override\%CLERIC_BLADE_WARD%b.bam"
+			//
+			COPY "cdtweaks\luke\bam\class\cantrips\blade_ward\portrait_icon.bam" "override\%CLERIC_BLADE_WARD%d.bam"
+			LAF "ADD_STATDESC_ENTRY" INT_VAR "description" = RESOLVE_STR_REF (@1020) STR_VAR "bam_file" = "%CLERIC_BLADE_WARD%d" RET "feedback_icon" = "index" END
+			//
+			CREATE "spl" "%CLERIC_BLADE_WARD%"
+			COPY_EXISTING "%CLERIC_BLADE_WARD%.spl" "override"
+				WRITE_LONG NAME1 RESOLVE_STR_REF (@1020)
+				WRITE_ASCII 0x10 "CAS_M02" #8 // casting sound
+				WRITE_LONG UNIDENTIFIED_DESC "-1"
+				WRITE_ASCII 0x3A "%DEST_RES%b" #8 // icon
+				WRITE_LONG DESC "-1"
+				WRITE_LONG NAME2 "-1"
+				//WRITE_LONG 0x18 (BIT9 BOR BIT10 BOR BIT25) // Break Sanctuary, Hostile
+				WRITE_SHORT 0x1C 2 // type: priest
+				WRITE_BYTE 0x25 1 // ABJURER
+				WRITE_BYTE 0x27 7 // COMBATPROTECTIONS
+				WRITE_SHORT 0x22 12 // Abjuration
+				//
+				LPF "ADD_SPELL_HEADER" INT_VAR "range" = 30 "speed" = 4 "target" = 5 STR_VAR "icon" = "%DEST_RES%b" END
+				//
+				LPF "ADD_SPELL_CFEFFECT" INT_VAR "opcode" = 177 "target" = 1 "timing" = 1 "parameter2" = 2 STR_VAR "resource" = "GT#CNTRP" END // use EFF file
+				//
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 321 "target" = 1 "resist_dispel" = BIT0 | BIT1 STR_VAR "resource" = "%DEST_RES%" END // refresh without stacking
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 174 "target" = 1 "resist_dispel" = BIT0 | BIT1 "duration" = 120 "timing" = 4 STR_VAR "resource" = "EFF_E03" END // play sound
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 142 "target" = 1 "resist_dispel" = BIT0 | BIT1 "parameter2" = "%feedback_icon%" "duration" = 120 END // icon
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 215 "target" = 1 "resist_dispel" = BIT0 | BIT1 "timing" = 1 STR_VAR "resource" = "SPPROTEC" END // play vfx
+			BUT_ONLY_IF_IT_CHANGES
+			//
+			LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Priest Spells" "sourceFileSpec" = "cdtweaks\luke\lua\priest\blade_ward.lua" "destRes" = "m_gtsppr" END
+		END
+	END
+
+	//
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"type" = 1
+	STR_VAR
+		"idsName" = "CLERIC_SACRED_FLAME"
+	RET
+		"CLERIC_SACRED_FLAME" = "resName"
+	END
+	//
+	WITH_SCOPE BEGIN
+		ACTION_IF !(FILE_EXISTS_IN_GAME "%CLERIC_SACRED_FLAME%.spl") BEGIN
+			ACTION_TO_LOWER "CLERIC_SACRED_FLAME"
+			//
+			COPY "cdtweaks\luke\bam\class\cantrips\sacred_flame\ability_icon.bam" "override\%CLERIC_SACRED_FLAME%b.bam"
+			//
+			CREATE "spl" "%CLERIC_SACRED_FLAME%"
+			COPY_EXISTING "%CLERIC_SACRED_FLAME%.spl" "override"
+				WRITE_LONG NAME1 RESOLVE_STR_REF (@1030)
+				WRITE_ASCII 0x10 "CAS_P06" #8 // casting sound
+				WRITE_LONG UNIDENTIFIED_DESC "-1"
+				WRITE_ASCII 0x3A "%DEST_RES%b" #8 // icon
+				WRITE_LONG DESC "-1"
+				WRITE_LONG NAME2 "-1"
+				WRITE_LONG 0x18 (BIT9 BOR BIT10) // Break Sanctuary, Hostile
+				WRITE_SHORT 0x1C 2 // type: priest
+				WRITE_BYTE 0x25 6 // INVOKER
+				WRITE_BYTE 0x27 10 // OFFENSIVEDAMAGE
+				WRITE_SHORT 0x22 12 // Abjuration
+				//
+				LPF "ADD_SPELL_HEADER" INT_VAR "range" = 30 "speed" = 4 STR_VAR "icon" = "%DEST_RES%b" END
+				//
+				LPF "ADD_SPELL_CFEFFECT" INT_VAR "opcode" = 177 "target" = 1 "timing" = 1 "parameter2" = 2 STR_VAR "resource" = "GT#CNTRP" END // use EFF file
+				//
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 "resist_dispel" = BIT1 STR_VAR "resource" = "GTCNTRP2" END // invoke lua
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 215 "target" = 2 "resist_dispel" = BIT0 | BIT1 "timing" = 1 STR_VAR "resource" = "BGLRYH" END // play vfx
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 "resist_dispel" = BIT0 "savingthrow" = BIT0 STR_VAR "resource" = "%DEST_RES%" END // invoke lua
+			BUT_ONLY_IF_IT_CHANGES
+			//
+			ACTION_TO_UPPER "CLERIC_SACRED_FLAME"
+			LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Priest Spells" "sourceFileSpec" = "cdtweaks\luke\lua\priest\sacred_flame.lua" "destRes" = "m_gtsppr" END
+		END
+	END
+
+	//
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"type" = 1
+	STR_VAR
+		"idsName" = "CLERIC_VIRTUE"
+	RET
+		"CLERIC_VIRTUE" = "resName"
+	END
+	//
+	WITH_SCOPE BEGIN
+		ACTION_IF !(FILE_EXISTS_IN_GAME "%CLERIC_VIRTUE%.spl") BEGIN
+			ACTION_TO_LOWER "CLERIC_VIRTUE"
+			//
+			COPY "cdtweaks\luke\bam\class\cantrips\virtue\ability_icon.bam" "override\%CLERIC_VIRTUE%b.bam"
+			//
+			COPY "cdtweaks\luke\bam\class\cantrips\virtue\portrait_icon.bam" "override\%CLERIC_VIRTUE%d.bam"
+			LAF "ADD_STATDESC_ENTRY" INT_VAR "description" = RESOLVE_STR_REF (@1040) STR_VAR "bam_file" = "%CLERIC_VIRTUE%d" RET "feedback_icon" = "index" END
+			//
+			CREATE "spl" "%CLERIC_VIRTUE%"
+			COPY_EXISTING "%CLERIC_VIRTUE%.spl" "override"
+				WRITE_LONG NAME1 RESOLVE_STR_REF (@1040)
+				WRITE_ASCII 0x10 "CAS_P08" #8 // casting sound
+				WRITE_LONG UNIDENTIFIED_DESC "-1"
+				WRITE_ASCII 0x3A "%DEST_RES%b" #8 // icon
+				WRITE_LONG DESC "-1"
+				WRITE_LONG NAME2 "-1"
+				//WRITE_LONG 0x18 (BIT9 BOR BIT10) // Break Sanctuary, Hostile
+				WRITE_SHORT 0x1C 2 // type: priest
+				WRITE_BYTE 0x25 8 // TRANSMUTER
+				WRITE_BYTE 0x27 13 // NON-COMBAT
+				WRITE_SHORT 0x22 10 // Alteration
+				//
+				LPF "ADD_SPELL_HEADER" INT_VAR "range" = 0 "speed" = 4 STR_VAR "icon" = "%DEST_RES%b" END
+				//
+				LPF "ADD_SPELL_CFEFFECT" INT_VAR "opcode" = 177 "target" = 1 "timing" = 1 "parameter2" = 2 STR_VAR "resource" = "GT#CNTRP" END // use EFF file
+				//
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 321 "target" = 2 "resist_dispel" = BIT0 | BIT1 STR_VAR "resource" = "%DEST_RES%" END // refresh without stacking
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 174 "target" = 2 "resist_dispel" = BIT0 | BIT1 "duration" = 60 "timing" = 4 STR_VAR "resource" = "EFF_E01" END // play sound
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 142 "target" = 2 "resist_dispel" = BIT0 | BIT1 "parameter2" = "%feedback_icon%" "duration" = 60 END // icon
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 215 "target" = 2 "resist_dispel" = BIT0 | BIT1 "parameter2" = 1 "duration" = 6 STR_VAR "resource" = "SPHLYBLS" END // play vfx
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 "resist_dispel" = BIT0 | BIT1 STR_VAR "resource" = "%DEST_RES%" END // invoke lua
+			BUT_ONLY_IF_IT_CHANGES
+			//
+			ACTION_TO_UPPER "CLERIC_VIRTUE"
+			LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Priest Spells" "sourceFileSpec" = "cdtweaks\luke\lua\priest\virtue.lua" "destRes" = "m_gtsppr" END
+		END
+	END
+
+	//
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"type" = 1
+	STR_VAR
+		"idsName" = "CLERIC_RESISTANCE"
+	RET
+		"CLERIC_RESISTANCE" = "resName"
+	END
+	//
+	WITH_SCOPE BEGIN
+		ACTION_IF !(FILE_EXISTS_IN_GAME "%CLERIC_RESISTANCE%.spl") BEGIN
+			ACTION_TO_LOWER "CLERIC_RESISTANCE"
+			//
+			COPY "cdtweaks\luke\bam\class\cantrips\resistance\ability_icon.bam" "override\%CLERIC_RESISTANCE%b.bam"
+			//
+			COPY "cdtweaks\luke\bam\class\cantrips\resistance\portrait_icon.bam" "override\%CLERIC_RESISTANCE%d.bam"
+			LAF "ADD_STATDESC_ENTRY" INT_VAR "description" = RESOLVE_STR_REF (@1050) STR_VAR "bam_file" = "%CLERIC_RESISTANCE%d" RET "feedback_icon" = "index" END
+			//
+			CREATE "spl" "%CLERIC_RESISTANCE%"
+			COPY_EXISTING "%CLERIC_RESISTANCE%.spl" "override"
+				WRITE_LONG NAME1 RESOLVE_STR_REF (@1050)
+				WRITE_ASCII 0x10 "CAS_P02" #8 // casting sound
+				WRITE_LONG UNIDENTIFIED_DESC "-1"
+				WRITE_ASCII 0x3A "%DEST_RES%b" #8 // icon
+				WRITE_LONG DESC "-1"
+				WRITE_LONG NAME2 "-1"
+				//WRITE_LONG 0x18 (BIT9 BOR BIT10) // Break Sanctuary, Hostile
+				WRITE_SHORT 0x1C 2 // type: priest
+				WRITE_BYTE 0x25 1 // ABJURER
+				WRITE_BYTE 0x27 2 // SPECIFICPROTECTIONS
+				WRITE_SHORT 0x22 12 // Abjuration
+				//
+				LPF "ADD_SPELL_HEADER" INT_VAR "range" = 0 "speed" = 4 STR_VAR "icon" = "%DEST_RES%b" END
+				//
+				LPF "ADD_SPELL_CFEFFECT" INT_VAR "opcode" = 177 "target" = 1 "timing" = 1 "parameter2" = 2 STR_VAR "resource" = "GT#CNTRP" END // use EFF file
+				//
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 321 "target" = 2 "resist_dispel" = BIT0 | BIT1 STR_VAR "resource" = "%DEST_RES%" END // refresh without stacking
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 174 "target" = 2 "resist_dispel" = BIT0 | BIT1 "duration" = 120 "timing" = 4 STR_VAR "resource" = "EFF_E04" END // play sound
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 142 "target" = 2 "resist_dispel" = BIT0 | BIT1 "parameter2" = "%feedback_icon%" "duration" = 120 END // icon
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 215 "target" = 2 "resist_dispel" = BIT0 | BIT1 "parameter2" = 1 "duration" = 3 STR_VAR "resource" = "SPROTECT" END // play vfx
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 325 "target" = 2 "resist_dispel" = BIT0 | BIT1 "parameter1" = 1 "duration" = 120 END // +1 to all saves
+			BUT_ONLY_IF_IT_CHANGES
+		END
+	END
+
+	//
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"type" = 1
+	STR_VAR
+		"idsName" = "CLERIC_THORN_WHIP"
+	RET
+		"CLERIC_THORN_WHIP" = "resName"
+	END
+	//
+	WITH_SCOPE BEGIN
+		ACTION_IF !(FILE_EXISTS_IN_GAME "%CLERIC_THORN_WHIP%.spl") BEGIN
+			ACTION_TO_LOWER "CLERIC_THORN_WHIP"
+			//
+			COPY "cdtweaks\luke\bam\class\cantrips\thorn_whip\ability_icon.bam" "override\%CLERIC_THORN_WHIP%b.bam"
+			//
+			CREATE "spl" "%CLERIC_THORN_WHIP%"
+			COPY_EXISTING "%CLERIC_THORN_WHIP%.spl" "override"
+				WRITE_LONG NAME1 RESOLVE_STR_REF (@1060)
+				WRITE_ASCII 0x10 "CAS_P08" #8 // casting sound
+				WRITE_LONG UNIDENTIFIED_DESC "-1"
+				WRITE_ASCII 0x3A "%DEST_RES%b" #8 // icon
+				WRITE_LONG DESC "-1"
+				WRITE_LONG NAME2 "-1"
+				WRITE_LONG 0x18 (BIT9 BOR BIT10) // Break Sanctuary, Hostile
+				WRITE_SHORT 0x1C 2 // type: priest
+				WRITE_BYTE 0x25 8 // TRANSMUTER
+				WRITE_BYTE 0x27 13 // NON-COMBAT
+				WRITE_SHORT 0x22 10 // Alteration
+				//
+				LPF "ADD_SPELL_HEADER" INT_VAR "range" = 30 "speed" = 4 STR_VAR "icon" = "%DEST_RES%b" END
+				//
+				LPF "ADD_SPELL_CFEFFECT" INT_VAR "opcode" = 177 "target" = 1 "timing" = 1 "parameter2" = 2 STR_VAR "resource" = "GT#CNTRP" END // use EFF file
+				//
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 "resist_dispel" = BIT1 STR_VAR "resource" = "GTCNTRP2" END // invoke lua
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 215 "target" = 1 "resist_dispel" = BIT0 | BIT1 "timing" = 1 STR_VAR "resource" = "SPCOMSTT" END // play vfx
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 215 "target" = 2 "resist_dispel" = BIT0 | BIT1 "timing" = 1 STR_VAR "resource" = "SPCOMEND" END // play vfx
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 "resist_dispel" = BIT0 "savingthrow" = BIT0 STR_VAR "resource" = "%DEST_RES%" END // invoke lua
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 12 "target" = 2 "resist_dispel" = BIT0 "parameter2" = IDS_OF_SYMBOL ("dmgtype" "PIERCING") "dicenumber" = 1 "dicesize" = 6 "savingthrow" = BIT0 END // damage (1d6, save vs. spell to negate)
+			BUT_ONLY_IF_IT_CHANGES
+			//
+			ACTION_TO_UPPER "CLERIC_THORN_WHIP"
+			LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Priest Spells" "sourceFileSpec" = "cdtweaks\luke\lua\priest\thorn_whip.lua" "destRes" = "m_gtsppr" END
+		END
+	END
+
+	//
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"type" = 1
+	STR_VAR
+		"idsName" = "CLERIC_POISON_SPRAY"
+	RET
+		"CLERIC_POISON_SPRAY" = "resName"
+	END
+	//
+	WITH_SCOPE BEGIN
+		ACTION_IF !(FILE_EXISTS_IN_GAME "%CLERIC_POISON_SPRAY%.spl") BEGIN
+			ACTION_TO_LOWER "CLERIC_POISON_SPRAY"
+			//
+			COPY "cdtweaks\luke\bam\class\cantrips\poison_spray\ability_icon.bam" "override\%CLERIC_POISON_SPRAY%b.bam"
+			//
+			CREATE "spl" "%CLERIC_POISON_SPRAY%"
+			COPY_EXISTING "%CLERIC_POISON_SPRAY%.spl" "override"
+				WRITE_LONG NAME1 RESOLVE_STR_REF (@40)
+				WRITE_ASCII 0x10 "CAS_P03" #8 // casting sound
+				WRITE_LONG UNIDENTIFIED_DESC "-1"
+				WRITE_ASCII 0x3A "%DEST_RES%b" #8 // icon
+				WRITE_LONG DESC "-1"
+				WRITE_LONG NAME2 "-1"
+				WRITE_LONG 0x18 (BIT9 BOR BIT10) // Break Sanctuary, Hostile
+				WRITE_SHORT 0x1C 2 // type: priest
+				WRITE_BYTE 0x25 2 // CONJURER
+				WRITE_BYTE 0x27 10 // OFFENSIVEDAMAGE
+				WRITE_SHORT 0x22 14 // Conjuration
+				//
+				LPF "ADD_SPELL_HEADER" INT_VAR "range" = 30 "speed" = 4 STR_VAR "icon" = "%DEST_RES%b" END
+				//
+				LPF "ADD_SPELL_CFEFFECT" INT_VAR "opcode" = 177 "target" = 1 "timing" = 1 "parameter2" = 2 STR_VAR "resource" = "GT#CNTRP" END // use EFF file
+				//
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 "resist_dispel" = BIT1 STR_VAR "resource" = "GTCNTRP2" END // invoke lua
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 215 "target" = 2 "resist_dispel" = BIT1 "parameter2" = 1 "duration" = 1 STR_VAR "resource" = "POISON" END // vfx
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 12 "target" = 2 "resist_dispel" = BIT0 "parameter2" = IDS_OF_SYMBOL ("dmgtype" "POISON") "dicenumber" = 1 "dicesize" = 6 "savingthrow" = BIT0 END // damage (1d6, save vs. spell to negate)
+			BUT_ONLY_IF_IT_CHANGES
+		END
+	END
+
+	//
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"type" = 1
+	STR_VAR
+		"idsName" = "CLERIC_FLARE"
+	RET
+		"CLERIC_FLARE" = "resName"
+	END
+	//
+	WITH_SCOPE BEGIN
+		ACTION_IF !(FILE_EXISTS_IN_GAME "%CLERIC_FLARE%.spl") BEGIN
+			ACTION_TO_LOWER "CLERIC_FLARE"
+			//
+			COPY "cdtweaks\luke\bam\class\cantrips\flare\ability_icon.bam" "override\%CLERIC_FLARE%b.bam"
+			//
+			CREATE "spl" "%CLERIC_FLARE%"
+			COPY_EXISTING "%CLERIC_FLARE%.spl" "override"
+				WRITE_LONG NAME1 RESOLVE_STR_REF (@50)
+				WRITE_ASCII 0x10 "CAS_P06" #8 // casting sound
+				WRITE_LONG UNIDENTIFIED_DESC "-1"
+				WRITE_ASCII 0x3A "%DEST_RES%b" #8 // icon
+				WRITE_LONG DESC "-1"
+				WRITE_LONG NAME2 "-1"
+				WRITE_LONG 0x18 (BIT9 BOR BIT10) // Break Sanctuary, Hostile
+				WRITE_SHORT 0x1C 2 // type: priest
+				WRITE_BYTE 0x25 6 // INVOKER
+				WRITE_BYTE 0x27 12 // COMBINATION
+				WRITE_SHORT 0x22 15 // Invocation
+				//
+				LPF "ADD_SPELL_HEADER" INT_VAR "range" = 30 "speed" = 4 "projectile" = IDS_OF_SYMBOL ("missile" "Sun_Soulray") STR_VAR "icon" = "%DEST_RES%b" END
+				//
+				LPF "ADD_SPELL_CFEFFECT" INT_VAR "opcode" = 177 "target" = 1 "timing" = 1 "parameter2" = 2 STR_VAR "resource" = "GT#CNTRP" END // use EFF file
+				//
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 "resist_dispel" = BIT1 STR_VAR "resource" = "GTCNTRP2" END // invoke lua
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 140 "target" = 2 "resist_dispel" = BIT1 "parameter1" = IDS_OF_SYMBOL ("missile" "Sun_Soulray") - 1 END // casting glow
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 321 "target" = 2 "resist_dispel" = BIT0 "savingthrow" = BIT0 STR_VAR "resource" = "%DEST_RES%" END // refresh without stacking
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 54 "target" = 2 "resist_dispel" = BIT0 "parameter1" = "-1" "duration" = 60 "savingthrow" = BIT0 END // -1 thac0
+			BUT_ONLY_IF_IT_CHANGES
+		END
+	END
+
+	//////////////////////////////
+
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\spellcasting_disabled.lua" "destRes" = "m_gtsprt" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Cantrips" "sourceFileSpec" = "cdtweaks\luke\lua\class\cantrips.lua" "destRes" = "m_gtcntr" END
+
+	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
+		COPY "cdtweaks\luke\lib\resource\tables.lua" "override\m_gttbls.lua"
+	END
+
+	COPY "cdtweaks\luke\2da\gt#cntrp.2da" "override"
+		EVALUATE_BUFFER
+		PRETTY_PRINT_2DA
+	BUT_ONLY_IF_IT_CHANGES
+
+	CREATE "eff" "gt#cntrp"
+		WRITE_LONG 0x10 309 // modify local var
+		WRITE_LONG 0x1C "-1"
+		WRITE_LONG 0x20 1 // mode: increment
+		WRITE_SHORT 0x2C 100 // prob1
+		WRITE_ASCII 0x30 "gtNWNCan" #8 // res
+		WRITE_ASCII 0x70 "tripsPer" #8 // res2
+		WRITE_ASCII 0x78 "Day" #8 // res3
+
+END

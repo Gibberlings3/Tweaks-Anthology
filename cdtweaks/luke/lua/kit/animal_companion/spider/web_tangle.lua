@@ -9,11 +9,11 @@ function %INNATE_SPIDER_WEB_TANGLE%(CGameEffect, CGameSprite)
 	--
 	local sourceSprite = EEex_GameObject_Get(CGameEffect.m_sourceId) -- CGameSprite
 	--
-	local webImmunity = EEex_Trigger_ParseConditionalString("EEex_IsImmuneToOpcode(Myself,157)")
+	local webImmunity = "EEex_IsImmuneToOpcode(Myself,157)"
 	--
 	local levelModifier = math.floor(sourceSprite:getActiveStats().m_nLevel1 / 5) -- +1 every 5 levels
 	--
-	if not webImmunity:evalConditionalAsAIBase(CGameSprite) then
+	if not GT_Trigger_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, webImmunity) then
 		EEex_GameObject_ApplyEffect(CGameSprite,
 		{
 			["effectID"] = 157, -- Web overlay
@@ -49,6 +49,4 @@ function %INNATE_SPIDER_WEB_TANGLE%(CGameEffect, CGameSprite)
 			["sourceTarget"] = CGameEffect.m_sourceTarget,
 		})
 	end
-	--
-	webImmunity:free()
 end

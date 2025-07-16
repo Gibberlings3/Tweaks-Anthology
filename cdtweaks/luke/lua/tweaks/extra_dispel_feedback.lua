@@ -32,23 +32,10 @@ function GT_ExtraDispelFeedback_Subspell_EFF(parentFile, CGameEffectBase)
 		--
 		subSplHeader = EEex_Resource_Demand(subSplResRef, "spl")
 	elseif CGameEffectBase.m_effectId == 177 or CGameEffectBase.m_effectId == 283 then -- Use EFF file
-		GT_ExtraDispelFeedback_Subspell_EFF(parentFile, EEex_Resource_Demand(CGameEffectBase.m_res:get(), "eff")) -- recursive call
+		subSplHeader, subSplResRef = GT_ExtraDispelFeedback_Subspell_EFF(parentFile, EEex_Resource_Demand(CGameEffectBase.m_res:get(), "eff")) -- recursive call
 	end
 	--
-	if subSplHeader and subSplResRef then -- sanity check
-		if Infinity_FetchString(subSplHeader.genericName) == "" then
-			if not GT_ExtraDispelFeedback_LookUpTable[parentFile] or not GT_LuaTool_ArrayContains(GT_ExtraDispelFeedback_LookUpTable[parentFile], subSplResRef) then
-				-- initialize
-				if not GT_ExtraDispelFeedback_LookUpTable[parentFile] then
-					GT_ExtraDispelFeedback_LookUpTable[parentFile] = {}
-				end
-				--
-				table.insert(GT_ExtraDispelFeedback_LookUpTable[parentFile], subSplResRef)
-				-- check for (sub)subspells
-				GT_ExtraDispelFeedback_Subspell(parentFile, subSplHeader, "spl", subSplResRef)
-			end
-		end
-	end
+	return subSplHeader, subSplResRef
 end
 
 -- SPL / ITM effects --
@@ -84,12 +71,12 @@ function GT_ExtraDispelFeedback_Subspell(parentFile, pHeader, ext, srcResRef)
 				--
 				subSplHeader = EEex_Resource_Demand(subSplResRef, "spl")
 			elseif pEffect.effectID == 177 or pEffect.effectID == 283 then -- Use EFF file
-				GT_ExtraDispelFeedback_Subspell_EFF(parentFile, EEex_Resource_Demand(pEffect.res:get(), "eff"))
+				subSplHeader, subSplResRef = GT_ExtraDispelFeedback_Subspell_EFF(parentFile, EEex_Resource_Demand(pEffect.res:get(), "eff"))
 			end
 			--
 			if subSplHeader and subSplResRef then -- sanity check
 				if Infinity_FetchString(subSplHeader.genericName) == "" then
-					if not GT_ExtraDispelFeedback_LookUpTable[parentFile] or not GT_LuaTool_ArrayContains(GT_ExtraDispelFeedback_LookUpTable[parentFile], subSplResRef) then
+					if not GT_ExtraDispelFeedback_LookUpTable[parentFile] or not GT_Utility_ArrayContains(GT_ExtraDispelFeedback_LookUpTable[parentFile], subSplResRef) then
 						-- initialize
 						if not GT_ExtraDispelFeedback_LookUpTable[parentFile] then
 							GT_ExtraDispelFeedback_LookUpTable[parentFile] = {}
@@ -124,9 +111,13 @@ EEex_GameState_AddInitializedListener(function()
 			for _, resref in pairs(temp) do
 				local pHeader = EEex_Resource_Demand(resref, ext)
 				--
-				if pHeader and Infinity_FetchString(pHeader.genericName) ~= "" then
-					-- check for subspells
-					GT_ExtraDispelFeedback_Subspell(string.upper(resref) .. "." .. string.upper(ext), pHeader, ext, string.upper(resref))
+				if pHeader then
+					if ext == "itm" or Infinity_FetchString(pHeader.genericName) ~= "" then -- skip subspells...
+						if ext == "spl" or (EEex_IsBitSet(pHeader.itemFlags, 0x2) and EEex_IsBitSet(pHeader.itemFlags, 0x3)) then -- if it's a spell or an item flagged as DROPPABLE and DISPLAYABLE...
+							-- check for subspells
+							GT_ExtraDispelFeedback_Subspell(string.upper(resref) .. "." .. string.upper(ext), pHeader, ext, string.upper(resref))
+						end
+					end
 				end
 			end
 		end
@@ -222,7 +213,7 @@ function GTDSPL02(op403CGameEffect, CGameEffect, CGameSprite)
 				--
 				if effect.m_sourceType == 1 then
 					ext = "SPL"
-				elseif effect.m_sourceType == 2 then
+				elseif effect.m_sourceType == 2 or effect.m_sourceType == 0 then
 					ext = "ITM"
 				end
 				--
@@ -254,7 +245,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 				--
 				if effect.m_sourceType == 1 then
 					ext = "SPL"
-				elseif effect.m_sourceType == 2 then
+				elseif effect.m_sourceType == 2 or effect.m_sourceType == 0 then
 					ext = "ITM"
 				end
 				--
@@ -265,6 +256,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		end)
 		-- initialize
 		local todisplay = {}
+		local feedbackString = Infinity_FetchString(%feedback_strref%) .. " : "
 		-- perform comparison
 		for before in pairs(aux["gt_ExtraDispelFeedback_EffectsBefore"]) do
 			local found = false
@@ -283,7 +275,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 				if pHeader then -- sanity check
 					if Infinity_FetchString(pHeader.genericName) == "" then
 						for k, v in pairs(GT_ExtraDispelFeedback_LookUpTable) do
-							if GT_LuaTool_ArrayContains(v, string.sub(before, 1, -5)) then
+							if GT_Utility_ArrayContains(v, string.sub(before, 1, -5)) then
 								file = k
 								break
 							end
@@ -298,13 +290,23 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		for key in pairs(todisplay) do
 			local pHeader = EEex_Resource_Demand(string.sub(key, 1, -5), string.sub(key, -3))
 			--
-			GT_Utility_DisplaySpriteMessage(sprite,
-				string.format("%s : %s", Infinity_FetchString(%feedback_strref%), string.sub(key, -3) == "SPL" and Infinity_FetchString(pHeader.genericName) or Infinity_FetchString(pHeader.identifiedName)),
-				0x108544, 0x108544 -- Dark Sea Green
-			)
+			if string.sub(key, -3) == "SPL" then
+				feedbackString = feedbackString .. Infinity_FetchString(pHeader.genericName) .. ", "
+			else
+				if Infinity_FetchString(pHeader.identifiedName) ~= "" then
+					feedbackString = feedbackString .. Infinity_FetchString(pHeader.identifiedName) .. ", "
+				else
+					feedbackString = feedbackString .. Infinity_FetchString(pHeader.genericName) .. ", "
+				end
+			end
 		end
+		-- cleanup
+		feedbackString = feedbackString:gsub(", $", "")
+		-- actual display
+		GT_Sprite_DisplayMessage(sprite, feedbackString, 0x108544) -- Dark Sea Green
 		--
 		aux["gt_ExtraDispelFeedback_EffectsAfter"] = nil
 		aux["gt_ExtraDispelFeedback_EffectsBefore"] = nil
 	end
 end)
+

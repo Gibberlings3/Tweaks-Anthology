@@ -1,0 +1,4 @@
+DEFINE_ACTION_FUNCTION "HIDE_VFX"
+BEGIN
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Misc Tweaks" "sourceFileSpec" = "cdtweaks\luke\lua\tweaks\hide_vfx.lua" "destRes" = "m_gttwks" END
+END

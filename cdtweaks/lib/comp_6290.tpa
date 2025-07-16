@@ -7,9 +7,9 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
 
 WITH_SCOPE BEGIN
-  INCLUDE "cdtweaks\luke\misc.tph"
+  INCLUDE "cdtweaks\luke\lib\install.tph"
   //
-  INCLUDE "cdtweaks\lib\spell_penetration.tph"
+  INCLUDE "cdtweaks\lib\gt_spell_penetration.tph"
   //
   LAF "SPELL_PENETRATION" END
 END

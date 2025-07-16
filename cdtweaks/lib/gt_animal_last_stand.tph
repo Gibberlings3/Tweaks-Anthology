@@ -1,0 +1,19 @@
+DEFINE_ACTION_FUNCTION "ANIMAL_LAST_STAND"
+BEGIN
+	LAF "GT_ADD_SPELL"
+	STR_VAR
+		"idsName" = "INNATE_ANIMAL_LAST_STAND"
+	RET
+		"INNATE_ANIMAL_LAST_STAND" = "resName"
+	END
+	//
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Innate Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\race\animal_last_stand.lua" "destRes" = "m_gtspin" END
+	//
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\has_bounce_effects.lua" "destRes" = "m_gtsprt" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\has_immunity_effects.lua" "destRes" = "m_gtsprt" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\has_trap_effect.lua" "destRes" = "m_gtsprt" END
+	//
+	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
+		COPY "cdtweaks\luke\lib\resource\tables.lua" "override\m_gttbls.lua"
+	END
+END

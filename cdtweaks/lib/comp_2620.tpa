@@ -212,12 +212,12 @@ ACTION_IF !(MOD_IS_INSTALLED ~EEex.tp2~ 0) BEGIN
   END
 END ELSE BEGIN
   WITH_SCOPE BEGIN
-    INCLUDE "cdtweaks\luke\misc.tph"
+    INCLUDE "cdtweaks\luke\lib\install.tph"
     //
-    LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Misc Tweaks (Rule Changes)" "sourceFileSpec" = "cdtweaks\luke\lua\rule_changes\revised_backstab_immunity.lua" "destRes" = "m_gtrule" END
+    LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Rule Changes" "sourceFileSpec" = "cdtweaks\luke\lua\rule_changes\revised_backstab_immunity.lua" "destRes" = "m_gtrule" END
     //
     ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
-      COPY "cdtweaks\luke\lua\m_gttbls.lua" "override"
+      COPY "cdtweaks\luke\lib\resource\tables.lua" "override"
     END
   END
 END

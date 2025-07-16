@@ -1,4 +1,3 @@
-<<<<<<<< HEAD:cdtweaks/lib/comp_6000.tpa
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                            \\\\\
@@ -8,28 +7,11 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 WITH_SCOPE BEGIN
-  INCLUDE "cdtweaks\luke\misc.tph"
+  INCLUDE "cdtweaks\luke\lib\install.tph"
   INCLUDE "cdtweaks\ardanis\functions.tph"
   //
-  INCLUDE "cdtweaks\lib\disarm.tph"
-  WITH_TRA "cdtweaks\languages\english\disarm.tra" "cdtweaks\languages\%LANGUAGE%\disarm.tra" BEGIN
+  INCLUDE "cdtweaks\lib\gt_disarm.tph"
+  WITH_TRA "cdtweaks\languages\english\gt_disarm.tra" "cdtweaks\languages\%LANGUAGE%\gt_disarm.tra" BEGIN
     LAF "DISARM" END
   END
 END
-========
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
-/////                                                                           /////
-///// Make Bears and Boars continue fighting after reaching 0 hit points        \\\\\
-/////                                                                           \\\\\
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
-
-WITH_SCOPE BEGIN
-  INCLUDE "cdtweaks\luke\misc.tph"
-  //
-  INCLUDE "cdtweaks\lib\innate_animal_last_stand.tph"
-  //
-  LAF "INNATE_ANIMAL_LAST_STAND" END
-END
->>>>>>>> upstream/master:cdtweaks/lib/comp_2660.tpa

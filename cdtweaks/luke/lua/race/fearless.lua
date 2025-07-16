@@ -14,7 +14,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- internal function that applies the actual feat
 	local apply = function()
 		-- Mark the creature as 'feat applied'
-		sprite:setLocalInt("gtHalflingFearless", 1)
+		sprite:setLocalInt("gtNWNFearless", 1)
 		--
 		sprite:applyEffect({
 			["effectID"] = 321, -- Remove effects by resource
@@ -46,7 +46,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	--
 	local applyAbility = spriteRaceStr == "HALFLING"
 	--
-	if sprite:getLocalInt("gtHalflingFearless") == 0 then
+	if sprite:getLocalInt("gtNWNFearless") == 0 then
 		if applyAbility then
 			apply()
 		end
@@ -55,7 +55,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			-- do nothing
 		else
 			-- Mark the creature as 'feat removed'
-			sprite:setLocalInt("gtHalflingFearless", 0)
+			sprite:setLocalInt("gtNWNFearless", 0)
 			--
 			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource

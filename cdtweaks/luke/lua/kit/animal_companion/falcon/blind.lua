@@ -9,11 +9,11 @@ function %INNATE_HAWK_BLIND%(CGameEffect, CGameSprite)
 	--
 	local sourceSprite = EEex_GameObject_Get(CGameEffect.m_sourceId) -- CGameSprite
 	--
-	local blindImmunity = EEex_Trigger_ParseConditionalString("EEex_IsImmuneToOpcode(Myself,74)")
+	local blindImmunity = "EEex_IsImmuneToOpcode(Myself,74)"
 	--
 	local levelModifier = math.floor(sourceSprite:getActiveStats().m_nLevel1 / 5) -- +1 every 5 levels
 	--
-	if not blindImmunity:evalConditionalAsAIBase(CGameSprite) then
+	if not GT_Trigger_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, blindImmunity) then
 		EEex_GameObject_ApplyEffect(CGameSprite,
 		{
 			["effectID"] = 74, -- Duration
@@ -37,6 +37,4 @@ function %INNATE_HAWK_BLIND%(CGameEffect, CGameSprite)
 			["sourceTarget"] = CGameEffect.m_sourceTarget,
 		})
 	end
-	--
-	blindImmunity:free()
 end

@@ -1,0 +1,24 @@
+DEFINE_ACTION_FUNCTION "DEFENSIVE_ROLL"
+BEGIN
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"level" = 4
+		"type" = 4
+	STR_VAR
+		"idsName" = "THIEF_DEFENSIVE_ROLL"
+	RET
+		"THIEF_DEFENSIVE_ROLL" = "resName"
+	END
+	//
+	WITH_SCOPE BEGIN
+		OUTER_SET "feedback_strref" = RESOLVE_STR_REF (@0)
+		// Listener: run 'func' each time a sprite has finished evaluating its effects
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Class/Kit Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\class\defensive_roll.lua" "destRes" = "m_gtspcl" END
+	END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lib\utility\decode_effect.lua" "destRes" = "m_gtutil" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\check_ids.lua" "destRes" = "m_gtsprt" END
+	//
+	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
+		COPY "cdtweaks\luke\lib\resource\tables.lua" "override\m_gttbls.lua"
+	END
+END

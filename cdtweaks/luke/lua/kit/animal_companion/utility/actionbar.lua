@@ -11,7 +11,7 @@ EEex_Actionbar_AddListener(function(config, state)
 		return
 	end
 
-	if sprite.m_scriptName:get() == "gtAnmlCompLeopard" then
+	if sprite.m_scriptName:get() == "gtNWNAnmlCompLeopard" then
 		if state == 112 then -- Controlled (Class doesn't have a dedicated state)
 			EEex_Actionbar_SetState(12) -- Ranger
 		end

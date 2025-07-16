@@ -1,0 +1,28 @@
+DEFINE_ACTION_FUNCTION "TRACKLESS_STEP"
+BEGIN
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"level" = 1
+		"type" = 4
+	STR_VAR
+		"idsName" = "RANGER_TRACKLESS_STEP"
+	RET
+		"RANGER_TRACKLESS_STEP" = "resName"
+	END
+	//
+	WITH_SCOPE BEGIN
+		ACTION_TO_LOWER "RANGER_TRACKLESS_STEP"
+		//
+		COPY "cdtweaks\luke\bam\class\trackless_step.bam" "override\%RANGER_TRACKLESS_STEP%d.bam"
+		LAF "ADD_STATDESC_ENTRY" INT_VAR "description" = RESOLVE_STR_REF (@0) STR_VAR "bam_file" = "%RANGER_TRACKLESS_STEP%d" RET "feedback_icon" = "index" END
+		//
+		ACTION_TO_UPPER "RANGER_TRACKLESS_STEP"
+		//
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Class/Kit Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\class\trackless_step.lua" "destRes" = "m_gtspcl" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\check_ids.lua" "destRes" = "m_gtsprt" END
+	END
+	//
+	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
+		COPY "cdtweaks\luke\lib\resource\tables.lua" "override\m_gttbls.lua"
+	END
+END

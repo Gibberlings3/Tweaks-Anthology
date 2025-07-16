@@ -14,7 +14,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- internal function that applies the actual feat
 	local apply = function()
 		-- Mark the creature as 'feat applied'
-		sprite:setLocalInt("gtThiefDirtyFighting", 1)
+		sprite:setLocalInt("gtNWNDirtyFighting", 1)
 		--
 		sprite:applyEffect({
 			["effectID"] = 321, -- Remove effects by resource
@@ -32,23 +32,16 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		})
 	end
 	-- Check creature's class / flags
-	local spriteClassStr = GT_Resource_IDSToSymbol["class"][sprite.m_typeAI.m_Class]
-	--
-	local spriteFlags = sprite.m_baseStats.m_flags
-	-- since ``EEex_Opcode_AddListsResolvedListener`` is running after the effect lists have been evaluated, ``m_bonusStats`` has already been added to ``m_derivedStats`` by the engine
-	local spriteLevel1 = sprite.m_derivedStats.m_nLevel1
-	local spriteLevel2 = sprite.m_derivedStats.m_nLevel2
+	local class = GT_Resource_SymbolToIDS["class"]
+	local align = GT_Resource_SymbolToIDS["align"]
 	-- Check if rogue class -- single/multi/(complete)dual
-	local applyAbility = spriteClassStr == "THIEF" or spriteClassStr == "FIGHTER_MAGE_THIEF"
-		or (spriteClassStr == "FIGHTER_THIEF" and (EEex_IsBitUnset(spriteFlags, 0x6) or spriteLevel1 > spriteLevel2))
-		or (spriteClassStr == "MAGE_THIEF" and (EEex_IsBitUnset(spriteFlags, 0x6) or spriteLevel1 > spriteLevel2))
-		or (spriteClassStr == "CLERIC_THIEF" and (EEex_IsBitUnset(spriteFlags, 0x6) or spriteLevel1 > spriteLevel2))
+	local isThiefAll = GT_Sprite_CheckIDS(sprite, class["THIEF_ALL"], 5)
 	-- Check if chaotic
-	local alignmentMaskChaotic = EEex_Trigger_ParseConditionalString("Alignment(Myself,MASK_CHAOTIC)")
+	local isChaotic = GT_Sprite_CheckIDS(sprite, align["MASK_CHAOTIC"], 8)
 	--
-	local applyAbility = applyAbility and alignmentMaskChaotic:evalConditionalAsAIBase(sprite)
+	local applyAbility = isThiefAll and isChaotic
 	--
-	if sprite:getLocalInt("gtThiefDirtyFighting") == 0 then
+	if sprite:getLocalInt("gtNWNDirtyFighting") == 0 then
 		if applyAbility then
 			apply()
 		end
@@ -57,7 +50,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			-- do nothing
 		else
 			-- Mark the creature as 'feat removed'
-			sprite:setLocalInt("gtThiefDirtyFighting", 0)
+			sprite:setLocalInt("gtNWNDirtyFighting", 0)
 			--
 			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource
@@ -67,8 +60,6 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			})
 		end
 	end
-	--
-	alignmentMaskChaotic:free()
 end)
 
 -- Core op402 listener --
@@ -78,12 +69,9 @@ function %THIEF_DIRTY_FIGHTING%(CGameEffect, CGameSprite)
 	--
 	local sourceAux = EEex_GetUDAux(sourceSprite)
 	--
-	local equipment = sourceSprite.m_equipment -- CGameSpriteEquipment
-	local selectedWeapon = equipment.m_items:get(equipment.m_selectedWeapon) -- CItem
-	local selectedWeaponHeader = selectedWeapon.pRes.pHeader -- Item_Header_st
-	local selectedWeaponAbility = EEex_Resource_GetItemAbility(selectedWeaponHeader, equipment.m_selectedWeaponAbility) -- Item_ability_st
+	local selectedWeapon = GT_Sprite_GetSelectedWeapon(sourceSprite)
 	--
-	local isUsableBySingleClassThief = EEex_IsBitUnset(selectedWeaponHeader.notUsableBy, 22)
+	local isUsableBySingleClassThief = EEex_IsBitUnset(selectedWeapon["header"].notUsableBy, 22)
 	--
 	if sourceSprite.m_leftAttack == 1 then -- if off-hand attack
 		local items = sourceSprite.m_equipment.m_items -- Array<CItem*,39>
@@ -91,14 +79,15 @@ function %THIEF_DIRTY_FIGHTING%(CGameEffect, CGameSprite)
 		--
 		if offHand then -- sanity check
 			local pHeader = offHand.pRes.pHeader -- Item_Header_st
-			if not (pHeader.itemType == 0xC) then -- if not shield, then overwrite item ability/usability check...
-				selectedWeaponAbility = EEex_Resource_GetItemAbility(pHeader, 0) -- Item_ability_st
+			--
+			if EEex_Resource_ItemCategoryIDSToSymbol(pHeader.itemType) ~= "SHIELD" then -- if not shield, then overwrite item ability/usability check...
+				selectedWeapon["ability"] = EEex_Resource_GetItemAbility(pHeader, 0) -- Item_ability_st
 				isUsableBySingleClassThief = EEex_IsBitUnset(pHeader.notUsableBy, 22)
 			end
 		end
 	end
 	--
-	local immunityToDamage = EEex_Trigger_ParseConditionalString("EEex_IsImmuneToOpcode(Myself,12)")
+	local conditionalString = "EEex_IsImmuneToOpcode(Myself,12)"
 	--
 	local targetActiveStats = EEex_Sprite_GetActiveStats(CGameSprite)
 	--
@@ -110,16 +99,16 @@ function %THIEF_DIRTY_FIGHTING%(CGameEffect, CGameSprite)
 		[0x800] = targetActiveStats.m_nResistCrushing, -- non-lethal
 	}
 	--
-	local op12DamageType, ACModifier = GT_Utility_DamageTypeConverter(selectedWeaponAbility.damageType, targetActiveStats)
+	local damageTypeIDS, ACModifier = GT_Sprite_ItmDamageTypeToIDS(selectedWeapon["ability"].damageType, targetActiveStats)
 	--
-	if sourceAux["gt_ThiefDirtyFighting_FirstAttack"] then
+	if sourceAux["gt_NWN_DirtyFighting_FirstAttack"] then
 		if isUsableBySingleClassThief then
-			if resistDamageTypeTable[op12DamageType] < 100 and not immunityToDamage:evalConditionalAsAIBase(CGameSprite) then
+			if resistDamageTypeTable[damageTypeIDS] < 100 and not GT_Trigger_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, conditionalString) then
 				-- 5% unmitigated damage
 				EEex_GameObject_ApplyEffect(CGameSprite,
 				{
 					["effectID"] = 0xC, -- Damage
-					["dwFlags"] = op12DamageType * 0x10000 + 3, -- mode: reduce by percentage
+					["dwFlags"] = damageTypeIDS * 0x10000 + 3, -- mode: reduce by percentage
 					--["numDice"] = 1,
 					--["diceSize"] = 4,
 					["effectAmount"] = 5,
@@ -151,8 +140,6 @@ function %THIEF_DIRTY_FIGHTING%(CGameEffect, CGameSprite)
 			end
 		end
 	end
-	--
-	immunityToDamage:free()
 end
 
 -- Flag first attack in each round --
@@ -167,7 +154,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	--
 	local found = false
 	EEex_Utility_IterateCPtrList(sprite.m_timedEffectList, function(effect)
-		if effect.m_effectId == 401 and effect.m_special == stats["GT_DUMMY_STAT"] and effect.m_scriptName:get() == "gtDirtyFightingTimer" then -- dummy opcode that acts as a marker/timer
+		if effect.m_effectId == 401 and effect.m_special == stats["GT_DUMMY_STAT"] and effect.m_scriptName:get() == "gtNWNDirtyFightingTimer" then -- dummy opcode that acts as a marker/timer
 			found = true
 			return true
 		end
@@ -177,7 +164,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	--
 	local spriteAux = EEex_GetUDAux(sprite)
 	--
-	if sprite:getLocalInt("gtThiefDirtyFighting") == 1 then
+	if sprite:getLocalInt("gtNWNDirtyFighting") == 1 then
 		if sprite.m_startedSwing == 1 then
 			if not found then
 				-- set timer
@@ -185,18 +172,18 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 					["effectID"] = 401, -- Set extended stat
 					["special"] = stats["GT_DUMMY_STAT"],
 					["noSave"] = true,
-					["m_scriptName"] = "gtDirtyFightingTimer",
+					["m_scriptName"] = "gtNWNDirtyFightingTimer",
 					["duration"] = 90,
 					["durationType"] = 10, -- instant/limited (ticks)
 					["sourceID"] = sprite.m_id,
 					["sourceTarget"] = sprite.m_id,
 				})
 				--
-				spriteAux["gt_ThiefDirtyFighting_FirstAttack"] = true
+				spriteAux["gt_NWN_DirtyFighting_FirstAttack"] = true
 			end
 		else
-			if found and spriteAux["gt_ThiefDirtyFighting_FirstAttack"] then
-				spriteAux["gt_ThiefDirtyFighting_FirstAttack"] = false
+			if found and spriteAux["gt_NWN_DirtyFighting_FirstAttack"] then
+				spriteAux["gt_NWN_DirtyFighting_FirstAttack"] = false
 			end
 		end
 	end

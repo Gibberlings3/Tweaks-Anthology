@@ -6,7 +6,7 @@
 +---------------------------------------------------------------------+
 --]]
 
-local cdtweaks_GiveEveryClassKitFourWeaponSlots = {
+local GT_Tweaks_GiveEveryClassKitFourWeaponSlots = {
 	[1] = 2, -- Mage / Sorcerer
 	[3] = 2, -- Cleric
 	[4] = 2, -- Thief
@@ -39,7 +39,7 @@ EEex_Key_AddPressedListener(function(key)
 
 	if sprite.m_typeAI.m_EnemyAlly == 2 then -- if [PC]
 		if key == EEex_Key_GetFromName("Left Ctrl") then
-			if cdtweaks_GiveEveryClassKitFourWeaponSlots[state] == 2 then
+			if GT_Tweaks_GiveEveryClassKitFourWeaponSlots[state] == 2 then
 				-- replace weapon 1 and 2 with 3 and 4
 				for i = 0, 11 do
 					if buttonArray:GetButtonType(i) == EEex_Actionbar_ButtonType.QUICK_WEAPON_1 then
@@ -49,7 +49,7 @@ EEex_Key_AddPressedListener(function(key)
 						EEex_Actionbar_SetButton(i, EEex_Actionbar_ButtonType.QUICK_WEAPON_4)
 					end
 				end
-			elseif cdtweaks_GiveEveryClassKitFourWeaponSlots[state] == 3 then
+			elseif GT_Tweaks_GiveEveryClassKitFourWeaponSlots[state] == 3 then
 				-- replace weapon 3 with 4
 				for i = 0, 11 do
 					if buttonArray:GetButtonType(i) == EEex_Actionbar_ButtonType.QUICK_WEAPON_3 then
@@ -73,7 +73,7 @@ EEex_Key_AddReleasedListener(function(key)
 
 	if sprite.m_typeAI.m_EnemyAlly == 2 then -- if [PC]
 		if key == EEex_Key_GetFromName("Left Ctrl") then
-			if cdtweaks_GiveEveryClassKitFourWeaponSlots[state] == 2 then
+			if GT_Tweaks_GiveEveryClassKitFourWeaponSlots[state] == 2 then
 				-- replace weapon 3 and 4 with 1 and 2
 				for i = 0, 11 do
 					if buttonArray:GetButtonType(i) == EEex_Actionbar_ButtonType.QUICK_WEAPON_3 then
@@ -83,7 +83,7 @@ EEex_Key_AddReleasedListener(function(key)
 						EEex_Actionbar_SetButton(i, EEex_Actionbar_ButtonType.QUICK_WEAPON_2)
 					end
 				end
-			elseif cdtweaks_GiveEveryClassKitFourWeaponSlots[state] == 3 then
+			elseif GT_Tweaks_GiveEveryClassKitFourWeaponSlots[state] == 3 then
 				-- replace weapon 4 with 3
 				for i = 0, 11 do
 					if buttonArray:GetButtonType(i) == EEex_Actionbar_ButtonType.QUICK_WEAPON_4 then

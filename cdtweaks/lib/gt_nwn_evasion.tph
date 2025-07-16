@@ -1,0 +1,22 @@
+DEFINE_ACTION_FUNCTION "NWN_EVASION"
+BEGIN
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"level" = 4
+		"type" = 4
+	STR_VAR
+		"idsName" = "MONK_ROGUE_EVASION"
+	RET
+		"MONK_ROGUE_EVASION" = "resName"
+	END
+	//
+	OUTER_SET "feedback_strref_half_damage" = RESOLVE_STR_REF (@0)
+	OUTER_SET "feedback_strref_no_damage" = RESOLVE_STR_REF (@1)
+	//
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Class/Kit Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\class\evasion.lua" "destRes" = "m_gtspcl" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\check_ids.lua" "destRes" = "m_gtsprt" END
+	//
+	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
+		COPY "cdtweaks\luke\lib\resource\tables.lua" "override\m_gttbls.lua"
+	END
+END

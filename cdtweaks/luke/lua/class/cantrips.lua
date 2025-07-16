@@ -6,14 +6,14 @@
 
 -- compute the maximum # cantrips per day --
 
-local function GT_Cantrips_MaxUsesPerDay(CGameSprite)
+local function getMaxUsesPerDay(CGameSprite)
 	local toReturn = 0
 	--
 	local tbl = {}
 	local array = {}
 	--
-	local classLevels = CGameSprite:getLocalString("gtCantripsClassLevels")
-	local mxspl = CGameSprite:getLocalString("gtCantripsMXSPL")
+	local classLevels = CGameSprite:getLocalString("gtNWNCantripsClassLevels")
+	local mxspl = CGameSprite:getLocalString("gtNWNCantripsMXSPL")
 	--
 	local m_level1 = CGameSprite.m_baseStats.m_level1
 	local m_level2 = CGameSprite.m_baseStats.m_level2
@@ -40,7 +40,7 @@ local function GT_Cantrips_MaxUsesPerDay(CGameSprite)
 		end
 	end
 	--
-	toReturn = GT_LuaTool_FindGreatestInt(array)
+	toReturn = GT_Utility_FindGreatestInt(array)
 	if toReturn > 1 then
 		toReturn = toReturn - 1
 	end
@@ -58,9 +58,9 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- internal function that applies the actual feat
 	local apply = function(int, str1, str2)
 		-- Mark the creature as 'feat applied'
-		sprite:setLocalInt("gtCantripsCasterType", int)
-		sprite:setLocalString("gtCantripsMXSPL", str1)
-		sprite:setLocalString("gtCantripsClassLevels", str2)
+		sprite:setLocalInt("gtNWNCantripsCasterType", int)
+		sprite:setLocalString("gtNWNCantripsMXSPL", str1)
+		sprite:setLocalString("gtNWNCantripsClassLevels", str2)
 	end
 	-- Check creature's class / flags
 	local spriteClassStr = GT_Resource_IDSToSymbol["class"][sprite.m_typeAI.m_Class]
@@ -164,21 +164,21 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		end
 	end
 	--
-	if sprite:getLocalInt("gtCantripsCasterType") == 0 and sprite:getLocalString("gtCantripsMXSPL") == "" and sprite:getLocalString("gtCantripsClassLevels") == "" then
+	if sprite:getLocalInt("gtNWNCantripsCasterType") == 0 and sprite:getLocalString("gtNWNCantripsMXSPL") == "" and sprite:getLocalString("gtNWNCantripsClassLevels") == "" then
 		if casterType and mxspl and classLevels then
 			apply(casterType, mxspl, classLevels)
 		end
 	else
 		if casterType and mxspl and classLevels then
-			if casterType ~= sprite:getLocalInt("gtCantripsCasterType") or mxspl ~= sprite:getLocalString("gtCantripsMXSPL") or classLevels ~= sprite:getLocalString("gtCantripsClassLevels") then
+			if casterType ~= sprite:getLocalInt("gtNWNCantripsCasterType") or mxspl ~= sprite:getLocalString("gtNWNCantripsMXSPL") or classLevels ~= sprite:getLocalString("gtNWNCantripsClassLevels") then
 				apply(casterType, mxspl, classLevels)
 			end
 		else
 			-- Mark the creature as 'feat removed'
-			sprite:setLocalInt("gtCantripsPerDay", 0)
-			sprite:setLocalInt("gtCantripsCasterType", 0x0)
-			sprite:setLocalString("gtCantripsMXSPL", "")
-			sprite:setLocalString("gtCantripsClassLevels", "")
+			sprite:setLocalInt("gtNWNCantripsPerDay", 0)
+			sprite:setLocalInt("gtNWNCantripsCasterType", 0x0)
+			sprite:setLocalString("gtNWNCantripsMXSPL", "")
+			sprite:setLocalString("gtNWNCantripsClassLevels", "")
 		end
 	end
 end)
@@ -189,16 +189,16 @@ function GTCNTRP1(CGameEffect, CGameSprite)
 	local array = EEex_Resource_Load2DA("GT#CNTRP")
 
 	-- get caster type (bit0 -> priest, bit1 -> wizard)
-	local casterType = CGameSprite:getLocalInt("gtCantripsCasterType")
+	local casterType = CGameSprite:getLocalInt("gtNWNCantripsCasterType")
 
 	-- get remaining uses per day
-	local cantripsPerDay = CGameSprite:getLocalInt("gtCantripsPerDay")
+	local cantripsPerDay = CGameSprite:getLocalInt("gtNWNCantripsPerDay")
 
 	-- alignment check
-	local isGood = EEex_Trigger_ParseConditionalString("Alignment(Myself,MASK_GOOD)")
+	local isGood = GT_Sprite_CheckIDS(CGameSprite, 0x1, 8) -- MASK_GOOD
 
 	-- class check
-	local mxspl = CGameSprite:getLocalString("gtCantripsMXSPL")
+	local mxspl = CGameSprite:getLocalString("gtNWNCantripsMXSPL")
 
 	-- sanity check
 	if cantripsPerDay > 0 then
@@ -218,7 +218,7 @@ function GTCNTRP1(CGameEffect, CGameSprite)
 					--
 					if pHeader.itemType == 2 and not spellcastingDisabled then -- priest
 						if EEex_IsBitSet(casterType, 0x0) then
-							if spellResRef:upper() ~= "%CLERIC_CAUSE_MINOR_WOUNDS%" or (not isGood:evalConditionalAsAIBase(CGameSprite) and string.find(mxspl, "PRS", 1, true)) then -- evil clerics only
+							if spellResRef:upper() ~= "%CLERIC_CAUSE_MINOR_WOUNDS%" or (not isGood and string.find(mxspl, "PRS", 1, true)) then -- evil clerics only
 								if spellResRef:upper() ~= "%CLERIC_FLARE%" or (mxspl == "DRU" or mxspl == "SHM") then -- druids/shamans only
 									if spellResRef:upper() ~= "%CLERIC_THORN_WHIP%" or (mxspl == "DRU" or mxspl == "SHM") then -- druids/shamans only
 										if spellResRef:upper() ~= "%CLERIC_POISON_SPRAY%" or (mxspl == "DRU" or mxspl == "SHM") then -- druids/shamans only
@@ -246,8 +246,6 @@ function GTCNTRP1(CGameEffect, CGameSprite)
 
 	end
 
-	isGood:free()
-
 end
 
 -- you can access the cantrips submenu upon pressing the Right Alt key while being in Cast Spell mode (F7) --
@@ -262,7 +260,7 @@ EEex_Key_AddPressedListener(function(key)
 	local lastState = EEex_Actionbar_GetLastState()
 	local state = EEex_Actionbar_GetState()
 
-	local cantripsPerDay = sprite:getLocalInt("gtCantripsPerDay")
+	local cantripsPerDay = sprite:getLocalInt("gtNWNCantripsPerDay")
 
 	local aux = EEex_GetUDAux(sprite)
 
@@ -280,7 +278,7 @@ EEex_Key_AddPressedListener(function(key)
 							["sourceTarget"] = sprite.m_id,
 						})
 						--
-						aux["gt_Cantrips_Actionbar_LastState"] = lastState -- store it for later restoration
+						aux["gt_NWN_Cantrips_Actionbar_LastState"] = lastState -- store it for later restoration
 					end
 				end
 			end
@@ -294,15 +292,15 @@ end)
 EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
 	local aux = EEex_GetUDAux(sprite)
 
-	if aux["gt_Cantrips_Actionbar_LastState"] then
+	if aux["gt_NWN_Cantrips_Actionbar_LastState"] then
 
 		if EEex_UDEqual(sprite, EEex_Sprite_GetSelected()) then
 
-			EEex_Actionbar_SetState(aux["gt_Cantrips_Actionbar_LastState"])
+			EEex_Actionbar_SetState(aux["gt_NWN_Cantrips_Actionbar_LastState"])
 
 		end
 
-		aux["gt_Cantrips_Actionbar_LastState"] = nil
+		aux["gt_NWN_Cantrips_Actionbar_LastState"] = nil
 
 	end
 end)
@@ -317,7 +315,7 @@ EEex_Actionbar_AddButtonsUpdatedListener(function()
 	end
 
 	local array = EEex_Actionbar_GetArray()
-	local cantripsPerDay = sprite:getLocalInt("gtCantripsPerDay")
+	local cantripsPerDay = sprite:getLocalInt("gtNWNCantripsPerDay")
 
 	if cantripsPerDay > 0 then
 		for i = 0, 11 do
@@ -339,9 +337,9 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		return
 	end
 	-- grant the actual uses per day
-	if sprite:getLocalInt("gtCantripsCasterType") > 0 and sprite:getLocalInt("gtCantripsSetUp") == 0 then
-		sprite:setLocalInt("gtCantripsSetUp", 1)
-		sprite:setLocalInt("gtCantripsPerDay", GT_Cantrips_MaxUsesPerDay(sprite))
+	if sprite:getLocalInt("gtNWNCantripsCasterType") > 0 and sprite:getLocalInt("gtNWNCantripsSetUp") == 0 then
+		sprite:setLocalInt("gtNWNCantripsSetUp", 1)
+		sprite:setLocalInt("gtNWNCantripsPerDay", getMaxUsesPerDay(sprite))
 	end
 end)
 
@@ -354,7 +352,13 @@ function GTCNTRP2(CGameEffect, CGameSprite)
 	local trap = false
 
 	local func = function(effect)
-		if effect.m_effectId == 102 or effect.m_effectId == 201 then -- Immunity to spell level / Spell deflection
+		if effect.m_effectId == 177 or effect.m_effectId == 283 then -- Use EFF file
+			local CGameEffectBase = EEex_Resource_Demand(effect.m_res:get(), "eff")
+			--
+			if CGameEffectBase then -- sanity check
+				func(CGameEffectBase)
+			end
+		elseif effect.m_effectId == 102 or effect.m_effectId == 201 then -- Immunity to spell level / Spell deflection
 			deflection = true
 		elseif effect.m_effectId == 199 or effect.m_effectId == 200 then -- Reflect spell level / Spell turning
 			reflection = true
@@ -371,12 +375,12 @@ function GTCNTRP2(CGameEffect, CGameSprite)
 	if CGameEffect.m_sourceId ~= CGameEffect.m_sourceTarget then
 
 		if trap then
-			if CGameSprite:getLocalInt("gtCantripsCasterType") > 0 then -- sanity check
-				local maxCantripsPerDay = GT_Cantrips_MaxUsesPerDay(CGameSprite)
-				local currentCantripsPerDay = CGameSprite:getLocalInt("gtCantripsPerDay")
+			if CGameSprite:getLocalInt("gtNWNCantripsCasterType") > 0 then -- sanity check
+				local maxCantripsPerDay = getMaxUsesPerDay(CGameSprite)
+				local currentCantripsPerDay = CGameSprite:getLocalInt("gtNWNCantripsPerDay")
 				--
 				if currentCantripsPerDay < maxCantripsPerDay then
-					CGameSprite:setLocalInt("gtCantripsPerDay", currentCantripsPerDay + 1)
+					CGameSprite:setLocalInt("gtNWNCantripsPerDay", currentCantripsPerDay + 1)
 				end
 			end
 			-- absorb spell
@@ -425,7 +429,7 @@ function GTCNTRP2(CGameEffect, CGameSprite)
 
 end
 
--- recharge var "gtCantripsPerDay" upon resting --
+-- recharge var "gtNWNCantripsPerDay" upon resting --
 
 EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
 
@@ -435,11 +439,11 @@ EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
 		[243] = true, -- RestNoSpells()
 	}
 
-	if sprite:getLocalInt("gtCantripsCasterType") > 0 then -- sanity check
+	if sprite:getLocalInt("gtNWNCantripsCasterType") > 0 then -- sanity check
 
 		if actionSources[action.m_actionID] then
 
-			sprite:setLocalInt("gtCantripsPerDay", GT_Cantrips_MaxUsesPerDay(sprite))
+			sprite:setLocalInt("gtNWNCantripsPerDay", getMaxUsesPerDay(sprite))
 
 		end
 
