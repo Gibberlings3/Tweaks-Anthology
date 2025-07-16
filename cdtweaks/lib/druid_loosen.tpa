@@ -1,0 +1,65 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
+///// Change Equipment Restrictions for Druid Multis             \\\\\
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+/////                                                            \\\\\
+///// Loosen Equipment Restrictions for Druid Multis             \\\\\
+/////                                                            \\\\\
+
+COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
+  READ_BYTE 0x1f use
+  PATCH_IF ((use BAND BIT3) = 0) BEGIN // if usable by single-class fighters...
+    WRITE_BYTE 0x1f (THIS BAND `BIT4)  // removes f/d flag
+  END
+  BUT_ONLY
+
+COPY_EXISTING ~clasweap.2da~ ~override~
+  PATCH_IF original_iwd BEGIN
+    SET col_num = 16
+  END ELSE BEGIN
+    SET col_num = 9
+  END
+  READ_2DA_ENTRY 0 0 (col_num - 1) val                  // weidu seems to freak out with a top line w/ one less entry
+  SET_2DA_ENTRY  0 0 (col_num - 1) ~CD_DELETE_ME %val%~ // temp
+  FOR (col = 1; col < col_num; ++col) BEGIN
+    READ_2DA_ENTRY  2 col col_num "fighter"
+    PATCH_IF ("%fighter%" = 1) BEGIN
+      SET_2DA_ENTRY 16 col col_num ~1~ // fd
+    END
+  END
+  REPLACE_TEXTUALLY ~CD_DELETE_ME ~ ~~
+  PRETTY_PRINT_2DA
+  BUT_ONLY
+
+ACTION_IF FILE_EXISTS_IN_GAME ~weapprof.2da~ THEN BEGIN
+
+  ACTION_IF MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2200~ THEN BEGIN // multiclass grandmastery
+
+    OUTER_SET profmax = 5
+
+  END ELSE BEGIN
+
+    OUTER_SET profmax = 2
+
+  END
+
+  COPY_EXISTING ~weapprof.2da~  ~override~
+    FOR (row = 9; row < 32; ++row) BEGIN
+      READ_2DA_ENTRY row  5 22 fgt // fighter stars
+      READ_2DA_ENTRY row 10 22 dr  // druid stars
+      READ_2DA_ENTRY row 19 22 fd  // fighter/druid stars
+      PATCH_IF (fgt > profmax) BEGIN SET fgt = profmax END
+      PATCH_IF (fgt > fd) BEGIN
+        SET_2DA_ENTRY row 19 22 ~%fgt%~ // f/d
+      END
+      PATCH_IF dc_fix AND fgt AND !dr BEGIN
+        SET_2DA_ENTRY row 10 22 1
+      END
+    END
+    BUT_ONLY
+
+END

@@ -1,8 +1,8 @@
 IF
-	Global("CDRevealArea","CD_MYAREA_VAR_SCOPE",0)
+	Global("CDRevealArea","%scope%",0)
 THEN
 	RESPONSE #100
-		SetGlobal("CDRevealArea","CD_MYAREA_VAR_SCOPE",1)
+		SetGlobal("CDRevealArea","%scope%",1)
 		Explore()
 		Continue()
 END

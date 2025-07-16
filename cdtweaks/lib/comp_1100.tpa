@@ -14,70 +14,57 @@ ACTION_IF game_includes_pst THEN BEGIN
 
   END
 
-END
+END ELSE BEGIN 
 
-ACTION_IF game_includes_iwd THEN BEGIN
+  ACTION_CLEAR_ARRAY cd_reveal_maps
 
-  ACTION_FOR_EACH file IN
-    ~AR1000~ // EASTHAVEN (PROLOGUE)
-//    ~AR1100~ // EASTHAVEN (FINALE)
-    ~AR2100~ // KULDAHAR
-    ~AR9100~ // LONELYWOOD
-    BEGIN
+  ACTION_IF game_includes_iwd THEN BEGIN
 
-    ACTION_IF FILE_EXISTS_IN_GAME ~%file%.bcs~ BEGIN
-
-      COPY_EXISTING ~%file%.bcs~ ~override~
-        DECOMPILE_AND_PATCH BEGIN
-          APPEND_FILE ~cdtweaks/baf/reveal.baf~
-          REPLACE_TEXTUALLY ~CD_MYAREA_VAR_SCOPE~ ~%SOURCE_RES%~ // bg1 doesn't like MYAREA
-        END
-        BUT_ONLY
-
-    END
+    COPY_EXISTING ~ar1000.are~ ~override~ // easthaven
+                  ~ar2100.are~ ~override~ // kuldahar
+                  ~ar9100.are~ ~override~ // lonelywood
+      READ_ASCII 0x94 script
+      DEFINE_ASSOCIATIVE_ARRAY cd_reveal_maps BEGIN ~%script%~ => ~%SOURCE_RES%~ END 
+      BUT_ONLY IF_EXISTS
 
   END
 
-END
+  ACTION_IF game_includes_bg1 THEN BEGIN
 
-ACTION_IF game_includes_bg1 THEN BEGIN
+    COPY_EXISTING ~%NEBaldursGate_BCS%.bcs~ ~override~ // fix narlen script loop, if not already fixed
+      DECOMPILE_AND_PATCH BEGIN
+        REPLACE_TEXTUALLY ~TimeGT(20)~ ~TimeGT(20) Global("CDNarlenExists","GLOBAL",0)~
+        REPLACE_TEXTUALLY ~TimeLT(4)~  ~TimeLT(4)  Global("CDNarlenExists","GLOBAL",0)~
+        REPLACE_TEXTUALLY ~TimeGT(4)~  ~TimeGT(4)  Global("CDNarlenExists","GLOBAL",1)~
+        REPLACE_TEXTUALLY ~\bActivate("narlen")~   ~Activate("narlen") SetGlobal("CDNarlenExists","GLOBAL",1)~
+        REPLACE_TEXTUALLY ~Deactivate("narlen")~ ~Deactivate("narlen") SetGlobal("CDNarlenExists","GLOBAL",0)~
+      END
+      BUT_ONLY UNLESS ~CDNarlenExists~ IF_EXISTS
 
-  COPY_EXISTING ~%NEBaldursGate_BCS%.bcs~ ~override~
-    DECOMPILE_AND_PATCH BEGIN
-      REPLACE_TEXTUALLY ~TimeGT(20)~ ~TimeGT(20) Global("CDNarlenExists","GLOBAL",0)~
-      REPLACE_TEXTUALLY ~TimeLT(4)~  ~TimeLT(4)  Global("CDNarlenExists","GLOBAL",0)~
-      REPLACE_TEXTUALLY ~TimeGT(4)~  ~TimeGT(4)  Global("CDNarlenExists","GLOBAL",1)~
-      REPLACE_TEXTUALLY ~\bActivate("narlen")~   ~Activate("narlen") SetGlobal("CDNarlenExists","GLOBAL",1)~
-      REPLACE_TEXTUALLY ~Deactivate("narlen")~ ~Deactivate("narlen") SetGlobal("CDNarlenExists","GLOBAL",0)~
-    END
-    BUT_ONLY IF ~CDNarlenExists~ IF_EXISTS
+    COPY_EXISTING ~%NWBaldursGate%.are~      ~override~ // ar0100
+                  ~%NBaldursGate%.are~       ~override~ // ar0200
+                  ~%NEBaldursGate%.are~      ~override~ // ar0300
+                  ~%WBaldursGate%.are~       ~override~ // ar0600
+                  ~%CentralBaldursGate%.are~ ~override~ // ar0700
+                  ~%EBaldursGate%.are~       ~override~ // ar0800
+                  ~%UlgothsBeard%.are~       ~override~ // ar1000
+                  ~%SWBaldursGate%.are~      ~override~ // ar1100
+                  ~%BaldursGateDocks%.are~   ~override~ // ar1200
+                  ~%SEBaldursGate%.are~      ~override~ // ar1300
+                  ~%Candlekeep%.are~         ~override~ // ar2600
+                  ~%Candlekeep_Ch6%.are~     ~override~ // ar2626
+                  ~%Beregost%.are~           ~override~ // ar3300
+                  ~%Nashkel%.are~            ~override~ // ar4800
+      READ_ASCII 0x94 script
+      DEFINE_ASSOCIATIVE_ARRAY cd_reveal_maps BEGIN ~%script%~ => ~%SOURCE_RES%~ END 
+      BUT_ONLY IF_EXISTS
 
-  COPY_EXISTING ~%NWBaldursGate%.are~      ~override~ // ar0100
-                ~%NBaldursGate%.are~       ~override~ // ar0200
-                ~%NEBaldursGate%.are~      ~override~ // ar0300
-                ~%WBaldursGate%.are~       ~override~ // ar0600
-                ~%CentralBaldursGate%.are~ ~override~ // ar0700
-                ~%EBaldursGate%.are~       ~override~ // ar0800
-                ~%UlgothsBeard%.are~       ~override~ // ar1000
-                ~%SWBaldursGate%.are~      ~override~ // ar1100
-                ~%BaldursGateDocks%.are~   ~override~ // ar1200
-                ~%SEBaldursGate%.are~      ~override~ // ar1300
-                ~%Candlekeep%.are~         ~override~ // ar2600
-                ~%Candlekeep_Ch6%.are~     ~override~ // ar2626
-                ~%Beregost%.are~           ~override~ // ar3300
-                ~%Nashkel%.are~            ~override~ // ar4800
-    READ_ASCII 0x94 script
-    SPRINT scope ~%SOURCE_RES%~
-    INNER_ACTION BEGIN
-
-      COPY_EXISTING ~%script%.bcs~ ~override~
-        DECOMPILE_AND_PATCH BEGIN
-          APPEND_FILE ~cdtweaks/baf/reveal.baf~
-          REPLACE_TEXTUALLY ~CD_MYAREA_VAR_SCOPE~ ~%scope%~ // bg1 doesn't like MYAREA
-        END
-        BUT_ONLY IF_EXISTS
-
-    END
-    BUT_ONLY IF_EXISTS
-
-END
+  END
+  
+  ACTION_PHP_EACH cd_reveal_maps AS script => scope BEGIN 
+  
+    EXTEND_BOTTOM ~%script%.bcs~ ~cdtweaks/baf/reveal.baf~ EVALUATE_BUFFER
+      
+  END    
+  
+END 

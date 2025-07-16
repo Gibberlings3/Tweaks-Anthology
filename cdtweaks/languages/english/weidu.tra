@@ -144,9 +144,9 @@ The uninstall messages above are normal and expected.
 @25400 = ~Moderately decreased brightness~
 @25500 = ~Original color~
 
-@26000 = "Hide VFX from invisible enemies [Luke, EEex]"
+@26000 = "Hide Visual Effects from Invisible Enemies [Luke, EEex]"
 
-@27000 = ~Static PsT character portraits~
+@27000 = ~Static PsT Character Portraits~
 @27001 = ~Visualize health and status changes~
 @27100 = ~Don't visualize health and status changes~
 
@@ -295,7 +295,7 @@ The uninstall messages above are normal and expected.
 
 @135400 = ~Options 2 AND 3~
 
-@136000 = ~Automatic transition to "Heart of Winter" expansion~
+@136000 = ~Automatic Transition to the "Heart of Winter" Expansion~
 @136001 = ~Don't change the main game~
 @136100 = ~Remove Hjollder from Kuldahar~
 
@@ -435,9 +435,10 @@ The uninstall messages above are normal and expected.
 
 @242000 = ~Loosen Equipment Restrictions for Cleric Multi- and Dual-Classes~
 
-@243000 = ~Loosen equipment restrictions for druid multi- and dual-classes~
+@242900 = ~Loosen equipment restrictions (without dual-class adjustment, see readme)~
+@243000 = ~Loosen equipment restrictions (with dual-class adjustment, see readme)~
 @243001 = ~Change Equipment Restrictions for Druid Multi- and Dual-Classes~
-@243100 = ~Tighten equipment restrictions for druid multi- and dual-classes [Angel]~
+@243100 = ~Tighten equipment restrictions [Angel]~
 
 @244000 = ~Everyone Gets Bonus APR from Specialization [subtledoctor]~
 
@@ -477,13 +478,13 @@ The uninstall messages above are normal and expected.
 
 @262000 = ~Make Certain Creatures Immune to Backstab/Sneak Attack [Luke]~
 
-@263000 = "Improved Cure / Cause Wounds [Luke]"
+@263000 = "Improved Cure/Cause Wounds [Luke]"
 
 @264000 = "PnP Potions [Luke]"
 
 @265000 = "Make Grease ignitable [Luke (EEex)]"
 
-@266000 = "Make Bears and Boars continue fighting after reaching 0 hit points [Luke (EEex)]"
+@266000 = "Make Bears and Boars Continue Fighting after Reaching 0 Hit Points [Luke (EEex)]"
 
 @267000 = "Limit Resting Mechanic [Luke (EEex)]"
 
@@ -652,7 +653,7 @@ Enter a percentage between 20 and 500:~
 @324100 = ~Choose your drop~
 @324200 = ~Exchange with merchants~
 
-@325000 = ~Never Lose Access to Orrick the Gray's Trade Goods~
+@325000 = ~Never Lose Access to Orrick's Trade Goods~
 
 @326000 = ~Recoverable Ammunition [argent77]~
 @326001 = ~25% chance to recover after a successful hit~
@@ -839,9 +840,9 @@ Use Baldur.lua options: a7_interval_ini
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-@600000 = "Disarm class feat for Rogues [Luke (EEex)]"
+@600000 = "Disarm Class Feat for Rogues [Luke (EEex)]"
 
-@601000 = "Knockdown class feat for Fighters and Monks [Luke (EEex)]"
+@601000 = "Knockdown Class Feat for Fighters and Monks [Luke (EEex)]"
 
 @602000 = "Spellcaster Skill/Counterspell Class Talent [Luke (EEex)]"
 
@@ -873,7 +874,7 @@ Use Baldur.lua options: a7_interval_ini
 
 @616000 = "NWN-ish Barbarian Rage [Luke]"
 
-@617000 = ~"Force" the Archer kit to use bows [Luke (EEex)]~
+@617000 = ~"Force" the Archer Kit to Use Bows [Luke (EEex)]~
 
 @618000 = "Blind Fight Innate Feat for Berserkers [Luke (EEex)]"
 
@@ -893,13 +894,13 @@ Use Baldur.lua options: a7_interval_ini
 
 @626000 = "Uncanny Dodge Class Feat for Barbarians and Rogues [Luke (EEex)]"
 
-@627000 = "NWN-ish Sneak Attack / Crippling Strike class feat for Thieves and Stalkers [Luke (EEex)]"
+@627000 = "NWN-ish Sneak Attack/Crippling Strike Class Feat for Thieves and Stalkers [Luke (EEex)]"
 
 @628000 = "Evasion Class Feat for Monks and Rogues [Luke (EEex)]"
 
 @629000 = "Spell Penetration Class Feat for Spellcasters [Luke (EEex)]"
 
-@630000 = "Smite Evil / Good Class Feat for Paladins / Blackguards [Luke (EEex)]"
+@630000 = "Smite Evil/Good Class Feat for Paladins/Blackguards [Luke (EEex)]"
 
 @631000 = "Woodland Stride Class Feat for Druids [Luke (EEex)]"
 

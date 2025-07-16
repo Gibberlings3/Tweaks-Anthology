@@ -86,8 +86,16 @@ ACTION_IF monk_staves BEGIN
       END
     END
     PATCH_PHP_EACH cd_monk_staves_work AS column => foo BEGIN
-      READ_2DA_ENTRY 17 column col_count club_stars
-      SET_2DA_ENTRY  22 column col_count club_stars
+      READ_2DA_ENTRY 17 column col_count new_stars // club pips
+      READ_2DA_ENTRY 22 column col_count old_stars // staff pips
+      PATCH_IF new_stars > old_stars BEGIN 
+        SET_2DA_ENTRY  22 column col_count new_stars // increase if club > staff
+      END   
+      READ_2DA_ENTRY 30 column col_count new_stars // single weapon style
+      READ_2DA_ENTRY 28 column col_count old_stars // 2h weapon style
+      PATCH_IF new_stars > old_stars BEGIN 
+        SET_2DA_ENTRY  28 column col_count new_stars // increase if singke > 2h
+      END
     END
     PRETTY_PRINT_2DA
     BUT_ONLY

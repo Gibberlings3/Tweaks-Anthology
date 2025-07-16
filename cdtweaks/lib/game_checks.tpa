@@ -23,6 +23,7 @@ used:
   The Divine Remix, as divine_remix/lib/game_checks.tpa [symbolic link]
   Sword and Fist, as sword_and_fist/lib/game_checks.tpa [symbolic link]
   SP Collection, as spstuff/lib/game_checks.tpa [symbolic link]
+  Tweaks Anthology, as cdtweaks/lib/game_checks.tpa [symbolic link]
 
 platform:
   all games

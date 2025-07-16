@@ -121,6 +121,12 @@ END ELSE BEGIN
   END ELSE BEGIN
     OUTER_SET check_kitx = 0
   END
+  
+  ACTION_IF MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3008~ BEGIN 
+    OUTER_SET roll_to_20 = 1
+  END ELSE BEGIN
+    OUTER_SET roll_to_20 = 0
+  END
 
   DEFINE_PATCH_FUNCTION max_hp_creatures
       INT_VAR check_kit     = check_kitx
@@ -167,7 +173,7 @@ END ELSE BEGIN
                   (class = 19)) BEGIN // sorcerer
           SET firstdice = 4
           PATCH_IF (enhanced_edition AND kit = 0x4023) BEGIN SET firstdice = 6 END // dragon disciple sorcerer
-          SET firstlast = 10
+          SET firstlast = 10 + (roll_to_20 * 10)
           SET firstpostdice = 1
         END ELSE
 
@@ -179,7 +185,7 @@ END ELSE BEGIN
                   (class = 17)) BEGIN               // fmc
           SET firstdice = 10
           PATCH_IF ((class = 2) AND (kit = 0x40000000) OR (enhanced_edition AND kit = 0x4022)) BEGIN SET firstdice = 12 END // barbarian or dwarven defender
-          SET firstlast = 9
+          SET firstlast = 9 + (roll_to_20 * 11)
           SET firstpostdice = 3
         END ELSE
 
@@ -192,7 +198,7 @@ END ELSE BEGIN
                   (class = 20) OR     // monk
                   (class = 21)) BEGIN // shaman
           SET firstdice = 8
-          SET firstlast = 9
+          SET firstlast = 9 + (roll_to_20 * 11)
           SET firstpostdice = 2
         END ELSE
 
@@ -200,21 +206,21 @@ END ELSE BEGIN
         PATCH_IF ((class = 4) OR
                   (class = 5)) BEGIN
           SET firstdice = 6
-          SET firstlast = 10
+          SET firstlast = 10 + (roll_to_20 * 10)
           SET firstpostdice = 1
         END
 
     // triple classes
         PATCH_IF ((class = 10) OR (class = 17)) BEGIN
           SET seconddice = 4
-          SET secondlast = 10
+          SET secondlast = 10 + (roll_to_20 * 10)
           SET secondpostdice = 1
           PATCH_IF (class = 10) BEGIN // fmt
             SET thirddice = 6
-            SET thirdlast = 10
+            SET thirdlast = 10 + (roll_to_20 * 10)
           END ELSE BEGIN              // fmc
             SET thirddice = 8
-            SET thirdlast = 9
+            SET thirdlast = 9 + (roll_to_20 * 11)
           END
           SET thirdpostdice = 2
           SET divide = 3
@@ -228,21 +234,21 @@ END ELSE BEGIN
           // first classes set above; set second classes
           PATCH_IF (class = 9) OR (class = 13) OR (class = 15) BEGIN // ft, mt, ct
             SET seconddice = 6 // thief = level2
-            SET secondlast = 10
+            SET secondlast = 10 + (roll_to_20 * 10)
             SET secondpostdice = 2
           END ELSE
           PATCH_IF (class = 7) OR (class = 14) BEGIN // fm, cm
             SET seconddice = 4 // mage = level2
-            SET secondlast = 10
+            SET secondlast = 10 + (roll_to_20 * 10)
             SET secondpostdice = 1
           END ELSE
           PATCH_IF (class = 8) OR (class = 16) BEGIN // fc, fd
             SET seconddice = 8 // cleric/druid = level2
-            SET secondlast = 9
+            SET secondlast = 9 + (roll_to_20 * 11)
             SET secondpostdice = 2
           END ELSE BEGIN // cr, class = 19
             SET seconddice = 10 // ranger = level2
-            SET secondlast = 9
+            SET secondlast = 9 + (roll_to_20 * 11)
             SET secondpostdice = 3
           END
           PATCH_IF ((flags BAND (BIT3 + BIT4 + BIT5 + BIT6 + BIT7 + BIT8)) != 0) BEGIN // dual-class

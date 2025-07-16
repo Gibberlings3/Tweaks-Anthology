@@ -35,13 +35,19 @@ COPY_EXISTING ~weapprof.2da~ ~override~
   END ELSE BEGIN
     SET mage_sns = 0
   END
+  PATCH_IF ((MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2561~) OR
+            (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2562~)) BEGIN // monks can use staves
+    SET monk_2handed = 1
+  END ELSE BEGIN
+    SET monk_2handed = 0
+  END
   FOR (col = 4 ; col < col_count ; ++col) BEGIN
     READ_2DA_ENTRY 0 col col_check kit
     SET 2handed = 2
     SET sns     = 2
     PATCH_IF VARIABLE_IS_SET $style_kits("%kit%") BEGIN
       PATCH_IF $style_kits("%kit%") = 20 BEGIN
-        SET 2handed = 0
+        SET 2handed = (2handed * monk_2handed)
         SET sns     = 0
       END ELSE BEGIN // for mage or sorcerer
         SET sns     = mage_sns

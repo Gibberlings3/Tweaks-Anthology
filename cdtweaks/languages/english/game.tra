@@ -625,9 +625,99 @@ WARNING: Magical katanas and wakizashis are very rare outside of Kara-Tur, so ca
 @216011 = ~Mace/Morningstar~
 
 @216101 = ~Small Sword~
+@216102 = ~ and shamans~ // leading space is required
+@216103 = ~SMALL SWORDS: This weapon class allows the character to use short swords and daggers.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216104 = ~LARGE SWORDS: This weapon class allows the character to use bastard swords, broad swords, two-handed swords, long swords, katanas, wakizashis, ninja-tos, and scimitars. Druids%cd_shaman% are able to select this class, but are limited to scimitars alone. Monks are able to select this class, but cannot use bastard swords or two-handed swords.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216105 = ~BOWS: This weapon class allows the character to use longbows, composite longbows, and shortbows. Thieves%cd_shaman% can choose this category, but are restricted to shortbows only.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216106 = ~SPIKED WEAPONS: This weapon class allows the character to use morning stars and flails.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216107 = ~AXES: This weapon class allows the character to use battle axes and throwing axes.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216108 = ~BLUNT WEAPONS: This weapon class allows the character to use maces, clubs, war hammers, and staves. Druids%cd_shaman% and thieves can choose this category, but are limited to the club and staff only. Mages can choose this category, but are limited to the staff alone. Monks can choose this category, but are limited to the club alone.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216109 = ~SPEARS: This weapon class allows the character to use spears%cd_javelins% and halberds. Druids%cd_shaman% can choose this category, but cannot use halberds.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216110 = ~MISSILE WEAPONS: This weapon class allows the character to use crossbows, slings, and darts. Druids%cd_shaman% and monks can choose this category, but are limited to slings and darts only. Clerics can choose this proficiency but are restricted to slings alone.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216111 = ~, javelins,~ 
 
 @216301 = ~Great Sword~
-@216302 = ~GREAT SWORDS: This weapon class allows the character to use Two-Handed Swords and Bastard Swords.
+@216302 = ~GREAT SWORDS: This weapon class allows the character to use two-handed swords and bastard swords.
 
 <DOTS1>
 
@@ -638,7 +728,7 @@ WARNING: Magical katanas and wakizashis are very rare outside of Kara-Tur, so ca
 <DOTS4>
 
 <DOTS5>~
-@216303 = ~LARGE SWORD: This weapon class allows the character to use Broad Swords, Long Swords, and Scimitars. The Druid is able to select this class, but is limited to Scimitars alone.
+@216303 = ~LARGE SWORDS: This weapon class allows the character to use broad swords, long swords, katanas, wakizashis, ninja-tos, and scimitars. Druids%cd_shaman% are able to select this class, but are limited to scimitars alone.
 
 <DOTS1>
 
@@ -649,7 +739,7 @@ WARNING: Magical katanas and wakizashis are very rare outside of Kara-Tur, so ca
 <DOTS4>
 
 <DOTS5>~
-@216304 = ~MISSILE WEAPONS: This weapon class allows the character to use Slings and Darts. Clerics can choose this proficiency but are restricted to Slings alone.
+@216304 = ~MISSILE WEAPONS: This weapon class allows the character to use slings and darts. Clerics can choose this proficiency but are restricted to slings alone.
 
 <DOTS1>
 
@@ -660,6 +750,120 @@ WARNING: Magical katanas and wakizashis are very rare outside of Kara-Tur, so ca
 <DOTS4>
 
 <DOTS5>~
+@216305 = ~CLUBS:  This weapon class allows the character to use clubs.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216306 = ~CROSSBOWS:  This weapon class allows the character to use light crossbows and heavy crossbows.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216305 = ~DAGGERS:  This weapon class allows the character to use daggers and throwing daggers.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216306 = ~HALBERDS:  This weapon class allows the character to use halberds.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216307 = ~FLAILS:  This weapon class allows the character to use flails.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216308 = ~Hammer~
+@216309 = ~HAMMERS:  This weapon class allows the character to use hammers and mauls.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216310 = ~Mace~
+@216311 = ~MACES:  This weapon class allows the character to use maces and morning stars.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216312 = ~SMALL SWORDS:  This weapon class allows the character to use short swords.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216313 = ~SPEARS:  This weapon class allows the character to use spears%cd_javelins%.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216314 = ~QUARTERSTAVES:  This weapon class allows the character to use quarterstaves.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+// keep the leading space
+@216315 = ~ and javelins~ 
 
 // this component deprecated, but the strings below still needed for the components that replace it
 @218001 = ~Alchemy (Mage)~
