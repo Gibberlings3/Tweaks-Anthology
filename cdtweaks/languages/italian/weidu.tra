@@ -437,6 +437,7 @@ o rimpiazzata da - un'altra facente parte di uno dei mods installati.~
 @269004 = "v4 (fare riferimento al readme)"
 
 @270000 = "Modifica la meccanica della Rigenerazione dei Troll [Luke (EEex)]"
+@271000 = "Evocazioni in stile NWN [Luke (EEex)]"
 /*
 @258000 = ~Modifica tabella degli incantesimi divini divini basati sulla saggezza~
 @258001 = ~Usa tabella PnP/PsT~
@@ -671,6 +672,8 @@ Usa opzioni di Baldur.lua:           a7_interval_ini
 @346000 = "Rendi più accurata la meccanica degli incantesimi del tipo Barriera di Lame [Luke (EEex)]"
 
 @347000 = ~Regola in modo automatico gli FPS [Luke (EEex)]~
+
+@348000 = "Rendi più accurata la meccanica che regola il risveglio di Morentherene [Luke (EEex)]"
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
