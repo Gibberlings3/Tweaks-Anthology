@@ -13,7 +13,7 @@ function %INNATE_HAWK_BLIND%(CGameEffect, CGameSprite)
 	--
 	local levelModifier = math.floor(sourceSprite:getActiveStats().m_nLevel1 / 5) -- +1 every 5 levels
 	--
-	if not GT_Trigger_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, blindImmunity) then
+	if not GT_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, blindImmunity) then
 		EEex_GameObject_ApplyEffect(CGameSprite,
 		{
 			["effectID"] = 74, -- Duration

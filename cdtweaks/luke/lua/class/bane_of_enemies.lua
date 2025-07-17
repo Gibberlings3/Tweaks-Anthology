@@ -56,7 +56,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- any lvl 21+ ranger (single/multi/(complete)dual, not fallen)
 	local isRangerAll = GT_Sprite_CheckIDS(sprite, class["RANGER_ALL"], 5, true)
 	--
-	local applyAbility = isRangerAll and GT_Trigger_EvalConditional["parseConditionalString"](sprite, sprite, "ClassLevelGT(Myself,WARRIOR,20)") and m_nHatedRace > 0
+	local applyAbility = isRangerAll and GT_EvalConditional["parseConditionalString"](sprite, sprite, "ClassLevelGT(Myself,WARRIOR,20)") and m_nHatedRace > 0
 	--
 	if sprite:getLocalInt("gtNWNBaneOfEnemies") == 0 then
 		if applyAbility then

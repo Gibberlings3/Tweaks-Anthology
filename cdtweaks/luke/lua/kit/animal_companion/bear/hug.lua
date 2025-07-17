@@ -35,7 +35,7 @@ function %INNATE_BEAR_HUG%(CGameEffect, CGameSprite)
 		diceSize = 6
 	end
 	--
-	if not GT_Trigger_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, conditionalString) then
+	if not GT_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, conditionalString) then
 		EEex_GameObject_ApplyEffect(CGameSprite,
 		{
 			["effectID"] = 0xC, -- Damage

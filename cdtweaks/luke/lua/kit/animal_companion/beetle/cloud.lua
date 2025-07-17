@@ -11,7 +11,7 @@ function %INNATE_BOMBARDIER_BEETLE_CLOUD%(CGameEffect, CGameSprite)
 	local stunImmunity = "EEex_IsImmuneToOpcode(Myself,45)"
 	local deafImmunity = "EEex_IsImmuneToOpcode(Myself,80)"
 	--
-	if not GT_Trigger_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, stunImmunity) then
+	if not GT_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, stunImmunity) then
 		if math.random(5) == 1 then -- 20% chance
 			EEex_GameObject_ApplyEffect(CGameSprite,
 			{
@@ -34,7 +34,7 @@ function %INNATE_BOMBARDIER_BEETLE_CLOUD%(CGameEffect, CGameSprite)
 		end
 	end
 	--
-	if not GT_Trigger_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, deafImmunity) then
+	if not GT_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, deafImmunity) then
 		if math.random(5) == 1 then -- 20% chance
 			EEex_GameObject_ApplyEffect(CGameSprite,
 			{

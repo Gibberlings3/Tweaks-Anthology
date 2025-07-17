@@ -67,7 +67,7 @@ function %ARCHER_CALLED_SHOT%(CGameEffect, CGameSprite)
 		--
 		local damageTypeIDS, ACModifier = GT_Sprite_ItmDamageTypeToIDS(selectedWeapon["ability"].damageType, targetActiveStats)
 		--
-		if GT_Trigger_EvalConditional["parseConditionalString"](sourceSprite, CGameSprite, weaponEffectiveVs) then
+		if GT_EvalConditional["parseConditionalString"](sourceSprite, CGameSprite, weaponEffectiveVs) then
 			-- compute attack roll (am I missing something...?)
 			local success = false
 			local modifier = luck + thac0BonusRight + thac0VsTypeBonus - attackRollPenalty + racialEnemy - 4

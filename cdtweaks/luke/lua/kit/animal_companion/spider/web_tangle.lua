@@ -13,7 +13,7 @@ function %INNATE_SPIDER_WEB_TANGLE%(CGameEffect, CGameSprite)
 	--
 	local levelModifier = math.floor(sourceSprite:getActiveStats().m_nLevel1 / 5) -- +1 every 5 levels
 	--
-	if not GT_Trigger_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, webImmunity) then
+	if not GT_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, webImmunity) then
 		EEex_GameObject_ApplyEffect(CGameSprite,
 		{
 			["effectID"] = 157, -- Web overlay

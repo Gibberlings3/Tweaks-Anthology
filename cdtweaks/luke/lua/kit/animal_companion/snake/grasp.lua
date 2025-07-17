@@ -17,7 +17,7 @@ function %INNATE_SNAKE_GRASP%(CGameEffect, CGameSprite)
 		--
 		local holdImmunity = "EEex_IsImmuneToOpcode(Myself,185)"
 		--
-		if not GT_Trigger_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, holdImmunity) then
+		if not GT_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, holdImmunity) then
 			-- store targeted creature (sprite)
 			--sourceAux["gt_Aux_SnakeGrasp_CoiledVictim"] = CGameSprite
 			-- store targeted creature (id): this is because ``aux`` does not survive reloads, so if we save and reload the game while grasping a creature, the coiled victim will be lost
@@ -177,7 +177,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	if victim then
 		local conditionalString = 'Range(EEex_Target("gtScriptingTarget"),4)'
 		--
-		if EEex_BAnd(sprite.m_derivedStats.m_generalState, 0x80102FEF) ~= 0 or not EEex_UDEqual(sprite.m_pArea, victim.m_pArea) or isMazed or not GT_Trigger_EvalConditional["parseConditionalString"](sprite, victim, conditionalString) then
+		if EEex_BAnd(sprite.m_derivedStats.m_generalState, 0x80102FEF) ~= 0 or not EEex_UDEqual(sprite.m_pArea, victim.m_pArea) or isMazed or not GT_EvalConditional["parseConditionalString"](sprite, victim, conditionalString) then
 			sprite:applyEffect({
 				["effectID"] = 146, -- cast spell
 				["dwFlags"] = 1, -- instant/ignore level
@@ -356,7 +356,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 				--
 				local conditionalString = 'InWeaponRange(EEex_Target("gtScriptingTarget"))'
 				--
-				if victim and roll <= 4 and GT_Trigger_EvalConditional["parseConditionalString"](sprite, victim, conditionalString) then -- 20% chance + InWeaponRange()
+				if victim and roll <= 4 and GT_EvalConditional["parseConditionalString"](sprite, victim, conditionalString) then -- 20% chance + InWeaponRange()
 					-- store original ``m_actionID`` and ``m_acteeID``
 					-- NB.: this is because we recall some weirdness with ``AttackReevaluate()`` and how it stores its target!
 					attackerAux["gt_SnakeGrasp_StrikeVictim"] = {

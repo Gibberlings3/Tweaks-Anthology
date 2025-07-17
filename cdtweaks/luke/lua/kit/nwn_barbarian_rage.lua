@@ -100,7 +100,7 @@ function %BARBARIAN_RAGE%(CGameEffect, CGameSprite)
 		--
 		local panicImmunity = "EEex_IsImmuneToOpcode(Myself,24)"
 		--
-		if not GT_Trigger_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, panicImmunity) then
+		if not GT_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, panicImmunity) then
 			local effectCodes = {}
 			--
 			if sourceActiveStats.m_nLevel1 > 1 then
@@ -174,7 +174,7 @@ function %BARBARIAN_RAGE%(CGameEffect, CGameSprite)
 		--
 		local damageTypeIDS, ACModifier = GT_Sprite_ItmDamageTypeToIDS(selectedWeapon["ability"].damageType, targetActiveStats)
 		--
-		if not GT_Trigger_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, damageImmunity) then
+		if not GT_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, damageImmunity) then
 			EEex_GameObject_ApplyEffect(CGameSprite,
 			{
 				["effectID"] = 0xC, -- Damage

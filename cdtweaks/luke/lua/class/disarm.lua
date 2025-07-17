@@ -40,7 +40,7 @@ function %THIEF_DISARM%(CGameEffect, CGameSprite)
 	end
 	-- MAIN --
 	-- Check if inventory is full
-	if not GT_Trigger_EvalConditional["parseConditionalString"](sourceSprite, sourceSprite, conditionalString) then
+	if not GT_EvalConditional["parseConditionalString"](sourceSprite, sourceSprite, conditionalString) then
 		-- check if NONDROPABLE
 		if EEex_IsBitUnset(targetSelectedWeapon["weapon"].m_flags, 0x3) then
 			-- check if DROPPABLE
@@ -93,7 +93,7 @@ function %THIEF_DISARM%(CGameEffect, CGameSprite)
 						--
 						local damageTypeIDS, ACModifier = GT_Sprite_ItmDamageTypeToIDS(sourceSelectedWeapon["ability"].damageType, targetActiveStats)
 						--
-						if GT_Trigger_EvalConditional["parseConditionalString"](sourceSprite, CGameSprite, conditionalString) then
+						if GT_EvalConditional["parseConditionalString"](sourceSprite, CGameSprite, conditionalString) then
 							-- compute attack roll (am I missing something...?)
 							local success = false
 							local modifier = luck + thac0BonusRight + thac0VsTypeBonus + racialEnemy - attackRollPenalty + attackOfOpportunity + strikingFromInvisibility - invisibleTarget + weaponSizeModifier - 6

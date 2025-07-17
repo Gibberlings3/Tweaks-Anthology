@@ -127,7 +127,7 @@ EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
 														--
 														if pHeader.itemType == 2 then -- priest
 															if EEex_IsBitSet(casterType, 0x0) then
-																if symbol:upper() ~= "CLERIC_CAUSE_MINOR_WOUNDS" or (not GT_Trigger_EvalConditional["parseConditionalString"](itrSprite, itrSprite, isGood) and string.find(mxspl, "PRS", 1, true)) then -- neutral or evil clerics only
+																if symbol:upper() ~= "CLERIC_CAUSE_MINOR_WOUNDS" or (not GT_EvalConditional["parseConditionalString"](itrSprite, itrSprite, isGood) and string.find(mxspl, "PRS", 1, true)) then -- neutral or evil clerics only
 																	if symbol:upper() ~= "CLERIC_FLARE" or (mxspl == "MXSPLDRU" or mxspl == "MXSPLSHM") then -- druids/shamans only
 																		if symbol:upper() ~= "CLERIC_THORN_WHIP" or (mxspl == "MXSPLDRU" or mxspl == "MXSPLSHM") then -- druids/shamans only
 																			if symbol:upper() ~= "CLERIC_BLADE_WARD" or string.find(mxspl, "MXSPLPRS", 1, true) then -- clerics only

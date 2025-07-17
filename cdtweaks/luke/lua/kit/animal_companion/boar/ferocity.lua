@@ -16,7 +16,7 @@ function %INNATE_ANIMAL_FEROCITY%(CGameEffect, CGameSprite)
 	--
 	local berserkImmunity = "EEex_IsImmuneToOpcode(Myself,3)"
 	--
-	if not GT_Trigger_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, berserkImmunity) then
+	if not GT_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, berserkImmunity) then
 		local effectCodes = {
 			--{["op"] = 3}, -- berserk (mode: normal)
 			{["op"] = 44, ["p1"] = math.random(6)}, -- STR mod (+1d6)

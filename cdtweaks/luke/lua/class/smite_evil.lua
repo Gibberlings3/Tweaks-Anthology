@@ -73,8 +73,9 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	local spriteKitStr = EEex_Resource_KitIDSToSymbol(sprite.m_derivedStats.m_nKit)
 	--
 	local gainAbility = spriteClassStr == "PALADIN" and spriteKitStr ~= "Blackguard" and EEex_IsBitUnset(spriteFlags, 0x9)
-	-- One use per 5 levels (starting from level 1)
-	local usesPerDay = math.floor(spriteLevel1 / 5) + 1
+	-- One use per level (starting from level 1)
+	--local usesPerDay = math.floor(spriteLevel1 / 5) + 1
+	local usesPerDay = math.floor(spriteLevel1 / 1) + 0
 	--
 	if sprite:getLocalInt("gtNWNSmiteEvil") == 0 then
 		if gainAbility then
@@ -267,7 +268,7 @@ function %PALADIN_SMITE_EVIL%(CGameEffect, CGameSprite)
 	local align = GT_Resource_SymbolToIDS["align"]
 	local isEvil = GT_Sprite_CheckIDS(CGameSprite, align["MASK_EVIL"], 8)
 	--
-	if GT_Trigger_EvalConditional["parseConditionalString"](sourceSprite, CGameSprite, weaponEffectiveVs) then
+	if GT_EvalConditional["parseConditionalString"](sourceSprite, CGameSprite, weaponEffectiveVs) then
 		if isEvil then
 			-- compute attack roll (am I missing something...?)
 			local success = false

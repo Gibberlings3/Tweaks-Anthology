@@ -13,12 +13,12 @@ function %INNATE_LEOPARD_SNEAK_ATTACK%(CGameEffect, CGameSprite)
 		local conditionalString = '!GlobalTimerNotExpired("gtLeopardSneakattTimer","LOCALS")'
 		local responseString = 'SetGlobalTimer("gtLeopardSneakattTimer","LOCALS",6)'
 		--
-		local isWeaponRanged = "IsWeaponRanged(Myself)"
+		--local selectedWeapon = GT_Sprite_GetSelectedWeapon(CGameSprite)
 		--
-		if GT_Trigger_EvalConditional["parseConditionalString"](sourceSprite, sourceSprite, conditionalString) then
-			-- if the target is incapacitated || the target is in combat with someone else || the target is equipped with a ranged weapon
-			if EEex_BAnd(targetActiveStats.m_generalState, 0x100029) ~= 0 or CGameSprite.m_targetId ~= sourceSprite.m_id or GT_Trigger_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, isWeaponRanged) then
-				GT_Action_ExecuteResponse["parseResponseString"](sourceSprite, sourceSprite, responseString)
+		if GT_EvalConditional["parseConditionalString"](sourceSprite, sourceSprite, conditionalString) then
+			-- if the target is incapacitated || the target is in combat with someone else
+			if EEex_BAnd(targetActiveStats.m_generalState, 0x100029) ~= 0 or CGameSprite.m_targetId ~= sourceSprite.m_id then
+				GT_ExecuteResponse["parseResponseString"](sourceSprite, sourceSprite, responseString)
 				--
 				CGameSprite:applyEffect({
 					["effectID"] = 146, -- Cast spell
@@ -43,7 +43,7 @@ function %INNATE_LEOPARD_SNEAK_ATTACK%(CGameEffect, CGameSprite)
 		--
 		local damageTypeIDS, ACModifier = GT_Sprite_ItmDamageTypeToIDS(selectedWeapon["ability"].damageType, targetActiveStats)
 		--
-		if not GT_Trigger_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, string) then
+		if not GT_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, string) then
 			EEex_GameObject_ApplyEffect(CGameSprite,
 			{
 				["effectID"] = 0xC, -- Damage

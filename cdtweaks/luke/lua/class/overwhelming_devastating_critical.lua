@@ -1,88 +1,58 @@
 --[[
 +---------------------------------------------------------------------------------------+
-| cdtweaks, NWN-ish Overwhelming/Devastating Critical class feat for Trueclass Fighters |
+| cdtweaks, NWN-style Overwhelming/Devastating Critical class feat for Trueclass Fighters |
 +---------------------------------------------------------------------------------------+
 --]]
 
--- Apply ability --
+-- op408 listener --
 
-EEex_Opcode_AddListsResolvedListener(function(sprite)
-	-- Sanity check
-	if not EEex_GameObject_IsSprite(sprite) then
-		return
-	end
-	-- internal function that applies the actual feat
-	local apply = function(mainHandResRef)
-		-- Update tracking var
-		sprite:setLocalString("gtNWNDevastatingCritical", mainHandResRef)
+%FIGHTER_DEVASTATING_CRITICAL%P = {
+
+	["typeMutator"] = function(context)
+		local actionSources = {
+			[EEex_Projectile_DecodeSource.CGameAIBase_FireSpell] = true,
+		}
 		--
-		sprite:applyEffect({
-			["effectID"] = 321, -- Remove effects by resource
-			["res"] = "%TRUECLASS_FIGHTER_DEVASTATING_CRITICAL%",
-			["sourceID"] = sprite.m_id,
-			["sourceTarget"] = sprite.m_id,
-		})
-		sprite:applyEffect({
-			["effectID"] = 182, -- Use EFF file while ITM is equipped
-			["durationType"] = 9,
-			["res"] = string.upper(mainHandResRef), -- ITM
-			["m_res2"] = "%TRUECLASS_FIGHTER_DEVASTATING_CRITICAL%B", -- EFF
-			["m_sourceRes"] = "%TRUECLASS_FIGHTER_DEVASTATING_CRITICAL%",
-			["sourceID"] = sprite.m_id,
-			["sourceTarget"] = sprite.m_id,
-		})
-	end
-	-- Check creature's equipment / class / pips
-	local selectedWeapon = GT_Sprite_GetSelectedWeapon(sprite)
-	--
-	local selectedWeaponProficiencyType = selectedWeapon["header"].proficiencyType
-	-- get launcher if needed
-	if selectedWeapon["launcher"] then
-		local pHeader = selectedWeapon["launcher"].pRes.pHeader -- Item_Header_st
+		local originatingSprite = context["originatingSprite"] -- CGameSprite
+		local projectileTypeStr = GT_Resource_IDSToSymbol["missile"][context["projectileType"]] -- The projectile type about to be decoded
 		--
-		selectedWeaponProficiencyType = pHeader.proficiencyType
-		selectedWeapon["resref"] = selectedWeapon["launcher"].pRes.resref:get()
-	end
-	--
-	local spriteClassStr = GT_Resource_IDSToSymbol["class"][sprite.m_typeAI.m_Class]
-	-- since ``EEex_Opcode_AddListsResolvedListener`` is running after the effect lists have been evaluated, ``m_bonusStats`` has already been added to ``m_derivedStats`` by the engine
-	local spriteKitStr = sprite.m_derivedStats.m_nKit == 0 and "TRUECLASS" or EEex_Resource_KitIDSToSymbol(sprite.m_derivedStats.m_nKit)
-	local spriteLevel1 = sprite.m_derivedStats.m_nLevel1
-	local spriteSTR = sprite.m_derivedStats.m_nSTR
-	--
-	local grandmastery = string.format("ProficiencyGT(Myself,%d,4)", selectedWeaponProficiencyType)
-	--
-	local applyAbility = spriteClassStr == "FIGHTER" and spriteLevel1 >= 30 and (spriteKitStr == "TRUECLASS" or spriteKitStr == "MAGESCHOOL_GENERALIST") and GT_Trigger_EvalConditional["parseConditionalString"](sprite, sprite, grandmastery) and spriteSTR >= 19
-	--
-	if sprite:getLocalString("gtNWNDevastatingCritical") == "" then
-		if applyAbility then
-			apply(selectedWeapon["resref"])
+		if not actionSources[context.decodeSource] then
+			return
 		end
-	else
-		if applyAbility then
-			-- Check if weapon resref has changed since the last application
-			if selectedWeapon["resref"] ~= sprite:getLocalString("gtNWNDevastatingCritical") then
-				apply(selectedWeapon["resref"])
-			end
-		else
-			-- Mark the creature as 'feat removed'
-			sprite:setLocalString("gtNWNDevastatingCritical", "")
-			--
-			sprite:applyEffect({
-				["effectID"] = 321, -- Remove effects by resource
-				["res"] = "%TRUECLASS_FIGHTER_DEVASTATING_CRITICAL%",
-				["sourceID"] = sprite.m_id,
-				["sourceTarget"] = sprite.m_id,
-			})
+		--
+		local selectedWeapon = GT_Sprite_GetSelectedWeapon(originatingSprite)
+		-- morph projectile
+		if projectileTypeStr == "GT_Devastating_Critical" then
+			return selectedWeapon["ability"].missileType
 		end
-	end
-end)
+	end,
+
+	["projectileMutator"] = function(context)
+		local actionSources = {
+			[EEex_Projectile_DecodeSource.CGameAIBase_FireSpell] = true,
+		}
+		--
+		if not actionSources[context.decodeSource] then
+			return
+		end
+	end,
+
+	["effectMutator"] = function(context)
+		local actionSources = {
+			[EEex_Projectile_AddEffectSource.CGameAIBase_FireSpell] = true,
+		}
+		--
+		if not actionSources[context.addEffectSource] then
+			return
+		end
+	end,
+}
 
 -- op402 listener --
 
-function %TRUECLASS_FIGHTER_DEVASTATING_CRITICAL%(CGameEffect, CGameSprite)
+function %FIGHTER_DEVASTATING_CRITICAL%(CGameEffect, CGameSprite)
 	local sourceSprite = EEex_GameObject_Get(CGameEffect.m_sourceId)
-	--
+	--[[
 	local selectedWeapon = GT_Sprite_GetSelectedWeapon(sourceSprite)
 	--
 	local sourceActiveStats = EEex_Sprite_GetActiveStats(sourceSprite)
@@ -93,10 +63,11 @@ function %TRUECLASS_FIGHTER_DEVASTATING_CRITICAL%(CGameEffect, CGameSprite)
 	if selectedWeapon["ability"].type == 2 then -- if ranged, make it scale with Dexterity
 		savebonus = tonumber(gtabmod[string.format("%s", sourceActiveStats.m_nDEX)]["BONUS"])
 	end
+	--]]
+	local deathImmunity = "EEex_IsImmuneToOpcode(Myself,13)"
 	--
-	local immunityToKillTarget = "EEex_IsImmuneToOpcode(Myself,13)"
-	--
-	if not GT_Trigger_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, immunityToKillTarget) then
+	if not GT_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, deathImmunity) then
+		--[[
 		EEex_GameObject_ApplyEffect(sourceSprite,
 		{
 			["effectID"] = 139, -- Display string
@@ -106,7 +77,7 @@ function %TRUECLASS_FIGHTER_DEVASTATING_CRITICAL%(CGameEffect, CGameSprite)
 			["sourceID"] = sourceSprite.m_id,
 			["sourceTarget"] = sourceSprite.m_id,
 		})
-		--
+		--]]
 		local effectCodes = {
 			{["op"] = 0xD7, ["tmg"] = 1, ["res"] = "SPBOLTGL"}, -- feedback vfx
 			{["op"] = 0xD, ["tmg"] = 4, ["p2"] = 0x4} -- kill target (normal death)
@@ -119,7 +90,7 @@ function %TRUECLASS_FIGHTER_DEVASTATING_CRITICAL%(CGameEffect, CGameSprite)
 				["durationType"] = attributes["tmg"] or 0,
 				["res"] = attributes["res"] or "",
 				["savingThrow"] = 0x4, -- save vs. death
-				["saveMod"] = -1 * savebonus,
+				--["saveMod"] = -1 * savebonus,
 				["m_sourceRes"] = CGameEffect.m_sourceRes:get(),
 				["m_sourceType"] = CGameEffect.m_sourceType,
 				["sourceID"] = CGameEffect.m_sourceId,
@@ -144,6 +115,7 @@ end
 
 EEex_Sprite_AddAlterBaseWeaponDamageListener(function(context)
 	local attacker = context.attacker -- CGameSprite
+	local target = context.target -- CGameSprite
 	--
 	local effect = context.effect -- CGameEffect
 	local damageAmount = effect.m_effectAmount
@@ -153,6 +125,7 @@ EEex_Sprite_AddAlterBaseWeaponDamageListener(function(context)
 	local criticalHitMod, criticalMissMod = GT_Sprite_GetCriticalModifiers(attacker, context.isLeftHand)
 	--
 	local weapon = context.weapon -- CItem
+	local ability = context.ability -- Item_ability_st
 	local launcher = context.launcher -- CItem
 	--
 	local proficiencyType = weapon.pRes.pHeader.proficiencyType
@@ -171,8 +144,41 @@ EEex_Sprite_AddAlterBaseWeaponDamageListener(function(context)
 	--
 	if attackerClassStr == "FIGHTER" and (attackerKitStr == "TRUECLASS" or attackerKitStr == "MAGESCHOOL_GENERALIST") and attackerSTR >= 19 then
 		if effect.m_effectId == 0xC and effect.m_slotNum == -1 and effect.m_sourceType == 0 and effect.m_sourceRes:get() == "" then -- base weapon damage
-			if GT_Trigger_EvalConditional["parseConditionalString"](attacker, attacker, grandmastery) then
+			if GT_EvalConditional["parseConditionalString"](attacker, attacker, grandmastery) then
 				if isCritical then
+					if attackerLevel1 >= 30 then
+						GT_Sprite_DisplayMessage(attacker, Infinity_FetchString(%feedback_strref_devastating_crit_hit%))
+						--
+						if ability.type == 1 then -- melee
+							EEex_GameObject_ApplyEffect(target,
+							{
+								["effectID"] = 402, -- Invoke lua
+								["res"] = "%FIGHTER_DEVASTATING_CRITICAL%",
+								["sourceID"] = attacker.m_id,
+								["sourceTarget"] = target.m_id,
+							})
+						else -- ranged: make sure to use the same projectile as the ammo
+							EEex_GameObject_ApplyEffect(attacker,
+							{
+								["effectID"] = 408, -- proj mutator
+								["duration"] = 1,
+								["durationType"] = 10,
+								["res"] = "%FIGHTER_DEVASTATING_CRITICAL%P",
+								["sourceID"] = attacker.m_id,
+								["sourceTarget"] = attacker.m_id,
+							})
+							EEex_GameObject_ApplyEffect(target,
+							{
+								["effectID"] = 146, -- Cast spl
+								["dwFlags"] = 1,
+								["res"] = "%FIGHTER_DEVASTATING_CRITICAL%",
+								["sourceID"] = attacker.m_id,
+								["sourceTarget"] = target.m_id,
+							})
+						end
+					else
+						GT_Sprite_DisplayMessage(attacker, Infinity_FetchString(%feedback_strref_overwhelming_crit_hit%))
+					end
 					effect.m_effectAmount = 3 * math.floor(damageAmount / 2) -- 3x damage
 				else
 					-- check if critical hit averted

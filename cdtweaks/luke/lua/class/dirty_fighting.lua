@@ -103,7 +103,7 @@ function %THIEF_DIRTY_FIGHTING%(CGameEffect, CGameSprite)
 	--
 	if sourceAux["gt_NWN_DirtyFighting_FirstAttack"] then
 		if isUsableBySingleClassThief then
-			if resistDamageTypeTable[damageTypeIDS] < 100 and not GT_Trigger_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, conditionalString) then
+			if resistDamageTypeTable[damageTypeIDS] < 100 and not GT_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, conditionalString) then
 				-- 5% unmitigated damage
 				EEex_GameObject_ApplyEffect(CGameSprite,
 				{

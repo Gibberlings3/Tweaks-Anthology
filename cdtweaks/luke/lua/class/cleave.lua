@@ -83,10 +83,10 @@ function %FIGHTER_CLEAVE%(CGameEffect, CGameSprite)
 			for _, itrSprite in ipairs(spriteArray) do
 				local itrSpriteActiveStats = EEex_Sprite_GetActiveStats(itrSprite)
 				--
-				if GT_Trigger_EvalConditional["parseConditionalString"](sourceSprite, itrSprite, conditionalString) and EEex_IsBitUnset(itrSpriteActiveStats.m_generalState, 11) then -- if not dead
+				if GT_EvalConditional["parseConditionalString"](sourceSprite, itrSprite, conditionalString) and EEex_IsBitUnset(itrSpriteActiveStats.m_generalState, 11) then -- if not dead
 					if EEex_IsBitUnset(itrSpriteActiveStats.m_generalState, 0x4) or sourceActiveStats.m_bSeeInvisible > 0 then
 						if itrSpriteActiveStats.m_bSanctuary == 0 then
-							GT_Action_ExecuteResponse["parseResponseString"](sourceSprite, itrSprite, responseString)
+							GT_ExecuteResponse["parseResponseString"](sourceSprite, itrSprite, responseString)
 							break
 						end
 					end
@@ -104,7 +104,7 @@ function %FIGHTER_CLEAVE%(CGameEffect, CGameSprite)
 		--
 		local damageTypeIDS, ACModifier = GT_Sprite_ItmDamageTypeToIDS(selectedWeapon["ability"].damageType, targetActiveStats)
 		--
-		if not GT_Trigger_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, conditionalString) then
+		if not GT_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, conditionalString) then
 			EEex_GameObject_ApplyEffect(CGameSprite,
 			{
 				["effectID"] = 0xC, -- Damage

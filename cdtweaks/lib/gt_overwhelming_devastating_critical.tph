@@ -5,24 +5,31 @@ BEGIN
 		"level" = 1
 		"type" = 4
 	STR_VAR
-		"idsName" = "TRUECLASS_FIGHTER_DEVASTATING_CRITICAL"
+		"idsName" = "FIGHTER_DEVASTATING_CRITICAL"
 	RET
-		"TRUECLASS_FIGHTER_DEVASTATING_CRITICAL" = "resName"
+		"FIGHTER_DEVASTATING_CRITICAL" = "resName"
 	END
 	//
 	WITH_SCOPE BEGIN
-		ACTION_TO_LOWER "TRUECLASS_FIGHTER_DEVASTATING_CRITICAL"
+		ACTION_TO_LOWER "FIGHTER_DEVASTATING_CRITICAL"
 		//
-		CREATE "eff" "%TRUECLASS_FIGHTER_DEVASTATING_CRITICAL%b"
-		COPY_EXISTING "%TRUECLASS_FIGHTER_DEVASTATING_CRITICAL%b.eff" "override"
+		WITH_SCOPE BEGIN
+			ACTION_IF IDS_OF_SYMBOL ("missile" "GT_Devastating_Critical") == "-1" BEGIN
+				COPY "cdtweaks\luke\pro\devastating_crit.pro" "override\%FIGHTER_DEVASTATING_CRITICAL%.pro"
+				ADD_PROJECTILE "override\%FIGHTER_DEVASTATING_CRITICAL%.pro" "GT_Devastating_Critical"
+			END
+		END
+		/*
+		CREATE "eff" "%FIGHTER_DEVASTATING_CRITICAL%b"
+		COPY_EXISTING "%FIGHTER_DEVASTATING_CRITICAL%b.eff" "override"
 			WRITE_LONG 0x10 341 // opcode: critical hit effect
 			WRITE_LONG 0x20 1 // mode: by this weapon only
 			WRITE_SHORT 0x2C 100 // prob1
-			WRITE_ASCII 0x30 "%TRUECLASS_FIGHTER_DEVASTATING_CRITICAL%b" #8 // SPL resref
+			WRITE_ASCII 0x30 "%FIGHTER_DEVASTATING_CRITICAL%b" #8 // SPL resref
 		BUT_ONLY
-		//
-		CREATE "spl" "%TRUECLASS_FIGHTER_DEVASTATING_CRITICAL%b"
-		COPY_EXISTING "%TRUECLASS_FIGHTER_DEVASTATING_CRITICAL%b.spl" "override"
+		*/
+		CREATE "spl" "%FIGHTER_DEVASTATING_CRITICAL%"
+		COPY_EXISTING "%FIGHTER_DEVASTATING_CRITICAL%.spl" "override"
 			WRITE_LONG NAME1 "-1"
 			WRITE_LONG UNIDENTIFIED_DESC "-1"
 			WRITE_LONG 0x18 (BIT9 BOR BIT10 BOR BIT14 BOR BIT25) // break sanctuary/invisibility, ignore dead/wild magic, castable when silenced
@@ -30,11 +37,11 @@ BEGIN
 			WRITE_LONG 0x34 1 // level
 			WRITE_ASCII 0x3A "SPCL905B" #8 // icon
 			//
-			LPF ~ADD_SPELL_HEADER~ STR_VAR "icon" = "SPCL905B" END
+			LPF ~ADD_SPELL_HEADER~ INT_VAR "projectile" = IDS_OF_SYMBOL ("missile" "GT_Devastating_Critical") STR_VAR "icon" = "SPCL905B" END
 			//LPF ~ADD_SPELL_HEADER~ INT_VAR "required_level" = 30 STR_VAR "icon" = "SPCL905B" END
 			//
 			//LPF "ADD_SPELL_EFFECT" INT_VAR "header" = 1 "opcode" = 402 "target" = 2 "parameter1" = 1 STR_VAR "resource" = "%DEST_RES%" END // invoke lua
-			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 STR_VAR "resource" = "%TRUECLASS_FIGHTER_DEVASTATING_CRITICAL%" END // invoke lua
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 STR_VAR "resource" = "%FIGHTER_DEVASTATING_CRITICAL%" END // invoke lua
 		BUT_ONLY_IF_IT_CHANGES
 	END
 	// Listener: run 'func' each time a sprite has finished evaluating its effects
@@ -44,8 +51,8 @@ BEGIN
 		OUTER_SET "feedback_strref_devastating_crit_hit" = RESOLVE_STR_REF (@2)
 		OUTER_SET "feedback_strref_devastating_crit_immune" = RESOLVE_STR_REF (@3)
 		//
-		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\damage_type.lua" "destRes" = "m_gtsprt" END
-		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\check_ids.lua" "destRes" = "m_gtsprt" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\display_message.lua" "destRes" = "m_gtsprt" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\get_selected_weapon.lua" "destRes" = "m_gtsprt" END
 		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Class/Kit Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\class\overwhelming_devastating_critical.lua" "destRes" = "m_gtspcl" END
 	END
 	//
@@ -54,6 +61,6 @@ BEGIN
 	END
 	//
 	ACTION_IF !(FILE_EXISTS_IN_GAME "gtabmod.2da") BEGIN
-		COPY "cdtweaks\luke\lib\2da\gtabmod.2da" "override"
+		//COPY "cdtweaks\luke\lib\2da\gtabmod.2da" "override"
 	END
 END
