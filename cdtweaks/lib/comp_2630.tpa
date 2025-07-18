@@ -142,7 +142,7 @@ END
 	/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 	WITH_SCOPE BEGIN
-		WITH_TRA "cdtweaks\languages\english\nwn_cure_cause_wounds.tra" "cdtweaks\languages\%LANGUAGE%\nwn_cure_cause_wounds.tra" BEGIN
+		WITH_TRA "cdtweaks\languages\english\gt_nwn_cure_cause_wounds.tra" "cdtweaks\languages\%LANGUAGE%\gt_nwn_cure_cause_wounds.tra" BEGIN
 			INCLUDE "cdtweaks\ardanis\functions.tph"
 			//
 			LAF "GT_CURE_CAUSE_WOUNDS#GET_STRREF" STR_VAR "string" = "Healed" RET "strref" END

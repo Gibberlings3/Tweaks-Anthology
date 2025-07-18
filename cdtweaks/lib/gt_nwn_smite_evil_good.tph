@@ -21,7 +21,7 @@ BEGIN
 			COPY_EXISTING "kitlist.2da" "override"
 				COUNT_2DA_COLS "cols"
 				READ_2DA_ENTRIES_NOW "read_kitlist" "%cols%"
-				FOR ("i" = 0 ; "%i%" < "%read_kitlist%" ; "i" += 1) BEGIN
+				FOR ("i" = 1 ; "%i%" < "%read_kitlist%" ; "i" += 1) BEGIN // skip RESERVE row...
 					READ_2DA_ENTRY_FORMER "read_kitlist" "%i%" 8 "class"
 					PATCH_IF ("%class%" == IDS_OF_SYMBOL ("class" "PALADIN")) BEGIN
 						READ_2DA_ENTRY_FORMER "read_kitlist" "%i%" 5 "clab"
