@@ -50,14 +50,16 @@ ACTION_IF FILE_EXISTS_IN_GAME ~weapprof.2da~ THEN BEGIN
   COPY_EXISTING ~weapprof.2da~  ~override~
     FOR (row = 9; row < 32; ++row) BEGIN
       READ_2DA_ENTRY row  5 22 fgt // fighter stars
-      READ_2DA_ENTRY row 10 22 dr  // druid stars
       READ_2DA_ENTRY row 19 22 fd  // fighter/druid stars
       PATCH_IF (fgt > profmax) BEGIN SET fgt = profmax END
       PATCH_IF (fgt > fd) BEGIN
         SET_2DA_ENTRY row 19 22 ~%fgt%~ // f/d
       END
-      PATCH_IF dc_fix AND fgt AND !dr BEGIN
-        SET_2DA_ENTRY row 10 22 1
+      PATCH_IF dc_fix BEGIN
+        READ_2DA_ENTRY row 10 22 dr  // druid stars
+        PATCH_IF fgt AND !dr BEGIN
+          SET_2DA_ENTRY row 10 22 1
+        END
       END
     END
     BUT_ONLY

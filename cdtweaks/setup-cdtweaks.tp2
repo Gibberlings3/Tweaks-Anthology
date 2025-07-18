@@ -2728,8 +2728,23 @@ LABEL ~cd_tweaks_druids_use_3e_alignment~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-BEGIN @242000 DESIGNATED 2420
+/////                                                            \\\\\
+///// Loosen Equipment Restrictions for Cleric Multis            \\\\\
+/////                                                            \\\\\
+
+BEGIN @241900 DESIGNATED 2419
 GROUP @9
+SUBCOMPONENT @242000
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2 pst pstee~ @25
+LABEL ~cd_tweaks_cleric_multis_loosen_equipment_restrictions_no_dc_fix~
+
+/////                                                            \\\\\
+///// Loosen Equipment Restrictions for Cleric Multis - dc fix   \\\\\
+/////                                                            \\\\\
+
+BEGIN @242001 DESIGNATED 2420
+GROUP @9
+SUBCOMPONENT @242000
 REQUIRE_PREDICATE NOT GAME_IS ~iwd2 pst pstee~ @25
 LABEL ~cd_tweaks_cleric_multis_loosen_equipment_restrictions~
 

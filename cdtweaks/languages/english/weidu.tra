@@ -433,7 +433,9 @@ The uninstall messages above are normal and expected.
 
 @241000 = ~Druids Use 3E Alignment Restrictions~
 
+@241900 = ~With dual-class adjustment, see readme~
 @242000 = ~Loosen Equipment Restrictions for Cleric Multi- and Dual-Classes~
+@242001 = ~Without dual-class adjustment, see readme~
 
 @242900 = ~Loosen equipment restrictions (without dual-class adjustment, see readme)~
 @243000 = ~Loosen equipment restrictions (with dual-class adjustment, see readme)~

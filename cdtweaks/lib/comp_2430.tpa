@@ -11,4 +11,4 @@
 /////                                                            \\\\\
 
 OUTER_SET dc_fix = 1
-INCLUDE ~cdtweaks/lib/druid_loosen.tpa~
+INCLUDE ~cdtweaks/lib/loosen_druid.tpa~
