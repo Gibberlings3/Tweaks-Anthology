@@ -1,0 +1,14 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Delay Bonus Merchants                            \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+COPY_EXISTING ~ar0406.bcs~ ~override~
+              ~ar0702.bcs~ ~override~
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~\(Global("wmSpawn\(Joluv\|Deidre\)","GLOBAL",0)\)~ ~GlobalGT("Chapter","GLOBAL",%bg2_chapter_5%) \1~
+  END
+  BUT_ONLY
