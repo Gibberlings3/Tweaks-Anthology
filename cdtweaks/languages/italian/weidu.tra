@@ -822,3 +822,5 @@ Usa opzioni di Baldur.lua:           a7_interval_ini
 @633000 = "Aggiungi talento di classe Trucchetti per gli Incantatori [Luke (EEex)]"
 
 @634000 = "Aggiungi talento di classe Compagno Animale per gli Addestratori di Animali [Luke (EEex)]"
+
+@635000 = "Aggiungi talento di classe Opportunista per i Ladri di allineamento Caotico [Luke (EEex)]"
