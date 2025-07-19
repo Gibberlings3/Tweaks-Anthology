@@ -106,9 +106,9 @@ BEGIN
 		//
 		LAF "ADD_STATDESC_ENTRY" INT_VAR "description" = RESOLVE_STR_REF (@100) STR_VAR "bam_file" = "%INNATE_COUNTERSPELL%D" RET "feedback_icon" = "index" END
 		//
-		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Innate Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\spellcraft_counterspell\main.lua" "destRes" = "m_gtspin" END
-		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Innate Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\spellcraft_counterspell\cosmetic.lua" "destRes" = "m_gtspin" END
-		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Innate Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\spellcraft_counterspell\gain_ability.lua" "destRes" = "m_gtspin" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Spellcraft / Counterspell" "sourceFileSpec" = "cdtweaks\luke\lua\spellcraft_counterspell\main.lua" "destRes" = "m_gtcntr" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Spellcraft / Counterspell" "sourceFileSpec" = "cdtweaks\luke\lua\spellcraft_counterspell\cosmetic.lua" "destRes" = "m_gtcntr" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Spellcraft / Counterspell" "sourceFileSpec" = "cdtweaks\luke\lua\spellcraft_counterspell\gain_ability.lua" "destRes" = "m_gtcntr" END
 	END
 	//
 	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\has_bounce_effects.lua" "destRes" = "m_gtsprt" END

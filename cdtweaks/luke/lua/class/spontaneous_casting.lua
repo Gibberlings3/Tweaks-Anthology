@@ -85,15 +85,21 @@ end)
 -- check if the caster has at least 1 spell of appropriate level memorized (f.i. at least 1 spell of level 1 if it intends to spontaneously cast Cure/Cause Light Wounds). If so, decrement (unmemorize) all spells of that level by 1 --
 -- restore the previous actionbar state after starting an action --
 
-EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
+EEex_Opcode_AddListsResolvedListener(function(sprite)
+	-- sanity check
+	if not EEex_GameObject_IsSprite(sprite) then
+		return
+	end
+	--
 	local aux = EEex_GetUDAux(sprite)
+	local m_curAction = sprite.m_curAction -- CAIAction
 	--
 	if aux["gt_NWN_SpontaneousCast_Actionbar_LastState"] then
-		if action.m_actionID == 191 then -- SpellNoDec()
+		if m_curAction.m_actionID == 191 and sprite.m_bInCasting == 1 then -- SpellNoDec()
 			--
-			local spellResRef = action.m_string1.m_pchData:get()
+			local spellResRef = m_curAction.m_string1.m_pchData:get()
 			if spellResRef == "" then
-				spellResRef = GT_Utility_DecodeSpell(action.m_specificID)
+				spellResRef = GT_Utility_DecodeSpell(m_curAction.m_specificID)
 			end
 			local spellHeader = EEex_Resource_Demand(spellResRef, "SPL")
 			local spellType = spellHeader.itemType
@@ -129,7 +135,7 @@ EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
 					["sourceTarget"] = sprite.m_id,
 				})
 				-- abort action
-				action.m_actionID = 0 -- NoAction()
+				m_curAction.m_actionID = 0 -- NoAction()
 			end
 		end
 		--

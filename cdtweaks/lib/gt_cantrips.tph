@@ -287,7 +287,7 @@ BEGIN
 	END
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//// priest /////
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	LAF "GT_ADD_SPELL"
@@ -391,6 +391,7 @@ BEGIN
 				WRITE_LONG DESC "-1"
 				WRITE_LONG NAME2 "-1"
 				WRITE_LONG 0x18 (BIT9 BOR BIT10) // Break Sanctuary, Hostile
+				WRITE_LONG 0x1E (BIT2 BOR BIT31) // non-good clerics only
 				WRITE_SHORT 0x1C 2 // type: priest
 				WRITE_BYTE 0x25 7 // NECROMANCER
 				WRITE_BYTE 0x27 10 // OFFENSIVEDAMAGE
@@ -475,6 +476,7 @@ BEGIN
 				WRITE_LONG DESC "-1"
 				WRITE_LONG NAME2 "-1"
 				//WRITE_LONG 0x18 (BIT9 BOR BIT10 BOR BIT25) // Break Sanctuary, Hostile
+				WRITE_LONG 0x1E BIT31 // clerics only
 				WRITE_SHORT 0x1C 2 // type: priest
 				WRITE_BYTE 0x25 1 // ABJURER
 				WRITE_BYTE 0x27 7 // COMBATPROTECTIONS
@@ -658,6 +660,7 @@ BEGIN
 				WRITE_LONG DESC "-1"
 				WRITE_LONG NAME2 "-1"
 				WRITE_LONG 0x18 (BIT9 BOR BIT10) // Break Sanctuary, Hostile
+				WRITE_LONG 0x1E BIT30 // druids/shamans only
 				WRITE_SHORT 0x1C 2 // type: priest
 				WRITE_BYTE 0x25 8 // TRANSMUTER
 				WRITE_BYTE 0x27 13 // NON-COMBAT
@@ -704,6 +707,7 @@ BEGIN
 				WRITE_LONG DESC "-1"
 				WRITE_LONG NAME2 "-1"
 				WRITE_LONG 0x18 (BIT9 BOR BIT10) // Break Sanctuary, Hostile
+				WRITE_LONG 0x1E BIT30 // druids/shamans only
 				WRITE_SHORT 0x1C 2 // type: priest
 				WRITE_BYTE 0x25 2 // CONJURER
 				WRITE_BYTE 0x27 10 // OFFENSIVEDAMAGE
@@ -745,6 +749,7 @@ BEGIN
 				WRITE_LONG DESC "-1"
 				WRITE_LONG NAME2 "-1"
 				WRITE_LONG 0x18 (BIT9 BOR BIT10) // Break Sanctuary, Hostile
+				WRITE_LONG 0x1E BIT30 // druids/shamans only
 				WRITE_SHORT 0x1C 2 // type: priest
 				WRITE_BYTE 0x25 6 // INVOKER
 				WRITE_BYTE 0x27 12 // COMBINATION
@@ -764,8 +769,9 @@ BEGIN
 
 	//////////////////////////////
 
-	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\spellcasting_disabled.lua" "destRes" = "m_gtsprt" END
-	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Cantrips" "sourceFileSpec" = "cdtweaks\luke\lua\class\cantrips.lua" "destRes" = "m_gtcntr" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\spellcasting_disabled.lua" "destRes" = "m_gtsprt" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\check_ids.lua" "destRes" = "m_gtsprt" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Cantrips" "sourceFileSpec" = "cdtweaks\luke\lua\class\cantrips.lua" "destRes" = "m_gtctrp" END
 
 	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
 		COPY "cdtweaks\luke\lib\resource\tables.lua" "override\m_gttbls.lua"
@@ -778,11 +784,12 @@ BEGIN
 
 	CREATE "eff" "gt#cntrp"
 		WRITE_LONG 0x10 309 // modify local var
-		WRITE_LONG 0x1C "-1"
+		WRITE_LONG 0x1C 1
 		WRITE_LONG 0x20 1 // mode: increment
 		WRITE_SHORT 0x2C 100 // prob1
-		WRITE_ASCII 0x30 "gtNWNCan" #8 // res
-		WRITE_ASCII 0x70 "tripsPer" #8 // res2
-		WRITE_ASCII 0x78 "Day" #8 // res3
+		WRITE_ASCII 0x30 "gtNWNCur" #8 // res
+		WRITE_ASCII 0x70 "Cantrips" #8 // res2
+		WRITE_ASCII 0x78 "PerDay" #8 // res3
 
 END
+
