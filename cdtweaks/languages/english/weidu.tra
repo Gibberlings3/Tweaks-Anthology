@@ -913,3 +913,5 @@ Use Baldur.lua options: a7_interval_ini
 @633000 = "Cantrips Class Feat for Spellcasters [Luke (EEex)]"
 
 @634000 = "Animal Companion Class Feat for Beastmasters [Luke (EEex)]"
+
+@635000 = "Opportunist class feat for Chaotic-Aligned Rogues [Luke (EEex)]"
