@@ -759,33 +759,33 @@ Usa opzioni di Baldur.lua:           a7_interval_ini
 
 @602000 = "Aggiungi talento di classe Sapienza Magica / Controincantesimo per gli incantatori [Luke (EEex)]"
 
-@603000 = "Aggiungi talento di classe Lancio Spontaneo per i Chierici [Luke]"
+@603000 = "Aggiungi talento di classe Lancio Spontaneo per i Chierici [Luke (EEex)]"
 
-@604000 = "Aggiungi talento di classe Arma Preferita per i Ladri [Luke]"
+@604000 = "Aggiungi talento di classe Arma Preferita per i Ladri [Luke (EEex)]"
 
-@605000 = "Aggiungi talento di classe Doppia-Presa per i Ranger [Luke]"
+@605000 = "Aggiungi talento di classe Doppia-Presa per i Ranger [Luke (EEex)]"
 
-@606000 = "Armatura vs. Destrezza in stile NWN [Luke]"
+@606000 = "Armatura vs. Destrezza in stile NWN [Luke (EEex)]"
 
-@607000 = "Aggiungi talento di classe Tiro Difensivo per i ladri [Luke]"
+@607000 = "Aggiungi talento di classe Tiro Difensivo per i ladri [Luke (EEex)]"
 
-@608000 = "Grazia Divina / Benedizione Oscura per Paladini / Guardie Nere [Luke]"
+@608000 = "Grazia Divina / Benedizione Oscura per Paladini / Guardie Nere [Luke (EEex)]"
 
-@609000 = "Aggiungi talento razziale Buona Mira per gli Halfling [Luke]"
+@609000 = "Aggiungi talento razziale Buona Mira per gli Halfling [Luke (EEex)]"
 
-@610000 = "Aggiungi talento di classe Incalzare per i Guerrieri [Luke]"
+@610000 = "Aggiungi talento di classe Incalzare per i Guerrieri [Luke (EEex)]"
 
-@611000 = "Aggiungi talento di classe Attacco Furtivo per Guardie Nere [Luke]"
+@611000 = "Aggiungi talento di classe Attacco Furtivo per Guardie Nere [Luke (EEex)]"
 
-@612000 = "Aggiungi talento razziale Temerario per gli Halfling [Luke]"
+@612000 = "Aggiungi talento razziale Temerario per gli Halfling [Luke (EEex)]"
 
-@613000 = "Aggiungi talento di classe Resistenza ai Veleni per Assassini [Luke]"
+@613000 = "Aggiungi talento di classe Resistenza ai Veleni per Assassini [Luke (EEex)]"
 
-@614000 = "Aggiungi talento di classe Scacciare Creature Extraplanari per Paladini e Chierici [Luke]"
+@614000 = "Aggiungi talento di classe Scacciare Creature Extraplanari per Paladini e Chierici [Luke (EEex)]"
 
-@615000 = "Aggiungi talento di classe Calcio Rotante per i Monaci [Luke]"
+@615000 = "Aggiungi talento di classe Calcio Rotante per i Monaci [Luke (EEex)]"
 
-@616000 = "Ira Barbarica in stile NWN [Luke]"
+@616000 = "Ira Barbarica in stile NWN [Luke (EEex)]"
 
 @617000 = ~"Costringi" l'Arciere ad utilizzare gli archi [Luke (EEex)]~
 
