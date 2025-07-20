@@ -278,7 +278,7 @@ function %BLACKGUARD_SMITE_GOOD%(CGameEffect, CGameSprite)
 			--
 			local m_nTimeStopCaster = EngineGlobals.g_pBaldurChitin.m_pObjectGame.m_nTimeStopCaster
 			--
-			if (roll >= 20 - criticalHitMod) or EEex_IsBitSet(targetActiveStats.m_generalState, 0x5) or m_nTimeStopCaster == m_id then -- automatic hit
+			if (roll >= 20 - criticalHitMod) or EEex_BAnd(targetActiveStats.m_generalState, 0x100029) ~= 0 or m_nTimeStopCaster == sourceSprite.m_id then -- automatic hit
 				success = true
 				modifier = 0
 			elseif roll <= 1 + criticalMissMod then -- automatic miss (critical failure)
@@ -290,8 +290,8 @@ function %BLACKGUARD_SMITE_GOOD%(CGameEffect, CGameSprite)
 			if success then
 				-- display feedback message
 				GT_Sprite_DisplayMessage(sourceSprite,
-					string.format("%s : %d + %d = %d : %s",
-						Infinity_FetchString(%feedback_strref_smite_good%), roll, modifier, roll + modifier, Infinity_FetchString(%feedback_strref_hit%)),
+					string.format("%s : %d %s %d = %d : %s",
+						Infinity_FetchString(%feedback_strref_smite_good%), roll, modifier < 0 and "-" or "+", modifier, roll + modifier, Infinity_FetchString(%feedback_strref_hit%)),
 					0x915D48 -- Chrome Blue
 				)
 				--
@@ -416,8 +416,8 @@ function %BLACKGUARD_SMITE_GOOD%(CGameEffect, CGameSprite)
 			else
 				-- display feedback message
 				GT_Sprite_DisplayMessage(sourceSprite,
-					string.format("%s : %d + %d = %d : %s",
-						Infinity_FetchString(%feedback_strref_smite_good%), roll, modifier, roll + modifier, Infinity_FetchString(%feedback_strref_miss%)),
+					string.format("%s : %d %s %d = %d : %s",
+						Infinity_FetchString(%feedback_strref_smite_good%), roll, modifier < 0 and "-" or "+", modifier, roll + modifier, Infinity_FetchString(%feedback_strref_miss%)),
 					0x915D48 -- Chrome Blue
 				)
 			end

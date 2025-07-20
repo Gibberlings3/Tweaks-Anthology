@@ -1,5 +1,6 @@
 DEFINE_ACTION_FUNCTION "SPONTANEOUS_CASTING"
 BEGIN
+	/*
 	LAF "GT_ADD_SPELL"
 	INT_VAR
 		"type" = 4
@@ -9,6 +10,7 @@ BEGIN
 	RET
 		"PRIEST_SPONTANEOUS_CAST" = "resName"
 	END
+	*/
 	// Listener: run 'func' each time a sprite has finished evaluating its effects
 	WITH_SCOPE BEGIN
 		OUTER_FOR ("i" = 1 ; "%i%" <= 5 ; "i" += 1) BEGIN

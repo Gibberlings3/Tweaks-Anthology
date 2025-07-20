@@ -102,7 +102,7 @@ function %THIEF_DISARM%(CGameEffect, CGameSprite)
 							--
 							local m_nTimeStopCaster = EngineGlobals.g_pBaldurChitin.m_pObjectGame.m_nTimeStopCaster
 							--
-							if (roll >= 20 - criticalHitMod) or EEex_IsBitSet(targetActiveStats.m_generalState, 0x5) or m_nTimeStopCaster == sourceSprite.m_id then -- automatic hit
+							if (roll >= 20 - criticalHitMod) or EEex_BAnd(targetActiveStats.m_generalState, 0x100029) ~= 0 or m_nTimeStopCaster == sourceSprite.m_id then -- automatic hit
 								success = true
 								modifier = 0
 							elseif roll <= 1 + criticalMissMod then -- automatic miss (critical failure)
@@ -114,8 +114,8 @@ function %THIEF_DISARM%(CGameEffect, CGameSprite)
 							if success then
 								-- display feedback message
 								GT_Sprite_DisplayMessage(sourceSprite,
-									string.format("%s : %d + %d = %d : %s",
-										Infinity_FetchString(%feedback_strref_disarm%), roll, modifier, roll + modifier, Infinity_FetchString(%feedback_strref_hit%)),
+									string.format("%s : %d %s %d = %d : %s",
+										Infinity_FetchString(%feedback_strref_disarm%), roll, modifier < 0 and "-" or "+", modifier, roll + modifier, Infinity_FetchString(%feedback_strref_hit%)),
 									0xBED7D7
 								)
 								--
@@ -140,7 +140,7 @@ function %THIEF_DISARM%(CGameEffect, CGameSprite)
 											local resref = item.pRes.resref:get()
 											--
 											if resref == targetSelectedWeapon["resref"] then
-												if item.m_flags == 0 then
+												if item.m_flags ~= targetSelectedWeapon["weapon"].m_flags then
 													if item.m_useCount1 == targetSelectedWeapon["weapon"].m_useCount1 then
 														if item.m_useCount2 == targetSelectedWeapon["weapon"].m_useCount2 then
 															if item.m_useCount3 == targetSelectedWeapon["weapon"].m_useCount3 then
@@ -159,13 +159,13 @@ function %THIEF_DISARM%(CGameEffect, CGameSprite)
 									["effectID"] = 143, -- create item in slot
 									["durationType"] = 1,
 									["effectAmount"] = targetSelectedWeapon["slot"],
-									["res"] = "GTDISARM",
+									["res"] = "%THIEF_DISARM%",
 									["sourceID"] = CGameEffect.m_sourceId,
 									["sourceTarget"] = CGameEffect.m_sourceTarget,
 								})
 								CGameSprite:applyEffect({
 									["effectID"] = 112, -- remove item
-									["res"] = "GTDISARM",
+									["res"] = "%THIEF_DISARM%",
 									["sourceID"] = CGameEffect.m_sourceId,
 									["sourceTarget"] = CGameEffect.m_sourceTarget,
 								})
@@ -189,8 +189,8 @@ function %THIEF_DISARM%(CGameEffect, CGameSprite)
 							else
 								-- display feedback message
 								GT_Sprite_DisplayMessage(sourceSprite,
-									string.format("%s : %d + %d = %d : %s",
-										Infinity_FetchString(%feedback_strref_disarm%), roll, modifier, roll + modifier, Infinity_FetchString(%feedback_strref_miss%)),
+									string.format("%s : %d %s %d = %d : %s",
+										Infinity_FetchString(%feedback_strref_disarm%), roll, modifier < 0 and "-" or "+", modifier, roll + modifier, Infinity_FetchString(%feedback_strref_miss%)),
 									0xBED7D7
 								)
 							end

@@ -282,6 +282,7 @@ BEGIN
 				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 278 "target" = 1 "resist_dispel" = BIT0 | BIT1 "parameter1" = 1 "duration" = 120 END // thac0 bonus
 			BUT_ONLY_IF_IT_CHANGES
 			//
+			ACTION_TO_UPPER "WIZARD_TRUE_STRIKE"
 			LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Wizard Spells" "sourceFileSpec" = "cdtweaks\luke\lua\wizard\true_strike.lua" "destRes" = "m_gtspwi" END
 		END
 	END
@@ -771,6 +772,7 @@ BEGIN
 
 	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\spellcasting_disabled.lua" "destRes" = "m_gtsprt" END
 	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\check_ids.lua" "destRes" = "m_gtsprt" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lib\utility\find_greatest_int.lua" "destRes" = "m_gtutil" END
 	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Cantrips" "sourceFileSpec" = "cdtweaks\luke\lua\class\cantrips.lua" "destRes" = "m_gtctrp" END
 
 	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN

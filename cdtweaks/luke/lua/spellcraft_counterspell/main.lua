@@ -50,6 +50,19 @@ local actionSources = {
 	--[479] = true, -- EEex_ReallyForceSpellObjectOffset()
 }
 
+-- make sure the checking for counterspelling is done only once --
+
+EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
+	local aux = EEex_GetUDAux(sprite)
+	if actionSources[action.m_actionID] then
+		aux["gt_NWN_CounterSpell_ActionStarted"] = true
+	else
+		if aux["gt_NWN_CounterSpell_ActionStarted"] then
+			aux["gt_NWN_CounterSpell_ActionStarted"] = nil
+		end
+	end
+end)
+
 --
 
 local function getCounterSpellSchool(spellLevel, isCantrip, spellResRef, spellSchool, sprite, spellLevelMemListArray)
@@ -73,18 +86,18 @@ local function getCounterSpellSchool(spellLevel, isCantrip, spellResRef, spellSc
 			local exclusionFlags = pHeader.notUsableBy
 			--
 			if spellType == 2 then -- priest
-				-- alignment check
-				if EEex_IsBitUnset(exclusionFlags, 0x0) or not GT_Sprite_CheckIDS(sprite, align["MASK_CHAOTIC"], 8) then
-					if EEex_IsBitUnset(exclusionFlags, 0x1) or not GT_Sprite_CheckIDS(sprite, align["MASK_EVIL"], 8) then
-						if EEex_IsBitUnset(exclusionFlags, 0x2) or not GT_Sprite_CheckIDS(sprite, align["MASK_GOOD"], 8) then
+				if string.find(mxspl, "PRS", 1, true) or (mxspl == "DRU" or mxspl == "SHM") then
+					-- alignment check
+					if EEex_IsBitUnset(exclusionFlags, 0x0) or not GT_Sprite_CheckIDS(sprite, align["MASK_CHAOTIC"], 8) then
+						if EEex_IsBitUnset(exclusionFlags, 0x1) or not GT_Sprite_CheckIDS(sprite, align["MASK_EVIL"], 8) then
+							if EEex_IsBitUnset(exclusionFlags, 0x2) or not GT_Sprite_CheckIDS(sprite, align["MASK_GOOD"], 8) then
 								if EEex_IsBitUnset(exclusionFlags, 0x3) or not GT_Sprite_CheckIDS(sprite, align["MASK_LCNEUTRAL"], 8) then
-										if EEex_IsBitUnset(exclusionFlags, 0x4) or not GT_Sprite_CheckIDS(sprite, align["MASK_LAWFUL"], 8) then
-											if EEex_IsBitUnset(exclusionFlags, 0x5) or not GT_Sprite_CheckIDS(sprite, align["MASK_GENEUTRAL"], 8) then
-												-- class check
-												if EEex_IsBitUnset(exclusionFlags, 30) or not string.find(mxspl, "PRS", 1, true) then
-													if EEex_IsBitUnset(exclusionFlags, 31) or not (mxspl == "DRU" or mxspl == "SHM") then
-														return pHeader.school, true, spellLevel
-													end
+									if EEex_IsBitUnset(exclusionFlags, 0x4) or not GT_Sprite_CheckIDS(sprite, align["MASK_LAWFUL"], 8) then
+										if EEex_IsBitUnset(exclusionFlags, 0x5) or not GT_Sprite_CheckIDS(sprite, align["MASK_GENEUTRAL"], 8) then
+											-- class check
+											if EEex_IsBitUnset(exclusionFlags, 30) or not string.find(mxspl, "PRS", 1, true) then
+												if EEex_IsBitUnset(exclusionFlags, 31) or not (mxspl == "DRU" or mxspl == "SHM") then
+													return pHeader.school, true, spellLevel
 												end
 											end
 										end
@@ -160,10 +173,14 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	--
 	local state = GT_Resource_SymbolToIDS["state"]
 	--
+	local aux = EEex_GetUDAux(sprite)
+	--
 	local m_curAction = sprite.m_curAction -- CAIAction
 	local spriteActiveStats = EEex_Sprite_GetActiveStats(sprite)
 	--
-	if actionSources[m_curAction.m_actionID] and sprite.m_bInCasting == 1 then
+	if actionSources[m_curAction.m_actionID] and sprite.m_bInCasting == 1 and aux["gt_NWN_CounterSpell_ActionStarted"] then -- make sure the spell action has started the casting glow
+		aux["gt_NWN_CounterSpell_ActionStarted"] = nil
+		--
 		local findObjects = {}
 		--
 		local spellResRef = m_curAction.m_string1.m_pchData:get()

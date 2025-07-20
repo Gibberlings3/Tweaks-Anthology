@@ -190,18 +190,18 @@ function GTCNTRP1(CGameEffect, CGameSprite)
 					local exclusionFlags = pHeader.notUsableBy
 					--
 					if spellType == 2 and not spellcastingDisabled then -- priest
-						-- alignment check
-						if EEex_IsBitUnset(exclusionFlags, 0x0) or not GT_Sprite_CheckIDS(CGameSprite, align["MASK_CHAOTIC"], 8) then
-							if EEex_IsBitUnset(exclusionFlags, 0x1) or not GT_Sprite_CheckIDS(CGameSprite, align["MASK_EVIL"], 8) then
-								if EEex_IsBitUnset(exclusionFlags, 0x2) or not GT_Sprite_CheckIDS(CGameSprite, align["MASK_GOOD"], 8) then
+						if string.find(mxspl, "PRS", 1, true) or (mxspl == "DRU" or mxspl == "SHM") then
+							-- alignment check
+							if EEex_IsBitUnset(exclusionFlags, 0x0) or not GT_Sprite_CheckIDS(CGameSprite, align["MASK_CHAOTIC"], 8) then
+								if EEex_IsBitUnset(exclusionFlags, 0x1) or not GT_Sprite_CheckIDS(CGameSprite, align["MASK_EVIL"], 8) then
+									if EEex_IsBitUnset(exclusionFlags, 0x2) or not GT_Sprite_CheckIDS(CGameSprite, align["MASK_GOOD"], 8) then
 										if EEex_IsBitUnset(exclusionFlags, 0x3) or not GT_Sprite_CheckIDS(CGameSprite, align["MASK_LCNEUTRAL"], 8) then
-												if EEex_IsBitUnset(exclusionFlags, 0x4) or not GT_Sprite_CheckIDS(CGameSprite, align["MASK_LAWFUL"], 8) then
-													if EEex_IsBitUnset(exclusionFlags, 0x5) or not GT_Sprite_CheckIDS(CGameSprite, align["MASK_GENEUTRAL"], 8) then
-														-- class check
-														if EEex_IsBitUnset(exclusionFlags, 30) or not string.find(mxspl, "PRS", 1, true) then
-															if EEex_IsBitUnset(exclusionFlags, 31) or not (mxspl == "DRU" or mxspl == "SHM") then
-																return true
-															end
+											if EEex_IsBitUnset(exclusionFlags, 0x4) or not GT_Sprite_CheckIDS(CGameSprite, align["MASK_LAWFUL"], 8) then
+												if EEex_IsBitUnset(exclusionFlags, 0x5) or not GT_Sprite_CheckIDS(CGameSprite, align["MASK_GENEUTRAL"], 8) then
+													-- class check
+													if EEex_IsBitUnset(exclusionFlags, 30) or not string.find(mxspl, "PRS", 1, true) then
+														if EEex_IsBitUnset(exclusionFlags, 31) or not (mxspl == "DRU" or mxspl == "SHM") then
+															return true
 														end
 													end
 												end
@@ -254,6 +254,7 @@ EEex_Key_AddPressedListener(function(key)
 							["effectID"] = 214, -- Select spell
 							["dwFlags"] = 3, -- from lua
 							["res"] = "GTCNTRP1", -- lua func
+							["durationType"] = 1,
 							["noSave"] = true,
 							["sourceID"] = sprite.m_id,
 							["sourceTarget"] = sprite.m_id,

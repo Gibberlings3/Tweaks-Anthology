@@ -28,7 +28,7 @@ BEGIN
 			//
 			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 138 "target" = 1 "parameter2" = 0 END // SEQ_ATTACK
 		BUT_ONLY
-		// icons
+		// icons (courtesy of zenblack)
 		COPY "cdtweaks\luke\bam\innate\knockdown\spl_icon.bam" "override\%INNATE_KNOCKDOWN%b.bam" "cdtweaks\luke\bam\innate\knockdown\portrait_icon.bam" "override\%INNATE_KNOCKDOWN%d.bam"
 	END
 	// lua
@@ -50,6 +50,16 @@ BEGIN
 		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\damage_type.lua" "destRes" = "m_gtsprt" END
 		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\display_message.lua" "destRes" = "m_gtsprt" END
 		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\check_ids.lua" "destRes" = "m_gtsprt" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\get_selected_weapon.lua" "destRes" = "m_gtsprt" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\get_critical_modifiers.lua" "destRes" = "m_gtsprt" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\attack_of_opportunity.lua" "destRes" = "m_gtsprt" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\attack_roll_penalty.lua" "destRes" = "m_gtsprt" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\racial_enemy.lua" "destRes" = "m_gtsprt" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\invisible_target.lua" "destRes" = "m_gtsprt" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\striking_from_invisibility.lua" "destRes" = "m_gtsprt" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\thac0_vs_type_bonus.lua" "destRes" = "m_gtsprt" END
+		//
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Eval Conditional" "sourceFileSpec" = "cdtweaks\luke\lib\misc\eval_conditional.lua" "destRes" = "m_gteval" END
 	END
 	//
 	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN

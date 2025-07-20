@@ -6,7 +6,7 @@
 
 -- clerics can spontaneously cast Cure/Cause Wounds spells upon pressing the Left Alt key when in "Cast Spell" mode (F7) --
 
-function %PRIEST_SPONTANEOUS_CAST%(CGameEffect, CGameSprite)
+function GTSPCAST(CGameEffect, CGameSprite)
 	local align = GT_Resource_SymbolToIDS["align"]
 	local isEvil = GT_Sprite_CheckIDS(CGameSprite, align["MASK_EVIL"], 8)
 	local isGood = GT_Sprite_CheckIDS(CGameSprite, align["MASK_GOOD"], 8)
@@ -68,7 +68,8 @@ EEex_Key_AddPressedListener(function(key)
 								["effectID"] = 214, -- select spell
 								["dwFlags"] = 3, -- from lua
 								["noSave"] = true,
-								["res"] = "%PRIEST_SPONTANEOUS_CAST%",
+								["res"] = "GTSPCAST",
+								["durationType"] = 1,
 								["sourceID"] = sprite.m_id,
 								["sourceTarget"] = sprite.m_id,
 							})
