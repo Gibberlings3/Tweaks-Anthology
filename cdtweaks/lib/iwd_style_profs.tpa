@@ -81,7 +81,7 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~ // item changes
   PATCH_IF ((current_prof = 115) OR ((current_prof > 88) AND (current_prof < 108))) BEGIN // sanity check
     PATCH_IF (current_prof = 100) BEGIN
       READ_ASCII 0x22 anim (2)
-      PATCH_IF (("%anim%" STRING_COMPARE_CASE "ms" = 0) OR ("%anim%" STRING_COMPARE_CASE "mc" = 0)) BEGIN // morningstars or maces
+      PATCH_IF ("%anim%" STRING_COMPARE_REGEXP "[Mm][SsCc2]" = 0) BEGIN // morningstars or maces
         SET prof = 103
       END ELSE BEGIN
         SET prof = 98
