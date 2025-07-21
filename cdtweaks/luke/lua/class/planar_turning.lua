@@ -21,10 +21,19 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			["sourceTarget"] = sprite.m_id,
 		})
 	end
+	-- turn undead lvl 21+; wis 17+, cha 17+; paladin or cleric
+	local spriteWIS = sprite.m_derivedStats.m_nWIS
+	local spriteCHR = sprite.m_derivedStats.m_nCHR
+	--
+	local class = GT_Resource_SymbolToIDS["class"]
+	local isPaladinAll = GT_Sprite_CheckIDS(sprite, class["PALADIN_ALL"], 5, true)
+	local isClericAll = GT_Sprite_CheckIDS(sprite, class["CLERIC_ALL"], 5)
+	--
+	local spriteTurnUndeadLevel = sprite.m_derivedStats.m_nTurnUndeadLevel
 	-- Check if the creature is turning undead
 	local turnUndeadMode = EEex_Sprite_GetModalState(sprite) == 4 and EEex_Sprite_GetModalTimer(sprite) == 0
 	--
-	if turnUndeadMode then
+	if (isPaladinAll or isClericAll) and turnUndeadMode and spriteTurnUndeadLevel >= 21 and spriteWIS >= 17 and spriteCHR >= 17 then
 		turnPlanarMode()
 	end
 end)
