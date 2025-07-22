@@ -1,0 +1,30 @@
+@0 = "Aspersion d'acide"
+
+@10 = "Trait de feu"
+
+@20 = "Rayon de givre"
+
+@30 = "Pulsion électrique"
+
+@40 = "Bouffée de poison"
+
+@50 = "Étincelles"
+
+@60 = "Coup avisé"
+
+//////////////////////////////
+
+@1000 = "Soins légers"
+
+@1010 = "Blessures légères"
+
+@1020 = "Protection contre les armes"
+
+@1030 = "Flamme sacrée"
+
+@1040 = "Vertu"
+
+@1050 = "Résistance "
+
+@1060 = "Fouet épineux"
+

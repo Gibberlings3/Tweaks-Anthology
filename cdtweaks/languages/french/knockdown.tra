@@ -1,16 +1,20 @@
-@0 = "Knockdown"
+@0 = "Assommer"
 
-@1 = "Knockdown
+@1 = "Assommer
 
-A character with this feat can attempt to knock his opponents to the ground. The defender makes a Save vs. Death. If failed, the defender is knocked to a prone position."
+Un personnage doté de cette aptitude peut tenter d'assommer ses adversaires lors d'un combat au corps à corps. Le personnage effectue un jet d'attaque à -4, s'il réussit, l'adversaire sera mis à terre."
 
-@50 = "Prone"
+@50 = "Inconscient "
 
 //@100 = "The selected target is out of range"
-@101 = "The selected target is already prone"
-@102 = "The selected target is too large"
-@103 = "This feat cannot be used while wielding a ranged weapon"
+@101 = "La cible est déjà à terre"
+@102 = "La cible est trop imposante"
+@103 = "Cette aptitude ne peut pas être utilisée avec une arme à distance"
 
-@104 = "The targeted creature cannot be knocked down"
+@104 = "La créature ciblée ne peut être assommée"
 
 //@105 = "Unaffected by effects from Knockdown"
+
+@105 = "Touché"
+@106 = "Manqué"
+@107 = "Arme inefficace"
