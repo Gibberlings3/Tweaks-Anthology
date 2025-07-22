@@ -125,11 +125,11 @@ function GT_NWN_AnmlComp_LevelUp()
 		if item then
 			local newItemResRef = item.pRes.resref:get()
 			--
-			if (summonerBaseLevel >= 5 and summonerBaseLevel < 9) then
+			if (summonerBaseLevel >= 5 and summonerBaseLevel <= 9) then
 				newItemResRef = "GTPET" .. weaponUpgrades[EEex_LuaAction_Object.m_scriptName:get()][1]
-			elseif (summonerBaseLevel >= 10 and summonerBaseLevel < 14) then
+			elseif (summonerBaseLevel >= 10 and summonerBaseLevel <= 14) then
 				newItemResRef = "GTPET" .. weaponUpgrades[EEex_LuaAction_Object.m_scriptName:get()][2]
-			elseif (summonerBaseLevel >= 15 and summonerBaseLevel < 19) then
+			elseif (summonerBaseLevel >= 15 and summonerBaseLevel <= 19) then
 				newItemResRef = "GTPET" .. weaponUpgrades[EEex_LuaAction_Object.m_scriptName:get()][3]
 			elseif (summonerBaseLevel >= 20) then
 				newItemResRef = "GTPET" .. weaponUpgrades[EEex_LuaAction_Object.m_scriptName:get()][4]

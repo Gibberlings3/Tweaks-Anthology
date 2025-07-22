@@ -30,7 +30,7 @@ WITH_SCOPE BEGIN
 			WRITE_SHORT 0x1C 4 // Type: Innate
 			WRITE_LONG 0x34 1 // Level
 			/* Extended Header */
-			LPF ~ADD_SPELL_HEADER~ INT_VAR "range" = 30 "projectile" = IDS_OF_SYMBOL ("projectl" "web1p") + 1 END
+			LPF ~ADD_SPELL_HEADER~ INT_VAR "range" = 30 "projectile" = IDS_OF_SYMBOL ("projectl" "web1p") + 1 STR_VAR "icon" = "%WIZARD_WEB%B" END
 			/* Feature Blocks */
 			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 324 "target" = 2 "parameter2" = 13 STR_VAR "resource" = "%DEST_RES%" END // Immunity to resource and message (PERSONALSPACE>3)
 			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 STR_VAR "resource" = "%DEST_RES%" END // Invoke lua

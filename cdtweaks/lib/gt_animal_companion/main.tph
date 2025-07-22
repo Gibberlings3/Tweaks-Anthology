@@ -174,7 +174,7 @@ BEGIN
 
 	//////////////////////////////////////////////////////////////////////////////////
 
-	ACTION_BASH_FOR "cdtweaks\lib\animal_companion\creatures" "^.+\.tph$" BEGIN
+	ACTION_BASH_FOR "cdtweaks\lib\gt_animal_companion\creatures" "^.+\.tph$" BEGIN
 		INCLUDE "%BASH_FOR_FILESPEC%"
 	END
 
@@ -203,7 +203,7 @@ BEGIN
 			True()
 		THEN
 			RESPONSE #100
-				EEex_LuaAction("GT_LuaAction_ClearAITimers()")
+				EEex_LuaAction("GT_LuaAction_ClearAIAux()")
 				Continue()
 		END
 		>>>>>>>>
@@ -259,9 +259,13 @@ BEGIN
 	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\has_bounce_effects.lua" "destRes" = "m_gtsprt" END
 	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\has_immunity_effects.lua" "destRes" = "m_gtsprt" END
 	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\has_trap_effect.lua" "destRes" = "m_gtsprt" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\check_ids.lua" "destRes" = "m_gtsprt" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\get_selected_weapon.lua" "destRes" = "m_gtsprt" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\sort_by_isometric_distance.lua" "destRes" = "m_gtsprt" END
 
 	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lib\utility\get_distance.lua" "destRes" = "m_gtutil" END
 	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lib\utility\array_to_string.lua" "destRes" = "m_gtutil" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lib\utility\shuffle_array.lua" "destRes" = "m_gtutil" END
 
 	// immunities via 403
 	LAF "IMMUNITY_REMOVAL" STR_VAR "path" = "cdtweaks\luke\lib" END
@@ -273,6 +277,9 @@ BEGIN
 	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Lua Triggers" "sourceFileSpec" = "cdtweaks\luke\lib\trigger\interruptable_action.lua" "destRes" = "m_gt#trg" END
 	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Lua Triggers" "sourceFileSpec" = "cdtweaks\luke\lib\trigger\num_creature_check.lua" "destRes" = "m_gt#trg" END
 	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Lua Triggers" "sourceFileSpec" = "cdtweaks\luke\lib\trigger\resref.lua" "destRes" = "m_gt#trg" END
+
+	//
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Eval Conditional" "sourceFileSpec" = "cdtweaks\luke\lib\misc\eval_conditional.lua" "destRes" = "m_gteval" END
 
 	// crypto library (https://github.com/Egor-Skriptunoff/pure_lua_SHA)
 	ACTION_IF !DIRECTORY_EXISTS "lua\gt" BEGIN
