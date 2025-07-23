@@ -277,6 +277,8 @@ BEGIN
 	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Lua Triggers" "sourceFileSpec" = "cdtweaks\luke\lib\trigger\interruptable_action.lua" "destRes" = "m_gt#trg" END
 	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Lua Triggers" "sourceFileSpec" = "cdtweaks\luke\lib\trigger\num_creature_check.lua" "destRes" = "m_gt#trg" END
 	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Lua Triggers" "sourceFileSpec" = "cdtweaks\luke\lib\trigger\resref.lua" "destRes" = "m_gt#trg" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Lua Triggers" "sourceFileSpec" = "cdtweaks\luke\lib\trigger\chase.lua" "destRes" = "m_gt#trg" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Lua Triggers" "sourceFileSpec" = "cdtweaks\luke\lib\trigger\party_ai.lua" "destRes" = "m_gt#trg" END
 
 	//
 	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Eval Conditional" "sourceFileSpec" = "cdtweaks\luke\lib\misc\eval_conditional.lua" "destRes" = "m_gteval" END
