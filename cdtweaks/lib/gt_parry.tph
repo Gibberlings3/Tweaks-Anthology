@@ -53,7 +53,7 @@ BEGIN
 			//
 			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 1 "parameter1" = 1 STR_VAR "resource" = "%BLADE_SWASHBUCKLER_PARRY%" END // invoke lua
 		BUT_ONLY
-		// SEQ_ATTACK + feedback string
+		// SEQ_ATTACK
 		CREATE "spl" "%BLADE_SWASHBUCKLER_PARRY%e"
 		COPY_EXISTING "%BLADE_SWASHBUCKLER_PARRY%e.spl" "override"
 			WRITE_LONG NAME1 "-1"
@@ -68,7 +68,7 @@ BEGIN
 			LPF "ADD_SPELL_HEADER" INT_VAR "range" = 30 STR_VAR "icon" = "%DEST_RES%" END
 			//
 			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 138 "target" = 1 "parameter2" = 0 END // set animation (ATTACK)
-			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 139 "target" = 1 "parameter1" = RESOLVE_STR_REF (@4) END // "Parry (Success)"
+			//LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 1 "parameter1" = 3 STR_VAR "resource" = "%BLADE_SWASHBUCKLER_PARRY%" END // "Parry (Success)"
 		BUT_ONLY
 		// riposte attack
 		CREATE "spl" "%BLADE_SWASHBUCKLER_PARRY%f"
@@ -108,11 +108,18 @@ BEGIN
 		LAF "ADD_STATDESC_ENTRY" INT_VAR "description" = RESOLVE_STR_REF (@0) STR_VAR "bam_file" = "%BLADE_SWASHBUCKLER_PARRY%D" RET "feedback_icon" = "index" END
 		//
 		OUTER_SET "feedback_strref_weapon_ineffective" = RESOLVE_STR_REF (@100)
+		OUTER_SET "feedback_strref_parry" = RESOLVE_STR_REF (@4)
+		OUTER_SET "feedback_strref_success" = RESOLVE_STR_REF (@6)
+		OUTER_SET "feedback_strref_fail" = RESOLVE_STR_REF (@7)
 		//
 		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Class/Kit Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\kit\parry.lua" "destRes" = "m_gtspcl" END
 		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "AI-related stuff" "sourceFileSpec" = "cdtweaks\luke\lib\ai\object_type.lua" "destRes" = "m_gt#ai" END
 		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\damage_type.lua" "destRes" = "m_gtsprt" END
 		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\check_ids.lua" "destRes" = "m_gtsprt" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\get_selected_weapon.lua" "destRes" = "m_gtsprt" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\display_message.lua" "destRes" = "m_gtsprt" END
+		//
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Eval Conditional" "sourceFileSpec" = "cdtweaks\luke\lib\misc\eval_conditional.lua" "destRes" = "m_gteval" END
 	END
 	//
 	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN

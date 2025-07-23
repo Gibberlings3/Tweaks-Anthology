@@ -8,8 +8,12 @@ Se un attacco viene parato con successo (tiro-salvezza contro Soffio), esso non 
 
 @3 = "Modalità Parata Disattivata"
 
-@4 = "Modalità Parata (Successo)"
+@4 = "Parata"
 
 @5 = "Controattacco"
+
+@6 = "Successo"
+
+@7 = "Fallimento"
 
 @100 = "Arma Inefficace"

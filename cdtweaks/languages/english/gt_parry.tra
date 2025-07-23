@@ -8,8 +8,12 @@ A successful parry (save vs. Breath) means that the attack does not damage the p
 
 @3 = "Parry Mode Off"
 
-@4 = "Parry (Success)"
+@4 = "Parry"
 
 @5 = "Riposte Attack"
+
+@6 = "Success"
+
+@7 = "Fail"
 
 @100 = "Weapon Ineffective"

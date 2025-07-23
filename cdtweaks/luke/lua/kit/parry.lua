@@ -82,7 +82,7 @@ EEex_Sprite_AddBlockWeaponHitListener(function(args)
 	local attacksPerRoundHaste = {0, 2, 4, 6, 8, 10, 1, 3, 5, 7, 9}
 	--
 	local stats = GT_Resource_SymbolToIDS["stats"]
-	local state = GT_Resource_SymbolToIDS["state"]
+	--local state = GT_Resource_SymbolToIDS["state"]
 	--
 	local dexmod = GT_Resource_2DA["dexmod"]
 	--
@@ -106,6 +106,19 @@ EEex_Sprite_AddBlockWeaponHitListener(function(args)
 		targetNumberOfAttacks = Infinity_RandomNumber(1, 2) == 1 and math.ceil(attacksPerRound[EEex_Sprite_GetStat(targetSprite, stats["NUMBEROFATTACKS"]) + 1]) or math.floor(attacksPerRound[EEex_Sprite_GetStat(targetSprite, stats["NUMBEROFATTACKS"]) + 1])
 	end
 	--
+	local modifier = tonumber(dexmod[string.format("%s", targetActiveStats.m_nDEX)]["AC"])
+	--local roll = targetSprite.m_saveVSBreathRoll
+	local roll = Infinity_RandomNumber(1, 20) -- 1d20
+	local success = false
+	--
+	if roll == 20 then -- natural 20
+		success = true
+		modifier = 0
+	elseif roll == 1 then -- natural 1
+		modifier = 0
+	else
+		success = (targetActiveStats.m_nSaveVSBreath + modifier <= roll) -- [!] according to "dexmod.2da", the greater the DEX, the lower is the modifier, so we need to subtract it from the roll
+	end
 	--targetSprite:setStoredScriptingTarget("GT_ParryModeTarget", attackingSprite)
 	--local conditionalString = EEex_Trigger_ParseConditionalString('OR(2) \n !Allegiance(Myself,GOODCUTOFF) InWeaponRange(EEex_Target("GT_ParryModeTarget") \n OR(2) \n !Allegiance(Myself,EVILCUTOFF) Range(EEex_Target("GT_ParryModeTarget"),4)') -- we intentionally let the AI cheat. In so doing, it can enter the mode without worrying about being in weapon range...
 	--
@@ -121,7 +134,13 @@ EEex_Sprite_AddBlockWeaponHitListener(function(args)
 						--
 						if targetSelectedWeapon["slot"] ~= 10 or attackingEquipment.m_selectedWeapon == 10 then -- bare hands can only parry bare hands
 							--
-							if targetActiveStats.m_nSaveVSBreath - tonumber(dexmod[string.format("%s", targetActiveStats.m_nDEX)]["MISSILE"]) <= targetSprite.m_saveVSBreathRoll then
+							if success then
+								-- display feedback message
+								GT_Sprite_DisplayMessage(targetSprite,
+									string.format("%s : %d %s %d = %d : %s",
+										Infinity_FetchString(%feedback_strref_parry%), roll, modifier < 0 and "+" or "-", math.abs(modifier), roll - modifier, Infinity_FetchString(%feedback_strref_success%)),
+									0x1889A1
+								)
 								-- increment stats["GT_NUMBER_OF_ATTACKS_PARRIED"] by 1; reset to 0 after one round
 								local effectCodes = {
 									{["op"] = 401, ["p1"] = 1, ["spec"] = stats["GT_NUMBER_OF_ATTACKS_PARRIED"], ["tmg"] = 1, ["effsource"] = "%BLADE_SWASHBUCKLER_PARRY%C"}, -- EEex: Set Extended Stat
@@ -155,6 +174,12 @@ EEex_Sprite_AddBlockWeaponHitListener(function(args)
 								})
 								-- block base weapon damage + on-hit effects (if any)
 								toReturn = true
+							else
+								GT_Sprite_DisplayMessage(targetSprite,
+									string.format("%s : %d %s %d = %d : %s",
+										Infinity_FetchString(%feedback_strref_parry%), roll, modifier < 0 and "+" or "-", math.abs(modifier), roll - modifier, Infinity_FetchString(%feedback_strref_fail%)),
+									0x1889A1
+								)
 							end
 						end
 					end
@@ -179,15 +204,17 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	local aux = EEex_GetUDAux(sprite)
 	-- if the blade / swashbuckler gets hit while performing a riposte attack, the attack will be canceled
 	if sprite:getLocalInt("gtNWNParryMode") == 1 and sprite.m_attackFrame == 6 and sprite.m_nSequence == 0 then
-		local attackingSprite = aux["gt_NWN_Parry_AttackerID"]
+		local attackingSprite = EEex_GameObject_Get(aux["gt_NWN_Parry_AttackerID"])
 		--
-		attackingSprite:applyEffect({
-			["effectID"] = 146, -- Cast spl
-			["dwFlags"] = 1, -- mode: instant / permanent
-			["res"] = "%BLADE_SWASHBUCKLER_PARRY%F",
-			["sourceID"] = sprite.m_id,
-			["sourceTarget"] = attackingSprite.m_id,
-		})
+		if attackingSprite then
+			attackingSprite:applyEffect({
+				["effectID"] = 146, -- Cast spl
+				["dwFlags"] = 1, -- mode: instant / permanent
+				["res"] = "%BLADE_SWASHBUCKLER_PARRY%F",
+				["sourceID"] = sprite.m_id,
+				["sourceTarget"] = attackingSprite.m_id,
+			})
+		end
 	end
 end)
 
@@ -380,7 +407,7 @@ function %BLADE_SWASHBUCKLER_PARRY%(CGameEffect, CGameSprite)
 			EEex_GameObject_ApplyEffect(CGameSprite,
 			{
 				["effectID"] = 0xC, -- Damage (12)
-				["dwFlags"] = op12DamageType * 0x10000 + mode,
+				["dwFlags"] = damageTypeIDS * 0x10000 + mode,
 				["effectAmount"] = (selectedWeapon["ability"].damageDiceCount == 0 and selectedWeapon["ability"].damageDice == 0 and selectedWeapon["ability"].damageDiceBonus == 0) and 0 or (selectedWeapon["ability"].damageDiceBonus + modifier),
 				["numDice"] = selectedWeapon["ability"].damageDiceCount,
 				["diceSize"] = selectedWeapon["ability"].damageDice,
