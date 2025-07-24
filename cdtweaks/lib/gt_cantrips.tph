@@ -356,8 +356,8 @@ BEGIN
 					LPF "ALTER_EFFECT" INT_VAR "match_opcode" = 61 "parameter1" = (255 << 8) + (0 << 16) + (0 << 24) END // rgb fade
 					LPF "ALTER_EFFECT" INT_VAR "match_opcode" = 215 STR_VAR "resource" = "CLDAMAH" END // play vfx
 				END ELSE BEGIN
-					LPF "ADD_SPELL_EFFECT" INT_VAR "match_opcode" = 61 "parameter1" = (255 << 8) + (0 << 16) + (0 << 24) END // rgb fade
-					LPF "ADD_SPELL_EFFECT" INT_VAR "match_opcode" = 215 "duration" = 1 STR_VAR "resource" = "SPCAUSEW" END // play vfx
+					LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 61 "parameter1" = (255 << 8) + (0 << 16) + (0 << 24) END // rgb fade
+					LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 215 "duration" = 1 STR_VAR "resource" = "SPCAUSEW" END // play vfx
 				END
 				//
 				PATCH_FOR_EACH "opcode_to_delete" IN 318 324 326 146 164 BEGIN
@@ -436,8 +436,8 @@ BEGIN
 					LPF "ALTER_EFFECT" INT_VAR "match_opcode" = 61 "parameter1" = (0 << 8) + (126 << 16) + (255 << 24) END // rgb fade
 					LPF "ALTER_EFFECT" INT_VAR "match_opcode" = 215 STR_VAR "resource" = "CLWOUNH" END // play vfx
 				END ELSE BEGIN
-					LPF "ADD_SPELL_EFFECT" INT_VAR "match_opcode" = 61 "parameter1" = (60 << 8) + (120 << 16) + (240 << 24) END // rgb fade
-					LPF "ADD_SPELL_EFFECT" INT_VAR "match_opcode" = 215 "duration" = 2 STR_VAR "resource" = "SPHEALIN" END // play vfx
+					LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 61 "parameter1" = (60 << 8) + (120 << 16) + (240 << 24) END // rgb fade
+					LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 215 "duration" = 2 STR_VAR "resource" = "SPHEALIN" END // play vfx
 				END
 				//
 				PATCH_FOR_EACH "opcode_to_delete" IN 318 324 326 402 BEGIN

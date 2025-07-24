@@ -12,7 +12,7 @@ BEGIN
 	// feedback icon
 	WITH_SCOPE BEGIN
 		ACTION_TO_LOWER "THIEF_OPPORTUNIST"
-		COPY "cdtweaks\luke\bam\innate\opportunist\portrait_icon.bam" "override\%THIEF_OPPORTUNIST%d.bam" // courtesy of zenblack
+		COPY "cdtweaks\luke\bam\class\opportunist.bam" "override\%THIEF_OPPORTUNIST%d.bam" // courtesy of zenblack
 	END
 	// Listener: run 'func' each time a sprite has finished evaluating its effects
 	WITH_SCOPE BEGIN

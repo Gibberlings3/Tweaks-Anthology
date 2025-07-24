@@ -4,6 +4,7 @@ BEGIN
 	INT_VAR
 		"level" = 1
 		"preferredSlot" = 52
+		"type" = 4 // gtcl
 	STR_VAR
 		"idsName" = "BARBARIAN_RAGE"
 	RET

@@ -5,73 +5,23 @@
 --]]
 
 -- Whenever a save vs. breath is allowed for half damage, the character instead takes no damage if he succeeds at the save --
+-- [!] op177 is weird and "drives" the EFF file instead of going through the normal effect application process, where EEex's hook is --
+-- [!] that is to say, if ``parameter5`` is non-zero (https://github.com/Gibberlings3/iesdp/pull/193), then op403 cannot "see" the specified EFF file (and thus alter it) --
+-- [!] guess we are fine with that, since it is supposed to bypass all immunities/checks... --
 
 function %MONK_ROGUE_EVASION%(op403CGameEffect, CGameEffect, CGameSprite)
 
-	local fields
-	local found = false
-	local forceApplyViaOp177 = false
-	--
 	if CGameEffect.m_effectId == 0xC and EEex_IsBitSet(CGameEffect.m_savingThrow, 0x1) and EEex_IsBitSet(CGameEffect.m_special, 0x8) then -- Damage (save vs. breath for half)
-		found = true
-		fields = GT_Utility_GetEffectFields(CGameEffect)
-	elseif CGameEffect.m_effectId == 0xB1 and CGameEffect.m_effectAmount4 ~= 0 then -- https://github.com/Gibberlings3/iesdp/pull/193
-		if GT_Sprite_CheckIDS(CGameSprite, CGameEffect.m_effectAmount, CGameEffect.m_dWFlags) then
-			local CGameEffectBase = EEex_Resource_Demand(CGameEffect.m_res:get(), "eff")
-			-- sanity check
-			if CGameEffectBase then
-				if CGameEffectBase.m_effectId == 0xC and EEex_IsBitSet(CGameEffectBase.m_savingThrow, 0x1) and EEex_IsBitSet(CGameEffectBase.m_special, 0x8) then -- Damage (save vs. breath for half)
-					found = true
-					forceApplyViaOp177 = true
-					fields = GT_Utility_GetEffectFields(CGameEffectBase)
-				end
-			end
-		end
-	end
-
-	if found then
+		local fields = GT_Utility_GetEffectFields(CGameEffect)
 
 		-- op403 "sees" effects after they have passed their probability roll, but before any saving throws have been made against said effect / other immunity mechanisms have taken place
-		if not GT_Sprite_HasBounceEffects(CGameSprite, fields["spellLevel"], fields["projectileType"], fields["school"], fields["secondaryType"], fields["sourceRes"], {12}, fields["flags"]) or forceApplyViaOp177 then
-			if not GT_Sprite_HasImmunityEffects(CGameSprite, fields["spellLevel"], fields["projectileType"], fields["school"], fields["secondaryType"], fields["sourceRes"], {12}, fields["flags"], fields["savingThrow"], 0x0) or forceApplyViaOp177 then
-				if not GT_Sprite_HasTrapEffect(CGameSprite, fields["spellLevel"], fields["secondaryType"], fields["flags"]) or forceApplyViaOp177 then
+		if not GT_Sprite_HasBounceEffects(CGameSprite, fields["spellLevel"], fields["projectileType"], fields["school"], fields["secondaryType"], fields["sourceRes"], {12}, fields["flags"]) then
+			if not GT_Sprite_HasImmunityEffects(CGameSprite, fields["spellLevel"], fields["projectileType"], fields["school"], fields["secondaryType"], fields["sourceRes"], {12}, fields["flags"], fields["savingThrow"], 0x0) then
+				if not GT_Sprite_HasTrapEffect(CGameSprite, fields["spellLevel"], fields["secondaryType"], fields["flags"]) then
 
-					-- op177 is weird and "drives" the EFF file instead of going through the normal effect application process, where EEex's hook is
-					if forceApplyViaOp177 then
-						CGameSprite:applyEffect({
-							["effectID"] = 0xC, -- Damage (12)
-							["special"] = EEex_BOr(EEex_UnsetBit(fields["special"], 0x8), 0x200) -- Remove the "save for half" flag / Set the "fail for half" flag
-							--
-							["savingThrow"] = fields["savingThrow"], -- ignore save check if the save for half flag is set
-							["saveMod"] = fields["saveMod"],
-							["m_flags"] = fields["flags"],
-							--
-							["durationType"] = CGameEffect.m_durationType,
-							["duration"] = CGameEffect.m_duration,
-							--
-							["spellLevel"] = fields["spellLevel"],
-							["m_projectileType"] = fields["projectileType"],
-							["m_school"] = fields["school"],
-							["m_secondaryType"] = fields["secondaryType"],
-							["m_sourceRes"] = fields["sourceRes"],
-							--
-							["m_sourceType"] = fields["sourceType"],
-							["m_sourceFlags"] = fields["sourceFlags"],
-							["m_casterLevel"] = fields["casterLevel"],
-							["m_slotNum"] = fields["slotNum"],
-							--
-							["effectAmount"] = fields["parameter1"],
-							["dwFlags"] = fields["parameter1"],
-							["numDice"] = fields["numDice"],
-							["diceSize"] = fields["diceSize"],
-							--
-							["sourceID"] = CGameEffect.m_sourceId,
-							["sourceTarget"] = CGameEffect.m_sourceTarget,
-						})
-					else
-						CGameEffect.m_special = EEex_UnsetBit(CGameEffect.m_special, 0x8) -- Remove the "save for half" flag
-						CGameEffect.m_special = EEex_SetBit(CGameEffect.m_special, 0x9) -- Set the "fail for half" flag
-					end
+					-- alter it
+					CGameEffect.m_special = EEex_UnsetBit(CGameEffect.m_special, 0x8) -- Remove the "save for half" flag
+					CGameEffect.m_special = EEex_SetBit(CGameEffect.m_special, 0x9) -- Set the "fail for half" flag
 
 					-- display some feedback
 					local effectCodes = {
@@ -93,11 +43,6 @@ function %MONK_ROGUE_EVASION%(op403CGameEffect, CGameEffect, CGameSprite)
 							["sourceID"] = CGameSprite.m_id,
 							["sourceTarget"] = CGameSprite.m_id,
 						})
-					end
-
-					-- op177 is weird and "drives" the EFF file instead of going through the normal effect application process, where EEex's hook is
-					if forceApplyViaOp177 then
-						return true
 					end
 
 				end

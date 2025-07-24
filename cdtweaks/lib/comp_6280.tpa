@@ -11,5 +11,7 @@ WITH_SCOPE BEGIN
   //
   INCLUDE "cdtweaks\lib\gt_nwn_evasion.tph"
   //
-  LAF "NWN_EVASION" END
+  WITH_TRA "cdtweaks\languages\english\gt_nwn_evasion.tra" "cdtweaks\languages\%LANGUAGE%\gt_nwn_evasion.tra" BEGIN
+    LAF "NWN_EVASION" END
+  END
 END

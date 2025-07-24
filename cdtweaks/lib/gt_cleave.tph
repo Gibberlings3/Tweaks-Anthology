@@ -35,7 +35,7 @@ BEGIN
 		BUT_ONLY_IF_IT_CHANGES
 	END
 	// Listener: run 'func' each time a sprite has finished evaluating its effects
-	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Class/Kit Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\class\circle_kick.lua" "destRes" = "m_gtspcl" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Class/Kit Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\class\cleave.lua" "destRes" = "m_gtspcl" END
 	//
 	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "AI-related stuff" "sourceFileSpec" = "cdtweaks\luke\lib\ai\object_type.lua" "destRes" = "m_gt#ai" END
 	//

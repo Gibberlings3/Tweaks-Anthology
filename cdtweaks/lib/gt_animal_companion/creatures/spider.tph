@@ -29,6 +29,7 @@ WITH_SCOPE BEGIN
 			WRITE_LONG 0x18 (BIT14 BOR BIT25 BOR BIT9 BOR BIT10) // Ignore dead/wild magic, Castable when silenced, Break sanctuary/invisibility
 			WRITE_SHORT 0x1C 4 // Type: Innate
 			WRITE_LONG 0x34 1 // Level
+			WRITE_ASCII 0x3A "%WIZARD_WEB%C" #8 // Icon
 			/* Extended Header */
 			LPF ~ADD_SPELL_HEADER~ INT_VAR "range" = 30 "projectile" = IDS_OF_SYMBOL ("projectl" "web1p") + 1 STR_VAR "icon" = "%WIZARD_WEB%B" END
 			/* Feature Blocks */
