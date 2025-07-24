@@ -48,7 +48,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	--
 	local string = "ClassLevelGT(Myself,PRIEST,1)"
 	--
-	local applyAbility = isDruidAll and GT_EvalConditional["parseConditionalString"](sprite, sprite, string)
+	local applyAbility = isDruidAll and GT_EvalConditional["parseConditionalString"](sprite, nil, string)
 	--
 	if sprite:getLocalInt("gtNWNWoodlandStride") == 0 then
 		if applyAbility then

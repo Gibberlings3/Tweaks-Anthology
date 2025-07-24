@@ -89,7 +89,7 @@ function %ARCHER_CALLED_SHOT%(CGameEffect, CGameSprite)
 				-- display feedback message
 				GT_Sprite_DisplayMessage(sourceSprite,
 					string.format("%s : %d %s %d = %d : %s",
-						CGameEffect.m_effectAmount == 1 and Infinity_FetchString(%feedback_strref_called_shot_arms%) or Infinity_FetchString(%feedback_strref_called_shot_legs%), roll, modifier < 0 and "-" or "+", modifier, roll + modifier, Infinity_FetchString(%feedback_strref_hit%)),
+						CGameEffect.m_effectAmount == 1 and Infinity_FetchString(%feedback_strref_called_shot_arms%) or Infinity_FetchString(%feedback_strref_called_shot_legs%), roll, modifier < 0 and "-" or "+", math.abs(modifier), roll + modifier, Infinity_FetchString(%feedback_strref_hit%)),
 					0xBED7D7
 				)
 				--
@@ -186,7 +186,7 @@ function %ARCHER_CALLED_SHOT%(CGameEffect, CGameSprite)
 				-- display feedback message
 				GT_Sprite_DisplayMessage(sourceSprite,
 					string.format("%s : %d %s %d = %d : %s",
-						CGameEffect.m_effectAmount == 1 and Infinity_FetchString(%feedback_strref_called_shot_arms%) or Infinity_FetchString(%feedback_strref_called_shot_legs%), roll, modifier < 0 and "-" or "+", modifier, roll + modifier, Infinity_FetchString(%feedback_strref_miss%)),
+						CGameEffect.m_effectAmount == 1 and Infinity_FetchString(%feedback_strref_called_shot_arms%) or Infinity_FetchString(%feedback_strref_called_shot_legs%), roll, modifier < 0 and "-" or "+", math.abs(modifier), roll + modifier, Infinity_FetchString(%feedback_strref_miss%)),
 					0xBED7D7
 				)
 			end
@@ -281,21 +281,23 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 						local targetSprite = EEex_GameObject_Get(spriteAux[aux])
 						spriteAux[aux] = nil
 						-- make sure to use the currently selected projectile
-						sprite:applyEffect({
-							["effectID"] = 408, -- projectile mutator
-							["durationType"] = 10, -- ticks
-							["duration"] = 1,
-							["res"] = "%ARCHER_CALLED_SHOT%P",
-							["sourceID"] = sprite.m_id,
-							["sourceTarget"] = sprite.m_id,
-						})
-						targetSprite:applyEffect({
-							["effectID"] = 146, -- cast spl
-							["dwFlags"] = 1, -- instant / ignore level
-							["res"] = res,
-							["sourceID"] = sprite.m_id,
-							["sourceTarget"] = targetSprite.m_id,
-						})
+						if targetSprite then
+							sprite:applyEffect({
+								["effectID"] = 408, -- projectile mutator
+								["durationType"] = 10, -- ticks
+								["duration"] = 1,
+								["res"] = "%ARCHER_CALLED_SHOT%P",
+								["sourceID"] = sprite.m_id,
+								["sourceTarget"] = sprite.m_id,
+							})
+							targetSprite:applyEffect({
+								["effectID"] = 146, -- cast spl
+								["dwFlags"] = 1, -- instant / ignore level
+								["res"] = res,
+								["sourceID"] = sprite.m_id,
+								["sourceTarget"] = targetSprite.m_id,
+							})
+						end
 						--
 						break
 					end

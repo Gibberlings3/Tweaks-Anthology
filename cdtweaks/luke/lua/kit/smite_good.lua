@@ -187,12 +187,14 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 					local targetSprite = EEex_GameObject_Get(spriteAux["gt_NWN_SmiteGood_TargetID"])
 					spriteAux["gt_NWN_SmiteGood_TargetID"] = nil
 					--
-					targetSprite:applyEffect({
-						["effectID"] = 402, -- invoke lua
-						["res"] = "%BLACKGUARD_SMITE_GOOD%",
-						["sourceID"] = sprite.m_id,
-						["sourceTarget"] = targetSprite.m_id,
-					})
+					if targetSprite then
+						targetSprite:applyEffect({
+							["effectID"] = 402, -- invoke lua
+							["res"] = "%BLACKGUARD_SMITE_GOOD%",
+							["sourceID"] = sprite.m_id,
+							["sourceTarget"] = targetSprite.m_id,
+						})
+					end
 				end
 			end
 		end
@@ -291,7 +293,7 @@ function %BLACKGUARD_SMITE_GOOD%(CGameEffect, CGameSprite)
 				-- display feedback message
 				GT_Sprite_DisplayMessage(sourceSprite,
 					string.format("%s : %d %s %d = %d : %s",
-						Infinity_FetchString(%feedback_strref_smite_good%), roll, modifier < 0 and "-" or "+", modifier, roll + modifier, Infinity_FetchString(%feedback_strref_hit%)),
+						Infinity_FetchString(%feedback_strref_smite_good%), roll, modifier < 0 and "-" or "+", math.abs(modifier), roll + modifier, Infinity_FetchString(%feedback_strref_hit%)),
 					0x915D48 -- Chrome Blue
 				)
 				--
@@ -417,7 +419,7 @@ function %BLACKGUARD_SMITE_GOOD%(CGameEffect, CGameSprite)
 				-- display feedback message
 				GT_Sprite_DisplayMessage(sourceSprite,
 					string.format("%s : %d %s %d = %d : %s",
-						Infinity_FetchString(%feedback_strref_smite_good%), roll, modifier < 0 and "-" or "+", modifier, roll + modifier, Infinity_FetchString(%feedback_strref_miss%)),
+						Infinity_FetchString(%feedback_strref_smite_good%), roll, modifier < 0 and "-" or "+", math.abs(modifier), roll + modifier, Infinity_FetchString(%feedback_strref_miss%)),
 					0x915D48 -- Chrome Blue
 				)
 			end

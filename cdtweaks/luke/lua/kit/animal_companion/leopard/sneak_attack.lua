@@ -15,10 +15,10 @@ function %INNATE_LEOPARD_SNEAK_ATTACK%(CGameEffect, CGameSprite)
 		--
 		--local selectedWeapon = GT_Sprite_GetSelectedWeapon(CGameSprite)
 		--
-		if GT_EvalConditional["parseConditionalString"](sourceSprite, sourceSprite, conditionalString) then
+		if GT_EvalConditional["parseConditionalString"](sourceSprite, nil, conditionalString) then
 			-- if the target is incapacitated || the target is in combat with someone else
 			if EEex_BAnd(targetActiveStats.m_generalState, 0x100029) ~= 0 or CGameSprite.m_targetId ~= sourceSprite.m_id then
-				GT_ExecuteResponse["parseResponseString"](sourceSprite, sourceSprite, responseString)
+				GT_ExecuteResponse["parseResponseString"](sourceSprite, nil, responseString)
 				--
 				CGameSprite:applyEffect({
 					["effectID"] = 146, -- Cast spell
@@ -43,7 +43,7 @@ function %INNATE_LEOPARD_SNEAK_ATTACK%(CGameEffect, CGameSprite)
 		--
 		local damageTypeIDS, ACModifier = GT_Sprite_ItmDamageTypeToIDS(selectedWeapon["ability"].damageType, targetActiveStats)
 		--
-		if not GT_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, string) then
+		if not GT_EvalConditional["parseConditionalString"](CGameSprite, nil, string) then
 			EEex_GameObject_ApplyEffect(CGameSprite,
 			{
 				["effectID"] = 0xC, -- Damage

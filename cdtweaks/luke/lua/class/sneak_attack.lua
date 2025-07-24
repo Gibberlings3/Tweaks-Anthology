@@ -26,7 +26,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	--
 	local conditionalString = "ClassLevelGT(Myself,ROGUE,29)"
 	--
-	local applyAbility = isThiefAll and isAssassin and GT_EvalConditional["parseConditionalString"](sprite, sprite, conditionalString)
+	local applyAbility = isThiefAll and isAssassin and GT_EvalConditional["parseConditionalString"](sprite, nil, conditionalString)
 	--
 	if sprite:getLocalInt("gtNWNEpicSneakAttack") == 0 then
 		if applyAbility then
@@ -65,7 +65,7 @@ EEex_Sprite_AddBlockWeaponHitListener(function(args)
 
 				if attackingSprite:getActiveStats().m_nAssassinate == 0 then
 
-					if not GT_EvalConditional["parseConditionalString"](attackingSprite, attackingSprite, conditionalString) then
+					if not GT_EvalConditional["parseConditionalString"](attackingSprite, nil, conditionalString) then
 
 						targetSprite:applyEffect({
 							["effectID"] = 0x124, -- Immunity to backstab (292)
@@ -185,7 +185,7 @@ function %ROGUE_SNEAK_ATTACK%(CGameEffect, CGameSprite)
 	-- max 1 sneak attack per round if not ASSASSINATE=1
 	local responseString = 'SetGlobalTimer("gtNWNSneakAttRogueTimer","LOCALS",6)'
 	if sourceSprite:getActiveStats().m_nAssassinate == 0 then
-		GT_ExecuteResponse["parseResponseString"](sourceSprite, sourceSprite, responseString)
+		GT_ExecuteResponse["parseResponseString"](sourceSprite, nil, responseString)
 	end
 
 	-- crippling strike (assassins: paralysis; stalkers: silence; others: -2 str)
@@ -197,7 +197,7 @@ function %ROGUE_SNEAK_ATTACK%(CGameEffect, CGameSprite)
 
 		if sourceKitStr == "ASSASIN" then -- typo in "kit.ids" file
 
-			if not GT_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, isImmuneToParalysis) then
+			if not GT_EvalConditional["parseConditionalString"](CGameSprite, nil, isImmuneToParalysis) then
 				effectCodes = {
 					{["op"] = 0x6D, ["p2"] = 2, ["dur"] = 6 * roll, ["effsource"] = "%ROGUE_SNEAK_ATTACK%B"}, -- Paralyze (109) (EA=ANYONE)
 					{["op"] = 0x8E, ["p2"] = 13, ["dur"] = 6 * roll, ["effsource"] = "%ROGUE_SNEAK_ATTACK%B"} -- Display portrait icon (142): held
@@ -212,7 +212,7 @@ function %ROGUE_SNEAK_ATTACK%(CGameEffect, CGameSprite)
 
 		elseif sourceKitStr == "STALKER" then
 
-			if not GT_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, isImmuneToSilence) then
+			if not GT_EvalConditional["parseConditionalString"](CGameSprite, nil, isImmuneToSilence) then
 				effectCodes = {
 					{["op"] = 0x26, ["dur"] = 6 * roll, ["effsource"] = "%ROGUE_SNEAK_ATTACK%C"}, -- Silence (38)
 					{["op"] = 0x8E, ["p2"] = 34, ["dur"] = 6 * roll, ["effsource"] = "%ROGUE_SNEAK_ATTACK%C"} -- Display portrait icon (142): silenced

@@ -1,6 +1,7 @@
 DEFINE_ACTION_FUNCTION "MORE_SENSIBLE_BLADE_BARRIER"
 BEGIN
 	LAF "ADD_EXTENDED_STAT" INT_VAR "max" = 5 STR_VAR "identifier" = "GT_FAKE_CONTINGENCY" END
+	LAF "ADD_EXTENDED_STAT" STR_VAR "identifier" = "GT_DUMMY_STAT" END
 	//
 	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lib\utility\get_effect_fields.lua" "destRes" = "m_gtutil" END
 	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Misc Tweaks" "sourceFileSpec" = "cdtweaks\luke\lua\tweaks\blade_barrier_vs_time_stop.lua" "destRes" = "m_gttwks" END

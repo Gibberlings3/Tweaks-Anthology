@@ -145,9 +145,8 @@ function GT_NWN_AnmlComp_LevelUp()
 				["sourceTarget"] = EEex_LuaAction_Object.m_id,
 			})
 			--
-			local XEquipItem = EEex_Action_ParseResponseString(string.format('XEquipItem("%s",Myself,%d,EQUIP)', newItemResRef, i))
-			XEquipItem:executeResponseAsAIBaseInstantly(EEex_LuaAction_Object) -- "XEquipItem()" is actually instant (even if not listed in "INSTANT.IDS")... It never returns ``CGameAIBase::ACTION_NORMAL`` or ``CGameAIBase::ACTION_INTERRUPTABLE``... Feel free to use it with ``EEex_Action_ExecuteScriptFileResponseAsAIBaseInstantly()``...
-			XEquipItem:free()
+			local str = string.format('XEquipItem("%s",Myself,%d,EQUIP)', newItemResRef, i)
+			GT_ExecuteResponse["parseResponseString"](EEex_LuaAction_Object, nil, str) -- "XEquipItem()" is actually instant (even if not listed in "INSTANT.IDS")... It never returns ``CGameAIBase::ACTION_NORMAL`` or ``CGameAIBase::ACTION_INTERRUPTABLE``... Feel free to use it with ``EEex_Action_ExecuteScriptFileResponseAsAIBaseInstantly()``...
 		end
 	end
 	-- Update AC

@@ -73,14 +73,14 @@ function %FIGHTER_CLEAVE%(CGameEffect, CGameSprite)
 		local targetActiveStats = EEex_Sprite_GetActiveStats(CGameSprite)
 		--
 		if EEex_IsBitSet(targetActiveStats.m_generalState, 11) then -- if STATE_DEAD (BIT11)
-			local spriteArray = {}
+			local potentialTargets = {}
 			if sourceSprite.m_typeAI.m_EnemyAlly > 200 then -- EVILCUTOFF
-				spriteArray = EEex_Sprite_GetAllOfTypeInRange(sourceSprite, GT_AI_ObjectType["GOODCUTOFF"], sourceSprite:virtual_GetVisualRange(), nil, nil, nil)
+				potentialTargets = EEex_Sprite_GetAllOfTypeInRange(sourceSprite, GT_AI_ObjectType["GOODCUTOFF"], sourceSprite:virtual_GetVisualRange(), nil, nil, nil)
 			elseif sourceSprite.m_typeAI.m_EnemyAlly < 30 then -- GOODCUTOFF
-				spriteArray = EEex_Sprite_GetAllOfTypeInRange(sourceSprite, GT_AI_ObjectType["EVILCUTOFF"], sourceSprite:virtual_GetVisualRange(), nil, nil, nil)
+				potentialTargets = EEex_Sprite_GetAllOfTypeInRange(sourceSprite, GT_AI_ObjectType["EVILCUTOFF"], sourceSprite:virtual_GetVisualRange(), nil, nil, nil)
 			end
 			--
-			for _, itrSprite in ipairs(spriteArray) do
+			for _, itrSprite in ipairs(potentialTargets) do
 				local itrSpriteActiveStats = EEex_Sprite_GetActiveStats(itrSprite)
 				--
 				if GT_EvalConditional["parseConditionalString"](sourceSprite, itrSprite, conditionalString) and EEex_IsBitUnset(itrSpriteActiveStats.m_generalState, 11) then -- if not dead
@@ -104,7 +104,7 @@ function %FIGHTER_CLEAVE%(CGameEffect, CGameSprite)
 		--
 		local damageTypeIDS, ACModifier = GT_Sprite_ItmDamageTypeToIDS(selectedWeapon["ability"].damageType, targetActiveStats)
 		--
-		if not GT_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, conditionalString) then
+		if not GT_EvalConditional["parseConditionalString"](CGameSprite, nil, conditionalString) then
 			EEex_GameObject_ApplyEffect(CGameSprite,
 			{
 				["effectID"] = 0xC, -- Damage

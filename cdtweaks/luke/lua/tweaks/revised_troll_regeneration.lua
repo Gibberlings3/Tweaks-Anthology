@@ -126,7 +126,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 				["effectID"] = 401, -- set extended stat
 				["special"] = stats["GT_DUMMY_STAT"],
 				["m_scriptName"] = "gtTrollRegTimer",
-				["duration"] = 100,
+				["duration"] = 90, -- 90 ticks ~ 1 round
 				["durationType"] = 10, -- instant/limited (ticks)
 				["noSave"] = true,
 				["sourceID"] = sprite.m_id,

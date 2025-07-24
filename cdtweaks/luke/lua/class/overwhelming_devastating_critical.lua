@@ -66,7 +66,7 @@ function %FIGHTER_DEVASTATING_CRITICAL%(CGameEffect, CGameSprite)
 	--]]
 	local deathImmunity = "EEex_IsImmuneToOpcode(Myself,13)"
 	--
-	if not GT_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, deathImmunity) then
+	if not GT_EvalConditional["parseConditionalString"](CGameSprite, nil, deathImmunity) then
 		--[[
 		EEex_GameObject_ApplyEffect(sourceSprite,
 		{
@@ -144,7 +144,7 @@ EEex_Sprite_AddAlterBaseWeaponDamageListener(function(context)
 	--
 	if attackerClassStr == "FIGHTER" and (attackerKitStr == "TRUECLASS" or attackerKitStr == "MAGESCHOOL_GENERALIST") and attackerSTR >= 19 then
 		if effect.m_effectId == 0xC and effect.m_slotNum == -1 and effect.m_sourceType == 0 and effect.m_sourceRes:get() == "" then -- base weapon damage
-			if GT_EvalConditional["parseConditionalString"](attacker, attacker, grandmastery) then
+			if GT_EvalConditional["parseConditionalString"](attacker, nil, grandmastery) then
 				if isCritical then
 					if attackerLevel1 >= 30 then
 						GT_Sprite_DisplayMessage(attacker, Infinity_FetchString(%feedback_strref_devastating_crit_hit%))

@@ -68,14 +68,14 @@ function %MONK_CIRCLE_KICK%(CGameEffect, CGameSprite)
 		local conditionalString = '!GlobalTimerNotExpired("gtNWNCircleKickTimer","LOCALS") \n InWeaponRange(EEex_Target("gtScriptingTarget"))'
 		local responseString = 'SetGlobalTimer("gtNWNCircleKickTimer","LOCALS",6) \n ReallyForceSpellRES("%MONK_CIRCLE_KICK%B",EEex_Target("gtScriptingTarget"))'
 		--
-		local spriteArray = {}
+		local potentialTargets = {}
 		if sourceSprite.m_typeAI.m_EnemyAlly > 200 then -- EVILCUTOFF
-			spriteArray = EEex_Sprite_GetAllOfTypeInRange(sourceSprite, GT_AI_ObjectType["GOODCUTOFF"], sourceSprite:virtual_GetVisualRange(), nil, nil, nil)
+			potentialTargets = EEex_Sprite_GetAllOfTypeInRange(sourceSprite, GT_AI_ObjectType["GOODCUTOFF"], sourceSprite:virtual_GetVisualRange(), nil, nil, nil)
 		elseif sourceSprite.m_typeAI.m_EnemyAlly < 30 then -- GOODCUTOFF
-			spriteArray = EEex_Sprite_GetAllOfTypeInRange(sourceSprite, GT_AI_ObjectType["EVILCUTOFF"], sourceSprite:virtual_GetVisualRange(), nil, nil, nil)
+			potentialTargets = EEex_Sprite_GetAllOfTypeInRange(sourceSprite, GT_AI_ObjectType["EVILCUTOFF"], sourceSprite:virtual_GetVisualRange(), nil, nil, nil)
 		end
 		--
-		for _, itrSprite in ipairs(spriteArray) do
+		for _, itrSprite in ipairs(potentialTargets) do
 			if itrSprite.m_id ~= CGameSprite.m_id then -- skip current target
 				--EEex_LuaObject = itrSprite -- must be global (we are not confortable with global / singleton vars...)
 				--sourceSprite:setStoredScriptingTarget("gt_NWN_CircleKick_Target", itrSprite)
@@ -103,7 +103,7 @@ function %MONK_CIRCLE_KICK%(CGameEffect, CGameSprite)
 		--
 		local damageTypeIDS, ACModifier = GT_Sprite_ItmDamageTypeToIDS(selectedWeapon["ability"].damageType, targetActiveStats)
 		--
-		if not GT_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, conditionalString) then
+		if not GT_EvalConditional["parseConditionalString"](CGameSprite, nil, conditionalString) then
 			EEex_GameObject_ApplyEffect(CGameSprite,
 			{
 				["effectID"] = 0xC, -- Damage

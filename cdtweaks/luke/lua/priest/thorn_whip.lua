@@ -43,7 +43,7 @@ function %CLERIC_THORN_WHIP%(CGameEffect, CGameSprite)
 	--
 	if not animate[targetAnimateStr] then
 		if targetPersonalSpace <= 3 then
-			if not GT_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, wingBuffetImmunity) then
+			if not GT_EvalConditional["parseConditionalString"](CGameSprite, nil, wingBuffetImmunity) then
 				CGameSprite:applyEffect({
 					["effectID"] = 235, -- wing buffet
 					["dwFlags"] = 4, -- mode: Towards source

@@ -32,7 +32,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		conditionalString = "ClassLevelGT(Myself,ROGUE,4)"
 	end
 	--
-	local applyAbility = isThiefAll and GT_EvalConditional["parseConditionalString"](sprite, sprite, conditionalString)
+	local applyAbility = isThiefAll and GT_EvalConditional["parseConditionalString"](sprite, nil, conditionalString)
 	--
 	if sprite:getLocalInt("gtNWNDefensiveRoll") == 0 then
 		if applyAbility then
@@ -72,7 +72,7 @@ EEex_Sprite_AddAlterBaseWeaponDamageListener(function(context)
 	--
 	if target:getLocalInt("gtNWNDefensiveRoll") == 1 then
 		--
-		if GT_EvalConditional["parseConditionalString"](target, target, conditionalString) then
+		if GT_EvalConditional["parseConditionalString"](target, nil, conditionalString) then
 			--
 			if effect.m_effectId == 0xC and EEex_IsMaskUnset(effect.m_dWFlags, dmgtype["STUNNING"]) and effect.m_slotNum == -1 and effect.m_sourceType == 0 and effect.m_sourceRes:get() == "" then -- base weapon damage (all damage types but STUNNING)
 				--
@@ -113,7 +113,7 @@ EEex_Sprite_AddAlterBaseWeaponDamageListener(function(context)
 								))
 							end
 							--
-							GT_ExecuteResponse["parseResponseString"](target, target, responseString)
+							GT_ExecuteResponse["parseResponseString"](target, nil, responseString)
 						end
 					end
 				end

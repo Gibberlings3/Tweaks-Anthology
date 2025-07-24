@@ -40,7 +40,7 @@ function %MONK_ROGUE_EVASION%(op403CGameEffect, CGameEffect, CGameSprite)
 					if forceApplyViaOp177 then
 						CGameSprite:applyEffect({
 							["effectID"] = 0xC, -- Damage (12)
-							["special"] = EEex_BOr(EEex_UnsetBit(fields["special"], 0x8), 0x9) -- Remove the "save for half" flag / Set the "fail for half" flag
+							["special"] = EEex_BOr(EEex_UnsetBit(fields["special"], 0x8), 0x200) -- Remove the "save for half" flag / Set the "fail for half" flag
 							--
 							["savingThrow"] = fields["savingThrow"], -- ignore save check if the save for half flag is set
 							["saveMod"] = fields["saveMod"],

@@ -226,7 +226,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- Level 25+ && Archer kit
 	local conditionalString = "ClassLevelGT(Myself,WARRIOR,24)"
 	--
-	local applyAbility = spriteKitStr == "FERALAN" and isRangerAll and GT_EvalConditional["parseConditionalString"](sprite, sprite, conditionalString)
+	local applyAbility = spriteKitStr == "FERALAN" and isRangerAll and GT_EvalConditional["parseConditionalString"](sprite, nil, conditionalString)
 	--
 	if sprite:getLocalInt("gtNWNManyshot") == 0 then
 		if applyAbility then

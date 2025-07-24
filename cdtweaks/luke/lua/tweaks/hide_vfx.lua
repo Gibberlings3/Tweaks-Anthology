@@ -38,7 +38,9 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		-- Play visual effect (215), Sanctuary (153), Minor globe overlay (155), Protection from normal missiles overlay (156)
 		for _, list in ipairs(effectList) do
 			EEex_Utility_IterateCPtrList(list, function(effect)
-				if func(effect) then
+				local found = func(effect)
+				-- hide visual effects
+				if found then
 					if effect.m_res3:get() ~= "GTHIDVFX" then
 						--Infinity_DisplayString("hiding vfx...")
 						--
@@ -74,7 +76,9 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		-- Play visual effect (215), Sanctuary (153), Minor globe overlay (155), Protection from normal missiles overlay (156)
 		for _, list in ipairs(effectList) do
 			EEex_Utility_IterateCPtrList(list, function(effect)
-				if func(effect) then
+				local found = func(effect)
+				-- restore visual effects
+				if found then
 					if effect.m_res3:get() == "GTHIDVFX" then
 						--Infinity_DisplayString("restoring vfx...")
 						--

@@ -4,6 +4,8 @@ BEGIN
 	//
 	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Misc Tweaks" "sourceFileSpec" = "cdtweaks\luke\lua\tweaks\extra_dispel_feedback.lua" "destRes" = "m_gttwks" END
 	//
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Subspells" "sourceFileSpec" = "cdtweaks\luke\lib\misc\subspell.lua" "destRes" = "m_gt#sub" END
+	//
 	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lib\utility\array_contains.lua" "destRes" = "m_gtutil" END
 	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\display_message.lua" "destRes" = "m_gtsprt" END
 END

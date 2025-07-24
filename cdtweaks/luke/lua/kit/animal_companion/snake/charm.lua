@@ -13,7 +13,7 @@ function %INNATE_SNAKE_CHARM%(CGameEffect, CGameSprite)
 	--
 	local levelModifier = math.floor(sourceSprite:getActiveStats().m_nLevel1 / 5) -- +1 every 5 levels
 	--
-	if not GT_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, charmImmunity) then
+	if not GT_EvalConditional["parseConditionalString"](CGameSprite, nil, charmImmunity) then
 		EEex_GameObject_ApplyEffect(CGameSprite,
 		{
 			["effectID"] = 5, -- Charm

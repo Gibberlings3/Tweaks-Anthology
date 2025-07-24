@@ -17,7 +17,7 @@ function %INNATE_SNAKE_GRASP%(CGameEffect, CGameSprite)
 		--
 		local holdImmunity = "EEex_IsImmuneToOpcode(Myself,185)"
 		--
-		if not GT_EvalConditional["parseConditionalString"](CGameSprite, CGameSprite, holdImmunity) then
+		if not GT_EvalConditional["parseConditionalString"](CGameSprite, nil, holdImmunity) then
 			-- store targeted creature (sprite)
 			--sourceAux["gt_Aux_SnakeGrasp_CoiledVictim"] = CGameSprite
 			-- store targeted creature (id): this is because ``aux`` does not survive reloads, so if we save and reload the game while grasping a creature, the coiled victim will be lost
@@ -156,7 +156,8 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	--
 	local isMazed = false
 	--
-	local func = function(effect)
+	local func
+	func = function(effect)
 		if effect.m_effectId == 177 or effect.m_effectId == 283 then -- Use EFF file
 			local CGameEffectBase = EEex_Resource_Demand(effect.m_res:get(), "eff")
 			--

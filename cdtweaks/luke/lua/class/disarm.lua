@@ -40,7 +40,7 @@ function %THIEF_DISARM%(CGameEffect, CGameSprite)
 	end
 	-- MAIN --
 	-- Check if inventory is full
-	if not GT_EvalConditional["parseConditionalString"](sourceSprite, sourceSprite, conditionalString) then
+	if not GT_EvalConditional["parseConditionalString"](sourceSprite, nil, conditionalString) then
 		-- check if NONDROPABLE
 		if EEex_IsBitUnset(targetSelectedWeapon["weapon"].m_flags, 0x3) then
 			-- check if DROPPABLE
@@ -115,7 +115,7 @@ function %THIEF_DISARM%(CGameEffect, CGameSprite)
 								-- display feedback message
 								GT_Sprite_DisplayMessage(sourceSprite,
 									string.format("%s : %d %s %d = %d : %s",
-										Infinity_FetchString(%feedback_strref_disarm%), roll, modifier < 0 and "-" or "+", modifier, roll + modifier, Infinity_FetchString(%feedback_strref_hit%)),
+										Infinity_FetchString(%feedback_strref_disarm%), roll, modifier < 0 and "-" or "+", math.abs(modifier), roll + modifier, Infinity_FetchString(%feedback_strref_hit%)),
 									0xBED7D7
 								)
 								--
@@ -179,10 +179,8 @@ function %THIEF_DISARM%(CGameEffect, CGameSprite)
 										if item then -- sanity check
 											local resref = item.pRes.resref:get()
 											--
-											local responseString = EEex_Action_ParseResponseString(string.format('XEquipItem("%s",Myself,%d,UNEQUIP)', resref, i))
-											responseString:executeResponseAsAIBaseInstantly(CGameSprite)
-											--
-											responseString:free()
+											local responseString = string.format('XEquipItem("%s",Myself,%d,UNEQUIP)', resref, i)
+											GT_ExecuteResponse["parseResponseString"](CGameSprite, nil, responseString)
 										end
 									end
 								end
@@ -190,7 +188,7 @@ function %THIEF_DISARM%(CGameEffect, CGameSprite)
 								-- display feedback message
 								GT_Sprite_DisplayMessage(sourceSprite,
 									string.format("%s : %d %s %d = %d : %s",
-										Infinity_FetchString(%feedback_strref_disarm%), roll, modifier < 0 and "-" or "+", modifier, roll + modifier, Infinity_FetchString(%feedback_strref_miss%)),
+										Infinity_FetchString(%feedback_strref_disarm%), roll, modifier < 0 and "-" or "+", math.abs(modifier), roll + modifier, Infinity_FetchString(%feedback_strref_miss%)),
 									0xBED7D7
 								)
 							end
@@ -311,18 +309,20 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 					local targetSprite = EEex_GameObject_Get(spriteAux["gt_NWN_Disarm_TargetID"])
 					spriteAux["gt_NWN_Disarm_TargetID"] = nil
 					--
-					targetSprite:applyEffect({
-						["effectID"] = 138, -- set animation
-						["dwFlags"] = 4, -- SEQ_DAMAGE
-						["sourceID"] = sprite.m_id,
-						["sourceTarget"] = targetSprite.m_id,
-					})
-					targetSprite:applyEffect({
-						["effectID"] = 402, -- invoke lua
-						["res"] = "%THIEF_DISARM%",
-						["sourceID"] = sprite.m_id,
-						["sourceTarget"] = targetSprite.m_id,
-					})
+					if targetSprite then
+						targetSprite:applyEffect({
+							["effectID"] = 138, -- set animation
+							["dwFlags"] = 4, -- SEQ_DAMAGE
+							["sourceID"] = sprite.m_id,
+							["sourceTarget"] = targetSprite.m_id,
+						})
+						targetSprite:applyEffect({
+							["effectID"] = 402, -- invoke lua
+							["res"] = "%THIEF_DISARM%",
+							["sourceID"] = sprite.m_id,
+							["sourceTarget"] = targetSprite.m_id,
+						})
+					end
 				end
 			end
 		end

@@ -74,8 +74,6 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	end
 	-- since ``EEex_Opcode_AddListsResolvedListener`` is running after the effect lists have been evaluated, ``m_bonusStats`` has already been added to ``m_derivedStats`` by the engine
 	local spriteProficiency2Weapon = sprite.m_derivedStats.m_nProficiency2Weapon
-	local spriteLevel1 = sprite.m_derivedStats.m_nLevel1
-	local spriteLevel2 = sprite.m_derivedStats.m_nLevel2
 	-- compute right/left modifiers
 	local stylbonu = GT_Resource_2DA["stylbonu"]
 	local maxThac0RightPenalty = tonumber(stylbonu["TWOWEAPON-0"]["THAC0_RIGHT"])

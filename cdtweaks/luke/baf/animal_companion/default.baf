@@ -265,7 +265,6 @@ IF
 	See(NearestEnemyOf(Myself))
 THEN
 	RESPONSE #100
-		SetGlobalTimerRandom("gtAttackTimer","LOCALS",6,12)
 		AttackReevaluate(EEex_LuaDecode("return GT_LuaDecode_Attack(GT_AI_LuaChunks['default'])"),30)
 END
 

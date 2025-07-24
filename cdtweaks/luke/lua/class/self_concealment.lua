@@ -4,14 +4,6 @@
 +---------------------------------------------------------+
 --]]
 
-local gt_NWN_SelfConcealment_FeedbackStrrefs = {
-	[10] = %strref_10%,
-	[20] = %strref_20%,
-	[30] = %strref_30%,
-	[40] = %strref_40%,
-	[50] = %strref_50%,
-}
-
 -- Apply ability --
 
 EEex_Opcode_AddListsResolvedListener(function(sprite)
@@ -82,11 +74,19 @@ end)
 EEex_Sprite_AddBlockWeaponHitListener(function(args)
 	local targetSprite = args.targetSprite -- CGameSprite
 	--
+	local feedbackStrrefs = {
+		[10] = %strref_10%,
+		[20] = %strref_20%,
+		[30] = %strref_30%,
+		[40] = %strref_40%,
+		[50] = %strref_50%,
+	}
+	--
 	if math.random(100) <= targetSprite:getLocalInt("gtNWNSelfConcealment") then -- 1d100 roll
 		-- display some feedback
 		targetSprite:applyEffect({
 			["effectID"] = 139, -- Display string
-			["effectAmount"] = gt_NWN_SelfConcealment_FeedbackStrrefs[targetSprite:getLocalInt("gtNWNSelfConcealment")],
+			["effectAmount"] = feedbackStrrefs[targetSprite:getLocalInt("gtNWNSelfConcealment")],
 			["sourceID"] = targetSprite.m_id,
 			["sourceTarget"] = targetSprite.m_id,
 		})
