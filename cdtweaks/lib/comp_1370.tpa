@@ -1,0 +1,200 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
+///// Allow Monks to Change Damage Types with Hand Weapons       \\\\\
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+INCLUDE ~cdtweaks/lib/alter_header.tpa~
+
+// check for four open spell states
+COPY_EXISTING ~splstate.ids~ ~override~
+  SET pierce = 0
+  SET crush  = 0
+  SET slash  = 0
+  SET fist   = 0  
+  FOR (index = 1 ; index < 252 ; ++index) BEGIN
+    SET exists = 0
+    REPLACE_EVALUATE ~^\(%index%[ %TAB%]\)~ BEGIN
+      SET exists = 1
+    END ~%MATCH1%~
+    PATCH_IF !exists BEGIN 
+      PATCH_IF !pierce BEGIN SET pierce = index END ELSE
+      PATCH_IF !crush  BEGIN SET crush  = index END ELSE
+      PATCH_IF !slash  BEGIN SET slash  = index END ELSE BEGIN 
+                             SET fist   = index SET index = 255 END // set final, kill loop
+    END
+  END
+  BUT_ONLY
+
+ACTION_IF !fist BEGIN // if fist isn't set, we didn't find enough open spell states
+
+  ABORT @33  
+
+END ELSE BEGIN   
+    
+  APPEND ~splstate.ids~ 
+~%pierce% CD_MONK_PIERCING_DAMAGE
+%crush% CD_MONK_CRUSHING_DAMAGE
+%slash% CD_MONK_SLASHING_DAMAGE
+%fist% CD_MONK_FIST_DAMAGE~
+
+  COPY_EXISTING ~mfist1.itm~ ~override~
+    READ_STRREF 0x0c name_crush
+    BUT_ONLY 
+
+  OUTER_SPRINT name_pierce @137001
+  OUTER_SPRINT name_slash  @137002
+  OUTER_SPRINT name_fist   @137003
+
+  ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_monkfist_types BEGIN 
+    // damage type, description string => spell state
+    1, ~%name_pierce%~ => ~%pierce%~
+    2, ~%name_crush%~  => ~%crush%~
+    3, ~%name_slash%~  => ~%slash%~
+    5, ~%name_fist%~   => ~%fist%~
+  END 
+
+  COPY ~cdtweaks/bam/cdmk_1.bam~ ~override~
+  COPY ~cdtweaks/spl/cdmk_2.spl~ ~override/cdmk_1.spl~
+    SAY 0x08 @137004
+    SAY 0x0c @137004
+    SAY 0x50 @137005
+    SAY 0x54 @137005
+    WRITE_ASCII 0x3a ~%DEST_RES%~
+    LPF ALTER_EFFECT INT_VAR match_opcode = 328 parameter2 = pierce END 
+
+  COPY ~cdtweaks/bam/cdmk_2.bam~ ~override~
+  COPY ~cdtweaks/spl/cdmk_2.spl~ ~override/cdmk_2.spl~
+    SAY 0x08 @137006
+    SAY 0x0c @137006
+    SAY 0x50 @137007
+    SAY 0x54 @137007
+    WRITE_ASCII 0x3a ~%DEST_RES%~
+    LPF ALTER_EFFECT INT_VAR match_opcode = 328 parameter2 = crush END 
+
+  COPY ~cdtweaks/bam/cdmk_3.bam~ ~override~
+  COPY ~cdtweaks/spl/cdmk_2.spl~ ~override/cdmk_3.spl~
+    SAY 0x08 @137008
+    SAY 0x0c @137008
+    SAY 0x50 @137009
+    SAY 0x54 @137009
+    WRITE_ASCII 0x3a ~%DEST_RES%~
+    LPF ALTER_EFFECT INT_VAR match_opcode = 328 parameter2 = slash END 
+
+  COPY ~cdtweaks/bam/cdmk_5.bam~ ~override~
+  COPY ~cdtweaks/spl/cdmk_2.spl~ ~override/cdmk_5.spl~
+    SAY 0x08 @137010
+    SAY 0x0c @137010
+    SAY 0x50 @137011
+    SAY 0x54 @137011
+    WRITE_ASCII 0x3a ~%DEST_RES%~
+    LPF ALTER_EFFECT INT_VAR match_opcode = 328 parameter2 = fist END
+
+  COPY_EXISTING - ~monkfist.2da~ ~override~
+    SPRINT working ""
+    COUNT_2DA_ROWS 2 rows
+    FOR (index = 0 ; index < rows ; ++index) BEGIN
+      READ_2DA_ENTRY index 0 2 level
+      PATCH_IF IS_AN_INT level BEGIN 
+        READ_2DA_ENTRY index 1 2 fist
+        PATCH_IF ("%working%" STRING_COMPARE_CASE "%fist%") BEGIN // if new fist
+          SPRINT working "%fist%"
+          DEFINE_ASSOCIATIVE_ARRAY cd_monkfist BEGIN "%fist%" => "%level%" END
+        END   
+      END
+    END
+    BUT_ONLY
+
+  ACTION_PHP_EACH cd_monkfist AS fist => level BEGIN
+
+    ACTION_PHP_EACH cd_monkfist_types AS params => state BEGIN
+
+      COPY_EXISTING ~%fist%.itm~ ~override/cdmk%params_0%_%level%.itm~  
+        LPF ALTER_HEADER INT_VAR damage_type = params_0 END 
+        PATCH_FOR_EACH offset IN 0x08 0x0c BEGIN
+          READ_STRREF ~%offset%~ name
+          PATCH_IF ("%name%" STRING_COMPARE_REGEXP ~<Invalid Strref -?[0-9]+>~) BEGIN // checking for valid content in string
+            INNER_PATCH_SAVE name ~%name%~ BEGIN
+              REPLACE_TEXTUALLY ~%name_crush%~ ~%params_1%~
+            END
+            SAY_EVALUATED ~%offset%~ ~%name%~ // write changes
+          END
+        END   
+
+      COPY_EXISTING ~cdmk_%params_0%.spl~ ~override~  
+        READ_LONG 0x08 name
+        READ_LONG  0x64 abil_off
+        READ_SHORT 0x68 abil_num
+        READ_LONG  0x6a fx_off
+        READ_SHORT 0x70 fx_num
+        INSERT_BYTES   (fx_off + 0x00 + ((abil_num + fx_num) * 0x30))                     0x30 // inserting effects
+          WRITE_SHORT  (fx_off + 0x00 + ((abil_num + fx_num) * 0x30))                      143 // op: create item in slot 
+          WRITE_BYTE   (fx_off + 0x02 + ((abil_num + fx_num) * 0x30))                        1 // target: self
+          WRITE_LONG   (fx_off + 0x04 + ((abil_num + fx_num) * 0x30))                       10 // slot: fist
+          WRITE_BYTE   (fx_off + 0x12 + ((abil_num + fx_num) * 0x30))                      100 // probability
+          WRITE_BYTE   (fx_off + 0x0c + ((abil_num + fx_num) * 0x30))                        1 // timing: permanent
+          WRITE_ASCIIE (fx_off + 0x14 + ((abil_num + fx_num) * 0x30)) ~cdmk%params_0%_%level%~ // fist to create
+        INSERT_BYTES   (abil_off + 0x00 + (abil_num * 0x28))                0x28 // inserting ability
+          WRITE_BYTE   (abil_off + 0x00 + (abil_num * 0x28))                   1 // type: melee
+          WRITE_SHORT  (abil_off + 0x02 + (abil_num * 0x28))                   4 // location: ability
+          WRITE_ASCIIE (abil_off + 0x04 + (abil_num * 0x28))      ~%SOURCE_RES%~ // icon
+          WRITE_BYTE   (abil_off + 0x0c + (abil_num * 0x28))                   5 // target: caster
+          WRITE_BYTE   (abil_off + 0x0d + (abil_num * 0x28))                   1 // num targets
+          WRITE_SHORT  (abil_off + 0x0e + (abil_num * 0x28))                   1 // range
+          WRITE_SHORT  (abil_off + 0x10 + (abil_num * 0x28))               level // min level
+          WRITE_SHORT  (abil_off + 0x1e + (abil_num * 0x28))                   1 // effects count
+          WRITE_SHORT  (abil_off + 0x20 + (abil_num * 0x28)) (abil_num + fx_num) // effects index
+          WRITE_SHORT  (abil_off + 0x26 + (abil_num * 0x28))                   1 // projectile
+        WRITE_SHORT 0x68 abil_num + 1
+        WRITE_LONG  0x6a fx_off + 0x28
+        
+    END
+    
+    COPY_EXISTING ~%fist%.itm~ ~override~  
+      PATCH_PHP_EACH cd_monkfist_types AS params => state BEGIN
+        LPF ADD_ITEM_EQEFFECT INT_VAR insert_point = 99 opcode = 326 target = 1 parameter1 = state parameter2 = 76 timing = 1 STR_VAR resource = EVAL ~cdmk_%params_0%~ END
+      END   
+          
+  END 
+  
+  // now add initial application via CLAB to all monks and kits
+  ACTION_CLEAR_ARRAY  cd_monk_clabs
+  ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_monk_clabs BEGIN // start with base class tables
+    clabmo01 => MONK        // generic monk
+  END
+      
+  // add kit tables dynamically by reading kitlist
+  COPY_EXISTING ~kitlist.2da~ ~override~
+    COUNT_2DA_ROWS 9 rows
+    FOR (index = 2 ; index < rows ; ++index) BEGIN // skip reserve row
+      READ_2DA_ENTRY index 8 9 class
+      PATCH_IF (class = 20) BEGIN
+        READ_2DA_ENTRY index 1 9 kitname
+        READ_2DA_ENTRY index 5 9 clab
+        DEFINE_ASSOCIATIVE_ARRAY cd_monk_clabs BEGIN "%clab%"  => "%kitname%" END
+      END  
+    END
+    BUT_ONLY
+    
+  ACTION_PHP_EACH cd_monk_clabs AS clab => kit BEGIN
+
+    ACTION_IF FILE_EXISTS_IN_GAME ~%clab%.2da~ BEGIN 
+
+      APPEND ~%clab%.2da~ ~ABILITYX AP_CDMK_2 CDREPLACE~
+
+      COPY_EXISTING ~%clab%.2da~ ~override~
+        COUNT_2DA_COLS cols
+        FOR (index = 3 ; index < cols ; ++index) BEGIN
+          REPLACE_TEXTUALLY ~CDREPLACE~ ~**** CDREPLACE~
+        END
+        REPLACE_TEXTUALLY ~CDREPLACE~ ~****~
+        PRETTY_PRINT_2DA
+        BUT_ONLY
+      
+    END
+  
+  END  
+        
+END

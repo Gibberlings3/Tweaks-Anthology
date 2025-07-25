@@ -39,6 +39,7 @@
 @30 = ~NWN-Style Feats~
 @31 = ~Requires in-game option "3E Sneak Attack" (https://github.com/Argent77/A7-HiddenGameplayOptions).~
 @32 = ~Requires LuaJIT: https://github.com/Bubb13/EEex, component #1~
+@33 = ~Not enough free spell states~ 
 
 @100 = ~Batch Installer -- EXPERIMENTAL, use at own risk. Check the readme.~
 @101 = ~
@@ -149,6 +150,8 @@ The uninstall messages above are normal and expected.
 @27000 = ~Static PsT Character Portraits~
 @27001 = ~Visualize health and status changes~
 @27100 = ~Don't visualize health and status changes~
+
+@28000 = ~Add Visual Indicators for NPCs That Haven't Been Spoken To~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -298,6 +301,8 @@ The uninstall messages above are normal and expected.
 @136000 = ~Automatic Transition to the "Heart of Winter" Expansion~
 @136001 = ~Don't change the main game~
 @136100 = ~Remove Hjollder from Kuldahar~
+
+@137000 = ~Allow Monks to Change Damage Types with Hand Weapons~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
