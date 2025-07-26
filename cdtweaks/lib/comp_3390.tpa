@@ -12,22 +12,22 @@ COPY_EXISTING ~tracking.2da~ ~override~
     SPRINT tracking_default ~%MATCH1%~
   END ~%MATCH1%~
   BUT_ONLY
-  
+
 ACTION_IF ("%tracking_default%" STRING_COMPARE_CASE "cdnone" = 0) BEGIN // sanity check
 
   WARN @339001
-  
+
 END ELSE BEGIN
-    
+
   OUTER_SET dplayer3 = 1
   ACTION_IF enhanced_edition BEGIN
     OUTER_SPRINT track_extend ~tracking_area_nto~
     OUTER_SET dplayer3 = 0
-  END ELSE       
-  ACTION_IF FILE_CONTAINS_EVALUATED (~trigger.ids~ ~[ %TAB%]TriggerOverride(~) BEGIN 
+  END ELSE
+  ACTION_IF FILE_CONTAINS_EVALUATED (~trigger.ids~ ~[ %TAB%]TriggerOverride(~) BEGIN
     OUTER_SPRINT track_extend ~tracking_area_to~
     OUTER_SET dplayer3 = 0
-  END   
+  END
 
   ACTION_CLEAR_ARRAY cd_tracking
   COPY_EXISTING ~tracking.2da~ ~override~
@@ -39,66 +39,66 @@ END ELSE BEGIN
         READ_2DA_ENTRY index 0 2 area
         PATCH_IF original_iwd OR !dplayer3 BEGIN // need area scripts for oiwd or games with triggeroverride/nexttriggerobject
           INNER_ACTION BEGIN
-      
+
             COPY_EXISTING ~%area%.are~ ~override~
               READ_ASCII 0x94 script (8) NULL
               PATCH_IF (("%script%" STRING_COMPARE_CASE "none") AND ("%script%" STRING_COMPARE_CASE "")) BEGIN
                 DEFINE_ASSOCIATIVE_ARRAY cd_tracking BEGIN "%area%" => ~%script%~ END
-              END  
+              END
               BUT_ONLY IF_EXISTS
-              
-          END    
-        END ELSE BEGIN  
+
+          END
+        END ELSE BEGIN
           DEFINE_ASSOCIATIVE_ARRAY cd_tracking BEGIN "%area%" => 0 END
-        END  
-      END  
+        END
+      END
     END
-    BUT_ONLY  
+    BUT_ONLY
 
   ACTION_IF original_iwd BEGIN
-      
+
     COPY_EXISTING ~spin139.spl~ ~override~ // havespell fails on innates that are not level 1
-      WRITE_LONG 0x34 1 
-      BUT_ONLY 
- 
+      WRITE_LONG 0x34 1
+      BUT_ONLY
+
     ACTION_PHP_EACH cd_tracking AS area => script BEGIN
-   
+
       EXTEND_BOTTOM ~%script%.bcs~ ~cdtweaks/baf/tracking_area_oiwd.baf~ EVALUATE_BUFFER
-     
+
     END
-   
+
     EXTEND_BOTTOM ~dplayer3.bcs~ ~cdtweaks/baf/tracking_dplayer3_oiwd.baf~ EVALUATE_BUFFER
 
   END ELSE BEGIN
-      
+
     COPY_EXISTING ~spcl922.spl~ ~override~ // havespell fails on innates that are not level 1
-      WRITE_LONG 0x34 1 
-      BUT_ONLY 
-    
+      WRITE_LONG 0x34 1
+      BUT_ONLY
+
     ACTION_IF !dplayer3 BEGIN
- 
+
      ACTION_PHP_EACH cd_tracking AS area => script BEGIN
-    
+
         OUTER_FOR (index = 1 ; index < 7 ; ++index) BEGIN
           EXTEND_BOTTOM ~%script%.bcs~ ~cdtweaks/baf/%track_extend%.baf~ EVALUATE_BUFFER
-        END  
-        
-      END  
+        END
+
+      END
 
     END ELSE BEGIN
-       
-      OUTER_SET area_count = 0 
+
+      OUTER_SET area_count = 0
       OUTER_SPRINT areas ~~
       ACTION_PHP_EACH cd_tracking AS area => script BEGIN
         OUTER_SPRINT areas ~%areas% AreaCheck("%area%")~
         OUTER_SET area_count += 1
       END
-      
-      ACTION_IF area_count BEGIN 
+
+      ACTION_IF area_count BEGIN
         OUTER_SPRINT tracking_or ~OR(%area_count%)~
         EXTEND_BOTTOM ~dplayer2.bcs~ ~cdtweaks/baf/tracking_dplayer3.baf~ EVALUATE_BUFFER
         EXTEND_BOTTOM ~dplayer3.bcs~ ~cdtweaks/baf/tracking_dplayer3.baf~ EVALUATE_BUFFER
-      END  
+      END
 
     END
 

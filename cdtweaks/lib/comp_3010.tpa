@@ -17,21 +17,21 @@ INCLUDE ~cdtweaks/lib/joinable_npc_array.tpa~
 ACTION_PHP_EACH JOINABLE_NPC_ARRAY AS file => dv BEGIN
 
   COPY_EXISTING ~%file%~ ~override~
-    LAUNCH_PATCH_MACRO ~max_hp_creatures~ // contains rest of patch
+    LPF ~max_hp_creatures~ END // contains rest of patch
     BUT_ONLY
 
-END  
+END
 
 ACTION_IF !game_is_pst AND !game_is_pstee BEGIN // no character files on these games
 
   OUTER_SPRINT dv ~dv~ // set to non-integer value so these parse as joinable when the macro runs
   ACTION_BASH_FOR ~%USER_DIRECTORY%/characters~ ~^.+\.chr$~ BEGIN
-  
+
     COPY ~%BASH_FOR_FILESPEC%~ ~%BASH_FOR_FILESPEC%~
-      LAUNCH_PATCH_MACRO ~max_hp_creatures~ // contains rest of patch, including validity checks
+      LPF ~max_hp_creatures~ END // contains rest of patch, including validity checks
       BUT_ONLY
-  
+
   END
-  
+
 END
-    
+

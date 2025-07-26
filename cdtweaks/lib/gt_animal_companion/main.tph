@@ -1,0 +1,294 @@
+DEFINE_ACTION_FUNCTION "ANIMAL_COMPANION"
+BEGIN
+	// "spell.ids" vars \\
+
+	LAM "READ_SPELL_IDS"
+
+	// empty spl file \\
+
+	WITH_SCOPE BEGIN
+		ACTION_IF !(FILE_EXISTS_IN_GAME "gtempty.spl") BEGIN
+			CREATE "spl" "gtempty"
+			COPY_EXISTING "gtempty.spl" "override"
+				LPF ~ADD_SPELL_HEADER~ END
+				LPF ~ADD_SPELL_EFFECT~ INT_VAR "target" = 2 END
+			BUT_ONLY_IF_IT_CHANGES
+		END
+	END
+
+	// update kit description; update clab file \\
+
+	WITH_SCOPE BEGIN
+		COPY_EXISTING "kitlist.2da" "override"
+			COUNT_2DA_COLS "cols"
+			READ_2DA_ENTRIES_NOW "read_kitlist" "%cols%"
+			FOR ("i" = 0 ; "%i%" < "%read_kitlist%" ; "i" += 1) BEGIN
+				READ_2DA_ENTRY_FORMER "read_kitlist" "%i%" 1 "symbol"
+				PATCH_IF ("%symbol%" STRING_EQUAL_CASE "BEASTMASTER") BEGIN
+					SET "strref" = RESOLVE_STR_REF (@0)
+					SET_2DA_ENTRY "%i%" 4 "%cols%" "%strref%"
+					//
+					READ_2DA_ENTRY_FORMER "read_kitlist" "%i%" 5 "abilities"
+					//
+					SET "i" = "%read_kitlist%" // kill for-loop
+				END
+			END
+		BUT_ONLY
+		//
+		COPY_EXISTING "%abilities%.2da" "override"
+			REPLACE_TEXTUALLY CASE_INSENSITIVE EXACT_MATCH "GA_%BEASTMASTER_FIND_FAMILIAR%" "****"
+			// formatting
+			PRETTY_PRINT_2DA
+		BUT_ONLY_IF_IT_CHANGES
+	END
+
+	// register main spl file \\
+
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"type" = 4
+		"level" = 3
+	STR_VAR
+		"idsName" = "BEASTMASTER_ANIMAL_COMPANION"
+	RET
+		"BEASTMASTER_ANIMAL_COMPANION" = "resName"
+	END
+
+	//LAF "ADD_EXTENDED_STAT" INT_VAR "max" = 50 STR_VAR "identifier" = "GT_AI_TIMER" END // AI-related (basically, if the targeted creature is immune to X, the AI will be able to flag it as such after a certain amount of time)
+
+	// summoning spl file \\
+	WITH_SCOPE BEGIN
+		ACTION_TO_LOWER "BEASTMASTER_ANIMAL_COMPANION"
+		//
+		CREATE "spl" "%BEASTMASTER_ANIMAL_COMPANION%"
+		COPY_EXISTING "%BEASTMASTER_ANIMAL_COMPANION%.spl" "override"
+			WRITE_ASCII 0x10 "CAS_P03" #8 // casting sound
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@1)
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC RESOLVE_STR_REF (@2)
+			WRITE_LONG DESC "-1"
+			WRITE_SHORT 0x1C 4 // innate
+			WRITE_LONG 0x34 1 // level
+			WRITE_LONG 0x18 (BIT14 BOR BIT25) // ignore dead/wild magic, castable when silenced
+			WRITE_ASCII 0x3A "%WIZARD_FIND_FAMILAR%C" #8 // icon
+			//
+			LPF "ADD_SPELL_HEADER" INT_VAR "target" = 5 "speed" = 1 STR_VAR "icon" = "%WIZARD_FIND_FAMILAR%B" END
+			//
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 1 STR_VAR "resource" = "%BEASTMASTER_ANIMAL_COMPANION%" END // Invoke lua
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 214 "target" = 1 "timing" = 1 STR_VAR "resource" = "%BEASTMASTER_ANIMAL_COMPANION%" END // Select spell
+		BUT_ONLY
+		//
+		COPY "cdtweaks\luke\2da\animal_companion.2da" "override\%BEASTMASTER_ANIMAL_COMPANION%.2da" // 2da invoked by op214
+			EVALUATE_BUFFER
+			// formatting
+			PRETTY_PRINT_2DA
+		BUT_ONLY_IF_IT_CHANGES
+	END
+
+	// auxiliary spl files (one for each creature) \\
+
+	WITH_SCOPE BEGIN
+		ACTION_TO_LOWER "BEASTMASTER_ANIMAL_COMPANION"
+		//
+		ACTION_CLEAR_ARRAY "cdtweaksAnimalCompanion"
+		ACTION_DEFINE_ASSOCIATIVE_ARRAY "cdtweaksAnimalCompanion" BEGIN
+			"%BEASTMASTER_ANIMAL_COMPANION%a", "bear" => 100 // cave bear
+			"%BEASTMASTER_ANIMAL_COMPANION%b", "beetle" => 101 // bombardier beetle
+			"%BEASTMASTER_ANIMAL_COMPANION%c", "boar" => 102 // dire boar (icon: courtesy of zenblack)
+			"%BEASTMASTER_ANIMAL_COMPANION%d", "falcon" => 103 // falcon (icon: courtesy of zenblack)
+			"%BEASTMASTER_ANIMAL_COMPANION%e", "leopard" => 104 // leopard
+			"%BEASTMASTER_ANIMAL_COMPANION%f", "snake" => 105 // giant poisonous snake
+			"%BEASTMASTER_ANIMAL_COMPANION%g", "spider" => 106 // sword spider
+			"%BEASTMASTER_ANIMAL_COMPANION%h", "wolf" => 107 // winter wolf
+		END
+		//
+		ACTION_PHP_EACH "cdtweaksAnimalCompanion" AS "k" => "v" BEGIN
+			COPY "cdtweaks\luke\bam\kit\animal_companion\%k_1%.bam" "override\%k%.bam"
+			//
+			CREATE "spl" "%k%"
+			COPY_EXISTING "%k%.spl" "override"
+				/* Header */
+				WRITE_LONG NAME1 RESOLVE_STR_REF ((AT "%v%"))
+				WRITE_LONG NAME2 "-1"
+				WRITE_LONG UNIDENTIFIED_DESC "-1"
+				WRITE_LONG DESC "-1"
+				WRITE_LONG 0x18 BIT14 // Ignore dead/wild magic
+				WRITE_SHORT 0x1C 4 // Type: Innate
+				WRITE_LONG 0x34 1 // Level
+				WRITE_ASCII 0x3A ~%k%~ #8 // Icon
+				/* Extended Header */
+				LPF ~ADD_SPELL_HEADER~ INT_VAR "target" = 5 "range" = 0x7FFF STR_VAR "icon" = "%k%" END
+				/* Feature Blocks */
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 177 "target" = 1 "timing" = 1 "parameter2" = 2 STR_VAR "resource" = "%BEASTMASTER_ANIMAL_COMPANION%" END // Use EFF file
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 177 "target" = 1 "timing" = 1 "parameter2" = 2 STR_VAR "resource" = "%k%" END // Use EFF file
+			BUT_ONLY
+			//
+			CREATE "eff" "%k%"
+			COPY_EXISTING "%k%.eff" "override"
+				WRITE_LONG 0x10 67 // Summon creature
+				WRITE_SHORT 0x2C 100 // prob1
+				WRITE_ASCII 0x30 "%k%" #8 // CRE resref
+				WRITE_ASCII 0x70 "SPANISUM" #8 // VVC resref
+			BUT_ONLY_IF_IT_CHANGES
+		END
+		//
+		CREATE "eff" "%BEASTMASTER_ANIMAL_COMPANION%"
+		COPY_EXISTING "%BEASTMASTER_ANIMAL_COMPANION%.eff" "override"
+			WRITE_LONG 0x10 187 // Set local int
+			WRITE_SHORT 0x2C 100 // prob1
+			WRITE_LONG 0x1C 1 // set to 1
+			WRITE_ASCII 0xA8 "gtNWNAnimalCompanion" #32 // Var name
+		BUT_ONLY_IF_IT_CHANGES
+	END
+
+	// Banish creature (spl file) \\
+
+	WITH_SCOPE BEGIN
+		ACTION_TO_LOWER "BEASTMASTER_ANIMAL_COMPANION"
+		//
+		COPY "cdtweaks\luke\bam\kit\animal_companion\banish.bam" "override\%BEASTMASTER_ANIMAL_COMPANION%#.bam"
+		//
+		CREATE "spl" "%BEASTMASTER_ANIMAL_COMPANION%#"
+		COPY_EXISTING "%BEASTMASTER_ANIMAL_COMPANION%#.spl" "override"
+			/* Header */
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@200)
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC "-1"
+			WRITE_LONG DESC "-1"
+			WRITE_LONG 0x18 (BIT14 BOR BIT25) // Ignore dead/wild magic, castable when silenced
+			WRITE_SHORT 0x1C 4 // Type: Innate
+			WRITE_LONG 0x34 1 // Level
+			WRITE_ASCII 0x3A "%DEST_RES%" #8 // icon
+			/* Extended Header */
+			LPF ~ADD_SPELL_HEADER~ INT_VAR "target" = 7 "range" = 0x7FFF STR_VAR "icon" = "%DEST_RES%" END
+			/* Feature Blocks */
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 68 "parameter1" = 1 "target" = 1 "timing" = 1 END // Unsummon creature (Display text?: Yes)
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 1 "parameter1" = 1 STR_VAR "resource" = "%BEASTMASTER_ANIMAL_COMPANION%" END // invoke lua
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 13 "parameter1" = 1 "target" = 1 "timing" = 4 "parameter2" = BIT2 END // normal death, Display text?: No (0-second delay trick, so that it kicks in after op68 and 402)
+		BUT_ONLY
+	END
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	/* CRE files */
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	ACTION_BASH_FOR "cdtweaks\lib\gt_animal_companion\creatures" "^.+\.tph$" BEGIN
+		INCLUDE "%BASH_FOR_FILESPEC%"
+	END
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Scripts \\
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	WITH_SCOPE BEGIN
+		ACTION_TO_LOWER "BEASTMASTER_ANIMAL_COMPANION"
+		//
+		ACTION_CLEAR_ARRAY "cdtweaksAnimalCompanion"
+		ACTION_DEFINE_ASSOCIATIVE_ARRAY "cdtweaksAnimalCompanion" BEGIN
+			"override" => "%BEASTMASTER_ANIMAL_COMPANION%x"
+			"class" => "%BEASTMASTER_ANIMAL_COMPANION%y"
+			"default" => "%BEASTMASTER_ANIMAL_COMPANION%z"
+		END
+		//
+		ACTION_PHP_EACH "cdtweaksAnimalCompanion" AS "k" => "v" BEGIN
+			COPY "cdtweaks\luke\baf\animal_companion\%k%.baf" "override\%v%.baf"
+			COMPILE EVALUATE_BUFFER "override\%v%.baf"
+			DELETE "override\%v%.baf"
+		END
+		//
+		<<<<<<<< .../cdtweaks-inlined/clear_ai_timers.baf
+		IF
+			True()
+		THEN
+			RESPONSE #100
+				EEex_LuaAction("GT_LuaAction_ClearAIAux()")
+				Continue()
+		END
+		>>>>>>>>
+		//
+		ACTION_FOR_EACH "world_script" IN "baldur" "baldur25" "bdbaldur" BEGIN
+			ACTION_IF (FILE_EXISTS_IN_GAME "%world_script%.bcs") BEGIN
+				EXTEND_TOP "%world_script%.bcs" ".../cdtweaks-inlined/clear_ai_timers.baf"
+			END
+		END
+	END
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Lua \\
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	WITH_SCOPE BEGIN
+		OUTER_SET "feedback_strref" = RESOLVE_STR_REF (@3)
+		ACTION_BASH_FOR "cdtweaks\luke\lua\kit\animal_companion\utility" "^.+\.lua$" BEGIN
+			LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Beastmaster Animal Companion" "sourceFileSpec" = "%BASH_FOR_FILESPEC%" "destRes" = "m_gt#pet" END
+		END
+	END
+
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Class/Kit Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\kit\animal_companion\gain_ability.lua" "destRes" = "m_gtspcl" END
+
+	// utilities
+	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
+		COPY "cdtweaks\luke\lib\resource\tables.lua" "override\m_gttbls.lua"
+	END
+	//
+	ACTION_IF !(FILE_EXISTS_IN_GAME "gtintmod.2da") BEGIN
+		COPY "cdtweaks\luke\lib\2da\gtintmod.2da" "override"
+			// formatting
+			PRETTY_PRINT_2DA
+		BUT_ONLY
+	END
+
+	// AI
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "AI-related stuff" "sourceFileSpec" = "cdtweaks\luke\lib\ai\sha.lua" "destRes" = "m_gt#ai" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "AI-related stuff" "sourceFileSpec" = "cdtweaks\luke\lib\ai\chunks.lua" "destRes" = "m_gt#ai" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "AI-related stuff" "sourceFileSpec" = "cdtweaks\luke\lib\ai\extra.lua" "destRes" = "m_gt#ai" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "AI-related stuff" "sourceFileSpec" = "cdtweaks\luke\lib\ai\get_true_spell_level.lua" "destRes" = "m_gt#ai" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "AI-related stuff" "sourceFileSpec" = "cdtweaks\luke\lib\ai\has_bounce_effects.lua" "destRes" = "m_gt#ai" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "AI-related stuff" "sourceFileSpec" = "cdtweaks\luke\lib\ai\has_immunity_effects.lua" "destRes" = "m_gt#ai" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "AI-related stuff" "sourceFileSpec" = "cdtweaks\luke\lib\ai\has_trap_effect.lua" "destRes" = "m_gt#ai" END
+
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "AI (Attack)" "sourceFileSpec" = "cdtweaks\luke\lib\ai\attack.lua" "destRes" = "m_gt#atk" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "AI (Cast Spell)" "sourceFileSpec" = "cdtweaks\luke\lib\ai\cast_spell.lua" "destRes" = "m_gtcast" END
+
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Aoe Radius Check" "sourceFileSpec" = "cdtweaks\luke\lib\ai\aoe.lua" "destRes" = "m_gt#aoe" END
+
+	// sprite
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\damage_type.lua" "destRes" = "m_gtsprt" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\has_bounce_effects.lua" "destRes" = "m_gtsprt" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\has_immunity_effects.lua" "destRes" = "m_gtsprt" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\has_trap_effect.lua" "destRes" = "m_gtsprt" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\check_ids.lua" "destRes" = "m_gtsprt" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\get_selected_weapon.lua" "destRes" = "m_gtsprt" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\sort_by_isometric_distance.lua" "destRes" = "m_gtsprt" END
+
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lib\utility\get_distance.lua" "destRes" = "m_gtutil" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lib\utility\array_to_string.lua" "destRes" = "m_gtutil" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lib\utility\shuffle_array.lua" "destRes" = "m_gtutil" END
+
+	// immunities via 403
+	LAF "IMMUNITY_REMOVAL" STR_VAR "path" = "cdtweaks\luke\lib" END
+
+	// lua actions
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Lua Actions" "sourceFileSpec" = "cdtweaks\luke\lib\action\clear_ai_aux.lua" "destRes" = "m_gt#act" END
+
+	// lua triggers
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Lua Triggers" "sourceFileSpec" = "cdtweaks\luke\lib\trigger\interruptable_action.lua" "destRes" = "m_gt#trg" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Lua Triggers" "sourceFileSpec" = "cdtweaks\luke\lib\trigger\num_creature_check.lua" "destRes" = "m_gt#trg" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Lua Triggers" "sourceFileSpec" = "cdtweaks\luke\lib\trigger\resref.lua" "destRes" = "m_gt#trg" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Lua Triggers" "sourceFileSpec" = "cdtweaks\luke\lib\trigger\chase.lua" "destRes" = "m_gt#trg" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Lua Triggers" "sourceFileSpec" = "cdtweaks\luke\lib\trigger\party_ai.lua" "destRes" = "m_gt#trg" END
+
+	//
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Eval Conditional" "sourceFileSpec" = "cdtweaks\luke\lib\misc\eval_conditional.lua" "destRes" = "m_gteval" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Execute Response" "sourceFileSpec" = "cdtweaks\luke\lib\misc\execute_response.lua" "destRes" = "m_gtexec" END
+
+	// crypto library (https://github.com/Egor-Skriptunoff/pure_lua_SHA)
+	ACTION_IF !DIRECTORY_EXISTS "lua\gt" BEGIN
+		MKDIR "lua\gt"
+	END
+	COPY "cdtweaks\luke\lib\crypto\sha2.lua" "lua\gt"
+
+END
+

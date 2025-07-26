@@ -24,7 +24,7 @@ END ELSE BEGIN
   ACTION_CLEAR_ARRAY cd_mc_kitnames // multiclass kits
   OUTER_FOR (index = 12 ; index < 21 ; ++index) BEGIN
     ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_mc_gm BEGIN ~%index%~ => ~%index%~ END // bogstandard multis
-  END  
+  END
 
   ACTION_IF enhanced_edition BEGIN // only bother checking for MC kits on EE games
 
@@ -37,10 +37,10 @@ END ELSE BEGIN
           DEFINE_ASSOCIATIVE_ARRAY cd_mc_kitnames BEGIN ~%kitname%~ => ~%kitname%~ END
         END
       END
-      BUT_ONLY   
+      BUT_ONLY
 
-  END      
-        
+  END
+
   COPY_EXISTING ~weapprof.2da~  ~override~
     COUNT_2DA_COLS col_count
     SET col_check = col_count - 1

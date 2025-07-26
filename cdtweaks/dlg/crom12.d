@@ -1,7 +1,7 @@
 EXTEND_BOTTOM WSMITH01 13
   IF ~PartyHasItem("blun14")~ THEN GOTO NewItem
 END
-  
+
 APPEND WSMITH01
   IF ~~ THEN BEGIN NewItem SAY @122028
   IF ~!PartyHasItem("blun30a")~ THEN GOTO NewItem2

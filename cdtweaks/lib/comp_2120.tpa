@@ -6,47 +6,54 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-INCLUDE ~cdtweaks/lib/arcane_descripts.tpa~  // text replacement macros     
+INCLUDE ~cdtweaks/lib/arcane_descripts.tpa~  // text replacement macros
 INCLUDE ~cdtweaks/lib/common_armor_list.tpa~
+
+// do miscast via EFFs so that they can be blocked via 318 on the EEs, e.g. for artisan's eldritch knight or
+// armored casting for bards. use normal op 60s on oBG2
+ACTION_FOR_EACH val IN 5 10 15 20 25 30 35 40 50 BEGIN
+
+  COPY ~cdtweaks/eff/cdtmis5.eff~ ~override/cdtmis%val%.eff~ // create miscast magic EFFs
+    WRITE_LONG 0x1c val
+    WRITE_ASCIIE 0x94 ~%DEST_RES%~ #8
+    
+END 
 
 // eldritch knight is allowed to cast in armor, so artisan farms all of the 'disable cast button' op145s into an eff
 // file (c0arcas2). The Eldritch Knight is then made immune via op318 to said eff, allowing them to cast. Working together
 // Tweaks will now impose the normal miscast penalties, but keep the EK immune to them via an EFF system.
-OUTER_SET ek_compat = 0
-ACTION_IF FILE_EXISTS_IN_GAME ~c0arcas2.eff~ BEGIN // artisan's eldritch knight
-  OUTER_SET ek_compat = 1
+COPY_EXISTING ~c0ekarm.spl~ ~override~ // add new effs to EK's immunity spell
+              ~c0ska00.spl~ ~override~ // bardic wonder's armored casting
+  PATCH_FOR_EACH val IN 5 10 15 20 25 30 35 40 50 BEGIN
+    LPF CLONE_EFFECT INT_VAR match_opcode = 318 multi_match = 1 STR_VAR resource = EVAL ~cdtmis%val%~ END
+  END  
+  IF_EXISTS 
 
-  ACTION_FOR_EACH val IN 5 10 15 20 25 30 35 40 50 BEGIN
-    
-    COPY_EXISTING ~c0arcas2.eff~ ~override/cdtmis%val%.eff~ // create miscast magic EFFs
-      WRITE_LONG 0x10 60 
-      WRITE_LONG 0x1c val
-      
-    COPY_EXISTING ~c0ekarm.spl~ ~override~ // add new effs to EK's immunity spell
-      LPF CLONE_EFFECT INT_VAR match_opcode = 318 STR_VAR match_resource = ~c0arcas2~ resource = EVAL ~cdtmis%val%~ END
-      
+// don't bother running DELETE_EFFECTs vs. these EFFs unless they're present in game
+ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_del_effs BEGIN END
+ACTION_FOR_EACH eff IN d5arcal d5arcac d5arcap c0arcas1 c0arcas2 BEGIN // compat with subtledoctor, artisan
+  ACTION_IF FILE_EXISTS_IN_GAME ~%eff%.eff~ BEGIN 
+    ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_del_effs BEGIN ~%eff%~ => 1 END
   END
-
-END            
+END  
 
 ACTION_PHP_EACH cd_common_armor_list AS params => item BEGIN
 
   ACTION_IF ((params_3 != 0) AND (params_3 != 255)) BEGIN // if penalty is needed
-  
+
     COPY_EXISTING ~%item%.itm~ ~override~
       READ_SHORT 0x1c type
       PATCH_IF ((type = 2) OR (type = 12) OR (type = 41) OR (type = 47) OR (type = 49) OR (type = 53)) BEGIN // 12 is bg shield type, all others are iwd; 2 is armor
         LPF DELETE_ITEM_EQEFFECT INT_VAR opcode_to_delete =  60 END
         LPF DELETE_ITEM_EQEFFECT INT_VAR opcode_to_delete = 145 END
-        PATCH_FOR_EACH res IN d5arcal d5arcac d5arcap BEGIN // compat with subtledoctor
+        PATCH_PHP_EACH cd_del_effs AS res => foo BEGIN 
           LPF DELETE_EFFECT INT_VAR match_opcode = 177 STR_VAR match_resource = EVAL ~%res%~ END
-        END 
-        PATCH_IF ek_compat BEGIN
-          LPF DELETE_EFFECT INT_VAR match_opcode = 177 STR_VAR match_resource = ~c0arcas2~ END
-          LPF ADD_ITEM_EQEFFECT INT_VAR insert_point = 999 opcode = 177 target = 1 parameter2 = 2 timing = 2 STR_VAR resource = EVAL ~cdtmis%params_3%~ END
+        END
+        PATCH_IF enhanced_edition BEGIN
+          LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 177 target = 1 parameter2 = 2 timing = 2 STR_VAR resource = EVAL ~cdtmis%params_3%~ END
         END ELSE BEGIN
           LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 60 target = 1 parameter1 = params_3 timing = 2 END
-        END  
+        END
         // adjust descriptions
         PATCH_FOR_EACH offset IN 0x50 0x54 BEGIN
           READ_STRREF ~%offset%~ desc
@@ -61,5 +68,5 @@ ACTION_PHP_EACH cd_common_armor_list AS params => item BEGIN
       BUT_ONLY
 
   END // miscast check
-  
+
 END // php_each

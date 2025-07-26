@@ -6,24 +6,29 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
+// maintenance note: this is crosslinked; use mod-agnostic paths
+// * cdtweaks/lib/comp_70.tpa
+// * iwdification/tpa/comp_70.tpa
+
+
 ACTION_IF enhanced_edition BEGIN
 
   ACTION_FOR_EACH file IN cgabjura cgaltera cgconjur cgdivina cgenchan cgillusi cginvoca cgnecrom BEGIN
 
-    COPY ~cdtweaks/bam/%file%_ee.bam~ ~override/%file%.bam~
-    COPY ~cdtweaks/pro/cast_iwd.pro~  ~override/%file%.pro~
+    COPY ~%MOD_FOLDER%/bam/%file%_ee.bam~ ~override/%file%.bam~
+    COPY ~%MOD_FOLDER%/pro/cast_iwd.pro~  ~override/%file%.pro~
       WRITE_ASCIIE 0x104 ~%file%~ #8
-         
+
   END
 
 END ELSE BEGIN
 
   ACTION_FOR_EACH file IN cgabjura cgaltera cgconjur cgdivina cgenchan cgillusi cginvoca cgnecrom BEGIN
 
-    COPY ~cdtweaks/bam/%file%.bam~ ~override~
-         
+    COPY ~%MOD_FOLDER%/bam/%file%.bam~ ~override~
+
   END
 
-END  
+END
 
-LAF HANDLE_AUDIO STR_VAR audio_path = ~cdtweaks/wav/casting~ oggdec_path = ~cdtweaks/wav~ END
+LAF HANDLE_AUDIO STR_VAR audio_path = ~%MOD_FOLDER%/wav/casting~ oggdec_path = ~%MOD_FOLDER%/wav~ END

@@ -7,20 +7,88 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
-  READ_SHORT 0x1c type
-  PATCH_IF type = 25 BEGIN
-    WRITE_LONG 0x1e (THIS BAND `BIT14) // removes f/c flag
+ACTION_IF !(MOD_IS_INSTALLED "EEex.tp2" 0) BEGIN
+  COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
+    READ_SHORT 0x1c type
+    PATCH_IF type = 25 BEGIN
+      WRITE_LONG 0x1e (THIS BAND `BIT14) // removes f/c flag
+    END
+    BUT_ONLY
+
+  COPY_EXISTING ~clasweap.2da~ ~override~	//add axe general-weapon type to fighter-cleric
+    REPLACE_TEXTUALLY ~^\(FIGHTER_CLERIC[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+\)[^ %TAB%]+~ ~\11~
+
+  OUTER_SET profmax = 2
+  ACTION_IF MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2200~ THEN BEGIN OUTER_SET profmax = 5 END // multiclass grandmastery
+
+  COPY_EXISTING ~weapprof.2da~ ~override~ //give fighter-clerics the ability to specialise in axes
+    REPLACE_TEXTUALLY ~^\(AXE[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+\)[^ %TAB%]+~
+      ~\1%profmax%~
+    IF_EXISTS 
+END ELSE BEGIN
+  // [Luke]
+  WITH_SCOPE BEGIN
+    INCLUDE "cdtweaks\argent\add_kit_ex.tph"
+    INCLUDE "cdtweaks\luke\lib\install.tph"
+    //
+    WITH_TRA "cdtweaks\languages\english\gt_yeslick_axes.tra" "cdtweaks\languages\%LANGUAGE%\gt_yeslick_axes.tra" BEGIN
+      // lua magic
+      WITH_SCOPE BEGIN
+        OUTER_SET "feedback_strref" = RESOLVE_STR_REF (@0)
+        //
+        LAF "APPEND_LUA_CHUNK"
+        STR_VAR
+          "description" = "Joinable NPC Tweaks"
+          "sourceFileSpec" = "cdtweaks\luke\lua\npc\yeslick.lua"
+          "destRes" = "m_gt#npc"
+        END
+      END
+      // let us add a new dummy fighter/cleric kit that can put pips in axes
+      WITH_SCOPE BEGIN
+        OUTER_SET "profmax" = 2
+        ACTION_IF MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2200~ BEGIN
+          OUTER_SET "profmax" = 5 END // multiclass grandmastery
+        END
+        //
+        LAF "ADD_KIT_EX"
+        INT_VAR
+          "kit_class" = IDS_OF_SYMBOL ("class" "FIGHTER_CLERIC")
+          "mixed" = RESOLVE_STR_REF (@1)
+          "visible" = 0 // not available to PCs
+        STR_VAR
+          "kit_name" = "CDTWEAKS_YESLICK_AXES"
+        END
+        //
+        COPY_EXISTING - "kitlist.2da" "override"
+          COUNT_2DA_COLS "cols"
+          READ_2DA_ENTRIES_NOW "read_kitlist" "%cols%"
+          FOR ("i" = 0 ; "%i%" < "%read_kitlist%" ; "i" += 1) BEGIN
+            READ_2DA_ENTRY_FORMER "read_kitlist" "%i%" 1 "kit_name"
+            PATCH_IF ("%kit_name%" STR_EQ "CDTWEAKS_YESLICK_AXES") BEGIN
+              READ_2DA_ENTRY_FORMER "read_kitlist" "%i%" 6 "proficiency"
+              SET "i" = "%read_kitlist%" // kill for-loop
+            END
+          END
+        BUT_ONLY
+        //
+        COPY_EXISTING "weapprof.2da" "override"
+          COUNT_2DA_COLS "cols"
+          READ_2DA_ENTRIES_NOW "read_weapprof" "%cols%"
+          FOR ("i" = 0 ; "%i%" < "%read_weapprof%" ; "i" += 1) BEGIN
+            READ_2DA_ENTRY_FORMER "read_weapprof" "%i%" 0 "prof_name"
+            PATCH_IF ("%prof_name%" STR_EQ "AXE") BEGIN
+              SET_2DA_ENTRY "%i%" "%proficiency%" "%cols%" "%profmax%"
+            END
+          END
+        BUT_ONLY
+      END
+      // update CREs
+      COPY_EXISTING "yeslic.cre" "override"
+                    "yeslic5.cre" "override"
+                    "yeslid.cre" "override"
+        WRITE_SHORT 0x244 (IDS_OF_SYMBOL ("kit" "CDTWEAKS_YESLICK_AXES") >> 16) & 0xFFFF
+        WRITE_SHORT 0x246 (IDS_OF_SYMBOL ("kit" "CDTWEAKS_YESLICK_AXES") & 0xFFFF)
+      BUT_ONLY IF_EXISTS
+    END
   END
-  BUT_ONLY
-
-COPY_EXISTING ~clasweap.2da~ ~override~	//add axe general-weapon type to fighter-cleric
-  REPLACE_TEXTUALLY ~^\(FIGHTER_CLERIC[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+\)[^ %TAB%]+~ ~\11~
-
-OUTER_SET profmax = 2
-ACTION_IF MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2200~ THEN BEGIN OUTER_SET profmax = 5 END // multiclass grandmastery
-
-COPY_EXISTING ~weapprof.2da~ ~override~ //give fighter-clerics the ability to specialise in axes
-  REPLACE_TEXTUALLY ~^\(AXE[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+[^ %TAB%]+[ %TAB%]+\)[^ %TAB%]+~
-    ~\1%profmax%~
-  IF_EXISTS 
+END

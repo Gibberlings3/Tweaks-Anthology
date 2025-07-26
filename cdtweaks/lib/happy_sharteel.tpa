@@ -4,10 +4,10 @@ COPY_EXISTING ~%SHARTEEL_BCS%.bcs~    ~override~
     REPLACE_TEXTUALLY ~[ %TAB%]Global("X#ShHighMale","GLOBAL",[01])~       ~ False()~
   END
   BUT_ONLY IF_EXISTS
-  
+
 <<<<<<<<./inline/sharteel_happy.d
 REPLACE_TRIGGER_TEXT ~%SHARTEEL_JOINED%~ ~Global("X#ShHighReputation","GLOBAL",[01])~ ~False()~
 REPLACE_TRIGGER_TEXT ~%SHARTEEL_JOINED%~ ~Global("X#ShHighMale","GLOBAL",[01])~       ~False()~
 >>>>>>>>
 
-COMPILE ~./inline/sharteel_happy.d~ EVALUATE_BUFFER 
+COMPILE ~./inline/sharteel_happy.d~ EVALUATE_BUFFER

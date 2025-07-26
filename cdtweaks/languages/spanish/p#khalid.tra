@@ -1,5 +1,5 @@
 @0    = ~Pensé qu-que seríais una persona interesante, <CHARNAME>, por lo que nos ha escrito Gorion. No estoy d-decepcionado.~
-@1    = ~*Sonríes con tristeza* Ojalá las circumstancias de nuestro encuentro fueran diferentes, Khalid...~
+@1    = ~*Sonreís con tristeza* Ojalá las circumstancias de nuestro encuentro fueran diferentes, Khalid...~
 @2    = ~Vos también sois una persona interesante, Khalid. ¿Puedo preguntar cómo es que un hombre de armas se interesó por la magia?~
 @3    = ~Bueno, parece que perseguimos los mismos intereses, ¿verdad? ¿Puedo preguntar cómo es que un hombre de armas se interesó por la magia?~
 @4    = ~¿Puedo preguntar cómo es que un hombre de armas se interesó por la magia? Justo estaba pensando en aprender algo en el futuro, así que...~
@@ -11,12 +11,12 @@
 @10   = ~Ni yo, Khalid, ni yo.~
 @11   = ~No es t-tan inusual...~
 @12   = ~Bueno, sólo puedo juzgar por mi experiencia limitada, pero no he conocido muchos, así que...~
-@13   = ~Siempre me imaginé a aquellos que buscaban mas poder. Sin ofender, pero no pareces de esos.~
+@13   = ~Siempre me imaginé a aquellos que buscaban mas poder. Sin ofender, pero no parecéis de esos.~
 @14   = ~Ah, bien. Adelante.~
 @15   = ~No es t-tan inusual... Vos sois uno.~ ~No es t-tan inusual... Vos sois una.~
 @16   = ~Bueno, me ha intrigado el oirlo de otro que no sea yo, que creció torturado por un mago en una biblioteca...~ ~Bueno, me ha intrigado el oirlo de otro que no sea yo, que creció torturada por un mago en una biblioteca...~
 @17   = ~Lo *sé*. ¡Sólo quería comenzar una conversación! Bah, lo que sea.~
-@18   = ~C-creo que tenéis la suficiente habilidad para ello, <CHARNAME>. Os recomendaría el intentarlo, p-pero no os lo tomes a la ligera. Pero... pero no es t-tan inusual... ~
+@18   = ~C-creo que tenéis la suficiente habilidad para ello, <CHARNAME>. Os recomendaría el intentarlo, p-pero no os lo toméis a la ligera. Pero... pero no es t-tan inusual... ~
 @19   = ~Con mucho gusto. ¿De q-qué queréis hablar?~
 @20   = ~Sois una persona interesante, Khalid. ¿Puedo preguntar cómo es que un hombre de armas se interesó por la magia?~
 @21   = ~¡¿Cómo es que un tío inteligente como vos deja a una perra como Jaheira que le diga lo que hacer?!~
@@ -26,11 +26,11 @@
 @25   = ~Oh, Ya veo. Bueno, ha sido interesante hablar con vos.~
 @26   = ~Él... no era mi m-mentor en la misma forma que lo fue de vos, pero siempre quise ser un mago...~
 @27   = ~T-tal vez, pero la forma en la que crecí también afectó mis desiciones. Pero siempre quise ser un mago...~
-@28   = ~Soy de Calimshan, <CHARNAME>, y... y nací... bastardo. De una c-concubina elfa. M-mi padre no quería conocerme, así que, tuve que p-proveerme por mi mismo.~
-@29   = ~Cuesta mucho dinero el pagar los estudios de magia, y l-la forma más rápida para tener ese dinero era enrolarme en la Militia... Y así lo hice.~
+@28   = ~Soy de Calimshán, <CHARNAME>, y... y nací... bastardo. De una c-concubina elfa. M-mi padre no quería conocerme, así que, tuve que p-proveerme por mi mismo.~
+@29   = ~Cuesta mucho dinero el pagar los estudios de magia, y l-la forma más rápida para tener ese dinero era enrolarme en la milicia... Y así lo hice.~
 @30   = ~Lo siento, Khalid. Creo que os juzgué mal debido a vuestra apariencia. Sois mucho menos tímido que... No importa. ¿Cómo conocistéis a Jaheira?~
-@31   = ~Ya veo. Es bueno que lo hayas hecho. Tienes habilidades muy útiles y me alegra el poder contar con ellas en mis viajes.~
-@32   = ~Dices que vuestro padre no os ayudó, pero... ¿Qué pasó con vuestra madre, Khalid?~
+@31   = ~Ya veo. Es bueno que lo hayáis hecho. Tenéis habilidades muy útiles y me alegra el poder contar con ellas en mis viajes.~
+@32   = ~Decís que vuestro padre no os ayudó, pero... ¿Qué pasó con vuestra madre, Khalid?~
 @33   = ~Vos... os dáis cuenta que sonáis justo a-a lo que habéis llamado a mi esposa... justo como lo que h-habéis llamado a mi e-esposa... no dejaré que nadie la... la difame. La memoria de Gorion me detiene... y no me iré... pero la próxima...~
 @34   = ~M-mi esposa... no dejaré que nadie la... la difame. La memoria de Gorion me detiene... y no os golpearé... pero la próxima...~
 @35   = ~E-esta es una historia completamente diferente. Puede que os la diga luego, pero ahora tenemos que irnos...~
@@ -38,4 +38,4 @@
 @37   = ~Ella... ella murió. ¿Podemos... podemos irnos?~
 @38   = ~Oh, no sé que decir. Lo siento, Khalid.~
 @39   = ~Quisiera saber más acerca de ella. ¿Tal vez podamos hablar en otro momento?~
-@40   = ~Yo n-no hablé de ella con nadie más además de Jaheira...~
+@40   = ~Yo n-no hablé de ella con nadie más que con Jaheira...~

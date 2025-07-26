@@ -1,15 +1,16 @@
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-/////                                                            \\\\\
-///// Spontaneous Casting for Clerics                            \\\\\
-/////                                                            \\\\\
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////                                                                           /////
+///// Make Grease Ignitable                                                     \\\\\
+/////                                                                           \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
 
 WITH_SCOPE BEGIN
-  INCLUDE "cdtweaks\luke\misc.tph"
-  INCLUDE "cdtweaks\lib\spontaneous_casting.tph"
-  WITH_TRA "cdtweaks\languages\english\spontaneous_casting.tra" "cdtweaks\languages\%LANGUAGE%\spontaneous_casting.tra" BEGIN
-    LAF "SPONTANEOUS_CASTING" END
-  END
+  INCLUDE "cdtweaks\luke\lib\install.tph"
+  INCLUDE "cdtweaks\ardanis\functions.tph"
+  //
+  INCLUDE "cdtweaks\lib\gt_make_grease_ignitable.tph"
+  //
+  LAF "MAKE_GREASE_IGNITABLE" END
 END

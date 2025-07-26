@@ -1,5 +1,39 @@
 // this file is used to override strings in game.tra for EE games
 // it will NOT be re-encoded for EE games, so put it in the correct charset for your language
+@216001 = ~SHORT SWORD/NINJATŌ: The preferred weapon of many a thief and halfling, short swords and ninjatōs are light but useful weapons.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216009 = ~Short Sword/Ninjatō~
+@216104 = ~LARGE SWORDS: This weapon class allows the character to use bastard swords, broad swords, two-handed swords, long swords, katanas, wakizashis, ninjatōs, and scimitars. Druids%cd_shaman% are able to select this class, but are limited to scimitars alone. Monks are able to select this class, but cannot use bastard swords or two-handed swords.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216303 = ~LARGE SWORDS: This weapon class allows the character to use broad swords, long swords, katanas, wakizashis, ninjatōs, and scimitars. Druids%cd_shaman% are able to select this class, but are limited to scimitars alone.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
 
 //#50818 in obg2
 @418002 = ~This ring was given to Nalia by her father upon her ascension to adulthood. Bonded to her blood as it is the ring may not be used by anyone else. The ring grants a +2 bonus to all Saving Throws, a +2 bonus to Armor Class, and a 50% bonus to Fire Resistance.

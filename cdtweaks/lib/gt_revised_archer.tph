@@ -1,0 +1,174 @@
+DEFINE_ACTION_FUNCTION "REVISED_ARCHER"
+BEGIN
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"level" = 1
+		"type" = 4
+		"preferredSlot" = 21
+	STR_VAR
+		"idsName" = "ARCHER_CALLED_SHOT"
+	RET
+		"ARCHER_CALLED_SHOT" = "resName"
+	END
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"level" = 1
+		"type" = 4
+		"preferredSlot" = 22
+	STR_VAR
+		"idsName" = "ARCHER_KIT_BONUS"
+	RET
+		"ARCHER_KIT_BONUS" = "resName"
+	END
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"level" = 1
+		"type" = 4
+		"preferredSlot" = 23
+	STR_VAR
+		"idsName" = "ARCHER_MANYSHOT"
+	RET
+		"ARCHER_MANYSHOT" = "resName"
+	END
+	// update description
+	WITH_SCOPE BEGIN
+		OUTER_SET "new_desc" = RESOLVE_STR_REF (@0)
+		COPY_EXISTING "kitlist.2da" "override"
+			COUNT_2DA_COLS "cols"
+			READ_2DA_ENTRIES_NOW "read_kitlist" "%cols%"
+			FOR ("i" = 0 ; "%i%" < "%read_kitlist%" ; "i" += 1) BEGIN
+				READ_2DA_ENTRY_FORMER "read_kitlist" "%i%" 1 "kitname"
+				PATCH_IF ("%kitname%" STR_EQ "FERALAN") BEGIN
+					READ_2DA_ENTRY_FORMER "read_kitlist" "%i%" 5 "clabfile"
+					READ_2DA_ENTRY_FORMER "read_kitlist" "%i%" 6 "weapprof_column_index"
+					SET_2DA_ENTRY "%i%" 4 "%cols%" "%new_desc%" // update description
+					SET "i" = "%read_kitlist%" // kill FOR-loop
+				END
+			END
+		BUT_ONLY
+		// remove passive trait + Called Shot from CLAB file
+		WITH_SCOPE BEGIN
+			COPY_EXISTING "%clabfile%.2da" "override"
+				PATCH_IF (GAME_IS "bgee bg2ee eet") BEGIN
+					REPLACE_TEXTUALLY CASE_INSENSITIVE EXACT_MATCH "AP_SPCL122" "****" // Missile thac0/damage bonus
+				END ELSE BEGIN
+					REPLACE_TEXTUALLY CASE_INSENSITIVE EXACT_MATCH "AP_SPCL124" "****" // Missile thac0/damage bonus
+				END
+				REPLACE_TEXTUALLY CASE_INSENSITIVE EXACT_MATCH "GA_SPCL121" "****" // Called Shot
+				// formatting
+				PRETTY_PRINT_2DA
+			BUT_ONLY
+		END
+		// May only Specialize (two slots) in crossbows
+		WITH_SCOPE BEGIN
+			COPY_EXISTING "weapprof.2da" "override"
+				COUNT_2DA_COLS "cols"
+				READ_2DA_ENTRIES_NOW "read_weapprof" "%cols%"
+				FOR ("i" = 0 ; "%i%" < "%read_weapprof%" ; "i" += 1) BEGIN
+					READ_2DA_ENTRY_FORMER "read_weapprof" "%i%" 0 "profname"
+					PATCH_IF ("%profname%" STR_EQ "CROSSBOW") BEGIN
+						SET_2DA_ENTRY "%i%" "%weapprof_column_index%" "%cols%" 2
+						SET "i" = "%read_weapprof%" // kill FOR-loop
+					END
+				END
+			BUT_ONLY
+		END
+	END
+	// Called Shot (bows only!): Split it into two (arms/legs)
+	WITH_SCOPE BEGIN
+		ACTION_TO_LOWER "ARCHER_CALLED_SHOT"
+		// Arms
+		CREATE "spl" "%ARCHER_CALLED_SHOT%b"
+		COPY_EXISTING "%ARCHER_CALLED_SHOT%b.spl" "override"
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@1)
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC RESOLVE_STR_REF (@2)
+			WRITE_LONG DESC "-1"
+			WRITE_LONG 0x18 (BIT14 BOR BIT25) // ignore dead/wild magic, castable when silenced
+			WRITE_SHORT 0x1C 4 // innate
+			WRITE_LONG 0x34 1 // level
+			WRITE_ASCII 0x3A "%DEST_RES%" #8 // icon
+			//
+			LPF "ADD_SPELL_HEADER" INT_VAR "range" = 30 STR_VAR "icon" = "%DEST_RES%" END
+			//
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 138 "target" = 1 "parameter2" = 8 END // SEQ_SHOOT
+		BUT_ONLY
+		//
+		COPY_EXISTING "%ARCHER_CALLED_SHOT%b.spl" "override\%ARCHER_CALLED_SHOT%d.spl"
+			WRITE_LONG NAME1 "-1"
+			//
+			LPF "ALTER_SPELL_EFFECT" INT_VAR "match_opcode" = 138 "target" = 2 "parameter2" = 4 END // SEQ_DAMAGE
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 "parameter1" = 1 STR_VAR "resource" = "%ARCHER_CALLED_SHOT%" END // invoke lua
+		BUT_ONLY
+		// Legs
+		COPY_EXISTING "%ARCHER_CALLED_SHOT%b.spl" "override\%ARCHER_CALLED_SHOT%c.spl"
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@3)
+			WRITE_LONG UNIDENTIFIED_DESC RESOLVE_STR_REF (@4)
+			WRITE_ASCII 0x3A "%DEST_RES%" #8 // icon
+			//
+			LPF "ALTER_SPELL_HEADER" STR_VAR "icon" = "%DEST_RES%" END
+		BUT_ONLY
+		//
+		COPY_EXISTING "%ARCHER_CALLED_SHOT%c.spl" "override\%ARCHER_CALLED_SHOT%e.spl"
+			WRITE_LONG NAME1 "-1"
+			//
+			LPF "ALTER_SPELL_EFFECT" INT_VAR "match_opcode" = 138 "target" = 2 "parameter2" = 4 END // SEQ_DAMAGE
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 "parameter1" = 2 STR_VAR "resource" = "%ARCHER_CALLED_SHOT%" END // invoke lua
+		BUT_ONLY
+		//
+		COPY "cdtweaks\luke\bam\kit\archer\called_shot_arms.bam" "override\%ARCHER_CALLED_SHOT%b.bam" "cdtweaks\luke\bam\kit\archer\called_shot_legs.bam" "override\%ARCHER_CALLED_SHOT%c.bam"
+	END
+	// Point Blank Shot (bows only!)
+	WITH_SCOPE BEGIN
+		COPY_EXISTING "x-clserg.2da" "override"
+			COUNT_2DA_COLS "cols"
+			READ_2DA_ENTRIES_NOW "read_x-clserg" "%cols%"
+			FOR ("i" = 0 ; "%i%" < "%read_x-clserg%" ; "i" += 1) BEGIN
+				READ_2DA_ENTRY_FORMER "read_x-clserg" "%i%" 0 "kitName"
+				PATCH_IF ("%kitName%" STRING_EQUAL_CASE "FERALAN") BEGIN
+					SET_2DA_ENTRY "%i%" 1 "%cols%" 1 // BOW
+					SET "i" = "%read_x-clserg%" // kill FOR-loop
+				END
+			END
+			PRETTY_PRINT_2DA
+		BUT_ONLY
+	END
+	// lua
+	WITH_SCOPE BEGIN
+		OUTER_SET "feedback_strref_thac0_mod" = RESOLVE_STR_REF (@101)
+		OUTER_SET "feedback_strref_dex_mod" = RESOLVE_STR_REF (@102)
+		OUTER_SET "feedback_strref_bow_only" = RESOLVE_STR_REF (@103)
+		OUTER_SET "feedback_strref_immune" = RESOLVE_STR_REF (@200)
+		OUTER_SET "feedback_strref_AoE" = RESOLVE_STR_REF (@300)
+		//
+		OUTER_SET "feedback_strref_called_shot_arms" = RESOLVE_STR_REF (@1)
+		OUTER_SET "feedback_strref_called_shot_legs" = RESOLVE_STR_REF (@3)
+		OUTER_SET "feedback_strref_hit" = RESOLVE_STR_REF (@400)
+		OUTER_SET "feedback_strref_miss" = RESOLVE_STR_REF (@401)
+		OUTER_SET "feedback_strref_weapon_ineffective" = RESOLVE_STR_REF (@402)
+		//
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Class/Kit Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\kit\archer\passive_traits.lua" "destRes" = "m_gtspcl" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Class/Kit Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\kit\archer\called_shot.lua" "destRes" = "m_gtspcl" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Class/Kit Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\kit\archer\manyshot.lua" "destRes" = "m_gtspcl" END
+	END
+	//
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lib\utility\decode_effect.lua" "destRes" = "m_gtutil" END
+	//
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\damage_type.lua" "destRes" = "m_gtsprt" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\display_message.lua" "destRes" = "m_gtsprt" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\check_ids.lua" "destRes" = "m_gtsprt" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\get_selected_weapon.lua" "destRes" = "m_gtsprt" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\get_critical_modifiers.lua" "destRes" = "m_gtsprt" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\attack_of_opportunity.lua" "destRes" = "m_gtsprt" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\attack_roll_penalty.lua" "destRes" = "m_gtsprt" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\racial_enemy.lua" "destRes" = "m_gtsprt" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\invisible_target.lua" "destRes" = "m_gtsprt" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\striking_from_invisibility.lua" "destRes" = "m_gtsprt" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\thac0_vs_type_bonus.lua" "destRes" = "m_gtsprt" END
+	//
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Eval Conditional" "sourceFileSpec" = "cdtweaks\luke\lib\misc\eval_conditional.lua" "destRes" = "m_gteval" END
+	//
+	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
+		COPY "cdtweaks\luke\lib\resource\tables.lua" "override\m_gttbls.lua"
+	END
+END

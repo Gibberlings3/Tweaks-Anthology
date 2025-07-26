@@ -1,3 +1,30 @@
+/////                                                  \\\\\
+///// max_hp_creatures.tpa                             \\\\\
+/////                                                  \\\\\
+
+/*
+
+Used to calculate and set hit point totals based on an NPC's class
+and level.
+
+used:
+  Bullet Sponge, as cd_bs/lib/max_hp_creatures.tpa [symbolic link]
+  Tweaks Anthology, as cdtweaks/lib/max_hp_creatures.tpa [symbolic link]
+
+platform:
+  all
+
+dependencies
+  uses variables created by game_checks.tpa and joinable_npc_array.tpa
+
+version history:
+  unk: creation of the original max HP code
+  5/30/24: enabled arbitrary scaling (no longer locked to 100%)
+  1/8/25: substantially simplified non-iwd2 code; added DEAD checks; changed from macro to function;
+    fixed minor bugs with dual-class calculations; better rounding; explicit shaman checks
+
+*/
+
 // these two vars can be set in the cdtweaks.txt, but in case they're not or set incorrectly, set defaults
 ACTION_IF !VARIABLE_IS_SET cd_max_hp_percentage OR !IS_AN_INT cd_max_hp_percentage BEGIN
   OUTER_SET cd_max_hp_percentage = 100
@@ -6,398 +33,299 @@ ACTION_IF !VARIABLE_IS_SET cd_max_hp_bonus OR !IS_AN_INT cd_max_hp_bonus BEGIN
   OUTER_SET cd_max_hp_bonus = 0
 END
 
+DEFINE_PATCH_MACRO max_hp_creatures_wrapup BEGIN // same macro to end both iwd2 and non-iwd2 functions
+
+  PATCH_IF IS_AN_INT dv BEGIN // non-joinable NPC
+    SET newhp = (newhp * hp_percent)
+    PATCH_IF (newhp MODULO 100) > 49 BEGIN SET newhp += 50 END // round up!
+    SET newhp = ((newhp / 100) + hp_flat_bonus)
+  END
+  PATCH_IF newhp < 0 BEGIN SET newhp = 1 END // sanity check
+
+  SET new_curhp = ((newhp * curhp * 100) / maxhp) // sets new current hp and preserves the existing damage %, adding *100 to simulate two decimal places
+  PATCH_IF (new_curhp MODULO 100) > 49 BEGIN SET new_curhp += 50 END // round up!
+  SET new_curhp = new_curhp / 100 // removing decimal places
+  PATCH_IF new_curhp < 0 BEGIN SET new_curhp = 1 END // sanity check
+
+  // if cd_max_hp_percentage >= 100, we're looking for an HP increase. So we only change the HP if the new calculation is *higher* than the current
+  PATCH_IF ((newhp > maxhp) AND (cd_max_hp_percentage > 99)) BEGIN // we're raising HP
+    WRITE_SHORT off_curhp new_curhp                                // sets new current hp
+    WRITE_SHORT off_maxhp newhp                                    // sets new max
+  END ELSE
+  // if cd_max_hp_percentage < 100, we're looking for an HP decrease. So we only change the HP if the new calculation is *lower* than the current
+  PATCH_IF ((newhp < maxhp) AND (cd_max_hp_percentage < 100)) BEGIN // we're lowering HP
+    WRITE_SHORT off_curhp new_curhp                                 // sets new current hp
+    WRITE_SHORT off_maxhp newhp                                     // sets new max
+  END
+
+END
+
 // define different macros for max_hp_creatures depending on 2e/3e
 ACTION_IF game_is_iwd2 BEGIN
 
-  DEFINE_PATCH_MACRO ~max_hp_creatures~ BEGIN    
-    
+  DEFINE_PATCH_FUNCTION max_hp_creatures
+      INT_VAR hp_percent    = cd_max_hp_percentage
+              hp_flat_bonus = cd_max_hp_bonus
+  BEGIN
+
     // PATCH_PRINT ~checking %SOURCE_FILE%~
-    READ_ASCII 0x00 sig (4) NULL 
+    READ_ASCII 0x00 sig (4) NULL
     PATCH_IF ("%sig%" STRING_COMPARE_CASE "CHR" = 0) BEGIN SET fudge = 0x224 END ELSE BEGIN SET fudge = 0 END
-    SET off_curhp = 0x24 + fudge
-    SET off_maxhp = 0x26 + fudge
-    READ_SHORT off_curhp "curhp" ELSE 0
-    READ_SHORT off_maxhp "maxhp" ELSE 0
-    PATCH_IF (("%maxhp%" > 0) AND ("%curhp%" > 0)) BEGIN
-      SET off_barb  = 0x8b + fudge
-      SET off_bard  = 0x8c + fudge
-      SET off_cleric  = 0x8d + fudge
-      SET off_druid  = 0x8e + fudge
-      SET off_fighter  = 0x8f + fudge
-      SET off_monk  = 0x90 + fudge
-      SET off_paladin  = 0x91 + fudge
-      SET off_ranger  = 0x92 + fudge
-      SET off_rogue  = 0x93 + fudge
-      SET off_sorcerer  = 0x94 + fudge
-      SET off_wizard  = 0x95 + fudge
-      SET "maxhp" = 0
-      READ_BYTE  off_barb "barbarian"
-      READ_BYTE  off_bard "bard"
-      READ_BYTE  off_cleric "cleric"
-      READ_BYTE  off_druid "druid"
-      READ_BYTE  off_fighter "fighter"
-      READ_BYTE  off_monk "monk"
-      READ_BYTE  off_paladin "paladin"
-      READ_BYTE  off_ranger "ranger"
-      READ_BYTE  off_rogue "rogue"
-      READ_BYTE  off_sorcerer "sorceror"
-      READ_BYTE  off_wizard "wizard"
-      SET "maxed_hp" = 12 * "%barbarian%" + 10 * ("%fighter%" + "%paladin%" + "%ranger%")
-                     + 8 * ("%cleric%" + "%druid%" + "%monk%") + 6 * ("%bard%" + "%rogue%")
-                     + 4 * ("%wizard%" + "%sorceror%")
-      PATCH_IF IS_AN_INT dv BEGIN // non-joinable NPC
-        SET maxed_hp = (((maxed_hp * cd_max_hp_percentage) / 100) + cd_max_hp_bonus)                    
-      END  
-      PATCH_IF ("%curhp%" < "%maxed_hp%") BEGIN
-        // PATCH_PRINT ~updating %SOURCE_FILE%~
-        WRITE_SHORT off_curhp "%maxed_hp%" * "%curhp%" / "%maxhp%"
-        WRITE_SHORT off_maxhp "%maxed_hp%"
-      END
-    END  
-    
-  END  
+    SET off_flags2 = 0x20 + fudge
+    SET off_curhp  = 0x24 + fudge
+    SET off_maxhp  = 0x26 + fudge
+    READ_LONG  off_flags2 flags2
+    READ_SHORT off_curhp curhp ELSE 0
+    READ_SHORT off_maxhp maxhp ELSE 0
+    PATCH_IF ((maxhp > 0) AND (curhp > 0) AND // non-zero HP values and
+             (flags2 & (BIT6 + BIT8 + BIT9 + BIT10 + BIT11) = 0)) BEGIN // not flagged as dead
+      READ_BYTE  (0x8b + fudge) barbarian
+      READ_BYTE  (0x8c + fudge) bard
+      READ_BYTE  (0x8d + fudge) cleric
+      READ_BYTE  (0x8e + fudge) druid
+      READ_BYTE  (0x8f + fudge) fighter
+      READ_BYTE  (0x90 + fudge) monk
+      READ_BYTE  (0x91 + fudge) paladin
+      READ_BYTE  (0x92 + fudge) ranger
+      READ_BYTE  (0x93 + fudge) rogue
+      READ_BYTE  (0x94 + fudge) sorceror
+      READ_BYTE  (0x95 + fudge) wizard
+
+      SET newhp = ((12 * barbarian) +
+                   (10 * (fighter + paladin + ranger)) +
+                   ( 8 * (cleric + druid + monk)) +
+                   ( 6 * (bard + rogue)) +
+                   ( 4 * (wizard + sorceror)))
+
+      LPM max_hp_creatures_wrapup
+
+    END
+
+  END
 
 END ELSE BEGIN
 
   // i've learned that GAME_IS checks in a regexp copy are very slooooow, so...
-  OUTER_SET off_class = 0x273 // cre v1.0
+  OUTER_SET off_classx = 0x273 // cre v1.0
 
   ACTION_IF game_is_pst BEGIN // pstee uses v1.0
-    OUTER_SET off_class = 0x317
+    OUTER_SET off_classx = 0x317
   END
 
   ACTION_IF original_iwd BEGIN
-    OUTER_SET off_class = 0x2db // cre v9.0
+    OUTER_SET off_classx = 0x2db // cre v9.0
   END
 
   ACTION_IF NOT (original_bg1 OR original_iwd OR game_is_iwd2 OR game_includes_pst) BEGIN
-    OUTER_SET check_kit = 1
+    OUTER_SET check_kitx = 1
   END ELSE BEGIN
-    OUTER_SET check_kit = 0
-    OUTER_SET kit = 0
+    OUTER_SET check_kitx = 0
+  END
+  
+  ACTION_IF MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3008~ BEGIN 
+    OUTER_SET roll_to_20 = 1
+  END ELSE BEGIN
+    OUTER_SET roll_to_20 = 0
   END
 
-  DEFINE_PATCH_MACRO ~max_hp_creatures~ BEGIN  
-    
-    // PATCH_PRINT ~checking %SOURCE_FILE%~  
-    PATCH_IF (NOT ~%SOURCE_RES%~ STRING_EQUAL_CASE ~riftcr04~) BEGIN // skip creatures meant to have lower hp
-      READ_ASCII 0x00 sig (4) NULL 
-      PATCH_IF ("%sig%" STRING_COMPARE_CASE "CHR" = 0) BEGIN SET fudge = 0x64 END ELSE BEGIN SET fudge = 0 END
-      SET off_curhp = 0x24 + fudge
-      SET off_maxhp = 0x26 + fudge
-      READ_SHORT off_curhp "currenthp" ELSE 0 // fortunately all cre formats keep HP info at these offsets
-      READ_SHORT off_maxhp "maxhp"     ELSE 0
-      PATCH_IF (("%maxhp%" > 0) AND ("%currenthp%" > 0)) BEGIN
-      
-        SET off_dual1 = 0x10 + fudge
-        SET off_dual2 = 0x11 + fudge
-        SET off_level1 = 0x234 + fudge
-        SET off_level2 = 0x235 + fudge
-        SET off_level3 = 0x236 + fudge
-        SET off_class = off_class + fudge
-        SET off_kit = 0x244 + fudge    
+  DEFINE_PATCH_FUNCTION max_hp_creatures
+      INT_VAR check_kit     = check_kitx
+              off_class     = off_classx
+              hp_percent    = cd_max_hp_percentage
+              hp_flat_bonus = cd_max_hp_bonus
+  BEGIN
 
-        READ_BYTE off_dual1 "dual1"
-        READ_BYTE off_dual2 "dual2"
-        READ_BYTE off_level1 "level1" // If dual-classed, this value is put in the next field, and this field is set to 1.
-        READ_BYTE off_level2 "level2" // Highest attained level in secondary class (0-100)
-        READ_BYTE off_level3 "level3" // Highest attained level in tertiary class (0-100)
-        READ_BYTE off_class "class" // V1.0
+    PATCH_IF (~%SOURCE_RES%~ STRING_COMPARE_CASE ~riftcr04~) BEGIN // skip creatures meant to have lower hp
+      READ_ASCII 0x00 sig (4) NULL
+      PATCH_IF ("%sig%" STRING_COMPARE_CASE "CHR" = 0) BEGIN SET fudge = 0x64 END ELSE BEGIN SET fudge = 0 END
+      SET off_flags2 = 0x20 + fudge
+      SET off_curhp  = 0x24 + fudge
+      SET off_maxhp  = 0x26 + fudge
+      READ_LONG  off_flags2 flags2
+      READ_SHORT off_curhp curhp ELSE 0 // fortunately all cre formats keep HP info at these offsets
+      READ_SHORT off_maxhp maxhp     ELSE 0
+      PATCH_IF ((maxhp > 0) AND (curhp > 0) AND // non-zero HP values and
+               ((flags2 BAND (BIT6 + BIT8 + BIT9 + BIT10 + BIT11)) = 0)) BEGIN // not flagged as dead, EXCLUDING stone_death to get Branwen
+        READ_LONG (0x010     + fudge) flags
+        READ_BYTE (0x234     + fudge) level1 // If dual-classed, this value is put in the next field, and this field is set to 1.
+        READ_BYTE (0x235     + fudge) level2 // Highest attained level in secondary class (0-100)
+        READ_BYTE (0x236     + fudge) level3 // Highest attained level in tertiary class (0-100)
+        READ_BYTE (off_class + fudge) class  // V1.0
         PATCH_IF check_kit = 1 BEGIN
-          READ_LONG off_kit "kit"    // 0x00004000 = barbarian
+          READ_LONG (0x244 + fudge) kit    // 0x00004000 = barbarian
         END ELSE BEGIN
           SET kit = 0
-        END  
-        SET "firstdice" = 0      // size of die for HP rolls for first class, i.e. 1dX
-        SET "firstlast" = 0      // last level for which they get a full die roll for HP for first class
-        SET "firstpostdice" = 0  // set HP they get for levels beyond dice rolls for first class
-        SET "seconddice" = 0     // size of die for HP rolls for second class, i.e. 1dX
-        SET "secondlast" = 0     // last level for which they get a full die roll for HP for second class
-        SET "secondpostdice" = 0 // set HP they get for levels beyond dice rolls for second class
-        SET "thirddice" = 0      // size of die for HP rolls for third class, i.e. 1dX
-        SET "thirdlast" = 0      // last level for which they get a full die roll for HP for third class
-        SET "thirdpostdice" = 0  // set HP they get for levels beyond dice rolls for third class
-        SET "divide" = 1         // divide is only needed for multis
+        END
+        SET firstdice = 0      // size of die for HP rolls for first class, i.e. 1dX
+        SET firstlast = 0      // last level for which they get a full die roll for HP for first class
+        SET firstpostdice = 0  // static HP they get for levels beyond dice rolls for first class
+        SET seconddice = 0     // size of die for HP rolls for second class, i.e. 1dX
+        SET secondlast = 0     // last level for which they get a full die roll for HP for second class
+        SET secondpostdice = 0 // static HP they get for levels beyond dice rolls for second class
+        SET thirddice = 0      // size of die for HP rolls for third class, i.e. 1dX
+        SET thirdlast = 0      // last level for which they get a full die roll for HP for third class
+        SET thirdpostdice = 0  // static HP they get for levels beyond dice rolls for third class
+        SET divide = 1         // divide is only needed for multis
 
-    // single class mage or sorcerer
-        PATCH_IF (("%class%" = 1) OR  // mage
-                  ("%class%" = 19)) BEGIN // sorcerer
-          SET "firstdice" = 4
-          PATCH_IF (enhanced_edition AND kit = 0x4023) BEGIN SET "firstdice" = 6 END // dragon disciple sorcerer
-          SET "firstlast" = 10
-          SET "firstpostdice" = 1
-        END ELSE
-    // single class fighter, ranger or paladin
-        PATCH_IF (("%class%" = 2) OR
-                  ("%class%" = 6) OR
-                  ("%class%" = 12)) BEGIN
-          SET "firstdice" = 10
-          PATCH_IF (("%kit%" = 0x40000000) OR (enhanced_edition AND kit = 0x4022)) BEGIN SET "firstdice" = 12 END // barbarian or dwarven defender
-          SET "firstlast" = 9
-          SET "firstpostdice" = 3
+    // first class mage or sorcerer
+        PATCH_IF ((class = 1) OR      // mage
+                  (class = 13) OR     // mt
+                  (class = 19)) BEGIN // sorcerer
+          SET firstdice = 4
+          PATCH_IF (enhanced_edition AND kit = 0x4023) BEGIN SET firstdice = 6 END // dragon disciple sorcerer
+          SET firstlast = 10 + (roll_to_20 * 10)
+          SET firstpostdice = 1
         END ELSE
 
-    // single class cleric, druid or monk
-        PATCH_IF (("%class%" = 3) OR 
-                  ("%class%" = 11) OR 
-                  ("%class%" = 20)) BEGIN
-          SET "firstdice" = 8
-          SET "firstlast" = 9
-          SET "firstpostdice" = 2
+    // first class fighter, ranger or paladin
+        PATCH_IF ((class = 2) OR                    // fighter
+                  ((class > 5) AND (class < 11)) OR // paladin, fm, fc, ft, fmt
+                  (class = 12) OR                   // ranger
+                  (class = 16) OR                   // fc
+                  (class = 17)) BEGIN               // fmc
+          SET firstdice = 10
+          PATCH_IF ((class = 2) AND (kit = 0x40000000) OR (enhanced_edition AND kit = 0x4022)) BEGIN SET firstdice = 12 END // barbarian or dwarven defender
+          SET firstlast = 9 + (roll_to_20 * 11)
+          SET firstpostdice = 3
+        END ELSE
+
+    // first class cleric, druid, shaman, or monk
+        PATCH_IF ((class =  3) OR     // cleric
+                  (class = 11) OR     // druid
+                  (class = 14) OR     // cm
+                  (class = 15) OR     // ct
+                  (class = 18) OR     // cr
+                  (class = 20) OR     // monk
+                  (class = 21)) BEGIN // shaman
+          SET firstdice = 8
+          SET firstlast = 9 + (roll_to_20 * 11)
+          SET firstpostdice = 2
         END ELSE
 
     // single class thief or bard
-        PATCH_IF (("%class%" = 4) OR 
-                  ("%class%" = 5)) BEGIN
-          SET "firstdice" = 6
-          SET "firstlast" = 10
-          SET "firstpostdice" = 1
+        PATCH_IF ((class = 4) OR
+                  (class = 5)) BEGIN
+          SET firstdice = 6
+          SET firstlast = 10 + (roll_to_20 * 10)
+          SET firstpostdice = 1
+        END
+
+    // triple classes
+        PATCH_IF ((class = 10) OR (class = 17)) BEGIN
+          SET seconddice = 4
+          SET secondlast = 10 + (roll_to_20 * 10)
+          SET secondpostdice = 1
+          PATCH_IF (class = 10) BEGIN // fmt
+            SET thirddice = 6
+            SET thirdlast = 10 + (roll_to_20 * 10)
+          END ELSE BEGIN              // fmc
+            SET thirddice = 8
+            SET thirdlast = 9 + (roll_to_20 * 11)
+          END
+          SET thirdpostdice = 2
+          SET divide = 3
         END ELSE
 
-        // Multi and dualclasses
-        PATCH_IF ("%class%" = 7) BEGIN //class = FM
-          SET "firstdice" = 10
-          SET "firstlast" = 9
-          SET "firstpostdice" = 3
-          SET "seconddice" = 4
-          SET "secondlast" = 10
-          SET "secondpostdice" = 1
-          PATCH_IF (("%dual1%" BOR 0b11110111) = 0b11111111) BEGIN // f > m dual
-            PATCH_IF (("%kit%" = 0x40000000) OR (enhanced_edition AND kit = 0x4022)) BEGIN SET "firstdice" = 12 END // barbarian or dwarven defender d/c
-            SET "firstlast" = 9
-            SET "secondlast" = (10 - "%level1%")
-            SET "level2" = ("%level2%" - "%level1%")
+    // Dualclasses and other multiclasses
+    // taking advantage of the fact that a e.g. a fighter-thief always has fighter levels in level1, thief in level2, be it a f>t dual, t>f dual, or ft multi
+        PATCH_IF (((class >  6) AND (class < 10)) OR // fm, fc, ft
+                  ((class > 12) AND (class < 17)) OR // mt, cm, ct, fd
+                  (class = 18)) BEGIN                // cr
+          // first classes set above; set second classes
+          PATCH_IF (class = 9) OR (class = 13) OR (class = 15) BEGIN // ft, mt, ct
+            SET seconddice = 6 // thief = level2
+            SET secondlast = 10 + (roll_to_20 * 10)
+            SET secondpostdice = 2
           END ELSE
-          PATCH_IF (("%dual1%" BOR 0b11101111 = 0b11111111) AND ("%level2%" > "%level1%")) BEGIN // m > f dual
-            SET "firstlast" = (9 - "%level2%")
-            SET "secondlast" = 10
-            SET "level1" = ("%level1%" - "%level2%")
+          PATCH_IF (class = 7) OR (class = 14) BEGIN // fm, cm
+            SET seconddice = 4 // mage = level2
+            SET secondlast = 10 + (roll_to_20 * 10)
+            SET secondpostdice = 1
           END ELSE
-          PATCH_IF ("%dual1%" BOR 0b11100111 = 0b11100111) BEGIN // true multiclass
-            SET "divide" = 2
+          PATCH_IF (class = 8) OR (class = 16) BEGIN // fc, fd
+            SET seconddice = 8 // cleric/druid = level2
+            SET secondlast = 9 + (roll_to_20 * 11)
+            SET secondpostdice = 2
+          END ELSE BEGIN // cr, class = 19
+            SET seconddice = 10 // ranger = level2
+            SET secondlast = 9 + (roll_to_20 * 11)
+            SET secondpostdice = 3
           END
-        END ELSE
-        PATCH_IF ("%class%" = 9) BEGIN //class = FT
-          SET "firstdice" = 10
-          SET "firstlast" = 9
-          SET "firstpostdice" = 3
-          SET "seconddice" = 6
-          SET "secondlast" = 10
-          SET "secondpostdice" = 2
-          PATCH_IF (("%dual1%" BOR 0b11110111 = 0b11111111) AND ("%level2%" > "%level1%")) BEGIN // f > t dual
-            PATCH_IF (("%kit%" = 0x40000000) OR (enhanced_edition AND kit = 0x4022)) BEGIN SET "firstdice" = 12 END // barbarian or dwarven defender d/c
-            SET "secondlast" = (10 - "%level1%")
-            SET "level2" = ("%level2%" - "%level1%")
-          END ELSE
-          PATCH_IF (("%dual1%" BOR 0b10111111 = 0b11111111) AND ("%level2%" > "%level1%")) BEGIN // t > f dual
-            SET "firstlast" = (9 - "%level2%")
-            SET "level1" = ("%level1%" - "%level2%")
-          END ELSE
-          PATCH_IF ("%dual1%" BOR 0b10110111 = 0b10110111) BEGIN // true multiclass
-            SET "divide" = 2
+          PATCH_IF ((flags BAND (BIT3 + BIT4 + BIT5 + BIT6 + BIT7 + BIT8)) != 0) BEGIN // dual-class
+            // duals from first class to second class
+            PATCH_IF ((((class =  7) OR (class =  8) OR (class =  9) OR (class = 16)) AND ((flags & BIT3) = BIT3)) OR // fm, fc, ft, fd duals (fighter always level1)
+                     (((class = 14) OR (class = 15) OR (class = 18)) AND ((flags & BIT5) = BIT5)) OR                  // cm, ct, cr duals (cleric level1)
+                     ((class = 13) AND ((flags & BIT4) = BIT4))) BEGIN                                                // mt dual (mage level1)
+              PATCH_IF (((class =  7) OR (class =  8) OR (class =  9) OR (class = 16)) AND
+                        ((kit = 0x40000000) OR (enhanced_edition AND kit = 0x4022))) BEGIN // barbarian or dwarven defender d/c
+                SET firstdice = 12
+              END
+              //PATCH_PRINT ~level 1  > level 2 dual~
+              SET secondlast -= level1
+              SET level2     -= level1
+            END ELSE BEGIN // duals from second class to first class
+              //PATCH_PRINT ~level 2  > level 1 dual~
+              SET firstlast -= level2
+              SET level1    -= level2
+            END
+            // cleanup in case we've gone negative (e.g. an inactive dual-class)
+            PATCH_IF level1     < 0 BEGIN SET level1     = 0 END
+            PATCH_IF level2     < 0 BEGIN SET level2     = 0 END
+            PATCH_IF firstlast  < 0 BEGIN SET firstlast  = 0 END
+            PATCH_IF secondlast < 0 BEGIN SET secondlast = 0 END
+          END ELSE BEGIN // if no dual-class flags, must be a true multiclass
+            SET divide = 2
           END
-        END ELSE
-        PATCH_IF ("%class%" = 8) BEGIN //class = FC
-          SET "firstdice" = 10
-          SET "firstlast" = 9
-          SET "firstpostdice" = 3
-          SET "seconddice" = 8
-          SET "secondlast" = 9
-          SET "secondpostdice" = 2
-          PATCH_IF (("%dual1%" BOR 0b11110111 = 0b11111111) AND ("%level2%" > "%level1%")) BEGIN // f > c dual
-            PATCH_IF (("%kit%" = 0x40000000) OR (enhanced_edition AND kit = 0x4022)) BEGIN SET "firstdice" = 12 END // barbarian or dwarven defender d/c
-            SET "secondlast" = (9 - "%level1%")
-            SET "level2" = ("%level2%" - "%level1%")
-          END ELSE
-          PATCH_IF (("%dual1%" BOR 0b01101111 = 0b11111111) AND ("%level2%" > "%level1%")) BEGIN // c > f dual
-            SET "firstlast" = (9 - "%level2%")
-            SET "level1" = ("%level1%" - "%level2%")
-          END ELSE
-          PATCH_IF ("%dual1%" BOR 0b11010111 = 0b11010111) BEGIN // true multiclass
-            SET "divide" = 2
-          END
-        END ELSE
-        PATCH_IF ("%class%" = 13) BEGIN //class = MT
-          SET "firstdice" = 4
-          SET "firstlast" = 10
-          SET "firstpostdice" = 1
-          SET "seconddice" = 6
-          SET "secondlast" = 10
-          SET "secondpostdice" = 2
-          PATCH_IF (("%dual1%" BOR 0b11101111 = 0b11111111) AND ("%level2%" > "%level1%")) BEGIN // m > t dual
-            SET "secondlast" = (10 - "%level1%")
-            SET "level2" = ("%level2%" - "%level1%")
-          END ELSE
-          PATCH_IF (("%dual1%" BOR 0b10111111 = 0b11111111) AND ("%level2%" > "%level1%")) BEGIN // t > m dual
-            SET "firstlast" = (10 - "%level2%")
-            SET "level1" = ("%level1%" - "%level2%")
-          END ELSE
-          PATCH_IF ("%dual1%" BOR 0b10101111 = 0b10101111) BEGIN // true multiclass
-            SET "divide" = 2
-          END
-        END ELSE
-        PATCH_IF ("%class%" = 15) BEGIN //class = CT
-          SET "firstdice" = 8
-          SET "firstlast" = 9
-          SET "firstpostdice" = 2
-          SET "seconddice" = 6
-          SET "secondlast" = 10
-          SET "secondpostdice" = 2
-          PATCH_IF (("%dual1%" BOR 0b01101111 = 0b11111111) AND ("%level2%" > "%level1%")) BEGIN // c > t dual
-            SET "secondlast" = (10 - "%level1%")
-            SET "level2" = ("%level2%" - "%level1%")
-          END ELSE
-          PATCH_IF (("%dual1%" BOR 0b10111111 = 0b11111111) AND ("%level2%" > "%level1%")) BEGIN // t > c dual
-            SET "firstlast" = (9 - "%level2%")
-            SET "level1" = ("%level1%" - "%level2%")
-          END ELSE
-          PATCH_IF ("%dual1%" BOR 0b10011111 = 0b10011111) BEGIN // true multiclass
-            SET "divide" = 2
-          END
-        END ELSE
-        PATCH_IF ("%class%" = 14) BEGIN //class = CM
-          SET "firstdice" = 8
-          SET "firstlast" = 9
-          SET "firstpostdice" = 2
-          SET "seconddice" = 4
-          SET "secondlast" = 10
-          SET "secondpostdice" = 1
-          PATCH_IF (("%dual1%" BOR 0b01101111 = 0b11111111) AND ("%level2%" > "%level1%")) BEGIN // c > m dual
-            SET "secondlast" = (10 - "%level1%")
-            SET "level2" = ("%level2%" - "%level1%")
-          END ELSE
-          PATCH_IF (("%dual1%" BOR 0b11101111 = 0b11111111) AND ("%level2%" > "%level1%")) BEGIN // m > c dual
-            SET "firstlast" = (9 - "%level2%")
-            SET "level1" = ("%level1%" - "%level2%")
-          END ELSE
-          PATCH_IF ("%dual1%" BOR 0b11001111 = 0b11001111) BEGIN // true multiclass
-            SET "divide" = 2
-          END
-        END ELSE
-        PATCH_IF ("%class%" = 16) BEGIN //class = FD
-          SET "firstdice" = 10
-          SET "firstlast" = 9
-          SET "firstpostdice" = 3
-          SET "seconddice" = 8
-          SET "secondlast" = 9
-          SET "secondpostdice" = 2
-          PATCH_IF (("%dual1%" BOR 0b11110111 = 0b11111111) AND ("%level2%" > "%level1%")) BEGIN // f > d dual
-            PATCH_IF (("%kit%" = 0x40000000) OR (enhanced_edition AND kit = 0x4022)) BEGIN SET "firstdice" = 12 END // barbarian or dwarven defender d/c
-            SET "secondlast" = (9 - "%level1%")
-            SET "level2" = ("%level2%" - "%level1%")
-          END ELSE
-          PATCH_IF (("%dual1%" BOR 0b01111111 = 0b11111111) AND ("%level2%" > "%level1%")) BEGIN // f > d dual
-            SET "firstlast" = (9 - "%level2%")
-            SET "level1" = ("%level1%" - "%level2%")
-          END ELSE
-          PATCH_IF ("%dual1%" BOR 0b01110111 = 0b01110111) BEGIN // true multiclass
-            SET "divide" = 2
-          END
-        END ELSE
-        PATCH_IF ("%class%" = 18) BEGIN //class = CR
-          SET "firstdice" = 8
-          SET "firstlast" = 9
-          SET "firstpostdice" = 2
-          SET "seconddice" = 10
-          SET "secondlast" = 9
-          SET "secondpostdice" = 3
-          PATCH_IF (("%dual1%" BOR 0b01101111 = 0b11111111) AND ("%level2%" > "%level1%")) BEGIN // c > r dual
-            SET "secondlast" = (9 - "%level1%")
-            SET "level2" = ("%level2%" - "%level1%")
-          END ELSE
-          PATCH_IF (("%dual2%" BOR 0b11111110 = 0b11111111) AND ("%level2%" > "%level1%")) BEGIN // r > c dual
-            SET "firstlast" = (9 - "%level2%")
-            SET "level1" = ("%level1%" - "%level2%")
-          END ELSE
-          PATCH_IF (("%dual1%" BOR 0b11011111 = 0b11011111) AND ("%dual2%" BOR 0b11111110 = 0b11111110)) BEGIN // true multiclass
-            SET "divide" = 2
-          END
-        END ELSE
-        PATCH_IF ("%class%" = 10) BEGIN //class = FMT
-          SET "firstdice" = 10
-          SET "firstlast" = 9
-          SET "firstpostdice" = 3
-          SET "seconddice" = 4
-          SET "secondlast" = 10
-          SET "secondpostdice" = 1
-          SET "thirddice" = 6
-          SET "thirdlast" = 10
-          SET "thirdpostdice" = 2
-          SET "divide" = 3
-        END ELSE
-        PATCH_IF ("%class%" = 17) BEGIN //class = FMC
-          SET "firstdice" = 10
-          SET "firstlast" = 9
-          SET "firstpostdice" = 3
-          SET "seconddice" = 4
-          SET "secondlast" = 10
-          SET "secondpostdice" = 1
-          SET "thirddice" = 8
-          SET "thirdlast" = 9
-          SET "thirdpostdice" = 2
-          SET "divide" = 3
-        END ELSE
+        END
 
     // if it makes it to here without setting a firstdice then it's a nonstandard class (i.e. monster)
-        PATCH_IF ("%firstdice%" = 0) BEGIN
-          SET "firstdice" = 8
-          SET "firstlast" = 50
+        PATCH_IF !firstdice BEGIN
+          SET firstdice = 8
+          SET firstlast = 50
         END
 
-        PATCH_IF ("%level1%" < 0) BEGIN // quick fix if this gets adjusted too low by the d/c fixes
-          SET "level1" = 0
-        END
-        PATCH_IF ("%level2%" < 0) BEGIN // quick fix if this gets adjusted too low by the d/c fixes
-          SET "level2" = 0
-        END
-        PATCH_IF ("%firstlast%" < 0) BEGIN // quick fix if this gets adjusted too low by the d/c fixes
-          SET "firstlast" = 0
-        END
-        PATCH_IF ("%secondlast%" < 0) BEGIN // quick fix if this gets adjusted too low by the d/c fixes
-          SET "secondlast" = 0
-        END
+    // if we have levels beyond where dice rolls stop, set up static bonuses
 
-        PATCH_IF ("%level1%" > "%firstlast%") BEGIN
-          SET "firstpostdiceX" = ("%level1%" - "%firstlast%")
-          SET "firstdiceX" = "%firstlast%"
+        PATCH_IF (level1 > firstlast) BEGIN         // if I have levels > where the static HP bonus kicks in:
+          SET firstpostdiceX = (level1 - firstlast) // have levels of static dice rolls = the level - the number of levels where I get die rolls
+          SET firstdiceX = firstlast                // roll for the full X levels of dice
+        END ELSE BEGIN                              // if I don't have the levels to reach the static HP bonuses
+          SET firstpostdiceX = 0                    // no static bonuses
+          SET firstdiceX = level1                   // simply use my level count as die rolls
+        END
+        PATCH_IF (level2 > secondlast) BEGIN
+          SET secondpostdiceX = (level2 - secondlast)
+          SET seconddiceX = secondlast
         END ELSE BEGIN
-          SET "firstpostdiceX" = 0
-          SET "firstdiceX" = "%level1%"
+          SET secondpostdiceX = 0
+          SET seconddiceX = level2
         END
-
-        PATCH_IF ("%level2%" > "%secondlast%") BEGIN
-          SET "secondpostdiceX" = ("%level2%" - "%secondlast%")
-          SET "seconddiceX" = "%secondlast%"
+        PATCH_IF (level3 > thirdlast) BEGIN
+          SET thirdpostdiceX = (level3 - thirdlast)
+          SET thirddiceX = thirdlast
         END ELSE BEGIN
-          SET "secondpostdiceX" = 0
-          SET "seconddiceX" = "%level2%"
+          SET thirdpostdiceX = 0
+          SET thirddiceX = level3
         END
 
-        PATCH_IF ("%level3%" > "%thirdlast%") BEGIN
-          SET "thirdpostdiceX" = ("%level3%" - "%thirdlast%")
-          SET "thirddiceX" = "%thirdlast%"
-        END ELSE BEGIN
-          SET "thirdpostdiceX" = 0
-          SET "thirddiceX" = "%level3%"
-        END
+        //PATCH_PRINT ~firstdiceX %firstdiceX%, firstdice %firstdice%, firstpostdiceX %firstpostdiceX%, firstpostdice %firstpostdice%~
+        //PATCH_PRINT ~seconddiceX %seconddiceX%, seconddice %seconddice%, secondpostdiceX %secondpostdiceX%, secondpostdice %secondpostdice%~
+        //PATCH_PRINT ~thirddiceX %thirddiceX%, thirddice %thirddice%, thirdpostdiceX %thirdpostdiceX%, thirdpostdice %thirdpostdice%~
 
-        SET "newhp" = (("%firstdiceX%"  *  "%firstdice%") + ("%firstpostdiceX%"  *  "%firstpostdice%") +
-                       ("%seconddiceX%" * "%seconddice%") + ("%secondpostdiceX%" * "%secondpostdice%") +
-                       ("%thirddiceX%"  *  "%thirddice%") + ("%thirdpostdiceX%"  *  "%thirdpostdice%"))
-        SET "newhp" = ("%newhp%" / "%divide%")
-        
-        PATCH_IF IS_AN_INT dv BEGIN // non-joinable NPC
-          SET newhp = (((newhp * cd_max_hp_percentage) / 100) + cd_max_hp_bonus)           
-        END  
+        // the actual calculations
+        SET newhp = (((firstdiceX      * firstdice     ) + // die rolls from the first class
+                      (firstpostdiceX  * firstpostdice ) + // static HP from the first class
+                      (seconddiceX     * seconddice    ) + // die rolls from the second class
+                      (secondpostdiceX * secondpostdice) + // static HP from the second class
+                      (thirddiceX      * thirddice     ) + // die rolls from the third class
+                      (thirdpostdiceX  * thirdpostdice ))  // static HP from the third class
+                     / divide)                             // divided by the number of classes for multiclasses
 
-        PATCH_IF ("%newhp%" > "%maxhp%") BEGIN // if new hp is higher than current max, patch it in
-          // PATCH_PRINT ~updating %SOURCE_FILE%~
-          WRITE_SHORT off_curhp (("%newhp%" * "%currenthp%") / "%maxhp%") // sets new current hp and preserves the existing damage %
-          WRITE_SHORT off_maxhp "%newhp%" // sets new max
-        END
+        LPM max_hp_creatures_wrapup
+
       END // cur/max hp > 0 check
-    END // riftcr04 check  
-      
-  END // end define macro
+    END // riftcr04 check
+
+  END // end define function
 
 END

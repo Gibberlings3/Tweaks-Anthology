@@ -1,0 +1,22 @@
+// Transition: Easthaven to Lonelywood
+IF
+  True()
+THEN
+  RESPONSE #100
+    CutSceneId(Player1Fill)
+    CopyGroundPilesTo("ar9100",[1021.2519])
+    SetWorldmap("worldm25")
+    SetMasterArea("ar9100")
+    RevealAreaOnMap("ar9100")
+    ActionOverride(Player2Fill,LeaveAreaLUA("AR9100","LOAD9100",[958.2510],N))
+    ActionOverride(Player3Fill,LeaveAreaLUA("AR9100","LOAD9100",[1085.2512],NE))
+    ActionOverride(Player4Fill,LeaveAreaLUA("AR9100","LOAD9100",[950.2540],NW))
+    ActionOverride(Player5Fill,LeaveAreaLUA("AR9100","LOAD9100",[1018.2548],E))
+    ActionOverride(Player6Fill,LeaveAreaLUA("AR9100","LOAD9100",[1071.2542],W))
+    LeaveAreaLUAPanic("AR9100","LOAD9100",[1021.2519],N)
+    LeaveAreaLUA("AR9100","LOAD9100",[1021.2519],N)
+    MultiPlayerSync()
+    SetGlobal("OH_Unfade","AR9100",1)
+    UnhideGUI()
+    EndCutSceneMode()
+END

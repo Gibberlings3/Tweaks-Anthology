@@ -1,0 +1,13 @@
+@0 = "Sous l'effet d'une potion"
+
+@1 = "La potion que vous venez de boire vous retourne les tripes... Votre Force et votre Dextérité diminuent de 1 point de manière permanente." [choke]
+
+@2 = "La potion que vous venez d'avaler vous fait régurgiter... Tous les effets bénéfiques des potions absorbées précédemment ont été annulés" [choke]
+
+@3 = "Cette potion ne semble avoir eu aucun effet..." [eff_m10]
+
+@4 = "%value% : Les effets de cette potion sont réduits de 50 %" [eff_m29]
+
+@5 = "%value% : Les effets de cette potion sont augmentés de 50 %" [eff_hand]
+
+@6 = "%value% : Les effets de cette potion sont multipliés par deux ou dureront de manière permanente" [eff_hand]

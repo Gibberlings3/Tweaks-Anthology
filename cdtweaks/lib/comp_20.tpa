@@ -10,7 +10,7 @@ INCLUDE ~cdtweaks/lib/joinable_npc_array.tpa~
 
 ACTION_PHP_EACH JOINABLE_NPC_ARRAY AS file => dv BEGIN
 
-  ACTION_IF ("%dv%" STRING_COMPARE_CASE "imoen" = 0) BEGIN 
+  ACTION_IF ("%dv%" STRING_COMPARE_CASE "imoen" = 0) BEGIN
 
     COPY_EXISTING ~%file%~ ~override~
       READ_SHORT  0x28 anim  ELSE 0
@@ -19,7 +19,7 @@ ACTION_PHP_EACH JOINABLE_NPC_ARRAY AS file => dv BEGIN
         WRITE_SHORT 0x28 25104
       END
       BUT_ONLY
-      
+
   END
-  
+
 END

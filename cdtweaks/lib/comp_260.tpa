@@ -1,0 +1,27 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
+<<<<<<<< HEAD:cdtweaks/lib/comp_260.tpa
+///// Hide VFX from invisible enemies                            \\\\\
+========
+///// Limit resting mechanic                                     \\\\\
+>>>>>>>> upstream/master:cdtweaks/lib/comp_2670.tpa
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+WITH_SCOPE BEGIN
+  INCLUDE "cdtweaks\luke\misc.tph"
+  //
+<<<<<<<< HEAD:cdtweaks/lib/comp_260.tpa
+  INCLUDE "cdtweaks\lib\hide_vfx.tph"
+  //
+  LAF "HIDE_VFX" END
+========
+  INCLUDE "cdtweaks\lib\limit_resting_mechanic.tph"
+  //
+  WITH_TRA "cdtweaks\languages\english\limit_resting_mechanic.tra" "cdtweaks\languages\%LANGUAGE%\limit_resting_mechanic.tra" BEGIN
+    LAF "LIMIT_RESTING_MECHANIC" END
+  END
+>>>>>>>> upstream/master:cdtweaks/lib/comp_2670.tpa
+END

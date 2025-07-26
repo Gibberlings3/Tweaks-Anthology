@@ -8,7 +8,7 @@
 
 ACTION_IF MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~90~ BEGIN
   OUTER_SET portrait_icons_set = 0
-END ELSE BEGIN  
+END ELSE BEGIN
   OUTER_SET portrait_icons_set = 1
 END
 

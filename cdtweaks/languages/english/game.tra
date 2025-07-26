@@ -59,6 +59,14 @@
 @106001 = ~Your armor has broken~
 @106002 = ~Your shield has broken~
 @106003 = ~Your helm has broken~
+@106005 = ~Quality~
+
+@106201 = ~Your armor has been damaged~
+@106202 = ~^\([ %TAB%]*Armor Class[ %TAB%]*:?[ %TAB%]*\)[0-9]+~
+@106203 = ~^\([ %TAB%]*STATISTICS[ %TAB%]*:?[ %TAB%]*\)~
+@106204 = ~The poor iron in this armor has resulted in damage.~
+@106205 = ~\(-?[0-9]+\)\([ %TAB%]*vs\.[ %TAB%]*\(slashing\|crushing\|piercing and missile\)\)~
+@106206 = ~Damaged~
 
 @107001 = ~Go wait for us at the Friendly Arm Inn. If things change, we'll meet you there.~
 @107002 = ~Please rejoin the party.~
@@ -292,17 +300,19 @@ Place this in a quick item slot to open.~
 @111123 = ~Boathouse~
 @111124 = ~Whistling Gallows Inn~
 @111125 = ~Purvis's Shack~
+@111126 = ~Nook~
+@111127 = ~Archway~
 
 @114001 = ~A gem is a mineral that when cut or faceted and polished is collectible or can be used in jewelry.~
 
 @115001 = ~Conjure Animals
-(Conjuration/Summoning) 
+(Conjuration/Summoning)
 Level: 6
-Sphere: Summoning 
+Sphere: Summoning
 Range: 60 yards
 Duration: 4 turns
 Casting Time: 9
-Area of Effect: Special 
+Area of Effect: Special
 Saving Throw: None
 This spell allows the caster to summon forth and control two 20 HD Bearweres. The bears will respond to the caster's every whim for the duration of the spell. Bearweres are slower than Greater Wolfweres but they are tougher as well. Bearweres are resistant to elemental and magical attacks and regenerate rapidly.~
 @115002 = ~Greater Bearwere~
@@ -316,7 +326,7 @@ Attacks Per Round: 2
 Damage: 1D12
 Damage type: slashing
 Speed Factor: 3
-Proficiency Type: Dagger 
+Proficiency Type: Dagger
 Type: 1-handed
 ~
 @115005 = ~This symbolic paw represents a Shapeshifter Druid's ultimate control over lycanthropy. While the paw is wielded the Shapeshifter becomes a Greater Werewolf. When the paw is removed, the Shapeshifter returns to human form. The paws of a Greater Werewolf count as +3 weapons.
@@ -327,15 +337,15 @@ Base Saving Throws: 1/1/1/2/1
 Resistances: 40% magic resistance, 50% elemental resistance, immunity to non-magical weapons
 Regeneration: 3 hit points per second
 Attacks Per Round: 3
-Base Paw THAC0: 6 
+Base Paw THAC0: 6
 Damage: 2D8
 Damage type: slashing
 Speed Factor: 3
-Proficiency Type: Dagger 
+Proficiency Type: Dagger
 Type: 1-handed
 ~
 @115006 = ~Shapeshift: Werewolf
-Strength: 19 
+Strength: 19
 Dexterity: 16
 Constitution: 15
 Base Armor Class: 1
@@ -615,9 +625,99 @@ WARNING: Magical katanas and wakizashis are very rare outside of Kara-Tur, so ca
 @216011 = ~Mace/Morningstar~
 
 @216101 = ~Small Sword~
+@216102 = ~ and shamans~ // leading space is required
+@216103 = ~SMALL SWORDS: This weapon class allows the character to use short swords and daggers.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216104 = ~LARGE SWORDS: This weapon class allows the character to use bastard swords, broad swords, two-handed swords, long swords, katanas, wakizashis, ninja-tos, and scimitars. Druids%cd_shaman% are able to select this class, but are limited to scimitars alone. Monks are able to select this class, but cannot use bastard swords or two-handed swords.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216105 = ~BOWS: This weapon class allows the character to use longbows, composite longbows, and shortbows. Thieves%cd_shaman% can choose this category, but are restricted to shortbows only.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216106 = ~SPIKED WEAPONS: This weapon class allows the character to use morning stars and flails.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216107 = ~AXES: This weapon class allows the character to use battle axes and throwing axes.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216108 = ~BLUNT WEAPONS: This weapon class allows the character to use maces, clubs, war hammers, and staves. Druids%cd_shaman% and thieves can choose this category, but are limited to the club and staff only. Mages can choose this category, but are limited to the staff alone. Monks can choose this category, but are limited to the club alone.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216109 = ~SPEARS: This weapon class allows the character to use spears%cd_javelins% and halberds. Druids%cd_shaman% can choose this category, but cannot use halberds.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216110 = ~MISSILE WEAPONS: This weapon class allows the character to use crossbows, slings, and darts. Druids%cd_shaman% and monks can choose this category, but are limited to slings and darts only. Clerics can choose this proficiency but are restricted to slings alone.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216111 = ~, javelins,~ 
 
 @216301 = ~Great Sword~
-@216302 = ~GREAT SWORDS: This weapon class allows the character to use Two-Handed Swords and Bastard Swords.
+@216302 = ~GREAT SWORDS: This weapon class allows the character to use two-handed swords and bastard swords.
 
 <DOTS1>
 
@@ -628,7 +728,7 @@ WARNING: Magical katanas and wakizashis are very rare outside of Kara-Tur, so ca
 <DOTS4>
 
 <DOTS5>~
-@216303 = ~LARGE SWORD: This weapon class allows the character to use Broad Swords, Long Swords, and Scimitars. The Thief is able to take this weapon class, but he is only allowed to use the Long Sword. The Druid is able to select this class, but is limited to Scimitars alone.
+@216303 = ~LARGE SWORDS: This weapon class allows the character to use broad swords, long swords, katanas, wakizashis, ninja-tos, and scimitars. Druids%cd_shaman% are able to select this class, but are limited to scimitars alone.
 
 <DOTS1>
 
@@ -639,7 +739,7 @@ WARNING: Magical katanas and wakizashis are very rare outside of Kara-Tur, so ca
 <DOTS4>
 
 <DOTS5>~
-@216304 = ~MISSILE WEAPONS: This weapon class allows the character to use Slings and Darts. Clerics can choose this proficiency but are restricted to Slings alone.
+@216304 = ~MISSILE WEAPONS: This weapon class allows the character to use slings and darts. Clerics can choose this proficiency but are restricted to slings alone.
 
 <DOTS1>
 
@@ -650,6 +750,120 @@ WARNING: Magical katanas and wakizashis are very rare outside of Kara-Tur, so ca
 <DOTS4>
 
 <DOTS5>~
+@216305 = ~CLUBS:  This weapon class allows the character to use clubs.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216306 = ~CROSSBOWS:  This weapon class allows the character to use light crossbows and heavy crossbows.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216305 = ~DAGGERS:  This weapon class allows the character to use daggers and throwing daggers.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216306 = ~HALBERDS:  This weapon class allows the character to use halberds.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216307 = ~FLAILS:  This weapon class allows the character to use flails.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216308 = ~Hammer~
+@216309 = ~HAMMERS:  This weapon class allows the character to use hammers and mauls.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216310 = ~Mace~
+@216311 = ~MACES:  This weapon class allows the character to use maces and morning stars.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216312 = ~SMALL SWORDS:  This weapon class allows the character to use short swords.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216313 = ~SPEARS:  This weapon class allows the character to use spears%cd_javelins%.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216314 = ~QUARTERSTAVES:  This weapon class allows the character to use quarterstaves.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+// keep the leading space
+@216315 = ~ and javelins~ 
 
 // this component deprecated, but the strings below still needed for the components that replace it
 @218001 = ~Alchemy (Mage)~
@@ -740,7 +954,7 @@ This ability allows a rogue to create low and mid level spell scrolls. The scrol
 // you may need to check the EEs, as oBG2 doesn't mention dual-classing in #9550 or #32540
 @237002 = ~ and are also the only race that can dual-class~ // from strref #9550
 @237003 = ~Dual-classing is an ability that only humans have. ~ // from strref #10811
-@237004 = ~, if your character is human~ // BG tutorial monk dialogue monktu4 - 32540 in BGEE/SoD 
+@237004 = ~, if your character is human~ // BG tutorial monk dialogue monktu4 - 32540 in BGEE/SoD
 
 // translators - the next three strings are used to replace game text, so they need to be copied from the game itself
 // get @244001 and @244002 from strref 9588 in bgee/bg2ee/iwdee
@@ -808,7 +1022,7 @@ This ability allows a rogue to create low and mid level spell scrolls. The scrol
 @324261 = ~I believe I met your counterpart, Harrold, in Lonelywood.~
 @324262 = ~Well met Flynn. May I see your wares?~
 @324263 = ~Thanks Flynn, I'll keep you in mind if I find anything.~
-@324264 = ~Hello again Flynn. Are you willing to exchange anything here?~
+@324264 = ~Hello again, Flynn. Are you willing to exchange anything here?~
 @324265 = ~No, I'm not interested in any of those. Farewell Flynn.~
 @324266 = ~Thank you Flynn. Is there anything else you'd like to trade?~
 @324280 = ~I am Harrold, an agent of a Calimport trading exchange, sent here to seek exotic and unique items.~
@@ -822,29 +1036,31 @@ This ability allows a rogue to create low and mid level spell scrolls. The scrol
 @325001 = ~Actually, can we see the items you had to offer when we first arrived in Kuldahar?~
 @325002 = ~Can we have another look at the items you had to offer partway through our stay here?~
 
-@333050 = ~Disable Auto-haste~
-@333051 = ~Disable Auto-haste
+@333050 = ~Disable Out-of-combat Haste~
+@333051 = ~Disable Out-of-combat Haste
 
 This ability controls whether movement speed is increased for party members outside of combat. Click on the ability to turn it OFF.~
-@333052 = ~Disable Auto-haste
+@333052 = ~Disable Out-of-combat Haste
 
 This ability controls whether movement speed and casting speed are increased for party members outside of combat. Click on the ability to turn it OFF.~
-@333053 = ~Disable Auto-haste
+@333053 = ~Disable Out-of-combat Haste
 
 This ability controls whether casting speed is increased for party members outside of combat. Click on the ability to turn it OFF.~
-@333054 = ~Auto-haste~
-@333055 = ~Improved Alacrity~ // bg2 strref #63217
-@333060 = ~Enable Auto-haste~
-@333061 = ~Enable Auto-haste
+@333054 = ~Out-of-combat Haste~
+// @333055 = ~Improved Alacrity~ // bg2 strref #63217
+@333056 = ~Out-of-combat Movement Speed~
+@333057 = ~Out-of-combat Casting Speed~
+@333060 = ~Enable Out-of-combat Haste~
+@333061 = ~Enable Out-of-combat Haste
 
 This ability controls whether movement speed is increased for party members outside of combat. Click on the ability to turn it ON.~
-@333062 = ~Enable Auto-haste
+@333062 = ~Enable Out-of-combat Haste
 
 This ability controls whether movement speed and casting speed are increased for party members outside of combat. Click on the ability to turn it ON.~
-@333063 = ~Enable Auto-haste
+@333063 = ~Enable Out-of-combat Haste
 
 This ability controls whether casting speed is increased for party members outside of combat. Click on the ability to turn it ON.~
-@333070 = ~Auto-haste bonuses removed~
+@333070 = ~Out-of-combat Haste bonuses removed~
 
 @335100 = ~Interval-Save~
 @335101 = ~Interval save created~
@@ -853,6 +1069,12 @@ This ability controls whether casting speed is increased for party members outsi
 @337001 = ~000000003-Mortuary~
 @337002 = ~000000004-Lower Ward~
 @337003 = ~000000005-To Ravel's Maze~
+
+// these two strings will be combined as a prefix and suffix to write "Casting Grease..." to the combat log
+// adjust as needed for your grammar, e.g. if you don't need a prefix then make @341002 = ~~
+// note that you need to include spaces, if needed
+@341002 = ~Casting ~
+@341003 = ~...~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -864,14 +1086,14 @@ This ability controls whether casting speed is increased for party members outsi
 
 @408001 = ~When asked about his past, KHALID nervously reveals that he was born and raised in the nation of Calimshan. He does not say much of his parents, but you get the feeling that his merchant father thought little of him, devoting much more attention to Khalid's half-brothers. Without his father's support, Khalid was unable to pay to become apprenticed with a wizard, so he joined the city militia in hopes to earn enough money. He doesn't go into detail on how he met Jaheira, but his adoration of her is obvious. When asked about how he knew Gorion he will only say that they had long been friends, and that many shared acquaintances will mourn his loss with harpsong.~
 
-// translators: 418001 is strref #10232 from bgee or bg2ee without the 'equipped abilities' block. 
+// translators: 418001 is strref #10232 from bgee or bg2ee without the 'equipped abilities' block.
 // This is not used on non-EE games since they don't mention equipping effects
 @418001 = ~This is Edwin's birthright, inlaid with his family stone.
 
 Weight: 1~
-// translators: 418002 is strref #50818 in obg2 with the part about 
-// 'the ring may not be removed from nalia' deleted 
+// translators: 418002 is strref #50818 in obg2 with the part about
+// 'the ring may not be removed from nalia' deleted
 // in english, this is overridden in ee.tra
 @418002 = ~de'Arnise Signet Ring
 
-This ring was given to Nalia by her father upon her ascension to adulthood.  Bonded to her blood as it is the ring may not be used by anyone else.  The ring grants a +2 bonus to all saving throws, +2 armor class bonus, and 50% resistance to fire.~
+This ring was given to Nalia by her father upon her ascension to adulthood. Bonded to her blood as it is the ring may not be used by anyone else. The ring grants a +2 bonus to all saving throws, +2 armor class bonus, and 50% resistance to fire.~

@@ -34,12 +34,12 @@ ACTION_IF enhanced_edition BEGIN
     DECOMPILE_AND_PATCH BEGIN
       REPLACE_TEXTUALLY ~!Global("oh_drow_items_safe","GLOBAL",[01])~ ~False()~
     END
-    BUT_ONLY IF_EXISTS 
-    
+    BUT_ONLY IF_EXISTS
+
   EXTEND_BOTTOM ~baldur.bcs~   ~cdtweaks/baf/drow_ee.baf~
   EXTEND_BOTTOM ~baldur25.bcs~ ~cdtweaks/baf/drow_ee.baf~
 
-END 
+END
 
 OUTER_SET drow_msg = RESOLVE_STR_REF(@105001)
 
@@ -47,19 +47,19 @@ COPY ~cdtweaks/spl/cdbreak1.spl~ ~override~ // armor
   LPF ALTER_EFFECT INT_VAR match_opcode = 139 parameter1 = drow_msg END
   PATCH_IF enhanced_edition BEGIN // make non-PCs immune to the breakage (presumably they're drow, wielding weapons in drow areas)
     LPF ADD_SPELL_EFFECT INT_VAR insert_point = 0 opcode = 318 parameter1 = 2 parameter2 = 112 STR_VAR resource = ~cdbreak1~ END
-  END  
+  END
 
 COPY_EXISTING ~cdbreak1.spl~ ~override/cdbreak4.spl~  // cloak
   LPF ALTER_EFFECT INT_VAR match_opcode = 143 parameter1 = 4 END
-  PATCH_IF enhanced_edition BEGIN 
+  PATCH_IF enhanced_edition BEGIN
     LPF ALTER_EFFECT INT_VAR match_opcode = 318 STR_VAR resource = EVAL ~%DEST_RES%~ END
-  END  
+  END
 
 COPY_EXISTING ~cdbreak1.spl~ ~override/cdbreak9.spl~  // shield
   LPF ALTER_EFFECT INT_VAR match_opcode = 143 parameter1 = 9 END
-  PATCH_IF enhanced_edition BEGIN 
+  PATCH_IF enhanced_edition BEGIN
     LPF ALTER_EFFECT INT_VAR match_opcode = 318 STR_VAR resource = EVAL ~%DEST_RES%~ END
-  END  
+  END
 
 ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_drow_items BEGIN // items have chance of failing when used in combat
   dwblun01, 1 => cdblun01
@@ -79,29 +79,29 @@ ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_drow_items BEGIN // items have chance of fail
   misc9w,   0 => cdbreak4
 END
 
-ACTION_PHP_EACH cd_drow_items AS params => spell BEGIN  
+ACTION_PHP_EACH cd_drow_items AS params => spell BEGIN
 
   ACTION_IF params_1 != 0 BEGIN // weapon
-  
-    COPY_EXISTING ~%params_0%.itm~ ~override~   
+
+    COPY_EXISTING ~%params_0%.itm~ ~override~
       LPF ADD_ITEM_EFFECT INT_VAR type = params_1 opcode = 146 target = 1 parameter1 = 1 timing = 1 probability1 = 0 STR_VAR resource = EVAL ~%spell%~ END
       BUT_ONLY IF_EXISTS
 
     COPY ~cdtweaks/spl/cdsw1h01.spl~ ~override/%spell%.spl~
       LPF ALTER_EFFECT INT_VAR match_opcode = 139 parameter1 = drow_msg END
       LPF ALTER_EFFECT INT_VAR match_opcode = 112 STR_VAR resource = EVAL ~%params_0%~ END
-      PATCH_IF enhanced_edition BEGIN // make non-PCs immune to the breakage (presumably they're drow, wielding weapons in drow areas) 
+      PATCH_IF enhanced_edition BEGIN // make non-PCs immune to the breakage (presumably they're drow, wielding weapons in drow areas)
         LPF ADD_SPELL_EFFECT INT_VAR insert_point = 0 opcode = 318 parameter1 = 2 parameter2 = 112 STR_VAR resource = EVAL ~%spell%~ END
-      END  
-  
+      END
+
   END ELSE BEGIN // armor
-  
-    COPY_EXISTING ~%params_0%.itm~ ~override~     
+
+    COPY_EXISTING ~%params_0%.itm~ ~override~
       LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 232 target = 1 parameter1 = 1 timing = 2 STR_VAR resource = EVAL ~%spell%~ END
       BUT_ONLY IF_EXISTS
-    
-  END  
-  
+
+  END
+
 END
 
 ACTION_IF !enhanced_edition BEGIN // no fancy filtering for oBG2, so make drow creatures immune to breakage spells
@@ -122,16 +122,16 @@ ACTION_IF !enhanced_edition BEGIN // no fancy filtering for oBG2, so make drow c
             PATCH_IF ("%item%" STRING_COMPARE_CASE "%params_0%" = 0) BEGIN
               DEFINE_ASSOCIATIVE_ARRAY cd_drow_cre_patch BEGIN ~%spell%~ => 0 END
             END
-          END      
+          END
         END
-        PATCH_PHP_EACH cd_drow_cre_patch AS spell => foo BEGIN    
+        PATCH_PHP_EACH cd_drow_cre_patch AS spell => foo BEGIN
 // PATCH_PRINT ~ == adding protection to %spell% on %SOURCE_RES%~
-          LPF ADD_CRE_EFFECT INT_VAR opcode = 206 target = 1 timing = 1 STR_VAR resource = EVAL ~%spell%~ END 
+          LPF ADD_CRE_EFFECT INT_VAR opcode = 206 target = 1 timing = 1 STR_VAR resource = EVAL ~%spell%~ END
         END
         BUT_ONLY
 
     END
-    
+
   END
-  
+
 END

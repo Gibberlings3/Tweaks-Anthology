@@ -54,7 +54,7 @@ COPY ~cdtweaks/spl/d5_duafc.spl~ ~override~
 COPY ~cdtweaks/cre/d5_dual.cre~ ~override~
      ~cdtweaks/eff/d5_dual.eff~ ~override~
 
-ACTION_IF enhanced_edition BEGIN 
+ACTION_IF enhanced_edition BEGIN
   OUTER_SPRINT fdc ~OriginalClass(LastSummonerOf(Myself),FIGHTER)~
   OUTER_SPRINT rdc ~OriginalClass(LastSummonerOf(Myself),RANGER)~
 END ELSE BEGIN
@@ -114,7 +114,7 @@ COPY_EXISTING ~kitlist.2da~ ~override~
                   END
                 END
                 BUT_ONLY
-  
+
             END
           END
         END

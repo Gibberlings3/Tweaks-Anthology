@@ -18,7 +18,7 @@ ACTION_IF ((FILE_EXISTS_IN_GAME ~lightb.pro~) OR (FILE_EXISTS_IN_GAME ~idpro40.p
       WRITE_LONG  0x02c (THIS BAND `BIT0)  // remove bounce from walls flag
       WRITE_SHORT 0x200 (THIS BAND `BIT4)  // remove secondary projectile flag
       WRITE_SHORT 0x214 0                  // blank secondary projectile reference
-    END  
+    END
     BUT_ONLY IF_EXISTS
 
     OUTER_SET cdlightb = 40

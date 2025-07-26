@@ -12,11 +12,15 @@ used:
   The Calling, as thecalling/lib/alter_header.tpa [symbolic link]
   Tweaks Anthology, as cdtweaks/lib/alter_header.tpa [symbolic link]
   EE Fixpack, as eefixpack/files/lib/alter_header.tpa [symbolic link]
+  Item Upgrade, as itemupgrade/lib/alter_header.tpa [symbolic link]
+  G3 Community Item Pack as g3cip/lib/alter_header.tpa [symbolic link]
+  The Divine Remix, as divine_remix/lib/alter_header.tpa [symbolic link]
+  Sword and Fist, as sword_and_fist/lib/alter_header.tpa [symbolic link]
 
 platform:
   all except iwd2 and pst
- 
-version history: 
+
+version history:
   unknown
 
 */
@@ -275,7 +279,7 @@ BEGIN
               PATCH_IF (arrow >= 0)          BEGIN WRITE_SHORT (base + 0x32) arrow          END
               PATCH_IF (bolt >= 0)           BEGIN WRITE_SHORT (base + 0x34) bolt           END
               PATCH_IF (bullet >= 0)         BEGIN WRITE_SHORT (base + 0x36) bullet         END
-  
+
               PATCH_IF (flag_strength = 0)    BEGIN WRITE_LONG (base + 0x26) (THIS &  `BIT0)  END
               PATCH_IF (flag_strength > 0)    BEGIN WRITE_LONG (base + 0x26) (THIS BOR BIT0)  END
               PATCH_IF (flag_break = 0)       BEGIN WRITE_LONG (base + 0x26) (THIS &  `BIT1)  END

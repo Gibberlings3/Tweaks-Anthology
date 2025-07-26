@@ -1,2 +1,18 @@
 // this file is used to override strings in game.tra for EE games
 // it will NOT be re-encoded for EE games, so put it in the correct charset for your language
+
+@108006 = ~Auch dieser magische Beutel wirkt, wie alle magischen Beutel, wie ein einfacher Stoffsack von ungefähr 60 cm x 120 cm Größe. Der Nimmervolle Beutel öffnet sich in einen außerdimensionalen Raum und ist innen wesentlich größer als außen. Unabhängig davon, was man hineintut, wiegt der Beutel immer das Gleiche.
+
+EIGENSCHAFTEN:
+
+Gewicht: 5~
+
+@418002 = ~Der Vater von Nalia hat ihr diesen Ring zu ihrem 18. Geburtstag überreicht. Der Ring ist auf magischem Weg an sie gebunden und auch seine Kräfte können nur von ihr genutzt werden. Durch den Ring erhält sie einen Bonus von -2 auf alle Rettungswürfe und auf ihre Rüstungsklasse sowie +50 % Feuerwiderstand.
+
+EIGENSCHAFTEN:
+
+RK-Bonus: -2
+RW-Bonus: -2
+Feuerwiderstand: +50 %
+
+Gewicht: 0~

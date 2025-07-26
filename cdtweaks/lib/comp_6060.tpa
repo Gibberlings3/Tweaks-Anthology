@@ -1,0 +1,16 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
+///// NWN-style Armor vs. Dexterity                              \\\\\
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+WITH_SCOPE BEGIN
+  INCLUDE "cdtweaks\luke\lib\install.tph"
+  INCLUDE "cdtweaks\lib\gt_nwn-style_armor_vs_dex.tph"
+  //
+  WITH_TRA "cdtweaks\languages\english\gt_nwn-style_armor_vs_dex.tra" "cdtweaks\languages\%LANGUAGE%\gt_nwn-style_armor_vs_dex.tra" BEGIN
+    LAF "NWN-STYLE_ARMOR_VS_DEX" END
+  END
+END

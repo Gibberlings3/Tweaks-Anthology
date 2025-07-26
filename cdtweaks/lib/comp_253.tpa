@@ -1,0 +1,21 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
+///// Colorize NPC names and tooltips                            \\\\\
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+/////                                                            \\\\\
+///// Slightly decreased brightness                              \\\\\
+/////                                                            \\\\\
+
+WITH_SCOPE BEGIN
+  INCLUDE ~cdtweaks/lib/colorize_npc_names.tpa~
+
+  LAF a7#perform_cre_colorization
+    INT_VAR
+      brightness_lower = 96
+      brightness_upper = 160
+  END
+END

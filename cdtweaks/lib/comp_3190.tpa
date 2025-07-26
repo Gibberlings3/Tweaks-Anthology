@@ -20,13 +20,13 @@ END ELSE BEGIN
     COPY_EXISTING_REGEXP GLOB ~^.+\.are$~ ~override~
       WRITE_LONG 0x14 ((THIS & `BIT7) & `BIT8) // removes can't rest, too dangerous to rest flags
       BUT_ONLY
-  
+
   END ELSE BEGIN
 
     OUTER_SET bits = (`BIT1) // this bit is called "Tutorial" in NI, but is really the can_not_sleep one.
     ACTION_IF enhanced_edition BEGIN // it's bit5 on the EEs
       OUTER_SET bits = (`BIT5) // removes 'Resting not allowed' flag
-    END  
+    END
 
     COPY_EXISTING_REGEXP GLOB ~^.+\.are$~ ~override~
       WRITE_LONG 0x14 (THIS & bits) // removes 'the proper bit as specified above

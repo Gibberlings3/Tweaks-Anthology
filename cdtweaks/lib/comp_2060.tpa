@@ -9,7 +9,7 @@
 ACTION_CLEAR_ARRAY style_kits
 OUTER_SET $style_kits(MAGE) = 1
 OUTER_SET $style_kits(SORCERER) = 19 // shouldn't be in weapprof, but let's be safe
-OUTER_SET $style_kits(MONK) = 20 
+OUTER_SET $style_kits(MONK) = 20
 COPY_EXISTING ~kitlist.2da~ ~override~
   SET col_check = (9 + enhanced_edition)
   COUNT_2DA_ROWS col_check rows
@@ -19,39 +19,45 @@ COPY_EXISTING ~kitlist.2da~ ~override~
       READ_2DA_ENTRY row 1 col_check kit
       SET $style_kits("%kit%") = class
     END
-  END   
+  END
   BUT_ONLY
 
 COPY_EXISTING ~weapprof.2da~ ~override~
   REPLACE_TEXTUALLY ~\(ID[ %TAB%]+NAME_REF\)~ ~CD_DELETE_ME \1~ // adding column to header column
   COUNT_2DA_COLS col_count
   READ_2DA_ENTRY 30  4 col_count mage_sns
-  READ_2DA_ENTRY 30 32 col_count kensai_sns  
-  SET single  = 2 // if a kit/class ever needs exceptions here, move these into the loop   
+  READ_2DA_ENTRY 30 32 col_count kensai_sns
+  SET single  = 2 // if a kit/class ever needs exceptions here, move these into the loop
   SET dual    = 3
   // if mages can use bucklers installed, or some other mod has given mages points for sns
   PATCH_IF mage_sns OR MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2520~ BEGIN
     SET mage_sns = 2
   END ELSE BEGIN
     SET mage_sns = 0
-  END  
+  END
+  PATCH_IF ((MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2561~) OR
+            (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2562~)) BEGIN // monks can use staves
+    SET monk_2handed = 1
+  END ELSE BEGIN
+    SET monk_2handed = 0
+  END
   FOR (col = 4 ; col < col_count ; ++col) BEGIN
     READ_2DA_ENTRY 0 col col_check kit
     SET 2handed = 2
-    SET sns     = 2 
+    SET sns     = 2
     PATCH_IF VARIABLE_IS_SET $style_kits("%kit%") BEGIN
       PATCH_IF $style_kits("%kit%") = 20 BEGIN
-        SET 2handed = 0
-        SET sns     = 0 
+        SET 2handed = (2handed * monk_2handed)
+        SET sns     = 0
       END ELSE BEGIN // for mage or sorcerer
-        SET sns     = mage_sns  
-      END        
+        SET sns     = mage_sns
+      END
     END
     SET_2DA_ENTRY_LATER ~s2el_weapprof~ 29 col 2handed
     SET_2DA_ENTRY_LATER ~s2el_weapprof~ 30 col sns
     SET_2DA_ENTRY_LATER ~s2el_weapprof~ 31 col single
     SET_2DA_ENTRY_LATER ~s2el_weapprof~ 32 col dual
-  END  
+  END
   SET_2DA_ENTRY_LATER ~s2el_weapprof~ 30 32 kensai_sns
   SET_2DA_ENTRIES_NOW ~s2el_weapprof~ col_count
   REPLACE_TEXTUALLY ~CD_DELETE_ME~ ~~ // removing it

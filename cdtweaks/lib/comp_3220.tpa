@@ -9,7 +9,7 @@
 ACTION_IF game_includes_bg1 THEN BEGIN // BGT/Tutu/obg changes
 
   ACTION_IF game_is_bgt THEN BEGIN // BGT
-    
+
     COPY_EXISTING ~%Beregost%.are~ ~override~ // only change for BGT is to move the east beregost entrance
       LPF ALTER_AREA_ENTRANCE INT_VAR x_coord = 4950 y_coord = 3085 orient = 4 STR_VAR entrance_name = "Exit9300" END
       BUT_ONLY
@@ -86,7 +86,7 @@ ACTION_IF game_includes_bg1 THEN BEGIN // BGT/Tutu/obg changes
         END
       END
       BUT_ONLY IF_EXISTS
-    
+
     COPY_EXISTING ~%Beregost%.are~ ~override~
       LPF fj_are_structure
         INT_VAR
@@ -97,7 +97,7 @@ ACTION_IF game_includes_bg1 THEN BEGIN // BGT/Tutu/obg changes
         fj_structure_type = entrance
         fj_name           = CDEastExit
       END
-    
+
     COPY_EXISTING ~%FishingVillage%.are~ ~override~
       LPF fj_are_structure
         INT_VAR
@@ -108,7 +108,7 @@ ACTION_IF game_includes_bg1 THEN BEGIN // BGT/Tutu/obg changes
         fj_structure_type = entrance
         fj_name           = CDSouthExit
       END
-  
+
     COPY_EXISTING ~%Farmlands%.are~ ~override~
       LPF fj_are_structure
         INT_VAR
@@ -119,7 +119,7 @@ ACTION_IF game_includes_bg1 THEN BEGIN // BGT/Tutu/obg changes
         fj_structure_type = entrance
         fj_name           = CDSouthExit
       END
-    
+
     COPY_EXISTING ~%ShipwrecksCoast%.are~ ~override~
       LPF fj_are_structure
         INT_VAR
@@ -130,7 +130,7 @@ ACTION_IF game_includes_bg1 THEN BEGIN // BGT/Tutu/obg changes
         fj_structure_type = entrance
         fj_name           = CDSouthExit
       END
-    
+
     COPY_EXISTING ~%Lighthouse%.are~ ~override~
       LPF fj_are_structure
         INT_VAR
@@ -141,7 +141,7 @@ ACTION_IF game_includes_bg1 THEN BEGIN // BGT/Tutu/obg changes
         fj_structure_type = entrance
         fj_name           = CDNorthExit
       END
-      
+
   END
 
 END
@@ -308,7 +308,7 @@ ACTION_IF game_includes_soa THEN BEGIN // flipping the NORH in BG2/BGT; already 
     END
 
   END
-  
+
   // re compatibiity
   ACTION_IF FILE_EXISTS_IN_GAME ~arre07.are~ THEN BEGIN
 
@@ -330,5 +330,5 @@ ACTION_IF game_includes_soa THEN BEGIN // flipping the NORH in BG2/BGT; already 
        ~cdtweaks/bmp/ar0903sr.bmp~ ~override~
        ~cdtweaks/mos/ar0903.mos~   ~override~
        ~cdtweaks/wed/ar0903.wed~   ~override~
-  
+
 END

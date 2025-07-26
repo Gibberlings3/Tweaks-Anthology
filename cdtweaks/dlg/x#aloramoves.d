@@ -1,7 +1,7 @@
 APPEND ~%tutu_var%ALORA~
 
 // IF WEIGHT #-2 ~NumTimesTalkedTo(0) AreaCheck("%Gullykin%")~ THEN BEGIN AlJoin
-IF WEIGHT #-2 ~NumTimesTalkedTo(0) Global("Z!EmulAreaCheck","GLOBAL",4000)~ THEN BEGIN AlJoin
+IF WEIGHT #-2 ~!StateCheck(Myself,STATE_CHARMED) NumTimesTalkedTo(0) %alora_area_check%~ THEN BEGIN AlJoin
 SAY @125017
 ++ @125016 DO ~SetGlobal("P#TalkedToAlora","GLOBAL",1)~ + ALJONE1.1
 ++ @125002 DO ~SetGlobal("P#TalkedToAlora","GLOBAL",1)~ + ALJONE1.2
@@ -51,7 +51,7 @@ IF ~~ THEN BEGIN ALJONE1.7
 END
 
 // IF WEIGHT #-1 ~NumTimesTalkedToGT(0) AreaCheck("%Gullykin%")~ THEN BEGIN AlJoin1
-IF WEIGHT #-1 ~NumTimesTalkedToGT(0) Global("Z!EmulAreaCheck","GLOBAL",4000)~ THEN BEGIN AlJoin1
+IF WEIGHT #-1 ~!StateCheck(Myself,STATE_CHARMED) NumTimesTalkedToGT(0) %alora_area_check%~ THEN BEGIN AlJoin1
 SAY @125015
   IF ~~ THEN REPLY @125006 + ALJONE1.5
   IF ~~ THEN REPLY @125007 + ALJONE1.7

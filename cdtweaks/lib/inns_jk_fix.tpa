@@ -1,0 +1,9 @@
+EXTEND_BOTTOM ~%JAHEIRA_BCS%.bcs~ ~cdtweaks/baf/inns_jk.baf~
+EXTEND_BOTTOM ~%KHALID_BCS%.bcs~  ~cdtweaks/baf/inns_jk.baf~
+
+COPY_EXISTING ~%FriendlyArmInn_L1_BCS%.bcs~ ~override~
+  DECOMPILE_AND_PATCH BEGIN 
+    REPLACE_TEXTUALLY ~\(GlobalGT("Chapter","GLOBAL",2)[ %TAB%%LNL%%MNL%%WNL%]+Exists("\(Khalid\|Jaheira\)")\)~
+      ~Global("cd_jk_in_party","GLOBAL",0) \1~
+  END
+  BUT_ONLY

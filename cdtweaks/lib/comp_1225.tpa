@@ -20,9 +20,9 @@ ACTION_IF enhanced_edition BEGIN
 
   COPY_EXISTING ~cutskip2.bcs~ ~override~
     DECOMPILE_AND_PATCH BEGIN
-      REPLACE_TEXTUALLY ~ActionOverride("wsmith01",Face(SE))[ %TAB%%LNL%%MNL%%WNL%]+RestParty\(Ex\)?(\(0,0,FALSE\)?)[ %TAB%%LNL%%MNL%%WNL%]+AdvanceTime(SIXTEEN_HOURS)~ 
+      REPLACE_TEXTUALLY ~ActionOverride("wsmith01",Face(SE))[ %TAB%%LNL%%MNL%%WNL%]+RestParty\(Ex\)?(\(0,0,FALSE\)?)[ %TAB%%LNL%%MNL%%WNL%]+AdvanceTime(SIXTEEN_HOURS)~
                         ~ActionOverride("wsmith01",Face(SE))~ // remove rest/advancetime
     END
     BUT_ONLY
 
-END  
+END

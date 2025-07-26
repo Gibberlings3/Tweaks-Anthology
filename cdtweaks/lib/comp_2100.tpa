@@ -31,7 +31,7 @@ COPY_EXISTING ~skillrac.2da~ ~override~
     END
   END
   BUT_ONLY
-     
+
 INCLUDE ~cdtweaks/lib/common_armor_list.tpa~
 
 ACTION_PHP_EACH cd_common_armor_list AS params => item BEGIN
@@ -39,15 +39,15 @@ ACTION_PHP_EACH cd_common_armor_list AS params => item BEGIN
   ACTION_IF use_stealth BEGIN
     OUTER_SET params_7 = params_9 // use 'stealth' value for move silently
     OUTER_SET params_8 = 255      // ignore hide in shadows
-  END 
+  END
 
   // make sure we have something to do, e.g. not futzing with a robe
-  ACTION_IF ((params_4 != 255) OR     // pickpocketing 
+  ACTION_IF ((params_4 != 255) OR     // pickpocketing
              (params_5 != 255) OR     // locks
              (params_6 != 255) OR     // traps
              (params_7 != 255) OR     // move silently
              (params_8 != 255)) BEGIN // hide in shadows
-  
+
     COPY_EXISTING ~%item%.itm~ ~override~
       READ_SHORT 0x1c sanity_check
       PATCH_IF sanity_check = 2 BEGIN // type 2 is armor
@@ -94,5 +94,5 @@ ACTION_PHP_EACH cd_common_armor_list AS params => item BEGIN
       BUT_ONLY
 
   END // end skill check
-    
+
 END // end php_each

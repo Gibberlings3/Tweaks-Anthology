@@ -13,5 +13,5 @@ APPEND UHMAY01
   IF ~~ THEN BEGIN CDDeclineCabin SAY @116014
     IF ~~ THEN GOTO 37
   END
-  
+
 END

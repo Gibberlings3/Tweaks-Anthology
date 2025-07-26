@@ -1,0 +1,18 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////                                                                 /////
+///// Spellcraft / Counterspell class feat for spellcasters           \\\\\
+/////                                                                 \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+
+WITH_SCOPE BEGIN
+  INCLUDE "cdtweaks\luke\lib\install.tph"
+  INCLUDE "cdtweaks\ardanis\functions.tph"
+  //
+  INCLUDE "cdtweaks\lib\gt_spellcraft_counterspell.tph"
+  //
+  WITH_TRA "cdtweaks\languages\english\gt_spellcraft_counterspell.tra" "cdtweaks\languages\%LANGUAGE%\gt_spellcraft_counterspell.tra" BEGIN
+    LAF "SPELLCRAFT_COUNTERSPELL" END
+  END
+END

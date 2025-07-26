@@ -9,7 +9,7 @@
 ACTION_IF game_is_how OR game_is_totlm OR game_is_iwd-in-bg2 THEN BEGIN // iwd content
 
   ACTION_IF !game_is_iwd-in-bg2 THEN BEGIN
-  
+
     COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~ // allow sellable items in bags
       READ_LONG 0x18 flags
       PATCH_IF ((flags & BIT11) = BIT11) BEGIN // if bit11 set
@@ -17,18 +17,18 @@ ACTION_IF game_is_how OR game_is_totlm OR game_is_iwd-in-bg2 THEN BEGIN // iwd c
         WRITE_LONG 0x34 0 // set price to zero, preventing selling
       END
       BUT_ONLY
-  
+
     OUTER_SET stor_off = 0x9c // for bottomless bags
-  
+
     // bams
     COPY ~cdtweaks/bam/cdiammo.bam~ ~override~
-    
+
     // ammo belts
     COPY ~cdtweaks/sto/iwd_cdammo.sto~ ~override/cdammo1.sto~
          ~cdtweaks/sto/iwd_cdammo.sto~ ~override/cdammo2.sto~
          ~cdtweaks/sto/iwd_cdammo.sto~ ~override/cdammo3.sto~
       SAY 0x0c @108001
-  
+
     COPY ~cdtweaks/itm/iwd_cdammo.itm~ ~override/cdammo1.itm~
          ~cdtweaks/itm/iwd_cdammo.itm~ ~override/cdammo2.itm~
          ~cdtweaks/itm/iwd_cdammo.itm~ ~override/cdammo3.itm~
@@ -38,7 +38,7 @@ ACTION_IF game_is_how OR game_is_totlm OR game_is_iwd-in-bg2 THEN BEGIN // iwd c
       SAY 0x54 @108002
 
   END ELSE BEGIN
-  
+
     OUTER_SET stor_off = 0x22 // for bottomless bags
 
     // store files
@@ -72,7 +72,7 @@ ACTION_IF game_is_how OR game_is_totlm OR game_is_iwd-in-bg2 THEN BEGIN // iwd c
                   ~bagh01.sto~  ~override/cdhold3.sto~
                   ~cdammo1.itm~ ~override/cdammo4.itm~
                   ~cdammo1.sto~ ~override/cdammo4.sto~
-  
+
     COPY_EXISTING ~hobart.sto~ ~override~
       ADD_STORE_ITEM ~cdammo4~ LAST #0 #0 #0 ~IDENTIFIED~ #1
       BUT_ONLY
@@ -82,11 +82,11 @@ ACTION_IF game_is_how OR game_is_totlm OR game_is_iwd-in-bg2 THEN BEGIN // iwd c
       COPY_EXISTING ~cdammo4.sto~ ~override~
         WRITE_SHORT stor_off 0xffff
         BUT_ONLY
-    
+
     END
-                  
+
   END ELSE BEGIN
-  
+
     COPY ~cdtweaks/bam/ibaghold.bam~ ~override~
 
     COPY ~cdtweaks/itm/cdhold.itm~ ~override/cdhold1.itm~
@@ -96,13 +96,13 @@ ACTION_IF game_is_how OR game_is_totlm OR game_is_iwd-in-bg2 THEN BEGIN // iwd c
       SAY 0x0c @108005
       SAY 0x50 @108006
       SAY 0x54 @108006
-    
+
     // bags of holding
     COPY ~cdtweaks/sto/cdhold.sto~ ~override/cdhold1.sto~
          ~cdtweaks/sto/cdhold.sto~ ~override/cdhold2.sto~
          ~cdtweaks/sto/cdhold.sto~ ~override/cdhold3.sto~
       SAY 0x0c @108005
-  
+
   END
 
   ACTION_IF MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3040~ THEN BEGIN // if bottomless bags
@@ -115,43 +115,43 @@ ACTION_IF game_is_how OR game_is_totlm OR game_is_iwd-in-bg2 THEN BEGIN // iwd c
                   ~cdhold3.sto~ ~override~
       WRITE_SHORT stor_off 0xffff
       BUT_ONLY
-      
+
   END
-  
+
   COPY_EXISTING ~bandoth.sto~ ~override~
     ADD_STORE_ITEM ~cdhold2~ LAST #0 #0 #0 ~IDENTIFIED~ #1
     BUT_ONLY
-  
+
   COPY_EXISTING ~emmeric.sto~ ~override~
     ADD_STORE_ITEM ~cdammo3~ LAST #0 #0 #0 ~IDENTIFIED~ #1
     BUT_ONLY
-  
+
   COPY_EXISTING ~kieran2.sto~ ~override~
     ADD_STORE_ITEM ~cdhold3~ LAST #0 #0 #0 ~IDENTIFIED~ #1
     BUT_ONLY
-  
+
   COPY_EXISTING ~kuork1.sto~ ~override~
     ADD_STORE_ITEM ~cdhold1~ LAST #0 #0 #0 ~IDENTIFIED~ #1
     BUT_ONLY
-  
+
   COPY_EXISTING ~kusmith.sto~ ~override~
     ADD_STORE_ITEM ~cdammo1~ LAST #0 #0 #0 ~IDENTIFIED~ #1
     BUT_ONLY
-  
+
   COPY_EXISTING ~shlehlan.sto~ ~override~
     ADD_STORE_ITEM ~cdammo2~ LAST #0 #0 #0 ~IDENTIFIED~ #1
     BUT_ONLY
-  
+
 END ELSE BEGIN // non-iwd content
 
   ACTION_IF FILE_EXISTS_IN_GAME ~bag05.sto~ THEN BEGIN // if ToB, clone existing items
-  
+
     // store files
     COPY_EXISTING ~bag05.sto~ ~override/cdammo.sto~   // ammo belt
                   ~bag05.sto~ ~override/cdammo2.sto~  // ammo belt #2
                   ~bag06.sto~ ~override/cdpotion.sto~ // potion case
                   ~bag06.sto~ ~override/cdpotio2.sto~ // potion case #2
-  
+
     // item files
     COPY_EXISTING ~bag05.itm~ ~override/cdammo.itm~   // ammo belt
                   ~bag05.itm~ ~override/cdammo2.itm~  // ammo belt #2
@@ -159,90 +159,90 @@ END ELSE BEGIN // non-iwd content
                   ~bag06.itm~ ~override/cdpotio2.itm~ // potion case #2
 
   END ELSE BEGIN // if no ToB, create potion case & ammo belt
-  
+
     // bams
     COPY ~cdtweaks/bam/ibag05.bam~ ~override~
          ~cdtweaks/bam/ibag06.bam~ ~override~
-  
+
     ACTION_IF game_is_bgee THEN BEGIN
 
       COPY ~cdtweaks/bmp/pbag05.bmp~ ~override~
            ~cdtweaks/bmp/pbag06.bmp~ ~override~
-           
+
     END ELSE BEGIN
-    
+
       COPY ~cdtweaks/bam/pbag05.bam~ ~override~
            ~cdtweaks/bam/pbag06.bam~ ~override~
-    
+
     END
-  
+
     // ammo belts
     COPY ~cdtweaks/sto/cdammo.sto~ ~override~
          ~cdtweaks/sto/cdammo.sto~ ~override/cdammo2.sto~
       SAY 0x0c @108001
-  
+
     COPY ~cdtweaks/itm/cdammo.itm~ ~override~
          ~cdtweaks/itm/cdammo.itm~ ~override/cdammo2.itm~
       SAY 0x08 @108001
       SAY 0x0c @108001
       SAY 0x50 @108002
       SAY 0x54 @108002
-  
+
     // potion case
     COPY ~cdtweaks/sto/cdpotion.sto~ ~override~
          ~cdtweaks/sto/cdpotion.sto~ ~override/cdpotio2.sto~
       SAY 0x0c @108003
-  
+
     COPY ~cdtweaks/itm/cdpotion.itm~ ~override~
          ~cdtweaks/itm/cdpotion.itm~ ~override/cdpotio2.itm~
       SAY 0x08 @108003
       SAY 0x0c @108003
       SAY 0x50 @108004
       SAY 0x54 @108004
-  
+
     ACTION_IF MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3040~ THEN BEGIN // if bottomless bags
-  
+
       COPY_EXISTING ~cdammo.sto~   ~override~
                     ~cdammo2.sto~  ~override~
                     ~cdpotion.sto~ ~override~
                     ~cdpotio2.sto~ ~override~
         WRITE_SHORT 0x22 32767
         BUT_ONLY
-  
+
     END
 
   END
-  
+
   ACTION_IF game_includes_soa BEGIN // bg2 content
-    
+
     COPY ~cdtweaks/itm/bag04.itm~ ~override/cdbag04.itm~ // bag of holding
          ~cdtweaks/sto/bag04.sto~ ~override/cdbag04.sto~
-  
+
     COPY_EXISTING ~murcrag.sto~ ~override~ // Cragmoon
       ADD_STORE_ITEM ~cdpotion~ LAST #0 #0 #0 ~identified&unstealable~ #1 // if store is cragmoon add potion case
       BUT_ONLY
-  
+
     COPY_EXISTING ~ribald.sto~  ~override~ // ribald, adventurer's mart
       ADD_STORE_ITEM ~cdbag04~  LAST #0 #0 #0 ~identified&unstealable~ #1 // add bag of holding
       BUT_ONLY
-  
+
     COPY_EXISTING ~roger.sto~   ~override~ // roger
       ADD_STORE_ITEM ~cdpotio2~ LAST #0 #0 #0 ~identified&unstealable~ #1 // if store is roger add potion case 2
       BUT_ONLY
-      
+
     COPY_EXISTING ~shop05.sto~  ~override~ // perter
       ADD_STORE_ITEM ~cdammo~   LAST #0 #0 #0 ~identified&unstealable~ #1 // if store is perter add ammo belt 1
       BUT_ONLY
-      
+
     COPY_EXISTING ~trmer04.sto~ ~override~ // trademeet blacksmith
       ADD_STORE_ITEM ~cdammo2~  LAST #0 #0 #0 ~identified&unstealable~ #1 // if store is Trademeet blacksmith add ammo belt 2
       BUT_ONLY
-      
+
   END
-  
+
   // if BGT, BGEE, EET, or Tutu game, add bags to BG portion
   ACTION_IF game_includes_bg1 THEN BEGIN
-  
+
     COPY_EXISTING ~cdammo.itm~   ~override/c!ammo.itm~   // ammo belt
                   ~cdammo.sto~   ~override/c!ammo.sto~
                   ~bag02g.itm~   ~override/c!bag02.itm~  // gem bag
@@ -253,73 +253,73 @@ END ELSE BEGIN // non-iwd content
                   ~bag03g.sto~   ~override/c!bag03.sto~
 
     ACTION_IF game_is_bgee BEGIN // missing bgee resources
-    
+
       COPY ~cdtweaks/itm/bag04.itm~ ~override/c!bag04.itm~
            ~cdtweaks/sto/bag04.sto~ ~override/c!bag04.sto~
-           
+
       // string changes
       COPY_EXISTING ~c!bag02.itm~ ~override~
         WRITE_LONG 0x08 25502
         WRITE_LONG 0x0c 25502
         WRITE_LONG 0x50 25504
         WRITE_LONG 0x54 25504
-  
+
       COPY_EXISTING ~c!bag02.sto~ ~override~
         WRITE_LONG 0x0c 25502
-  
+
       COPY_EXISTING ~c!bag03.itm~ ~override~
         WRITE_LONG 0x08 25505
         WRITE_LONG 0x0c 25505
         WRITE_LONG 0x50 25507
         WRITE_LONG 0x54 25507
-  
+
       COPY_EXISTING ~c!bag03.sto~ ~override~
         WRITE_LONG 0x0c 25505
-  
+
       COPY_EXISTING ~c!bag04.itm~ ~override~
         SAY 0x08 @108005
         SAY 0x0c @108005
         SAY 0x50 @108006
         SAY 0x54 @108006
-  
+
       COPY_EXISTING ~c!bag04.sto~ ~override~
         SAY 0x0c @108005
-  
+
       ACTION_IF MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3040~ THEN BEGIN // if bottomless bags
-    
+
         COPY_EXISTING ~c!bag04.sto~   ~override~
           WRITE_SHORT 0x22 32767
           BUT_ONLY
-  
+
       END
-  
+
     END ELSE BEGIN
-    
+
       COPY_EXISTING ~bag04.itm~    ~override/c!bag04.itm~  // bag of holding
                     ~bag04.sto~    ~override/c!bag04.sto~
-    
+
     END
-  
+
     COPY_EXISTING ~%tutu_var%friend.sto~  ~override~ // FAI
       ADD_STORE_ITEM ~c!bag02~  LAST #0 #0 #0 ~identified&unstealable~ #1 // add c!bag02
       BUT_ONLY
-  
+
     COPY_EXISTING ~%tutu_scripth%ighhedg.sto~  ~override~ // High Hedge
       ADD_STORE_ITEM ~c!bag03~  LAST #0 #0 #0 ~identified&unstealable~ #1 // add c!bag03
       BUT_ONLY
-  
+
     COPY_EXISTING ~%tutu_var%taerum.sto~  ~override~ // Thunderhammer Smithy
       ADD_STORE_ITEM ~c!ammo~  LAST #0 #0 #0 ~identified&unstealable~ #1 // add c!ammo
       BUT_ONLY
-  
+
     COPY_EXISTING ~%tutu_var%sto4803.sto~  ~override~ // Nashkel General Store
       ADD_STORE_ITEM ~c!potion~  LAST #0 #0 #0 ~identified&unstealable~ #1 // add c!potion
       BUT_ONLY
-  
+
     COPY_EXISTING ~%tutu_var%sto0703.sto~  ~override~ // Sorcerous Sundries
       ADD_STORE_ITEM ~c!bag04~  LAST #0 #0 #0 ~identified&unstealable~ #1 // add c!bag04
       BUT_ONLY
-  
+
   END
 
 END
@@ -331,20 +331,20 @@ ACTION_IF ((MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~181~) OR (MOD_IS_INS
   END ELSE BEGIN
     OUTER_SET names = 1
   END
-  
+
   INCLUDE ~cdtweaks/lib/unique_containers_v2_macro.tpa~
-  
+
   // gem bag
   OUTER_SPRINT icon          ~t-bgem~
-  OUTER_SET    idic          = 29  
+  OUTER_SET    idic          = 29
   OUTER_FOR (index = 0 ; index < idic ; ++index) BEGIN
     ACTION_IF !FILE_EXISTS_IN_GAME ~%icon%%index%.bam~ BEGIN
       OUTER_SET idic = index  // kill loop
     END
-  END  
+  END
   OUTER_SET    string_offset = 100
   OUTER_SET    last          = 28
-  ACTION_FOR_EACH item IN ~c!bag02~ BEGIN LAM cd_unique_legwork END  
+  ACTION_FOR_EACH item IN ~c!bag02~ BEGIN LAM cd_unique_legwork END
 
   // scroll cases (normal)
   OUTER_SPRINT icon          ~t-bscr~
@@ -353,11 +353,11 @@ ACTION_IF ((MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~181~) OR (MOD_IS_INS
     ACTION_IF !FILE_EXISTS_IN_GAME ~%icon%%index%.bam~ BEGIN
       OUTER_SET idic = index  // kill loop
     END
-  END  
+  END
   OUTER_SET    string_offset = 200
   OUTER_SET    last          = 25
-  ACTION_FOR_EACH item IN ~c!bag03~ BEGIN LAM cd_unique_legwork END  
-  
+  ACTION_FOR_EACH item IN ~c!bag03~ BEGIN LAM cd_unique_legwork END
+
   // bags of holding
   OUTER_SPRINT icon          ~t-bhld~
   OUTER_SET    idic          = 43
@@ -365,11 +365,11 @@ ACTION_IF ((MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~181~) OR (MOD_IS_INS
     ACTION_IF !FILE_EXISTS_IN_GAME ~%icon%%index%.bam~ BEGIN
       OUTER_SET idic = index  // kill loop
     END
-  END  
+  END
   OUTER_SET    string_offset = 300
   OUTER_SET    last          = 42
-  ACTION_FOR_EACH item IN ~c!bag04~ ~cdbag04~ ~cdhold1~ ~cdhold2~ ~cdhold3~ BEGIN LAM cd_unique_legwork END  
-  
+  ACTION_FOR_EACH item IN ~c!bag04~ ~cdbag04~ ~cdhold1~ ~cdhold2~ ~cdhold3~ BEGIN LAM cd_unique_legwork END
+
   // ammo belts
   OUTER_SPRINT icon          ~t-bamm~
   OUTER_SET    idic          = 30
@@ -378,10 +378,10 @@ ACTION_IF ((MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~181~) OR (MOD_IS_INS
       OUTER_SET idic = index  // kill loop
       PRINT ~bag idic is %idic%~
     END
-  END  
+  END
   OUTER_SET    string_offset = 400
   OUTER_SET    last          = 29
-  ACTION_FOR_EACH item IN ~c!ammo~ ~cdammo1~ ~cdammo2~ ~cdammo3~ ~cdammo4~ ~cdammo~ BEGIN LAM cd_unique_legwork END   
+  ACTION_FOR_EACH item IN ~c!ammo~ ~cdammo1~ ~cdammo2~ ~cdammo3~ ~cdammo4~ ~cdammo~ BEGIN LAM cd_unique_legwork END
 
   // potion cases
   OUTER_SPRINT icon          ~t-bptn~
@@ -390,17 +390,17 @@ ACTION_IF ((MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~181~) OR (MOD_IS_INS
     ACTION_IF !FILE_EXISTS_IN_GAME ~%icon%%index%.bam~ BEGIN
       OUTER_SET idic = index  // kill loop
     END
-  END  
+  END
   OUTER_SET    string_offset = 500
   OUTER_SET    last          = 32
-  ACTION_FOR_EACH item IN ~c!potion~ ~cdpotio2~ ~cdpotion~ BEGIN LAM cd_unique_legwork END 
+  ACTION_FOR_EACH item IN ~c!potion~ ~cdpotio2~ ~cdpotion~ BEGIN LAM cd_unique_legwork END
 
   ACTION_IF names BEGIN
 
     WITH_TRA ~%tra_location%/%LANGUAGE%/unique_containers.tra~ BEGIN
       INCLUDE ~weidu_external/cdtweaks/unique_containers_working.tpa~
-    END  
-    
-  END  
+    END
+
+  END
 
 END

@@ -2,39 +2,14 @@ MKDIR ~weidu_external/cdtweaks/random~
 COPY ~cdtweaks/2da/random.2da~ ~weidu_external/cdtweaks/random/random.2da~
 OUTER_SPRINT table rndtres
 
-ACTION_IF ((MOD_IS_INSTALLED ~iwdfixpack/setup-iwdfixpack.tp2~ ~0~) AND     // fixpack is installed
-           (FILE_EXISTS ~iwdfixpack/languages/english/dplanar.tra~))  BEGIN // and it's >= v7
+// in case it's an older version of iwdfp, correct these
+COPY_EXISTING ~ar9200.are~ ~override~
+  LPF REPLACE_AREA_ITEM INT_VAR charges1 = 3 charges2 = 0 charges3 = 0 STR_VAR old_item = extres1 new_item = extres4 END
+  BUT_ONLY IF_EXISTS
 
-  APPEND_OUTER ~weidu_external/cdtweaks/random/random.2da~ // as of v7, replaces the ar9601 dupe of EXTRES4
-~ar9200   EXTRES4  Container7               0
-ar9601   EXTRES1  Container1               0~
-
-END ELSE BEGIN// previous fixpacks, IWDEE replace the ar9200 dupe of EXTRES4
-
-  APPEND_OUTER ~weidu_external/cdtweaks/random/random.2da~
-~ar9200   EXTRES1  Container7               0
-ar9601   EXTRES4  Container1               0~
-
-  // remove dupe random item drops; fix in case we're on an unfixed oIWD game
-  COPY_EXISTING ~ar9200.are~ ~override~
-    READ_LONG  0x70 cont_off
-    READ_SHORT 0x74 cont_num
-    READ_LONG  0x78 item_off
-    FOR (index = 0 ; index < cont_num ; ++index) BEGIN
-      READ_LONG (cont_off + 0x40 + (index * 0xc0)) item_idx
-      READ_LONG (cont_off + 0x44 + (index * 0xc0)) item_num
-      FOR (index2 = 0 ; index2 < item_num ; ++index2) BEGIN
-        READ_ASCII (item_off +        ((index2 + item_idx) * 0x14)) item
-        PATCH_IF ("%item%" STRING_COMPARE_CASE "EXTRES4" = 0) BEGIN // extres4 also available in ar9601
-          WRITE_ASCII (item_off +        ((index2 + item_idx) * 0x14)) ~EXTRES1~ #8
-          SET index2 = item_num
-          SET index = cont_num // kill both loops
-        END
-      END
-    END
-    BUT_ONLY IF_EXISTS
-
-END 
+COPY_EXISTING ~ar9601.are~ ~override~
+  LPF REPLACE_AREA_ITEM INT_VAR charges1 = 1 charges2 = 1 charges3 = 0 STR_VAR old_item = extres4 new_item = extres1 END
+  BUT_ONLY IF_EXISTS
 
 ACTION_IF MOD_IS_INSTALLED ~ub_iwd/setup-ub_iwd.tp2~ ~1500~ THEN BEGIN // if restored random drops from UB
 
@@ -44,7 +19,7 @@ ar4005   DE5Tres  Yuan-tiChampion1         1
 ar8002   UD6Tres  Kelly                    1
 ar3001   TG5Tres  Lysan                    0
 ar9100   EXTRES3  Alpheus                  1~
-  
+
 END
 
 ACTION_IF game_is_iwdee THEN BEGIN // iwdee uses slightly different placement for TG4/5Tres from ub's restored random drops
@@ -53,15 +28,20 @@ ACTION_IF game_is_iwdee THEN BEGIN // iwdee uses slightly different placement fo
 ~ar3602   TG4Tres  AR3602Chest3             0
 ar4005   DE5Tres  Yuan-tiChampion1         1
 ar8002   UD6Tres  Kelly                    1
-AR4001   TG5Tres  Chest2                   0
-ar9100   EXTRES3  Alpheus                  1~
+AR4001   TG5Tres  Chest2                   0~
+
+  ACTION_IF !MOD_IS_INSTALLED ~subtled_item_tweaks/subtled_item_tweaks.tp2~ ~140~ THEN BEGIN // replaces rndtre77 with 2x quost as drops, so don't bother processing
+
+    APPEND_OUTER ~weidu_external/cdtweaks/random/random.2da~ ~ar9100   EXTRES3  Alpheus                  1~
+
+  END
 
 END
 
 ACTION_IF tfg_bows THEN BEGIN // add extra chest in TotFG if we're not in the wandering merchant option
 
   APPEND_OUTER ~weidu_external/cdtweaks/random/random.2da~ ~ar3601   TFGTres  Container11              0~
-  
+
 END
 
 // first, a couple of areas have random drops in non-uniquely named containers

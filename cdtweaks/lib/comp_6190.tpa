@@ -1,0 +1,17 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////                                                                 /////
+/////  NWN-ish Dirty Fighting                                         \\\\\
+/////                                                                 \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+
+WITH_SCOPE BEGIN
+  INCLUDE "cdtweaks\luke\lib\install.tph"
+  //
+  INCLUDE "cdtweaks\lib\gt_dirty_fighting.tph"
+  //
+  WITH_TRA "cdtweaks\languages\english\gt_dirty_fighting.tra" "cdtweaks\languages\%LANGUAGE%\gt_dirty_fighting.tra" BEGIN
+    LAF "DIRTY_FIGHTING" END
+  END
+END

@@ -8,7 +8,7 @@ THEN
     SetGlobal("cd_regen_area","GLOBAL",%num%)
 END
 
-// traveled to a new area with regen items and long travel: heal everyone, reset timers
+// traveled to a new area with regen items and long travel: heal everyone, reset timers, area var
 IF
   GlobalTimerExpired("cd_regen_long","GLOBAL")
   !Global("cd_regen_area","GLOBAL",%num%)
@@ -27,7 +27,7 @@ THEN
     SetGlobal("cd_regen_area","GLOBAL",%num%)
 END
 
-// traveled to a new area without regen items: reset timers
+// same as above, but w/o regen items: reset timers, area var
 IF
   GlobalTimerExpired("cd_regen_long","GLOBAL")
   !Global("cd_regen_area","GLOBAL",%num%)
@@ -39,9 +39,8 @@ THEN
     SetGlobal("cd_regen_area","GLOBAL",%num%)
 END
 
-// traveled to a new area without long travel: reset timers
+// failsafe for area changes w/o either of the two previous blocks tripping: reset timers, area var
 IF 
-  !GlobalTimerExpired("cd_regen_long","GLOBAL")
   !Global("cd_regen_area","GLOBAL",%num%)
 THEN
   RESPONSE #100
@@ -50,9 +49,9 @@ THEN
     SetGlobal("cd_regen_area","GLOBAL",%num%)
 END
 
-// reset the long timer if short timer expires without wmp travel
+// reset the timers if short timer expires w/o area change
 IF 
-  !GlobalTimerExpired("cd_regen_short","GLOBAL")
+  GlobalTimerExpired("cd_regen_short","GLOBAL")
   Global("cd_regen_area","GLOBAL",%num%)
 THEN
   RESPONSE #100

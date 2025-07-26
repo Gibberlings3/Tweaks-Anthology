@@ -13,7 +13,7 @@
 COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/stronghold1.d~             // removes stronghold var
                         ~cdtweaks/dlg/stronghold_grove.d~        // removes class check
                         ~cdtweaks/dlg/stronghold_grove_choice.d~ // adds option to decline stronghold
-  
+
 COPY_EXISTING ~baldur.bcs~ ~override~ // non-druids not getting great druid messenger
   DECOMPILE_AND_PATCH BEGIN
     REPLACE_TEXTUALLY ~Class(Player1,DRUID_ALL)[%TAB% %LNL%%MNL%%WNL%]+\(LevelGT(Player1,13)[%TAB% %LNL%%MNL%%WNL%]+Global("DruidADSpawn","GLOBAL",0)\)~ ~\1~

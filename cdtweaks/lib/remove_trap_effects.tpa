@@ -1,0 +1,192 @@
+/**
+ * Removes locks and secret doors as well as traps or specific trap effects.
+ *
+ * INT_VAR effects_only   Specifies whether to remove traps completely (0) or only their harmful effects (1).
+ * INT_VAR include_alarm  Specifies whether alarm traps should be included when harmful effects are removed.
+ */
+DEFINE_ACTION_FUNCTION no_traps_or_locks
+INT_VAR
+  effects_only  = 0
+  include_alarm = 0
+BEGIN
+  // Some engine variants allow disarming trapped regions with difficulty > 100
+  OUTER_SET no_trap_limit = ENGINE_IS ~soa tob bgee bg2ee eet iwdee pstee~
+
+  // script resrefs to ignore
+  ACTION_DEFINE_ASSOCIATIVE_ARRAY blacklist BEGIN
+    // SoD
+    ~BD5100DR~  => 1
+    ~BD5300KR~  => 1
+    ~BDBRANCH~  => 1
+    ~BDSDD251~  => 1
+    ~BDSHSARS~  => 1
+    // BG2
+    ~IMPCHES3~  => 1
+  END
+
+  // Map of conditions and their script actions to remove
+  ACTION_IF (include_alarm) BEGIN
+    ACTION_DEFINE_ASSOCIATIVE_ARRAY remove_matches BEGIN
+      // condition => remove
+      ~Opened(~   => ~\(ForceSpell\|CreateCreature\|ChangeAIScript\|HideCreature\)~
+      ~Entered(~  => ~\(ForceSpell\|CreateCreature\|ChangeAIScript\|HideCreature\)~
+      ~IsOverMe(~ => ~ForceSpell~
+    END
+  END ELSE BEGIN
+    ACTION_DEFINE_ASSOCIATIVE_ARRAY remove_matches BEGIN
+      // condition => remove
+      ~Opened(~   => ~ForceSpell~
+      ~Entered(~  => ~ForceSpell~
+      ~IsOverMe(~ => ~ForceSpell~
+    END
+  END
+
+  COPY_EXISTING_REGEXP GLOB ~^.+\.are$~ ~override~
+    READ_ASCII 0x04 ver (4)
+    SET off = (~%ver%~ STR_EQ ~V9.1~) ? 0x10 : 0x00 // outside of this, patch works for v1.0 and v9.1 areas
+
+    GET_OFFSET_ARRAY trig (0x5c + off) 4 (0x5a + off) 2 0 0 0xc4
+    GET_OFFSET_ARRAY cont (0x70 + off) 4 (0x74 + off) 2 0 0 0xc0
+    GET_OFFSET_ARRAY door (0xa8 + off) 4 (0xa4 + off) 4 0 0 0xc8
+
+    PHP_EACH trig AS _ => trig_off BEGIN  // cycle through triggers
+      READ_SHORT (trig_off + 0x6a) trap_diff
+      PATCH_IF ((trap_diff > 0) AND (effects_only OR (no_trap_limit AND trap_diff != 100) OR (trap_diff < 100))) BEGIN
+        PATCH_IF (effects_only) BEGIN
+          READ_ASCII (trig_off + 0x7c) script_resref (8) NULL  // script
+          PATCH_IF (NOT ~%script_resref%~ STR_EQ ~~ && FILE_EXISTS_IN_GAME ~%script_resref%.BCS~) BEGIN
+            // marking script for patching
+            TO_UPPER ~script_resref~
+            SET $trap_scripts(~%script_resref%~) = 1
+          END
+        END ELSE BEGIN
+          WRITE_SHORT (trig_off + 0x6c) 0 // is not a trap
+        END
+      END
+    END
+
+    PHP_EACH cont AS _ => cont_off BEGIN  // cycle through containers
+      READ_ASCII (cont_off + 0x78) key (8) NULL // key
+      PATCH_IF (("%key%" STR_EQ "") OR ("%key%" STR_EQ "None")) BEGIN
+        READ_SHORT (cont_off + 0x26) lock_diff // lock difficulty
+        PATCH_IF ((lock_diff != 0) AND (lock_diff != 100)) BEGIN
+          WRITE_SHORT (cont_off + 0x26) 0 // lock difficulty
+        END
+      END
+      READ_SHORT (cont_off + 0x2c) trap_diff // trap difficulty
+      PATCH_IF ((trap_diff != 0) AND (effects_only OR (trap_diff != 100))) BEGIN
+        PATCH_IF (effects_only) BEGIN
+          READ_ASCII (cont_off + 0x48) script_resref (8) NULL // script
+          PATCH_IF (NOT ~%script_resref%~ STR_EQ ~~ && FILE_EXISTS_IN_GAME ~%script_resref%.BCS~) BEGIN
+            // marking script for patching
+            TO_UPPER ~script_resref~
+            SET $trap_scripts(~%script_resref%~) = 1
+          END
+        END ELSE BEGIN
+          WRITE_SHORT (cont_off + 0x30) 0 // is not a trap
+        END
+      END
+    END
+
+    PHP_EACH door AS _ => door_off BEGIN  // cycle through doors
+      READ_LONG (door_off + 0x28) flags // door flags
+      PATCH_IF ((flags & BIT8) = BIT8) BEGIN  // if flagged as secret door
+        WRITE_LONG (door_off + 0x88) 0  // detect diff (secret doors)
+        WRITE_LONG (door_off + 0x28) (THIS BAND BNOT BIT8) // remove secret flag
+      END
+      READ_SHORT (door_off + 0x6e) trap_diff // detect diff
+      PATCH_IF ((trap_diff != 0) AND (effects_only OR (trap_diff != 100))) BEGIN
+        PATCH_IF (effects_only) BEGIN
+          READ_ASCII (door_off + 0x80) script_resref (8) NULL // script
+          PATCH_IF (NOT ~%script_resref%~ STR_EQ ~~ && FILE_EXISTS_IN_GAME ~%script_resref%.BCS~) BEGIN
+            // marking script for patching
+            TO_UPPER ~script_resref~
+            SET $trap_scripts(~%script_resref%~) = 1
+          END
+        END ELSE BEGIN
+          WRITE_SHORT (door_off + 0x70) 0 // is not a trap
+        END
+      END
+      READ_ASCII (door_off + 0x78) key (8) NULL // key 
+      PATCH_IF (("%key%" STR_EQ "") OR ("%key%" STR_EQ "None")) BEGIN
+        READ_LONG (door_off + 0x8c) lock_diff // lock diff
+        PATCH_IF ((lock_diff != 0) AND (lock_diff != 100)) BEGIN
+          WRITE_LONG (door_off + 0x8c) 0 // lock diff
+        END
+      END
+    END
+  BUT_ONLY
+
+  ACTION_IF (effects_only) BEGIN
+    // Patching marked trap scripts
+    ACTION_PHP_EACH trap_scripts AS script_resref => _ BEGIN
+      ACTION_IF (NOT VARIABLE_IS_SET $blacklist(~%script_resref%~)) BEGIN
+        LAF patch_trap_script STR_VAR script_resref END
+      END
+    END
+  END
+END
+
+
+/**
+ * Removes harmful effects from the specified script.
+ *
+ * STR_VAR script_resref  resref of the BCS resource to patch.
+ */
+DEFINE_ACTION_FUNCTION patch_trap_script
+STR_VAR
+  script_resref = ~~
+BEGIN
+  ACTION_IF (NOT ~%script_resref%~ STR_EQ ~~) BEGIN
+    COPY_EXISTING ~%script_resref%.BCS~ ~override~
+      DECOMPILE_AND_PATCH BEGIN
+        // first pass: remove harmful script actions
+        SET count_total = 0
+        SET block_start = 0
+        WHILE (block_start >= 0) BEGIN
+          // processing individual blocks to improve accuracy
+          SET block_start = INDEX_BUFFER(CASE_SENSITIVE ~^IF$~ block_start)
+          PATCH_IF (block_start >= 0) BEGIN
+            SET block_end = INDEX_BUFFER(CASE_SENSITIVE ~^END$~ block_start)
+            PATCH_IF (block_end > block_start) BEGIN
+              SET block_end += 3
+              SET old_block_len = block_end - block_start
+              READ_ASCII block_start block (old_block_len)
+
+              INNER_PATCH_SAVE block ~%block%~ BEGIN
+                PHP_EACH remove_matches AS condition => remove BEGIN
+                  PATCH_IF (INDEX_BUFFER(CASE_SENSITIVE ~%condition%~) >= 0) BEGIN
+                    REPLACE_EVALUATE ~^[ %TAB%]*\(.*%remove%.*\)$~ BEGIN
+                      SET count_total += 1
+                      PATCH_LOG ~%SOURCE_FILE%: Removing line "%MATCH1%"~
+                    END ~~
+                  END
+                END
+              END
+
+              SET new_block_len = STRING_LENGTH ~%block%~
+              PATCH_IF (new_block_len != old_block_len) BEGIN
+                DELETE_BYTES block_start old_block_len
+                INSERT_BYTES block_start new_block_len
+                WRITE_ASCIIE block_start ~%block%~ (new_block_len)
+                SET block_end = block_start + new_block_len
+              END
+            END
+
+            SET block_start = block_end
+          END
+        END
+
+        // second pass: patch empty script blocks
+        PATCH_IF (count_total > 0) BEGIN
+          // conflate consecutive empty response blocks
+          REPLACE_TEXTUALLY CASE_SENSITIVE ~\(RESPONSE #[0-9]+\)\([ %TAB%%WNL%]+RESPONSE #[0-9]+\)+~ ~\1~
+          // add placeholder actions to empty script blocks
+          REPLACE_TEXTUALLY CASE_SENSITIVE ~\(RESPONSE #[0-9]+\)[ %TAB%%WNL%]+\(END\)$~ ~\1%LNL%NoAction()%LNL%\2~
+
+          PATCH_LOG ~%SOURCE_FILE%: Patched %count_total% instance(s)~
+        END
+      END
+    BUT_ONLY IF_EXISTS
+  END
+END

@@ -3,29 +3,19 @@ IF
 THEN
   RESPONSE #100
     GameOver(-1)
-END 
-
-IF
-  StateCheck(Player1,STATE_FLAME_DEATH)
-  !GlobalTimerNotExpired("CD_game_is_over","GLOBAL")
-THEN
-  RESPONSE #2
-    SetGlobalTimer("CD_game_is_over","GLOBAL",6)  
-    MoveViewObject(Player1,INSTANT)
-    CreateCreatureObjectOffset("cutspy",Player1,[1.1])
-    ActionOverride(Player1,PlaySound("cdtoasty"))
-  RESPONSE #98
-    SetGlobalTimer("CD_game_is_over","GLOBAL",6)  
-    MoveViewObject(Player1,INSTANT)
-    CreateCreatureObjectOffset("cutspy",Player1,[1.1])
-END 
+END
 
 IF
   StateCheck(Player1,STATE_REALLY_DEAD)
   !GlobalTimerNotExpired("CD_game_is_over","GLOBAL")
 THEN
-  RESPONSE #100
-    SetGlobalTimer("CD_game_is_over","GLOBAL",6)  
+  RESPONSE #1
+    SetGlobalTimer("CD_game_is_over","GLOBAL",6)
     MoveViewObject(Player1,INSTANT)
     CreateCreatureObjectOffset("cutspy",Player1,[1.1])
-END 
+    ActionOverride(Player1,PlaySound("cdtoasty"))
+  RESPONSE #99
+    SetGlobalTimer("CD_game_is_over","GLOBAL",6)
+    MoveViewObject(Player1,INSTANT)
+    CreateCreatureObjectOffset("cutspy",Player1,[1.1])
+END

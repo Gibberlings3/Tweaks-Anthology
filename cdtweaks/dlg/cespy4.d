@@ -6,7 +6,7 @@ EXTEND_BOTTOM BOTSMITH 4
         PartyHasItem("sw1h54c")~ THEN GOTO equalizer // equalizer bow
 END
 
-APPEND BOTSMITH              
+APPEND BOTSMITH
 
   IF ~~ THEN BEGIN equalizer SAY @123020
     IF ~OR(3)
@@ -40,4 +40,4 @@ APPEND BOTSMITH
     COPY_TRANS BOTSMITH 4
   END
 
-END                                            
+END

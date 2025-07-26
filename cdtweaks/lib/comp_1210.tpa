@@ -7,8 +7,8 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 ACTION_IF enhanced_edition THEN BEGIN // in ee, can adjust the animation speed directly
-   
-  COPY_EXISTING_REGEXP GLOB ~^[56][012345][01][0-9]\.ini$~ ~override~ 
+
+  COPY_EXISTING_REGEXP GLOB ~^[56][012345][01][0-9]\.ini$~ ~override~
     REPLACE_TEXTUALLY ~^move_scale=9~ ~move_scale=7~
     BUT_ONLY
 
@@ -121,7 +121,7 @@ END
 
 // do grey the dog outside of the normal patch since we can't do ini patching for him on EEs
 COPY_EXISTING ~c#grey02.cre~ ~override~
-              ~c#grey03.cre~ ~override~            
+              ~c#grey03.cre~ ~override~
   READ_BYTE   0x33 fx_flag
   READ_LONG  0x2c4 fx_off
   READ_LONG  0x2c8 fx_num

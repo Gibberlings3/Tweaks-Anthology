@@ -29,13 +29,13 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
             PATCH_IF ("%spell%" STRING_COMPARE_REGEXP ~^[Ss][Pp][Ww][Ii][3-9][0-9][0-9]$~ = 0) BEGIN SET level_break = 11 END ELSE BEGIN SET level_break = 13 END // account for extra level for priest 6>7 and wizard 5>6
             PATCH_IF ("%spell%" STRING_COMPARE_CASE "%freedom%" = 0) BEGIN // exclude freedom scrolls
               SET level = 0
-            END ELSE BEGIN  
+            END ELSE BEGIN
               READ_BYTE  (fx_off + 0x18 + (0x30 * (abil_fx_idx + index2))) level
               SET level = ((level - 0x31) * 2) // 0x31 is ascii 1, 0x32 is ascii 2, etc. This basically uses a level one below the numerical value and then doubles it
               PATCH_IF level < level_break BEGIN
                 SET level -= 1
               END
-            END  
+            END
           END
         END
       END

@@ -107,6 +107,27 @@ BEGIN
 	BUT_ONLY_IF_IT_CHANGES
 END
 
+DEFINE_ACTION_FUNCTION "GT_CURE_CAUSE_WOUNDS#MXSPLPRS"
+RET_ARRAY
+	"gt_mxsplprs_array"
+BEGIN
+	ACTION_CLEAR_ARRAY "gt_mxsplprs_array"
+	//
+	COPY_EXISTING - "mxsplprs.2da" "override"
+		COUNT_2DA_COLS "cols"
+		READ_2DA_ENTRIES_NOW "read_mxsplprs" "%cols%"
+		FOR ("spell_level" = 1 ; "%spell_level%" <= 7 ; "spell_level" += 1) BEGIN
+			FOR ("row" = 0 ; "%row%" < "%read_mxsplprs%" ; "row" += 1) BEGIN
+				READ_2DA_ENTRY_FORMER "read_mxsplprs" "%row%" "%spell_level%" "value"
+				PATCH_IF "%value%" > 0 BEGIN
+					READ_2DA_ENTRY_FORMER "read_mxsplprs" "%row%" 0 "caster_level"
+					SET $"gt_mxsplprs_array"("%spell_level%") = "%caster_level%"
+					SET "row" = "%read_mxsplprs%" // kill FOR-loop
+				END
+			END
+		END
+	BUT_ONLY_IF_IT_CHANGES
+END
 
 //DEFINE_ACTION_FUNCTION "CURE_CAUSE_WOUNDS"
 //BEGIN
@@ -121,315 +142,374 @@ END
 	/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 	WITH_SCOPE BEGIN
-		ACTION_DEFINE_ASSOCIATIVE_ARRAY "cure_wounds" BEGIN
-			"%CLERIC_CURE_LIGHT_WOUNDS%" => "*"
-			"spin101" => "*" // Cure Light Wounds (Bhaal power)
-			"%CLERIC_CURE_MODERATE_WOUNDS%" => "*"
-			"%CLERIC_CURE_MEDIUM_WOUNDS%" => "*"
-			"%CLERIC_CURE_SERIOUS_WOUNDS%" => "*"
-			"%ULITHARID_CURE_SERIOUS_WOUNDS%" => "*"
-			"%CLERIC_CURE_CRITICAL_WOUNDS%" => "*"
-			"bdcaela3" => "cdcaela3"
-			"%CLERIC_MASS_CURE%" => "*"
-			"%CLERIC_HEAL%" => "*"
-			"spwm168" => "*" // Heal (wild magic)
-			"%HEAL_NO_VISUAL%" => "*"
-			"%FINAL_HEAL%" => "*"
-			"%PALADIN_LAY_ON_HANDS%" => "*"
-			"spin109" => "*" // Lay on Hands
-		END
-		ACTION_PHP_EACH "cure_wounds" AS "cure_wounds_res" => "cure_wounds_subspell_res" BEGIN
-			ACTION_IF (FILE_EXISTS_IN_GAME "%cure_wounds_res%.spl") BEGIN
-				ACTION_MATCH "%cure_wounds_subspell_res%" WITH
-					"\*" BEGIN
-						OUTER_PATCH_SAVE "cure_wounds_subspell_res" "%cure_wounds_res%" BEGIN
-							REPLACE_TEXTUALLY EVALUATE_REGEXP "^sp" "cd"
-						END
-					END
-					DEFAULT
-				END
-				ACTION_TO_LOWER "cure_wounds_subspell_res"
-				COPY_EXISTING "%cure_wounds_res%.spl" "override"
-					// 
-					LPF "DELETE_EFFECT" INT_VAR "check_globals" = 0 "check_headers" = (GAME_IS "iwdee" ? 1 : 0) "match_opcode" = 324 "match_parameter2" = 104 END
-					LPF "DELETE_EFFECT" INT_VAR "check_globals" = 0 "check_headers" = (GAME_IS "iwdee" ? 1 : 0) "match_opcode" = 324 "match_parameter2" = 55 END
-					// 
-					LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 17 "opcode" = 326 "parameter1" = 0 "parameter2" = 1 "dicenumber" = 0 "dicesize" = 0 "special" = 0 STR_VAR "insert" = "first" "resource" = "%cure_wounds_subspell_res%" END
-					LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 326 "opcode" = 318 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%cure_wounds_subspell_res%" "resource" = "%DEST_RES%" END
-					// 
-					LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 318 "match_parameter2" = 1 "opcode" = 324 "parameter1" = IDS_OF_SYMBOL ("RACE" "GOLEM") "parameter2" = 104 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%DEST_RES%" END
-					LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 318 "match_parameter2" = 1 "opcode" = 324 "parameter1" = IDS_OF_SYMBOL ("RACE" "DEMONIC") "parameter2" = 104 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%DEST_RES%" END
-					LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 318 "match_parameter2" = 1 "opcode" = 324 "parameter1" = IDS_OF_SYMBOL ("RACE" "IMP") "parameter2" = 104 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%DEST_RES%" END
-					LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 318 "match_parameter2" = 1 "opcode" = 324 "parameter1" = IDS_OF_SYMBOL ("RACE" "MEPHIT") "parameter2" = 104 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%DEST_RES%" END
-					LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 318 "match_parameter2" = 1 "opcode" = 324 "parameter1" = IDS_OF_SYMBOL ("RACE" "ELEMENTAL") "parameter2" = 104 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%DEST_RES%" END
-					LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 318 "match_parameter2" = 1 "opcode" = 324 "parameter1" = IDS_OF_SYMBOL ("RACE" "SALAMANDER") "parameter2" = 104 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%DEST_RES%" END
-					LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 318 "match_parameter2" = 1 "opcode" = 324 "parameter1" = IDS_OF_SYMBOL ("RACE" "SOLAR") "parameter2" = 104 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%DEST_RES%" END
-					LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 318 "match_parameter2" = 1 "opcode" = 324 "parameter1" = IDS_OF_SYMBOL ("RACE" "ANTISOLAR") "parameter2" = 104 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%DEST_RES%" END
-					LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 318 "match_parameter2" = 1 "opcode" = 324 "parameter1" = IDS_OF_SYMBOL ("RACE" "PLANATAR") "parameter2" = 104 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%DEST_RES%" END
-					LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 318 "match_parameter2" = 1 "opcode" = 324 "parameter1" = IDS_OF_SYMBOL ("RACE" "DARKPLANATAR") "parameter2" = 104 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%DEST_RES%" END
-					LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 318 "match_parameter2" = 1 "opcode" = 324 "parameter1" = IDS_OF_SYMBOL ("RACE" "GENIE") "parameter2" = 104 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%DEST_RES%" END
-				BUT_ONLY
-				// Make the subspell
-				COPY_EXISTING "%cure_wounds_res%.spl" "override\%cure_wounds_subspell_res%.spl"
-					/* Header */
-					WRITE_LONG NAME1 "-1"
-					WRITE_LONG NAME2 "-1"
-					WRITE_LONG UNIDENTIFIED_DESC "-1"
-					WRITE_LONG DESC "-1"
-					WRITE_SHORT 0x22 0 // Casting animation
-					WRITE_BYTE 0x27 10 // Secondary type: OFFENSIVEDAMAGE
-					/* Abilities */
-					GET_OFFSET_ARRAY "ab_array" SPL_V10_HEADERS
-					PHP_EACH "ab_array" AS "ab_ind" => "ab_off" BEGIN
-						WRITE_SHORT ("%ab_off%" + 0x12) 0 // Casting speed
-						LOOKUP_IDS_SYMBOL_OF_INT "projectile_res" "PROJECTL" ((SHORT_AT ("%ab_off%" + 0x26)) - 1)
-						PATCH_IF (FILE_EXISTS_IN_GAME "%projectile_res%.pro") BEGIN
-							INNER_PATCH_FILE "%projectile_res%.pro" BEGIN
-								READ_SHORT 0x8 "projectile_type"
-							END
-						END ELSE BEGIN
-							SET "projectile_type" = 2 // Single target
-						END
-						WRITE_SHORT ("%ab_off%" + 0x26) IDS_OF_SYMBOL ("MISSILE" "None")
-						/* Feature block(s) */
-						LPF CLONE_EFFECT INT_VAR "check_globals" = 0 "header" = "%ab_ind%" "match_opcode" = 17 "opcode" = 31 "parameter1" = 0 "parameter2" = 1 "timing" = 0 "duration" = 0 "special" = 0 STR_VAR "insert" = "first" "resource" = "" END // Magic damage resistance bonus (set to 0)
-						GET_OFFSET_ARRAY2 "fx_array" "%ab_off%" SPL_V10_HEAD_EFFECTS
-						PHP_EACH "fx_array" AS "fx_ind" => "fx_off" BEGIN
-							WRITE_BYTE ("%fx_off%" + 0x3) ("%projectile_type%" == 3 ? 0 : THIS) // Power
-							WRITE_BYTE ("%fx_off%" + 0xD) (THIS == BIT0 ? BIT0 + BIT1 : THIS) // Resist / Dispel
-							PATCH_MATCH SHORT_AT "%fx_off%" WITH
-								11 75 77 79 81 164 240 321 BEGIN // ancillary effects
-									WRITE_SHORT "%fx_off%" 999
-								END
-								17 BEGIN // Current HP bonus
-									WRITE_SHORT ("%fx_off%" + 0x0) 12 // Damage
-									PATCH_IF (SLONG_AT ("%fx_off%" + 0x4) == 100) AND (SHORT_AT ("%fx_off%" + 0x8) == 2) BEGIN
-										WRITE_LONG ("%fx_off%" + 0x4) 1 // Amount
-										WRITE_SHORT ("%fx_off%" + 0x8) 1 // Mode: Set to value
-									END ELSE BEGIN
-										WRITE_SHORT ("%fx_off%" + 0x8) (THIS == 2 ? 3 : THIS) // Mode
-									END
-									WRITE_SHORT ("%fx_off%" + 0xA) (IDS_OF_SYMBOL ("DMGTYPE" "MAGIC") >> 16)
-									WRITE_LONG ("%fx_off%" + 0x24) ("%projectile_type%" == 3 ? THIS | BIT24 : THIS)
-								END
-								61 WHEN GAME_IS "bgee bg2ee eet" BEGIN // Creature RGB color fade
-									WRITE_LONG ("%fx_off%" + 0x4) (120 << 8) + (30 << 16) + (0 << 24) // Color
-									WRITE_LONG ("%fx_off%" + 0x8) (25 << 16) // Fade speed
-								END
-								215 WHEN GAME_IS "bgee bg2ee eet" BEGIN // Play visual effect
-									WRITE_LONG ("%fx_off%" + 0x8) 0 // Play where?: Over target (unattached)
-									WRITE_ASCII ("%fx_off%" + 0x14) "SPCAUSEW"
-								END
-								61 WHEN GAME_IS "iwdee" BEGIN // Creature RGB color fade
-									WRITE_LONG ("%fx_off%" + 0x4) (255 << 8) + (0 << 16) + (0 << 24) // Color
-									WRITE_LONG ("%fx_off%" + 0x8) (30 << 16) // Fade speed
-								END
-								215 WHEN GAME_IS "iwdee" BEGIN // Play visual effect
-									WRITE_LONG ("%fx_off%" + 0x8) 0 // Play where?: Over target (unattached)
-									WRITE_ASCII ("%fx_off%" + 0x14) "CLDAMAH"
-								END
-								139 BEGIN
-									LPF "GT_CURE_CAUSE_WOUNDS#GET_STRING" INT_VAR "strref" = SLONG_AT ("%fx_off%" + 0x4) RET "string" END
-									PATCH_MATCH "%string%" WITH
-										"Healed" BEGIN
-											WRITE_SHORT "%fx_off%" 999
-										END
-										DEFAULT
-									END
-								END
-								318 324 BEGIN
-									READ_ASCII ("%fx_off%" + 0x14) "ITMSPL_effect_resource"
-									PATCH_MATCH "%ITMSPL_effect_resource%" WITH
-										"%cure_wounds_res%" BEGIN
-											WRITE_SHORT "%fx_off%" 999
-										END
-										DEFAULT
-									END
-								END
-								326 BEGIN
-									READ_ASCII ("%fx_off%" + 0x14) "ITMSPL_effect_resource"
-									PATCH_MATCH "%ITMSPL_effect_resource%" WITH
-										"%DEST_RES%" BEGIN
-											WRITE_SHORT "%fx_off%" 999
-										END
-										DEFAULT
-									END
-								END
-								DEFAULT
-							END
-						END
-						// Clean up
-						LPF "DELETE_EFFECT" INT_VAR "check_globals" = 0 "header" = "%ab_ind%" "match_opcode" = 999 END
-					END
-				BUT_ONLY IF_EXISTS
+		WITH_TRA "cdtweaks\languages\english\gt_nwn_cure_cause_wounds.tra" "cdtweaks\languages\%LANGUAGE%\gt_nwn_cure_cause_wounds.tra" BEGIN
+			INCLUDE "cdtweaks\ardanis\functions.tph"
+			//
+			LAF "GT_CURE_CAUSE_WOUNDS#GET_STRREF" STR_VAR "string" = "Healed" RET "strref" END
+			//
+			LAF "GT_CURE_CAUSE_WOUNDS#MXSPLPRS" RET_ARRAY "gt_mxsplprs_array" END
+			//
+			ACTION_CLEAR_ARRAY "gt_cure_cause_wounds"
+			// res, ext, cap, strref, cure/cause => subspell res
+			ACTION_DEFINE_ASSOCIATIVE_ARRAY "gt_cure_cause_wounds" BEGIN
+				// cure wounds
+				"%CLERIC_CURE_LIGHT_WOUNDS%", "spl", 5, 0, 0 => "*"
+				"spin101", "spl", 5, 0, 0 => "*" // Cure Light Wounds (Bhaal power)
+				"%CLERIC_CURE_MODERATE_WOUNDS%", "spl", 10, 1, 0 => "*"
+				"%CLERIC_CURE_MEDIUM_WOUNDS%", "spl", 15, 2, 0 => "*"
+				"%CLERIC_CURE_SERIOUS_WOUNDS%", "spl", 20, 3, 0 => "*"
+				"%ULITHARID_CURE_SERIOUS_WOUNDS%", "spl", "-1", "-1", 0 => "*"
+				"%CLERIC_CURE_CRITICAL_WOUNDS%", "spl", 25, 4, 0 => "*"
+				"bdcaela3", "spl", "-1", "-1", 0 => "cdcaela3"
+				"%CLERIC_MASS_CURE%", "spl", "-1", 5, 0 => "*"
+				"%CLERIC_HEAL%", "spl", "-1", 6, 0 => "*"
+				"spwm168", "spl", "-1", "-1", 0 => "*" // Heal (wild magic)
+				"%HEAL_NO_VISUAL%", "spl", "-1", "-1", 0 => "*"
+				"%FINAL_HEAL%", "spl", "-1", "-1", 0 => "*"
+				"%PALADIN_LAY_ON_HANDS%", "spl", "-1", 200, 0 => "*"
+				"spin109", "spl", "-1", 200, 0 => "*" // Lay on Hands
+				// cause wounds
+				"%CLERIC_CAUSE_LIGHT_WOUNDS%" , "spl", 5, 100, 1 => "*"
+				"%CLERIC_CAUSE_MODERATE_WOUNDS%" , "spl", 10, 101, 1 => "*"
+				"%CLERIC_CAUSE_MEDIUM_WOUNDS%" , "spl", 15, 102, 1 => "*"
+				"serious" , "itm", 20, 103, 1 => "cdpr414"
+				"%CLERIC_CAUSE_SERIOUS_WOUNDS%" , "spl", 20, 103, 1 => "*"
+				"%BEHOLDER_CAUSE_SERIOUS_WOUNDS%" , "spl", "-1", "-1", 1 => "*"
+				"critical" , "itm", 25, 104, 1 => "cdpr510"
+				"%CLERIC_CAUSE_CRITICAL_WOUNDS%" , "spl", 25, 104, 1 => "*"
+				"%CLERIC_MASS_CAUSE_LIGHT_WOUNDS%" , "spl", "-1", 105, 1 => "*"
+				"harm" , "itm", "-1", "-1", 1 => "cdharm"
+				"%ENEMY_CLERIC_HARM%" , "spl", "-1", 106, 1 => "*"
+				"%CLERIC_HARM%" , "spl", "-1", 106, 1 => "*"
 			END
-		END
-	END
-
-	/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-	/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-	/////                                                  \\\\\
-	///// Cause Wounds                                     \\\\\
-	/////                                                  \\\\\
-	/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-	/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-
-	WITH_SCOPE BEGIN
-		LAF "GT_CURE_CAUSE_WOUNDS#GET_STRREF" STR_VAR "string" = "Healed" RET "strref" END
-		ACTION_DEFINE_ASSOCIATIVE_ARRAY "cause_wounds" BEGIN
-			"%CLERIC_CAUSE_LIGHT_WOUNDS%" , "spl" => "*"
-			"%CLERIC_CAUSE_MODERATE_WOUNDS%" , "spl" => "*"
-			"%CLERIC_CAUSE_MEDIUM_WOUNDS%" , "spl" => "*"
-			"serious" , "itm" => "cdpr414"
-			"%CLERIC_CAUSE_SERIOUS_WOUNDS%" , "spl" => "*"
-			"%BEHOLDER_CAUSE_SERIOUS_WOUNDS%" , "spl" => "*"
-			"critical" , "itm" => "cdpr510"
-			"%CLERIC_CAUSE_CRITICAL_WOUNDS%" , "spl" => "*"
-			"%CLERIC_MASS_CAUSE_LIGHT_WOUNDS%" , "spl" => "*"
-			"harm" , "itm" => "cdharm"
-			"%ENEMY_CLERIC_HARM%" , "spl" => "*"
-		END
-		ACTION_PHP_EACH "cause_wounds" AS "cause_wounds_res" => "cause_wounds_subspell_res" BEGIN
-			ACTION_IF (FILE_EXISTS_IN_GAME "%cause_wounds_res%.%cause_wounds_res_1%") BEGIN
-				ACTION_MATCH 1 WITH
-					GAME_IS "bgee bg2ee eet" WHEN ("%cause_wounds_res%" STR_EQ "%CLERIC_CAUSE_SERIOUS_WOUNDS%") OR ("%cause_wounds_res%" STR_EQ "%CLERIC_CAUSE_CRITICAL_WOUNDS%") OR ("%cause_wounds_res_0%" STR_EQ "%CLERIC_HARM%") BEGIN END
-					DEFAULT
-						ACTION_MATCH "%cause_wounds_subspell_res%" WITH
-							"\*" BEGIN
-								OUTER_PATCH_SAVE "cause_wounds_subspell_res" "%cause_wounds_res%" BEGIN
-									REPLACE_TEXTUALLY EVALUATE_REGEXP "^sp" "cd"
-								END
+			//////////////
+			ACTION_PHP_EACH "gt_cure_cause_wounds" AS "key" => "value" BEGIN
+				ACTION_IF ("%key%" STRING_COMPARE_CASE "spin109") OR (GAME_IS "bgee bg2ee eet") BEGIN
+					ACTION_IF (FILE_EXISTS_IN_GAME "%key%.%key_1%") BEGIN
+						ACTION_MATCH 1 WITH
+							GAME_IS "bgee bg2ee eet" WHEN ("%key%" STR_EQ "%CLERIC_CAUSE_SERIOUS_WOUNDS%") OR ("%key%" STR_EQ "%CLERIC_CAUSE_CRITICAL_WOUNDS%") OR ("%key%" STR_EQ "%CLERIC_HARM%") BEGIN
+								COPY_EXISTING "%key%.%key_1%" "override"
+									WRITE_LONG UNIDENTIFIED_DESC RESOLVE_STR_REF ((AT "%key_3%"))
+									WRITE_LONG 0x1E "%DEST_RES%" STR_EQ "%CLERIC_CAUSE_SERIOUS_WOUNDS%" ? THIS BOR BIT2 : THIS BOR BIT2 BOR BIT3 // not good / evil only
+								BUT_ONLY_IF_IT_CHANGES
+							END
+							GAME_IS "bgee bg2ee eet" WHEN ("%key%" STR_EQ "%CLERIC_HARM%") BEGIN
+								COPY_EXISTING "%key%.%key_1%" "override"
+									WRITE_LONG UNIDENTIFIED_DESC RESOLVE_STR_REF ((AT "%key_3%"))
+									WRITE_LONG 0x1E (THIS BOR BIT2 BOR BIT3) // evil only
+								BUT_ONLY_IF_IT_CHANGES
 							END
 							DEFAULT
-						END
-						ACTION_TO_LOWER "cause_wounds_subspell_res"
-						COPY_EXISTING "%cause_wounds_res%.%cause_wounds_res_1%" "override"
-							// 
-							LPF "DELETE_EFFECT" INT_VAR "check_globals" = 0 "check_headers" = (GAME_IS "iwdee" ? 1 : 0) "match_opcode" = 324 "match_parameter2" = 104 END
-							LPF "DELETE_EFFECT" INT_VAR "check_globals" = 0 "check_headers" = (GAME_IS "iwdee" ? 1 : 0) "match_opcode" = 324 "match_parameter2" = 55 END
-							// 
-							LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 12 "opcode" = 326 "parameter1" = 0 "parameter2" = 1 "dicenumber" = 0 "dicesize" = 0 "savingthrow" = 0 "savebonus" = 0 "special" = 0 STR_VAR "insert" = "first" "resource" = "%cause_wounds_subspell_res%" END
-							LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 326 "opcode" = 318 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%cause_wounds_subspell_res%" "resource" = "%DEST_RES%" END
-							// 
-							LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 318 "match_parameter2" = 1 "opcode" = 324 "parameter1" = IDS_OF_SYMBOL ("RACE" "GOLEM") "parameter2" = 104 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%DEST_RES%" END
-							LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 318 "match_parameter2" = 1 "opcode" = 324 "parameter1" = IDS_OF_SYMBOL ("RACE" "DEMONIC") "parameter2" = 104 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%DEST_RES%" END
-							LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 318 "match_parameter2" = 1 "opcode" = 324 "parameter1" = IDS_OF_SYMBOL ("RACE" "IMP") "parameter2" = 104 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%DEST_RES%" END
-							LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 318 "match_parameter2" = 1 "opcode" = 324 "parameter1" = IDS_OF_SYMBOL ("RACE" "MEPHIT") "parameter2" = 104 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%DEST_RES%" END
-							LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 318 "match_parameter2" = 1 "opcode" = 324 "parameter1" = IDS_OF_SYMBOL ("RACE" "ELEMENTAL") "parameter2" = 104 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%DEST_RES%" END
-							LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 318 "match_parameter2" = 1 "opcode" = 324 "parameter1" = IDS_OF_SYMBOL ("RACE" "SALAMANDER") "parameter2" = 104 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%DEST_RES%" END
-							LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 318 "match_parameter2" = 1 "opcode" = 324 "parameter1" = IDS_OF_SYMBOL ("RACE" "SOLAR") "parameter2" = 104 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%DEST_RES%" END
-							LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 318 "match_parameter2" = 1 "opcode" = 324 "parameter1" = IDS_OF_SYMBOL ("RACE" "ANTISOLAR") "parameter2" = 104 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%DEST_RES%" END
-							LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 318 "match_parameter2" = 1 "opcode" = 324 "parameter1" = IDS_OF_SYMBOL ("RACE" "PLANATAR") "parameter2" = 104 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%DEST_RES%" END
-							LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 318 "match_parameter2" = 1 "opcode" = 324 "parameter1" = IDS_OF_SYMBOL ("RACE" "DARKPLANATAR") "parameter2" = 104 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%DEST_RES%" END
-							LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 318 "match_parameter2" = 1 "opcode" = 324 "parameter1" = IDS_OF_SYMBOL ("RACE" "GENIE") "parameter2" = 104 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%DEST_RES%" END
-							// 
-							PATCH_MATCH "%DEST_EXT%" WITH
-								"ITM" BEGIN
-									INNER_ACTION BEGIN
-										CREATE "spl" "%cause_wounds_subspell_res%"
-										COPY_EXISTING "%cause_wounds_subspell_res%.spl" "override"
-											/* Header */
-											WRITE_SHORT 0x1C 2 // Priest
-											WRITE_BYTE 0x25 7 // NECROMANCER
-											WRITE_BYTE 0x27 13 // NON-COMBAT
-											WRITE_LONG 0x34 1 // Spell level
-											WRITE_LONG 0x64 0x72 // Extended Header offset
-											WRITE_SHORT 0x68 1 // Extended Header count
-											WRITE_LONG 0x6A 0x9A // Feature Block Table offset
-											INSERT_BYTES 0x72 0x28
-											/* Extended Header */
-											WRITE_BYTE 0x72 1 // Ability type
-											WRITE_SHORT 0x74 4 // Ability location: F13 (Special Ability)
-											WRITE_BYTE 0x7E 1 // Ability target
-											WRITE_SHORT 0x80 0x7FFF // Ability range
-											WRITE_SHORT 0x82 1 // Minimum level
-										BUT_ONLY
+								ACTION_MATCH "%value%" WITH
+									"\*" BEGIN
+										OUTER_PATCH_SAVE "value" "%key%" BEGIN
+											REPLACE_TEXTUALLY CASE_INSENSITIVE EVALUATE_REGEXP "^sp" "cd"
+										END
 									END
-									LPF "ITEM_EFFECT_TO_SPELL" INT_VAR "type" = 99 STR_VAR "new_itm_spl" = "%cause_wounds_subspell_res%.spl" END
+									DEFAULT
 								END
-								DEFAULT
-									INNER_ACTION BEGIN
-										COPY_EXISTING "%cause_wounds_res%.%cause_wounds_res_1%" "override\%cause_wounds_subspell_res%.spl"
-									END
-							END
-						BUT_ONLY
-						COPY_EXISTING "%cause_wounds_subspell_res%.spl" "override"
-							/* Header */
-							WRITE_LONG NAME1 "-1"
-							WRITE_LONG NAME2 "-1"
-							WRITE_LONG UNIDENTIFIED_DESC "-1"
-							WRITE_LONG DESC "-1"
-							WRITE_SHORT 0x22 0 // Casting animation
-							/* Abilities */
-							GET_OFFSET_ARRAY "ab_array" SPL_V10_HEADERS
-							PHP_EACH "ab_array" AS "ab_ind" => "ab_off" BEGIN
-								WRITE_SHORT ("%ab_off%" + 0x12) 0 // Casting speed
-								LOOKUP_IDS_SYMBOL_OF_INT "projectile_res" "PROJECTL" ((SHORT_AT ("%ab_off%" + 0x26)) - 1)
-								PATCH_IF (FILE_EXISTS_IN_GAME "%projectile_res%.pro") BEGIN
-									INNER_PATCH_FILE "%projectile_res%.pro" BEGIN
-										READ_SHORT 0x8 "projectile_type"
-									END
-								END ELSE BEGIN
-									SET "projectile_type" = 2 // Single target
-								END
-								WRITE_SHORT ("%ab_off%" + 0x26) IDS_OF_SYMBOL ("MISSILE" "None")
-								/* Feature block(s) */
-								GET_OFFSET_ARRAY2 "fx_array" "%ab_off%" SPL_V10_HEAD_EFFECTS
-								PHP_EACH "fx_array" AS "fx_ind" => "fx_off" BEGIN
-									WRITE_BYTE ("%fx_off%" + 0x3) ("%projectile_type%" == 3 ? 0 : THIS) // Power
-									WRITE_BYTE ("%fx_off%" + 0xD) (THIS == BIT0 ? BIT0 + BIT1 : THIS) // Resist / Dispel
-									WRITE_LONG ("%fx_off%" + 0x24) 0 // Savetype
-									WRITE_LONG ("%fx_off%" + 0x28) 0 // Savebonus
-									PATCH_MATCH SHORT_AT "%fx_off%" WITH
-										12 BEGIN // Damage
-											WRITE_SHORT ("%fx_off%" + 0x0) 17 // Current HP bonus
-											WRITE_LONG ("%fx_off%" + 0x4) (THIS == 1 ? 100 : THIS) // Amount
-											WRITE_SHORT ("%fx_off%" + 0x8) (THIS == 1 ? 2 : THIS) // Modifier type
-											WRITE_SHORT ("%fx_off%" + 0xA) 0 // Heal normally
+								//
+								ACTION_TO_LOWER "value"
+								COPY_EXISTING "%key%.%key_1%" "override"
+									// alignment
+									PATCH_MATCH "%DEST_RES%" WITH
+										"%CLERIC_CAUSE_LIGHT_WOUNDS%" "%CLERIC_CAUSE_MODERATE_WOUNDS%" "%CLERIC_CAUSE_MEDIUM_WOUNDS%" "%CLERIC_CAUSE_SERIOUS_WOUNDS%" BEGIN
+											WRITE_LONG 0x1E (THIS BOR BIT2) // not good
 										END
-										318 324 BEGIN
-											READ_ASCII ("%fx_off%" + 0x14) "ITMSPL_effect_resource"
-											PATCH_MATCH "%ITMSPL_effect_resource%" WITH
-												"%cause_wounds_res%" BEGIN
-													WRITE_SHORT "%fx_off%" 999
-												END
-												DEFAULT
-											END
+										"%CLERIC_CAUSE_CRITICAL_WOUNDS%" "%CLERIC_MASS_CAUSE_LIGHT_WOUNDS%" "%CLERIC_HARM%" BEGIN
+											WRITE_LONG 0x1E (THIS BOR BIT2 BOR BIT3) // evil only
 										END
-										326 BEGIN
-											READ_ASCII ("%fx_off%" + 0x14) "ITMSPL_effect_resource"
-											PATCH_MATCH "%ITMSPL_effect_resource%" WITH
-												"%DEST_RES%" BEGIN
-													WRITE_SHORT "%fx_off%" 999
-												END
-												DEFAULT
-											END
-										END
-										61 WHEN GAME_IS "bgee bg2ee eet" BEGIN // Creature RGB color fade
-											WRITE_LONG ("%fx_off%" + 0x4) (60 << 8) + (120 << 16) + (240 << 24) // Color
-											WRITE_LONG ("%fx_off%" + 0x8) (25 << 16) // Fade speed
-										END
-										215 WHEN GAME_IS "bgee bg2ee eet" BEGIN // Play visual effect
-											WRITE_LONG ("%fx_off%" + 0x8) 1 // Play where?: Over target (attached)
-											WRITE_ASCII ("%fx_off%" + 0x14) "SPHEALIN"
-										END
-										61 WHEN GAME_IS "iwdee" BEGIN // Creature RGB color fade
-											WRITE_LONG ("%fx_off%" + 0x4) (0 << 8) + (126 << 16) + (255 << 24) // Color
-											WRITE_LONG ("%fx_off%" + 0x8) (30 << 16) // Fade speed
-										END
-										215 WHEN GAME_IS "bgee bg2ee eet" BEGIN // Play visual effect
-											WRITE_LONG ("%fx_off%" + 0x8) 0 // Play where?: Over target (unattached)
-											WRITE_ASCII ("%fx_off%" + 0x14) "CIWOUNH"
+										"%CLERIC_CURE_CRITICAL_WOUNDS%" "%CLERIC_MASS_CURE%" "%CLERIC_HEAL%" BEGIN
+											WRITE_LONG 0x1E (THIS BOR BIT1) // good only
 										END
 										DEFAULT
 									END
+									//
+									LPF "DELETE_EFFECT" INT_VAR "check_globals" = 0 "check_headers" = (GAME_IS "iwdee" ? 1 : 0) "match_opcode" = 324 "match_parameter2" = 104 END
+									LPF "DELETE_EFFECT" INT_VAR "check_globals" = 0 "check_headers" = (GAME_IS "iwdee" ? 1 : 0) "match_opcode" = 324 "match_parameter2" = 55 END
+									// use op146*p2=1 to preserve caster level (op326 ignores it)
+									LPF "CLONE_EFFECT" INT_VAR "multi_match" = 1 "check_globals" = 0 "match_opcode" = "%key_4%" == 0 ? 17 : 12 "resist_dispel" = "%key_4%" == 0 ? BIT0 : BIT1 "opcode" = 146 "parameter1" = 0 "parameter2" = 1 "dicenumber" = 0 "dicesize" = 0 "special" = 0 "probability1" = 100 "probability2" = 0 "savingthrow" = ("%DEST_RES%" STRING_MATCHES_REGEXP "^\(%CLERIC_HEAL%\|spwm168\|%HEAL_NO_VISUAL%\|%FINAL_HEAL%\)$") == 0 ? BIT0 : 0 STR_VAR "insert" = "first" "resource" = "%value%" END
+									//LPF "CLONE_EFFECT" INT_VAR "multi_match" = 1 "check_globals" = 0 "match_opcode" = "%key_4%" == 0 ? 17 : 12 "resist_dispel" = "%key_4%" == 0 ? BIT0 : BIT1 "opcode" = 326 "parameter1" = 0 "parameter2" = 1 "dicenumber" = 0 "dicesize" = 0 "special" = 0 "probability1" = 100 "probability2" = 0 "savingthrow" = ("%DEST_RES%" STRING_MATCHES_REGEXP "^\(%CLERIC_HEAL%\|spwm168\|%HEAL_NO_VISUAL%\|%FINAL_HEAL%\)$") == 0 ? BIT0 : 0 STR_VAR "insert" = "first" "resource" = "%value%" END
+									LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 146 "resist_dispel" = "%key_4%" == 0 ? BIT1 : BIT0 "opcode" = 318 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%value%" "resource" = "%DEST_RES%" END
+									// 
+									LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 318 "match_parameter2" = 1 "opcode" = 324 "parameter1" = IDS_OF_SYMBOL ("RACE" "GOLEM") "parameter2" = 104 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%DEST_RES%" END
+									LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 318 "match_parameter2" = 1 "opcode" = 324 "parameter1" = IDS_OF_SYMBOL ("RACE" "DEMONIC") "parameter2" = 104 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%DEST_RES%" END
+									LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 318 "match_parameter2" = 1 "opcode" = 324 "parameter1" = IDS_OF_SYMBOL ("RACE" "IMP") "parameter2" = 104 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%DEST_RES%" END
+									LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 318 "match_parameter2" = 1 "opcode" = 324 "parameter1" = IDS_OF_SYMBOL ("RACE" "MEPHIT") "parameter2" = 104 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%DEST_RES%" END
+									LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 318 "match_parameter2" = 1 "opcode" = 324 "parameter1" = IDS_OF_SYMBOL ("RACE" "ELEMENTAL") "parameter2" = 104 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%DEST_RES%" END
+									LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 318 "match_parameter2" = 1 "opcode" = 324 "parameter1" = IDS_OF_SYMBOL ("RACE" "SALAMANDER") "parameter2" = 104 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%DEST_RES%" END
+									LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 318 "match_parameter2" = 1 "opcode" = 324 "parameter1" = IDS_OF_SYMBOL ("RACE" "SOLAR") "parameter2" = 104 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%DEST_RES%" END
+									LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 318 "match_parameter2" = 1 "opcode" = 324 "parameter1" = IDS_OF_SYMBOL ("RACE" "ANTISOLAR") "parameter2" = 104 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%DEST_RES%" END
+									LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 318 "match_parameter2" = 1 "opcode" = 324 "parameter1" = IDS_OF_SYMBOL ("RACE" "PLANATAR") "parameter2" = 104 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%DEST_RES%" END
+									LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 318 "match_parameter2" = 1 "opcode" = 324 "parameter1" = IDS_OF_SYMBOL ("RACE" "DARKPLANATAR") "parameter2" = 104 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%DEST_RES%" END
+									LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "match_opcode" = 318 "match_parameter2" = 1 "opcode" = 324 "parameter1" = IDS_OF_SYMBOL ("RACE" "GENIE") "parameter2" = 104 "timing" = 0 "duration" = 0 STR_VAR "insert" = "below" "match_resource" = "%DEST_RES%" END
+									//
+									PATCH_WITH_SCOPE BEGIN
+										PATCH_IF ("%key_2%" != "-1" OR "%key_3%" != "-1") AND ("%DEST_EXT%" STRING_COMPARE_CASE "itm") BEGIN
+											READ_LONG 0x34 "spell_level"
+											WRITE_LONG UNIDENTIFIED_DESC RESOLVE_STR_REF ((AT "%key_3%"))
+											//
+											PATCH_IF "%key_2%" != "-1" BEGIN
+												LPF "ALTER_EFFECT" INT_VAR "header" = 0 "match_opcode" = "%key_4%" == 0 ? 17 : 12 "parameter1" = $"gt_mxsplprs_array"("%spell_level%") "dicenumber" = "%key_2%" / 5 "dicesize" = 8 END
+												//
+												FOR ("i" = $"gt_mxsplprs_array"("%spell_level%") + 1 ; "%i%" <= "%key_2%" ; "i" += 1) BEGIN
+													LPF ~ADD_SPELL_HEADER~ INT_VAR "copy_header" = 1 END
+													LPF "ALTER_SPELL_HEADER" INT_VAR "header" = SHORT_AT 0x68 "min_level" = "%i%" END
+													//
+													LPF "ALTER_EFFECT" INT_VAR "header" = SHORT_AT 0x68 - 1 "match_opcode" = "%key_4%" == 0 ? 17 : 12 "parameter1" = "%i%" "dicenumber" = "%key_2%" / 5 "dicesize" = 8 END
+												END
+												//
+												PATCH_MATCH "%DEST_RES%" WITH
+													"%ENEMY_CLERIC_HARM%" WHEN GAME_IS "bgee bg2ee eet" BEGIN
+														LPF "ALTER_EFFECT" INT_VAR "match_opcode" = 12 "probability2" = 75 "savingthrow" = BIT0 END
+														LPF "CLONE_EFFECT" INT_VAR "multi_match" = 1 "match_opcode" = 12 "match_probability2" = 75 "probability1" = 74 "probability2" = 50 "parameter1" = 2 END
+														LPF "CLONE_EFFECT" INT_VAR "multi_match" = 1 "match_opcode" = 12 "match_probability2" = 50 "probability1" = 49 "probability2" = 25 "parameter1" = 3 END
+														LPF "CLONE_EFFECT" INT_VAR "multi_match" = 1 "match_opcode" = 12 "match_probability2" = 25 "probability1" = 24 "probability2" = 0 "parameter1" = 4 END
+													END
+													DEFAULT
+												END
+											END
+										END
+									END
+									//
+									PATCH_WITH_SCOPE BEGIN
+										PATCH_MATCH "%DEST_EXT%" WITH
+											"ITM" BEGIN
+												INNER_ACTION BEGIN
+													CREATE "spl" "%value%"
+													COPY_EXISTING "%value%.spl" "override"
+														/* Header */
+														WRITE_SHORT 0x1C 2 // Priest
+														WRITE_BYTE 0x25 7 // NECROMANCER
+														WRITE_BYTE 0x27 13 // NON-COMBAT
+														PATCH_MATCH "%DEST_RES%" WITH
+															"cdpr414" BEGIN
+																WRITE_LONG 0x34 4 // Spell level
+															END
+															"cdpr510" BEGIN
+																WRITE_LONG 0x34 5 // Spell level
+															END
+															DEFAULT
+																WRITE_LONG 0x34 1 // Spell level
+														END
+														WRITE_LONG 0x64 0x72 // Extended Header offset
+														WRITE_SHORT 0x68 1 // Extended Header count
+														WRITE_LONG 0x6A 0x9A // Feature Block Table offset
+														INSERT_BYTES 0x72 0x28
+														/* Extended Header */
+														WRITE_BYTE 0x72 1 // Ability type
+														WRITE_SHORT 0x74 4 // Ability location: F13 (Special Ability)
+														WRITE_BYTE 0x7E 1 // Ability target
+														WRITE_SHORT 0x80 0x7FFF // Ability range
+														WRITE_SHORT 0x82 1 // Minimum level
+														WRITE_SHORT 0x98 1 // missile type (none)
+													BUT_ONLY
+												END
+												LPF "ITEM_EFFECT_TO_SPELL" INT_VAR "type" = 99 STR_VAR "new_itm_spl" = "%value%.spl" END
+												//
+												PATCH_MATCH "%key%" WITH
+													"serious" "critical" BEGIN
+														// we need two subspells in these cases
+														INNER_ACTION BEGIN
+															COPY_EXISTING "%value%.spl" "override\%value%b.spl"
+																/* Header */
+																WRITE_BYTE 0x27 10 // OFFENSIVEDAMAGE
+															BUT_ONLY
+														END
+														//
+														LPF "DELETE_ITEM_EFFECT" INT_VAR "opcode_to_delete" = "-1" END
+														LPF "ADD_ITEM_EFFECT" INT_VAR "type" = 1 "opcode" = 146 "parameter2" = 1 "target" = 2 STR_VAR "resource" = "%value%b" END
+														//
+														INNER_ACTION BEGIN
+															COPY_EXISTING "%value%.spl" "override" "%value%b.spl" "override"
+																READ_LONG 0x34 "spell_level"
+																//
+																LPF "ALTER_EFFECT" INT_VAR "header" = 0 "match_opcode" = 12 "parameter1" = $"gt_mxsplprs_array"("%spell_level%") "dicenumber" = "%key_2%" / 5 "dicesize" = 8 END
+																//
+																FOR ("i" = $"gt_mxsplprs_array"("%spell_level%") + 1 ; "%i%" <= "%key_2%" ; "i" += 1) BEGIN
+																	LPF ~ADD_SPELL_HEADER~ INT_VAR "copy_header" = 1 END
+																	LPF "ALTER_SPELL_HEADER" INT_VAR "header" = SHORT_AT 0x68 "min_level" = "%i%" END
+																	//
+																	LPF "ALTER_EFFECT" INT_VAR "header" = SHORT_AT 0x68 - 1 "match_opcode" = 12 "parameter1" = "%i%" "dicenumber" = "%key_2%" / 5 "dicesize" = 8 END
+																END
+																//
+																LPF "ALTER_EFFECT" INT_VAR "silent" = 1 "match_opcode" = 324 "opcode" = 318 STR_VAR "resource" = "%DEST_RES%" END
+															BUT_ONLY_IF_IT_CHANGES
+														END
+													END
+													"harm" BEGIN
+														LPF "ALTER_EFFECT" INT_VAR "match_opcode" = 12 "probability2" = 75 "savingthrow" = BIT0 END
+														LPF "CLONE_EFFECT" INT_VAR "multi_match" = 1 "match_opcode" = 12 "match_probability2" = 75 "probability1" = 74 "probability2" = 50 "parameter1" = 2 END
+														LPF "CLONE_EFFECT" INT_VAR "multi_match" = 1 "match_opcode" = 12 "match_probability2" = 50 "probability1" = 49 "probability2" = 25 "parameter1" = 3 END
+														LPF "CLONE_EFFECT" INT_VAR "multi_match" = 1 "match_opcode" = 12 "match_probability2" = 25 "probability1" = 24 "probability2" = 0 "parameter1" = 4 END
+													END
+													DEFAULT
+												END
+											END
+											DEFAULT
+										END
+									END
+								BUT_ONLY
+								// Make the subspell
+								ACTION_IF "%key_1%" STR_EQ "spl" BEGIN
+									COPY_EXISTING "%key%.%key_1%" "override\%value%.spl"
 								END
-								// Feedback string
-								LPF "CLONE_EFFECT" INT_VAR "check_globals" = 0 "header" = "%ab_ind%" "match_opcode" = 17 "opcode" = 139 "parameter1" = "%strref%" "parameter2" = 0 "dicenumber" = 0 "dicesize" = 0 STR_VAR "insert" = "last" END
-								// Clean up
-								LPF "DELETE_EFFECT" INT_VAR "check_globals" = 0 "header" = "%ab_ind%" "match_opcode" = 999 END
-							END
-						BUT_ONLY
+								//
+								COPY_EXISTING "%value%.spl" "override"
+									/* Header */
+									WRITE_LONG NAME1 "-1"
+									WRITE_LONG NAME2 "-1"
+									WRITE_LONG UNIDENTIFIED_DESC "-1"
+									WRITE_LONG DESC "-1"
+									WRITE_SHORT 0x22 0 // Casting animation
+									WRITE_ASCII 0x10 "" #8 // blank casting sound
+									WRITE_BYTE 0x27 ("%key_4%" == 0 ? 10 : 13) // Secondary type: OFFENSIVEDAMAGE / NON-COMBAT
+									/* Abilities */
+									GET_OFFSET_ARRAY "ab_array" SPL_V10_HEADERS
+									PHP_EACH "ab_array" AS "ab_ind" => "ab_off" BEGIN
+										WRITE_SHORT ("%ab_off%" + 0x12) 0 // Casting speed
+										LOOKUP_IDS_SYMBOL_OF_INT "projectile_res" "PROJECTL" ((SHORT_AT ("%ab_off%" + 0x26)) - 1)
+										PATCH_IF (FILE_EXISTS_IN_GAME "%projectile_res%.pro") BEGIN
+											INNER_PATCH_FILE "%projectile_res%.pro" BEGIN
+												READ_SHORT 0x8 "projectile_type"
+											END
+										END ELSE BEGIN
+											SET "projectile_type" = 2 // Single target
+										END
+										WRITE_SHORT ("%ab_off%" + 0x26) IDS_OF_SYMBOL ("MISSILE" "None")
+										/* Feature block(s) */
+										LPF "CLONE_EFFECT" INT_VAR "silent" = 1 "check_globals" = 0 "check_headers" = "%key_4%" == 0 ? 1 : 0 "header" = "%ab_ind%" "match_opcode" = 17 "opcode" = 31 "parameter1" = 0 "parameter2" = 1 "timing" = 0 "duration" = 0 "special" = 0 STR_VAR "insert" = "first" "resource" = "" END // Magic damage resistance bonus (set to 0)
+										//
+										GET_OFFSET_ARRAY2 "fx_array" "%ab_off%" SPL_V10_HEAD_EFFECTS
+										PHP_EACH "fx_array" AS "fx_ind" => "fx_off" BEGIN
+											WRITE_BYTE ("%fx_off%" + 0x3) ("%projectile_type%" == 3 ? 0 : THIS) // Power
+											WRITE_BYTE ("%fx_off%" + 0xD) (THIS == BIT0 ? BIT0 + BIT1 : THIS) // Resist / Dispel
+											PATCH_MATCH SHORT_AT "%fx_off%" WITH
+												11 75 77 79 81 164 240 321 BEGIN // ancillary effects
+													WRITE_SHORT "%fx_off%" 999
+												END
+												146 BEGIN
+													READ_ASCII ("%fx_off%" + 0x14) "removal_subspl" // EE fixpack
+													PATCH_MATCH "%removal_subspl%" WITH
+														"#cure[a-z][a-z][a-z]" BEGIN
+															WRITE_SHORT "%fx_off%" 999
+														END
+														DEFAULT
+													END
+												END
+												12 BEGIN // Damage
+													WRITE_SHORT ("%fx_off%" + 0x0) 17 // Current HP bonus
+													WRITE_LONG ("%fx_off%" + 0x4) (THIS == 1 ? 100 : THIS) // Amount
+													WRITE_SHORT ("%fx_off%" + 0x8) (THIS == 1 ? 2 : THIS) // Modifier type
+													WRITE_SHORT ("%fx_off%" + 0xA) 0 // Heal normally
+													WRITE_LONG ("%fx_off%" + 0x2C) 0 // blank special
+												END
+												17 BEGIN // Current HP bonus
+													WRITE_SHORT ("%fx_off%" + 0x0) 12 // Damage
+													PATCH_IF (SLONG_AT ("%fx_off%" + 0x4) == 100) AND (SHORT_AT ("%fx_off%" + 0x8) == 2) BEGIN
+														WRITE_LONG ("%fx_off%" + 0x4) 1 // Amount
+														WRITE_SHORT ("%fx_off%" + 0x8) 1 // Mode: Set to value
+														WRITE_BYTE ("%fx_off%" + 0x13) 75 // probability2
+													END ELSE BEGIN
+														WRITE_SHORT ("%fx_off%" + 0x8) (THIS == 2 ? 3 : THIS) // Mode
+														WRITE_LONG ("%fx_off%" + 0x24) (THIS BOR BIT0) // save vs. spell
+														WRITE_LONG ("%fx_off%" + 0x2C) (THIS BOR BIT8) // save for half damage
+													END
+													WRITE_SHORT ("%fx_off%" + 0xA) (IDS_OF_SYMBOL ("DMGTYPE" "MAGIC") >> 16)
+													WRITE_LONG ("%fx_off%" + 0x24) ("%projectile_type%" == 3 ? THIS | BIT24 : THIS)
+												END
+												// cosmetic effects (cause wounds)
+												61 WHEN GAME_IS "bgee bg2ee eet" AND "%key_4%" == 0 BEGIN // Creature RGB color fade
+													WRITE_LONG ("%fx_off%" + 0x4) (120 << 8) + (30 << 16) + (0 << 24) // Color
+													WRITE_LONG ("%fx_off%" + 0x8) (25 << 16) // Fade speed
+												END
+												215 WHEN GAME_IS "bgee bg2ee eet" AND "%key_4%" == 0 BEGIN // Play visual effect
+													WRITE_LONG ("%fx_off%" + 0x8) 0 // Play where?: Over target (unattached)
+													WRITE_ASCII ("%fx_off%" + 0x14) "SPCAUSEW" #8
+												END
+												61 WHEN GAME_IS "iwdee" AND "%key_4%" == 0 BEGIN // Creature RGB color fade
+													WRITE_LONG ("%fx_off%" + 0x4) (255 << 8) + (0 << 16) + (0 << 24) // Color
+													WRITE_LONG ("%fx_off%" + 0x8) (30 << 16) // Fade speed
+												END
+												215 WHEN GAME_IS "iwdee" AND "%key_4%" == 0 BEGIN // Play visual effect
+													WRITE_LONG ("%fx_off%" + 0x8) 0 // Play where?: Over target (unattached)
+													WRITE_ASCII ("%fx_off%" + 0x14) "CLDAMAH" #8
+												END
+												// cosmetic effects (cure wounds)
+												61 WHEN GAME_IS "bgee bg2ee eet" AND "%key_4%" == 1 BEGIN // Creature RGB color fade
+													WRITE_LONG ("%fx_off%" + 0x4) (60 << 8) + (120 << 16) + (240 << 24) // Color
+													WRITE_LONG ("%fx_off%" + 0x8) (25 << 16) // Fade speed
+												END
+												215 WHEN GAME_IS "bgee bg2ee eet" AND "%key_4%" == 1 BEGIN // Play visual effect
+													WRITE_LONG ("%fx_off%" + 0x8) 1 // Play where?: Over target (attached)
+													WRITE_ASCII ("%fx_off%" + 0x14) "SPHEALIN" #8
+												END
+												61 WHEN GAME_IS "iwdee" AND "%key_4%" == 1 BEGIN // Creature RGB color fade
+													WRITE_LONG ("%fx_off%" + 0x4) (0 << 8) + (126 << 16) + (255 << 24) // Color
+													WRITE_LONG ("%fx_off%" + 0x8) (30 << 16) // Fade speed
+												END
+												215 WHEN GAME_IS "iwdee" AND "%key_4%" == 1 BEGIN // Play visual effect
+													WRITE_LONG ("%fx_off%" + 0x8) 0 // Play where?: Over target (unattached)
+													WRITE_ASCII ("%fx_off%" + 0x14) "CLWOUNH" #8
+												END
+												// feedback string
+												139 WHEN "%key_4%" == 0 BEGIN
+													LPF "GT_CURE_CAUSE_WOUNDS#GET_STRING" INT_VAR "strref" = SLONG_AT ("%fx_off%" + 0x4) RET "string" END
+													PATCH_MATCH "%string%" WITH
+														"Healed" BEGIN
+															WRITE_SHORT "%fx_off%" 999
+														END
+														DEFAULT
+													END
+												END
+												139 WHEN "%key_4%" == 1 BEGIN
+													LPF "GT_CURE_CAUSE_WOUNDS#GET_STRING" INT_VAR "strref" = SLONG_AT ("%fx_off%" + 0x4) RET "string" END
+													PATCH_MATCH "%string%" WITH
+														"Hit Points reduced by Harm" BEGIN
+															WRITE_SHORT "%fx_off%" 999
+														END
+														DEFAULT
+													END
+												END
+												//
+												318 324 BEGIN
+													READ_ASCII ("%fx_off%" + 0x14) "ITMSPL_effect_resource"
+													PATCH_MATCH "%ITMSPL_effect_resource%" WITH
+														"%key%" BEGIN
+															WRITE_SHORT "%fx_off%" 999
+														END
+														DEFAULT
+													END
+												END
+												//
+												146 BEGIN
+													READ_ASCII ("%fx_off%" + 0x14) "ITMSPL_effect_resource"
+													PATCH_MATCH "%ITMSPL_effect_resource%" WITH
+														"%DEST_RES%" BEGIN
+															WRITE_SHORT "%fx_off%" 999
+														END
+														DEFAULT
+													END
+												END
+												DEFAULT
+											END
+										END
+										// Harm
+										LPF "CLONE_EFFECT" INT_VAR "multi_match" = 1 "silent" = 1 "check_globals" = 0 "header" = "%ab_ind%" "match_opcode" = 12 "parameter1" = 2 "match_parameter2" = IDS_OF_SYMBOL ("dmgtype" "magic") + 1 "probability1" = 74 "probability2" = 50 END
+										LPF "CLONE_EFFECT" INT_VAR "multi_match" = 1 "silent" = 1 "check_globals" = 0 "header" = "%ab_ind%" "match_opcode" = 12 "parameter1" = 3 "match_parameter2" = IDS_OF_SYMBOL ("dmgtype" "magic") + 1 "probability1" = 49 "probability2" = 25 END
+										LPF "CLONE_EFFECT" INT_VAR "multi_match" = 1 "silent" = 1 "check_globals" = 0 "header" = "%ab_ind%" "match_opcode" = 12 "parameter1" = 4 "match_parameter2" = IDS_OF_SYMBOL ("dmgtype" "magic") + 1 "probability1" = 24 "probability2" = 0 END
+										// Feedback string if healing subspell
+										LPF "CLONE_EFFECT" INT_VAR "silent" = 1 "check_globals" = 0 "check_headers" = "%key_4%" == 1 ? 1 : 0 "header" = "%ab_ind%" "match_opcode" = 17 "opcode" = 139 "parameter1" = "%strref%" "parameter2" = 0 "dicenumber" = 0 "dicesize" = 0 STR_VAR "insert" = "last" END
+										// clear save type if healing subspell
+										LPF "ALTER_EFFECT" INT_VAR "silent" = 1 "check_globals" = 0 "check_headers" = "%key_4%" == 1 ? 1 : 0 "header" = "%ab_ind%" "savingthrow" = 0 END
+										// GENERAL!=UNDEAD are unaffected
+										LPF "CLONE_EFFECT" INT_VAR "multi_match" = 1 "check_globals" = 0 "header" = "%ab_ind%" "match_opcode" = "%key_4%" == 0 ? 17 : 12 "opcode" = 318 "parameter1" = 0 "parameter2" = 2 "probability1" = 100 "probability2" = 0 "special" = 0 STR_VAR "resource" = "%DEST_RES%" "insert" = "first" END
+										// Clean up
+										LPF "DELETE_EFFECT" INT_VAR "check_globals" = 0 "header" = "%ab_ind%" "match_opcode" = 999 END
+									END
+								BUT_ONLY
+						END
+					END
 				END
 			END
 		END

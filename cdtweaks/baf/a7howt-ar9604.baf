@@ -1,0 +1,10 @@
+IF
+  Global("A7_GAME_OVER","MYAREA",0)
+  !Global("BELHIEFET_DEAD","GLOBAL",0)
+  !Global("Join_Posse","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("A7_GAME_OVER","MYAREA",1)
+    SetGlobal("Join_Posse","GLOBAL",0)
+    Continue()
+END

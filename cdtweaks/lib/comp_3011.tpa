@@ -19,9 +19,9 @@ ACTION_PHP_EACH JOINABLE_NPC_ARRAY AS file => dv BEGIN
   ACTION_IF IS_AN_INT dv BEGIN // non-joinable NPC
 
     COPY_EXISTING ~%file%~ ~override~
-      LAUNCH_PATCH_MACRO ~max_hp_creatures~ // contains rest of patch
+      LPF ~max_hp_creatures~ END // contains rest of patch
       BUT_ONLY
-      
+
   END
 
-END  
+END

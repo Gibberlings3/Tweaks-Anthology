@@ -22,11 +22,14 @@
 @121 = ~Borsa delle Gemme Ciano~
 @122 = ~Borsa delle Gemme Oro-Rossa~
 @123 = ~Borsa delle Gemme Argentea~
-@124 = ~Borsa delle Gemme Fuoco Oscuro~
+@124 = ~Borsa delle Gemme Fuoco Scuro~
 @125 = ~Borsa delle Gemme Verdemare~
 @126 = ~Borsa delle Gemme Drow~
 @127 = ~Borsa delle Gemme Smeraldo~
-@128 = ~Borsa delle Gemme Oscura~
+@128 = ~Borsa delle Gemme Scura~
+
+
+
 @200 = ~Astuccio delle Pergamene Antico~
 @201 = ~Astuccio delle Pergamene Nero-Verde~
 @202 = ~Astuccio delle Pergamene Verde~
@@ -48,11 +51,12 @@
 @218 = ~Astuccio delle Pergamene Bronzeo~
 @219 = ~Vecchio Astuccio delle Pergamene~
 @220 = ~Astuccio delle Pergamene Argenteo~ 
-@221 = ~Astuccio delle Pergamene Fuoco Oscuro~ 
+@221 = ~Astuccio delle Pergamene Fuoco Scuro~ 
 @222 = ~Astuccio delle Pergamene Verdemare~ 
 @223 = ~Astuccio delle Pergamene Drow~ 
 @224 = ~Astuccio delle Pergamene Smeraldo~
-@225 = ~Astuccio delle Pergamene Oscuro~
+@225 = ~Astuccio delle Pergamene Scuro~
+
 @240 = ~Sacca di Libri Rossa~
 @241 = ~Sacca di Libri Arancione~
 @242 = ~Sacca di Libri Dorata~
@@ -62,6 +66,7 @@
 @246 = ~Sacca di Libri Indaco~
 @247 = ~Sacca di Libri Violetta~
 @248 = ~Sacca di Libri Nera~
+
 @260 = ~Tubetto delle Pergamena Rossa~
 @261 = ~Tubetto delle Pergamena Ramata~
 @262 = ~Tubetto delle Pergamena Dorata~
@@ -71,6 +76,8 @@
 @266 = ~Tubetto delle Pergamena Indaco~
 @267 = ~Tubetto delle Pergamena Violetta~
 @268 = ~Tubetto delle Pergamena Nera~
+
+
 @300 = ~Borsa Conservante Blu~
 @301 = ~Borsa Conservante Malachite~
 @302 = ~Borsa Conservante Verde~
@@ -107,12 +114,15 @@
 @333 = ~Borsa Conservante Argento-Rosso~
 @334 = ~Borsa Conservante Argento-Oro~
 @335 = ~Borsa Conservante Blu-Viola~
+@336 = ~Borsa Conservante Blu-Argento~
 @337 = ~Borsa Conservante Argentea~ 
-@338 = ~Borsa Conservante Fuoco Oscuro~ 
+@338 = ~Borsa Conservante Fuoco Scuro~ 
 @339 = ~Borsa Conservante Verdemare~ 
 @340 = ~Borsa Conservante Drow~ 
 @341 = ~Borsa Conservante Smeraldo~ 
-@342 = ~Borsa Conservante Oscura~
+@342 = ~Borsa Conservante Scura~
+
+
 @400 = ~Cintura per Munizioni di Pelle~
 @401 = ~Cintura per Munizioni Rosso-Nera~
 @402 = ~Cintura per Munizioni Argento-Nera~
@@ -129,10 +139,11 @@
 @413 = ~Cintura per Munizioni Bianco-Oro~
 @414 = ~Cintura per Munizioni Rustica~ 
 @415 = ~Cintura per Munizioni Argentea~ 
-@416 = ~Cintura per Munizioni Fuoco Oscuro~ 
+@416 = ~Cintura per Munizioni Fuoco Scuro~ 
 @417 = ~Cintura per Munizioni Verdemare~ 
 @418 = ~Cintura per Munizioni Drow~ 
 @419 = ~Cintura per Munizioni Smeraldo~ 
+
 @420 = ~Cintura per Munizioni di Ferro Rossa~
 @421 = ~Cintura per Munizioni di Ferro Bronzea~
 @422 = ~Cintura per Munizioni di Ferro Dorata~
@@ -142,7 +153,9 @@
 @426 = ~Cintura per Munizioni di Ferro Indaco~
 @427 = ~Cintura per Munizioni di Ferro Violetta~
 @428 = ~Cintura per Munizioni di Ferro Nera~
-@429 = ~Cintura per Munizioni Oscura~
+@429 = ~Cintura per Munizioni Scura~
+
+
 @460 = ~Faretra Rossa~
 @461 = ~Faretra Marrone~
 @462 = ~Faretra Dorata~
@@ -152,6 +165,8 @@
 @466 = ~Faretra Indaco~
 @467 = ~Faretra Violetta~
 @468 = ~Faretra Nera~
+
+
 @480 = ~Faretra per Quadrelli Rossa~
 @481 = ~Faretra per Quadrelli Marrone~
 @482 = ~Faretra per Quadrelli Dorata~
@@ -161,6 +176,8 @@
 @486 = ~Faretra per Quadrelli Indaco~
 @487 = ~Faretra per Quadrelli Violetta~
 @488 = ~Faretra per Quadrelli Nera~
+
+
 @500 = ~Contenitore per Pozioni Rustico~
 @501 = ~Contenitore per Pozioni Nero-Verde~
 @502 = ~Contenitore per Pozioni Verde~
@@ -180,7 +197,7 @@
 @516 = ~Contenitore per Pozioni Ramato~
 @517 = ~Vecchio Contenitore per Pozioni~
 @518 = ~Contenitore per Pozioni Argenteo~ 
-@519 = ~Contenitore per Pozioni Fuoco Oscuro~ 
+@519 = ~Contenitore per Pozioni Fuoco Scuro~ 
 @520 = ~Contenitore per Pozioni Verdemare~ 
 @521 = ~Contenitore per Pozioni Drow~ 
 @522 = ~Contenitore per Pozioni Smeraldo~
@@ -193,4 +210,4 @@
 @529 = ~Sacca di Pozioni Ornata di Indaco~
 @530 = ~Sacca di Pozioni Ornata di Violetto~
 @531 = ~Sacca di Pozioni Ornata di Nero~
-@532 = ~Contenitore per Pozioni Scuro~ 
+@532 = ~Contenitore per Pozioni Scuro~

@@ -34,11 +34,15 @@ o rimpiazzata da - un'altra facente parte di uno dei mods installati.~
 @25 = ~Questo componente non e' disponibile per il tuo gioco.~
 @26 = ~Usa i valori del file di configurazione cdtweaks.txt per questo componente ...~
 @27 = ~E' necessario utilizzare Modmerge prima che i mod possano essere installati su questo gioco. Controllare il readme per ulteriori informazioni e per un link per scaricare Modmerge.~
-@28 = ~Non sono disponibili abbastanza slot per lo stato dell'incantesimo o di tipo secondario per installare questo componente.~ 
+@28 = ~Non sono disponibili abbastanza slot per lo stato dell'incantesimo o di tipo secondario per installare questo componente.~
+@29 = "Questo componente richiede EEex (https://github.com/Bubb13/EEex)."
+@30 = "Talenti in stile NWN"
+@31 = ~Questo componente richiede l'opzione di gioco "Attacco Furtivo 3E" (https://github.com/Argent77/A7-HiddenGameplayOptions).~
+@32 = "Questo componente richiede LuaJIT (https://github.com/Bubb13/EEex, componente #1)."
 
 // questo componente non è pronto, puoi saltare la traduzione di questo blocco
 //@100 = ~Programma di installazione automatizzato~
-//@101 = ~File di installazione automatica non trovato, sto saltando...~ 
+//@101 = ~File di installazione automatica non trovato, sto saltando...~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -82,14 +86,19 @@ o rimpiazzata da - un'altra facente parte di uno dei mods installati.~
 @14000 = ~Sistema il verso di Boo (Boo's Squeak)~
 
 // questo componente non è pronto, puoi saltare la traduzione di questo blocco
-//@15000 = ~Modifica il nome degli elementi univoci~ 
+//@15000 = ~Modifica il nome degli elementi univoci~
 //@15001 = ~Usa nomi unici (i.e. Kondar)~
 //@15100 = ~Usa nomi unici +x (i.e. Kondar +1)~
 //@15200 = ~Usa nomi generici (i.e. Spada Bastarda +1, +3 vs. Shapeshifters)~
 
+@15002 = ~Rimuovi "+x" dai nomi degli oggetti unici~
+
 @16000 = ~Rendi brillanti gli scudi magici (plainab/grogerson)~
 
 @17000 = ~Icone uniche~
+@17001 = ~Sostituisci solo le icone che non sono gia' uniche~
+@17010 = ~Sostituisci tutte le icone~
+
 
 @18000 = ~Contenitori unici~
 @18018 = ~Solo Correzioni~
@@ -102,19 +111,23 @@ o rimpiazzata da - un'altra facente parte di uno dei mods installati.~
 @19000 = ~Per tutti gli scudi ed elmi~
 @19001 = ~Usa il colore dei personaggi anziche' quello degli oggetti~
 @19100 = ~Per scudi ed elmi non magici~
-@19200 = ~Per tutti gli elmi~            
-@19300 = ~Per gli elmi non magici~    
-@19400 = ~Per tutti gli scudi~            
+@19200 = ~Per tutti gli elmi~
+@19300 = ~Per gli elmi non magici~
+@19400 = ~Per tutti gli scudi~
 @19500 = ~Per tutti gli scudi non magici~
 
 @20000 = ~Rimuovi l'effetto sfocatura dagli oggetti~
 @20001 = ~Rimuovi i fastidiosi effetti visivi dagli oggetti equipaggiati~
 @20002 = ~Rimuovi le trappole magiche e gli effetti di riflessione~
-@20003 = ~Rimuovi tutto quanto sopra~ 
+@20003 = ~Rimuovi tutto quanto sopra~
 
 @21000 = ~Varia le icone di Resistenza al Fuoco e al Freddo (Angel)~
 
-@22000 = ~Sovrapposizioni migliorate per i giocatori daltonici [Fouinto]~ 
+@22000 = ~Sovrapposizioni migliorate per i giocatori daltonici [Fouinto]~
+
+@23000 = ~Ripristina descrizioni comandi IWD~
+
+@26000 = "Nascondi gli effetti visivi dai nemici invisibili [Luke, EEex]"
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -124,14 +137,14 @@ o rimpiazzata da - un'altra facente parte di uno dei mods installati.~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-@101000 = ~Incrementa le interazioni~  
+@101000 = ~Incrementa le interazioni~
 
 @102000 = ~Modifica le soglie d'attivazione dei dialoghi dei PNG feriti~
 
 @103000 = ~Rivela le aree selvagge prima del sesto capitolo~
 
 @103500 = ~Rendi accessibili le aree del Bosco Ammantato anche prima di essere stato al Campo di banditi~
-@103501 = ~Solo la prima area~         
+@103501 = ~Solo la prima area~
 @103600 = ~Tutte le aree tranne le miniere~
 
 @104000 = ~Rendi piu' forti le guardie di Athkatla~
@@ -160,7 +173,7 @@ o rimpiazzata da - un'altra facente parte di uno dei mods installati.~
 @112000 = ~Consenti ai negozi di vendere maggiori quantita' di determinati oggetti (i.e. piu' frecce, piu' proiettili, ecc...)~
 
 // deprecato: non devi tradurre @112500
-@112500 = ~Munizioni non magiche infinite per archi, balestre e fionde~ 
+@112500 = ~Munizioni non magiche infinite per archi, balestre e fionde~
 
 @113000 = ~Reputazione resettata all'inizio di BG2 (solo per BGT)~
 
@@ -171,7 +184,7 @@ o rimpiazzata da - un'altra facente parte di uno dei mods installati.~
 
 @115000 = ~Ribilanciamento del Mutaforma~
 
-@116000 = ~Fortezze Multiple~          
+@116000 = ~Fortezze Multiple~
 @116001 = ~Nessuna restrizione (Baldur dash)~
 @116100 = ~Mantieni le restrizioni dovute alla classe~
 
@@ -243,7 +256,7 @@ o rimpiazzata da - un'altra facente parte di uno dei mods installati.~
 @134600 = ~Rendi la roccaforte di bosco dei druidi disponibile a tutte le classi~
 
 @134700 = ~Rendi la roccaforte della Capanna di Imnesvale disponibile a tutte le classi~
- 
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -256,9 +269,9 @@ o rimpiazzata da - un'altra facente parte di uno dei mods installati.~
 
 @202000 = ~Uso delle spade bastarde a due mani~
 
-@203000 = ~Usa le katane a due mani~   
+@203000 = ~Usa le katane a due mani~
 
-@203500 = ~Asce a due mani~            
+@203500 = ~Asce a due mani~
 
 @204000 = ~Rendi le clave utilizzabili da chiunque~
 
@@ -270,8 +283,8 @@ o rimpiazzata da - un'altra facente parte di uno dei mods installati.~
 
 @209000 = ~Modifica il limite dei punti esperienza~
 @209001 = ~Rimuovi ogni limite ai punti esperienza~
-@209100 = ~Limita al 20simo livello~   
-@209200 = ~Limita al 30simo livello~   
+@209100 = ~Limita al 20simo livello~
+@209200 = ~Limita al 30simo livello~
 
 @210000 = ~Consenti l'uso di Nascondersi tra le Ombre e delle abilita' da ladro in armatura pesante secondo le regole di AD&D~
 
@@ -407,17 +420,33 @@ o rimpiazzata da - un'altra facente parte di uno dei mods installati.~
 
 // questi componenti sono stati abbandonati a causa di bug con le classi doppie
 // @257000 = ~BGT: Limite di esperienza aggiuntivo mentre sei in BG~
-// @257100 = ~BGT: Limite di esperienza aggiuntivo in SoA~ 
+// @257100 = ~BGT: Limite di esperienza aggiuntivo in SoA~
 
-@266000 = "Aggiungi talento Arma Preferita per i Ladri [Luke]"
+@265000 = "Rendi Unto infiammabile [Luke]"
 
-@267000 = "Aggiungi talento Doppia-Presa per i Ranger [Luke]"
+@266000 = "Gli Orsi e i Cinghiali continueranno a combattere dopo aver raggiunto 0 punti ferita [Luke (EEex)]"
 
-@269000 = "Armatura vs. Destrezza in stile NWN [Luke]"
+@267000 = "Limita la meccanica del Riposo [Luke (EEex)]"
 
-@270000 = "Aggiungi talento Tiro Difensivo per i ladri [Luke]"
+@268000 = "Rendi Infravisione Utile [Luke (EEex)]"
 
-@271000 = "Grazia Divina / Benedizione Oscura per Paladini / Guardie Nere [Luke]"
+@269000 = "Modifica la meccanica della Concentrazione [Luke (EEex)]"
+@269001 = "v1 (fare riferimento al readme)"
+@269002 = "v2 (fare riferimento al readme)"
+@269003 = "v3 (fare riferimento al readme)"
+@269004 = "v4 (fare riferimento al readme)"
+
+@270000 = "Modifica la meccanica della Rigenerazione dei Troll [Luke (EEex)]"
+@271000 = "Evocazioni in stile NWN [Luke (EEex)]"
+/*
+@258000 = ~Modifica tabella degli incantesimi divini divini basati sulla saggezza~
+@258001 = ~Usa tabella PnP/PsT~
+@258100 = ~Usa tabella BG/BG2/IWD~
+
+@259000 = ~I ladri possono pugnalare alle spalle con più armi con "Usa qualsiasi oggetto" o come classi doppie e multiple~
+
+@262000 = ~Rendi alcune creature immuni alle pugnalate alle spalle/attacchi furtivi [Luke]~
+*/
 
 @279000 = "Aggiungi talento di classe Metamagia per gli Incantatori [Luke]"
 
@@ -493,7 +522,7 @@ o rimpiazzata da - un'altra facente parte di uno dei mods installati.~
 
 @314000 = ~Intermezzi e sogni piu' rapidi nei capitoli 1 e 2 (Karzak, Blucher) (LEGGI LE AVVERTENZE)~
 @314001 = ~Originali da EoU (Karzak, Blucher)~
-@314100 = ~Versione seria~ 
+@314100 = ~Versione seria~
 
 @316000 = ~Tieni l'equipaggiamento di Drizzt, disabilita Malchor Harpell~
 
@@ -508,7 +537,7 @@ Inserisci una percentuale tra 20 e 500:~
 
 @317900 = ~Disabilita i requisiti di razza per le romance~
 
-@318300 = ~Trucchi per le romance~     
+@318300 = ~Trucchi per le romance~
 @318301 = ~Disabilita i requisiti di razza per le romance? (Selezionare 1 o 2)
 1) Si
 2) No~
@@ -534,7 +563,7 @@ Inserisci una percentuale tra 20 e 500:~
 2) No~
 @318312 = ~  * Consenti l'inizio di una romance nelle nuove partite di ToB~
 
-@319000 = ~Riposa ovunque (Japheth)~   
+@319000 = ~Riposa ovunque (Japheth)~
 
 @319100 = ~Disabilita gli incontri al riposo non ostili~
 
@@ -564,7 +593,7 @@ Inserisci una percentuale tra 20 e 500:~
 @321013 = ~ CARISMA minima:~
 @321014 = ~ Nessuna modifica selezionata! Scegli di nuovo.~
 
-@322000 = ~Punti d'entrata logici~     
+@322000 = ~Punti d'entrata logici~
 
 @323000 = ~Taerom crea armature di Ankheg aggiuntive (Icendoan/grogerson)~
 
@@ -632,7 +661,21 @@ Mostra messaggi di feedback:         a7_interval_feedback
 Usa opzioni di Baldur.lua:           a7_interval_ini
 ~
 
-@336000 = ~Ripristina la nebbia di guerra nei sotterranei di Sigil~ 
+@336000 = ~Ripristina la nebbia di guerra nei sotterranei di Sigil~
+
+@342000 = "Gli Stregoni Incappucciati reagiranno in maniera più sensata all'uso della magia senza licenza [Luke (EEex)]"
+
+@343000 = "Pelle di Pietra: rendi visibile il numero di pelli rimaste [Luke (EEex)]"
+
+@344000 = "Visualizza a schermo gli effetti magici che vengono dissolti [Luke (EEex)]"
+
+@345000 = "Rendi più accurata la meccanica degli incantesimi del tipo Scudo di Fuoco [Luke (EEex)]"
+
+@346000 = "Rendi più accurata la meccanica degli incantesimi del tipo Barriera di Lame [Luke (EEex)]"
+
+@347000 = ~Regola in modo automatico gli FPS [Luke (EEex)]~
+
+@348000 = "Rendi più accurata la meccanica che regola il risveglio di Morentherene [Luke (EEex)]"
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -676,11 +719,11 @@ Usa opzioni di Baldur.lua:           a7_interval_ini
 
 @413200 = ~Rendi Xzar un mago generico [Angelo]~
 
-@413300 = ~Fai di Edwin un mago generico [Angelo]~ 
+@413300 = ~Fai di Edwin un mago generico [Angelo]~
 
 @414000 = ~Non assegnare automaticamente AI avanzate al gruppo~
 
-@418000 = ~Oggetti NPC rimovibili~ 
+@418000 = ~Oggetti NPC rimovibili~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -703,3 +746,83 @@ Usa opzioni di Baldur.lua:           a7_interval_ini
 @504000 = ~Permettere a Yeslick di usare le asce~
 
 @505000 = ~Assicura che Shar-Teel non muoia nella sfida iniziale~
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Raccolta di talenti in stile NWN                 \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+@600000 = "Aggiungi talento di classe Disarmare per i Ladri [Luke (EEex)]"
+
+@601000 = "Aggiungi talento di classe Buttare a Terra per i Guerrieri e i Monaci [Luke (EEex)]"
+
+@602000 = "Aggiungi talento di classe Sapienza Magica / Controincantesimo per gli incantatori [Luke (EEex)]"
+
+@603000 = "Aggiungi talento di classe Lancio Spontaneo per i Chierici [Luke (EEex)]"
+
+@604000 = "Aggiungi talento di classe Arma Preferita per i Ladri [Luke (EEex)]"
+
+@605000 = "Aggiungi talento di classe Doppia-Presa per i Ranger [Luke (EEex)]"
+
+@606000 = "Armatura vs. Destrezza in stile NWN [Luke (EEex)]"
+
+@607000 = "Aggiungi talento di classe Tiro Difensivo per i ladri [Luke (EEex)]"
+
+@608000 = "Grazia Divina / Benedizione Oscura per Paladini / Guardie Nere [Luke (EEex)]"
+
+@609000 = "Aggiungi talento razziale Buona Mira per gli Halfling [Luke (EEex)]"
+
+@610000 = "Aggiungi talento di classe Incalzare per i Guerrieri [Luke (EEex)]"
+
+@611000 = "Aggiungi talento di classe Attacco Furtivo per Guardie Nere [Luke (EEex)]"
+
+@612000 = "Aggiungi talento razziale Temerario per gli Halfling [Luke (EEex)]"
+
+@613000 = "Aggiungi talento di classe Resistenza ai Veleni per Assassini [Luke (EEex)]"
+
+@614000 = "Aggiungi talento di classe Scacciare Creature Extraplanari per Paladini e Chierici [Luke (EEex)]"
+
+@615000 = "Aggiungi talento di classe Calcio Rotante per i Monaci [Luke (EEex)]"
+
+@616000 = "Ira Barbarica in stile NWN [Luke (EEex)]"
+
+@617000 = ~"Costringi" l'Arciere ad utilizzare gli archi [Luke (EEex)]~
+
+@618000 = "Aggiungi talento innato Combattere alla Cieca per i Berserker [Luke (EEex)]"
+
+@619000 = "Aggiungi talento di classe Combattimento Scorretto per i Ladri di allineamento Caotico [Luke (EEex)]"
+
+@620000 = "Aggiungi talento di classe Colpo Critico Possente/Devastante per i Guerrieri [Luke]"
+
+@621000 = "Aggiungi talento di classe Auto-Occultamento per i Monaci [Luke (EEex)]"
+
+@622000 = "Aggiungi talento di classe Modalità Parata per Bardi Lama e Rodomonti [Luke (EEex)]"
+
+@623000 = "Consenti ai Bardi di lanciare incantesimi arcani mentre indossano armature leggere [Luke (EEex)]"
+
+@624000 = "Aggiungi talento di classe Passo Senza Tracce per i Ranger [Luke (EEex)]"
+
+@625000 = "Aggiungi talento di classe Senso della Natura per i Druidi [Luke (EEex)]"
+
+@626000 = "Aggiungi talento di classe Schivata Prodigiosa per i Barbari e i Ladri [Luke (EEex)]"
+
+@627000 = "Attacco Furtivo / Colpo Incapacitante per Ladri ed Infiltrati in stile NWN [Luke (EEex)]"
+
+@628000 = "Aggiungi talento di classe Eludere per Monaci e Ladri [Luke (EEex)]"
+
+@629000 = "Aggiungi talento di classe Incantesimo Inarrestabile per gli Incantatori [Luke (EEex)]"
+
+@630000 = "Aggiungi talento di classe Punire il Male / Bene per Paladini / Guardie Nere [Luke (EEex)]"
+
+@631000 = "Aggiungi talento di classe Andatura nel Bosco per i Druidi [Luke (EEex)]"
+
+@632000 = "Aggiungi talento di classe Nemico Giurato per i Ranger [Luke (EEex)]"
+
+@633000 = "Aggiungi talento di classe Trucchetti per gli Incantatori [Luke (EEex)]"
+
+@634000 = "Aggiungi talento di classe Compagno Animale per gli Addestratori di Animali [Luke (EEex)]"
+
+@635000 = "Aggiungi talento di classe Opportunista per i Ladri di allineamento Caotico [Luke (EEex)]"

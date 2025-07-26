@@ -13,7 +13,7 @@ APPEND WSMITH01
                                                   DestroyGold(5000)~ GOTO 56
     IF ~~ THEN REPLY #66910 GOTO NoThanks
   END
-  
+
   IF ~~ THEN BEGIN NoThanks SAY @122002
    COPY_TRANS WSMITH01 13
   END

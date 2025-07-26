@@ -22,15 +22,15 @@ kicked_out_variable    KickedOut     KickedOut      IWasKickedOut       KickedOu
 ACTION_IF game_is_bgee BEGIN
   OUTER_SET column = 1
   ACTION_IF game_includes_sod BEGIN
-    COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/pairsep_sod.d~ 
-  END  
+    COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/pairsep_sod.d~
+  END
 END ELSE
 ACTION_IF game_is_bgt BEGIN
   OUTER_SET column = 3
-  ACTION_IF !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1075~ BEGIN 
-    COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/depart_bgt.d~ 
-  END  
-  COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/pairsep_bgt.d~ 
+  ACTION_IF !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~1075~ BEGIN
+    COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/depart_bgt.d~
+  END
+  COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/pairsep_bgt.d~
 END ELSE
 ACTION_IF tutu_gen BEGIN
   OUTER_SET column = 2
@@ -51,7 +51,7 @@ COPY ~./inlined/npc_data.2da~ ~./inlined/npc_data.2da~
   BUT_ONLY
 
 COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/pairsep.d~
-    
+
  ACTION_CLEAR_ARRAY npc_data
  ACTION_DEFINE_ASSOCIATIVE_ARRAY npc_data BEGIN
     KHALID=>jaheira
@@ -63,19 +63,19 @@ COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/pairsep.d~
     MINSC=>dynaheir
     DYNAHEIR=>minsc
  END
- 
+
  ACTION_PHP_EACH npc_data AS script=>ally BEGIN
   OUTER_SPRINT dlg EVALUATE_BUFFER ~%%script%_POST%~
   COPY_EXISTING ~%dlg%.dlg~ ~override~
     DECOMPILE_AND_PATCH BEGIN
       REPLACE_TEXTUALLY CASE_INSENSITIVE ~[ %TAB%%LNL%%MNL%%WNL%]Dead("%ally%")~ ~ OR(3) Dead("%ally%") InParty("%ally%") !InMyArea("%ally%")~
       REPLACE_TEXTUALLY CASE_INSENSITIVE ~!Dead("%ally%")~ ~!Dead("%ally%") !InParty("%ally%") InMyArea("%ally%")~
-      REPLACE_TEXTUALLY CASE_INSENSITIVE ~ActionOverride("%ally%",LeaveParty())~ 
+      REPLACE_TEXTUALLY CASE_INSENSITIVE ~ActionOverride("%ally%",LeaveParty())~
         ~ActionOverride("%ally%",LeaveParty()) ActionOverride("%ally%",SetGlobal("%kicked_out_variable%","LOCALS",1))~
-      REPLACE_TEXTUALLY CASE_INSENSITIVE ~ActionOverride("%ally%",JoinParty())~  
+      REPLACE_TEXTUALLY CASE_INSENSITIVE ~ActionOverride("%ally%",JoinParty())~
         ~ActionOverride("%ally%",JoinParty())  ActionOverride("%ally%",SetGlobal("%kicked_out_variable%","LOCALS",0))~
       // minsc special - bgt/ee
-      REPLACE_TEXTUALLY CASE_INSENSITIVE 
+      REPLACE_TEXTUALLY CASE_INSENSITIVE
         ~OR(2)[ %TAB%%LNL%%MNL%%WNL%]+OR(3) Dead("%ally%") InParty("%ally%") !InMyArea("%ally%")[ %TAB%%LNL%%MNL%%WNL%]*\(!Global("HelpMinsc","GLOBAL",2)\|!BeenInParty("%ally%")\)~
         ~OR(4) Dead("%ally%") InParty("%ally%") !InMyArea("%ally%") \1~
     END

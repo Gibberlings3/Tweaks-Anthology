@@ -9,44 +9,44 @@
 ACTION_CLEAR_ARRAY cd_new_anims
 ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_new_anims BEGIN
   6001, 6501, CEMC, CEMM => monk_male_elf       // clone cleric animations into monk animations
-  6002, 6502, CDMC, CDMM => monk_male_dwarf 
-  6003, 6503, CIMC, CIMM => monk_male_halfling 
-  6004, 6504, CGMC, CGMM => monk_male_gnome 
-  6011, 6511, CEFC, CEFM => monk_female_elf 
-  6012, 6512, CDFC, CDFM => monk_female_dwarf 
-  6013, 6513, CIFC, CIFM => monk_female_halfling 
-  6014, 6514, CIFC, CIFM => monk_female_gnome 
+  6002, 6502, CDMC, CDMM => monk_male_dwarf
+  6003, 6503, CIMC, CIMM => monk_male_halfling
+  6004, 6504, CGMC, CGMM => monk_male_gnome
+  6011, 6511, CEFC, CEFM => monk_female_elf
+  6012, 6512, CDFC, CDFM => monk_female_dwarf
+  6013, 6513, CIFC, CIFM => monk_female_halfling
+  6014, 6514, CIFC, CIFM => monk_female_gnome
   6003, 6203, CIMC, CIMW => mage_male_halfling   // clone cleric animations into mage animations (halflings only)
-  6013, 6213, CIFC, CIFW => mage_female_halfling 
+  6013, 6213, CIFC, CIFW => mage_female_halfling
 END
 
 ACTION_IF !MOD_IS_INSTALLED ~artisanskitpack/artisanskitpack.tp2~ ~10001~ THEN BEGIN // don't overwrite half-orc monk animations from artisan's kitpack
 
   ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_new_anims BEGIN
-    6005, 6505, COMC, COMM => monk_male_halforc 
-    6015, 6515, COFC, COFM => monk_female_halforc 
+    6005, 6505, COMC, COMM => monk_male_halforc
+    6015, 6515, COFC, COFM => monk_female_halforc
   END
 
 END
-  
+
 ACTION_PHP_EACH cd_new_anims AS anims => entry BEGIN
-      
+
   APPEND ~animate.ids~ ~0x%anims_1% %entry%~ UNLESS ~^0x%anims_1%~
 
   ACTION_IF enhanced_edition BEGIN
 
     COPY_EXISTING ~%anims_0%.ini~ ~override/%anims_1%.ini~
       REPLACE_TEXTUALLY ~^\(// [A-Z]+[ %TAB%]\)cleric_[a-z]+_[a-z]+$~ ~\1%entry%~
-    
+
   END ELSE BEGIN
-  
+
     COPY_EXISTING_REGEXP GLOB ~^%anims_2%\(.+\)\.bam$~ ~override/%anims_3%\1.bam~
                               ~^%anims_2%\(.+\)\.plt$~ ~override/%anims_3%\1.plt~
       IF_EXISTS // in case there are no plts
-  
+
   END
 
-END  
+END
 
 COPY_EXISTING ~clsrcreq.2da~ ~override~
   COUNT_2DA_ROWS 8 rows
@@ -83,7 +83,7 @@ COPY_EXISTING ~mgsrcreq.2da~ ~override~
   END
   SET_2DA_ENTRY 0 (col_start + 6) (col_start + 8) 0 // keep mage/gnome = 0
   PRETTY_PRINT_2DA
-  BUT_ONLY 
+  BUT_ONLY
 
 // let dwarves get 17 CHR to be paladins
 COPY_EXISTING ~abracead.2da~ ~override~
@@ -92,12 +92,11 @@ COPY_EXISTING ~abracead.2da~ ~override~
     SET_2DA_ENTRY  1 6 7 "-1"
   END
   // let half-orcs get 17 INT so they can dual to mages, config-only option
-  PATCH_IF ((VARIABLE_IS_SET halforc_dual_to_mage) AND (halforc_dual_to_mage = 1)) BEGIN  
+  PATCH_IF ((VARIABLE_IS_SET halforc_dual_to_mage) AND (halforc_dual_to_mage = 1)) BEGIN
     READ_2DA_ENTRY 6 4 7 foo
     PATCH_IF (foo < "-1") THEN BEGIN
       SET_2DA_ENTRY  6 4 7 "-1"
     END
-  END  
+  END
   PRETTY_PRINT_2DA
   BUT_ONLY
-  

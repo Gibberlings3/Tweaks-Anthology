@@ -1,0 +1,211 @@
+/**
+ * Installs the transition from IWDEE main game to the HoW expansion after defeating the end boss of the main game.
+ */
+DEFINE_ACTION_FUNCTION a7#install_how_transition
+BEGIN
+  ACTION_IF (game_is_iwdee) BEGIN
+    // IWD:EE
+    LAF a7#install_how_transition_iwdee END
+  END ELSE ACTION_IF (game_is_how || game_is_totlm) BEGIN
+    // Original IWD:HoW
+      LAF a7#install_how_transition_iwd END
+  END
+END
+
+
+// Transition code for IWD:EE
+DEFINE_ACTION_FUNCTION a7#install_how_transition_iwdee
+BEGIN
+  OUTER_SET is_patch20 = VALID_SCRIPT_ACTIONS ~SetCutSceneBreakable(TRUE)~
+
+  // Fixing death variable for Belhifet
+  COPY_EXISTING ~ar9603.bcs~ ~override~
+    DECOMPILE_AND_PATCH BEGIN
+      REPLACE_TEXTUALLY ~"BELHIEFET_DEAD"~ ~"SPRITE_IS_DEADBELHIEFET"~
+    END
+  BUT_ONLY
+
+  // Patching endgame script of IWD main game
+  EXTEND_TOP ~ar1105.bcs~ ~cdtweaks/baf/a7howt-ar1105.baf~
+
+  COPY_EXISTING ~eebelkil.bcs~ ~override~
+    DECOMPILE_AND_PATCH BEGIN
+      REPLACE_TEXTUALLY ~UnhideGUI()~ ~~
+
+      SET iwdee_v1 = (INDEX_BUFFER(~"ECREDIT"~) > 0)
+
+      SET pos1 = INDEX_BUFFER(~StartMovie("\(CREDITS\|ECREDIT\)")~)
+      PATCH_IF (pos1 >= 0) BEGIN
+        SET pos2 = INDEX_BUFFER(~^END$~ pos1)
+        PATCH_IF (pos2 > pos1) BEGIN
+          SET len = pos2 - pos1 - 1
+          DELETE_BYTES pos1 len
+          SPRINT patch ~SetGlobal("A7_TRANSITION_CHECK","MYAREA",1) EndCutSceneMode()~
+          SET len = STRING_LENGTH ~%patch%~
+          INSERT_BYTES pos1 len
+          WRITE_ASCIIE pos1 ~%patch%~ (len)
+        END
+      END
+    END
+  BUT_ONLY
+
+  ACTION_FOR_EACH resref IN ~a7howt1~
+                            ~a7howt2a~
+                            ~a7howt2b~
+                            ~a7howt3a~
+                            ~a7howt3b~
+                            ~a7howt4a~
+                            ~a7howt4b~
+  BEGIN
+    COPY ~cdtweaks/baf/%resref%-ee.baf~ ~override/%resref%.bcs~
+      PATCH_IF (iwdee_v1) BEGIN
+        REPLACE_TEXTUALLY ~"CREDITS"~ ~"ECREDIT"~
+      END
+      COMPILE_BAF_TO_BCS
+  END
+
+  // Misc. resources
+  COPY ~cdtweaks/spl/bdresurr.spl~ ~override~
+
+  COPY ~cdtweaks/spl/bdrejuve.spl~ ~override~
+    // Detrimental effects from Belhifet's weapon were not removed by default
+    PATCH_IF (is_patch20) BEGIN
+      LPF ADD_SPELL_EFFECT
+        INT_VAR
+          opcode = 321  // Remove effect by resource
+          target = 1    // Self
+          timing = 1
+          insert_point = 0
+        STR_VAR
+          resource = ~BEHWEP~
+      END
+    END ELSE BEGIN
+      LPF ADD_SPELL_EFFECT
+        INT_VAR
+          opcode = 79   // Cure disease
+          target = 1    // Self
+          timing = 1
+          insert_point = 0
+      END
+      LPF ADD_SPELL_EFFECT
+        INT_VAR
+          opcode = 240  // Remove portrait icon
+          target = 1    // Self
+          timing = 1
+          parameter2 = 7  // Diseased
+          insert_point = 1
+      END
+    END
+
+  // Patching Hjollder's dialog
+  COPY_EXISTING ~dhjollde.dlg~ ~override~
+    DECOMPILE_AND_PATCH BEGIN
+      REPLACE_TEXTUALLY ~Global("Join_Posse",[ %TAB%]*"GLOBAL",[ %TAB%]*0)~ ~OR(2) \0 !Global("SPRITE_IS_DEADBELHIEFET","GLOBAL",0)~
+      REPLACE_TEXTUALLY ~GlobalGT("Join_Posse",[ %TAB%]*"GLOBAL",[ %TAB%]*0)~ ~\0 Global("SPRITE_IS_DEADBELHIEFET","GLOBAL",0)~
+    END
+  BUT_ONLY
+
+  COMPILE ~cdtweaks/dlg/a7howt-dhjollde.d~
+END
+
+
+// Transition code for original IWD:HoW
+DEFINE_ACTION_FUNCTION a7#install_how_transition_iwd
+BEGIN
+  // oIWD is hardcoded to trigger the HoW end credits only if the global "Join_Posse" is 0.
+  // Otherwise the game assumes that HoW has been completed as part of the main game and returns
+  // the party to Kuldahar instead.
+  EXTEND_TOP ~ar9604.bcs~ ~cdtweaks/baf/a7howt-ar9604.baf~
+
+  // Patching endgame script of IWD main game
+  EXTEND_TOP ~ar1105.bcs~ ~cdtweaks/baf/a7howt-ar1105.baf~
+
+  ACTION_FOR_EACH resref IN ~a7howt1~
+                            ~a7howt2a~
+                            ~a7howt2b~
+                            ~a7howt3a~
+                            ~a7howt3b~
+                            ~a7howt4a~
+                            ~a7howt4b~
+  BEGIN
+    COPY ~cdtweaks/baf/%resref%-how.baf~ ~override/%resref%.bcs~
+      COMPILE_BAF_TO_BCS
+  END
+
+  COPY_EXISTING ~eebelkil.bcs~ ~override~
+    DECOMPILE_AND_PATCH BEGIN
+      SET pos1 = INDEX_BUFFER(~EndCredits()~)
+      PATCH_IF (pos1 >= 0) BEGIN
+        SET pos2 = INDEX_BUFFER(~^END$~ pos1)
+        PATCH_IF (pos2 > pos1) BEGIN
+          SET len = pos2 - pos1 - 1
+          DELETE_BYTES pos1 len
+          SPRINT patch ~StartMovie("TOWER") MultiPlayerSync() SetGlobal("A7_TRANSITION_CHECK","MYAREA",1) EndCutSceneMode()~
+          SET len = STRING_LENGTH ~%patch%~
+          INSERT_BYTES pos1 len
+          WRITE_ASCIIE pos1 ~%patch%~ (len)
+        END
+      END
+    END
+  BUT_ONLY
+
+  // Patching Hjollder's dialog
+  COPY_EXISTING ~dhjollde.dlg~ ~override~
+    DECOMPILE_AND_PATCH BEGIN
+      REPLACE_TEXTUALLY ~Global("Join_Posse",[ %TAB%]*"GLOBAL",[ %TAB%]*0)~ ~Or(2) \0 !Global("BELHIEFET_DEAD","GLOBAL",0)~
+      REPLACE_TEXTUALLY ~GlobalGT("Join_Posse",[ %TAB%]*"GLOBAL",[ %TAB%]*0)~ ~\0 Global("BELHIEFET_DEAD","GLOBAL",0)~
+    END
+  BUT_ONLY
+
+  COMPILE ~cdtweaks/dlg/a7howt-dhjollde.d~
+END
+
+
+/**
+ * Removes Hjollder from Kuldahar.
+ */
+DEFINE_ACTION_FUNCTION a7#remove_hjollder_iwd
+BEGIN
+  // Removing Hjollder from Kuldahar
+  COPY_EXISTING ~ar2109.are~ ~override~
+    LPF fj_are_structure
+      INT_VAR fj_delete_mode = 0
+      STR_VAR fj_structure_type = ~actor~
+    END
+  BUT_ONLY
+
+  COPY_EXISTING ~ar2109.bcs~ ~override~
+    DECOMPILE_AND_PATCH BEGIN
+      LPF a7#remove_script_block STR_VAR search = ~"HOW_COMPLETED"~ END
+      LPF a7#remove_script_block STR_VAR search = ~"2109_RESET_JOIN"~ END
+      LPF a7#remove_script_block STR_VAR search = ~"RETURN_TO_LONELYWOOD"~ END
+    END
+  BUT_ONLY
+END
+
+
+/**
+ * Removes all script blocks containing the specified search string.
+ * Returns the number of removed script blocks.
+ */
+DEFINE_PATCH_FUNCTION a7#remove_script_block
+STR_VAR
+  search = ~~   // search string, as regular expression
+RET
+  count         // number of removed script blocks
+BEGIN
+  SET count = 0
+  PATCH_IF (NOT ~%search%~ STR_EQ ~~) BEGIN
+    FOR (p = INDEX_BUFFER(~%search%~); p >= 0; p = INDEX_BUFFER(~%search%~)) BEGIN
+      SET p1 = RINDEX_BUFFER(~^IF$~ p)
+      PATCH_IF (p1 >= 0) BEGIN
+        SET p2 = INDEX_BUFFER(~^END$~ p1)
+        PATCH_IF (p2 > p1) BEGIN
+          SET p2 += 3
+          DELETE_BYTES p1 (p2 - p1)
+          SET count += 1
+        END
+      END
+    END
+  END
+END

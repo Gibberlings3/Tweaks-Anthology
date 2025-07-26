@@ -6,7 +6,7 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-OUTER_SET cd_tweaks_batch_install = 1 
+OUTER_SET cd_tweaks_batch_install = 1
 
 // global initializations
 OUTER_TEXT_SPRINT WORK_FOLDER ~weidu_external~
@@ -28,7 +28,7 @@ ACTION_MATCH ~%LANGUAGE%~ WITH
   ~spanish~  BEGIN OUTER_SET batch_lang = 8 END
   ~schinese~ BEGIN OUTER_SET batch_lang = 9 END
   DEFAULT OUTER_SET batch_lang = 0 // english
-END  
+END
 
 // detecting auto-setup mode
 OUTER_PATCH_SAVE bin_file ~%WEIDU_EXECUTABLE%~ BEGIN

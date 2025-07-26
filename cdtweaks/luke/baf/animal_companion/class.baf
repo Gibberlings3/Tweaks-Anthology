@@ -1,0 +1,26 @@
+// unsummon me if my summoner is an incomplete dual-class character / is fallen / is dead / is no longer a party member //
+
+IF
+	OR(3)
+		!InParty(LastSummonerOf(Myself))
+		EEex_LuaTrigger("return GT_NWN_AnmlComp_SummonerClassCheck()")
+		TriggerOverride(LastSummonerOf(Myself), Die())
+THEN
+	RESPONSE #100
+		ApplySpellRES("%BEASTMASTER_ANIMAL_COMPANION%#", Myself)
+		Continue()
+END
+
+// level up the creature //
+
+IF
+	!HasItemSlot(Myself,SLOT_MISC19)
+	EEex_LuaTrigger("return GT_NWN_AnmlComp_CanLevelUp()")
+	CheckStat(Myself,0,LEVELDRAIN)
+THEN
+	RESPONSE #100
+		PlaySound("GAM_11")
+		EEex_LuaAction("GT_NWN_AnmlComp_LevelUp()")
+		Continue()
+END
+

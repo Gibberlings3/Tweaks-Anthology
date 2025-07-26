@@ -1,0 +1,14 @@
+@0 = "Disarm"
+
+@1 = "Disarm
+
+The character can attempt to disarm an opponent in melee combat. Attempting a disarm applies a -6 penalty to the character's attack roll, and the combatant with the larger weapon gains a +2 bonus per size category of difference. If successful, then the weapon flies from the opponent's hands."
+
+//@100 = "The selected target is out of range"
+@101 = "Disarm Canceled: Inventory full"
+@102 = "Hit"
+@103 = "Miss"
+@104 = "This feat cannot be used while wielding a ranged weapon"
+@105 = "The targeted creature cannot be disarmed"
+//@106 = "Unaffected by effects from Disarm"
+@106 = "Weapon Ineffective"

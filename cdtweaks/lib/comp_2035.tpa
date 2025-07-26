@@ -28,9 +28,9 @@ ACTION_IF ((game_is_eet = 0) AND ((FILE_EXISTS_IN_GAME ~_ax1h01.spl~) OR (FILE_E
   ACTION_IF FILE_EXISTS_IN_GAME ~ax1h01.spl~  BEGIN ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_breakables BEGIN ~c!ax1~  => ~ax1h01~ END END
   ACTION_IF FILE_EXISTS_IN_GAME ~_ax1h01.spl~ BEGIN ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_breakables BEGIN ~c!ax14~ => ~_ax1h01~ END END
   ACTION_IF !game_is_bgt BEGIN OUTER_SET op = 146 END ELSE BEGIN OUTER_SET op = 309 END
-  
+
   ACTION_PHP_EACH cd_breakables AS item => spell BEGIN
-  
+
     COPY_EXISTING ~%item%.itm~ ~override~
       LPF ALTER_EFFECT INT_VAR check_headers = 1 check_globals = 0 match_opcode = op STR_VAR match_resource = EVAL "%spell%" resource = EVAL "%item%" END
 
@@ -39,7 +39,7 @@ ACTION_IF ((game_is_eet = 0) AND ((FILE_EXISTS_IN_GAME ~_ax1h01.spl~) OR (FILE_E
       LPF ALTER_EFFECT INT_VAR match_opcode = 112 STR_VAR match_resource = EVAL "%spell%" resource = EVAL "%item%" END
 
     ACTION_IF game_is_bgt BEGIN
-      
+
       COPY_EXISTING ~dplayer2.bcs~ ~override~
                     ~dplayer3.bcs~ ~override~
         DECOMPILE_AND_PATCH BEGIN
@@ -47,8 +47,8 @@ ACTION_IF ((game_is_eet = 0) AND ((FILE_EXISTS_IN_GAME ~_ax1h01.spl~) OR (FILE_E
           REPLACE_TEXTUALLY ~CD_REPLACE_ME~ ~%item%~
         END
         BUT_ONLY
-        
-    END    
+
+    END
 
   END
 
@@ -58,7 +58,7 @@ END
 ACTION_IF FILE_EXISTS_IN_GAME obe.dlg THEN BEGIN
 
   COMPILE ~cdtweaks/dlg/2haxes_obe.d~
-  
+
 END
 
 // cespenar can use alternate items for upgrades
@@ -72,5 +72,5 @@ END
 ACTION_IF FILE_EXISTS_IN_GAME dedion.dlg THEN BEGIN
 
   COMPILE ~cdtweaks/dlg/2haxes_iwd.d~
-  
+
 END

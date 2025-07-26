@@ -1,0 +1,24 @@
+// Transition: Easthaven to Barbarian Camp
+IF
+  True()
+THEN
+  RESPONSE #100
+    CutSceneId(Player1Fill)
+    CopyGroundPilesTo("ar9200",[1131.603])
+    SetWorldmap("worldm25")
+    SetMasterArea("ar9200")
+    SetGlobal("Exp_Pause","GLOBAL",0)
+    SetGlobal("9200_RESET_JOIN","GLOBAL",1)
+    ActionOverride(Player2Fill,LeaveAreaLUA("AR9200","LOAD9200",[1087.629],N))
+    ActionOverride(Player3Fill,LeaveAreaLUA("AR9200","LOAD9200",[1172.634],N))
+    ActionOverride(Player4Fill,LeaveAreaLUA("AR9200","LOAD9200",[1037.666],N))
+    ActionOverride(Player5Fill,LeaveAreaLUA("AR9200","LOAD9200",[1131.674],N))
+    ActionOverride(Player6Fill,LeaveAreaLUA("AR9200","LOAD9200",[1218.682],N))
+    LeaveAreaLUAPanic("AR9200","LOAD9200",[1131.603],N)
+    LeaveAreaLUA("AR9200","LOAD9200",[1131.603],N)
+    MultiPlayerSync()
+    FadeFromColor([30.0],0)
+    Wait(1)
+    UnhideGUI()
+    EndCutSceneMode()
+END

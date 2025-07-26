@@ -8,15 +8,15 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 ACTION_IF original_bg1 BEGIN // original bg - no min hp effect, so overcharge her HP and end fight when she's back to her normal HP
-    
-  ADD_SPELL ~cdtweaks/spl/cdshart.spl~ 3 1 CD_SHARTEEL_HP_REDUCTION 
-  
+
+  ADD_SPELL ~cdtweaks/spl/cdshart.spl~ 3 1 CD_SHARTEEL_HP_REDUCTION
+
   COPY_EXISTING ~shartel2.bcs~ ~override~
     DECOMPILE_AND_PATCH BEGIN
       REPLACE_TEXTUALLY ~HPPercentLT(Myself,50)~ ~HPPercentLT(Myself,66)~
       REPLACE_TEXTUALLY ~HPPercentLT(Myself,75)~ ~HPPercentLT(Myself,90)~
     END
-  
+
   <<<<<<<< ./inline/cdsharteel.baf
     IF
       InParty(Myself)
@@ -27,8 +27,8 @@ ACTION_IF original_bg1 BEGIN // original bg - no min hp effect, so overcharge he
         SetGlobal("CD_SHARTEEL_HP_REDUCTION","GLOBAL",1)
     END
   >>>>>>>>
-  
-END ELSE BEGIN 
+
+END ELSE BEGIN
 
   <<<<<<<< ./inline/cdsharteel.baf
     IF
@@ -40,7 +40,7 @@ END ELSE BEGIN
     END
   >>>>>>>>
 
-END   
+END
 
 COPY_EXISTING ~%tutu_var%sharte.cre~  ~override~
               ~%tutu_var%sharte4.cre~ ~override~
@@ -48,8 +48,8 @@ COPY_EXISTING ~%tutu_var%sharte.cre~  ~override~
   PATCH_IF original_bg1 BEGIN
     WRITE_BYTE 0x24 ((THIS * 3) / 2) // increase by 50%
     WRITE_BYTE 0x26 ((THIS * 3) / 2) // increase by 50%
-  END ELSE BEGIN    
+  END ELSE BEGIN
     ADD_CRE_ITEM monhp1 #0 #0 #0 none ~RRING LRING AMULET BELT BOOTS CLOAK GLOVES ARMOR HELMET~
-  END  
-  
+  END
+
 EXTEND_TOP ~%tutu_scripts%harteel.bcs~ ~./inline/cdsharteel.baf~

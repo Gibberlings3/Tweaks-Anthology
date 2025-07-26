@@ -1,0 +1,103 @@
+/////                                                            \\\\\
+///// Expanded monk equipment                                    \\\\\
+/////                                                            \\\\\
+
+// monks generally not listed in unusability block, so skip description updates for oBG2
+COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
+  READ_SHORT 0x1c type
+  PATCH_IF (((type =  7) AND (monk_helmets = 1)) OR     // headgear
+            ((type = 26) AND (monk_staves  = 1))) BEGIN // staves
+    READ_LONG 0x1e flags
+    PATCH_IF (((flags & BIT7) = 0) AND ((flags & BIT11) = 0)) BEGIN // if usable by single-class clerics and fighters
+      WRITE_LONG 0x1e (flags BAND `BIT29) // removes monk flag
+    END
+  END
+  BUT_ONLY
+
+ACTION_IF ((!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~10~) OR
+           (monk_staves  = 1)) THEN BEGIN // skip only if 'no helmet animations' installed AND we're only enabling helmets
+
+  // helmets don't work on monk animation, so replace with cleric animation
+  ACTION_CLEAR_ARRAY cd_new_anims
+  ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_new_anims BEGIN
+    6000, 6500, CHMC, CHMM => monk_male_human    // clone cleric animations into monk animations
+    6010, 6510, CHFC, CHFM => monk_female_human
+  END
+
+  ACTION_PHP_EACH cd_new_anims AS anims => entry BEGIN
+
+    APPEND ~animate.ids~ ~0x%anims_1% %entry%~ UNLESS ~^0x%anims_1%~
+
+    ACTION_IF enhanced_edition AND !monk_staves BEGIN // can only get away with ini updates for EEs AND helmets-only
+
+      COPY_EXISTING ~%anims_1%.ini~ ~override~ // remove helmet animations from monk animations
+        REPLACE_TEXTUALLY ~equip_helmet[ %TAB%]*=[ %TAB%]*1~ ~equip_helmet=0~
+        BUT_ONLY
+
+    END ELSE BEGIN
+
+      ACTION_IF enhanced_edition BEGIN
+      
+        COPY_EXISTING ~%anims_0%.ini~ ~override/%anims_1%.ini~ // update animation definition
+          REPLACE_TEXTUALLY ~%anims_2%~ ~%anims_3%~
+          REPLACE_TEXTUALLY ~// %anims_3%[ %TAB%A-Za-z0-9_]+~ ~// %anims_3% %entry%~
+          
+      END 
+      
+      COPY_EXISTING_REGEXP GLOB ~^%anims_2%\(.+\)\.bam$~ ~override/%anims_3%\1.bam~
+                                ~^%anims_2%\(.+\)\.plt$~ ~override/%anims_3%\1.plt~
+        IF_EXISTS // in case there are no plts
+
+    END
+
+  END
+
+END
+
+ACTION_IF monk_staves BEGIN
+
+  ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_monk_staves BEGIN MONK => 0 END
+
+  COPY_EXISTING ~kitlist.2da~ ~override~
+    COUNT_2DA_ROWS 9 rows
+    FOR (row = 0 ; row < rows ; ++row) BEGIN
+      READ_2DA_ENTRY row 8 9 class
+      PATCH_IF (IS_AN_INT class) BEGIN // in case of junk rows being caught
+        PATCH_IF (class = 20) BEGIN // class = monk
+          READ_2DA_ENTRY row 1 9 kittext
+          DEFINE_ASSOCIATIVE_ARRAY cd_monk_staves BEGIN "%kittext%" => 0 END
+        END
+      END
+    END
+    BUT_ONLY
+
+  COPY_EXISTING ~weapprof.2da~  ~override~
+    COUNT_2DA_COLS col_count
+    SET col_check = col_count - 1
+    COUNT_2DA_COLS col_count
+    PATCH_PHP_EACH cd_monk_staves AS match_name => foo BEGIN
+      FOR (column = 50; column < col_check; ++column) BEGIN
+        READ_2DA_ENTRY 0 column col_check name
+        PATCH_IF ("%name%" STRING_COMPARE_CASE "%match_name%" = 0) BEGIN
+          SET column += 1 // row with names has an empty entry for the first column
+          DEFINE_ASSOCIATIVE_ARRAY cd_monk_staves_work BEGIN ~%column%~ => ~%column%~ END
+          SET column = col_count // kill loop
+        END
+      END
+    END
+    PATCH_PHP_EACH cd_monk_staves_work AS column => foo BEGIN
+      READ_2DA_ENTRY 17 column col_count new_stars // club pips
+      READ_2DA_ENTRY 22 column col_count old_stars // staff pips
+      PATCH_IF new_stars > old_stars BEGIN 
+        SET_2DA_ENTRY  22 column col_count new_stars // increase if club > staff
+      END   
+      READ_2DA_ENTRY 30 column col_count new_stars // single weapon style
+      READ_2DA_ENTRY 28 column col_count old_stars // 2h weapon style
+      PATCH_IF new_stars > old_stars BEGIN 
+        SET_2DA_ENTRY  28 column col_count new_stars // increase if singke > 2h
+      END
+    END
+    PRETTY_PRINT_2DA
+    BUT_ONLY
+
+END

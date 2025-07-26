@@ -17,6 +17,7 @@ LAF A7_INSTALL_AUTOHASTE
   INT_VAR
     casting_speed = 1
     movement_speed = 0
+    display_icons = 1
   RET success
 END
 

@@ -11,13 +11,15 @@ be installed multiple times w/o issue
 used:
   amber, as amber/lib/kit_ids_fixer.tpa [symbolic link]
   bg2 fixpack, as bg2fixpack/lib/kit_ids_fixer.tpa [symbolic link]
+  gavin, as gavin/lib/kit_ids_fixer.tpa [symbolic link]
+  gavin bg2, as gavin_bg2/lib/kit_ids_fixer.tpa [symbolic link]
   Haldamir, as haldamir/lib/kit_ids_fixer.tpa [local symlink]
   Totemic Cernd, as totemiccernd/lib/kit_ids_fixer.tpa [local symlink]
 
 platform:
   obg2, though it should be harmless on other bg2-based engines
- 
-version history: 
+
+version history:
   unknown
 
 */
@@ -73,14 +75,14 @@ ACTION_FOR_EACH crefile IN  // several entries here cover bgt/tutu so it can be 
   anomen7
   anomen8
   anomen9
-  haer10  
+  haer10
   haer11
   haer13
   haer15
   haer19
   imoen
   imoen1
-  imoen10 
+  imoen10
   imoen15
   imoen2
   imoen211
@@ -91,15 +93,15 @@ ACTION_FOR_EACH crefile IN  // several entries here cover bgt/tutu so it can be 
   korgan11
   korgan12
   korgan15
-  korgan8  
+  korgan8
   korgan9
   mazzy11
   mazzy12
   mazzy15
-  mazzy8  
+  mazzy8
   mazzy9
   BEGIN
-  
+
   COPY_EXISTING ~%crefile%.cre~ ~override~
     READ_LONG 0x0244 KIT_VALUE
     PATCH_IF (KIT_VALUE = 0x00) BEGIN

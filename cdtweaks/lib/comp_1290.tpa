@@ -8,18 +8,18 @@
 
 ACTION_FOR_EACH file IN
   daccalia dalbion daldwin dambere damelia dangaar dapsel darden darundel dbaldemr dbandoth dbeorn dcallard
-  dcallian dchalp dchals dchalw dconlan dcusthan ddenaini ddigby ddirtyll ddoogal dedion degenia dehealer 
-  delibrar delisia demmrch derevain deverard dfalsear dfengla dferg dfgg dflozem dgareth dgerth dgina2 
-  dginafae dgoblinc dgrisell dguello dhailee dharken dharpy dhildrth dhjollde dhobart dhroth dicasa 
-  dilmadia djermsy djhonen djoril djorn dkerish dkieran dkieran2 dkutowng dlehland dlysanpr dmalasim 
-  dmarketh dmirek dmurdaug dmytos dnorl dnorlino dnym dogre doldjed dorcchie dorrick doswald dperdiem 
-  dpomab dpomend dquimby dquinn drawl dredtoe drikasha dseer dseth dsheemis dsoth dtest dthom dtiernon 
+  dcallian dchalp dchals dchalw dconlan dcusthan ddenaini ddigby ddirtyll ddoogal dedion degenia dehealer
+  delibrar delisia demmrch derevain deverard dfalsear dfengla dferg dfgg dflozem dgareth dgerth dgina2
+  dginafae dgoblinc dgrisell dguello dhailee dharken dharpy dhildrth dhjollde dhobart dhroth dicasa
+  dilmadia djermsy djhonen djoril djorn dkerish dkieran dkieran2 dkutowng dlehland dlysanpr dmalasim
+  dmarketh dmirek dmurdaug dmytos dnorl dnorlino dnym dogre doldjed dorcchie dorrick doswald dperdiem
+  dpomab dpomend dquimby dquinn drawl dredtoe drikasha dseer dseth dsheemis dsoth dtest dthom dtiernon
   dtiersto dtowngen dtybald dundlt1 dundlt2 dvaargln dvexing dvoiceda dweenog dwhitcom // dwinona // dwinona is a testing dlg and throws warnings to boot
   dwylf dxactile dyxun
   BEGIN
 
   ACTION_IF FILE_EXISTS_IN_GAME ~%file%.dlg~ THEN BEGIN
-    
+
     COPY_EXISTING ~%file%.dlg~ ~override~
       DECOMPILE_AND_PATCH BEGIN
         REPLACE_TEXTUALLY ~LastTalkedToBy~  ~Protagonist~

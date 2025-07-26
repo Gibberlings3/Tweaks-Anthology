@@ -12,7 +12,7 @@
 
 COMPILE ~cdtweaks/dlg/stronghold1.d~        // removes stronghold var
         ~cdtweaks/dlg/stronghold_temples.d~ // removes class check
-  
+
 COPY_EXISTING ~ar0900.bcs~ ~override~
               ~ar0901.bcs~ ~override~
               ~ar0902.bcs~ ~override~

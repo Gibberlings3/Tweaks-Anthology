@@ -14,35 +14,35 @@ ACTION_IF FILE_EXISTS ~weidu_external/cdtweaks/batch_%COMPONENT_NUMBER%.tpa~ BEG
 
   INCLUDE ~weidu_external/cdtweaks/batch_%COMPONENT_NUMBER%.tpa~
   DELETE + ~weidu_external/cdtweaks/batch_%COMPONENT_NUMBER%.tpa~
-  
+
 END ELSE BEGIN
 
   ACTION_IF (romance_speed_use_config_values = 1) THEN BEGIN // if set in the config file...
 
     ACTION_IF ((!IS_AN_INT romance_speed_factor) OR (romance_speed_factor < 20) OR (romance_speed_factor > 500)) THEN BEGIN // but is not a valid integer between 20-500
-      
+
       OUTER_SET prompt = 1 // prompt anyway
-    
+
     END ELSE BEGIN // if it is an integer between 20-500
-      
+
       OUTER_SET prompt = 0 // then skip prompt and use the value
-    
+
     END
 
   END ELSE BEGIN // if not set in the config file
 
-    OUTER_SET prompt = 1 
+    OUTER_SET prompt = 1
 
   END
-    
+
   ACTION_IF prompt BEGIN
-    
+
     OUTER_WHILE ((!IS_AN_INT romance_speed_factor) OR (romance_speed_factor < 20) OR (romance_speed_factor > 500)) BEGIN // stay here until we have a 20-500
       PRINT @317601
       ACTION_READLN romance_speed_factor
     END
 
-  END  
+  END
 
 END
 
@@ -54,5 +54,5 @@ OUTER_SET romance__speed_factor = %romance_speed_factor%
 
   COPY + ~./inline/cdtweaks_batch.tpa~ ~weidu_external/cdtweaks/batch_%COMPONENT_NUMBER%.tpa~ EVALUATE_BUFFER
     REPLACE_TEXTUALLY ~__~ ~_~
-    
+
 END

@@ -1,55 +1,18 @@
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-/////                                                  \\\\\
-///// No traps or locks                                \\\\\
-/////                                                  \\\\\
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                                      \\\\\
+///// No traps or locks                                                    \\\\\
+/////                                                                      \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-ACTION_IF game_is_iwd2 BEGIN OUTER_SET off = 0x10 END ELSE BEGIN OUTER_SET off = 0 END // outside of this, patch works for v1.0 and v9.1 areas
+/////                                                                      \\\\\
+///// Remove traps completely                                              \\\\\
+/////                                                                      \\\\\
 
-COPY_EXISTING_REGEXP GLOB ~^.+\.are$~ ~override~
-  READ_SHORT (0x5a + off) trig_num
-  READ_LONG  (0x5c + off) trig_off
-  READ_SHORT (0x74 + off) cont_num
-  READ_LONG  (0x70 + off) cont_off
-  READ_LONG  (0xa4 + off) door_num
-  READ_LONG  (0xa8 + off) door_off
-  FOR (index = 0 ; index < trig_num ; ++index) BEGIN // cycle through triggers
-    READ_SHORT (trig_off + 0x6a + (0xc4 * index)) trap_diff
-    PATCH_IF ((trap_diff > 0) AND (trap_diff < 100)) BEGIN
-      WRITE_SHORT (trig_off + 0x6c + (0xc4 * index)) 0 // is not a trap
-    END
-  END
-  FOR (index2 = 0 ; index2 < cont_num ; ++index2) BEGIN // cycle through containers
-    READ_ASCII  (cont_off + 0x78 + (index2 * 0xc0)) key // key y
-    PATCH_IF (("%key%" STRING_COMPARE_CASE "" = 0) OR ("%key%" STRING_COMPARE_CASE "None" = 0)) BEGIN
-      READ_SHORT  (cont_off + 0x26 + (index2 * 0xc0)) lock_diff // lock difficulty
-      PATCH_IF ((lock_diff != 0) AND (lock_diff != 100)) BEGIN
-	      WRITE_SHORT (cont_off + 0x26 + (index2 * 0xc0)) 0 // lock difficulty
-      END
-    END
-    READ_SHORT  (cont_off + 0x2c + (index2 * 0xc0)) trap_diff // trap difficulty
-    PATCH_IF ((trap_diff != 0) AND (trap_diff != 100)) BEGIN
-      WRITE_SHORT (cont_off + 0x30 + (index2 * 0xc0)) 0 // is not a trap
-    END
-  END
-  FOR (index3 = 0 ; index3 < door_num ; ++index3) BEGIN // cycle through doors
-    READ_LONG (door_off + 0x28 + (index3 * 0xc8)) flags // door flags
-    PATCH_IF ((flags & BIT8) = BIT8) BEGIN  // // if flagged as secret door
-      WRITE_LONG (door_off + 0x88 + (index3 * 0xc8)) 0         // detect diff (secret doors)
-      WRITE_LONG (door_off + 0x28 + (index3 * 0xc8)) (THIS BAND `BIT8) // remove secret flag
-    END  
-    READ_SHORT (door_off + 0x6e + (index3 * 0xc8)) trap_diff // detect diff
-    PATCH_IF ((trap_diff != 0) AND (trap_diff != 100)) BEGIN
-      WRITE_SHORT (door_off + 0x70 + (index3 * 0xc8)) 0 // is not a trap
-    END
-    READ_ASCII (door_off + 0x78 + (index3 * 0xc8)) key // key 
-    PATCH_IF (("%key%" STRING_COMPARE_CASE "" = 0) OR ("%key%" STRING_COMPARE_CASE "None" = 0)) BEGIN
-      READ_LONG  (door_off + 0x8c + (index3 * 0xc8)) lock_diff // lock diff
-      PATCH_IF ((lock_diff != 0) AND (lock_diff != 100)) BEGIN
-        WRITE_LONG  (door_off + 0x8c + (index3 * 0xc8)) 0 // lock diff  
-      END  
-    END
-  END
-  BUT_ONLY
+INCLUDE ~cdtweaks/lib/remove_trap_effects.tpa~
+
+LAF no_traps_or_locks
+  INT_VAR
+    effects_only = 0
+END

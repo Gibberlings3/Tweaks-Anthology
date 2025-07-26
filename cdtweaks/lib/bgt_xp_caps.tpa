@@ -1,6 +1,6 @@
 COPY ~cdtweaks/spl/cdxpbg.spl~ ~override/%spell%.spl~
   LPF ALTER_EFFECT INT_VAR match_opcode = 104 parameter1 = xp_cap END
-  
+
 OUTER_FOR (index = 1 ; index < 7 ; ++index) BEGIN
 
   EXTEND_BOTTOM ~baldur.bcs~   ~cdtweaks/baf/cdxpbg.baf~ EVALUATE_BUFFER

@@ -64,7 +64,7 @@ ACTION_PHP_EACH cd_fate_spirit AS script => var BEGIN
         REPLACE_TEXTUALLY ~"G3Met_VARIABLE_NAME"~ ~"G3Met_%var%"~
       END
       BUT_ONLY
-    
+
   END
 
 END

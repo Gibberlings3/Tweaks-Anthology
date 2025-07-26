@@ -132,5 +132,5 @@ DEFINE_PATCH_MACRO ~tob_style_npcs~ BEGIN
     WRITE_LONG  0x2bc "%item_off%"
     WRITE_LONG  0x2c4 "%fx_off%"
   END
-  
-END  
+
+END

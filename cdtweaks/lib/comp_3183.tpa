@@ -64,20 +64,20 @@ END
 ACTION_IF ((remove_romance_racial_requirements = 1) OR (remove_romance_gender_requirements = 1)) BEGIN
 
   ACTION_PHP_EACH cd_romances AS npc => tob BEGIN
-    
+
     EXTEND_TOP ~%npc%.bcs~ ~cdtweaks/baf/%npc%_rom_reqs.baf~
-  
+
   END
-      
+
   ACTION_IF (remove_romance_racial_requirements != 1) BEGIN // if racial requirements intact (ee romances have no racial reqs)
-  
+
     COPY_EXISTING ~aerie.bcs~ ~override~
       DECOMPILE_AND_PATCH BEGIN
         REPLACE_TEXTUALLY ~\(Global("CDRomanceFoo","LOCALS",0)\)~
         ~\1 OR(5) Race(Player1,HUMAN) Race(Player1,HALF_ELF) Race(Player1,ELF) Race(Player1,HALFLING) Race(Player1,GNOME)~
       END
       BUT_ONLY
-  
+
     COPY_EXISTING ~anomen.bcs~  ~override~
                   ~jaheira.bcs~ ~override~
       DECOMPILE_AND_PATCH BEGIN
@@ -85,58 +85,58 @@ ACTION_IF ((remove_romance_racial_requirements = 1) OR (remove_romance_gender_re
         ~\1 OR(4) Race(Player1,HUMAN) Race(Player1,HALF_ELF) Race(Player1,ELF) Race(Player1,HALFLING)~
       END
       BUT_ONLY
-  
+
     COPY_EXISTING ~viconia.bcs~ ~override~
       DECOMPILE_AND_PATCH BEGIN
         REPLACE_TEXTUALLY ~\(Global("CDRomanceFoo","LOCALS",0)\)~
         ~\1 OR(4) Race(Player1,HUMAN) Race(Player1,HALF_ELF) Race(Player1,HALFLING) Race(Player1,HALFORC)~
       END
       BUT_ONLY
-  
+
   END
-      
+
   ACTION_IF (remove_romance_gender_requirements != 1) BEGIN // if gender requirements intact
-  
+
     ACTION_FOR_EACH npc IN aerie jaheira neera viconia BEGIN
-  
+
       ACTION_IF FILE_EXISTS_IN_GAME ~%npc%.bcs~ THEN BEGIN
-  
+
         COPY_EXISTING ~%npc%.bcs~ ~override~
           DECOMPILE_AND_PATCH BEGIN
             REPLACE_TEXTUALLY ~\(Global("CDRomanceFoo","LOCALS",0)\)~
             ~\1 Gender(Player1,MALE)~
           END
           BUT_ONLY
-      
+
       END
-    
+
     END
-  
+
     ACTION_FOR_EACH npc IN anomen hexxat rasaad BEGIN
-  
+
       ACTION_IF FILE_EXISTS_IN_GAME ~%npc%.bcs~ THEN BEGIN
-  
+
         COPY_EXISTING ~%npc%.bcs~ ~override~
           DECOMPILE_AND_PATCH BEGIN
             REPLACE_TEXTUALLY ~\(Global("CDRomanceFoo","LOCALS",0)\)~
             ~\1 Gender(Player1,FEMALE)~
           END
           BUT_ONLY
-      
+
       END
-    
+
     END
-  
+
   END
-  
+
   ACTION_PHP_EACH cd_romances AS npc => tob BEGIN // cleanup dummy var
-    
+
     COPY_EXISTING ~%npc%.bcs~ ~override~
       DECOMPILE_AND_PATCH BEGIN
         REPLACE_TEXTUALLY ~Global("CDRomanceFoo","LOCALS",0)~ ~~
       END
       BUT_ONLY
-  
+
   END
 
 END
@@ -147,7 +147,7 @@ ACTION_IF (romance_multiple = 1) THEN BEGIN
   COMPILE ~cdtweaks/dlg/romance_multi.d~ // remove LT sniping killing romances
 
   ACTION_PHP_EACH cd_romances AS npc => tob BEGIN
-    
+
     COPY_EXISTING ~%npc%.bcs~ ~override~
       DECOMPILE_AND_PATCH BEGIN
         PATCH_PHP_EACH cd_romances AS npc2 => tob2 BEGIN
@@ -162,7 +162,7 @@ ACTION_IF (romance_multiple = 1) THEN BEGIN
       BUT_ONLY
 
     ACTION_IF game_includes_tob THEN BEGIN
-    
+
       COPY_EXISTING ~%tob%.bcs~ ~override~
         DECOMPILE_AND_PATCH BEGIN
           PATCH_PHP_EACH cd_romances AS npc2 => tob2 BEGIN

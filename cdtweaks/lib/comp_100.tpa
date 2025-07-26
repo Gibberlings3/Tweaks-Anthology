@@ -6,6 +6,10 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
+// maintenance note: this is crosslinked; use mod-agnostic paths
+// * cdtweaks/lib/comp_100.tpa
+// * iwdification/tpa/comp_100.tpa
+
 COPY_EXISTING ~randcolr.2da~ ~override~
   REPLACE_TEXTUALLY ~HairSet1~ ~CD_DELETE_ME HairSet1~
   SET_2DA_ENTRY  2  9 15 114 // AthPeasantMajor (208)

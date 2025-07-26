@@ -24,7 +24,7 @@ COPY_EXISTING ~cut32b.bcs~   ~override~
       END ELSE BEGIN
         SET time = IDS_OF_SYMBOL (~GTIMES~ ~%MATCH1%~) // should convert stuff like EIGHT_HOURS to numeric value
       END
-      SET time = ((time * 67) / 100) 
-    END ~SetGlobalTimer("KPPlotTime","GLOBAL",%time%)~  
+      SET time = ((time * 67) / 100)
+    END ~SetGlobalTimer("KPPlotTime","GLOBAL",%time%)~
   END
   BUT_ONLY

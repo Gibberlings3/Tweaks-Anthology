@@ -25,7 +25,7 @@ ACTION_IF enhanced_edition THEN BEGIN
          ~cdtweaks/bam/%iwd%_ee.bam~ ~override/%bg2%.bam~ // iwdee has extra unused set, but replace anyway
     COPY ~cdtweaks/pro/cast_bg.pro~  ~override/%bg2%.pro~
       WRITE_ASCIIE 0x104 ~%iwd%~ #8
-      
+
   END
 
 END ELSE BEGIN
@@ -33,19 +33,19 @@ END ELSE BEGIN
   ACTION_IF game_is_iwd-in-bg2 THEN BEGIN
 
     ACTION_PHP_EACH cd_map_casting AS iwd => bg2 BEGIN
-    
+
       COPY ~cdtweaks/bam/%iwd%.bam~ ~override/%bg2%.bam~
-      
-    END  
+
+    END
 
   END ELSE BEGIN // original iwd
 
     ACTION_PHP_EACH cd_map_casting AS iwd => bg2 BEGIN
 
       COPY ~cdtweaks/bam/%iwd%.bam~ ~override~
-  
+
     END
-  
+
   END
 
 END

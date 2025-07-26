@@ -7,17 +7,17 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 ACTION_IF !original_bg1 BEGIN // originally modified a bunch of junk here, but easier just to do original bg1 as a one-off
-  
+
   APPEND ~state.ids~ ~0x80101FEF CD_STATE_NOTVALID~ UNLESS ~^0x80101FEF[ %TAB]+CD_STATE_NOTVALID[ %TAB%%LNL%%MNL%%WNL%]~
 
   WITH_TRA "%tra_location%/english/dw_components.tra" "%tra_location%/%LANGUAGE%/dw_components.tra" BEGIN
     INCLUDE ~cdtweaks/lib/npc_separate.tpa~
   END
-  
+
 END ELSE BEGIN
-  
+
   APPEND ~state.ids~ ~0x80101FEF CD_STATE_NOTVALID~ UNLESS ~^0x80101FEF[ %TAB]+CD_STATE_NOTVALID[ %TAB%%LNL%%MNL%%WNL%]~
-  
+
   COMPILE ~cdtweaks/dlg/pairsep_bg1.d~ USING "%tra_location%/english/dw_components.tra" "%tra_location%/%LANGUAGE%/dw_components.tra"
-  
+
 END

@@ -1,0 +1,165 @@
+/*
++-------------+
+| SPL file(s) |
++-------------+
+*/
+
+LAF "GT_ADD_SPELL"
+INT_VAR
+	"type" = 3
+	"level" = 2
+STR_VAR
+	"idsName" = "INNATE_SPIDER_WEB_TANGLE"
+RET
+	"INNATE_SPIDER_WEB_TANGLE" = "resName"
+END
+
+WITH_SCOPE BEGIN
+	ACTION_IF !(FILE_EXISTS_IN_GAME "%INNATE_SPIDER_WEB_TANGLE%.spl") BEGIN
+		ACTION_TO_LOWER "INNATE_SPIDER_WEB_TANGLE"
+		//
+		CREATE "spl" "%INNATE_SPIDER_WEB_TANGLE%"
+		COPY_EXISTING "%INNATE_SPIDER_WEB_TANGLE%.spl" "override"
+			/* Header */
+			WRITE_ASCII 0x10 "HSPID01" #8 // casting sound
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@7000)
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC RESOLVE_STR_REF (@7001)
+			WRITE_LONG DESC "-1"
+			WRITE_LONG 0x18 (BIT14 BOR BIT25 BOR BIT9 BOR BIT10) // Ignore dead/wild magic, Castable when silenced, Break sanctuary/invisibility
+			WRITE_SHORT 0x1C 4 // Type: Innate
+			WRITE_LONG 0x34 1 // Level
+			WRITE_ASCII 0x3A "%WIZARD_WEB%C" #8 // Icon
+			/* Extended Header */
+			LPF ~ADD_SPELL_HEADER~ INT_VAR "range" = 30 "projectile" = IDS_OF_SYMBOL ("projectl" "web1p") + 1 STR_VAR "icon" = "%WIZARD_WEB%B" END
+			/* Feature Blocks */
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 324 "target" = 2 "parameter2" = 13 STR_VAR "resource" = "%DEST_RES%" END // Immunity to resource and message (PERSONALSPACE>3)
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 STR_VAR "resource" = "%DEST_RES%" END // Invoke lua
+		BUT_ONLY
+	END
+END
+
+/*
++----------+
+| CRE file |
++----------+
+*/
+
+WITH_SCOPE BEGIN
+	ACTION_TO_LOWER "BEASTMASTER_ANIMAL_COMPANION"
+	//
+	CREATE "cre" "%BEASTMASTER_ANIMAL_COMPANION%g"
+	COPY_EXISTING "%BEASTMASTER_ANIMAL_COMPANION%g.cre" "override"
+		LPF "WRITE_CRE_HEADER"
+		INT_VAR
+			"name" = RESOLVE_STR_REF (@7002)
+			"tooltip" = RESOLVE_STR_REF (@7002)
+			//
+			"flags" = BIT1 // no corpse
+			//
+			"curHP" = 1
+			"maxHP" = 1
+			//
+			"animation" = IDS_OF_SYMBOL ("animate" "SPIDER_SWORD")
+			//
+			"metal_color" = 20
+			"minor_color" = 31
+			"major_color" = 31
+			"skin_color" = 7
+			"leather_color" = 14
+			"armor_color" = 20
+			"hair_color" = 0
+			//
+			"AC" = 3
+			//
+			"apr" = 2 // # attacks/round
+			//
+			"sex" = IDS_OF_SYMBOL ("gender" "MALE")
+			// abilities
+			"STR" = 16
+			"INT" = 10
+			"WIS" = 2
+			"DEX" = 14
+			"CON" = 14
+			"CHR" = 3
+			//
+			"morale" = 13
+			"morale_break" = 3
+			"morale_recovery" = 30
+			// IDS
+			"allegiance" = IDS_OF_SYMBOL ("ea" "NEUTRAL")
+			"general" = IDS_OF_SYMBOL ("general" "MONSTER")
+			"race" = IDS_OF_SYMBOL ("race" "SPIDER")
+			"class" = IDS_OF_SYMBOL ("class" "SPIDER_SWORD")
+			"gender" = IDS_OF_SYMBOL ("gender" "MALE")
+			"alignment" = IDS_OF_SYMBOL ("align" "CHAOTIC_EVIL")
+		STR_VAR
+			"script_override" = "%BEASTMASTER_ANIMAL_COMPANION%x"
+			"script_class" = "%BEASTMASTER_ANIMAL_COMPANION%y"
+			"script_default" = "%BEASTMASTER_ANIMAL_COMPANION%z"
+			//
+			"deathvar" = "gtNWNAnmlCompSpider"
+		END
+		// spellbook
+		ADD_MEMORIZED_SPELL "%BEASTMASTER_ANIMAL_COMPANION%#" #0 "innate" // banish
+		ADD_MEMORIZED_SPELL "%INNATE_SPIDER_WEB_TANGLE%" #0 "innate" // web tangle
+		// equipment
+		ADD_CRE_ITEM "gtpet07a" #0 #0 #0 "identified&unstealable&undroppable" "weapon" EQUIP
+		// passive traits
+		LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 16 "target" = 1 "timing" = 1 "parameter2" = 1 END // permanently (improved) hasted
+		LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 268 "target" = 1 "timing" = 1 END // clear fog of war
+		LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 232 "target" = 1 "timing" = 1 "parameter2" = 16 "special" = BIT2 STR_VAR "resource" = "%BEASTMASTER_ANIMAL_COMPANION%#" END // cast spell onto myself upon death (suppress spell's name)
+		// immunity to web-based attacks
+		LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 101 "target" = 1 "timing" = 9 "parameter2" = 157 END // immunity to op157 (web) : needed for GT_AI_CastSpell_HasImmunityEffects() &c.
+		LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 403 "target" = 1 "timing" = 9 "parameter1" = BIT26 STR_VAR "resource" = "GTIMMUNE" END // screen effects based on op157 (web)
+		LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 83 "target" = 1 "timing" = 9 "parameter2" = IDS_OF_SYMBOL ("projectl" "webtrav") END
+		LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 83 "target" = 1 "timing" = 9 "parameter2" = IDS_OF_SYMBOL ("projectl" "web1p") END
+	BUT_ONLY_IF_IT_CHANGES
+END
+
+/*
++-------------+
+| ITM file(s) |
++-------------+
+*/
+
+WITH_SCOPE BEGIN
+	CREATE "itm" "gtpet07a"
+	COPY_EXISTING "gtpet07a.itm" "override"
+		/* Header */
+		WRITE_LONG NAME1 "-1"
+		WRITE_LONG NAME2 "-1"
+		WRITE_LONG UNIDENTIFIED_DESC "-1"
+		WRITE_LONG DESC "-1"
+		WRITE_LONG 0x18 BIT5 // flags: not copyable (not needed...?)
+		WRITE_SHORT 0x38 1 // maximum in stack
+		WRITE_ASCII 0x3A "ISWOSPDR" #8
+		/* Extended Header */
+		LPF ~ADD_ITEM_HEADER~ INT_VAR "type" = 1 "location" = 1 "range" = 1 "dicenumber" = 2 "dicesize" = 6 "damage_type" = 1 "depletion" = 1 "flags" = BIT0 "overhand" = 34 "backhand" = 33 "thrust" = 33 STR_VAR "icon" = "ISWOSPDR" END // 2d6 (piercing)
+	BUT_ONLY_IF_IT_CHANGES
+	//
+	WITH_SCOPE BEGIN
+		ACTION_DEFINE_ASSOCIATIVE_ARRAY "gtSpiderWeaponUpgrades" BEGIN
+			"b" => 0 // magical (+0)
+			"c" => 1 // magical (+1)
+			"d" => 2 // magical (+2)
+			"e" => 3 // magical (+3)
+		END
+		ACTION_PHP_EACH "gtSpiderWeaponUpgrades" AS "id" => "enchantment" BEGIN
+			COPY_EXISTING "gtpet07a.itm" "override\gtpet07%id%.itm"
+				WRITE_LONG 0x18 (THIS BOR BIT6) // flags: magical
+				WRITE_LONG 0x60 "%enchantment%"
+				//
+				LPF "ALTER_ITEM_HEADER" INT_VAR "damage_bonus" = "%enchantment%" "thac0_bonus" = "%enchantment%" END
+			BUT_ONLY_IF_IT_CHANGES
+		END
+	END
+END
+
+/*
++-------------+
+**LUA file(s) |
++-------------+
+*/
+
+LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Innate Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\kit\animal_companion\spider\web_tangle.lua" "destRes" = "m_gtspin" END

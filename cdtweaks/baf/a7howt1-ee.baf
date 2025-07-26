@@ -1,0 +1,13 @@
+// End the game normally if HoW campaign has already been completed
+IF
+  True()
+THEN
+  RESPONSE #100
+    CutSceneId(Player1Fill)
+    StartMovie("CREDITS")
+    SmallWait(2)
+    UnhideGUI()
+    FadeFromColor([0.0],0)
+    EndCutSceneMode()
+    GoToStartScreen()
+END

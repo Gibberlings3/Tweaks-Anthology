@@ -1,0 +1,30 @@
+DEFINE_ACTION_FUNCTION "OPPORTUNIST"
+BEGIN
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"level" = 4
+		"type" = 4
+	STR_VAR
+		"idsName" = "THIEF_OPPORTUNIST"
+	RET
+		"THIEF_OPPORTUNIST" = "resName"
+	END
+	// feedback icon
+	WITH_SCOPE BEGIN
+		ACTION_TO_LOWER "THIEF_OPPORTUNIST"
+		COPY "cdtweaks\luke\bam\class\opportunist.bam" "override\%THIEF_OPPORTUNIST%d.bam" // courtesy of zenblack
+	END
+	// Listener: run 'func' each time a sprite has finished evaluating its effects
+	WITH_SCOPE BEGIN
+		// feedback icon
+		LAF "ADD_STATDESC_ENTRY" INT_VAR "description" = RESOLVE_STR_REF (@0) STR_VAR "bam_file" = "%THIEF_OPPORTUNIST%D" RET "feedback_icon" = "index" END
+		//
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\get_selected_weapon.lua" "destRes" = "m_gtsprt" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\check_ids.lua" "destRes" = "m_gtsprt" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Class/Kit Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\class\opportunist.lua" "destRes" = "m_gtspcl" END
+	END
+	//
+	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
+		COPY "cdtweaks\luke\lib\resource\tables.lua" "override\m_gttbls.lua"
+	END
+END

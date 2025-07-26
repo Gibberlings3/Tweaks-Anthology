@@ -44,13 +44,13 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
   BUT_ONLY
 
 ACTION_PHP_EACH cd_magical_items AS item => foo BEGIN
-      
+
   ACTION_IF FILE_EXISTS_IN_GAME ~%item%.itm~ THEN BEGIN
 
     COPY_EXISTING ~%item%.itm~ ~override~
       READ_LONG 0x4c weight_itm
       PATCH_IF (weight_itm != 0) BEGIN // don't bother if not non-zero
-        WRITE_LONG 0x4c 0        
+        WRITE_LONG 0x4c 0
         // adjust descriptions
         PATCH_FOR_EACH offset IN 0x50 0x54 BEGIN
           READ_STRREF ~%offset%~ desc
@@ -61,7 +61,7 @@ ACTION_PHP_EACH cd_magical_items AS item => foo BEGIN
             SAY_EVALUATED ~%offset%~ ~%desc%~ // write changes
           END
         END
-      END  
+      END
       BUT_ONLY
 
   END

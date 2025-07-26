@@ -168,14 +168,14 @@ Váha: 2~
 
 @114001 = ~Drahokam je ruda, po které je, když se obrousí nebo na ní vytvoøí fazety a vyleští, poptávka nebo se mùže užívat na šperky.~
 
-@115001 = ~Vyvolej zvíøata (Stvoøení/Povolávání) 
+@115001 = ~Vyvolej zvíøata (Stvoøení/Povolávání)
 Úroveò: 6
-Sféra: Povolávání 
+Sféra: Povolávání
 Dosah: 60 metrù
 Trvání: 4 tahy
 Doba sesílání: 9
-Oblast pùsobení: zvláštní 
-Záchranný hod: žádný 
+Oblast pùsobení: zvláštní
+Záchranný hod: žádný
 
 Toto kouzlo umožòuje sesilateli povolat a ovládat dva  medvìdodlaky s životaschopností 20. Po dobu trvání kouzla plní medvìdodlaci každé sesilatelovo pøání. Medvìdodlaci jsou pomalejší než velcí vlkodlaci, ale jsou naproti tomu robustnìjší. Jsou též odolní na elementální a magické útoky a velmi rychle regenerují.~
 @115002 = ~Velký medvìdodlak~
@@ -193,7 +193,7 @@ Druh zranìn:  seèné
 Rychlost:  3
 Druh dovednosti:  dýka
 Druh:  jednoruèní
-Smí používat:  Pøemìòovatel~ 
+Smí používat:  Pøemìòovatel~
 @115005 = ~Tato symbolická packa reprezentuje pøemìòovatelovu schopnost ovládat lykantropii. Jakmile si ji pøemìòovatel nasadí, stane se velkým vlkodlakem. Sundá-li si ji, stává se opìt èlovìkem. Packy jsou považovány za zbraò +3.
 
 VLASTNOSTI:
@@ -204,11 +204,11 @@ Základní záchranné hody:  1/1/1/2/1
 Odolnosti:  40% odolnost na magii, 50% odolnost na elementy, imunita na nemagické zbranì
 Regenerace:  3 životy za sekundu
 Poèet útokù za kolo:  3
-Základní THAC0 packy:  6 
+Základní THAC0 packy:  6
 Zranìní:  2K8
 Druh zranìní:  seèné
 Rychlost:  3
-Druh dovednosti:  dýka 
+Druh dovednosti:  dýka
 Druh:  jednoruèní
 Smí používat:  Pøemìòovatel~
 
@@ -379,9 +379,9 @@ Tato dovednost umožòuje knìzi vytváøet lektvary. Lektvar, který knìz vyro
 9)  Lektvar zaostøení mysli
 10) Lektvar geniality~
 @218006 = ~Alchymie (Tulák)
-Zlodìji jsou již od pøírody dùmyslní a zkušený zlodìj již bìhem svých cest vidìl spousty lektvarù na to, aby je dokázal také vyrábìt. S touto dovedností mùže zlodìj jednou dennì vytvoøit jeden z osmi lektvarù. 
+Zlodìji jsou již od pøírody dùmyslní a zkušený zlodìj již bìhem svých cest vidìl spousty lektvarù na to, aby je dokázal také vyrábìt. S touto dovedností mùže zlodìj jednou dennì vytvoøit jeden z osmi lektvarù.
 
-Vytvoøený lektvar se urèí náhodnì z tohoto seznamu: 
+Vytvoøený lektvar se urèí náhodnì z tohoto seznamu:
 1) Lektvar zaostøení mysli
 2) Lektvar vnímavosti
 3) Lektvar neviditelnosti

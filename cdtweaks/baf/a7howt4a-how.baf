@@ -1,0 +1,27 @@
+// Prepare transition to Heart of Winter
+IF
+  True()
+THEN
+  RESPONSE #100
+    CutSceneId([PC][0.0.10000.10000])
+    ApplySpell(Player1,CLERIC_RESURRECTION)
+    ApplySpell(Player2,CLERIC_RESURRECTION)
+    ApplySpell(Player3,CLERIC_RESURRECTION)
+    ApplySpell(Player4,CLERIC_RESURRECTION)
+    ApplySpell(Player5,CLERIC_RESURRECTION)
+    ApplySpell(Player6,CLERIC_RESURRECTION)
+    SmallWait(4)
+    MultiPlayerSync()
+    ClearPartyEffects()
+    Wait(1)
+    MultiPlayerSync()
+    DayNight(DAWN_END)
+    Wait(1)
+    MultiPlayerSync()
+    StopJoinRequests()
+    SetGlobal("Exp_Pause","GLOBAL",0)
+    SetGlobal("9200_RESET_JOIN","GLOBAL",1)
+    MultiPlayerSync()
+    EndCutSceneMode()
+    StartCutScene("a7howt4b")
+END

@@ -1,0 +1,9 @@
+@0 = "Paralyzed"
+@1 = "Crippling Strike: The targeted creature is already paralyzed"
+//
+@10 = "Silenced"
+@11 = "Crippling Strike: The targeted creature is already silenced"
+//
+@20 = "Strength Modification"
+//
+@100 = "Unaffected by effects from Crippling Strike"

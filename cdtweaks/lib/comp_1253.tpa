@@ -14,7 +14,7 @@ COPY_EXISTING ~%QUAYLE_BCS%.bcs~ ~override~ // catching and updating area variab
   DECOMPILE_AND_PATCH BEGIN
     REPLACE_TEXTUALLY ~,"%WyrmsCrossing%",~ ~,"%NashkelCarnival%",~
   END
-  BUT_ONLY      
+  BUT_ONLY
 
 ACTION_IF !game_is_bgt THEN BEGIN // all other platforms use GAM file
 

@@ -9,9 +9,9 @@
 ACTION_FOR_EACH script IN baldur baldur25 BEGIN
 
   ACTION_IF FILE_EXISTS_IN_GAME ~%script%.bcs~ THEN BEGIN
-  
+
     EXTEND_TOP ~%script%.bcs~ ~cdtweaks/baf/romance_disable.baf~
 
-  END 
+  END
 
-END    
+END

@@ -1,0 +1,30 @@
+@0 = "Spruzzo d'Acido"
+
+@10 = "Sfera Infuocata"
+
+@20 = "Raggio di Gelo"
+
+@30 = "Scossa Elettrica"
+
+@40 = "Spruzzo Velenoso"
+
+@50 = "Bagliore"
+
+@60 = "Colpo Sicuro"
+
+//////////////////////////////
+
+@1000 = "Cura Ferite Minori"
+
+@1010 = "Causa Ferite Minori"
+
+@1020 = "Interdizione alle Lame"
+
+@1030 = "Fiamma Sacra"
+
+@1040 = "Virtù"
+
+@1050 = "Resistenza"
+
+@1060 = "Frusta di Spine"
+

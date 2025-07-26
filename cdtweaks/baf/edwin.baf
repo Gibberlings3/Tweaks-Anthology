@@ -3,4 +3,4 @@ IF
 THEN
         RESPONSE #100
                 SetGlobal("Edwinfight","GLOBAL",99)
-END                
+END

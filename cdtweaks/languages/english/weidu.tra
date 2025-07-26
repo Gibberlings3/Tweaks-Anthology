@@ -25,7 +25,7 @@
 
 @16 = ~The functionality of this component is either already included
          or superseded by one of your already installed mods.~
-         
+
 @18 = ~This component has been deprecated.~
 
 @21 = ~Requires the 'Change Experience Point Cap: Remove experience cap' component.~
@@ -35,8 +35,10 @@
 @26 = ~Using values from the cdtweaks.txt config file for this component...~
 @27 = ~DLC Merger is required before mods can be installed on this game. Check the readme for more information and a link to download DLC Merger.~
 @28 = ~There are not enough free spell state or secondary type slots available to install this component.~
-@29 = "Requires EEex (https://github.com/Bubb13/EEex)."
-@30 = "One or more Cure/Cause Wounds spells are missing. Make sure either the Divine Spell Pack from IWDification is installed (https://github.com/Gibberlings3/iwdification) or you are modding IWD:EE."
+@29 = ~Requires EEex: https://github.com/Bubb13/EEex ~
+@30 = ~NWN-Style Feats~
+@31 = ~Requires in-game option "3E Sneak Attack" (https://github.com/Argent77/A7-HiddenGameplayOptions).~
+@32 = ~Requires LuaJIT: https://github.com/Bubb13/EEex, component #1~
 
 @100 = ~Batch Installer -- EXPERIMENTAL, use at own risk. Check the readme.~
 @101 = ~
@@ -134,6 +136,20 @@ The uninstall messages above are normal and expected.
 @24001 = ~Add Black Outline~
 @24100 = ~Add Gray Outline~
 
+@25000 = ~Colorize NPC Names and Tooltips~
+@25001 = ~Normal brightness~
+@25100 = ~Slightly increased brightness~
+@25200 = ~Moderately increased brightness~
+@25300 = ~Slightly decreased brightness~
+@25400 = ~Moderately decreased brightness~
+@25500 = ~Original color~
+
+@26000 = "Hide Visual Effects from Invisible Enemies [Luke, EEex]"
+
+@27000 = ~Static PsT Character Portraits~
+@27001 = ~Visualize health and status changes~
+@27100 = ~Don't visualize health and status changes~
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -157,6 +173,10 @@ The uninstall messages above are normal and expected.
 @105000 = ~Gradual Drow Item Disintegration~
 
 @106000 = ~Breakable Iron Non-Magical Shields, Helms, and Armor~
+@106004 = ~Everything just breaks~
+
+@106100 = ~Shields and helms break, armor degrades once~
+@106200 = ~Shields and helms break, armor progressively degrades and breaks~
 
 @107000 = ~Improved Multi-Player Kick-Out Dialogues~
 
@@ -229,6 +249,8 @@ The uninstall messages above are normal and expected.
 
 @125600 = ~Move NPCs to Convenient Locations: Move Viconia to South Beregost Road~
 
+@125700 = ~Move NPCs to Convenient Locations: Alora, Eldoth, Quayle, Shar-Teel, Tiax, and Viconia~
+
 @126000 = ~Bardic Reputation Adjustment~
 
 @127000 = ~Change Cloakwood Mine Chapter End Change Trigger to Non-TotSC Behavior [plainab]~
@@ -272,6 +294,10 @@ The uninstall messages above are normal and expected.
 @135300 = ~Options 1 AND 3~
 
 @135400 = ~Options 2 AND 3~
+
+@136000 = ~Automatic Transition to the "Heart of Winter" Expansion~
+@136001 = ~Don't change the main game~
+@136100 = ~Remove Hjollder from Kuldahar~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -409,9 +435,10 @@ The uninstall messages above are normal and expected.
 
 @242000 = ~Loosen Equipment Restrictions for Cleric Multi- and Dual-Classes~
 
-@243000 = ~Loosen equipment restrictions for druid multi- and dual-classes~
+@242900 = ~Loosen equipment restrictions (without dual-class adjustment, see readme)~
+@243000 = ~Loosen equipment restrictions (with dual-class adjustment, see readme)~
 @243001 = ~Change Equipment Restrictions for Druid Multi- and Dual-Classes~
-@243100 = ~Tighten equipment restrictions for druid multi- and dual-classes [Angel]~
+@243100 = ~Tighten equipment restrictions [Angel]~
 
 @244000 = ~Everyone Gets Bonus APR from Specialization [subtledoctor]~
 
@@ -433,6 +460,11 @@ The uninstall messages above are normal and expected.
 @255200 = ~Generic mage multi-class, enable all kits for single-class~
 
 @256000 = ~Allow Monks to Wear Helmets~
+@256001 = ~Expand Usable Monk Equipment~
+
+@256100 = ~Allow Monks to Use Staves~
+
+@256200 = ~Allow Monks to Wear Helmets and Use Staves~
 
 // these components were abandoned due to bugs with dual-classes
 // @257000 = ~BGT: Additional Experience Cap While in BG~
@@ -446,23 +478,27 @@ The uninstall messages above are normal and expected.
 
 @262000 = ~Make Certain Creatures Immune to Backstab/Sneak Attack [Luke]~
 
-@263000 = "Improved Cure / Cause Wounds [Luke]"
+@263000 = "Improved Cure/Cause Wounds [Luke]"
 
 @264000 = "PnP Potions [Luke]"
 
-@265000 = "Spontaneous Casting for Clerics [Luke]"
+@265000 = "Make Grease ignitable [Luke (EEex)]"
 
-@266000 = "Weapon Finesse feat for Thieves [Luke]"
+@266000 = "Make Bears and Boars Continue Fighting after Reaching 0 Hit Points [Luke (EEex)]"
 
-@267000 = "Dual-Wield feat for Rangers [Luke]"
+@267000 = "Limit Resting Mechanic [Luke (EEex)]"
 
-@268000 = ~"Force" the Archer kit to use bows [Luke]~
+@268000 = ~Make Infravision Useful [Luke (EEex)]~
 
-@269000 = "NWN-ish Armor vs. Dexterity [Luke]"
+@269000 = "Alternate Concentration Check [Luke (EEex)]"
+@269001 = "v1 (check readme)"
+@269002 = "v2 (check readme)"
+@269003 = "v3 (check readme)"
+@269004 = "v4 (check readme)"
 
-@270000 = "Defensive Roll feat for Thieves [Luke]"
+@270000 = "Revised Troll Regeneration [Luke (EEex)]"
 
-@271000 = "Divine Grace / Dark Blessing feat for Paladins / Blackguards [Luke]"
+@271000 = "NWN-style Summons [Luke (EEex)]"
 
 @279000 = "Metamagic class feat for Spellcasters [Luke]"
 
@@ -534,7 +570,10 @@ The uninstall messages above are normal and expected.
 
 @312500 = ~Neutral Characters Make Happy Comments at Mid-Range Reputation [Luiz]~
 
-@313000 = ~No Traps or Locks [Weimer]~
+@313000 = ~No Traps or Locks [Weimer, argent77]~
+@313001 = ~Remove traps completely~
+@313010 = ~Remove only harmful trap effects~
+@313020 = ~Remove harmful trap effects and creatures summoned by alarms~
 
 @314000 = ~Faster Chapter One and Two Cutscenes and Dreams~
 @314001 = ~Originals from Ease-of-Use mod [Karzak, Blucher, aVENGER, Weimer]~
@@ -618,7 +657,7 @@ Enter a percentage between 20 and 500:~
 @324100 = ~Choose your drop~
 @324200 = ~Exchange with merchants~
 
-@325000 = ~Never Lose Access to Orrick the Gray's Trade Goods~
+@325000 = ~Never Lose Access to Orrick's Trade Goods~
 
 @326000 = ~Recoverable Ammunition [argent77]~
 @326001 = ~25% chance to recover after a successful hit~
@@ -661,6 +700,7 @@ Enter a percentage between 20 and 500:~
 Movement speed enabled: a7_movement_speed_enable
 Movement speed percent: a7_movement_speed_value
 Casting speed enabled:  a7_casting_speed_enable
+Display portrait icons: a7_display_portrait_icons
 ~
 
 @335000 = ~Create Interval Saves [argent77]~
@@ -692,6 +732,27 @@ Use Baldur.lua options: a7_interval_ini
 
 @339000 = ~Automatic Use of Ranger Tracking Skill~
 @339001 = ~Cannot read tracking table: component installed but no changes made.~
+
+@340000 = ~Restored Loading Hints~
+
+@341000 = ~Explicit Cast Warnings~
+@341001 = ~Mage and priest spells only~
+@341100 = ~Mage, priest, and innate spells only~
+@341200 = ~All spells (check readme)~
+
+@342000 = "More Sensible Cowled Wizards [Luke (EEex)]"
+
+@343000 = "More Stoneskin Feedback [Luke (EEex)]"
+
+@344000 = "Extra Dispel Feedback [Luke (EEex)]"
+
+@345000 = "More Sensible Fireshield [Luke (EEex)]"
+
+@346000 = "More Sensible Blade Barrier [Luke (EEex)]"
+
+@347000 = ~Dynamic FPS Change [Luke (EEex)]~
+
+@348000 = "More Sensible Morentherene [Luke (EEex)]"
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -753,7 +814,7 @@ Use Baldur.lua options: a7_interval_ini
 @419700 = ~Also Color the PC's Name: Yellow~
 @419800 = ~Also Color the PC's Name: Orange~
 
-@420000 = "Make Rancor +1 a bit more reliable"
+@420000 = "Make Rancor +1 a Bit More Reliable"
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -776,3 +837,83 @@ Use Baldur.lua options: a7_interval_ini
 @504000 = ~Allow Yeslick to Use Axes~
 
 @505000 = ~Ensure Shar-Teel Doesn't Die in the Original Challenge~
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// NWN-style feats collection                       \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+@600000 = "Disarm Class Feat for Rogues [Luke (EEex)]"
+
+@601000 = "Knockdown Class Feat for Fighters and Monks [Luke (EEex)]"
+
+@602000 = "Spellcaster Skill/Counterspell Class Talent [Luke (EEex)]"
+
+@603000 = "Spontaneous Casting for Clerics [Luke (EEex)]"
+
+@604000 = "Weapon Finesse Class Feat for Thieves [Luke (EEex)]"
+
+@605000 = "Dual-Wield Class Feat for Rangers [Luke (EEex)]"
+
+@606000 = "NWN-style Armor vs. Dexterity [Luke (EEex)]"
+
+@607000 = "Defensive Roll Class Feat for Thieves [Luke (EEex)]"
+
+@608000 = "Divine Grace/Dark Blessing Feat for Paladins/Blackguards [Luke (EEex)]"
+
+@609000 = "Good Aim Racial Feat for Halflings [Luke (EEex)]"
+
+@610000 = "Cleave Class Feat for Fighters [Luke (EEex)]"
+
+@611000 = "Sneak Attack Class Feat for Blackguards [Luke (EEex)]"
+
+@612000 = "Fearless Racial Feat for Halflings [Luke (EEex)]"
+
+@613000 = "Poison Save Class Feat for Assassins [Luke (EEex)]"
+
+@614000 = "Planar Turning Class Feat for Clerics/Paladins [Luke (EEex)]"
+
+@615000 = "Circle Kick Class Feat for Monks [Luke (EEex)]"
+
+@616000 = "NWN-style Barbarian Rage [Luke (EEex)]"
+
+@617000 = ~"Force" the Archer Kit to Use Bows [Luke (EEex)]~
+
+@618000 = "Blind Fight Innate Feat for Berserkers [Luke (EEex)]"
+
+@619000 = "Dirty Fighting Class Feat for Chaotic-Aligned Rogues [Luke (EEex)]"
+
+@620000 = "Overwhelming/Devastating Critical Class Feat for Trueclass Fighters [Luke]"
+
+@621000 = "Self Concealment Class Feat for Monks [Luke (EEex)]"
+
+@622000 = "Parry Mode Kit Feat for Blades and Swashbucklers [Luke (EEex)]"
+
+@623000 = "Armored Caster Class Feat for Bards [Luke (EEex)]"
+
+@624000 = "Trackless Step Class Feat for Rangers [Luke (EEex)]"
+
+@625000 = "Nature Sense Class Feat for Druids [Luke (EEex)]"
+
+@626000 = "Uncanny Dodge Class Feat for Barbarians and Rogues [Luke (EEex)]"
+
+@627000 = "NWN-style Sneak Attack/Crippling Strike Class Feat for Thieves and Stalkers [Luke (EEex)]"
+
+@628000 = "Evasion Class Feat for Monks and Rogues [Luke (EEex)]"
+
+@629000 = "Spell Penetration Class Feat for Spellcasters [Luke (EEex)]"
+
+@630000 = "Smite Evil/Good Class Feat for Paladins/Blackguards [Luke (EEex)]"
+
+@631000 = "Woodland Stride Class Feat for Druids [Luke (EEex)]"
+
+@632000 = "Bane of Enemies Class Feat for Rangers [Luke (EEex)]"
+
+@633000 = "Cantrips Class Feat for Spellcasters [Luke (EEex)]"
+
+@634000 = "Animal Companion Class Feat for Beastmasters [Luke (EEex)]"
+
+@635000 = "Opportunist class feat for Chaotic-Aligned Rogues [Luke (EEex)]"

@@ -30,7 +30,7 @@ EXTEND_BOTTOM multig 1
       OR(2) // make sure we're not in totl
         Global("Master_Quest","GLOBAL",0)
         GlobalGT("Master_Quest","GLOBAL",6)~ THEN REPLY @107006 DO ~SetGlobal("Waiting","LOCALS",1)~ GOTO gallows // go to Whistling Gallows
-                                                                    
+
 END
 
 APPEND ~multig~

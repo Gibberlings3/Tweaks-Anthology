@@ -40,7 +40,7 @@ END ELSE BEGIN // bgt
       REPLACE_TEXTUALLY ~CreateCreature("ELDOTH5?",[^)]+)~ ~~ // blank this action rather than false()ing entire block, since same block spawns faldorn
     END
     BUT_ONLY
-  
+
   EXTEND_BOTTOM ~%CoastWay_BCS%.bcs~                  ~cdtweaks/baf/bgt_spawn_eldoth.baf~
 
 END

@@ -15,9 +15,9 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.are$~ ~override~
 ACTION_FOR_EACH script IN baldur baldur25 bdbaldur BEGIN
 
   ACTION_IF FILE_EXISTS_IN_GAME ~%script%.bcs~ THEN BEGIN
-  
+
     EXTEND_TOP ~%script%.bcs~ ~cdtweaks/baf/deathcam.baf~
 
-  END 
+  END
 
-END 
+END

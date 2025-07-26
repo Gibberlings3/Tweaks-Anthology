@@ -49,7 +49,7 @@ EXTEND_BOTTOM multig 1
       !AreaCheck("%IceIslandMaze_L2%") // ice isle cavern 2
       !AreaCheck("%Beregost_JovialJuggler_L2R%")~ // not in the area where the NPC will be sent
     THEN REPLY @107015  DO ~SetGlobal("Waiting","LOCALS",1)~ GOTO dmww_beregost
-  
+
   IF ~GlobalGT("Chapter","GLOBAL",1)
       !Global("IslandTravel","GLOBAL",1) // not on Werewolf Isle
       !Global("teth","GLOBAL",1) // not trapped under Candlekeep AR2613, 2615, 2619, 5506
@@ -74,7 +74,7 @@ EXTEND_BOTTOM multig 1
       !AreaCheck("%IceIslandMaze_L2%") // ice isle cavern 2
       !AreaCheck("%Nashkel_TempleofHelm%")~ // not in the area where the NPC will be sent
     THEN REPLY @107013 DO ~SetGlobal("Waiting","LOCALS",1)~ GOTO dmww_nash
-  
+
   IF ~!Global("Chapter","GLOBAL",7)   // you're not wanted in the Gate for murder
       Global("EnteredBaldursGate","GLOBAL",1)
       !Global("IslandTravel","GLOBAL",1) // not on Werewolf Isle
@@ -121,7 +121,7 @@ APPEND ~multig~
     IF ~Global("CDMultiNPCNo_Fai","GLOBAL",12)~ THEN DO ~IncrementGlobal("CDMultiNPCNo_Fai","GLOBAL",1) EscapeAreaMove("%FriendlyArmInn_L2%",796,750,00)~ EXIT
     IF ~Global("CDMultiNPCNo_Fai","GLOBAL",13)~ THEN DO ~SetGlobal("CDMultiNPCNo_Fai","GLOBAL",0) EscapeAreaMove("%FriendlyArmInn_L2%",790,783,06)~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN dmww_beregost
     SAY @107009
     IF ~Global("CDMultiNPCNo_Bereg","GLOBAL",0)~ THEN DO ~IncrementGlobal("CDMultiNPCNo_Bereg","GLOBAL",1) EscapeAreaMove("%Beregost_JovialJuggler_L2R%",350,300,14)~ EXIT
@@ -139,7 +139,7 @@ APPEND ~multig~
     IF ~Global("CDMultiNPCNo_Bereg","GLOBAL",12)~ THEN DO ~IncrementGlobal("CDMultiNPCNo_Bereg","GLOBAL",1) EscapeAreaMove("%Beregost_JovialJuggler_L2R%",410,400,00)~ EXIT
     IF ~Global("CDMultiNPCNo_Bereg","GLOBAL",13)~ THEN DO ~SetGlobal("CDMultiNPCNo_Bereg","GLOBAL",0) EscapeAreaMove("%Beregost_JovialJuggler_L2R%",260,345,06)~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN dmww_nash
     SAY @107009
     IF ~Global("CDMultiNPCNo_Nash","GLOBAL",0)~ THEN DO ~IncrementGlobal("CDMultiNPCNo_Nash","GLOBAL",1) EscapeAreaMove("%Nashkel_TempleofHelm%",250,410,14)~ EXIT
@@ -157,7 +157,7 @@ APPEND ~multig~
     IF ~Global("CDMultiNPCNo_Nash","GLOBAL",12)~ THEN DO ~IncrementGlobal("CDMultiNPCNo_Nash","GLOBAL",1) EscapeAreaMove("%Nashkel_TempleofHelm%",540,480,00)~ EXIT
     IF ~Global("CDMultiNPCNo_Nash","GLOBAL",13)~ THEN DO ~SetGlobal("CDMultiNPCNo_Nash","GLOBAL",0) EscapeAreaMove("%Nashkel_TempleofHelm%",500,450,06)~ EXIT
   END
-  
+
   IF ~~ THEN BEGIN dmww_elfsong
     SAY @107009
     IF ~Global("CDMultiNPCNo_Elfsong","GLOBAL",0)~ THEN DO ~IncrementGlobal("CDMultiNPCNo_Elfsong","GLOBAL",1) EscapeAreaMove("%EBaldursGate_ElfsongTavern_L2%",825,420,14)~ EXIT

@@ -6,30 +6,45 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-     @0 = ~Retoques a los PNJ~
-     @1 = ~Esto puede llevar unos momentos ...~
-     @2 = ~Este componente requiere "Agregar bolsas contenedoras al BG1"~
-     @3 = ~Requiere el componente 'Permitir lanzar hechizos arcanos con armadura'~
-     @4 = ~Retoques/Trucos de conveniencia~
-     @5 = ~El Exotic Item Pack se requiere para este componente.~
-     @6 = ~Requiere el componente 'Permitir robar y actividades de ladron en armadura pesada'~
-     @7 = ~Este componente no esta disponible en tu idioma.~
-     @8 = ~Este componete es solo para BGT.~
-     @9 = ~Cambio de Reglas~
-    @10 = ~Este componente no es necesario para tutu~
-    @11 = ~Cambios Cosmeticos~
-    @12 = ~Se requiere el TOB para este componente.~
-    @13 = ~Cambios de Contenidos~
-    @14 = ~Este componente es solo para Tutu o BGT.~
-    @15 = ~Este componente es solo para Tutu.~
-    @16 = ~La funcionalidad de este componente esta ya incluída en algun mod instalado previamente.~
-    @17 = ~Este componente requiere el hacer consistentes las armas +x/+y.~
-    @18 = ~Este componente esta desactualizado.~
-    @19 = ~Reglas de la casa de Cam~
-    @20 = ~Ver Leeme?
-  a) Si
-  b) No~
-	@21 = ~Requiere el componente 'Cambiar el Cap de Puntos de Experiencia: Quita el tope de nivel'.~
+// gaps in the numbering in this section are from strings that are no longer needed
+// if your tra files has them, you can safely delete them
+
+@0 = ~Retoques a los PNJs~
+@1 = ~Esto puede llevar unos momentos...~
+@2 = ~Este componente requiere 'Agregar bolsas contenedoras al BG1'~
+
+@4 = ~Retoques de conveniencia/Trucos~
+
+@7 = ~Este componente no esta disponible en tu idioma.~
+
+@9 = ~Cambios en las reglas~
+
+@11 = ~Cambios cosmeticos~
+
+@13 = ~Cambios de contenido~
+
+@16 = ~La funcionalidad de este componente ya esta incluida
+         o sustituida por uno de tus mods ya instalados.~
+
+@18 = ~Este componente esta desactualizado.~
+
+@21 = ~Requiere el componente 'Cambiar el Cap de Puntos de Experiencia: Quita el tope de nivel'.~
+
+@24 = ~Este componente es incompatible con otro mod ya instalado.~
+@25 = ~Este componente no esta disponible para este juego.~
+@26 = ~Usando valores del archivo de configuracion cdtweaks.txt para este componente...~
+@27 = ~DLC Merger es necesario antes de poder instalar mods en este juego. Consulta el archivo readme para obtener mas informacion y un enlace para descargar DLC Merger.~
+@28 = ~No hay suficientes ranuras libres de estado de hechizo o de tipo secundario disponibles para instalar este componente.~
+@29 = "Requiere EEex (https://github.com/Bubb13/EEex)."
+
+@100 = ~Instalador Batch -- EXPERIMENTAL, uso bajo su propio riesgo. Compruebe el archivo readme~
+@101 = ~
+
+Registro del componente para la instalacion batch
+
+Los mensajes de desinstalacion anteriores son normales y esperados.
+
+~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -39,42 +54,93 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-  @1000 = ~Quitar animaciones de los yelmos~
+@1000 = ~Quitar animaciones de los yelmos~
 
-  @2000 = ~Cambiar el Avatar de Imoen a maga~
+@2000 = ~Cambiar el avatar de Imoen a maga~
 
-  @3000 = ~Cambiar el Avatar de Nalia a Ladrona~
+@3000 = ~Cambiar el avatar de Nalia a ladrona~
 
-  @4000 = ~Cambiar el color de piel de Viconia a azul oscuro~
+@4000 = ~Cambiar el color de piel de Viconia a azul oscuro~
 
-  @5000 = ~Script de Polimorfar Avatar~
-  @6000 = ~Cambios en las animaciones de armas~
+@5000 = ~Script de polimorfar avatar~
 
-  @7000 = ~Graficos de lanzamiento de hechizos de Icewind Dale (Andyr)~
+@6000 = ~Cambios en las animaciones de armas~
 
-  @7020 = ~Graficos de lanzamiento de Baldur's Gate II (Andyr)~
+@7000 = ~Graficos de lanzamiento de conjuros de Icewind Dale [Andyr]~
 
-  @8000 = ~Restaurar el logo de carga de pantalla de SoA (solo TOB)~
+@7020 = ~Graficos de lanzamiento de conjuros de Baldur's Gate II [Andyr]~
 
-  @8020 = ~Restablecer escenas de apertura de IWD.~
+@8000 = ~Restaurar el logo de carga de pantalla de SoA (solo TOB)~
 
-  @9000 = ~Desactivar los Iconos de los Portraits que agregan los Objetos Equipados~
+@8020 = ~Restaurar pantallas de carga IWD [icelus]~
 
- @10000 = ~Los plebeyos usan colores oscuros~
+@9000 = ~Desactivar los iconos de los retratos que agregan los objetos equipados~
 
- @11000 = ~Mejoras en los Iconos~
+@10000 = ~Los plebeyos usan colores apagados~
 
- @12000 = ~Diferente avatar al llevar túnica o armadura de cuero~
+@11000 = ~Mejoras en los iconos~
 
- @13000 = ~Forzar a pausa a todos los diálogos~
+// deprecated: you don't have to translate @12000
+@12000 = ~Change Avatar When Wearing Robes or Armor [Galactygon]~
 
- @18000 = ~Contenedores unicos~
- @18018 = ~Solo arreglos~
- @18019 = ~Este componente no es relevante para BG1.~
- @18020 = ~Iconos y nombres unicos~
- @18021 = ~Solo iconos unicos~
- @18022 = ~Colores de BG2 para PNJ de BG1/Tutu~
- @18023 = ~Este componente no es relevante para BG2.~
+@13000 = ~Forzar a pausa a todos los dialogos~
+
+@14000 = ~Arreglar el chillido de Bubu~
+
+// this component is not ready, you can skip translating this block
+//@15000 = ~Alter Name of Unique Items~
+//@15001 = ~Use unique name (i.e. Kondar)~
+//@15100 = ~Use unique name +x (i.e. Kondar +1)~
+//@15200 = ~Use generic name (i.e. Bastard Sword +1, +3 vs. Shapeshifters)~
+
+@15002 = ~Eliminar "+x" de los nombres de objetos unicos~
+
+@16000 = ~Hacer que los escudos magicos brillen [plainab/grogerson]~
+
+@17000 = ~Iconos unicos [Lava]~
+@17001 = ~Reemplazar solo iconos que no sean ya unicos~
+@17010 = ~Reemplazar todos los iconos~
+
+
+@18000 = ~Contenedores unicos [Miloch]~
+@18018 = ~Solo arreglos~
+@18019 = ~Este componente no es relevante para BG1.~
+@18020 = ~Iconos y nombres unicos~
+@18021 = ~Solo iconos unicos~
+@18022 = ~Colores de BG2 para PNJs de BG1/Tutu~
+@18023 = ~Este componente no es relevante para BG2.~
+
+@19000 = ~Para todos los escudos y yelmos~
+@19001 = ~Usar colores del personaje en lugar de colores del objeto~
+@19100 = ~Para escudos y yelmos no magicos~
+@19200 = ~Para todos los yelmos~
+@19300 = ~Para yelmos no magicos~
+@19400 = ~Para todos los escudos~
+@19500 = ~Para escudos no magicos~
+
+@20000 = ~Eliminar efecto de desenfoque~
+@20001 = ~Eliminar efectos visuales molestos de los objetos equipados~
+@20002 = ~Eliminar la trampa de hechizos y efectos de reflejo~
+@20003 = ~Eliminar todo lo anterior~
+
+@21000 = ~Separar los iconos de resistencia al fuego/frio en iconos separados [Angel]~
+
+@22000 = ~Overlays mejorados para jugadores daltonicos [Fouinto]~
+
+@23000 = ~Restaurar etiquetas de IWD~
+
+@24000 = ~Contorno de los iconos de hechizos en blanco para mayor accesibilidad~
+@24001 = ~Añadir contorno negro~
+@24100 = ~Añadir contorno gris~
+
+@25000 = ~Colorear los nombres y etiquetas de los PNJs~
+@25001 = ~Brillo normal~
+@25100 = ~Brillo ligeramente aumentado~
+@25200 = ~Brillo moderadamente aumentado~
+@25300 = ~Brillo ligeramente disminuido~
+@25400 = ~Brillo moderadamente disminuido~
+@25500 = ~Color original~
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -83,49 +149,137 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-@101000 = ~Mas Interjecciones~
+@101000 = ~Mas interjecciones~
 
-@102000 = ~Hacer que la perdida de PG que activa los dialogos de PNJ heridos sea menor~
+@102000 = ~Hacer que la perdida de puntos de golpe que activa los dialogos de PNJs heridos sea menor~
 
-@103000 = ~Revelar areas silvestres antes del Capítulo Seis~
+@103000 = ~Revelar areas silvestres antes del capitulo seis~
 
 @103500 = ~Hacer que las areas del Bosque de las Capas esten accesibles antes de completar el Campamento de los Bandidos~
 @103501 = ~Solo primer area~
-
 @103600 = ~Todo el Bosque de las Capas excepto las minas~
 
 @104000 = ~Guardias de Athkatla mejorados~
-@105000 = ~Desintegracion Gradual de los Objetos Drow~
-@106000 = ~Escudos, Yelmos y Armaduras de hierro no-magicas que se rompen~
+
+@105000 = ~Desintegracion gradual de los objetos drow~
+
+@106000 = ~Escudos, yelmos y armaduras de hierro no magicas que se rompen~
+
 @107000 = ~Dialogos multiplayer mejorados~
-@108000  = ~Agregar bolsas contenedoras al BG1~
+
+@107500 = ~Enviar PNJs de BioWare a una posada [DavidW/Zed Nocear]~
+
+@108000 = ~Agregar bolsas de contencion~
+
+@108500 = ~Contenedores portatiles [Zed Nocear]~
+
+// deprecated: you don't have to translate @109000
 @109000 = ~Exotic Item Pack~
 
 @110000 = ~Descubrir el mapa de las ciudades cuando se entre a un area~
 
+@110100 = ~No revelar el mapa de la ciudad al entrar en un area~
+
 @111000 = ~Agregar notas al mapa~
+
 @112000 = ~Las tiendas venden mas cantidad de objetos apilados~
 
-@113000 = ~Reseteo de Reputación en BG2 (Sólo BGT)~
+// deprecated: you don't have to translate @112500
+@112500 = ~Infinite Non-Magical Ammo for Bows, Crossbows, and Slings~
+
+@113000 = ~Reseteo de reputacion en BG2~
 
 @114000 = ~Las gemas y pociones requieren ser identificadas~
-@115000 = ~Rebalanceo del Cambiaformas~
-@116000 = ~Múltiples fortalezas~
-@116001 = ~Sin Restricciones (Baldurdash)~
+@114002 = ~Gemas y pociones~
+@114100 = ~Solo gemas~
+@114200 = ~Solo pociones~
+
+@115000 = ~Rebalanceo del cambiaformas [Weimer]~
+
+@116000 = ~Multiples fortalezas [Sabre, Baldurdash, Weimer]~
+@116001 = ~Sin Restricciones~
 @116100 = ~Mantener las restricciones de clase~
 
-@117000 = ~Mercaderes extra (Baldurdash)~
+@117000 = ~Mercaderes extra [Baldurdash]~
 
-@118000 = ~Edwina Femenina~
+@118000 = ~Edwina femenina [Davide Carte, Wendy Yung, Weimer]~
 
-@119000 = ~Romance: corrección de errores~
+@119000 = ~Correccion de errores de romance [Sabre, Richardson]~
 
-@120000 = ~Arreglo del diálogo de Imoen en ToB~
+@120000 = ~Arreglo del dialogo de Imoen en ToB [jcompton]~
 
-@121000 = ~Utilizar la velocidad de caminar de BG (BETA)~
+@121000 = ~Utilizar la velocidad de caminar de BG~
 
-@122000 = ~Hacer que Cromwell mejore objetos del Torreón del Vigilante~
-    
+@122000 = ~Hacer que Cromwell mejore objetos del Torreon del Vigilante~
+
+@122500 = ~Ajustar el tiempo de forja de Cromwell~
+@122501 = ~Forja instantanea (por defecto en el BG2 original)~
+@122600 = ~Ocho horas~
+@122700 = ~24 horas completas (BG2EE por defecto, incluye sueño)~
+
+@123000 = ~Permitir a Cespenar utilizar recetas de Cromwell~
+
+@124000 = ~Restauracion de contenedor oculto en Meson del Brazo Amigo [plainab]~
+
+// deprecated: you don't have to translate @125000
+@125000 = ~Move NPCs from Baldur's Gate~
+
+@125100 = ~Mover PNJs a ubicaciones convenientes: Mover Alora a Gulykin~
+
+@125200 = ~Mover PNJs a ubicaciones convenientes: Mover Eldoth a camino al sur de Meson del Brazo Amigo~
+
+@125300 = ~Mover PNJs a ubicaciones convenientes: Mover Quayle a Carnaval de Nashkel~
+
+@125400 = ~Mover PNJs a ubicaciones convenientes: Mover Shar-Teel a camino al norte de Nashkel~
+
+@125500 = ~Mover PNJs a ubicaciones convenientes: Mover Tiax a Beregost~
+
+@125600 = ~Mover PNJs a ubicaciones convenientes: Mover Viconia a camino al sur de Beregost~
+
+@126000 = ~Ajuste de reputacion con bardos~
+
+@127000 = ~Cambiar el activador de cambio de fin de capitulo de la mina del Bosque de las Capas a un comportamiento que no sea de TotSC [plainab]~
+
+@128000 = ~El juego termina cuando muere el personaje principal.~
+
+@129000 = ~Los PNJs responden al personaje principal, no al personaje que les habla~
+
+@130000 = ~Hacer que Heart of Winter sea accesible en cualquier nivel~
+
+@131000 = ~Restaurar (la mayoria) de los conjuros de BG2 y hacer que los pergaminos esten disponibles
+  ADVERTENCIA: Se verán muy fuera de lugar~
+
+@132000 = ~Diario estilo BG2 (trabajo en curso)~
+
+@133000 = ~PNJs no pueden pasar por las puertas~
+
+@134000 = ~Hacer que la esfera planar fortificada este disponible para todas las clases~
+
+@134100 = ~Hacer que la fortaleza de'Arnise este disponible para todas las clases~
+
+@134200 = ~Hacer que las fortalezas del Templo esten disponibles para todas las clases~
+
+@134300 = ~Hacer que la fortaleza del Gremio de Ladrones este disponible para todas las clases~
+
+@134400 = ~Hacer que la fortaleza del teatro este disponible para todas las clases~
+
+@134500 = ~Hacer que la fortaleza de la Orden del Radiante Corazón este disponible para todas las clases~
+
+@134600 = ~Hacer que la fortaleza de la Arboleda druidica este disponible para todas las clases~
+
+@134700 = ~Hacer que la fortaleza de la cabaña del Valle de Imnes este disponible para todas las clases~
+
+@135000 = ~Ajustes de vulnerabilidad del arma Karoug~
+@135001 = ~Elimina el requisito de arma plateada para golpear a Karoug~
+
+@135100 = ~Elimina el requisito de arma plateada para golpear a Karoug, pero requiere armas +2~
+
+@135200 = ~Los PNJs con amuleto matalobos pueden dañar a Karoug~
+
+@135300 = ~Opciones 1 Y 3~
+
+@135400 = ~Opciones 2 Y 3~
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -134,115 +288,202 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-@201000 = ~Progresiones de hechizos según tablas de PnP~
+@201000 = ~Progresiones de hechizos segun tablas de PnP~
 
-@202000 = ~Espadas bastardas de dos puños~
-@203000 = ~Katanas de dos puños~
+@202000 = ~Espadas bastardas a dos manos~
 
-@204000 = ~Palos universales~
-@205000 = ~Actualizaciones a las Descripciones para los Palos Universales~
-@205001 = ~Requiere tener instalado el componente de Palos Universales~
-@205002 = ~Ashes of Embers esta instalado, y ya ajusta las descripciones.~
+@203000 = ~Katanas a dos manos~
 
-@206000 = ~Estilos de Armas para todos~
+@203500 = ~Hachas a dos manos~
 
-@207000 = ~Druidas usan progresion de clérigos al subir niveles y hechizos~
+@204000 = ~Garrotes universales~
+
+@206000 = ~Estilos de armas para todos~
+
+@207000 = ~Druidas usan progresion de clerigos al subir niveles y hechizos~
 
 @208000 = ~Demorar las habilidades de alto nivel~
 
-@209000 = ~Cambiar el Cap de Puntos de Experiencia~
-@209001 = ~Quita el tope de nivel~
-
+@209000 = ~Cambiar el cap de puntos de experiencia~
+@209001 = ~Quitar el tope de nivel~
 @209100 = ~Tope de nivel 20~
-
 @209200 = ~Tope de nivel 30~
 
-@210000 = ~Permitir habilidades de ladrón con armadura pesada~
-// Moved from thieving_descripts.tpa
-// See English setup.tra for details on what should be matched by the regular expression
-@211000 = ~Alterar las descripciones para 'Permitir el robo y el uso de las habilidades de Ladron en Armadura Pesada'~
+@210000 = ~Permitir habilidades de ladron con armadura pesada~
 
 @212000 = ~Permitir lanzar hechizos con armadura~
-// Moved from arcane_descripts.tpa
-// See English setup.tra for details on what should be matched by the regular expression
-@213000 = ~Alterar las descripciones de los objetos para 'Permitir lanzar hechizos Arcanos en Armadura Pesada'~
 
-@214000 = ~Opciones de Clase Dual Expandidas~
-@215000 = ~Usar Multiples Objetos de Proteccion~
+@214000 = ~Opciones de clase dual expandidas~
+
+@215000 = ~Usar multiples objetos de proteccion~
 @215001 = ~Restricciones al estilo P&P~
-@215100 = ~Sin Restricciones~
+@215100 = ~Sin restricciones~
+@215200 = ~Permitir armadura mas un objeto de proteccion [Angel]~
 
-@216000 = ~Talentos con Armas Re-balanceados~
-@216006 = ~Cambiar el sistema de talentos marciales.~
-
-@216100 = ~Talentos marciales al estilo BG, con estilos de lucha (the bigg)~
-@216200 = ~Talentos marciales al estilo BG, sin estilos de lucha (the bigg)~
+@216000 = ~Talentos con armas rebalanceados~
+@216006 = ~Cambiar el sistema de talentos marciales~
+@216100 = ~Talentos marciales al estilo BG, con estilos de lucha [the bigg]~
+@216200 = ~Talentos marciales al estilo BG, sin estilos de lucha [the bigg]~
+@216300 = ~Talentos marciales al estilo IWD, con estilos de lucha~
+@216400 = ~Talentos marciales al estilo IWD, sin estilos de lucha~
 
 @217000 = ~Lanzar hechizos de pergaminos (y otros objetos) al nivel del personaje~
 
-@218000 = ~Arreglar la tabla del GAC0, las tiradas de salvacion, gran maestria la progresion de los conjuros arcanos y divinos (Blucher)~
-@219000 = ~Limitar la habilidad de los Vendedores para Identificar Objetos~
-@219001 = ~Solo los vendedores Magos y Bardos pueden identificar objetos~
+// deprecated: you don't have to translate @218000
+@218000 = ~Un-Nerfed THAC0 Table, Saving Throws, Grand-Mastery, and Arcane, Divine Spell Progression [Blucher]~
 
-@219100 = ~La habilidad de Identificar se basa en el Conocimiento del vendedor~
+@219000 = ~Limitar la habilidad de los vendedores para identificar objetos~
+@219001 = ~Solo los vendedores magos y bardos pueden identificar objetos~
+@219100 = ~La habilidad de identificar se basa en el conocimiento del vendedor~
+@219200 = ~Hibrido de ambos metodos~
 
-@219200 = ~Hibrido de ambos métodos~
+@220000 = ~Gran maestria en armas para los multiclase [Weimer]~
 
-@220000 = ~Gran Maestria en armas para los multi-clase (Weimer)~
-
-@221000 = ~Gran Maestria Verdadera (medio ataque extra, etc.) (Baldurdash)~
+@221000 = ~Gran maestria verdadera (medio ataque extra, etc.) [Baldurdash]~
+@221001 = ~Cambiar las bonificaciones de gran maestria~
+@221100 = ~Reglas de gran maestría de BG2~
 
 @222000 = ~Cambiar el peso de las armas creadas magicamente a 0~
 
-@223000 = ~Hacer coherentes las armas +x/+y~
-// next two strings used for matching and updating item descriptions
-@223100 = ~Solo Ingles: Actualizaciones a las descripciones para hacer consistentes las armas +x/+y~
+@223000 = ~Hacer consistentes las armas +x/+y~
 
-@224000 = ~Tabla de GAC0 extendida ~
-@224001 = ~Con tope, mejor GAC0 es 0 (Blucher)~
+// deprecated: you don't have to translate @223100
+@223100 = ~Description Updates for Make +x/+y Weapons Consistent Component~
 
+@224000 = ~Tabla de GAC0 extendida~
+@224001 = ~Con tope, mejor GAC0 es 0 [Blucher]~
 @224100 = ~Con tope, mejor GAC0 es -10 (PnP/Tabla BG1)~
 
-@225000 = ~Tabla de progresión de hechizos de hechicero extendida~
+@225000 = ~Tabla de progresion de hechizos de hechicero extendida~
 
 @226000 = ~Alterar la tabla de progresion de hechizos de mago~
-@226001 = ~Tabla extendida (Blucher)~
-
-@226100 = ~Tabla PnP ~
+@226001 = ~Tabla extendida [Blucher]~
+@226100 = ~Tabla PnP~
 
 @227000 = ~Alterar la tabla de progresion de hechizos de bardo~
 
 @228000 = ~Alterar la tabla de progresion de hechizos de clerigo~
 
-@229000 = ~Alterar las tablas de hechizos y progresion druidicas~
-@229001 = ~Sin cambios en la progresión de niveles, solo tabla de hechizos druidica extendida (Blucher)~
+@229000 = ~Alterar las tablas progresion de hechizos y niveles de druida~
+@229001 = ~Sin cambios en la progresion de niveles, solo tabla de hechizos druidica extendida [Blucher]~
+@229100 = ~Sin cambios en la progresion de niveles, solo tabla de hechizos PnP para druida/clerigo~
+@229200 = ~Usar los cambios a la progresion de niveles de clerigo con tabla de hechizos druidicos normal~
+@229300 = ~Usar los cambios a la progresion de niveles de clerigo con tabla de hechizos druidicos extendida [Blucher]~
+@229400 = ~Usar los cambios a la progresion de niveles de clerigo con tabla de hechizos PnP druida/clerigo~
+@229500 = ~Usar los cambios a la progresion de niveles de clerigo con tabla de hechizos de clerigo normal~
+@229600 = ~Usar los cambios a la progresion de niveles de clerigo con tabla de hechizos de clerigo extendida [Blucher]~
 
-@229100 = ~Sin cambios en la progresión de niveles, solo tabla de hechizos PnP para druida/clérigo~
+@230000 = ~Tablas de habilidades de alto nivel de clase triple~
 
-@229200 = ~Usar los cambios a la progresion de niveles de clérigo con tabla de hechizos druidicos normal~
-
-@229300 = ~Usar los cambios a la progresion de niveles de clérigo con tabla de hechizos druidicos extendida (Blucher)~
-
-@229400 = ~Usar los cambios a la progresion de niveles de clérigo con tabla de hechizos PnP Druida/Clerigo~
-
-@229500 = ~Usar los cambios a la progresion de niveles de clérigo con tabla de hechizos de clerigo normal~
-
-@229600 = ~Usar los cambios a la progresion de niveles de clérigo con tabla de hechizos de clerigo extendida (Blucher)~
-
-@230000 = ~Tablas de Habilidades de Alto Nivel de clase triple~
-
-@231000 = ~Agregar penalizaciones de salvación para los hechizos lanzados por lanzadores de alto nivel~
-@231001 = ~Sólo magia arcana~
-
-@231100 = ~Sólo magia divina~
-
+@231000 = ~Agregar penalizaciones de salvacion para los hechizos lanzados por lanzadores de alto nivel~
+@231001 = ~Solo magia arcana~
+@231100 = ~Solo magia divina~
 @231200 = ~Magias arcana y divina~
 
-@232000 = ~Eliminar tope de trampas (Ardanis/GeN1e)~
+@232000 = ~Eliminar tope de trampas [Ardanis/GeN1e]~
 
-@233000 = ~Eliminar retraso de Trampas magicas (Ardanis/GeN1e)~
+@233000 = ~Eliminar retraso de trampas magicas [Ardanis/GeN1e]~
 
-@234000 = ~Eliminar tope de convocacion para Celestiales (Ardanis/GeN1e)~
+@233900 = ~Eliminar tope de invocacion para las invocaciones normales~
+
+@234000 = ~Eliminar tope de convocacion para celestiales [Ardanis/GeN1e]~
+
+@235000 = ~Alterar restricciones multiclase~
+@235001 = ~Permitir a los humanos multiclase~
+@235100 = ~Permitir a los no humanos el acceso a todas las combinaciones multiclase~
+@235200 = ~Instalar opciones uno y dos (todos pueden multiclase cualquier cosa)~
+@235300 = ~Permitir a los no humanos acceder a una multiclase solo si pueden acceder a las clases unicas~
+@235800 = ~Instalar opciones uno y tres (todo el mundo puede multiclase cualquier cosa que pueda clase unica)~
+
+@236000 = ~Eliminar las restricciones raciales para las clases unicas~
+
+@237000 = ~Alterar las restricciones de doble clase~
+@237001 = ~Los humanos ya no pueden tener doble clase~
+@237100 = ~Permitir doble clase a los no humanos~
+@237200 = ~Ambas opciones: Solo los no humanos pueden tener doble clase~
+
+@238000 = ~Eliminar las restricciones raciales para los kits~
+
+@239000 = ~Paladines usan tablas de hechizos de Icewind Dale-Heart of Winter [grogerson]~
+@239001 = ~Alterar tabla de progresion de hechizos de paladin~
+@239100 = ~Progresion estilo BG2 (hasta hechizos de nivel seis) [TotoR]~
+
+@240000 = ~Exploradores usan tablas de Icewind Dale-Heart of Winter [grogerson]~
+@240001 = ~Alterar tabla de progresion de hechizos de explorador~
+@240100 = ~Progresion estilo BG2 (hasta hechizos de nivel cinco) [TotoR]~
+
+@241000 = ~Druidas usan restricciones de alineamiento de D&D tercera edicion~
+
+@242000 = ~Aflojar las restricciones de equipo para clerigos multi-clase y dual-clase~
+
+@243000 = ~Aflojar las restricciones de equipo para druidas multi-clase y dual-clase~
+@243001 = ~Cambiar las restricciones de equipo para druidas multi-clase y dual-clase~
+@243100 = ~Apretar las restricciones de equipo para druidas multi-clase y dual-clase [Angel]~
+
+@244000 = ~Todos obtienen una bonificación APR por la especializacion [subtledoctor]~
+
+@245000 = ~Aplicar las reglas de competencia PnP a los personajes con doble clase [subtledoctor]~
+
+@250000 = ~Fuerza excepcional, cambios en el limite de peso [sarevok57]~
+
+@251000 = ~Pergaminos de hechizos con bloqueo de nivel [Angel]~
+
+@252000 = ~Permitir que los magos utilicen broqueles y que los ladrones utilicen escudos pequeños [Angel]~
+
+@253000 = ~Los rayos no rebotan [Angel]~
+
+@254000 = ~Acelera las misiones de stronghold de Propiedad de'Arnise~
+
+@255000 = ~Alterar opciones del kit de gnomo mago/multi-clase~
+@255001 = ~Mantener gnomo ilusionista multiclase, habilitar todos los kits para clase unica~
+@255100 = ~Mago generico multiclase, mantener solo kit ilusionista para clase unica~
+@255200 = ~Mago generico multiclase, habilitar todos los kits para clase unica~
+
+@256000 = ~Permitir que los monjes lleven casco~
+
+// these components were abandoned due to bugs with dual-classes
+// @257000 = ~BGT: Additional Experience Cap While in BG~
+// @257100 = ~BGT: Additional Experience Cap While in SoA~
+
+@258000 = ~Alterar la tabla de hechizos divinos basada en la sabiduria~
+@258001 = ~Usar la tabla PnP/PsT~
+@258100 = ~Usar la tabla BG/BG2/IWD~
+
+@259000 = ~Ladrones pueden apuñalar por la espalda con mas armas con "usar cualquier objeto" o como clase dual y multiclase~
+
+@262000 = ~Hacer que ciertas criaturas sean inmunes a las puñaladas por la espalda y los ataques furtivos [Luke]~
+
+@263000 = "Mejorar cura / causar heridas [Luke]"
+
+@264000 = "Pociones PnP [Luke]"
+
+@265000 = "Lanzamiento espontaneo para clerigos [Luke]"
+
+@266000 = "Habilidad de sutileza con armas para ladrones [Luke]"
+
+@267000 = "Habilidad de doble empuñadura para exploradores [Luke]"
+
+@268000 = ~"Forzar" el kit de arquero para usar arcos [Luke]~
+
+@269000 = "NWN-izar armadura vs. destreza [Luke]"
+
+@270000 = "Habilidad de tirada defensiva para ladrones [Luke]"
+
+@271000 = "Habilidad gracia divina / bendicion oscura para paladin / guardia negro [Luke]"
+
+@272000 = "Habilidad racial buena punteria para medianos [Luke]"
+
+@273000 = "Habilidad rajar para guerreros [Luke]"
+
+@274000 = "Habilidad de clase ataque furtivo para guardia negro [Luke]"
+
+@275000 = "Habilidad racial sin miedo para medianos [Luke]"
+
+@276000 = "Habilidad de clase salvar veneno para asesinos [Luke]"
+
+@277000 = "Habilidad de clase giro planar para clerigos / paladines [Luke]"
+
+@278000 = "Habilidad de clase patada circular para monjes [Luke]"
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -252,85 +493,87 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-@300000 = ~Mayor numero de PG al subir de nivel~
+@299900 = ~Maximos puntos de golpe en el nivel uno~
+
+@300000 = ~Mayor numero de puntos de golpe al subir de nivel~
 @300001 = ~Maximo~
-
 @300100 = ~Estilo NWN~
+@300200 = ~Tiradas promedio~
+@300300 = ~Tiradas promedio bajas~
 
-@301000 = ~PG Maximos para (the bigg)~
-@301001 = ~Para todas las Criaturas del Juego~
+@300800 = ~Permitir tiradas de puntos de golpe hasta nivel 20 [Angel]~
 
-@301100 = ~Para PNJ que no se unen al grupo solamente~
-
-@301200 = ~Para PNJ que se unen al grupo solamente~
+@301000 = ~Maximos puntos de golpe para criaturas [the bigg]~
+@301001 = ~Para todas las criaturas del juego~
+@301100 = ~Solo para PNJs que no se unen al grupo~
+@301200 = ~Solo para PNJs que se unen al grupo~
 
 @302000 = ~Identificar todos los objetos~
 
 @303000 = ~Aprender hechizos facilmente~
 @303001 = ~Siempre aprender hechizos~
-
-@303100 = ~Aprender hechizos al 100% y quitar el tope de hechizos aprendidos~
+@303100 = ~Siempre aprender hechizos y quitar el tope de hechizos aprendidos~
 
 @304000 = ~Hacer la bolsa de contencion sin fondo~
 
-@305000 = ~Quitar la fatiga de los hechizos de restauracion.~
+@305000 = ~Quitar la fatiga de los hechizos de restauracion~
 
-@306000 = ~Callar la voz de "Debes juntar a tu grupo antes de continuar" (Weimer)~
+@306000 = ~Quitar la voz de "Debeis juntar vuestro grupo antes de continuar" [Weimer]~
 
-@307000 = ~Descuentos en tiendas a baja reputacion (Sabre)~
+@307000 = ~Descuentos en tiendas a baja reputacion [Sabre]~
+
 @307001 = ~Cambiar el efecto de la reputacion en los precios de las tiendas~
+@307100 = ~La reputacion no tiene efecto, precios de las tiendas fijos al 100% [Luiz]~
+@307200 = ~La reputacion no tiene efecto, precios de las tiendas fijos al 80% [Luiz]~
+@307300 = ~La reputacion no tiene efecto, precios de las tiendas fijos al 60% [Luiz]~
 
-@307100 = ~La reputacion no tiene efecto, precios de las tiendas fijos al 100% (Luiz)~
+@308000 = ~Apilamiento ilimitado de municiones~
+@308001 = ~Aumentar el tamaño de las pilas de municion~
+@308100 = ~Pilas de municion de 40~
+@308200 = ~Pilas de municion de 80~
+@308300 = ~Pilas de municion de 120~
 
-@307200 = ~La reputacion no tiene efecto, precios de las tiendas fijos al 80% (Luiz)~
+@309000 = ~Apilamiento ilimitado de joyas, gemas y objetos varios~
+@309001 = ~Aumentar el tamaño de las pilas de joyas, gemas y objetos varios~
 
-@307300 = ~La reputacion no tiene efecto, precios de las tiendas fijos al 60% (Luiz)~
+@310000 = ~Apilamiento ilimitado de pociones~
+@310001 = ~Aumentar el tamaño de las pilas de pociones~
 
-@308000 = ~Apilacion de municiones ilimitada~
+@311000 = ~Apilamiento ilimitado de pergaminos magicos~
+@311001 = ~Aumentar el tamaño de las pilas de pergaminos magicos~
 
-@309000 = ~Apilacion de gemas y joyas ilimitada~
+@312000 = ~Parche Feliz (Los PNJs del grupo no se quejan cuando baja la reputacion)~
+@312001 = ~Los PNJs nunca se enfadan dependiendo de la reputacion~
+@312100 = ~Los PNJs se enfadan dependiendo de la reputacion pero nunca abandonan el grupo [Salk]~
+@312200 = ~Los PNJs siempre son neutrales con cualquier reputacion [Anomaly]~
 
-@310000 = ~Apilacion de pociones ilimitada~
+@312300 = ~Los PNJs del grupo no luchan~
 
-@311000 = ~Apilacion de Hechizos ilimitada~
+@312400 = ~Evitar que el romance entre Aerie y Haer'Dalis comience~
 
-@312000 = ~Parche Feliz (Los PNJ del grupo no se quejan cuando baja la reputacion)~
-@312001 = ~Los PNJ nunca se enfadan dependiendo de la reputación~
+@312500 = ~Personajes neutrales hacen comentarios felices con reputacion media [Luiz]~
 
-@312100 = ~Los PNJ se enfadan dependiendo de la reputacion pero nunca abandonan el grupo (Salk)~
+@313000 = ~Sin trampas ni cerraduras [Weimer]~
 
-@312200 = ~Los PNJ siempre son neutrales con cualquier reputacion (Anomaly)~
-
-@312300 = ~Los PNJ del grupo no luchan~ 
-
-@312400 = ~Evite que el romance entre Aerie y Haer'Dalis comience~
-
-@312500 = ~Personajes Neutrales hacen comentarios felices con reputacion media~
-
-@313000 = ~No trampas o Cerraduras (Weimer)~
-
-@314000 = ~Escenas y sueños del capítulo 1&2 mas rápidas~
-@314001 = ~Originales de EoU (Karzak, Blucher)~
-
+@314000 = ~Escenas y sueños mas rapidos del capitulo uno y dos~
+@314001 = ~Originales del mod Ease-of-Use [Karzak, Blucher, aVENGER, Weimer]~
 @314100 = ~Version no-tonta~
 
-@315000 = ~Deshabilitar las animaciones de la Capa del espejo, Trampa contra conjuros, y Espejo fisico~
+@316000 = ~Guardar el botin de Drizzt, desactivar a Malchor Harpell [Weimer]~
 
-@316000 = ~Guardar el botin de Drizzt, desactivar a Malchor Harpell~
+@317000 = ~No mostrar los avatares drow para el grupo en la Antipoda Oscura [Weimer]~
 
-@317000 = ~No mostrar los avatares drow para el grupo en la Antipoda Oscura~
+@317500 = ~Desactivar romances~
+
+@317600 = ~Acelerar/Decelerar romances~
+@317601 = ~Introduzca el porcentaje de velocidad que desea aplicar al tiempo entre charlas amorosas,
+por ejemplo, 50 reduciria a la mitad el tiempo actual entre conversaciones, mientras que 300% triplicaria la duracion.
+Introduce un porcentaje entre 20 y 500:~
 
 @317900 = ~Sin requerimientos de raza para el romance~
 
-@318000 = ~Trucos en los Romances~
-@318001 = ~Quitar el requerimiento Racial y de Sexo de los Romances~
-
-@318100 = ~Sin requerimientos de sexo/raza para los romances, permitir romances multiples~
-
-@318200 = ~Quitar el requerimiento Racial y de Sexo de los Romances, Permitir Romances Multiples, Nada Mata a los Romances~
-
-@318300 = ~Trucos en los Romances~
-@318301 = ~Eliminar requerimientos raciales para romances? (Selecciona 1 o 2)
+@318300 = ~Trucos en los romances [Sabre, Richardson, Weimer]~
+@318301 = ~¿Eliminar requerimientos raciales para romances? (Selecciona 1 o 2)
   1) Eliminar
   2) Sin cambios~
 @318302 = ~  * Eliminar requerimientos raciales para romances~
@@ -338,29 +581,144 @@
   1) Eliminar
   2) Sin cambios~
 @318304 = ~  * Eliminar requerimientos de genero para romances~
-@318305 = ~Permitir romances multiples? (Selecciona 1 o 2)
+@318305 = ~¿Permitir romances multiples? (Selecciona 1 o 2)
   1) Permitir
   2) Sin cambios~
 @318306 = ~  * Permitir romances multiples~
-@318307 = ~Nada mata romances? (Selecciona 1 o 2)
+@318307 = ~¿Nada mata romances? (Selecciona 1 o 2)
   1) Nada mata romances
   2) Sin cambios~
 @318308 = ~  * Nada mata romances~
 @318309 = ~Has elegido instalar las siguientes opciones:~
-@318310 = ~Has elegido correctamente?
+@318310 = ~¿Has elegido correctamente? (Selecciona 1 or 2)
   1) Si, instalar
   2) No, quiero re-seleccionarlos~
-@318311 = ~Comenzar romances para nuevas partidas en ToB?
+@318311 = ~¿Comenzar romances para nuevas partidas en ToB? (Selecciona 1 or 2)
   1) Romances para nuevas partidas de ToB
   2) Sin cambios~
-@318312 = ~  * Start romances para new games in ToB~
-@319000 = ~Descansar en cualquier sitio (Japheth)~
+@318312 = ~  * Comenzar romances para nuevas partidas en ToB~
 
-@320000 = ~Bastones, Palos y Hondas vendibles (Icelus)~
+@319000 = ~Descansar en cualquier sitio [japheth]~
 
-@321000 = ~Truco de estadísticas mínimas~
-@321001 = ~Selecciona un valor mínimo de estadísticas, entre 6 y 15:~
-    
+@319100 = ~Desactivar aparicion de criaturas no hostiles al descansar~
+
+@319400 = ~Alterar aparicion de criaturas hostiles al descansar~
+@319401 = ~Desactivar completamente~
+@319500 = ~Disminuir la frecuencia en un 50%~
+@319600 = ~Aumentar la frecuencia en un 50%~
+@319700 = ~Doble frecuencia~
+@319800 = ~Cuadruple frecuencia~
+
+@320000 = ~Bastones, palos y hondas vendibles [icelus]~
+
+@320500 = ~Las tiendas compran todos los tipos de objetos~
+
+@321000 = ~Truco de estadisticas minimas~
+@321002 = ~Selecciona un valor minimo de FUERZA, entre 6 y 15, o 0 para ningun minimo:~
+@321003 = ~Selecciona un valor minimo de DESTREZA, entre 6 y 15, o 0 para ningun minimo:~
+@321004 = ~Selecciona un valor minimo de CONSTITUCION, entre 6 y 15, o 0 para ningun minimo:~
+@321005 = ~Selecciona un valor minimo de INTELIGENCIA, entre 6 y 15, o 0 para ningun minimo:~
+@321006 = ~Selecciona un valor minimo de SABIDURIA, entre 6 y 15, o 0 para ningun minimo:~
+@321007 = ~Selecciona un valor minimo de CARISMA, entre 6 y 15, o 0 para ningun minimo:~
+@321008 = ~Minima FUERZA:~
+@321009 = ~Minima DESTREZA:~
+@321010 = ~Minima CONSTITUCION:~
+@321011 = ~Minima INTELIGENCIA:~
+@321012 = ~Minima SABIDURIA:~
+@321013 = ~Minima CARISMA:~
+@321014 = ~¡No hay cambios seleccionados! Elije de nuevo~
+
+@322000 = ~Puntos de entrada sensibles~
+
+@323000 = ~Taerom fabrica una armadura de Ankheg adicional [Icendoan/grogerson]~
+
+@324000 = ~Botines aleatorios amistosos~
+@324001 = ~Aleatorizar al recargar~
+@324100 = ~Elige tu botin~
+@324200 = ~Intercambio con mercaderes~
+
+@325000 = ~Nunca pierdas el acceso a los productos comerciales de Orrick el Gris~
+
+@326000 = ~Municion recuperable [argent77]~
+@326001 = ~25% de probabilidad de recuperar tras un golpe exitoso~
+@326100 = ~50% de probabilidad de recuperar tras un golpe exitoso~
+@326200 = ~75% de probabilidad de recuperar tras un golpe exitoso~
+@326300 = ~100% de probabilidad de recuperar tras un golpe exitoso~
+@326400 = ~25% de probabilidad de recuperar tras un golpe exitoso, solo contra enemigos~
+@326500 = ~50% de probabilidad de recuperar tras un golpe exitoso, solo contra enemigos~
+@326600 = ~75% de probabilidad de recuperar tras un golpe exitoso, solo contra enemigos~
+@326700 = ~100% de probabilidad de recuperar tras un golpe exitoso, solo contra enemigos~
+
+@327000 = ~Armas arrojadizas recuperables [argent77]~
+
+@328000 = ~Dar a cada clase/kit cuatro ranuras para armas~
+
+@329000 = ~Personalizar nombres de guardado automatico~
+@329001 = ~Usar esquema: 000000000-Protagonista-Guardado-Nombre~
+@329100 = ~Usar esquema: 000000000-Protagonista Guardado-Nombre~
+@329200 = ~Usar esquema: 000000000-(Protagonista)-Guardado-Nombre~
+@329300 = ~Usar esquema: 000000000-(Protagonista) Guardado-Nombre~
+@329400 = ~Usar esquema: 000000000-[Protagonista]-Guardado-Nombre~
+@329500 = ~Usar esquema: 000000000-[Protagonista] Guardado-Nombre~
+
+@330000 = ~Camara de la muerte~
+
+@331000 = ~Empezar nuevas partidas con la IA desactivada~
+
+@332000 = ~Sin depreciacion en las tiendas~
+
+@333000 = ~Aumenta la velocidad de movimiento y/o la velocidad de invocacion del grupo fuera de combate [argent77]~
+@333001 = ~Velocidad de movimiento en un 50%~
+@333002 = ~Velocidad de movimiento en un 100%~
+@333003 = ~Velocidad de movimiento en un 150%~
+@333004 = ~Velocidad de movimiento en un 50% y velocidad de lanzamiento~
+@333005 = ~Velocidad de movimiento en un 100% y velocidad de lanzamiento~
+@333006 = ~Velocidad de movimiento en un 150% y velocidad de lanzamiento~
+@333007 = ~Solo velocidad de lanzamiento~
+@333008 = ~Personalizar (via cdtweaks.txt)~
+@333009 = ~Aplicar valores:
+Velocidad de movimiento activada: a7_movement_speed_enable
+Porcentaje de velocidad de movimiento: a7_movement_speed_value
+Velocidad de lanzamiento activada:  a7_casting_speed_enable
+~
+
+@335000 = ~Crear intervalos de guardado [argent77]~
+@335001 = ~Cada 15 minutos (solo un guardado)~
+@335002 = ~Cada 30 minutos (solo un guardado)~
+@335003 = ~Cada 60 minutos (solo un guardado)~
+@335004 = ~Cada 120 minutos (solo un guardado)~
+@335005 = ~Cada 15 minutos (ciclo de cuatro partidas guardadas)~
+@335006 = ~Cada 30 minutos (ciclo de cuatro partidas guardadas)~
+@335007 = ~Cada 60 minutos (ciclo de cuatro partidas guardadas)~
+@335008 = ~Cada 120 minutos (ciclo de cuatro partidas guardadas)~
+@335009 = ~Personalizar (via cdtweaks.txt)~
+@335103 = ~Opciones de guardado a intervalos:
+Activar guardado a intervalos:   a7_interval_enable
+Intervalo entre guardados: a7_interval_delay seconds
+Guardar durante el combate:     a7_interval_combat
+Numero de ranuras de guardado:   a7_interval_slots
+Usar nombre de guardado personalizado:   a7_interval_custom
+Mostrar mensaje de feedback:  a7_interval_feedback
+Usar opciones de Baldur.lua: a7_interval_ini
+~
+
+@336000 = ~Reiniciar la niebla de guerra de UnderSigil~
+
+@337000 = ~Guardado automatico de capitulos en PsT:EE~
+
+@338000 = ~Regeneracion sensible durante los viajes~
+@338001 = ~No se han encontrado objetos de regeneracion: componente instalado pero no se han realizado cambios.~
+
+@339000 = ~Uso automatico de la habilidad ranger tracking~
+@339001 = ~No se puede leer la tabla de seguimiento: componente instalado pero no se han realizado cambios.~
+
+@340000 = ~Restaurar consejos en las cargas~
+
+@341000 = ~Advertencias explicitas de lanzamiento~
+@341001 = ~Solo hechizos de mago y clerigo~
+@341100 = ~Mago, clerigo, y solo hechizos innatos~
+@341200 = ~Todos los hechizos (ver readme)~
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -369,28 +727,78 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-@400000 = ~Ajustar las reacciones de los NPCs de alineamiento malvado~
+@400000 = ~Ajustar las reacciones de los PNJs de alineamiento malvado~
 
-@401000 = ~Convocar Espiritu del Destino Mejorado~
+@401000 = ~Convocar espiritu del destino mejorado~
 
-@402000 = ~Los NPCs se comportan como en ToB~
+@402000 = ~PNJs estilo ToB~
 
-@403000 = ~Estadisticas Consistentes: Edwin~
-@403001 = ~Usar Valores del BG1~
+@403000 = ~Estadisticas consistentes: Edwin~
+@403001 = ~Usar valores del BG1~
+@403100 = ~Usar valores del BG2~
 
-@403100 = ~Usar Valores del BG2~
+@404000 = ~Estadisticas consistentes: Jaheira~
 
-@404000 = ~Estadisticas Consistentes: Jaheira~
+@405000 = ~Cambiar a Jaheira a neutral buena~
 
-@405000 = ~Cambiar a Jaheira a Neutral Buena~
+@406000 = ~Estadisticas consistentes: Minsc~
 
-@406000 = ~Estadisticas Consistentes: Minsc~
+@407000 = ~Estadisticas consistentes: Viconia~
 
-@407000 = ~Estadisticas Consistentes: Viconia~
+@408000 = ~Hacer a Khalid un guerrero-mago [Domi]~
 
-@408000 = ~Hacer a Khalid un guerrero-mago (Domi)~
-@409000 = ~Hacer a Montaron un Asesino (Andyr)~
+@409000 = ~Hacer a Montaron un asesino [Andyr]~
 
-@410000 = ~Cambiar a Korgan a Neutral Malvado~
+@410000 = ~Cambiar a Korgan a neutral malvado~
 
 @411000 = ~Dar constitucion legal de 19 a Kagain~
+
+@412000 = ~Dar destreza legal de 19 a Coran~
+
+@413000 = ~Hacer a Xan un mago normal [Mike1072]~
+
+@413100 = ~Hacer a Dynaheir una maga normal [Angel]~
+
+@413200 = ~Hacer a Xzar un mago normal [Angel]~
+
+@413300 = ~Hacer a Edwin un mago normal [Angel]~
+
+@414000 = ~No asignar automaticamente una IA avanzada al grupo~
+
+@418000 = ~Objetos PNJs extraibles~
+
+@419000 = ~Los nombres de PNJs que se puede unir al grupo aparecen en colores en dialogos, entradas del diario, etc~
+@419001 = ~No colorear el nombre del personaje jugable~
+@419002 = ~Processing string %index% of %final_strref%...~
+@419100 = ~Tambien colorea el nombre del personaje jugable: Gris~
+@419200 = ~Tambien colorea el nombre del personaje jugable: Marron~
+@419300 = ~Tambien colorea el nombre del personaje jugable: Rojo~
+@419400 = ~Tambien colorea el nombre del personaje jugable: Purpura~
+@419500 = ~Tambien colorea el nombre del personaje jugable: Azul~
+@419600 = ~Tambien colorea el nombre del personaje jugable: Verde~
+@419700 = ~Tambien colorea el nombre del personaje jugable: Amarillo~
+@419800 = ~Tambien colorea el nombre del personaje jugable: Naranja~
+
+@420000 = "Hacer que Rancor +1 sea un poco mas fiable"
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Ex-SCS components                                \\\\\
+///// Automatically copied over from SCS TRA files     \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+// deprecated: you don't have to translate @500000
+@500000 = ~Stackable Ankheg Shells, Winter Wolf Pelts and Wyvern Heads~
+
+@501000 = ~Permitir que las parejas de PNJs se separen~
+
+@502000 = ~Hacer menos probable que los miembros del grupo mueran irreversiblemente~
+
+@503000 = ~Mover a Bubu a la mochila de Minsc~
+
+@504000 = ~Permitir a Yeslick usar hachas~
+
+@505000 = ~Asegurar que Shar-Teel no muera en el desafio original~

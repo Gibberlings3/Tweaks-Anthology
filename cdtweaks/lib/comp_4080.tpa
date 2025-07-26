@@ -47,7 +47,7 @@ ACTION_IF original_bg1 BEGIN
       END
     END
     BUT_ONLY
-  
+
   // add in spells and items
   COPY_EXISTING ~khalid.cre~  ~override~
                 ~khalid2.cre~ ~override~
@@ -138,7 +138,7 @@ END ELSE BEGIN // tutu, bgt, bgee
       END
     END
     BUT_ONLY
-  
+
   COPY ~cdtweaks/cre/khalid.cre~  ~override/%tutu_var%khalid.cre~
        ~cdtweaks/cre/khalid2.cre~ ~override/%tutu_var%khalid2.cre~
        ~cdtweaks/cre/khalid4.cre~ ~override/%tutu_var%khalid4.cre~
@@ -164,58 +164,55 @@ END ELSE BEGIN // tutu, bgt, bgee
         PATCH_IF (xp > 20000) BEGIN // now exclude khalid4
           ADD_CRE_ITEM ~%tutu_var%RING06~ #0 #0 #0 ~IDENTIFIED~ ~LRING~
         END
-      END        
+      END
     END
     PATCH_IF fx_type = 4 BEGIN
       LPF ADD_CRE_EFFECT INT_VAR opcode = 176 target = 1 parameter1 = 0xfffffffd timing = 9 END
     END
-  
+
   COMPILE ~cdtweaks/dlg/p#khalid.d~ EVALUATE_BUFFER
 
   ACTION_IF enhanced_edition BEGIN
-  
+
     COPY_EXISTING ~%KHALID_BCS%.bcs~ ~override~
       DECOMPILE_AND_PATCH BEGIN
         REPLACE_TEXTUALLY ~\(ChangeStat(Myself,XP,32000,SET)\)~ ~\1 AddSpecialAbility("SPWI211") AddSpecialAbility("SPWI212")~
         REPLACE_TEXTUALLY ~\(ChangeStat(Myself,XP,16000,SET)\)~ ~\1 AddSpecialAbility("SPWI212")~
-      END 
+      END
       BUT_ONLY
-      
+
     ACTION_IF FILE_EXISTS_IN_GAME ~khalid7.cre~ BEGIN // sod khalid
-  
+
       COPY ~cdtweaks/cre/khalid7.cre~ ~override~
         SAY BIO @408001
-        PATCH_IF fx_type = 4 BEGIN
-          LPF ADD_CRE_EFFECT INT_VAR opcode = 176 target = 1 parameter1 = 0xfffffffd timing = 9 END
-        END
-    
+
     END
-    
-  END  
+
+  END
 
   EXTEND_TOP    ~%KHALID_BCS%.bcs~ ~cdtweaks/baf/p#khalid.baf~
-  
+
   // if bg-style or iwd-style proficiencies are installed, adjust proficiencies to match new system
   ACTION_IF (((MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2161~) OR (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2162~)) OR // bg-style profs
              ((MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2163~) OR (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2164~))) THEN BEGIN // iwd-style profs
-    
+
     ACTION_IF ((MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2161~) OR (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2162~)) THEN BEGIN // bg-style profs
-    
+
       ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_khalid_profs BEGIN
         104 => 100 // longbow > bow
          89 => 103 // bastard sword > large swords
 //      106 => 106 // dart > missile
-      END 
+      END
 
-    END ELSE BEGIN // iwd-style profs  
-    
+    END ELSE BEGIN // iwd-style profs
+
       ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_khalid_profs BEGIN
         104 =>  95 // longbow > bow
          89 =>  99 // bastard sword > great swords
         106 => 104 // dart > missile
-      END 
-      
-    END 
+      END
+
+    END
 
     COPY_EXISTING ~%tutu_var%khalid.cre~  ~override~
                   ~%tutu_var%khalid2.cre~ ~override~
@@ -226,17 +223,17 @@ END ELSE BEGIN // tutu, bgt, bgee
         LPF ALTER_EFFECT INT_VAR match_opcode = 233 match_parameter2 = old parameter2 = new silent = 1 END
       END
       BUT_ONLY IF_EXISTS
-      
+
   END
 
 END // end bg1 vs. bg2 check
-  
+
 // if tob-style npcs are installed, then adjust higher level creatures
 ACTION_IF (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~4020~) THEN BEGIN
 
   // load patch macro
   INCLUDE ~cdtweaks/lib/tob_style_npcs.tpa~
-  
+
   ACTION_CLEAR_ARRAY cd_tob_style_npcs
   ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_tob_style_npcs BEGIN
     ~_khalid2~ => ~_khalid~
@@ -246,15 +243,15 @@ ACTION_IF (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~4020~) THEN BEGIN
     ~khalid4~  => ~khalid~
     ~khalid6~  => ~khalid~
   END
-  
+
   ACTION_PHP_EACH cd_tob_style_npcs AS dest => orig BEGIN
-  
+
     ACTION_IF ((FILE_EXISTS_IN_GAME ~%orig%.cre~) AND (FILE_EXISTS_IN_GAME ~%dest%.cre~)) THEN BEGIN
 
       COPY_EXISTING ~%orig%.cre~ ~override/%dest%.cre~
         LAUNCH_PATCH_MACRO ~tob_style_npcs~
         BUT_ONLY
-  
+
     END
 
   END

@@ -1,0 +1,24 @@
+// Transition: Easthaven to Burial Isle
+IF
+  True()
+THEN
+  RESPONSE #100
+    CutSceneId(Player1Fill)
+    CopyGroundPilesTo("ar9300",[490.340])
+    SetWorldmap("worldm25")
+    SetMasterArea("ar9300")
+    SetGlobal("Exp_Pause","GLOBAL",0)
+    SetGlobal("9300_RESET_JOIN","GLOBAL",1)
+    ActionOverride(Player2Fill,LeaveAreaLUA("AR9300","Load9300",[440.325],N))
+    ActionOverride(Player3Fill,LeaveAreaLUA("AR9300","Load9300",[440.375],N))
+    ActionOverride(Player4Fill,LeaveAreaLUA("AR9300","Load9300",[390.400],N))
+    ActionOverride(Player5Fill,LeaveAreaLUA("AR9300","Load9300",[340.375],N))
+    ActionOverride(Player6Fill,LeaveAreaLUA("AR9300","Load9300",[340.325],N))
+    LeaveAreaLUAPanic("AR9300","Load9300",[390.300],N)
+    LeaveAreaLUA("AR9300","Load9300",[390.300],N)
+    MultiPlayerSync()
+    FadeFromColor([30.0],0)
+    Wait(1)
+    UnhideGUI()
+    EndCutSceneMode()
+END

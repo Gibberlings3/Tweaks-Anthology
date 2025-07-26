@@ -239,7 +239,7 @@ ACTION_IF FILE_EXISTS_IN_GAME ~bhperk.sto~ BEGIN //Bone Hill
       REMOVE_STORE_ITEM ~bag06~ ~bag03g~ ~bag02~ //Already in other stores
     END
   BUT_ONLY IF_EXISTS
-END  
+END
 
 ACTION_IF FILE_EXISTS_IN_GAME ~bhxspell.sto~ BEGIN
   COPY_EXISTING ~bhxspell.sto~ ~override~ //X Scrolls
@@ -581,18 +581,6 @@ ACTION_IF FILE_EXISTS_IN_GAME ~wardwizs.sto~ BEGIN //TDD
       REMOVE_STORE_ITEM ~bag03~ //Already in bernard.sto
     END
   BUT_ONLY
-END
-
-ACTION_IF FILE_EXISTS_IN_GAME ~wwelle.dlg~ BEGIN //UB
-  ACTION_IF NOT FILE_EXISTS_IN_GAME ~u!bag02.itm~ BEGIN //Check bag fix doesn't already exist
-    COPY_EXISTING ~bag02.itm~ ~override/u!bag02.itm~
-    COPY_EXISTING ~bag02.sto~ ~override/u!bag02.sto~
-    COPY_EXISTING ~wwelle.dlg~ ~override~
-      DECOMPILE_AND_PATCH BEGIN
-      REPLACE_TEXTUALLY CASE_INSENSITIVE EXACT_MATCH ~"BAG02"~ ~"u!bag02"~
-      END
-    BUT_ONLY
-  END
 END
 
 ACTION_IF FILE_EXISTS_IN_GAME ~sackgr04.itm~ BEGIN //Undying or DoS

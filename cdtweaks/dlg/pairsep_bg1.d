@@ -3,7 +3,7 @@ EXTEND_BOTTOM ~JAHEIP~ ~4~
 IF ~!StateCheck("khalid",CD_STATE_NOTVALID) Range("khalid",1000)~ THEN REPLY @20700   EXTERN ~KHALIP~ dmww_khalidnotwanted
 END
 
-CHAIN 
+CHAIN
 IF ~~ THEN KHALIP dmww_khalidnotwanted
 @20701 == JAHEIP
 @20702
@@ -31,7 +31,7 @@ CHAIN
 IF ~~ THEN MINSCP dmww_dynaheirnotwanted
 @20707 == DYNAHP
 @20708
-DO ~ActionOverride("minsc",JoinParty())~ 
+DO ~ActionOverride("minsc",JoinParty())~
 EXIT
 
 EXTEND_BOTTOM ~DYNAHP~ 4
@@ -39,7 +39,7 @@ EXTEND_BOTTOM ~DYNAHP~ 4
 IF ~!StateCheck("minsc",CD_STATE_NOTVALID)~ THEN REPLY @20709 EXTERN ~MINSCP~ dmww_minscnotwanted
 END
 
-CHAIN 
+CHAIN
 IF ~~ THEN MINSCP dmww_minscnotwanted
 @20710 == DYNAHP
 @20711
@@ -56,7 +56,7 @@ END
 CHAIN
 IF ~~ THEN XZARP dmww_xzarnotwanted
 @20713 == MONTAP
-@20714 
+@20714
 DO ~ JoinParty() ~ EXIT
 
 EXTEND_BOTTOM ~XZARP~ 5
@@ -109,8 +109,8 @@ ALTER_TRANS SKIEP BEGIN 6 END BEGIN 0 END BEGIN "ACTION" "" END
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// this is a suboptimal approach... since these post dialogues only have two available states, but I have no OR trigger, I'm making the one 
-// that should be OR(3)Dead(x)InParty(x)!InMyArea(x) as True and simply WEIGHTing it below the other if needed. 
+// this is a suboptimal approach... since these post dialogues only have two available states, but I have no OR trigger, I'm making the one
+// that should be OR(3)Dead(x)InParty(x)!InMyArea(x) as True and simply WEIGHTing it below the other if needed.
 ADD_STATE_TRIGGER DYNAHP 4 ~Range("Minsc",1000) !InParty("Minsc")~
 ADD_STATE_TRIGGER ELDOTP 4 ~Range("Skie",1000) !InParty("Skie")~
 ADD_STATE_TRIGGER JAHEIP 4 ~Range("khalid",1000) !InParty("khalid")~

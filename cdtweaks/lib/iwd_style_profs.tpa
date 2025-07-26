@@ -10,7 +10,7 @@ ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_prof_numeric_map BEGIN
    97 => 101 // hammer
    98 => 106 // spear
    99 => 100 // halberd
-//  100 =>  98 // flail/mstar to flail
+  100 =>  98 // flail/mstar to flail
   101 => 103 // mace
   102 => 107 // staff
   103 =>  97 // crossbow
@@ -67,7 +67,7 @@ DEFINE_PATCH_MACRO ~prof_descripts~ BEGIN
   END
   PATCH_IF ("%new_weap%" STRING_COMPARE_CASE "") BEGIN // make sure new_weap is actually set before blindly patching
     REPLACE_TEXTUALLY CASE_INSENSITIVE ~%prof_text_match%.+$~ ~%prof_text% %new_weap%~
-  END	
+  END
 
 END
 
@@ -157,7 +157,7 @@ ACTION_FOR_EACH file IN weapprof racethac BEGIN
 
       READ_2DA_ENTRY 0 0 3 foo
       SET_2DA_ENTRY 0 0 3 ~CD_DELETE_ME %foo%~
-    
+
       // for profs being merged, take the highest of both values
       COUNT_2DA_COLS col_num
       FOR (col = col_start; col < col_num; ++col) BEGIN
@@ -229,7 +229,7 @@ ACTION_FOR_EACH file IN weapprof racethac BEGIN
         END "%line_club%"
 
       END ELSE BEGIN
-        
+
         REPLACE_EVALUATE ~^115\([ %TAB%]+\)CLUB\([ %TAB%]+.+\)$~ BEGIN
           SPRINT line_club "96%MATCH1%CLUB%MATCH2%"
         END "96%MATCH1%CLUB%MATCH2%"
@@ -246,7 +246,7 @@ ACTION_FOR_EACH file IN weapprof racethac BEGIN
       REPLACE_TEXTUALLY ~^\(CLUB\|EXTRAPROFICIENCY1\)[ %TAB%]+115\([ %TAB%]+.+\)$~ ~%line_dagg%~
 
       PATCH_IF (col_start = 4) BEGIN
-    
+
         REPLACE_EVALUATE ~^\(MACE[ %TAB%]+\)101\([ %TAB%]+.+\)$~ BEGIN
           SPRINT line_mace "%MATCH1%103%MATCH2%"
         END "%MATCH1%101%MATCH2%"
@@ -267,9 +267,9 @@ ACTION_FOR_EACH file IN weapprof racethac BEGIN
         REPLACE_EVALUATE ~^97\([ %TAB%]+\)WARHAMMER\([ %TAB%]+.+\)$~ BEGIN
           SPRINT line_hamm "101%MATCH1%WARHAMMER%MATCH2%"
         END "%line_xbow%"
-      
+
       END
-      
+
       REPLACE_TEXTUALLY ~^101[ %TAB%]+MACE\([ %TAB%]+.+\)$~ ~%line_hamm%~
       REPLACE_TEXTUALLY ~^MACE[ %TAB%]+101\([ %TAB%]+.+\)$~ ~%line_hamm%~
 
@@ -292,27 +292,51 @@ ACTION_FOR_EACH file IN weapprof racethac BEGIN
       FOR (row = (skip_rows + 1) ; row < (skip_rows + 6) ; ++row) BEGIN // eliminate first six profs
         SET_2DA_ENTRY row label_col col_num UNUSED // ref
       END
-
+      PATCH_IF enhanced_edition BEGIN SPRINT cd_shaman @216102 END ELSE BEGIN SPRINT cd_shaman ~~ END 
+      PATCH_IF MOD_IS_INSTALLED ~cd_project_javelin.tp2~ ~1~ BEGIN SPRINT cd_javelins @216315 END ELSE BEGIN SPRINT cd_javelins ~~ END 
+      SET cd_ax_desc = RESOLVE_STR_REF(@216107)
+      SET cd_bw_desc = RESOLVE_STR_REF(@216105)
+      SET cd_cl_desc = RESOLVE_STR_REF(@216305)
+      SET cd_xb_desc = RESOLVE_STR_REF(@216306)
+      SET cd_dg_desc = RESOLVE_STR_REF(@216305)
+      SET cd_fl_desc = RESOLVE_STR_REF(@216307)
+      SET cd_gs_name = RESOLVE_STR_REF(@216301)
+      SET cd_gs_desc = RESOLVE_STR_REF(@216302)
+      SET cd_hb_desc = RESOLVE_STR_REF(@216306)
+      SET cd_wh_name = RESOLVE_STR_REF(@216308)
+      SET cd_wh_desc = RESOLVE_STR_REF(@216309)
+      SET cd_ls_desc = RESOLVE_STR_REF(@216303)
+      SET cd_ma_name = RESOLVE_STR_REF(@216310)
+      SET cd_ma_desc = RESOLVE_STR_REF(@216311)
+      SET cd_mi_desc = RESOLVE_STR_REF(@216304)
+      SET cd_ss_name = RESOLVE_STR_REF(@216101)
+      SET cd_ss_desc = RESOLVE_STR_REF(@216312)
+      SET cd_sp_desc = RESOLVE_STR_REF(@216313)
+      SET cd_qs_desc = RESOLVE_STR_REF(@216314)
       PATCH_IF (col_start = 4) BEGIN // descript updates only needed for weapprof
-        SET_2DA_ENTRY 15 2 col_num 8733             // bow name
-        SET_2DA_ENTRY 15 3 col_num 9591             // bow descript
-        SET_2DA_ENTRY 20 2 col_num cd_prof_name     // great sword name
-        SET_2DA_ENTRY 20 3 col_num cd_prof_descript // great sword descript
-        REPLACE ~cd_prof_name~       @216301
-        REPLACE ~cd_prof_descript~   @216302
-        SET_2DA_ENTRY 23 2 col_num 8668             // large sword name
-        SET_2DA_ENTRY 23 3 col_num cd_prof_descript // large sword descript
-        REPLACE ~cd_prof_descript~   @216303
-        SET_2DA_ENTRY 25 2 col_num 9403             // missile name
-        SET_2DA_ENTRY 25 3 col_num cd_prof_descript // missile descript
-        REPLACE ~cd_prof_descript~   @216304
-        SET_2DA_ENTRY 24 2 col_num cd_prof_name     // mace name
-        SET_2DA_ENTRY 24 3 col_num cd_prof_descript // mace descript
-        REPLACE ~cd_prof_name~       @216011
-        REPLACE ~cd_prof_descript~   @216005
+        SET_2DA_ENTRY 14 3 col_num ~%cd_ax_desc%~   // axe
+        SET_2DA_ENTRY 15 2 col_num 8733             // bow
+        SET_2DA_ENTRY 15 3 col_num ~%cd_bw_desc%~
+        SET_2DA_ENTRY 16 3 col_num ~%cd_cl_desc%~   // club
+        SET_2DA_ENTRY 17 3 col_num ~%cd_xb_desc%~   // crossbow
+        SET_2DA_ENTRY 18 3 col_num ~%cd_dg_desc%~   // dagger
         SET_2DA_ENTRY 19 2 col_num 6704             // flail name
-        SET_2DA_ENTRY 19 3 col_num cd_prof_descript // flail descript
-        REPLACE ~cd_prof_descript~   @216004
+        SET_2DA_ENTRY 19 3 col_num ~%cd_fl_desc%~   // flail descript
+        SET_2DA_ENTRY 20 2 col_num ~%cd_gs_name%~   // great sword name
+        SET_2DA_ENTRY 20 3 col_num ~%cd_gs_desc%~   // great sword descript
+        SET_2DA_ENTRY 21 3 col_num ~%cd_hb_desc%~   // halberd
+        SET_2DA_ENTRY 22 2 col_num ~%cd_wh_name%~   // warhammer
+        SET_2DA_ENTRY 22 3 col_num ~%cd_wh_desc%~
+        SET_2DA_ENTRY 23 2 col_num 8668             // large sword name
+        SET_2DA_ENTRY 23 3 col_num ~%cd_ls_desc%~   // large sword descript
+        SET_2DA_ENTRY 24 2 col_num ~%cd_ma_name%~   // mace name
+        SET_2DA_ENTRY 24 3 col_num ~%cd_ma_desc%~   // mace descript
+        SET_2DA_ENTRY 25 2 col_num 9403             // missile name
+        SET_2DA_ENTRY 25 3 col_num ~%cd_mi_desc%~   // missile descript
+        SET_2DA_ENTRY 26 2 col_num ~%cd_ss_name%~   // small sword
+        SET_2DA_ENTRY 26 3 col_num ~%cd_ss_desc%~
+        SET_2DA_ENTRY 27 3 col_num ~%cd_sp_desc%~   // spear
+        SET_2DA_ENTRY 28 3 col_num ~%cd_qs_desc%~   // staff
         PATCH_IF (tb#tutu_realloc_style = 1) BEGIN // eliminate weapon styles
           FOR (row = 29 ; row < 33 ; ++row) BEGIN
             SET_2DA_ENTRY row 2 col_num 0      // name
@@ -329,7 +353,7 @@ ACTION_FOR_EACH file IN weapprof racethac BEGIN
       BUT_ONLY
 
   END
-  
+
 END
 
 COPY_EXISTING ~stats.ids~ ~override~

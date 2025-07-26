@@ -1,7 +1,7 @@
 EXTEND_BOTTOM WSMITH01 13
   IF ~PartyHasItem("brac24")~ THEN GOTO NewItem
 END
-  
+
 APPEND WSMITH01
   IF ~~ THEN BEGIN NewItem SAY @122009
     IF ~OR(4)
@@ -14,7 +14,7 @@ APPEND WSMITH01
         PartyHasItem("misc41")
         PartyHasItem("misc45")~ THEN GOTO NewItem3
   END
-  
+
   IF ~~ THEN BEGIN NewItem2 SAY @122010
     IF ~~ THEN GOTO NoThanks
   END

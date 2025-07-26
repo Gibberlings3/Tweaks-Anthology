@@ -1,0 +1,20 @@
+DEFINE_ACTION_FUNCTION "DYNAMIC_FPS_CHANGE"
+BEGIN
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Misc Tweaks" "sourceFileSpec" = "cdtweaks\luke\lua\tweaks\dynamic_fps_change.lua" "destRes" = "m_gttwks" END
+	//
+	<<<<<<<< .../cdtweaks-inlined/dynamic_fps_change.baf
+	IF
+		True()
+	THEN
+		RESPONSE #100
+			EEex_LuaAction("GT_LuaAction_DynamicFPSChange()")
+			Continue()
+	END
+	>>>>>>>>
+	//
+	ACTION_FOR_EACH "world_script" IN "baldur" "baldur25" "bdbaldur" BEGIN
+		ACTION_IF (FILE_EXISTS_IN_GAME "%world_script%.bcs") BEGIN
+			EXTEND_TOP "%world_script%.bcs" ".../cdtweaks-inlined/dynamic_fps_change.baf"
+		END
+	END
+END

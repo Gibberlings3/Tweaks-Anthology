@@ -9,3 +9,11 @@
 COPY_EXISTING ~numwslot.2da~ ~override~
   REPLACE_TEXTUALLY ~\([ %TAB%]+\)[123][ %TAB%%MNL%]*$~ ~\14~ // thanks argent77!
   BUT_ONLY
+
+WITH_SCOPE BEGIN
+  INCLUDE "cdtweaks\luke\lib\install.tph"
+  //
+  ACTION_IF MOD_IS_INSTALLED "EEex.tp2" 0 BEGIN
+    LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Misc Tweaks" "sourceFileSpec" = "cdtweaks\luke\lua\tweaks\universal_four_weapon_slots.lua" "destRes" = "m_gttwks" END
+  END
+END

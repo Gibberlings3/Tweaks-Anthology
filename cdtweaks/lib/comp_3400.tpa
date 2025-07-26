@@ -1,0 +1,227 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Restored Loading Hints                           \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+WITH_SCOPE BEGIN
+/////////////////////////////////////////////////////////////
+// Function definitions                                    //
+/////////////////////////////////////////////////////////////
+
+/**
+ * Installs a script block for displaying random loading hints for a specific game or campaign.
+ *
+ * INT_VAR col_weight       Index of the column in LOADING_HINTS.2DA that defines the weights for the specified campaign.
+ * STR_VAR campaign_check   One or more script triggers that will be used to check for a specific game campaign.
+ */
+DEFINE_ACTION_FUNCTION INSTALL_HINTS
+INT_VAR
+  col_weight = 0
+STR_VAR
+  campaign_check = ~~
+BEGIN
+<<<<<<<< .../inlined/cdtweaks/3400/blank
+>>>>>>>>
+
+<<<<<<<< .../inlined/cdtweaks/3400/hint_block.baf
+IF
+  %campaign_check%
+  OR(6)
+    InMyArea(Player1)
+    InMyArea(Player2)
+    InMyArea(Player3)
+    InMyArea(Player4)
+    InMyArea(Player5)
+    InMyArea(Player6)
+THEN
+%response_list%
+END
+>>>>>>>>
+
+<<<<<<<< .../inlined/cdtweaks/3400/hint_subblock.baf
+RESPONSE #%weight%
+  DisplayStringNoName(Myself,%hint_strref%)
+  Continue()
+>>>>>>>>
+
+  ACTION_IF (~%campaign_check%~ STR_EQ ~~) BEGIN
+    WARN ~WARNING: No campaign condition passed to function INSTALL_HINTS~
+    OUTER_SPRINT campaign_check ~True()~
+  END
+
+  // LOADING_HINTS.2DA:
+  // Column 0: Tra index of the loading hint
+  // Column 1: Weight for BGEE
+  // Column 2: Weight for SoD
+  // Column 3: Weight for BG2EE:SoA
+  // Column 4: Weight for BG2EE:ToB
+  // Column 5: Weight for IWDEE
+  // A weight of 0 indicates that the hint is not displayed for the specified game or campaign
+  COPY ~cdtweaks/2da/loading_hints.2da~ ~cdtweaks/2da/loading_hints.2da~
+    READ_2DA_ENTRIES_NOW ~hints_table~ 1
+  BUT_ONLY
+
+  // sanity check if color definition exists
+  OUTER_SPRINT color ~D~
+  COPY_EXISTING ~bgee.lua~ ~override~
+    PATCH_IF (INDEX_BUFFER(~^[ %TAB%]*fontcolors\['D'\][ %TAB%]*=[ %TAB%]*'[^']+'~) < 0) BEGIN
+      SPRINT color ~0xFF96C8FF~ // fallback option: RGBA color definition
+    END
+  BUT_ONLY IF_EXISTS
+
+  OUTER_SPRINT tra_file_en ~cdtweaks/languages/english/loading_hints.tra~
+  ACTION_IF (NOT ~%LANGUAGE%~ STR_EQ ~english~ && FILE_EXISTS ~cdtweaks/languages/%LANGUAGE%/loading_hints.tra~) BEGIN
+    OUTER_SPRINT tra_file ~cdtweaks/languages/%LANGUAGE%/loading_hints.tra~
+  END ELSE BEGIN
+    OUTER_SPRINT tra_file ~%tra_file_en%~
+  END
+
+  WITH_TRA ~%tra_file_en%~ ~%tra_file%~ BEGIN
+    COPY - ~.../inlined/cdtweaks/3400/blank~ ~.../inlined/cdtweaks/3400/block_list.tmp~
+      SPRINT hint_label @500  // HINT:
+      FOR (row = 3; row < hints_table; ++row) BEGIN
+        READ_2DA_ENTRY_FORMER ~hints_table~ row 0 tra_ref
+        READ_2DA_ENTRY_FORMER ~hints_table~ row col_weight weight
+        PATCH_IF (IS_AN_INT ~tra_ref~ && IS_AN_INT ~weight~ && weight > 0) BEGIN
+          SPRINT hint (AT ~tra_ref~)
+          SPRINT text ~%hint_label%%hint%~
+          LPF COLORIZE_TEXT STR_VAR text color RET text END
+          SET hint_strref = RESOLVE_STR_REF(~%text%~)
+          APPEND_FILE_EVALUATE ~.../inlined/cdtweaks/3400/hint_subblock.baf~ EVAL
+        END
+      END
+      READ_ASCII 0 response_list (BUFFER_LENGTH)
+  END
+
+  EXTEND_BOTTOM ~a7-ldhnt.bcs~ ~.../inlined/cdtweaks/3400/hint_block.baf~ EVAL
+END
+
+/**
+ * Wraps the specified text into color tags.
+ *
+ * STR_VAR text   Text string to colorize.
+ * STR_VAR color  Color prefix for the string (symbolic name or hexadecimal RGBA color definition).
+ * RET text       Colorized text string.
+ */
+DEFINE_PATCH_FUNCTION COLORIZE_TEXT
+STR_VAR
+  text  = ~~
+  color = ~D~
+RET
+  text
+BEGIN
+  PATCH_IF (~%color%~ STR_EQ ~~) BEGIN
+    SPRINT color ~D~
+  END
+  SPRINT text ~^%color%%text%^-~
+END
+
+
+/////////////////////////////////////////////////////////////
+// Implementation                                          //
+/////////////////////////////////////////////////////////////
+
+// Resref of the loading hints script
+OUTER_SPRINT script_hints_resref ~A7-LDHNT~
+// Name of the game option to turn loading hints on or ff
+OUTER_SPRINT baldur_lua_setting ~ShowRestoredLoadingHints~
+
+// Shows random hints in log window
+<<<<<<<< .../inlined/cdtweaks/3400/a7-ldhnt.baf
+IF
+  True()
+THEN
+  RESPONSE #100
+    SetAreaScript("",OVERRIDE)
+    Continue()
+END
+>>>>>>>>
+
+// Triggers loading hint whenever the OnCreation() event of a map is triggered
+<<<<<<<< .../inlined/cdtweaks/3400/load_hints.baf
+IF
+  OnCreation()
+  !INI("%baldur_lua_setting%",0)
+THEN
+  RESPONSE #100
+    SetAreaScript("%script_hints_resref%",OVERRIDE)
+    Continue()
+END
+>>>>>>>>
+
+// Preparing area scripts
+COPY_EXISTING_REGEXP ~^.+\.are$~ ~override~
+  READ_ASCII 0x94 area_script (8) NULL
+  PATCH_IF (~%area_script%~ STR_EQ ~~) BEGIN
+    SPRINT area_script ~%SOURCE_RES%~
+    WRITE_ASCIIE 0x94 ~%area_script%~ (8)
+  END
+  INNER_ACTION BEGIN
+    // don't add the same script twice
+    ACTION_IF (NOT RESOURCE_CONTAINS ~%area_script%.bcs~ ~"%script_hints_resref%"~) BEGIN
+      EXTEND_TOP ~%area_script%.bcs~ ~.../inlined/cdtweaks/3400/load_hints.baf~ EVAL
+    END
+  END
+BUT_ONLY
+
+
+// Generating scripts
+COMPILE ~.../inlined/cdtweaks/3400/a7-ldhnt.baf~
+
+ACTION_IF (GAME_IS ~bgee eet~) BEGIN
+  LAF INSTALL_HINTS
+    INT_VAR
+      col_weight = 1  // loading_hints.2da column index for BGEE
+    STR_VAR
+      campaign_check = ~Global("BD_HAVE_SOD","GLOBAL",0) GlobalLT("chapter","GLOBAL",8)~
+  END
+
+  ACTION_IF (GAME_INCLUDES ~sod~) BEGIN
+    LAF INSTALL_HINTS
+      INT_VAR
+        col_weight = 2  // loading_hints.2da column index for SoD
+      STR_VAR
+        campaign_check = ~!Global("BD_HAVE_SOD","GLOBAL",0) GlobalLT("chapter","GLOBAL",13)~
+    END
+  END
+END
+
+ACTION_IF (GAME_IS ~bg2ee eet~) BEGIN
+  OUTER_SET bg2_chapter_0 = bg2_chapter_1 - 1
+  LAF INSTALL_HINTS
+    INT_VAR
+      col_weight = 3  // loading_hints.2da column index for SoA
+    STR_VAR
+      campaign_check = EVAL ~GlobalGT("chapter","GLOBAL",%bg2_chapter_0%) GlobalLT("chapter","GLOBAL",%bg2_chapter_8%)~
+  END
+  LAF INSTALL_HINTS
+    INT_VAR
+      col_weight = 4  // loading_hints.2da column index for ToB
+    STR_VAR
+      campaign_check = EVAL ~GlobalGT("chapter","GLOBAL",%bg2_chapter_7%)~
+  END
+END
+
+ACTION_IF (GAME_IS ~iwdee~) BEGIN
+  LAF INSTALL_HINTS
+    INT_VAR
+      col_weight = 5  // loading_hints.2da column index for IWDEE
+    STR_VAR
+      campaign_check = ~True()~
+  END
+END
+
+// Updating baldur.lua
+COPY + ~%USER_DIRECTORY%/baldur.lua~ ~%USER_DIRECTORY%/baldur.lua~
+  PATCH_IF (INDEX_BUFFER(~%baldur_lua_setting%~) < 0) BEGIN
+    SPRINT entry ~SetPrivateProfileString('Script','%baldur_lua_setting%','1')%LNL%~
+    SET len = STRING_LENGTH ~%entry%~
+    INSERT_BYTES 0 len
+    WRITE_ASCIIE 0 ~%entry%~ (len)
+  END
+BUT_ONLY IF_EXISTS
+
+END

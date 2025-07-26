@@ -14,7 +14,7 @@ COPY_EXISTING ~%VICONIA_BCS%.bcs~ ~override~ // catching and updating area varia
   DECOMPILE_AND_PATCH BEGIN
     REPLACE_TEXTUALLY ~,"%Peldvale%",~ ~,"%SouthBeregostRoad%",~
   END
-  BUT_ONLY      
+  BUT_ONLY
 
 ACTION_IF !game_is_bgt THEN BEGIN // all other platforms use GAM file
 
@@ -48,6 +48,6 @@ COPY_EXISTING ~%tutu_scriptbg%viconi%eet_var%.dlg~ ~override~ // viconi in bg/bg
   DECOMPILE_AND_PATCH BEGIN
     REPLACE_TEXTUALLY ~CreateCreature("FLAM2",\[605\.901\])~ ~CreateCreature("FLAM2",[1620.420],0)~  // BG lacks a direction parameter, fix syntax
     REPLACE_TEXTUALLY ~CreateCreature("FLAM2",\[605\.901\]~ ~CreateCreature("FLAM2",[1620.420]~  // move the FF spawn to reflect her new coords
-    REPLACE_TEXTUALLY ~MoveToPoint(\[507\.806\])~ ~MoveToPoint([1520.320])~ 
+    REPLACE_TEXTUALLY ~MoveToPoint(\[507\.806\])~ ~MoveToPoint([1520.320])~
   END
-  BUT_ONLY  
+  BUT_ONLY

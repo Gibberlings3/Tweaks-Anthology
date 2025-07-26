@@ -22,6 +22,9 @@ END
 ACTION_IF (NOT VARIABLE_IS_SET ~party_casting_speed_enabled~) BEGIN
   OUTER_SET party_casting_speed_enabled = 0
 END
+ACTION_IF (NOT VARIABLE_IS_SET ~party_movement_speed_display_icons~) BEGIN
+  OUTER_SET party_movement_speed_display_icons = 1
+END
 
 // Show configuration details
 OUTER_SPRINT msg @333009
@@ -37,6 +40,11 @@ OUTER_PATCH_SAVE msg ~%msg%~ BEGIN
   END ELSE BEGIN
     REPLACE_TEXTUALLY ~a7_casting_speed_enable~ ~no~
   END
+  PATCH_IF (party_movement_speed_display_icons) BEGIN
+    REPLACE_TEXTUALLY ~a7_display_portrait_icons~ ~yes~
+  END ELSE BEGIN
+    REPLACE_TEXTUALLY ~a7_display_portrait_icons~ ~no~
+  END
 END
 PRINT ~%msg%~
 
@@ -45,6 +53,7 @@ LAF A7_INSTALL_AUTOHASTE
     casting_speed = party_casting_speed_enabled
     movement_speed = party_movement_speed_enabled
     speed_percent = party_movement_speed_value
+    display_icons = party_movement_speed_display_icons
   RET success
 END
 

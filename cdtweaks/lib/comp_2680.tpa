@@ -1,15 +1,17 @@
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-/////                                                            \\\\\
-///// "Force" the Archer kit to use bows                         \\\\\
-/////                                                            \\\\\
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                                                          \\\\\
+///// Make Infravision Useful                                                                  \\\\\
+/////                                                                                          \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 WITH_SCOPE BEGIN
-  INCLUDE "cdtweaks\ardanis\functions.tph"
-  INCLUDE "cdtweaks\lib\revised_archer.tph"
-  WITH_TRA "cdtweaks\languages\english\revised_archer.tra" "cdtweaks\languages\%LANGUAGE%\revised_archer.tra" BEGIN
-    LAF "REVISED_ARCHER" END
+  INCLUDE "cdtweaks\luke\lib\install.tph"
+  //
+  INCLUDE "cdtweaks\lib\gt_infravision.tph"
+  //
+  WITH_TRA "cdtweaks\languages\english\gt_infravision.tra" "cdtweaks\languages\%LANGUAGE%\gt_infravision.tra" BEGIN
+    LAF "MAKE_INFRAVISION_USEFUL" END
   END
 END

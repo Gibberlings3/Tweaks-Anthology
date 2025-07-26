@@ -12,28 +12,28 @@ COPY_EXISTING ~misc89.itm~                         ~override~ // bg2
   LPF DELETE_EFFECT INT_VAR match_opcode = 42 check_headers = 0 END
   PATCH_IF enhanced_edition BEGIN
     SAY 0x50 @418001 // on EEs, amulet descript mentions extra spells granted, so remove
-  END  
+  END
   BUT_ONLY IF_EXISTS
 
 INCLUDE ~cdtweaks/lib/joinable_npc_array.tpa~
 
 ACTION_PHP_EACH JOINABLE_NPC_ARRAY AS file => dv BEGIN
 
-  ACTION_IF ("%dv%" STRING_COMPARE_CASE "edwin" = 0) BEGIN 
+  ACTION_IF ("%dv%" STRING_COMPARE_CASE "edwin" = 0) BEGIN
 
     COPY_EXISTING ~%file%~ ~override~
       FOR (index = 0 ; index < 9 ; ++index) BEGIN
         LPF ADD_CRE_EFFECT INT_VAR opcode = 42 target = 1 parameter1 = 2 parameter2 = (2 ** index) timing = 9 END
-      END  
+      END
       BUT_ONLY
-      
+
   END
 
 END
-  
+
 COPY_EXISTING ~npring01.itm~ ~override~ // remove 'cannot be removed' description from nalia's ring
   SAY 0x54 @418002
-  BUT_ONLY IF_EXISTS 
+  BUT_ONLY IF_EXISTS
 
 ACTION_IF game_is_bgt BEGIN // bgt edwin has special scripting to keep wearing his amulet; disable it
 
@@ -43,7 +43,7 @@ ACTION_IF game_is_bgt BEGIN // bgt edwin has special scripting to keep wearing h
     END
     BUT_ONLY
 
-END    
+END
 
 ACTION_IF game_includes_bg1 BEGIN // obg, tutu, bgt, bgee, eet
   ACTION_IF !tutu_gen BEGIN
@@ -56,7 +56,7 @@ ACTION_IF game_includes_bg1 BEGIN // obg, tutu, bgt, bgee, eet
       alora, ~%tutu_var%alora~, ~%ALORA_BCS%~, bdalora, cdalorab => ~misc88~ // alora's lucky rabbit foot; bdalora.bcs shouldn't exist
       edwin, ~%tutu_var%edwin~, ~%EDWIN_BCS%~, bdedwin, cdedamul => ~misc89~ // edwin's amulet (bg/sod)
     END
-  END  
+  END
 END
 
 ACTION_IF game_includes_soa BEGIN // obg2, bgt, bg2ee, eet
@@ -65,12 +65,12 @@ ACTION_IF game_includes_soa BEGIN // obg2, bgt, bg2ee, eet
     edwin, edwin13, edwin, edwi25, cdedamul => misc89   // edwin's amulet (bg2/tob)
   END
 END
-  
+
 
 ACTION_PHP_EACH cd_removable_npc_items AS params => item BEGIN // dv, cre file, script, expansion script, cloned item => item
 
   ACTION_IF FILE_EXISTS_IN_GAME ~%item%.itm~ AND FILE_EXISTS_IN_GAME ~%params_1%.cre~ BEGIN
-  
+
     COPY_EXISTING ~%params_1%.cre~ ~override~
       READ_LONG  0x08 name
       READ_ASCII 0x248 script
@@ -85,8 +85,8 @@ ACTION_PHP_EACH cd_removable_npc_items AS params => item BEGIN // dv, cre file, 
         READ_BYTE 0x273 class
         READ_BYTE 0x27b align
       END
-      BUT_ONLY      
-    
+      BUT_ONLY
+
     COPY_EXISTING ~%item%.itm~ ~override~
       WRITE_LONG 0x18 (THIS BOR BIT2) // adds droppable flag
       WRITE_LONG 0x34 0 // make unsellable
@@ -108,7 +108,7 @@ ACTION_PHP_EACH cd_removable_npc_items AS params => item BEGIN // dv, cre file, 
           5 BEGIN SET usability -= BIT26 END // halfling
           6 BEGIN SET usability -= BIT28 END // gnome
           7 BEGIN SET usability -= BIT31 END // half-orc
-          DEFAULT  
+          DEFAULT
         END
         PATCH_MATCH class WITH
            1 BEGIN SET usability -= BIT18 END // mage
@@ -132,7 +132,7 @@ ACTION_PHP_EACH cd_removable_npc_items AS params => item BEGIN // dv, cre file, 
           19 BEGIN SET usability -= BIT18 END // sorcerer
           20 BEGIN SET usability -= BIT29 END // monk
           21 BEGIN SET usability -= BIT30 END // shaman
-          DEFAULT  
+          DEFAULT
         END
         PATCH_MATCH align WITH
           17 BEGIN SET usability -= (BIT4 + BIT2) END // lawful_good
@@ -143,26 +143,26 @@ ACTION_PHP_EACH cd_removable_npc_items AS params => item BEGIN // dv, cre file, 
           35 BEGIN SET usability -= (BIT5 + BIT1) END // neutral_evil
           49 BEGIN SET usability -= (BIT0 + BIT2) END // chaotic_good
           50 BEGIN SET usability -= (BIT0 + BIT3) END // chaotic_neutral
-          51 BEGIN SET usability -= (BIT0 + BIT1) END // chaotic_evil        
-          DEFAULT  
+          51 BEGIN SET usability -= (BIT0 + BIT1) END // chaotic_evil
+          DEFAULT
         END
         WRITE_LONG 0x1e usability
       END
       BUT_ONLY
 
-    ACTION_IF enhanced_edition BEGIN 
-    
+    ACTION_IF enhanced_edition BEGIN
+
       COPY_EXISTING ~item_use.2da~ ~override~
         REPLACE_TEXTUALLY ~^\(%item%[ %TAB%]+[^ %TAB%]+[ %TAB%]+[0-9]+[ %TAB%]+\)[0-9]+~ ~\12~
         BUT_ONLY
-    
+
     END ELSE BEGIN
-    
+
       COPY_EXISTING ~%item%.itm~ ~override/%params_4%.itm~ // clone item
 
       ACTION_PHP_EACH JOINABLE_NPC_ARRAY AS file => dv BEGIN
 
-        ACTION_IF ("%dv%" STRING_COMPARE_CASE "%params_0%" = 0) BEGIN 
+        ACTION_IF ("%dv%" STRING_COMPARE_CASE "%params_0%" = 0) BEGIN
 
           COPY_EXISTING ~%file%~ ~override~
             READ_LONG 0x2bc item_off
@@ -174,21 +174,21 @@ ACTION_PHP_EACH cd_removable_npc_items AS params => item BEGIN // dv, cre file, 
               END
             END
             BUT_ONLY
-            
+
         END
-        
+
       END
-        
+
       OUTER_SPRINT item ~%params_4%~ // so that the script extensions, below, use the replacement item
-        
-    END    
-  
-    ACTION_FOR_EACH script IN ~%params_2%~ ~%params_3%~ BEGIN    
-      ACTION_IF FILE_EXISTS_IN_GAME ~%script%.bcs~ BEGIN      
-        EXTEND_TOP ~%script%.bcs~ ~cdtweaks/baf/removable_npc_items.baf~ EVALUATE_BUFFER        
+
+    END
+
+    ACTION_FOR_EACH script IN ~%params_2%~ ~%params_3%~ BEGIN
+      ACTION_IF FILE_EXISTS_IN_GAME ~%script%.bcs~ BEGIN
+        EXTEND_TOP ~%script%.bcs~ ~cdtweaks/baf/removable_npc_items.baf~ EVALUATE_BUFFER
       END
-    END      
-      
+    END
+
   END // file check
-  
+
 END // php_each

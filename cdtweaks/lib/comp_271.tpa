@@ -1,0 +1,19 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Static PsT character portraits                   \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+/////                                                  \\\\\
+///// Don't visualize health and status changes        \\\\\
+/////                                                  \\\\\
+
+WITH_SCOPE BEGIN
+
+  INCLUDE ~cdtweaks/lib/pst_npc_portraits.tpa~
+
+  LAF install_pst_portraits STR_VAR suffix = ~single~ END
+
+END

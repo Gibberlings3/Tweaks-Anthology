@@ -4,6 +4,7 @@ INT_VAR
   casting_speed = 0
   movement_speed = 1
   speed_percent = 100
+  display_icons = 1
 RET
   success
 BEGIN
@@ -11,14 +12,14 @@ BEGIN
 
   ACTION_IF (enhanced_edition && FILE_EXISTS ~engine.lua~) BEGIN
     LAF A7_INSTALL_AUTOHASTE_SPLSTATE
-      INT_VAR casting_speed movement_speed speed_percent
+      INT_VAR casting_speed movement_speed speed_percent display_icons
       RET success
     END
   END
 
   ACTION_IF (NOT success) BEGIN
     LAF A7_INSTALL_AUTOHASTE_SECTYPE
-      INT_VAR casting_speed movement_speed speed_percent
+      INT_VAR casting_speed movement_speed speed_percent display_icons
       RET success
     END
   END
@@ -31,6 +32,7 @@ INT_VAR
   casting_speed = 0
   movement_speed = 1
   speed_percent = 100
+  display_icons = 1
 RET
   success
 BEGIN
@@ -61,18 +63,41 @@ BEGIN
 
     ACTION_IF (slot_autohaste >= 0) BEGIN
     
-      COPY_EXISTING ~statdesc.2da~ ~override~ 
-        PATCH_IF (movement_speed) BEGIN
-          SET haste_icon = 38
-          REPLACE_EVALUATE ~^\([0-9]+\)\([ %TAB%]+[0-9]+[ %TAB%]+[Bb][Oo][Oo][Tt]01[Dd]\)[ %TAB%]*~ BEGIN // if 'increased movement speed' icon exists, use it instead of haste
-            SET haste_icon = MATCH1 // grab icon
-          END ~%MATCH1%%MATCH2%~
-        END  
-        PATCH_IF (casting_speed) BEGIN
-          SET imp_alac = RESOLVE_STR_REF(@333055) // bgee/sod doesn't have a label for this 'improved alacrity' icon
-          REPLACE_TEXTUALLY ~^159[ %TAB%]+-1~ ~159 %imp_alac%~
-        END  
-        BUT_ONLY   
+      ACTION_IF (display_icons) BEGIN
+        // installing custom portrait icon
+        COPY ~cdtweaks/bam/a7_wlk1d.bam~ ~override~
+             ~cdtweaks/bam/a7_wlk2d.bam~ ~override~
+
+        COPY_EXISTING ~statdesc.2da~ ~override~
+          COUNT_2DA_ROWS 3 num_rows
+          READ_2DA_ENTRY (num_rows - 1) 0 3 last_index
+          SET move_icon = IS_AN_INT ~last_index~ ? last_index + 1 : num_rows
+          SET cast_icon = move_icon + 1
+        BUT_ONLY
+
+        OUTER_SET move_strref = RESOLVE_STR_REF(@333056)
+        OUTER_SET cast_strref = RESOLVE_STR_REF(@333057)
+
+        APPEND ~statdesc.2da~ ~%move_icon% %move_strref% A7_WLK1D~
+        APPEND ~statdesc.2da~ ~%cast_icon% %cast_strref% A7_WLK2D~
+
+        COPY_EXISTING ~statdesc.2da~ ~override~
+          PRETTY_PRINT_2DA
+        BUT_ONLY
+
+        /*COPY_EXISTING ~statdesc.2da~ ~override~
+          PATCH_IF (movement_speed) BEGIN
+            SET haste_icon = 38
+            REPLACE_EVALUATE ~^\([0-9]+\)\([ %TAB%]+[0-9]+[ %TAB%]+[Bb][Oo][Oo][Tt]01[Dd]\)[ %TAB%]*~ BEGIN // if 'increased movement speed' icon exists, use it instead of haste
+              SET haste_icon = MATCH1 // grab icon
+            END ~%MATCH1%%MATCH2%~
+          END
+          PATCH_IF (casting_speed) BEGIN
+            SET imp_alac = RESOLVE_STR_REF(@333055) // bgee/sod doesn't have a label for this 'improved alacrity' icon
+            REPLACE_TEXTUALLY ~^159[ %TAB%]+-1~ ~159 %imp_alac%~
+          END
+          BUT_ONLY*/
+      END
     
       COPY ~cdtweaks/spl/a7_wlk1.spl~ ~override~
         SAY 0x08 @333054 // add generic name for when this is viewed with e^3x
@@ -86,36 +111,43 @@ BEGIN
             parameter2 = 2    // Set % of
             duration = 10
           END
-          LPF ADD_SPELL_EFFECT
-          INT_VAR
-            insert_point = 1
-            opcode = 142      // Display portrait icon
-            target = 2        // Preset target
-            parameter2 = haste_icon   // Haste
-            duration = 10
+          PATCH_IF (display_icons) BEGIN
+            LPF ADD_SPELL_EFFECT
+            INT_VAR
+              insert_point = 1
+              opcode = 142      // Display portrait icon
+              target = 2        // Preset target
+              parameter2 = move_icon  // Movement Speed
+              duration = 10
+            END
           END
         END
 
         PATCH_IF (casting_speed) BEGIN
+          SET insert_point = 0
           LPF ADD_SPELL_EFFECT
           INT_VAR
-            insert_point = 0  // add on top
+            insert_point      // add on top
             opcode = 188      // Aura Cleansing
             target = 2        // Preset target
             parameter2 = 1    // Stat value
             duration = 10
           END
-          LPF ADD_SPELL_EFFECT
-          INT_VAR
-            insert_point = 1
-            opcode = 142      // Display portrait icon
-            target = 2        // Preset target
-            parameter2 = 159  // Improved Alacrity
-            duration = 10
+          SET insert_point += 1
+          PATCH_IF (display_icons) BEGIN
+            LPF ADD_SPELL_EFFECT
+            INT_VAR
+              insert_point
+              opcode = 142      // Display portrait icon
+              target = 2        // Preset target
+              parameter2 = cast_icon  // Casting Speed
+              duration = 10
+            END
+            SET insert_point += 1
           END
           LPF ADD_SPELL_EFFECT
           INT_VAR
-            insert_point = 2
+            insert_point
             opcode = 282      // Modify script state
             target = 2        // Preset target
             parameter1 = 1    // Stat value
@@ -207,6 +239,7 @@ INT_VAR
   casting_speed = 0
   movement_speed = 1
   speed_percent = 100
+  display_icons = 1
 RET
   success
 BEGIN
@@ -253,15 +286,18 @@ BEGIN
             parameter2 = 2    // Set % of
             duration = 10
           END
-          LPF ADD_SPELL_EFFECT
-          INT_VAR
-            insert_point = 1
-            opcode = 142      // Display portrait icon
-            target = 2        // Preset target
-            parameter2 = 38   // Haste
-            duration = 10
+          PATCH_IF (display_icons) BEGIN
+            LPF ADD_SPELL_EFFECT
+            INT_VAR
+              insert_point = 1
+              opcode = 142      // Display portrait icon
+              target = 2        // Preset target
+              parameter2 = 38   // Haste
+              duration = 10
+            END
           END
         END
+
         PATCH_IF (casting_speed) BEGIN
           LPF ADD_SPELL_EFFECT
           INT_VAR
@@ -271,13 +307,15 @@ BEGIN
             parameter2 = 1    // Stat value
             duration = 10
           END
-          LPF ADD_SPELL_EFFECT
-          INT_VAR
-            insert_point = 1
-            opcode = 142      // Display portrait icon
-            target = 2        // Preset target
-            parameter2 = 159  // Improved Alacrity
-            duration = 10
+          PATCH_IF (display_icons) BEGIN
+            LPF ADD_SPELL_EFFECT
+            INT_VAR
+              insert_point = 1
+              opcode = 142      // Display portrait icon
+              target = 2        // Preset target
+              parameter2 = 159  // Improved Alacrity
+              duration = 10
+            END
           END
         END
 

@@ -9,6 +9,9 @@
 @5001 = ~SCRIPT PER LA TRASFORMAZIONE DEGLI AVATAR:~
 @5002 = ~Questo script conferisce all'utente totale controllo sull'avatar del personaggio. Premi S per aprire la schermata di selezione dell'avatar. (<script>)~
 
+@15003 = ~Scudo Rosso~
+@15004 = ~Clava d'Ossa~
+
 @18001 = ~Archivi Arcani~
 @18002 = ~Sio'chaire~
 @18003 = ~Negozio di Sio'chaire~
@@ -47,15 +50,15 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-@104001 = ~Soldato di Amn~             
-@104002 = ~Mago Autorizzato~           
-@104003 = ~Sacerdote della Milizia~    
+@104001 = ~Soldato di Amn~
+@104002 = ~Mago Autorizzato~
+@104003 = ~Sacerdote della Milizia~
 
 @105001 = ~Il tuo oggetto drow si è disintegrato~
 
 @106001 = ~La tua armatura si è distrutta~
 @106002 = ~Il tuo scudo si è distrutto~
-@106003 = ~Il tuo elmo si è distrutto~ 
+@106003 = ~Il tuo elmo si è distrutto~
 
 @107001 = ~Va ad aspettarci alla Locanda di Braccio Amico. Se le cose dovessero cambiare, ci incontreremo là.~
 @107002 = ~Torna a viaggiare con noi.~
@@ -103,21 +106,21 @@
 @107537 = ~Va bene - penso che questa sia una di quelle cose che fanno parte di ciò che fa un avventuriero, però non suona interessante...~
 @107538 = ~Un'occasione per un po' di lusso e un po' di riposo dalla strada? Certo, non la rifiuto.~
 
-@108001 = ~Cintura delle munizioni~    
+@108001 = ~Cintura delle munizioni~
 @108002 = ~Questa bandoliera è l'ideale per tenere proiettili, dardi, frecce o quadrelli.
 
-STATISTICHE:                          
+STATISTICHE:
 
 Capacità: 2000 unità tra proiettili, dardi, frecce o quadrelli.
-Peso: 2~                               
-@108003 = ~Contenitore per Pozioni~       
+Peso: 2~
+@108003 = ~Contenitore per Pozioni~
 @108004 = ~Solitamente in possesso dei guaritori erranti, questo contenitore di cuoio si srotola e permette a chi lo utilizza di fissare delicate bottigliette per le pozioni, nel suo lato imbottito, con numerose strisce di cuoio per una custodia sicura durante il viaggio. Indipendentemente dalla quantità di pozioni al suo interno, il peso dell'astuccio rimane invariato.
 
-STATISTICHE:                        
+STATISTICHE:
 
 Capacità: 100 bottigliette.
-Peso: 2~                               
-@108005 = ~Borsa Conservante~          
+Peso: 2~
+@108005 = ~Borsa Conservante~
 @108006 = ~Come altre borse magiche, questa sembra essere un normale sacco di tela di circa 60 per 120 centimetri. La borsa conservante si apre in uno spazio nondimensionale e il suo interno è più grande delle sue dimensioni esterne. A prescindere da cosa sia messo in questo oggetto, la borsa ha sempre lo stesso peso.
 
 STATISTICHE:
@@ -139,7 +142,6 @@ Speciale:
 Peso: 1
 Posizionala in uno slot degli Oggetti Rapidi per aprirla.~
 @108505 = ~Si sta aprendo la Borsa delle Gemme. Attendi prego.~
-
 @108506 = ~Contenitore~
 @108507 = ~Contenitore per Pozioni~
 @108508 = ~Un contenitore rettangolare.~
@@ -152,7 +154,6 @@ Speciale:
 
 Peso: 3~
 @108510 = ~Si sta aprendo il Contenitore per Pozioni. Attendere prego.~
-
 @108511 = ~Astuccio~
 @108512 = ~Astuccio delle Pergamene~
 @108513 = ~Un astuccio.~
@@ -177,7 +178,6 @@ Speciale:
 
 Peso: 2~
 @108519 = ~Si sta aprendo la Cintura per Munizioni. Attendi un momento.~
-
 @108520 = ~Borsa~
 @108521 = ~Borsa Conservante~
 @108522 = ~Una borsa.~
@@ -194,103 +194,101 @@ Peso: 10~
 
 
 
-                   
-
-@111001 = ~Locanda di Candlekeep~      
-@111002 = ~Alloggi dei Sacerdoti~      
-@111003 = ~Tempio di Oghma~            
-@111004 = ~Magazzino~                  
-@111005 = ~Cancello Principale~           
-@111006 = ~Candlekeep~   
-@111007 = ~Dormitorio~                 
-@111008 = ~Alloggi~                    
-@111009 = ~Clinica~                   
+@111001 = ~Locanda di Candlekeep~
+@111002 = ~Alloggi dei Sacerdoti~
+@111003 = ~Tempio di Oghma~
+@111004 = ~Magazzino~
+@111005 = ~Cancello Principale~
+@111006 = ~Candlekeep~
+@111007 = ~Dormitorio~
+@111008 = ~Alloggi~
+@111009 = ~Clinica~
 @111010 = ~Tenuta di Enter Silvershield~
-@111011 = ~Elmo e Mantello~            
-@111012 = ~Taverna~                    
-@111013 = ~Tempio di Helm~             
-@111014 = ~Portale del Drago Nero~     
-@111015 = ~Dimora di Ramazith~        
-@111016 = ~Palazzo Ducale~             
-@111017 = ~Tre Vecchi Barili~               
-@111018 = ~Sirenetta Timida~           
-@111019 = ~Festa dello Storione~    
-@111020 = ~Santuario di Ilmater~          
-@111021 = ~Casa dei Conti della Lega dei Mercanti~          
-@111022 = ~Cantine~                    
-@111023 = ~Carovana~                   
-@111024 = ~Locanda del Braccio Amico~  
-@111025 = ~Tempio della Saggezza~      
-@111026 = ~Giocoliere Gioviale~         
-@111027 = ~Locanda di Feldepost~       
-@111028 = ~Fucina Thunderhammer~         
-@111029 = ~Locanda del Covone Rosso~               
-@111030 = ~Il Mago Bruciato~              
-@111031 = ~Maniero~                    
-@111032 = ~Alta Siepe~                 
-@111033 = ~Casa~                       
-@111034 = ~Cava~                       
-@111035 = ~Casa Sommersa~              
-@111036 = ~Locanda~                    
-@111037 = ~Negozio~                    
+@111011 = ~Elmo e Mantello~
+@111012 = ~Taverna~
+@111013 = ~Tempio di Helm~
+@111014 = ~Portale del Drago Nero~
+@111015 = ~Dimora di Ramazith~
+@111016 = ~Palazzo Ducale~
+@111017 = ~Tre Vecchi Barili~
+@111018 = ~Sirenetta Timida~
+@111019 = ~Festa dello Storione~
+@111020 = ~Santuario di Ilmater~
+@111021 = ~Casa dei Conti della Lega dei Mercanti~
+@111022 = ~Cantine~
+@111023 = ~Carovana~
+@111024 = ~Locanda del Braccio Amico~
+@111025 = ~Tempio della Saggezza~
+@111026 = ~Giocoliere Gioviale~
+@111027 = ~Locanda di Feldepost~
+@111028 = ~Fucina Thunderhammer~
+@111029 = ~Locanda del Covone Rosso~
+@111030 = ~Il Mago Bruciato~
+@111031 = ~Maniero~
+@111032 = ~Alta Siepe~
+@111033 = ~Casa~
+@111034 = ~Cava~
+@111035 = ~Casa Sommersa~
+@111036 = ~Locanda~
+@111037 = ~Negozio~
 @111038 = ~Taverna del Drago Fiammante~
-@111039 = ~Maniero~             
-@111040 = ~Guarnigione~                
-@111041 = ~Fortezza Gnoll~             
-@111042 = ~Entrata delle Miniere~      
-@111043 = ~Cabina~                     
-@111044 = ~Scultura~                   
-@111045 = ~Casa abbandonata~           
-@111046 = ~Vestibolo~                  
+@111039 = ~Maniero~
+@111040 = ~Guarnigione~
+@111041 = ~Fortezza Gnoll~
+@111042 = ~Entrata delle Miniere~
+@111043 = ~Cabina~
+@111044 = ~Scultura~
+@111045 = ~Casa abbandonata~
+@111046 = ~Vestibolo~
 @111047 = ~Tempio del Canto del Mattino~
-@111048 = ~Scuola di Ulcaster~         
-@111049 = ~Uscita~                     
+@111048 = ~Scuola di Ulcaster~
+@111049 = ~Uscita~
 @111050 = ~Scendi al livello successivo~
-@111051 = ~Sali al livello successivo~ 
-@111052 = ~Uscita verso la superficie~ 
-@111053 = ~Villaggio di Gullykin~         
+@111051 = ~Sali al livello successivo~
+@111052 = ~Uscita verso la superficie~
+@111053 = ~Villaggio di Gullykin~
 @111054 = ~Entrata delle Rovine di Firewine~
-@111055 = ~Relitto~                    
-@111056 = ~Vecchio Faro~               
-@111057 = ~Fossa~                      
-@111058 = ~Fattoria~                   
-@111059 = ~Passaggio del Dragone~       
-@111060 = ~Grossa Tenda~               
-@111061 = ~Tana dei Ragni~              
-@111062 = ~Casa sull'albero~           
-@111063 = ~Tappo per il fiume~            
-@111064 = ~Ascensore della Miniera~                  
-@111065 = ~Taverna del Canto Elfico~            
-@111066 = ~Chincaglierie Magiche~     
+@111055 = ~Relitto~
+@111056 = ~Vecchio Faro~
+@111057 = ~Fossa~
+@111058 = ~Fattoria~
+@111059 = ~Passaggio del Dragone~
+@111060 = ~Grossa Tenda~
+@111061 = ~Tana dei Ragni~
+@111062 = ~Casa sull'albero~
+@111063 = ~Tappo per il fiume~
+@111064 = ~Ascensore della Miniera~
+@111065 = ~Taverna del Canto Elfico~
+@111066 = ~Chincaglierie Magiche~
 @111067 = ~Emporio di Lucky Aello~
-@111068 = ~Armeria di Maltz~           
-@111069 = ~Taverna Keexie~             
-@111070 = ~Negozio di Silence~       
-@111071 = ~Spada e Stelle~             
-@111072 = ~Emporio~                    
-@111073 = ~Locanda~                    
-@111074 = ~Palazzo del Capitano del Porto~         
-@111075 = ~Lanterna Fioca~            
+@111068 = ~Armeria di Maltz~
+@111069 = ~Taverna Keexie~
+@111070 = ~Negozio di Silence~
+@111071 = ~Spada e Stelle~
+@111072 = ~Emporio~
+@111073 = ~Locanda~
+@111074 = ~Palazzo del Capitano del Porto~
+@111075 = ~Lanterna Fioca~
 @111076 = ~Casa della Regina delle Acque~
-@111077 = ~Trono di Ferro~             
-@111078 = ~Taverna di Jopalin~         
-@111079 = ~I Sette Soli~                 
-@111080 = ~Pugno Fiammante~            
-@111081 = ~Lega dei Mercanti~          
-@111082 = ~La Vecchia Locanda~         
-@111083 = ~Palazzo della Signora~      
-@111084 = ~Casa delle Meraviglie~      
+@111077 = ~Trono di Ferro~
+@111078 = ~Taverna di Jopalin~
+@111079 = ~I Sette Soli~
+@111080 = ~Pugno Fiammante~
+@111081 = ~Lega dei Mercanti~
+@111082 = ~La Vecchia Locanda~
+@111083 = ~Palazzo della Signora~
+@111084 = ~Casa delle Meraviglie~
 @111085 = ~Alta Casa delle Meraviglie~
-@111086 = ~Dimora di Ragefast~           
-@111087 = ~Il Divinatore~              
-@111088 = ~Negozio di Pollame~         
-@111089 = ~Taverna di Drakon~             
-@111090 = ~Maniero di Felonius Gist~  
-@111091 = ~Locanda di Ulgoth's Beard~  
-@111092 = ~Torre Abbandonata~          
+@111086 = ~Dimora di Ragefast~
+@111087 = ~Il Divinatore~
+@111088 = ~Negozio di Pollame~
+@111089 = ~Taverna di Drakon~
+@111090 = ~Maniero di Felonius Gist~
+@111091 = ~Locanda di Ulgoth's Beard~
+@111092 = ~Torre Abbandonata~
 @111093 = ~Entrata della Torre di Durlag~
-@111094 = ~Uscita dalle Miniere~       
-@111095 = ~Uscita~                     
+@111094 = ~Uscita dalle Miniere~
+@111095 = ~Uscita~
 @111096 = ~Tempio di Bhaal~
 @111097 = ~Tempio di Waukeen~
 @111098 = ~Negozio dell'Arcere~
@@ -320,10 +318,11 @@ Peso: 10~
 @111122 = ~Bottaio~
 @111123 = ~Barche~
 @111124 = ~Il Patibolo Fischiettante~
-@111125 = ~Baracca del Becchino~            
+@111125 = ~Baracca del Becchino~
 
 @114001 = ~Una gemma è un minerale che, se intagliato e levigato, può essere collezionato o usato come gioiello.~
-@115001 = ~Evocare Animali             
+
+@115001 = ~Evocare Animali
 (Evocazione/Attrazione)
 Livello: 6
 Sfera: Evocazione
@@ -334,43 +333,43 @@ Area d'effetto: Speciale
 Tiro-salvezza: Nessuno
 
 Questo incantesimo consente al lanciatore di evocare e controllare due Orsi Mannari con 20 Dadi-vita. Gli orsi obbediranno ad ogni comando del sacerdote fino al termine dell'incantesimo. Gli Orsi Mannari sono più lenti dei Lupi Mannari Maggiori, ma sono anche più resistenti. Gli Orsi Mannari hanno una naturale resistenza agli attacchi magici ed elementali e rigenerano rapidamente.~
-@115002 = ~Orso Mannaro Maggiore~      
-@115003 = ~Orso Mannaro~               
+@115002 = ~Orso Mannaro Maggiore~
+@115003 = ~Orso Mannaro~
 @115004 = ~Questa zampa rappresenta simbolicamente il controllo di un Druido Mutaforma sulla licantropia. Quando la zampa viene impugnata, il Mutaforma diventa un Lupo Mannaro. Quando la zampa viene rimossa, il Mutaforma ritorna alla sua forma umana. Le zampe di un Lupo Mannaro contano come armi +2.
 
-STATISTICHE:                           
+STATISTICHE:
 
 Attributi: Forza 19, Destrezza 16, Costituzione 15
-Classe Armatura Base: 1                
+Classe Armatura Base: 1
 Resistenze: resistenza alla magia 20%, immunità alle armi non magiche
-Attacchi per round: 2                  
-Danno: 1d12                            
-Tipo di danno: tagliente               
-Fattore-velocità: 3                    
-Tipo di competenza: Pugnale            
-Tipo: a una mano~                      
+Attacchi per round: 2
+Danno: 1d12
+Tipo di danno: tagliente
+Fattore-velocità: 3
+Tipo di competenza: Pugnale
+Tipo: a una mano~
 
 @115005 = ~Questa zampa rappresenta simbolicamente il controllo di un Druido Mutaforma sulla licantropia. Quando la zampa viene impugnata, il Mutaforma diventa un Lupo Mannaro Maggiore. Quando la zampa viene rimossa, il Mutaforma ritorna alla sua forma umana. Le zampe di un Lupo Mannaro Maggiore contano come armi +3.
 
-STATISTICHE:                           
+STATISTICHE:
 
 Attributi: Forza 21, Destrezza 20, Costituzione 25
-Classe Armatura Base: -6               
-Tiri-salvezza base: 1/1/1/2/1          
+Classe Armatura Base: -6
+Tiri-salvezza base: 1/1/1/2/1
 Resistenze: resistenza alla magia 40%, resistenza ai danni elementali 50%, immunità alle armi non magiche
 Rigenerazione: 3 punti ferita al secondo
-Attacchi per round: 3                  
-THAC0 base: 6                          
-Danno: 2d8                             
-Tipo di danno: tagliente               
-Fattore-velocità: 3                    
-Tipo di competenza: Pugnale            
+Attacchi per round: 3
+THAC0 base: 6
+Danno: 2d8
+Tipo di danno: tagliente
+Fattore-velocità: 3
+Tipo di competenza: Pugnale
 Tipo: a una mano~
 
 
 @115006 = ~Mutare forma in Lupo Mannaro
 
-Forza: 19 
+Forza: 19
 Destrezza: 16
 Costituzione: 15
 
@@ -383,7 +382,7 @@ Abilità speciali:
 - Immunità alle armi non magiche~
 @115007 = ~Mutare forma in Lupo Mannaro Maggiore
 
-Forza: 21 
+Forza: 21
 Destrezza: 20
 Costituzione: 25
 
@@ -397,7 +396,7 @@ Abilità speciali:
 - Resistenza all'Elettricità: 50%
 - Resistenza all'Acido: 50%
 - Resistenza alla Magia: 40%
-- Immunità alle armi non magiche~                      
+- Immunità alle armi non magiche~
 @115008 = ~ Zampa di Lupo Mannaro~
 @115009 = ~ Zampa di Lupo Mannaro Maggiore~
 
@@ -426,10 +425,10 @@ Abilità speciali:
 
 @122001 = ~Ah, una Custodia dell'Abbondanza. Posso incantarla affinché produca quadrelli ancora più potenti, ma vi costerà. 5.000 monete, per la precisione.~
 @122002 = ~Beh, vediamo che altro avete.~
-@122003 = ~Un cappuccio da ladro, eh?~ 
+@122003 = ~Un cappuccio da ladro, eh?~
 @122004 = ~Con una fiala di antidoto e un anello di invisibilità, posso renderlo molto utile.~
 @122005 = ~Avete un anello di invisibilità, vedo... e un antidoto. Avete tutto il necessario. Per 10.000 monete posso potenziarlo notevolmente.~
-@122006 = ~Cosa abbiamo qui?~          
+@122006 = ~Cosa abbiamo qui?~
 @122007 = ~Ho una ricetta per potenziare l'Elmo della Roccia attaccandovi due corni. Quando avrete tutti i pezzi, ne riparleremo.~
 @122008 = ~Avete l'Elmo della Roccia e due corni da attaccarci. Per 5.000 monete potrei farne un ottimo elmo per ogni guerriero.~
 @122009 = ~Questi sono i Guanti del Bardo.~
@@ -483,7 +482,7 @@ Abilità speciali:
 @123008 = ~Una impugnatura bella e brillante, ma ora ti serve la punta affilata.~
 @123009 = ~Possiedi una punta affilata che combacia con un'elsa d'argento. Per 7.500 monete d'oro posso forgiarle in una splendida spada.~
 @123010 = ~Va bene, continuo a cercare.~
-@123011 = ~Ciao! Onda su Onda!~        
+@123011 = ~Ciao! Onda su Onda!~
 @123012 = ~Hai un'ottima lama per alabarda, ma serve il resto.~
 @123013 = ~Perché conservare questo bastone? Potresti ottenere una grande alabarda con la lama giusta.~
 @123014 = ~L'asta e la lama dell'Onda. Posso forgiarle in una grande e scintillante alabarda per 7.500 monete d'oro.~
@@ -542,10 +541,10 @@ Abilità speciali:
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-@202001 = ~Impugna ad una mano~        
-@202002 = ~Impugna a due mani~         
+@202001 = ~Impugna ad una mano~
+@202002 = ~Impugna a due mani~
 @202003 = ~^[ %TAB%]*Tipo[ %TAB%]*:[ % TAB%]*\(a[ %TAB%]+\)?\(1\|una\)[- %TAB%]*mano.*~
-@202004 = ~Tipo: A due mani~        
+@202004 = ~Tipo: A due mani~
 @204001 = ~^[ %TAB%]*Non[ %TAB%]*utilizzabile[ %TAB%]*da[ %TAB%]*:.*~
 @204002 = ~Non utilizzabile da:~
 @204003 = ~[%LNL%%MNL%%WNL%][- %TAB%]*Mago.*~
@@ -578,55 +577,55 @@ Abilità speciali:
 // Title for move silently added after Weight line, penalty is added after this text
 @210013 = ~Furtività:~
 
-// Moved from arcane_descripts.tpa     
+// Moved from arcane_descripts.tpa
 // See English setup.tra for details on what should be matched by the regular expression
 @212001 = ~\(Peso:[ %tab%]*[0-9]+\)~
 // Title for miscast chance added after Weight line, value is added after this text
 @212002 = ~Sbagliare il lancio di incantesimi arcane:~
 
-@214001 = ~barbaro / mago~             
-@214002 = ~barbaro / chierico~         
-@214003 = ~barbaro / ladro~            
-@214004 = ~barbaro / druido~           
+@214001 = ~barbaro / mago~
+@214002 = ~barbaro / chierico~
+@214003 = ~barbaro / ladro~
+@214004 = ~barbaro / druido~
 
 @215002 = ~[ %TAB%]*.?.?.?[ %TAB%]*Armou?r Class[^:]*:.*$~ // lone . at front to catch EE emdash
 
 @216001 = ~SPADA CORTA/NINJA-TO: Armi preferite di diversi ladri e halfling, la spada corta e il ninja-to sono utili e leggere.
-<DOTS1>                                
-<DOTS2>                                
-<DOTS3>                                
-<DOTS4>                                
-<DOTS5>~                               
+<DOTS1>
+<DOTS2>
+<DOTS3>
+<DOTS4>
+<DOTS5>~
 @216002 = ~KATANA/WAKIZASHI: Le katane e i wakizashi sono la più elevata manifestazione manifatturiera in campo di spade e il loro impiego richiede grande cura. A mano a mano che sviluppa la sua maestria, il proprietario e la lama diventano una cosa sola, interamente dedicata all'arte della guerra. Queste armi sono difficili da reperire al di fuori di Kara-Tur, perciò occorre ponderare oculatamente la scelta di tale competenza. Dopo tutto, essere abili nell'utilizzo di una katana o di un wakizashi è utile solo se si riesce a trovarli.
 ATTENZIONE: le katane magiche sono molto rare in Baldur's Gate 2!
-<DOTS1>                                
-<DOTS2>                                
-<DOTS3>                                
-<DOTS4>                                
-<DOTS5>~                               
+<DOTS1>
+<DOTS2>
+<DOTS3>
+<DOTS4>
+<DOTS5>~
 @216003 = ~SCIMITARRA: Questa classe di armi consente al personaggio di padroneggiare l'utilizzo di lame ricurve come, ad esempio, le scimitarre.
-<DOTS1>                                
-<DOTS2>                                
-<DOTS3>                                
-<DOTS4>                                
-<DOTS5>~                               
+<DOTS1>
+<DOTS2>
+<DOTS3>
+<DOTS4>
+<DOTS5>~
 @216004 = ~MAZZAFRUSTO: I mazzafrusti sono armi contundenti particolarmente adatte a stordire gli avversari. Non sono propriamente semplici da utilizzare ma con un po' di pratica possono essere letali.
-<DOTS1>                                
-<DOTS2>                                
-<DOTS3>                                
-<DOTS4>                                
-<DOTS5>~                               
+<DOTS1>
+<DOTS2>
+<DOTS3>
+<DOTS4>
+<DOTS5>~
 @216005 = ~MAZZA/MORNING STAR: La mazza è solitamente associata alla figura del chierico. È un'arma contundente molto potente, simile alla clava ma costruita in modo da arrecare un maggior danno. Una morning star è simile a una mazza con delle punte al posto delle flange.
-<DOTS1>                                
-<DOTS2>                                
-<DOTS3>                                
-<DOTS4>                                
-<DOTS5>~                               
-@216007 = ~Competenza\( Tipo\)?[:-] *~  
+<DOTS1>
+<DOTS2>
+<DOTS3>
+<DOTS4>
+<DOTS5>~
+@216007 = ~Competenza\( Tipo\)?[:-] *~
 @216008 = ~Tipo di Competenza:~
 @216009 = ~Spada Corta/Ninja-To~
 @216010 = ~Katana/Wakizashi~
-@216011 = ~Mazza/Morning Star~            
+@216011 = ~Mazza/Morning Star~
 
 @216101 = ~Spada Corta~
 
@@ -651,82 +650,82 @@ ATTENZIONE: le katane magiche sono molto rare in Baldur's Gate 2!
 <DOTS5>~
 
 
-@218001 = ~Alchimia (Mago)~            
-@218002 = ~Alchimia (Sacerdote)~       
-@218003 = ~Alchimia (Vagabondo)~       
-@218004 = ~Alchimia (Mago)             
+@218001 = ~Alchimia (Mago)~
+@218002 = ~Alchimia (Sacerdote)~
+@218003 = ~Alchimia (Vagabondo)~
+@218004 = ~Alchimia (Mago)
 Questa abilità consente a un mago di creare pozioni. Le pozioni che il mago può creare sono scelte casualmente da questa lista:
-1)  Pozione di Assorbimento            
-2)  Pozione di Resistenza al Fuoco     
-3)  Pozione di Resistenza al Freddo    
-4)  Pozione di Invisibilità            
-5)  Pozione di Forma di Pietra         
-6)  Pozione di Forza                   
-7)  Pozione di Agilità                 
-8)  Pozione di Soffio di Fuoco        
-9)  Olio di Velocità                   
-10) Olio di Incendio Impetuoso~        
-@218005 = ~Alchimia (Sacerdote)        
+1)  Pozione di Assorbimento
+2)  Pozione di Resistenza al Fuoco
+3)  Pozione di Resistenza al Freddo
+4)  Pozione di Invisibilità
+5)  Pozione di Forma di Pietra
+6)  Pozione di Forza
+7)  Pozione di Agilità
+8)  Pozione di Soffio di Fuoco
+9)  Olio di Velocità
+10) Olio di Incendio Impetuoso~
+@218005 = ~Alchimia (Sacerdote)
 Questa abilità consente a un sacerdote  di creare pozioni. Le pozioni che il sacerdote può creare sono scelte casualmente da questa lista:
-1)  Pozione di Guarigione              
-2)  Pozione di Guarigione Extra        
-3)  Pozione di Guarigione Superiore    
-4)  Elisir di Salute                   
-5)  Pozione di Intuito                 
-6)  Pozione di Rigenerazione           
-7)  Pozione di Chiarezza               
-8)  Antidoto                           
+1)  Pozione di Guarigione
+2)  Pozione di Guarigione Extra
+3)  Pozione di Guarigione Superiore
+4)  Elisir di Salute
+5)  Pozione di Intuito
+6)  Pozione di Rigenerazione
+7)  Pozione di Chiarezza
+8)  Antidoto
 9)  Pozione di Focalizzazione dei Pensieri
-10) Pozione di Genio~                  
-@218006 = ~Alchimia (Vagabondo)        
+10) Pozione di Genio~
+@218006 = ~Alchimia (Vagabondo)
 Grazie alla sua innata astuzia, un vagabondo esperto ha studiato abbastanza pozioni nel corso delle sue avventure per potersi permettere di simularne la creazione. Attraverso l'abilità Alchimia, il vagabondo può creare una pozione scelta da una gamma di otto tipologie, una volta al giorno.
-Le pozioni che il vagabondo può creare sono scelte casualmente da questa lista: 
+Le pozioni che il vagabondo può creare sono scelte casualmente da questa lista:
 1) Pozione di Focalizzazione dei Pensieri
-2) Pozione di Percezione               
-3) Pozione di Invisibilità             
-4) Pozione di Guarigione Superiore     
-5) Pozione di Rigenerazione            
-6) Antidoto                            
-7) Olio di Velocità                    
+2) Pozione di Percezione
+3) Pozione di Invisibilità
+4) Pozione di Guarigione Superiore
+5) Pozione di Rigenerazione
+6) Antidoto
+7) Olio di Velocità
 8) Pozione di Forza del Gigante dei Ghiacci (vagabondo)~
-@218007 = ~Scrivere Pergamene (Mago)~  
+@218007 = ~Scrivere Pergamene (Mago)~
 @218008 = ~Scrivere Pergamene (Sacerdote)~
 @218009 = ~Scrivere Pergamene (Vagabondo)~
-@218010 = ~Scrivere Pergamene (Mago)   
+@218010 = ~Scrivere Pergamene (Mago)
 Questa abilità consente a un mago di creare pergamene di incantesimi arcani di basso o medio livello. Le pergamene che il mago può creare sono scelte casualmente da questa lista:
-1)  Dardo Incantato                    
-2)  Scudo                              
-3)  Freccia Acida di Melf              
-4)  Immagine Riflessa                 
-5)  Piccole Meteore di Melf            
-6)  Respingi Incantesimo Minore        
-7)  Invisibilità Potenziata            
-8)  Tempesta di Ghiaccio               
-9)  Oracolo                            
-10) Caos~                              
+1)  Dardo Incantato
+2)  Scudo
+3)  Freccia Acida di Melf
+4)  Immagine Riflessa
+5)  Piccole Meteore di Melf
+6)  Respingi Incantesimo Minore
+7)  Invisibilità Potenziata
+8)  Tempesta di Ghiaccio
+9)  Oracolo
+10) Caos~
 @218011 = ~Scrivere Pergamene (Sacerdote)
 Questa abilità consente a un sacerdote di creare pergamene di incantesimi divini. Le pergamene che il sacerdote può creare sono scelte casualmente da questa lista:
-1)  Cura Ferite Critiche               
-2)  Colonna di Fuoco                   
-3)  Rianimare Morti                    
-4)  Ristorare                          
-5)  Protezione dall'Acido              
-6)  Protezione dal Freddo              
-7)  Protezione dall'Elettricità        
-8)  Protezione dal Fuoco               
-9)  Forza del Campione                 
-10) Dominio Mentale~                   
+1)  Cura Ferite Critiche
+2)  Colonna di Fuoco
+3)  Rianimare Morti
+4)  Ristorare
+5)  Protezione dall'Acido
+6)  Protezione dal Freddo
+7)  Protezione dall'Elettricità
+8)  Protezione dal Fuoco
+9)  Forza del Campione
+10) Dominio Mentale~
 @218012 = ~Scrivere Pergamene (Vagabondo)
 Questa abilità consente a un vagabondo di creare pergamene di incantesimi di basso o medio livello. Le pergamene che il vagabondo può creare sono scelte casualmente da questa lista:
-1) Dardo Incantato                     
-2) Velocità                            
-3) Palla di Fuoco                      
-4) Dissolvi Magie                      
-5) Charme Estremo                      
-6) Invisibilità                       
-7) Cono di Freddo                      
-8) Evocare Mostri II                   
-9) Evocare Mostri III~                 
+1) Dardo Incantato
+2) Velocità
+3) Palla di Fuoco
+4) Dissolvi Magie
+5) Charme Estremo
+6) Invisibilità
+7) Cono di Freddo
+8) Evocare Mostri II
+9) Evocare Mostri III~
 
 // next two strings used for matching and updating item descriptions
 @223001 = ~STATISTICHE:~ // this is used for mataching in the item descripiton, so copy this from an oBG2 item description
@@ -739,7 +738,7 @@ Questa abilità consente a un vagabondo di creare pergamene di incantesimi di ba
 // potrebbe essere necessario controllare gli EE, poiché oBG2 non menziona la doppia classe in #9550 o #32540
 @237002 = ~ e sono anche l'unica razza che può essere in classe doppia~ // da strref #9550
 @237003 = ~La doppia classe è un'abilità che solo gli umani possiedono. ~ // da strref #10811
-@237004 = ~, se il tuo personaggio è umano~ // Tutorial BG dialogo monaco monktu4 - 32540 in BGEE/SoD 
+@237004 = ~, se il tuo personaggio è umano~ // Tutorial BG dialogo monaco monktu4 - 32540 in BGEE/SoD
 
 // translators - the next three strings are used to replace game text, so they need to be copied from the game itself
 // get @244001 and @244002 from strref 9588 in bgee/bg2ee/iwdee
@@ -766,7 +765,7 @@ Questa abilità consente a un vagabondo di creare pergamene di incantesimi di ba
 @318320 = ~Portami la mia amante, Neera.~
 @318321 = ~Portami il mio amante, Rasaad.~
 
-@322001 = ~Atta~                  
+@322001 = ~Atta~
 @322002 = ~Angel~
 
 @324101 = ~Simbolo del Genio~
@@ -831,6 +830,8 @@ Questa abilità controlla se la velocità di movimento e la velocità di lancio 
 @333053 = ~Disattiva rapidità automatica
 
 Questa abilità controlla se la velocità di lancio viene aumentata per i membri del gruppo al di fuori del combattimento. Fare clic sull'abilità per disattivarla.~
+@333054 = ~Fretta automatica~
+@333055 = ~Alacrità Potenziata~
 @333060 = ~Abilita rapidità automatica~
 @333061 = ~Abilita rapidità automatica
 
@@ -867,4 +868,4 @@ Peso: 1~
 // in inglese, questo è sovrascritto in ee.tra
 @418002 = ~Anello con sigillo de'Arnise
 
-Questo anello è stato donato a Nalia da suo padre al momento della sua ascesa all'età adulta. Legato al suo sangue non può essere usato da nessun altro. L'anello garantisce bonus +2 a tutti i tiri salvezza, bonus di classe armatura +2 e resistenza al fuoco del 50%.~ 
+Questo anello è stato donato a Nalia da suo padre al momento della sua ascesa all'età adulta. Legato al suo sangue non può essere usato da nessun altro. L'anello garantisce bonus +2 a tutti i tiri salvezza, bonus di classe armatura +2 e resistenza al fuoco del 50%.~

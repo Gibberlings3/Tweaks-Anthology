@@ -5,16 +5,16 @@ ACTION_IF karoug_plus BEGIN
       LPF ALTER_EFFECT INT_VAR match_opcode = 120 parameter1 = 1 parameter2 = 0 END // change non-silver immunity to +1
     END ELSE BEGIN
       LPF DELETE_EFFECT INT_VAR match_opcode = 120 match_parameter2 = 4 END // delete non-silver
-    END  
+    END
     BUT_ONLY
-    
+
   ACTION_IF karoug_plus = 2 BEGIN
-  
-    // change any existing silver weapons to act as +x vs lycans  
+
+    // change any existing silver weapons to act as +x vs lycans
     COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
       READ_LONG  0x18 flags
       READ_SHORT 0x1c type
-      PATCH_IF (((flags & BIT8) = BIT8) AND         // silver AND 
+      PATCH_IF (((flags & BIT8) = BIT8) AND         // silver AND
                  ((type = 5) OR                     // arrows
                  ((type >= 14) AND (type <= 31)) OR // pretty much everythig else
                  (type = 44) OR                     // club [iwd]
@@ -38,20 +38,20 @@ ACTION_IF karoug_plus BEGIN
                   SET add = 0
                   READ_LONG (fx_off + 0x2c + (index * 0x30)) p3
                   PATCH_IF p3 < karoug_plus BEGIN
-                    WRITE_LONG (fx_off + 0x2c + (index * 0x30)) karoug_plus 
+                    WRITE_LONG (fx_off + 0x2c + (index * 0x30)) karoug_plus
                   END
                   SET index = fx_num // kill loop
                 END // p1/p2 check
               END // op check
-            END // loop  
-            PATCH_IF add BEGIN // if no existing effect found, add one         
+            END // loop
+            PATCH_IF add BEGIN // if no existing effect found, add one
               LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 344 target = 1 parameter1 = 122 parameter2 = 4 timing = 2 special = karoug_plus END // act as +X vs lycans
-            END  
-          END  
-        END   
+            END
+          END
+        END
       END
       BUT_ONLY
-      
+
   END
 
 END
@@ -60,10 +60,10 @@ ACTION_IF wolfsbane BEGIN
 
   COPY_EXISTING ~%tutu_var%amul18.itm~ ~override~ // wolfsbane
     PATCH_IF !karoug_plus BEGIN // need silver
-      LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 345 target = 1 parameter2 = 3 timing = 2 special = 3 END // apply 'silver' to both weapons    
-    END ELSE BEGIN 
-      LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 345 target = 1 parameter1 = karoug_plus timing = 2 special = 3 END // apply '+X' to both weapons   
+      LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 345 target = 1 parameter2 = 3 timing = 2 special = 3 END // apply 'silver' to both weapons
+    END ELSE BEGIN
+      LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 345 target = 1 parameter1 = karoug_plus timing = 2 special = 3 END // apply '+X' to both weapons
     END
     BUT_ONLY IF_EXISTS
 
-END    
+END

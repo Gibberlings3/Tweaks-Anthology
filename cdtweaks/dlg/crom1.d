@@ -1,7 +1,7 @@
 EXTEND_BOTTOM WSMITH01 13
   IF ~PartyHasItem("quiver02")~ THEN GOTO NewItem
 END
-  
+
 APPEND WSMITH01
 
   IF ~~ THEN BEGIN NewItem SAY @122001
@@ -14,7 +14,7 @@ APPEND WSMITH01
                                                  DestroyItem("quiver02")~ GOTO 56
     IF ~~ THEN REPLY #70894 GOTO NoThanks
   END
-  
+
   IF ~~ THEN BEGIN NoThanks SAY @122002
    COPY_TRANS WSMITH01 13
   END

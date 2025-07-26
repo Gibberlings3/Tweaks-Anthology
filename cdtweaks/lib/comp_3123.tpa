@@ -20,7 +20,7 @@ ACTION_IF game_includes_soa THEN BEGIN
     BUT_ONLY
   EXTEND_TOP ~anomen.bcs~  ~cdtweaks/baf/anomkeld.baf~
   EXTEND_TOP ~keldorn.bcs~ ~cdtweaks/baf/anomkeld.baf~
-  
+
   //edwin-minsc
   COPY_EXISTING ~edwin.bcs~ ~override~
                 ~minsc.bcs~ ~override~
@@ -30,7 +30,7 @@ ACTION_IF game_includes_soa THEN BEGIN
     BUT_ONLY
   EXTEND_TOP ~edwin.bcs~   ~cdtweaks/baf/edwimins.baf~
   EXTEND_TOP ~minsc.bcs~   ~cdtweaks/baf/edwimins.baf~
-  
+
   //edwin-keldorn
   COPY_EXISTING ~edwin.bcs~   ~override~
                 ~keldorn.bcs~ ~override~
@@ -40,7 +40,7 @@ ACTION_IF game_includes_soa THEN BEGIN
     BUT_ONLY
   EXTEND_TOP ~edwin.bcs~   ~cdtweaks/baf/edwikeld.baf~
   EXTEND_TOP ~keldorn.bcs~ ~cdtweaks/baf/edwikeld.baf~
-  
+
   //edwin-valygar
   COPY_EXISTING ~edwin.bcs~   ~override~
                 ~valygar.bcs~ ~override~
@@ -60,15 +60,15 @@ ACTION_IF game_includes_soa THEN BEGIN
     BUT_ONLY
   EXTEND_TOP ~viconia.bcs~ ~cdtweaks/baf/vicokeld.baf~
   EXTEND_TOP ~keldorn.bcs~ ~cdtweaks/baf/vicokeld.baf~
-  
+
   // removes korgan-aerie grumpiness
   EXTEND_TOP ~korgan.bcs~ ~cdtweaks/baf/korgan.baf~
 
   ACTION_IF enhanced_edition THEN BEGIN // for new npcs
-  
+
     // viconia-rasaad
     COMPILE ~cdtweaks/dlg/happy_bg2ee.d~
-  
+
     // edwin-neera ultimatum
     EXTEND_BOTTOM ~edwin.bcs~  ~cdtweaks/baf/edwineer.baf~
     EXTEND_BOTTOM ~edwi25.bcs~ ~cdtweaks/baf/edwineer.baf~
@@ -143,25 +143,25 @@ ACTION_IF game_includes_bg1 THEN BEGIN
   EXTEND_TOP ~%SHARTEEL_BCS%.bcs~ ~cdtweaks/baf/eldoth.baf~
   EXTEND_TOP ~%TIAX_BCS%.bcs~     ~cdtweaks/baf/tiax.baf~
   EXTEND_TOP ~%QUAYLE_BCS%.bcs~   ~cdtweaks/baf/tiax.baf~
-  
+
   ACTION_IF enhanced_edition THEN BEGIN
 
     // %*&#( dorn fights with everyone... sigh
     EXTEND_TOP ~%DORN_BCS%.bcs~ ~cdtweaks/baf/dorndorn.baf~
-    ACTION_FOR_EACH script IN 
+    ACTION_FOR_EACH script IN
       ~%AJANTIS_BCS%~ ~%ALORA_BCS%~ ~%BRANWEN_BCS%~ ~%CORAN_BCS%~ ~%DYNAHEIR_BCS%~ ~%EDWIN_BCS%~
       ~%ELDOTH_BCS%~ ~%FALDORN_BCS%~ ~%GARRICK_BCS%~ ~%IMOEN_BCS%~ ~%JAHEIRA_BCS%~ ~%KAGAIN_BCS%~
       ~%KHALID_BCS%~ ~%KIVAN_BCS%~ ~%MINSC_BCS%~ ~%MONTARON_BCS%~ ~%NEERA_BCS%~ ~%QUAYLE_BCS%~
       ~%RASAAD_BCS%~ ~%SAFANA_BCS%~ ~%SHARTEEL_BCS%~ ~%SKIE_BCS%~ ~%TIAX_BCS%~ ~%VICONIA_BCS%~
       ~%XAN_BCS%~ ~%XZAR_BCS%~ ~%YESLICK_BCS%~ BEGIN
       EXTEND_TOP ~%script%.bcs~ ~cdtweaks/baf/dorn.baf~
-    
+
     END
-    
+
     ACTION_IF FILE_EXISTS_IN_GAME ~bdneera.bcs~ BEGIN // neera-edwin SoD ultimatum
       EXTEND_BOTTOM ~bdneera.bcs~ ~cdtweaks/baf/bdneera.baf~
-    END  
-  
+    END
+
   END
 
 END

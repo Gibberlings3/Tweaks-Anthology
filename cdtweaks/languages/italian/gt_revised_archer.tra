@@ -1,0 +1,43 @@
+@0 = "ARCIERE: L'arciere è l'emblema dell'abilità nel tiro con l'arco. È il tiratore scelto per eccellenza, capace di portare a segno quasi ogni tiro, non importa quanto sia difficile. Per diventare così abile con l'arco, l'arciere ha dovuto sacrificare parte della sua competenza con le armi da mischia e con le armature.
+
+Vantaggi:
+- Bonus pari a +1 ai tiri per colpire e al danno con qualsiasi arco ogni 3 livelli.
+- Può diventare Gran Maestro (cinque punti) con l'arco lungo e l'arco corto.
+- Può utilizzare l'abilità Colpo Mirato (quando impugna un arco).
+
+COLPO MIRATO: Conferisce la capacità di effettuare un attacco potenzialmente incapacitante contro le braccia o le gambe di un avversario.
+ Un Colpo Mirato contro le gambe riduce la velocità di movimento dell'avversario del 20% e gli applica una penalità cumulativa di -2 alla destrezza.
+ Un Colpo Mirato contro le braccia applica una penalità cumulativa di -2 ai tiri per colpire dell'avversario.
+
+- Può beneficiare dell'abilità passiva Tiro Ravvicinato.
+
+TIRO RAVVICINATO: Quando l'arciere impugna un arco, può negare la penalità di -8 ai tiri per colpire che normalmente avrebbe per l'uso di armi a distanza in mischia.
+
+Svantaggi:
+- Può indossare soltanto armature di cuoio, armature di cuoio borchiato e armature di pelle.
+- Può diventare soltanto Competente (un punto) nelle armi da mischia.
+- Non può utilizzare l'abilità Charmare Animali."
+
+@1 = "Colpo Mirato (Braccia)"
+@2 = "Colpo Mirato (Braccia)
+
+Un Colpo Mirato contro le braccia applica una penalità cumulativa di -2 ai tiri per colpire dell'avversario."
+
+@3 = "Colpo Mirato (Gambe)"
+@4 = "Colpo Mirato (Gambe)
+
+Un Colpo Mirato contro le gambe riduce la velocità di movimento dell'avversario del 20% e gli applica una penalità cumulativa di -2 alla destrezza."
+
+//@100 = "Il bersaglio selezionato è fuori portata"
+@101 = "Modificatore al THAC0"
+@102 = "Modificatore alla Destrezza"
+@103 = "Il personaggio deve impugnare un arco per poter utilizzare questa abilità"
+
+@200 = "Non soggetto agli effetti di Colpo Mirato"
+
+@300 = "Il personaggio non può utilizzare questa abilità mentre sta scoccando frecce con effetto ad area"
+
+//@400 = "Non soggetto agli effetti di Colpo Mirato"
+@400 = "Colpito"
+@401 = "Mancato"
+@402 = "Arma Inefficace"

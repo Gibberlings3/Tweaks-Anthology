@@ -103,9 +103,9 @@ COPY_EXISTING ~splsrckn.2da~ ~override~
       FOR (i=36;i<41;i=i+1) BEGIN
          SET_2DA_ENTRY i 9 9 5
       END
-      
-COPY_EXISTING ~tobex_ini/tobexcore.ini~ ~tobex_ini~ 
+
+COPY_EXISTING ~tobex_ini/tobexcore.ini~ ~tobex_ini~
    REPLACE_TEXTUALLY ~Scrollable Mage Spellbook=0~ ~Scrollable Mage Spellbook=1~
    REPLACE_TEXTUALLY ~Scrollable Priest Spellbook=0~ ~Scrollable Priest Spellbook=1~
-   
+
 COMPILE ~cdtweaks/dlg/iib_famil.d~ // disables BG2 advice from familiars

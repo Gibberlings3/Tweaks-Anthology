@@ -1,7 +1,7 @@
 INCLUDE ~cdtweaks/lib/spell_ids_vars.tpa~
 
-ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_spell_bams BEGIN // mutual BAMs  
-  
+ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_spell_bams BEGIN // mutual BAMs
+
   ~%CLERIC_DETECT_EVIL%~ => sppr104
   ~%CLERIC_FIND_TRAPS%~ => sppr205
   ~%CLERIC_DISPEL_MAGIC%~ => sppr303
@@ -42,18 +42,18 @@ ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_spell_bams BEGIN // mutual BAMs
   ~%WIZARD_CHAIN_CONTINGENCY%~ => spwi908
   ~%WIZARD_SHAPECHANGE%~ => spwi916
   ~%WIZARD_WISH%~ => spwi919
-  
+
   // iwd-only spells, but keep here to catch iwdification et al
   ~%CLERIC_KNOW_ALIGNMENT%~ => sppr209
   ~%CLERIC_EXALTATION%~ => sppr321
-  ~%WIZARD_CONTACT_OTHER_PLANE%~ => spwi528  
+  ~%WIZARD_CONTACT_OTHER_PLANE%~ => spwi528
 
-END 
+END
 
 ACTION_IF !game_is_iwdee BEGIN
 
-  ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_spell_bams BEGIN // spells with non-white icons ONLY in iwdee 
-  
+  ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_spell_bams BEGIN // spells with non-white icons ONLY in iwdee
+
     ~%CLERIC_STRENGTH_OF_ONE%~ => sppr312 // white in oiwd
     ~%CLERIC_REGENERATE%~ => sppr711 // not in oiwd
     ~%WIZARD_FRIENDS%~ => spwi107 // not in oiwd
@@ -67,31 +67,31 @@ ACTION_IF !game_is_iwdee BEGIN
     ~%WIZARD_REMOVE_CURSE%~ => spwi410 // blue/red in oiwd
     ~%WIZARD_TENSERS_TRANSFORMATION%~ => spwi603 // white in oiwd
     ~%WIZARD_IMPROVED_HASTE%~ => spwi613 // not in oiwd
-    
-  END  
+
+  END
 
 END
 
 ACTION_IF original_bg1 BEGIN
 
-  ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_spell_bams BEGIN // these spells are in iwdee, but don't use white icons there  
-  
+  ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_spell_bams BEGIN // these spells are in iwdee, but don't use white icons there
+
     ~%WIZARD_DISPEL_MAGIC%~ => spwi302 // WIZARD_DISPEL_MAGIC is actually remove magic in bg2+
-  
+
   END
 
 END
 
-ACTION_PHP_EACH cd_spell_bams AS spell => bam BEGIN 
+ACTION_PHP_EACH cd_spell_bams AS spell => bam BEGIN
 
   OUTER_SPRINT replace ~none~
-  
+
   COPY_EXISTING ~%spell%.spl~ ~override~
     READ_ASCII 0x3a replace
     BUT_ONLY IF_EXISTS
 
   ACTION_IF ("%replace%" STRING_COMPARE_CASE "none") BEGIN
-  
+
     COPY ~cdtweaks/bam/%bam_outline%/%bam%c.bam~ ~override/%replace%.bam~
       PATCH_IF original_bg1 BEGIN // decompress for original bg
         READ_ASCII 0x0 sg (4) //Signature
@@ -99,16 +99,16 @@ ACTION_PHP_EACH cd_spell_bams AS spell => bam BEGIN
           READ_LONG 0x8 dl //Uncompressed data length
           DECOMPRESS_REPLACE_FILE 0xc (SOURCE_SIZE - 0xc) dl
         END
-      END  
-    
+      END
+
   END
 
-END 
+END
 
 ACTION_FOR_EACH bam IN cdfaeric cddtgooc BEGIN // faerie fire/detect good from DR
 
   ACTION_IF FILE_EXISTS_IN_GAME ~%bam%.bam~ BEGIN
-    
+
     COPY ~cdtweaks/bam/%bam_outline%/%bam%.bam~ ~override/%bam%.bam~
       PATCH_IF original_bg1 BEGIN // decompress for original bg
         READ_ASCII 0x0 sg (4) //Signature
@@ -116,8 +116,8 @@ ACTION_FOR_EACH bam IN cdfaeric cddtgooc BEGIN // faerie fire/detect good from D
           READ_LONG 0x8 dl //Uncompressed data length
           DECOMPRESS_REPLACE_FILE 0xc (SOURCE_SIZE - 0xc) dl
         END
-      END  
-    
+      END
+
   END
-  
+
 END

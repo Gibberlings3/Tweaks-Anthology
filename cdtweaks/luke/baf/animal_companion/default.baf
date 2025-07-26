@@ -1,0 +1,270 @@
+/*
++------------+
+| Initialize |
++------------+
+*/
+
+IF
+	OR(2)
+		StateCheck(Myself,STATE_IMMOBILE)
+		StateCheck(Myself,STATE_REALLY_DEAD)
+THEN
+	RESPONSE #100
+		NoAction()
+END
+
+IF
+	!Allegiance(Myself,EVILCUTOFF)
+	!InActiveArea(Myself)
+	!Range(NearestEnemyOf(Myself),30)
+THEN
+	RESPONSE #100
+		NoAction()
+END
+
+/*
++------------------------------------------------------+
+| When panicked, wander continuously (without pausing) |
++------------------------------------------------------+
+*/
+
+IF
+	StateCheck(Myself,STATE_PANIC)
+THEN
+	RESPONSE #100
+		RandomWalkContinuous()
+END
+
+/*
++---------------------------------------------------------------------------------------------+
+| When blinded, consider the idea of wandering a bit in the hope of finding someone to attack |
++---------------------------------------------------------------------------------------------+
+*/
+
+IF
+	!GlobalTimerNotExpired("gtBlindTimer","LOCALS")
+	EEex_LuaTrigger("return GT_LuaTrigger_PartyAI()")
+	EEex_LuaTrigger("return GT_LuaTrigger_InterruptableAction()")
+	StateCheck(Myself,STATE_BLIND)
+	!Range(NearestEnemyOf(Myself),2)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("gtBlindTimer","LOCALS",6)
+		Continue()
+END
+
+IF
+	GlobalTimerNotExpired("gtBlindTimer","LOCALS")
+	EEex_LuaTrigger("return GT_LuaTrigger_PartyAI()")
+	EEex_LuaTrigger("return GT_LuaTrigger_InterruptableAction()")
+	OR(2)
+		!Name("gtNWNAnmlCompSnake", Myself)
+		!EEex_LuaTrigger("return GT_LuaTrigger_ResRefCheck('%INNATE_SNAKE_GRASP%')")
+	ActuallyInCombat()
+	StateCheck(Myself,STATE_BLIND)
+	!Range(NearestEnemyOf(Myself),2)
+THEN
+	RESPONSE #100
+		RandomWalkContinuous()
+	RESPONSE #100
+		SetSequence(0) // SEQ_ATTACK
+	RESPONSE #100
+		RandomTurn()
+	RESPONSE #100
+		Continue()
+END
+
+/*
++-------------------------------------------------------------------------------------------------------------+
+| When STATE_INVISIBLE and sufficiently intelligent, consider the idea of wandering a bit to confuse position |
++-------------------------------------------------------------------------------------------------------------+
+*/
+
+IF
+	!GlobalTimerNotExpired("gtRandomWalkTimer","LOCALS")
+	EEex_LuaTrigger("return GT_LuaTrigger_PartyAI()")
+	EEex_LuaTrigger("return GT_LuaTrigger_InterruptableAction()")
+	CheckStatGT(Myself,7,INT)
+	StateCheck(Myself,STATE_INVISIBLE)
+	!StateCheck(Myself,STATE_BLIND)
+	Detect(NearestEnemyOf(Myself))
+THEN
+	RESPONSE #100
+		SetGlobalTimerRandom("gtRandomWalkTimer","LOCALS",6,12)
+		SetGlobal("gtRandomWalk","LOCALS",1)
+		Continue()
+END
+
+IF
+	GlobalTimerExpired("gtRandomWalkTimer","LOCALS")
+	EEex_LuaTrigger("return GT_LuaTrigger_PartyAI()")
+	EEex_LuaTrigger("return GT_LuaTrigger_InterruptableAction()")
+	CheckStatGT(Myself,7,INT)
+	StateCheck(Myself,STATE_INVISIBLE)
+	!StateCheck(Myself,STATE_BLIND)
+	!Detect(NearestEnemyOf(Myself))
+THEN
+	RESPONSE #100
+		SetGlobal("gtRandomWalk","LOCALS",2)
+		Continue()
+END
+
+IF
+	GlobalTimerNotExpired("gtRandomWalkTimer","LOCALS")
+	Global("gtRandomWalk","LOCALS",1)
+	CheckStatGT(Myself,7,INT)
+	EEex_LuaTrigger("return GT_LuaTrigger_PartyAI()")
+	EEex_LuaTrigger("return GT_LuaTrigger_InterruptableAction()")
+	OR(2)
+		!Name("gtNWNAnmlCompSnake", Myself)
+		!EEex_LuaTrigger("return GT_LuaTrigger_ResRefCheck('%INNATE_SNAKE_GRASP%')")
+	ActuallyInCombat()
+	StateCheck(Myself,STATE_INVISIBLE)
+	!StateCheck(Myself,STATE_BLIND)
+	Detect(NearestEnemyOf(Myself))
+THEN
+	RESPONSE #100
+		RandomWalkContinuous()
+	RESPONSE #100
+		Continue()
+END
+
+IF
+	GlobalTimerExpired("gtRandomWalkTimer","LOCALS")
+	Global("gtRandomWalk","LOCALS",2)
+	CheckStatGT(Myself,7,INT)
+	EEex_LuaTrigger("return GT_LuaTrigger_PartyAI()")
+	EEex_LuaTrigger("return GT_LuaTrigger_InterruptableAction()")
+	OR(2)
+		!Name("gtNWNAnmlCompSnake", Myself)
+		!EEex_LuaTrigger("return GT_LuaTrigger_ResRefCheck('%INNATE_SNAKE_GRASP%')")
+	ActuallyInCombat()
+	StateCheck(Myself,STATE_INVISIBLE)
+	!StateCheck(Myself,STATE_BLIND)
+	!Detect(NearestEnemyOf(Myself))
+THEN
+	RESPONSE #100
+		MoveToObject(LastSeenBy(Myself))
+END
+
+/*
++--------------------------------------------------------------------------------------------------------------+
+| Force "AttackReevaluate()" to terminate after one/two rounds if the attacker is no longer chasing the target |
++--------------------------------------------------------------------------------------------------------------+
+*/
+
+IF
+	GlobalTimerExpired("gtAttackTimer","LOCALS")
+	EEex_LuaTrigger("return GT_LuaTrigger_PartyAI()")
+	EEex_LuaTrigger("return GT_LuaTrigger_IsChasing()")
+THEN
+	RESPONSE #100
+		ClearActions(Myself)
+END
+
+/*
++--------------------------+
+| Special Abilities blocks |
++--------------------------+
+*/
+
+// Frost Breath (winter wolf) \\
+IF
+	EEex_LuaTrigger("return GT_LuaTrigger_PartyAI()")
+	EEex_LuaTrigger("return GT_LuaTrigger_InterruptableAction()")
+	HaveSpellRES("%INNATE_WINTER_WOLF_FROST_BREATH%")
+	Detect(NearestEnemyOf(Myself))
+	EEex_LuaTrigger("return GT_LuaTrigger_CastSpell(GT_AI_LuaChunks['%INNATE_WINTER_WOLF_FROST_BREATH%'])")
+THEN
+	RESPONSE #100
+		EEex_SpellObjectOffsetRES("%INNATE_WINTER_WOLF_FROST_BREATH%",EEex_Target("gtCastSpellTarget"),[0.0])
+	RESPONSE #35
+		Continue()
+END
+
+// Charm (snake) \\
+IF
+	EEex_LuaTrigger("return GT_LuaTrigger_PartyAI()")
+	EEex_LuaTrigger("return GT_LuaTrigger_InterruptableAction()")
+	OR(2)
+		!Name("gtNWNAnmlCompSnake", Myself)
+		!EEex_LuaTrigger("return GT_LuaTrigger_ResRefCheck('%INNATE_SNAKE_GRASP%')")
+	HaveSpellRES("%INNATE_SNAKE_CHARM%")
+	See(NearestEnemyOf(Myself))
+	EEex_LuaTrigger("return GT_LuaTrigger_CastSpell(GT_AI_LuaChunks['%INNATE_SNAKE_CHARM%'])")
+THEN
+	RESPONSE #100
+		SpellRES("%INNATE_SNAKE_CHARM%",EEex_Target("gtCastSpellTarget"))
+	RESPONSE #50
+		Continue()
+END
+
+// Grasp (snake) \\
+IF
+	EEex_LuaTrigger("return GT_LuaTrigger_PartyAI()")
+	EEex_LuaTrigger("return GT_LuaTrigger_InterruptableAction()")
+	OR(2)
+		!Name("gtNWNAnmlCompSnake", Myself)
+		!EEex_LuaTrigger("return GT_LuaTrigger_ResRefCheck('%INNATE_SNAKE_GRASP%')")
+	HaveSpellRES("%INNATE_SNAKE_GRASP%")
+	See(NearestEnemyOf(Myself))
+	EEex_LuaTrigger("return GT_LuaTrigger_CastSpell(GT_AI_LuaChunks['%INNATE_SNAKE_GRASP%'])")
+THEN
+	RESPONSE #100
+		SpellRES("%INNATE_SNAKE_GRASP%",EEex_Target("gtCastSpellTarget"))
+	RESPONSE #50
+		Continue()
+END
+
+// Web Tangle (sword spider) \\
+IF
+	EEex_LuaTrigger("return GT_LuaTrigger_PartyAI()")
+	EEex_LuaTrigger("return GT_LuaTrigger_InterruptableAction()")
+	HaveSpellRES("%INNATE_SPIDER_WEB_TANGLE%")
+	See(NearestEnemyOf(Myself))
+	EEex_LuaTrigger("return GT_LuaTrigger_CastSpell(GT_AI_LuaChunks['%INNATE_SPIDER_WEB_TANGLE%'])")
+THEN
+	RESPONSE #100
+		SpellRES("%INNATE_SPIDER_WEB_TANGLE%",EEex_Target("gtCastSpellTarget"))
+	RESPONSE #50
+		Continue()
+END
+
+// Animal Ferocity (boar) \\
+IF
+	EEex_LuaTrigger("return GT_LuaTrigger_PartyAI()")
+	EEex_LuaTrigger("return GT_LuaTrigger_InterruptableAction()")
+	HaveSpellRES("%INNATE_ANIMAL_FEROCITY%")
+	!EEex_LuaTrigger("return GT_LuaTrigger_ResRefCheck('%INNATE_ANIMAL_FEROCITY%')")
+	See(NearestEnemyOf(Myself))
+	OR(2)
+		!Allegiance(Myself,EVILCUTOFF)
+		EEex_LuaTrigger("return GT_LuaTrigger_NumCreatureCheck('GOODCUTOFF', 6)")
+	OR(2)
+		!Allegiance(Myself,GOODCUTOFF)
+		EEex_LuaTrigger("return GT_LuaTrigger_NumCreatureCheck('EVILCUTOFF', 6)")
+THEN
+	RESPONSE #100
+		SpellRES("%INNATE_ANIMAL_FEROCITY%",Myself)
+	RESPONSE #50
+		Continue()
+END
+
+/*
++-----------------+
+| Attack block(s) |
++-----------------+
+*/
+
+IF
+	EEex_LuaTrigger("return GT_LuaTrigger_PartyAI()")
+	EEex_LuaTrigger("return GT_LuaTrigger_InterruptableAction()")
+	OR(2)
+		!Name("gtNWNAnmlCompSnake", Myself)
+		!EEex_LuaTrigger("return GT_LuaTrigger_ResRefCheck('%INNATE_SNAKE_GRASP%')")
+	See(NearestEnemyOf(Myself))
+THEN
+	RESPONSE #100
+		AttackReevaluate(EEex_LuaDecode("return GT_LuaDecode_Attack(GT_AI_LuaChunks['default'])"),30)
+END
+

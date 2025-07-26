@@ -54,24 +54,24 @@ ACTION_IF game_is_iwd-in-bg2 THEN BEGIN
     ADD_MAP_NOTE #2477 #1721 ~green~  @111097 // Shrine of Waukeen
     ADD_MAP_NOTE #3193 #2157 ~blue~   @111098 // Bowyer's
     ADD_MAP_NOTE #2181 #2510 ~blue~   @111099 // Merchant's Warehouse
-  
+
 END ELSE BEGIN
-  
+
   COPY_EXISTING ~fw0100.are~ ~override~ // NW Baldur's Gate
     ADD_MAP_NOTE #1230 #1706 ~blue~   @111010
     ADD_MAP_NOTE #3610 #3007 ~violet~ @111011
     ADD_MAP_NOTE #2940 #1716 ~violet~ @111012
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw0123.are~ ~override~ // Temple of Bhaal
     ADD_MAP_NOTE #1668 #1297 ~blue~ @111096
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw0146.are~ ~override~ // Thieves' Maze
     ADD_MAP_NOTE #583 #1148 ~gray~ @111095
     ADD_MAP_NOTE #414 #2763 ~gray~ @111095
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw0200.are~ ~override~ // N Baldur's Gate
     ADD_MAP_NOTE #1550 #1123 ~green~  @111013
     ADD_MAP_NOTE #200  #1462 ~red~    @111014
@@ -79,32 +79,32 @@ END ELSE BEGIN
     ADD_MAP_NOTE #1963 #2795 ~blue~   @111016
     ADD_MAP_NOTE #3782 #2418 ~violet~ @111017
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw0300.are~ ~override~ // NE Baldur's Gate
     ADD_MAP_NOTE #144  #1799 ~violet~ @111018
     ADD_MAP_NOTE #541  #2854 ~violet~ @111019
     ADD_MAP_NOTE #1215 #1345 ~green~  @111020
     ADD_MAP_NOTE #2276 #3134 ~blue~   @111021
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw0400.are~ ~override~ // Zombie Farm
     ADD_MAP_NOTE #638 #454 ~blue~ @111058
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw0600.are~ ~override~ // W Baldur's Gate
     ADD_MAP_NOTE #1110 #1080 ~green~ @111083
     ADD_MAP_NOTE #1520 #2289 ~blue~  @111084
     ADD_MAP_NOTE #3439 #873  ~blue~  @111085
     ADD_MAP_NOTE #2914 #551  ~blue~  @111086
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw0700.are~ ~override~ // Central Baldur's Gate
     ADD_MAP_NOTE #2536 #873 ~blue~      @111087
     ADD_MAP_NOTE #730  #567 ~lightgray~ @111088
     ADD_MAP_NOTE #1729 #1230 ~violet~   @111089
     ADD_MAP_NOTE #1993 #720 ~blue~      @111090
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw0800.are~ ~override~ // E Baldur's Gate
     ADD_MAP_NOTE #1780 #2451 ~green~     @111065
     ADD_MAP_NOTE #1055 #2015 ~lightgray~ @111066
@@ -113,12 +113,12 @@ END ELSE BEGIN
     ADD_MAP_NOTE #1728 #1354 ~violet~    @111069
     ADD_MAP_NOTE #3259 #1974 ~lightgray~ @111070
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw0900.are~ ~override~ // Wyrm's Crossing
     ADD_MAP_NOTE #2342 #2028 ~gray~ @111059
     ADD_MAP_NOTE #4093 #708  ~blue~ @111033
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw1100.are~ ~override~ // SW Baldur's Gate
     ADD_MAP_NOTE #3535 #1327 ~blue~      @111079
     ADD_MAP_NOTE #1556 #1385 ~blue~      @111080
@@ -127,7 +127,7 @@ END ELSE BEGIN
     ADD_MAP_NOTE #2487 #2377 ~lightgray~ @111072
     ADD_MAP_NOTE #2526 #823  ~violet~    @111082
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw1200.are~ ~override~ // S Baldur's Gate
     ADD_MAP_NOTE #2568 #1858 ~blue~   @111074
     ADD_MAP_NOTE #3654 #2976 ~violet~ @111075
@@ -142,17 +142,17 @@ END ELSE BEGIN
     ADD_MAP_NOTE #960  #2561 ~lightgray~ @111072
     ADD_MAP_NOTE #1699 #2399 ~lightgray~ @111073
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw1400.are~ ~override~ // Fishing Village
     ADD_MAP_NOTE #1899 #2402 ~gray~ @111057
     ADD_MAP_NOTE #3504 #2233 ~blue~ @111058
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw1600.are~ ~override~ // Cloakwood Druids
     ADD_MAP_NOTE #2194 #1001 ~gray~ @111034
     ADD_MAP_NOTE #804  #2174 ~blue~ @111062
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw1700.are~ ~override~ // Cloakwood Wyverns
     ADD_MAP_NOTE #4222 #1709 ~gray~ @111034
     BUT_ONLY
@@ -168,7 +168,7 @@ END ELSE BEGIN
     ADD_MAP_NOTE #341  #133  ~gray~   @111064
     ADD_MAP_NOTE #1406 #1563 ~gray~   @111050
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw1802.are~ ~override~ // Cloakwood Mines Lvl 3
     ADD_MAP_NOTE #2612 #2916 ~gray~ @111050
     ADD_MAP_NOTE #756  #1219 ~gray~ @111051
@@ -178,31 +178,31 @@ END ELSE BEGIN
     ADD_MAP_NOTE #205  #1177 ~orange~ @111064
     ADD_MAP_NOTE #1711 #209  ~gray~   @111051
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw1804.are~ ~override~ // Cloakwood Mines Lvl 2
     ADD_MAP_NOTE #436  #1564 ~gray~ @111050
     ADD_MAP_NOTE #1157 #110  ~gray~ @111051
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw1900.are~ ~override~ // Bandit Camp
     ADD_MAP_NOTE #2326 #773 ~gray~ @111034
     ADD_MAP_NOTE #3655 #957 ~blue~ @111060
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw2100.are~ ~override~ // Cloakwood Spider Nest
     ADD_MAP_NOTE #1817 #1240 ~blue~ @111061
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw2200.are~ ~override~ // Cloakwood Lodge
     ADD_MAP_NOTE #2477 #1790 ~blue~ @111043
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw2300.are~ ~override~ // Friendly Arm Inn
     ADD_MAP_NOTE #1550 #2970 ~red~    @111005
     ADD_MAP_NOTE #3511 #1903 ~violet~ @111024
     ADD_MAP_NOTE #3873 #2463 ~green~  @111025
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw2600.are~ ~override~ // Candlekeep Prologue
                 ~fw2626.are~ ~override~ // Candlekeep Chapter 6
     ADD_MAP_NOTE #1071 #557  ~violet~ @111001
@@ -221,7 +221,7 @@ END ELSE BEGIN
     ADD_MAP_NOTE #4026 #1712 ~gray~ @111049
     ADD_MAP_NOTE #3826 #921 ~gray~  @111049
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw2619.are~ ~override~ // Candlekeep Catacombs Lvl 2
     ADD_MAP_NOTE #3552 #2308 ~gray~ @111049
     ADD_MAP_NOTE #240  #1040 ~gray~ @111049
@@ -230,16 +230,16 @@ END ELSE BEGIN
   COPY_EXISTING ~fw2800.are~ ~override~ // Coast Way
     ADD_MAP_NOTE #2359 #3335 ~orange~ @111023
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw3100.are~ ~override~ // Shipwreck Coast
     ADD_MAP_NOTE #958 #1646 ~orange~ @111055
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw3200.are~ ~override~ // High Hedge
     ADD_MAP_NOTE #2893 #2671 ~lightgray~ @111032
     ADD_MAP_NOTE #1732 #1583 ~blue~      @111033
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw3300.are~ ~override~ // Beregost
     ADD_MAP_NOTE #3711 #3754 ~violet~    @111026
     ADD_MAP_NOTE #1470 #2731 ~violet~    @111027
@@ -248,26 +248,26 @@ END ELSE BEGIN
     ADD_MAP_NOTE #2596 #2189 ~violet~    @111030
     ADD_MAP_NOTE #3643 #993  ~blue~      @111031
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw3400.are~ ~override~ // Beregost Temple
     ADD_MAP_NOTE #414  #916 ~green~ @111046
     ADD_MAP_NOTE #1463 #893 ~green~ @111047
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw3600.are~ ~override~ // Lighthouse
     ADD_MAP_NOTE #393 #991  ~gray~   @111034
     ADD_MAP_NOTE #883 #2702 ~orange~ @111056
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw3800.are~ ~override~ // South Beregost Road
     ADD_MAP_NOTE #1861 #2269 ~gray~   @111034
     ADD_MAP_NOTE #3172 #1447 ~orange~ @111035
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw3900.are~ ~override~ // Ulcaster Ruins
     ADD_MAP_NOTE #3159 #663 ~gray~ @111048
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw4000.are~ ~override~ // Gullykin
     ADD_MAP_NOTE #882 #721 ~orange~ @111053
     BUT_ONLY
@@ -276,24 +276,24 @@ END ELSE BEGIN
     ADD_MAP_NOTE #3035 #1285 ~gray~   @111034
     ADD_MAP_NOTE #3751 #2173 ~orange~ @111023
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw4200.are~ ~override~ // Fisherman's Lake
     ADD_MAP_NOTE #1379 #714 ~orange~ @111045
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw4400.are~ ~override~ // Lonely Peaks
     ADD_MAP_NOTE #1485 #1199 ~gray~   @111034
     ADD_MAP_NOTE #2711 #2694 ~orange~ @111045
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw4500.are~ ~override~ // Firewine Bridge
     ADD_MAP_NOTE #4027 #1983 ~gray~ @111054
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw4700.are~ ~override~ // Xvart Village
     ADD_MAP_NOTE #4217 #1025 ~gray~ @111034
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw4800.are~ ~override~ // Nashkel
     ADD_MAP_NOTE #2725 #949  ~green~     @111013
     ADD_MAP_NOTE #1308 #674  ~violet~    @111036
@@ -302,25 +302,33 @@ END ELSE BEGIN
     ADD_MAP_NOTE #4765 #558  ~violet~    @111039
     ADD_MAP_NOTE #3331 #1780 ~blue~      @111040
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw5000.are~ ~override~ // Valley of the Tombs
     ADD_MAP_NOTE #944  #1793 ~gray~   @111034
     ADD_MAP_NOTE #1868 #2897 ~gray~   @111034
     ADD_MAP_NOTE #4494 #2855 ~gray~   @111034
     ADD_MAP_NOTE #1771 #886  ~orange~ @111094
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw5100.are~ ~override~ // Gnoll Stronghold
     ADD_MAP_NOTE #591  #2147 ~gray~ @111034
     ADD_MAP_NOTE #152  #3376 ~gray~ @111034
     ADD_MAP_NOTE #818  #2420 ~gray~ @111034
     ADD_MAP_NOTE #2564 #2341 ~red~  @111041
+    PATCH_IF MOD_IS_INSTALLED ~thecalling.tp2~ ~10~ BEGIN // updtaed gnoll stronghold from the calling
+      ADD_MAP_NOTE #3053  #2390 ~gray~ @111034 // Cave
+      ADD_MAP_NOTE #1858   #802 ~gray~ @111126 // Nook
+      ADD_MAP_NOTE #2235  #1799 ~red~  @111127 // Archway
+      ADD_MAP_NOTE #2258  #1312 ~red~   #61443 // stairs down
+      ADD_MAP_NOTE #1733  #1092 ~red~   #61443 // stairs down
+      ADD_MAP_NOTE #2837  #1470 ~red~   #61443 // stairs down
+    END
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw5200.are~ ~override~ // Cloudpeak Mountains
     ADD_MAP_NOTE #3163 #2674 ~gray~ @111034
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw5201.are~ ~override~ // Firewine Ruins
     ADD_MAP_NOTE #2256 #1673 ~gray~ @111049
     ADD_MAP_NOTE #538  #215  ~gray~ @111049
@@ -337,17 +345,17 @@ END ELSE BEGIN
     ADD_MAP_NOTE #1333 #187  ~gray~ @111049
     ADD_MAP_NOTE #2076 #1884 ~gray~ @111050
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw5402.are~ ~override~ // Nashkel Mines Lvl 2
     ADD_MAP_NOTE #2306 #2710 ~gray~ @111051
     ADD_MAP_NOTE #3610 #2516 ~gray~ @111050
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw5403.are~ ~override~ // Nashkel Mines Lvl 3
     ADD_MAP_NOTE #1593 #120  ~gray~ @111051
     ADD_MAP_NOTE #3357 #2416 ~gray~ @111050
     BUT_ONLY
-  
+
   COPY_EXISTING ~fw5404.are~ ~override~ // Nashkel Mines Lvl 4
     ADD_MAP_NOTE #424  #1893 ~gray~ @111051
     ADD_MAP_NOTE #1416 #1211 ~gray~ @111034
@@ -358,24 +366,24 @@ END ELSE BEGIN
     ADD_MAP_NOTE #689 #124  ~gray~ @111049
     ADD_MAP_NOTE #279 #2107 ~gray~ @111052
     BUT_ONLY
-  
+
   // the following areas are TotSC only
   ACTION_IF FILE_EXISTS_IN_GAME ~fw1500.are~ THEN BEGIN // if TotSC is installed
-  
+
     COPY_EXISTING ~fw0500.are~ ~override~ // Durlag's Tower Exterior
       ADD_MAP_NOTE #2703 #2163 ~gray~ @111093
       BUT_ONLY
-  
+
     COPY_EXISTING ~fw1000.are~ ~override~ // Ulgoth's Beard
       ADD_MAP_NOTE #2310 #612 ~blue~ @111091
       ADD_MAP_NOTE #350  #626 ~blue~ @111092
       BUT_ONLY
-  
+
     COPY_EXISTING ~fw1009.are~ ~override~ // Ice Island Dungeon
       ADD_MAP_NOTE #2389 #1670 ~gray~ @111052
       ADD_MAP_NOTE #620  #170  ~gray~ @111052
       BUT_ONLY
-  
+
     COPY_EXISTING ~fw1500.are~ ~override~ // N Werewolf Island
       ADD_MAP_NOTE #4200 #1683 ~blue~ @111043
       ADD_MAP_NOTE #3697 #1143 ~red~  @111055

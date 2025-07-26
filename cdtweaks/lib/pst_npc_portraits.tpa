@@ -1,0 +1,27 @@
+DEFINE_ACTION_FUNCTION install_pst_portraits
+STR_VAR
+  path = ~cdtweaks/bam/pst~ // source path of the bam files
+  suffix = ~~               // suffix of the source bam files (without leading hyphen)
+BEGIN
+  ACTION_IF (NOT ~%suffix%~ STR_EQ ~~) BEGIN
+    OUTER_SPRINT suffix ~-%suffix%~
+  END
+
+  ACTION_DEFINE_ARRAY portraits BEGIN
+    ~wmpann~ ~wmpdkk~ ~wmpffg~ ~wmpigy~ ~wmpmrt~ ~wmpnam1~ ~wmpndm~ ~wmpvha~
+  END
+
+  ACTION_PHP_EACH portraits AS _ => resref BEGIN
+    COPY ~cdtweaks/bam/pst/%resref%%suffix%.bam~ ~override/%resref%.bam~
+      PATCH_IF (game_is_pst) BEGIN
+        // oPsT doesn't support compressed BAMs
+        READ_ASCII 0 sig (4)
+        PATCH_IF (~%sig%~ STR_EQ ~BAMC~) BEGIN
+          READ_LONG 0x08 unc_size
+          SET comp_size = BUFFER_LENGTH - 0x0c
+          DECOMPRESS_REPLACE_FILE 0x0c comp_size unc_size
+        END
+      END
+  END
+
+END

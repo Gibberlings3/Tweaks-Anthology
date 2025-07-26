@@ -1,0 +1,3 @@
+//@0 = "It can only be cast by good-aligned characters"
+//@1 = "It can only be cast by evil-aligned characters"
+@0 = "Le personnage doit avoir mémorisé au moins un sort de niveau %i% pour le lancer spontanément."

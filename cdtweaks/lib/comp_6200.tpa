@@ -1,0 +1,18 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
+/////                                                            \\\\\////\\\\////
+///// Overwhelming/Devastating Critical class feat for Trueclass Fighters    \\\\\
+/////                                                            \\\\\////\\\\////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
+
+WITH_SCOPE BEGIN
+  INCLUDE "cdtweaks\luke\lib\install.tph"
+  INCLUDE "cdtweaks\ardanis\functions.tph"
+  //
+  INCLUDE "cdtweaks\lib\gt_overwhelming_devastating_critical.tph"
+  //
+  WITH_TRA "cdtweaks\languages\english\gt_overwhelming_devastating_critical.tra" "cdtweaks\languages\%LANGUAGE%\gt_overwhelming_devastating_critical.tra" BEGIN
+    LAF "OVERWHELMING_DEVASTATING_CRITICAL" END
+  END
+END

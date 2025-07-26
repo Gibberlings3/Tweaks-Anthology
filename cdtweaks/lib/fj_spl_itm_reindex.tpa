@@ -14,7 +14,7 @@ DEFINE_PATCH_FUNCTION ~FJ_SPL_ITM_REINDEX~ BEGIN
   READ_SHORT 0x68 hc //Extended header count
   READ_LONG  0x6a fb //Feature block table offset
   READ_SHORT 0x70 fc //Feature block count
-  
+
   // position abilities before effects
   PATCH_IF ((hf > fb) AND (hc > 0)) BEGIN // Ardanis: fixed "hc > 1" to "hc > 0"
     READ_ASCII hf ~eh~ ELSE ~fail~ (hs * hc)
@@ -38,7 +38,7 @@ DEFINE_PATCH_FUNCTION ~FJ_SPL_ITM_REINDEX~ BEGIN
     hf = 0x72
     WRITE_LONG 0x64 hf
   END
-  
+
   // global effects always go before features
   FOR (i1 = 0; i1 < (hs * hc); i1 += hs) BEGIN
     WRITE_SHORT (hf + i1 + 0x20) fc
@@ -46,7 +46,7 @@ DEFINE_PATCH_FUNCTION ~FJ_SPL_ITM_REINDEX~ BEGIN
     fc += cx
   END
   WRITE_SHORT 0x6e 0 // added by Ardanis
-  
+
   PATCH_IF (SOURCE_SIZE > (0x72 + (hs * hc) + (0x30 * fc))) BEGIN
     DELETE_BYTES (0x72 + (hs * hc) + (0x30 * fc)) (SOURCE_SIZE - (0x72 + (hs * hc) + (0x30 * fc)))
   END

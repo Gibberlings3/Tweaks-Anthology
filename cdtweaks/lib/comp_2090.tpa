@@ -124,7 +124,7 @@ ACTION_IF FILE_EXISTS_IN_GAME ~kitlist.2da~ THEN BEGIN // if kits are present
     clabrn05 => 0 // fallen ranger abilities
     clabth01 => 0 // generic thief abilities
   END
-  
+
   // add kit tables dynamically by reading kitlist
   COPY_EXISTING ~kitlist.2da~ ~override~
     COUNT_2DA_ROWS ~9~ "rows"
@@ -134,13 +134,13 @@ ACTION_IF FILE_EXISTS_IN_GAME ~kitlist.2da~ THEN BEGIN // if kits are present
       DEFINE_ASSOCIATIVE_ARRAY cd_extend_clabs BEGIN "%clab%" => 0 END
     END
     BUT_ONLY
-  
+
   // extend clab abilities to 50
   ACTION_PHP_EACH cd_extend_clabs AS file => foo BEGIN
-  
+
     ACTION_IF FILE_EXISTS_IN_GAME ~%file%.2da~ THEN BEGIN
-  
-      COPY_EXISTING ~%file%.2da~ ~override~      
+
+      COPY_EXISTING ~%file%.2da~ ~override~
         // this is adapted from argent77's a7#add_kit_ex#normalize_table to both fix and extend tables
         // https://github.com/Argent77/A7-ImprovedArcher/blob/153f3258f9b884a96ff58537175062bd6b280000/A7%23ImprovedArcher/lib/a7%23add_kit_ex.tpa#L233
         SET num_added = 0
@@ -179,7 +179,7 @@ ACTION_IF FILE_EXISTS_IN_GAME ~kitlist.2da~ THEN BEGIN // if kits are present
             WRITE_ASCIIE pos $lines(~%row%~) (size)
             SET pos += size
           END
-          
+
           // attempt to populate newly extended table with meaningful entries
           PATCH_IF num_cols > 37 BEGIN // don't bother unless we're already at 40-ish columns
             COUNT_2DA_ROWS (num_cols - 1) num_rows
@@ -191,15 +191,15 @@ ACTION_IF FILE_EXISTS_IN_GAME ~kitlist.2da~ THEN BEGIN // if kits are present
                 READ_2DA_ENTRY row ref_col num_cols entry
                 PATCH_IF (("%entry%" STRING_COMPARE_REGEXP "^[0-9]+$") AND ( // safety check to make sure we don't grab the header row
                          ("%entry%" STRING_COMPARE_CASE "AP_OHRBEAR6" = 0)
-                )) BEGIN 
+                )) BEGIN
                   PATCH_IF entries <= num_rows BEGIN
                     SET entries += 1
                     DEFINE_ASSOCIATIVE_ARRAY cd_add_abilities BEGIN ~%entry%~, ~%entries%~ => 0 END
                   END ELSE BEGIN
                     SET row = num_rows // kill loop
-                  END  
+                  END
                 END
-              END    
+              END
               SET ref_col = col - 10
               FOR (row = 0 ; row < num_rows ; ++row) BEGIN // loop of per-10-levels (also catches per 5)
                 READ_2DA_ENTRY row ref_col num_cols entry
@@ -230,9 +230,9 @@ ACTION_IF FILE_EXISTS_IN_GAME ~kitlist.2da~ THEN BEGIN // if kits are present
                     DEFINE_ASSOCIATIVE_ARRAY cd_add_abilities BEGIN ~%entry%~, ~%entries%~ => 0 END
                   END ELSE BEGIN
                     SET row = num_rows // kill loop
-                  END  
+                  END
                 END
-              END          
+              END
               SET ref_col = col - 12
               FOR (row = 0 ; row < num_rows ; ++row) BEGIN // loop of per-10-levels (also catches per 5)
                 READ_2DA_ENTRY row ref_col num_cols entry
@@ -265,24 +265,24 @@ ACTION_IF FILE_EXISTS_IN_GAME ~kitlist.2da~ THEN BEGIN // if kits are present
                     DEFINE_ASSOCIATIVE_ARRAY cd_add_abilities BEGIN ~%entry%~, ~%entries%~ => 0 END
                   END ELSE BEGIN
                     SET row = num_rows // kill loop
-                  END  
+                  END
                 END
-              END            
+              END
               PATCH_IF entries > 0 BEGIN
                 PATCH_PHP_EACH cd_add_abilities AS params => foo BEGIN
                   PATCH_IF params_1 <= num_rows BEGIN
                     SET_2DA_ENTRY params_1 col num_cols ~%params_0%~
-                  END  
+                  END
                 END
               END
             END // end column loop
-          END // end routine to add populate table extension 
+          END // end routine to add populate table extension
           PRETTY_PRINT_2DA
         END
         BUT_ONLY
-          
+
     END
-  
+
   END
 
 END
@@ -322,7 +322,7 @@ ACTION_PHP_EACH cd_start_areas AS file => val BEGIN
 END
 
 ACTION_IF ((FILE_EXISTS_IN_GAME ~lunumab.2da~) AND (!FILE_EXISTS_IN_GAME ~spcl900.spl~)) THEN BEGIN // games with hla tables but no hlas (looking at you bgee, sod)
-    
+
   COPY_EXISTING ~lunumab.2da~ ~override~
     COUNT_2DA_ROWS 5 rows
     FOR (row = 0; row < rows; ++row) BEGIN
