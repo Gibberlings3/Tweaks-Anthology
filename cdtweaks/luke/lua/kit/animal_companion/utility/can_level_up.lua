@@ -4,7 +4,7 @@
 +----------------------------------+
 --]]
 
-function GT_AnimalCompanion_CanLevelUp()
+function GT_NWN_AnmlComp_CanLevelUp()
 	local summonerID = EEex_LuaTrigger_Object.m_lSummonedBy.m_Instance
 	local summonerSprite = EEex_GameObject_Get(summonerID)
 	--

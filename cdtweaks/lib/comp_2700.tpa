@@ -7,9 +7,9 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 WITH_SCOPE BEGIN
-  INCLUDE "cdtweaks\luke\misc.tph"
+  INCLUDE "cdtweaks\luke\lib\install.tph"
   //
-  INCLUDE "cdtweaks\lib\revised_troll_regeneration.tph"
+  INCLUDE "cdtweaks\lib\gt_revised_troll_regeneration.tph"
   //
   LAF "REVISED_TROLL_REGENERATION" END
 END

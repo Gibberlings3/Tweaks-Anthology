@@ -7,11 +7,11 @@
 -- Pulls the targeted creature closer to the caster --
 
 function %CLERIC_THORN_WHIP%(CGameEffect, CGameSprite)
-	local wingBuffetImmunity = EEex_Trigger_ParseConditionalString("EEex_IsImmuneToOpcode(Myself,235)")
+	local wingBuffetImmunity = "EEex_IsImmuneToOpcode(Myself,235)"
 	--
 	local targetAnimateStr = GT_Resource_IDSToSymbol["animate"][CGameSprite.m_animation.m_animation.m_animationID]
-	local targetGeneralStr = GT_Resource_IDSToSymbol["general"][CGameSprite.m_typeAI.m_General]
-	local targetPersonalSpace = CGameSprite.m_animation.m_animation.m_personalSpace
+	--local targetGeneralStr = GT_Resource_IDSToSymbol["general"][CGameSprite.m_typeAI.m_General]
+	local targetPersonalSpace = EEex_Sprite_GetPersonalSpace(CGameSprite)
 	--
 	local animate = {
 		["TANARRI"] = true,
@@ -43,7 +43,7 @@ function %CLERIC_THORN_WHIP%(CGameEffect, CGameSprite)
 	--
 	if not animate[targetAnimateStr] then
 		if targetPersonalSpace <= 3 then
-			if not wingBuffetImmunity:evalConditionalAsAIBase(CGameSprite) then
+			if not GT_EvalConditional["parseConditionalString"](CGameSprite, nil, wingBuffetImmunity) then
 				CGameSprite:applyEffect({
 					["effectID"] = 235, -- wing buffet
 					["dwFlags"] = 4, -- mode: Towards source

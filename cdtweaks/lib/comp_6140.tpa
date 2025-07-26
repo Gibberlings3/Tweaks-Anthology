@@ -7,12 +7,12 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
 
 WITH_SCOPE BEGIN
-  INCLUDE "cdtweaks\luke\misc.tph"
+  INCLUDE "cdtweaks\luke\lib\install.tph"
   INCLUDE "cdtweaks\ardanis\functions.tph"
   //
-  INCLUDE "cdtweaks\lib\planar_turning.tph"
+  INCLUDE "cdtweaks\lib\gt_planar_turning.tph"
   //
-  WITH_TRA "cdtweaks\languages\english\planar_turning.tra" "cdtweaks\languages\%LANGUAGE%\planar_turning.tra" BEGIN
+  WITH_TRA "cdtweaks\languages\english\gt_planar_turning.tra" "cdtweaks\languages\%LANGUAGE%\gt_planar_turning.tra" BEGIN
     LAF "PLANAR_TURNING" END
   END
 END

@@ -7,11 +7,11 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
 
 WITH_SCOPE BEGIN
-  INCLUDE "cdtweaks\luke\misc.tph"
+  INCLUDE "cdtweaks\luke\lib\install.tph"
   //
-  INCLUDE "cdtweaks\lib\nature_sense.tph"
+  INCLUDE "cdtweaks\lib\gt_nature_sense.tph"
   //
-  WITH_TRA "cdtweaks\languages\english\nature_sense.tra" "cdtweaks\languages\%LANGUAGE%\nature_sense.tra" BEGIN
+  WITH_TRA "cdtweaks\languages\english\gt_nature_sense.tra" "cdtweaks\languages\%LANGUAGE%\gt_nature_sense.tra" BEGIN
     LAF "NATURE_SENSE" END
   END
 END

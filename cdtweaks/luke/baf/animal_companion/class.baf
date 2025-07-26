@@ -3,7 +3,7 @@
 IF
 	OR(3)
 		!InParty(LastSummonerOf(Myself))
-		EEex_LuaTrigger("return GT_AnimalCompanion_SummonerClassCheck()")
+		EEex_LuaTrigger("return GT_NWN_AnmlComp_SummonerClassCheck()")
 		TriggerOverride(LastSummonerOf(Myself), Die())
 THEN
 	RESPONSE #100
@@ -15,12 +15,12 @@ END
 
 IF
 	!HasItemSlot(Myself,SLOT_MISC19)
-	EEex_LuaTrigger("return GT_AnimalCompanion_CanLevelUp()")
+	EEex_LuaTrigger("return GT_NWN_AnmlComp_CanLevelUp()")
 	CheckStat(Myself,0,LEVELDRAIN)
 THEN
 	RESPONSE #100
 		PlaySound("GAM_11")
-		EEex_LuaAction("GT_AnimalCompanion_LevelUp()")
+		EEex_LuaAction("GT_NWN_AnmlComp_LevelUp()")
 		Continue()
 END
 

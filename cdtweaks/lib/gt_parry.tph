@@ -1,0 +1,128 @@
+DEFINE_ACTION_FUNCTION "PARRY"
+BEGIN
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"type" = 4
+		"level" = 5
+	STR_VAR
+		"idsName" = "BLADE_SWASHBUCKLER_PARRY"
+	RET
+		"BLADE_SWASHBUCKLER_PARRY" = "resName"
+	END
+	//
+	LAF "ADD_EXTENDED_STAT" INT_VAR "max" = 30 STR_VAR "identifier" = "GT_NUMBER_OF_ATTACKS_PARRIED" END
+	//
+	WITH_SCOPE BEGIN
+		ACTION_TO_LOWER "BLADE_SWASHBUCKLER_PARRY"
+		//
+		COPY "cdtweaks\luke\bam\kit\parry\portrait_icon.bam" "override\%BLADE_SWASHBUCKLER_PARRY%d.bam"
+		COPY "cdtweaks\luke\bam\kit\parry\spl_icon.bam" "override\%BLADE_SWASHBUCKLER_PARRY%b.bam"
+		// main
+		CREATE "spl" "%BLADE_SWASHBUCKLER_PARRY%"
+		COPY_EXISTING "%BLADE_SWASHBUCKLER_PARRY%.spl" "override"
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@0)
+			WRITE_LONG UNIDENTIFIED_DESC RESOLVE_STR_REF (@1)
+			WRITE_LONG DESC "-1"
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG 0x18 (BIT14 BOR BIT25 BOR BIT9 BOR BIT10) // ignore dead/wild magic, castable when silenced, break sanctuary/invisibility
+			WRITE_SHORT 0x1C 4 // type: innate
+			WRITE_LONG 0x34 1 // level
+			WRITE_ASCII 0x3A "%DEST_RES%B" #8 // icon
+			//
+			LPF "ADD_SPELL_HEADER" INT_VAR "target" = 5 "range" = 30 STR_VAR "icon" = "%DEST_RES%B" END
+			//
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 138 "target" = 1 "parameter2" = 7 END // SEQ_READY
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 174 "target" = 1 STR_VAR "resource" = "EFF_M11B" END // play sound
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 139 "target" = 1 "parameter1" = RESOLVE_STR_REF (@2) END // feedback string
+			//
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 1 STR_VAR "resource" = "%DEST_RES%" END // invoke lua
+		BUT_ONLY
+		// cancel
+		CREATE "spl" "%BLADE_SWASHBUCKLER_PARRY%b"
+		COPY_EXISTING "%BLADE_SWASHBUCKLER_PARRY%b.spl" "override"
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@3)
+			WRITE_LONG UNIDENTIFIED_DESC "-1"
+			WRITE_LONG DESC "-1"
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG 0x18 (BIT14 BOR BIT25) // ignore dead/wild magic, castable when silenced
+			WRITE_SHORT 0x1C 4 // type: innate
+			WRITE_LONG 0x34 1 // level
+			WRITE_ASCII 0x3A "%DEST_RES%" #8
+			//
+			LPF "ADD_SPELL_HEADER" INT_VAR "target" = 5 "range" = 30 STR_VAR "icon" = "%DEST_RES%" END
+			//
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 1 "parameter1" = 1 STR_VAR "resource" = "%BLADE_SWASHBUCKLER_PARRY%" END // invoke lua
+		BUT_ONLY
+		// SEQ_ATTACK
+		CREATE "spl" "%BLADE_SWASHBUCKLER_PARRY%e"
+		COPY_EXISTING "%BLADE_SWASHBUCKLER_PARRY%e.spl" "override"
+			WRITE_LONG NAME1 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC "-1"
+			WRITE_LONG DESC "-1"
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG 0x18 (BIT14 BOR BIT25) // ignore dead/wild magic, castable when silenced
+			WRITE_SHORT 0x1C 4 // type: innate
+			WRITE_LONG 0x34 1 // level
+			WRITE_ASCII 0x3A "%DEST_RES%" #8
+			//
+			LPF "ADD_SPELL_HEADER" INT_VAR "range" = 30 STR_VAR "icon" = "%DEST_RES%" END
+			//
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 138 "target" = 1 "parameter2" = 0 END // set animation (ATTACK)
+			//LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 1 "parameter1" = 3 STR_VAR "resource" = "%BLADE_SWASHBUCKLER_PARRY%" END // "Parry (Success)"
+		BUT_ONLY
+		// riposte attack
+		CREATE "spl" "%BLADE_SWASHBUCKLER_PARRY%f"
+		COPY_EXISTING "%BLADE_SWASHBUCKLER_PARRY%f.spl" "override"
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@5)
+			WRITE_LONG UNIDENTIFIED_DESC "-1"
+			WRITE_LONG DESC "-1"
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG 0x18 (BIT14 BOR BIT25) // ignore dead/wild magic, castable when silenced
+			WRITE_SHORT 0x1C 4 // type: innate
+			WRITE_LONG 0x34 1 // level
+			WRITE_ASCII 0x3A "%BLADE_SWASHBUCKLER_PARRY%B" #8
+			//
+			LPF "ADD_SPELL_HEADER" INT_VAR "range" = 30 STR_VAR "icon" = "%BLADE_SWASHBUCKLER_PARRY%B" END
+			//
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 "parameter1" = 2 STR_VAR "resource" = "%BLADE_SWASHBUCKLER_PARRY%" END // invoke lua
+		BUT_ONLY
+		// SEQ_READY
+		CREATE "spl" "%BLADE_SWASHBUCKLER_PARRY%g"
+		COPY_EXISTING "%BLADE_SWASHBUCKLER_PARRY%g.spl" "override"
+			WRITE_LONG NAME1 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC "-1"
+			WRITE_LONG DESC "-1"
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG 0x18 (BIT14 BOR BIT25) // ignore dead/wild magic, castable when silenced
+			WRITE_SHORT 0x1C 4 // type: innate
+			WRITE_LONG 0x34 1 // level
+			WRITE_ASCII 0x3A "%BLADE_SWASHBUCKLER_PARRY%B" #8
+			//
+			LPF "ADD_SPELL_HEADER" INT_VAR "target" = 5 "range" = 30 STR_VAR "icon" = "%BLADE_SWASHBUCKLER_PARRY%B" END
+			//
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 138 "target" = 1 "parameter2" = 7 END // set animation (READY)
+		BUT_ONLY
+	END
+	// lua
+	WITH_SCOPE BEGIN
+		LAF "ADD_STATDESC_ENTRY" INT_VAR "description" = RESOLVE_STR_REF (@0) STR_VAR "bam_file" = "%BLADE_SWASHBUCKLER_PARRY%D" RET "feedback_icon" = "index" END
+		//
+		OUTER_SET "feedback_strref_weapon_ineffective" = RESOLVE_STR_REF (@100)
+		OUTER_SET "feedback_strref_parry" = RESOLVE_STR_REF (@4)
+		OUTER_SET "feedback_strref_success" = RESOLVE_STR_REF (@6)
+		OUTER_SET "feedback_strref_fail" = RESOLVE_STR_REF (@7)
+		//
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Class/Kit Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\kit\parry.lua" "destRes" = "m_gtspcl" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "AI-related stuff" "sourceFileSpec" = "cdtweaks\luke\lib\ai\object_type.lua" "destRes" = "m_gt#ai" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\damage_type.lua" "destRes" = "m_gtsprt" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\check_ids.lua" "destRes" = "m_gtsprt" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\get_selected_weapon.lua" "destRes" = "m_gtsprt" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\display_message.lua" "destRes" = "m_gtsprt" END
+		//
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Eval Conditional" "sourceFileSpec" = "cdtweaks\luke\lib\misc\eval_conditional.lua" "destRes" = "m_gteval" END
+	END
+	//
+	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
+		COPY "cdtweaks\luke\lib\resource\tables.lua" "override\m_gttbls.lua"
+	END
+END

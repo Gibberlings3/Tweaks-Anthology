@@ -7,12 +7,12 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
 
 WITH_SCOPE BEGIN
-  INCLUDE "cdtweaks\luke\misc.tph"
+  INCLUDE "cdtweaks\luke\lib\install.tph"
   INCLUDE "cdtweaks\ardanis\functions.tph"
   //
-  INCLUDE "cdtweaks\lib\circle_kick.tph"
+  INCLUDE "cdtweaks\lib\gt_circle_kick.tph"
   //
-  WITH_TRA "cdtweaks\languages\english\circle_kick.tra" "cdtweaks\languages\%LANGUAGE%\circle_kick.tra" BEGIN
+  WITH_TRA "cdtweaks\languages\english\gt_circle_kick.tra" "cdtweaks\languages\%LANGUAGE%\gt_circle_kick.tra" BEGIN
     LAF "CIRCLE_KICK" END
   END
 END

@@ -1,0 +1,129 @@
+DEFINE_ACTION_FUNCTION "SPELLCRAFT_COUNTERSPELL"
+BEGIN
+	LAF "GT_ADD_SPELL"
+	STR_VAR
+		"idsName" = "INNATE_COUNTERSPELL"
+	RET
+		"INNATE_COUNTERSPELL" = "resName"
+	END
+	//
+	WITH_SCOPE BEGIN
+		ACTION_TO_LOWER "INNATE_COUNTERSPELL"
+		//
+		ACTION_CLEAR_ARRAY "cdtweaks_counterspell"
+		ACTION_DEFINE_ASSOCIATIVE_ARRAY "cdtweaks_counterspell" BEGIN
+			// mschool/tra reference, suffix, casting sound => casting animation
+			1, "a", "CAS_M02" => 12 // ABJURER
+			2, "b", "CAS_M03" => 14 // CONJURER
+			3, "c", "CAS_M04" => 16 // DIVINER
+			4, "d", "CAS_M05" => 11 // ENCHANTER
+			5, "e", "CAS_M01" => 13 // ILLUSIONIST
+			6, "f", "CAS_M06" => 15 // INVOKER
+			7, "g", "CAS_M07" => 9 // NECROMANCER
+			8, "h", "CAS_M08" => 10 // TRANSMUTER
+		END
+		//
+		ACTION_PHP_EACH "cdtweaks_counterspell" AS "key" => "value" BEGIN
+			CREATE "spl" "%INNATE_COUNTERSPELL%%key_1%"
+			COPY_EXISTING "%INNATE_COUNTERSPELL%%key_1%.spl" "override"
+				WRITE_LONG NAME1 RESOLVE_STR_REF ((AT "%key%"))
+				WRITE_LONG UNIDENTIFIED_DESC "-1"
+				WRITE_LONG 0x18 (BIT9 BOR BIT10) // break sanctuary/invisibility
+				WRITE_SHORT 0x1C 4 // type: innate
+				WRITE_LONG 0x34 1 // level
+				WRITE_SHORT 0x22 "%value%" // casting animation
+				WRITE_BYTE 0x25 "%key%" // mschool
+				WRITE_ASCII 0x10 "%key_2%" #8 // casting sound
+				//
+				LPF "ADD_SPELL_HEADER" INT_VAR "range" = 30 END
+				//
+				PATCH_IF (GAME_IS "iwdee") BEGIN
+					LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 174 "target" = 2 STR_VAR "resource" = "#EFF_P13" END // play sound
+					LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 215 "target" = 2 "timing" = 1 STR_VAR "resource" = "MMAGICH" END // play visual effect
+				END ELSE BEGIN
+					LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 174 "target" = 2 STR_VAR "resource" = "EFF_P13" END // play sound
+					LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 141 "target" = 2 "timing" = 1 "parameter2" = 9 END // lighting effects (Enchantment earth)
+					LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 61 "target" = 2 "timing" = 1 "parameter1" = (120 << 8) + (90 << 16) + (30 << 24) "parameter2" = 0 + (25 << 16) END // creature RGB color fade
+				END
+			BUT_ONLY
+		END
+	END
+	//
+	WITH_SCOPE BEGIN
+		ACTION_TO_LOWER "INNATE_COUNTERSPELL"
+		//
+		COPY "cdtweaks\luke\bam\spellcraft_counterspell\portrait_icon.bam" "override\%INNATE_COUNTERSPELL%d.bam"
+		COPY "cdtweaks\luke\bam\spellcraft_counterspell\spl_icon.bam" "override\%INNATE_COUNTERSPELL%b.bam"
+		//
+		CREATE "spl" "%INNATE_COUNTERSPELL%"
+		COPY_EXISTING "%INNATE_COUNTERSPELL%.spl" "override"
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@101)
+			WRITE_LONG UNIDENTIFIED_DESC "-1"
+			WRITE_LONG 0x18 (BIT9 BOR BIT10 BOR BIT14) // break sanctuary/invisibility, ignore dead/wild magic
+			WRITE_SHORT 0x1C 4 // type: innate
+			WRITE_LONG 0x34 1 // level
+			WRITE_ASCII 0x3A "%DEST_RES%b" #8 // icon
+			//
+			LPF "ADD_SPELL_HEADER" INT_VAR "target" = 5 "range" = 30 STR_VAR "icon" = "%DEST_RES%b" END
+			//
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 138 "target" = 1 "parameter2" = 7 END // SEQ_READY
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 139 "target" = 1 "parameter1" = RESOLVE_STR_REF (@102) END // feedback string
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 1 "parameter1" = 1 STR_VAR "resource" = "%DEST_RES%" END // invoke lua
+		BUT_ONLY
+		//
+		CREATE "spl" "%INNATE_COUNTERSPELL%y"
+		COPY_EXISTING "%INNATE_COUNTERSPELL%y.spl" "override"
+			WRITE_LONG NAME1 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC "-1"
+			WRITE_LONG 0x18 (BIT14 BOR BIT25) // ignore dead/wild magic, castable when silenced
+			WRITE_SHORT 0x1C 4 // type: innate
+			WRITE_LONG 0x34 1 // level
+			WRITE_ASCII 0x3A "%INNATE_COUNTERSPELL%b" #8 // icon
+			//
+			LPF "ADD_SPELL_HEADER" INT_VAR "target" = 5 "range" = 30 STR_VAR "icon" = "%INNATE_COUNTERSPELL%b" END
+			//
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 138 "target" = 1 "parameter2" = 7 END // SEQ_READY
+		BUT_ONLY
+		//
+		CREATE "spl" "%INNATE_COUNTERSPELL%z"
+		COPY_EXISTING "%INNATE_COUNTERSPELL%z.spl" "override"
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@103)
+			WRITE_LONG UNIDENTIFIED_DESC "-1"
+			WRITE_LONG 0x18 (BIT9 BOR BIT10 BOR BIT14) // break sanctuary/invisibility, ignore dead/wild magic
+			WRITE_SHORT 0x1C 4 // type: innate
+			WRITE_LONG 0x34 1 // level
+			WRITE_ASCII 0x3A "%INNATE_COUNTERSPELL%b" #8
+			//
+			LPF "ADD_SPELL_HEADER" INT_VAR "target" = 5 "range" = 30 STR_VAR "icon" = "%INNATE_COUNTERSPELL%b" END
+			//
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 1 "parameter1" = 2 STR_VAR "resource" = "%INNATE_COUNTERSPELL%" END // invoke lua
+		BUT_ONLY
+	END
+	// lua
+	WITH_SCOPE BEGIN
+		OUTER_SET "feedback_strref_spellcraft" = RESOLVE_STR_REF (@200)
+		OUTER_SET "feedback_strref_is_casting" = RESOLVE_STR_REF (@201)
+		//
+		LAF "ADD_STATDESC_ENTRY" INT_VAR "description" = RESOLVE_STR_REF (@100) STR_VAR "bam_file" = "%INNATE_COUNTERSPELL%D" RET "feedback_icon" = "index" END
+		//
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Spellcraft / Counterspell" "sourceFileSpec" = "cdtweaks\luke\lua\spellcraft_counterspell\main.lua" "destRes" = "m_gtcntr" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Spellcraft / Counterspell" "sourceFileSpec" = "cdtweaks\luke\lua\spellcraft_counterspell\cosmetic.lua" "destRes" = "m_gtcntr" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Spellcraft / Counterspell" "sourceFileSpec" = "cdtweaks\luke\lua\spellcraft_counterspell\gain_ability.lua" "destRes" = "m_gtcntr" END
+	END
+	//
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\has_bounce_effects.lua" "destRes" = "m_gtsprt" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\has_immunity_effects.lua" "destRes" = "m_gtsprt" END
+	//LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\has_trap_effect.lua" "destRes" = "m_gtsprt" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\display_message.lua" "destRes" = "m_gtsprt" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\check_ids.lua" "destRes" = "m_gtsprt" END
+
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lib\utility\decode_spell.lua" "destRes" = "m_gtutil" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lib\utility\array_contains.lua" "destRes" = "m_gtutil" END
+
+	//LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Lua Tools" "sourceFileSpec" = "cdtweaks\luke\lua\tool\wrap_userdata.lua" "destRes" = "m_gttool" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "AI-related stuff" "sourceFileSpec" = "cdtweaks\luke\lib\ai\object_type.lua" "destRes" = "m_gt#ai" END
+	//
+	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
+		COPY "cdtweaks\luke\lib\resource\tables.lua" "override\m_gttbls.lua"
+	END
+END

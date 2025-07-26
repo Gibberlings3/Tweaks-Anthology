@@ -13,36 +13,58 @@ function GTFLMGRS(op403CGameEffect, CGameEffect, CGameSprite)
 	--
 	local spriteActiveStats = EEex_Sprite_GetActiveStats(CGameSprite)
 	--
-	local immunityToDamage = EEex_Trigger_ParseConditionalString("EEex_IsImmuneToOpcode(Myself,12)")
+	local fields
+	local found = false
+	local forceApplyViaOp177 = false
 	--
 	if CGameEffect.m_effectId == 0xC and EEex_IsMaskSet(CGameEffect.m_dWFlags, dmgtype["FIRE"]) then -- Damage (FIRE)
 		if string.upper(CGameEffect.m_sourceRes:get()) ~= "GTFLMGRS" then -- prevent infinite loop
-			if spriteActiveStats.m_nResistFire < 100 then -- only apply if the target is not immune to fire
-				if not immunityToDamage:evalConditionalAsAIBase(CGameSprite) then
-					-- op403 "sees" effects after they have passed their probability roll, but before any saving throws have been made against said effect / other immunity mechanisms have taken place
-					-- opcodes applied here *should* use the same roll for saves and mr checks...
-					-- also, make sure it is *not* reflected
-					if not GT_Sprite_HasBounceEffects(CGameSprite, CGameEffect.m_spellLevel, CGameEffect.m_projectileType, CGameEffect.m_school, CGameEffect.m_secondaryType, CGameEffect.m_sourceRes:get(), {326, 12}, CGameEffect.m_flags) then
+			found = true
+			fields = GT_Utility_GetEffectFields(CGameEffect)
+		end
+	elseif CGameEffect.m_effectId == 0xB1 and CGameEffect.m_effectAmount4 ~= 0 then -- https://github.com/Gibberlings3/iesdp/pull/193
+		if GT_Sprite_CheckIDS(CGameSprite, CGameEffect.m_effectAmount, CGameEffect.m_dWFlags) then
+			local CGameEffectBase = EEex_Resource_Demand(CGameEffect.m_res:get(), "eff")
+			-- sanity check
+			if CGameEffectBase then
+				if CGameEffectBase.m_effectId == 0xC and EEex_IsMaskSet(CGameEffectBase.m_dWFlags, dmgtype["FIRE"]) then -- Damage (FIRE)
+					found = true
+					forceApplyViaOp177 = true
+					fields = GT_Utility_GetEffectFields(CGameEffectBase)
+				end
+			end
+		end
+	end
+	--
+	if found then
+		if spriteActiveStats.m_nResistFire < 100 then -- only apply if the target is not immune to fire
+			-- op403 "sees" effects after they have passed their probability roll, but before any saving throws have been made against said effect / other immunity mechanisms have taken place
+			-- opcodes applied here *should* use the same roll for saves and mr checks...
+			-- also, make sure it is *not* deflected/reflected/trapped
+			if not GT_Sprite_HasBounceEffects(CGameSprite, fields["spellLevel"], fields["projectileType"], fields["school"], fields["secondaryType"], fields["sourceRes"], {326, 12}, fields["flags"]) or forceApplyViaOp177 then
+				if not GT_Sprite_HasImmunityEffects(CGameSprite, fields["spellLevel"], fields["projectileType"], fields["school"], fields["secondaryType"], fields["sourceRes"], {326, 12}, fields["flags"], fields["savingThrow"], 0x0) or forceApplyViaOp177 then
+					if not GT_Sprite_HasTrapEffect(CGameSprite, fields["spellLevel"], fields["secondaryType"], fields["flags"]) or forceApplyViaOp177 then
+						--
 						CGameSprite:applyEffect({
 							["effectID"] = 0x146, -- Apply effects list (326)
 							--
-							["savingThrow"] = EEex_IsBitSet(CGameEffect.m_special, 0x8) and 0 or CGameEffect.m_savingThrow, -- ignore save check if the save for half flag is set
-							["saveMod"] = CGameEffect.m_saveMod,
-							["m_flags"] = CGameEffect.m_flags,
+							["savingThrow"] = EEex_IsBitSet(fields["special"], 0x8) and 0 or fields["savingThrow"], -- ignore save check if the save for half flag is set
+							["saveMod"] = fields["saveMod"],
+							["m_flags"] = fields["flags"],
 							--
 							["durationType"] = CGameEffect.m_durationType,
 							["duration"] = CGameEffect.m_duration,
 							--
-							["spellLevel"] = CGameEffect.m_spellLevel,
-							["m_projectileType"] = CGameEffect.m_projectileType,
-							["m_school"] = CGameEffect.m_school,
-							["m_secondaryType"] = CGameEffect.m_secondaryType,
-							["m_sourceRes"] = CGameEffect.m_sourceRes:get(),
+							["spellLevel"] = fields["spellLevel"],
+							["m_projectileType"] = fields["projectileType"],
+							["m_school"] = fields["school"],
+							["m_secondaryType"] = fields["secondaryType"],
+							["m_sourceRes"] = fields["sourceRes"],
 							--
-							["m_sourceType"] = CGameEffect.m_sourceType,
-							["m_sourceFlags"] = CGameEffect.m_sourceFlags,
+							["m_sourceType"] = fields["sourceType"],
+							["m_sourceFlags"] = fields["sourceFlags"],
 							["m_casterLevel"] = roll,
-							["m_slotNum"] = CGameEffect.m_slotNum,
+							["m_slotNum"] = fields["slotNum"],
 							--
 							["res"] = "GTFLMGRS",
 							--
@@ -54,8 +76,6 @@ function GTFLMGRS(op403CGameEffect, CGameEffect, CGameSprite)
 			end
 		end
 	end
-	--
-	immunityToDamage:free()
 end
 
 -- greased targets suffer 3d6 additional fire damage per 1d3 rounds (save vs. breath for half) --

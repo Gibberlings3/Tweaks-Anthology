@@ -4,37 +4,6 @@
 +-------------------------------------------------------+
 --]]
 
-local cdtweaks_RevisedBackstabImmunity_General = {
-	["UNDEAD"] = true,
-	["WEAPON"] = true,
-	["PLANT"] = true,
-}
-
-local cdtweaks_RevisedBackstabImmunity_Race = {
-	["MIST"] = true,
-	["SLIME"] = true,
-	["BEHOLDER"] = true,
-	["DEMONIC"] = true,
-	["MEPHIT"] = true,
-	["IMP"] = true,
-	["ELEMENTAL"] = true,
-	["SALAMANDER"] = true,
-	["GENIE"] = true,
-	["PLANATAR"] = true,
-	["DARKPLANATAR"] = true,
-	["SOLAR"] = true,
-	["ANTISOLAR"] = true,
-	["DRAGON"] = true,
-	["SHAMBLING_MOUND"] = true,
-}
-
-local cdtweaks_RevisedBackstabImmunity_Class = {
-	["GOLEM_IRON"] = true,
-	["GOLEM_STONE"] = true,
-	["GOLEM_CLAY"] = true,
-	["GOLEM_ICE"] = true,
-}
-
 -- Apply ability --
 
 EEex_Opcode_AddListsResolvedListener(function(sprite)
@@ -42,6 +11,35 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	if not EEex_GameObject_IsSprite(sprite) then
 		return
 	end
+	--
+	local general = {
+		["UNDEAD"] = true,
+		["WEAPON"] = true,
+		["PLANT"] = true,
+	}
+	local race = {
+		["MIST"] = true,
+		["SLIME"] = true,
+		["BEHOLDER"] = true,
+		["DEMONIC"] = true,
+		["MEPHIT"] = true,
+		["IMP"] = true,
+		["ELEMENTAL"] = true,
+		["SALAMANDER"] = true,
+		["GENIE"] = true,
+		["PLANATAR"] = true,
+		["DARKPLANATAR"] = true,
+		["SOLAR"] = true,
+		["ANTISOLAR"] = true,
+		["DRAGON"] = true,
+		["SHAMBLING_MOUND"] = true,
+	}
+	local class = {
+		["GOLEM_IRON"] = true,
+		["GOLEM_STONE"] = true,
+		["GOLEM_CLAY"] = true,
+		["GOLEM_ICE"] = true,
+	}
 	-- internal function that applies the actual feat
 	local apply = function()
 		-- Mark the creature as 'feat applied'
@@ -67,7 +65,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	local spriteRaceStr = GT_Resource_IDSToSymbol["race"][sprite.m_typeAI.m_Race]
 	local spriteClassStr = GT_Resource_IDSToSymbol["class"][sprite.m_typeAI.m_Class]
 	--
-	local applyAbility = cdtweaks_RevisedBackstabImmunity_General[spriteGeneralStr] or cdtweaks_RevisedBackstabImmunity_Race[spriteRaceStr] or cdtweaks_RevisedBackstabImmunity_Class[spriteClassStr]
+	local applyAbility = general[spriteGeneralStr] or race[spriteRaceStr] or class[spriteClassStr]
 	--
 	if sprite:getLocalInt("gtBackstabImmunity") == 0 then
 		if applyAbility then

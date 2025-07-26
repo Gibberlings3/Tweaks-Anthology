@@ -7,12 +7,12 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
 
 WITH_SCOPE BEGIN
-  INCLUDE "cdtweaks\luke\misc.tph"
+  INCLUDE "cdtweaks\luke\lib\install.tph"
   INCLUDE "cdtweaks\ardanis\functions.tph"
   //
-  INCLUDE "cdtweaks\lib\spellcraft_counterspell.tph"
+  INCLUDE "cdtweaks\lib\gt_spellcraft_counterspell.tph"
   //
-  WITH_TRA "cdtweaks\languages\english\spellcraft_counterspell.tra" "cdtweaks\languages\%LANGUAGE%\spellcraft_counterspell.tra" BEGIN
+  WITH_TRA "cdtweaks\languages\english\gt_spellcraft_counterspell.tra" "cdtweaks\languages\%LANGUAGE%\gt_spellcraft_counterspell.tra" BEGIN
     LAF "SPELLCRAFT_COUNTERSPELL" END
   END
 END

@@ -7,11 +7,11 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
 
 WITH_SCOPE BEGIN
-  INCLUDE "cdtweaks\luke\misc.tph"
+  INCLUDE "cdtweaks\luke\lib\install.tph"
   //
-  INCLUDE "cdtweaks\lib\self_concealment.tph"
+  INCLUDE "cdtweaks\lib\gt_self_concealment.tph"
   //
-  WITH_TRA "cdtweaks\languages\english\self_concealment.tra" "cdtweaks\languages\%LANGUAGE%\self_concealment.tra" BEGIN
+  WITH_TRA "cdtweaks\languages\english\gt_self_concealment.tra" "cdtweaks\languages\%LANGUAGE%\gt_self_concealment.tra" BEGIN
     LAF "SELF_CONCEALMENT" END
   END
 END

@@ -1,9 +1,0 @@
-DEFINE_ACTION_FUNCTION "EXTRA_DISPEL_FEEDBACK"
-BEGIN
-	OUTER_SET "feedback_strref" = RESOLVE_STR_REF (@0)
-	//
-	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Misc Tweaks" "sourceFileSpec" = "cdtweaks\luke\lua\tweaks\extra_dispel_feedback.lua" "destRes" = "m_gttwks" END
-	//
-	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Lua Tools" "sourceFileSpec" = "cdtweaks\luke\lua\tool\array_contains.lua" "destRes" = "m_gttool" END
-	LAF "APPEND_LUA_FUNCTION" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lua\utility\display_sprite_message.lua" "destRes" = "m_gtutil" END
-END

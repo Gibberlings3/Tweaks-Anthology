@@ -7,9 +7,11 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 WITH_SCOPE BEGIN
-  INCLUDE "cdtweaks\luke\misc.tph"
-  INCLUDE "cdtweaks\lib\pnp_potions.tph"
-  WITH_TRA "cdtweaks\languages\english\pnp_potions.tra" "cdtweaks\languages\%LANGUAGE%\pnp_potions.tra" BEGIN
+  INCLUDE "cdtweaks\luke\lib\install.tph"
+  //
+  INCLUDE "cdtweaks\lib\gt_pnp_potions.tph"
+  //
+  WITH_TRA "cdtweaks\languages\english\gt_pnp_potions.tra" "cdtweaks\languages\%LANGUAGE%\gt_pnp_potions.tra" BEGIN
     LAF "PNP_POTIONS" END
   END
 END

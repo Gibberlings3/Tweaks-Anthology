@@ -16,14 +16,14 @@ EEex_Sprite_AddQuickListsCheckedListener(function(sprite, resref, changeAmount)
 	}
 
 	local deathvarSources = {
-		["gtAnmlCompWolf"] = true,
-		["gtAnmlCompFalcon"] = true,
-		["gtAnmlCompBear"] = true,
-		["gtAnmlCompBoar"] = true,
-		["gtAnmlCompLeopard"] = true,
-		["gtAnmlCompSnake"] = true,
-		["gtAnmlCompBeetle"] = true,
-		["gtAnmlCompSpider"] = true,
+		["gtNWNAnmlCompWolf"] = true,
+		["gtNWNAnmlCompFalcon"] = true,
+		["gtNWNAnmlCompBear"] = true,
+		["gtNWNAnmlCompBoar"] = true,
+		["gtNWNAnmlCompLeopard"] = true,
+		["gtNWNAnmlCompSnake"] = true,
+		["gtNWNAnmlCompBeetle"] = true,
+		["gtNWNAnmlCompSpider"] = true,
 	}
 
 	local resrefSources = {

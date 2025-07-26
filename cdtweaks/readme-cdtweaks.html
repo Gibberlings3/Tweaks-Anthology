@@ -1073,6 +1073,10 @@ div.quote {
         <em>EEex required; available for BGEE, BG2EE, IWDEE, EET</em></p>
       <p> This component randomizes the rate at which trolls regenerate lost hit points (new rate: 1d6/round). 
         On top of that, any time they take fire or acid damage their regeneration is halted for one round (not cumulative). </p>
+
+      <p> <a id="contents_2710" name="contents_2710"></a><strong>Automatically unsummon summoned creatures if the summoner gets slained prematurely [Luke]</strong> <a href="#contents_2710" rel=""><img alt="Link to this component" height="9" width="14" src="style/link.png" /></a><br />
+        <em>EEex required; available for BGEE, BG2EE, IWDEE, EET</em></p>
+      <p> Pretty much what the title says. Whenever a creature gets killed, its summoned minions (if any) will be automatically unsummoned (does not affect familiars).</p>
     </div>
     <div class="ribbon_rectangle_h3">
       <h3> <a id="contents_convenience" name="contents_convenience"></a>Convenience Tweaks and/or Cheats </h3>
@@ -1377,6 +1381,11 @@ div.quote {
         <em>EEex required; available for BGEE, BG2EE, IWDEE, EET</em></p>
       <p> This component will automatically adjust FPS during playthrough. 
         When in combat or cutscene, it will lock FPS to 30, otherwise it will set them to 60. </p>
+
+      <p> <a id="contents_3480" name="contents_3480"></a><strong>More Sensible Morentherene</strong> <a href="#contents_3480" rel=""><img alt="Link to this component" height="9" width="14" src="style/link.png" /></a><br />
+        <em>EEex required; available for SoD, EET</em></p>
+      <p>Due to the way the game engine works, party items that cast spell effects might awake Morentherene - even if the player didn't intend to actually cast an ordinary spell.
+        This component simply makes sure that such items do not trigger Morentherene. </p>
     </div>
     <div class="ribbon_rectangle_h3">
       <h3> <a id="contents_npc" name="contents_npc"></a>Joinable <abbr title="Non-Player Character">NPC</abbr> Tweaks <a href="#contents_npc" rel=""><img alt="Link to this section" height="9" width="14" src="style/link.png" /></a></h3>
@@ -1491,7 +1500,7 @@ div.quote {
       <p>The character can attempt to disarm an opponent in melee combat. Attempting a disarm applies a -6 penalty to the character's attack roll, and the combatant with the larger weapon gains a +2 bonus per size category of difference. If the hit is successful, then the weapon flies from the opponent's hands.</p>
       <p> Notes: </p>
       <ul>
-        <li>Use: selected, unlimited uses per day. Only available to rogues (starting from level 1).</li>
+        <li>Use: selected, unlimited uses per day. Only available to rogues (starting from level 1; Intelligence 13 or higher).</li>
         <li>When the weapon flies from the opponent's hands, the attacker automatically picks it up (provided its Inventory is not full).</li>
         <li>This feat cannot be used while wielding a ranged weapon.</li>
         <li>The Disarm blow itself deals no damage and applies no on-hit effects (if any).</li>
@@ -1570,7 +1579,12 @@ div.quote {
             </li>
           </ul>
         </li>
-        <li> Due to technical reasons, Shamans and Sorcerers are currently unsupported. </li>
+        <li>
+          Paladins and Rangers are not eligible for Spellcraft / Counterspell.
+          <ul>
+            <li>Bards are only eligible for Spellcraft.</li>
+          </ul>
+        </li>
       </ul>
       <p> <a id="contents_6030" name="contents_6030"></a><strong>Spontaneous Casting for Clerics [Luke]</strong> <a href="#contents_6030" rel=""><img alt="Link to this component" height="9" width="14" src="style/link.png" /></a><br />
         <em>EEex required; available for BGEE, BG2EE, IWDEE, EET</em></p>
@@ -1590,7 +1604,7 @@ div.quote {
       <p> <a id="contents_6050" name="contents_6050"></a><strong>Dual-Wield Class Feat for Rangers [Luke]</strong> <a href="#contents_6050" rel=""><img alt="Link to this component" height="9" width="14" src="style/link.png" /></a><br />
         <em>EEex required; available for BGEE, BG2EE, IWDEE, EET</em></p>
       <p> This component simply forces rangers to wield light armors (or no armor) in order to benefit from Two-Weapon Fighting.</p>
-      <p> <a id="contents_6060" name="contents_6060"></a><strong>NWN-ish Armor vs. Dexterity [Luke]</strong> <a href="#contents_6060" rel=""><img alt="Link to this component" height="9" width="14" src="style/link.png" /></a><br />
+      <p> <a id="contents_6060" name="contents_6060"></a><strong>NWN-style Armor vs. Dexterity [Luke]</strong> <a href="#contents_6060" rel=""><img alt="Link to this component" height="9" width="14" src="style/link.png" /></a><br />
         <em>EEex required; available for BGEE, BG2EE, IWDEE, EET</em></p>
       <p> This component simply &quot;forces&quot; characters to wield light armors (or no armor) if they have high Dexterity.
         In particular: </p>
@@ -1694,7 +1708,12 @@ div.quote {
       <ul>
         <li>Use: automatic, but limited to once per round.</li>
         <li>Creatures without discernible anatomies (see component <strong>Make Certain Creatures Immune to Backstab/Sneak Attack</strong>) or that are otherwise immune to sneak attacks, either via spells/items or naturally (e.g. barbarians), are unaffected by this feat.</li>
-        <li>Sneak attacks can be made with both melee and ranged weapons.</li>
+        <li>
+          Sneak attacks can be made with both melee and ranged weapons.
+          <ul>
+            <li>However, the weapon must be usable by single-class thieves!</li>
+          </ul>
+        </li>
       </ul>
       <p> <a id="contents_6120" name="contents_6120"></a><strong>Fearless Racial Feat for Halflings [Luke]</strong> <a href="#contents_6120" rel=""><img alt="Link to this component" height="9" width="14" src="style/link.png" /></a><br />
         <em>EEex required; available for BGEE, BG2EE, IWDEE, EET</em></p>
@@ -1709,10 +1728,18 @@ div.quote {
       <p> This component adds the class feat Planar Turning to paladins and clerics.
         This feat allows outsiders (solars, planetars, elementals, imps, mephits, demons, devils, salamanders, genies and the like) to be turned like undead.</p>
       <p> As a result, when the Turn Undead ability is activated, any extraplanar being in visual range of the priest are turned, fleeing in terror, if the priest's level is high enough. Especially high-level priests destroy these creatures instead. Evil priests gain control of these extraplanar beings instead of destroying them. </p>
+      <p>
+        Requirements:
+        <ul>
+          <li>Wisdom 17 or higher.</li>
+          <li>Charisma 17 or higher.</li>
+          <li>Turn Undead Level 21 or higher.</li>
+        </ul>
+      </p>
       <p> <a id="contents_6150" name="contents_6150"></a><strong>Circle Kick Class Feat for Monks [Luke]</strong> <a href="#contents_6150" rel=""><img alt="Link to this component" height="9" width="14" src="style/link.png" /></a><br />
         <em>EEex required; available for BGEE, BG2EE, IWDEE, EET</em></p>
       <p> This component aims at implementing the NWN feat Circle Kick. If the character succeeds in hitting an opponent with an unarmed attack, that character gets an additional free attack against another, nearby enemy. There is a maximum of one free attack per round. Use is automatic, but only available to monks.</p>
-      <p> <a id="contents_6160" name="contents_6160"></a><strong>NWN-ish Barbarian Rage [Luke]</strong> <a href="#contents_6160" rel=""><img alt="Link to this component" height="9" width="14" src="style/link.png" /></a><br />
+      <p> <a id="contents_6160" name="contents_6160"></a><strong>NWN-style Barbarian Rage [Luke]</strong> <a href="#contents_6160" rel=""><img alt="Link to this component" height="9" width="14" src="style/link.png" /></a><br />
         <em>EEex required; available for BGEE, BG2EE, IWDEE, EET</em></p>
       <p> This component aims at implementing the NWN feat Barbarian Rage. </p>
       <p> The character is enraged for 7 rounds (plus a number of rounds equal to his Constitution modifier, see table below), which grants the character a +4 bonus to Strength and Constitution, a -2 penalty to Armor Class, and a +2 bonus to Saving Throws vs. Spell. </p>
@@ -1839,69 +1866,17 @@ div.quote {
       <p> <a id="contents_6200" name="contents_6200"></a><strong>Overwhelming/Devastating Critical Class Feat for Trueclass Fighters [Luke]</strong> <a href="#contents_6200" rel=""><img alt="Link to this component" height="9" width="14" src="style/link.png" /></a><br />
         <em>EEex required; available for BGEE, BG2EE, IWDEE, EET</em></p>
       <p> This component aims at giving trueclass fighters the passive feats Overwhelming/Devastating Critical. </p>
-      <p> <em>Overwhelming Critical:</em> If the character is wielding a weapon with which they are a grandmaster they will deal an Overwhelming Critical, resulting in 2d6 extra points of damage on a successful critical hit. Upon reaching level 30, critical hits become <em>Devastating Criticals</em>, forcing the character's target to make a Save vs. Death or die instantly. </p>
+      <p> <em>Overwhelming Critical:</em> If the character is wielding a weapon with which they are a grandmaster they will deal an Overwhelming Critical, resulting in 3x damage on a successful critical hit (instead of 2x damage). Upon reaching level 30, critical hits become <em>Devastating Criticals</em>, forcing the character's target to make a Save vs. Death or die instantly (in addition to dealing 3x damage). </p>
       <ul>
-        <li>Use: automatic, but only available to trueclass fighters.</li>
-        <li>Creatures who are immune to critical hits are not affected by these feats.</li>
-        <li>Only the mainhand weapon can trigger these feats (in case of dual-wielding).</li>
-        <li>Devastating Critical: the saving throw penalty scales with either Strength (melee weapons) or Dexterity (ranged weapons). In particular:</li>
+        <li>Use: automatic, but only available to trueclass fighters. 19+ Strength required.</li>
+        <li>
+          Creatures who are immune to critical hits are not affected by these feats.
+          <ul>
+            <li>However, they will still suffer 2x damage in case of Devastating Critical!</li>
+          </ul>
+        </li>
+        <!-- <li>Only the mainhand weapon can trigger these feats (in case of dual-wielding).</li> -->
       </ul>
-      <table>
-        <tbody>
-          <tr>
-            <th> Strength/Dexterity </th>
-            <th> Modifier </th>
-          </tr>
-          <tr>
-            <td> 0 </td>
-            <td> +20 </td>
-          </tr>
-          <tr>
-            <td> 1 </td>
-            <td> +6 </td>
-          </tr>
-          <tr>
-            <td> 2 </td>
-            <td> +4 </td>
-          </tr>
-          <tr>
-            <td> 3 </td>
-            <td> +3 </td>
-          </tr>
-          <tr>
-            <td> 4 </td>
-            <td> +2 </td>
-          </tr>
-          <tr>
-            <td> 5 </td>
-            <td> +1 </td>
-          </tr>
-          <tr>
-            <td> 6-15 </td>
-            <td> 0 </td>
-          </tr>
-          <tr>
-            <td> 16 </td>
-            <td> -1 </td>
-          </tr>
-          <tr>
-            <td> 17-18</td>
-            <td> -2 </td>
-          </tr>
-          <tr>
-            <td> 19-20 </td>
-            <td> -3 </td>
-          </tr>
-          <tr>
-            <td> 21-23 </td>
-            <td> -4 </td>
-          </tr>
-          <tr>
-            <td> 24-25 </td>
-            <td> -5 </td>
-          </tr>
-        </tbody>
-      </table>
       <p> <a id="contents_6210" name="contents_6210"></a><strong>Self Concealment Class Feat for Monks [Luke]</strong> <a href="#contents_6210" rel=""><img alt="Link to this component" height="9" width="14" src="style/link.png" /></a><br />
         <em>EEex required; available for BGEE, BG2EE, IWDEE, EET</em></p>
       <p> This component aims at giving monks the passive feat Self Concealment. Concealment is a defensive trait that causes attacks to miss a certain percent of the time.
@@ -1938,7 +1913,9 @@ div.quote {
         <li>If the parrying character gets hit while performing a riposte attack, the riposte attack will be canceled.</li>
         <li>The higher Dexterity, the easier is to parry an incoming attack.
           <ul>
-            <li>See the MISSILE column of <a href="https://gibberlings3.github.io/iesdp/files/2da/2da_bgee/dexmod.htm">dexmod.2da</a> to get an idea about how the saving throw bonus scales with Dexterity.</li>
+            <li>See the <code>AC</code> column of <a href="https://gibberlings3.github.io/iesdp/files/2da/2da_bgee/dexmod.htm">dexmod.2da</a> to get an idea about how the roll scales with Dexterity.</li>
+            <li>Rolling <code>20</code> will result in an automatic success.</li>
+            <li>Rolling <code>1</code> will result in a critical failure.</li>
           </ul>
         </li>
         <li>This combat mode cannot be used while polymorphed or while wielding a magically created weapon.</li>
@@ -1962,7 +1939,7 @@ div.quote {
       <p> <a id="contents_6260" name="contents_6260"></a><strong>Uncanny Dodge Class Feat for Barbarians and Rogues [Luke]</strong> <a href="#contents_6260" rel=""><img alt="Link to this component" height="9" width="14" src="style/link.png" /></a><br />
         <em>EEex required; available for BGEE, BG2EE, IWDEE, EET</em></p>
       <p>Barbarians and rogues gain a +2 bonus on saving throws made to avoid traps. Use is automatic, available from level 1. </p>
-      <p> <a id="contents_6270" name="contents_6270"></a><strong>NWN-ish Sneak Attack/Crippling Strike Class Feat for Thieves and Stalkers [Luke]</strong> <a href="#contents_6270" rel=""><img alt="Link to this component" height="9" width="14" src="style/link.png" /></a><br />
+      <p> <a id="contents_6270" name="contents_6270"></a><strong>NWN-style Sneak Attack/Crippling Strike Class Feat for Thieves and Stalkers [Luke]</strong> <a href="#contents_6270" rel=""><img alt="Link to this component" height="9" width="14" src="style/link.png" /></a><br />
         <em>EEex required; available for BGEE, BG2EE, IWDEE, EET</em></p>
       <p> This component reworks the Sneak Attack mechanic so as to make it more similar to the one in NWN (sort of). To sum up:</p>
       <ul>
@@ -1979,7 +1956,7 @@ div.quote {
             <li>NB.: Barbarians will still be fully immune to them.</li>
           </ul>
         </li>
-        <li>Additionally, even if enemies are not required to flank their target in order to perform a sneak attack, their target must still be flat-footed (i.e., the target must either wield a ranged weapon or be in combat with someone else or be idle/helpless).</li>
+        <li>Additionally, even if enemies are not required to flank their target in order to perform a sneak attack, their target must still be flat-footed (i.e., the target must either be in combat with someone else or idle/helpless).</li>
       </ul>
       <p> <a id="contents_6280" name="contents_6280"></a><strong>Evasion Class Feat for Thieves and Monks [Luke]</strong> <a href="#contents_6280" rel=""><img alt="Link to this component" height="9" width="14" src="style/link.png" /></a><br />
         <em>EEex required; available for BGEE, BG2EE, IWDEE, EET</em></p>
@@ -2000,7 +1977,7 @@ div.quote {
       <ul>
         <li>A paladin may attempt to smite an evil aligned enemy with one special melee attack. The paladin adds his charisma bonus to the attack roll and adds 1 extra point of damage per class level.</li>
         <li>A blackguard may attempt to smite a good aligned enemy with one special melee attack. The blackguard adds his charisma bonus to the attack roll and adds 1 extra point of damage per class level.</li>
-        <li>Use: selected (available from level 1, +1 use per day per 5 levels).</li>
+        <li>Use: selected (available from level 1, +1 use per day per level).</li>
         <li>You cannot smite with your fists. The same holds for ranged weapons and magically created weapons.</li>
         <li>In case of dual-wielding, the character will always smite with the main hand weapon.</li>
         <li>On-hit effects of the weapon (if any) apply as normal.</li>
@@ -2215,7 +2192,7 @@ div.quote {
             <li> May perform sneak attacks as per an assassin of the same level (see <a href="https://gibberlings3.github.io/iesdp/files/2da/2da_bgee/sneakatt.htm"><code>sneakatt.2da</code></a>).
               <ul>
                 <li>Sneak attacks are limited to max one per round.</li>
-                <li>The targeted creature must be flat-footed (i.e., equipped with a ranged weapon/idle or helpless/in combat with someone else).</li>
+                <li>The targeted creature must be flat-footed (i.e., idle/helpless/in combat with someone else).</li>
               </ul>
             </li>
           </ul>
@@ -2327,9 +2304,112 @@ div.quote {
       <ul>
         <li>Use: selected, limited to beastmasters (starting from level 1).</li>
         <!-- <li>The animal companion will automatically teleport to his summoner if they are in different areas.</li> -->
-        <li>Both the animal companion and his master share the same racial enemy.</li>
-        <li> The animal companion will automatically level up along with his summoner. Note that it must not be level drained in order to level up. </li>
+        <!-- <li>Both the animal companion and his master share the same racial enemy.</li> -->
+        <li>All Animal Companions can clear the fog of war.</li>
+        <li>The animal companion will automatically level up along with his/her summoner. Note that it must not be level drained in order to level up.</li>
+        <li>You can toggle on/off its AI by toggling on/off Party AI.</li>
       </ul>
+
+      <p> <a id="contents_6350" name="contents_6350"></a><strong>Opportunist class feat for Rogues [Luke]</strong> <a href="#contents_6350" rel=""><img alt="Link to this component" height="9" width="14" src="style/link.png" /></a><br />
+        <em>EEex required; available for BGEE, BG2EE, IWDEE, EET</em></p>
+      <p> The rogue gains a +2 bonus to thac0 and damage when making attacks of opportunity.<br />
+        Use is automatic, but limited to Chaotic-Aligned rogues (available from level 1). </p>
+      <div class="quote">
+        <p> In this engine, Attacks of Opportunity occur when the attacker (rogue) is using a melee weapon (all but fists!) <b>and</b> the target is using a ranged weapon (or fists, but only if it is not a Monk!). </p>
+      </div>
+
+      <p> <strong>Metamagic class feat for Spellcasters [Luke]</strong><br />
+        <em><abbr title="Enhanced Edition">EEex</abbr></em></p>
+      <p> This component adds the NWN-ish class feat Metamagic to spellcasters (all but Bards, Sorcerers, and Shamans). </p>
+      <p>
+        As a spellcaster's knowledge of magic grows, she can learn to cast spells in ways slightly different from the ways in which the spells were originally designed or learned. Preparing and casting a spell in such a way is harder than normal but, thanks to metamagic feats, at least it is possible. Spells modified by a metamagic feat use a spell slot higher than normal.<br>
+        The modifications made by these feats only apply to spells cast directly by the feat user. A spellcaster cannot use a metamagic feat to alter a spell being cast from a wand, scroll, or other device.
+        Metamagic feats cannot be used with all spells.
+        Moreover, a spellcaster cannot apply more than one metamagic at a time to a spell.
+      </p>
+      <p>
+        Metamagic feats change some aspect of spells as they are cast, making them more effective or circumventing some restrictions.
+        <ul>
+          <li>
+            <em>Quicken Spell</em><br>
+            Quickened spells can be cast instantaneously, making them invulnerable to interruption.<br>
+            Quickened spells consume spell slots four levels higher than normal.
+            <ul>
+              <li>If you want to quicken a level <code>1</code> spell, all memorized spells of level <code>5</code> will be decremented by 1.</li>
+              <li>Wizard spells of level <code>6+</code> cannot be quickened.</li>
+              <li>Priest spells of level <code>4+</code> cannot be quickened.</li>
+            </ul>
+          </li>
+
+          <li>
+            <em>Empower Spell</em><br>
+            All variable, numeric effects of an empowered spell are increased by 50%. Empowerment does not increase spell duration.<br>
+            An empowered spell consumes a spell slot two levels higher than normal.
+            <ul>
+              <li>If you want to empower a level <code>1</code> spell, all memorized spells of level <code>3</code> will be decremented by 1.</li>
+              <li>Wizard spells of level <code>8+</code> cannot be empowered.</li>
+              <li>Priest spells of level <code>6+</code> cannot be empowered.</li>
+              <li>As a completely artificial example, an empowered Magic Missile will deal <code>1d6 + 1</code> (instead of <code>1d4 + 1</code> ) points of damage.</li>
+            </ul>
+          </li>
+
+          <li>
+            <em>Extend Spell</em><br>
+            Extended spells have their duration doubled, lasting twice as long as normal. Spells with a duration of instantaneous or permanent are not affected.<br>
+            An extended spell consumes a spell slot one level higher than normal.
+            <ul>
+              <li>If you want to extend a level <code>1</code> spell, all memorized spells of level <code>2</code> will be decremented by 1.</li>
+              <li>Wizard spells of level <code>9</code> cannot be extended.</li>
+              <li>Priest spells of level <code>7</code> cannot be extended.</li>
+              <li>As a completely artificial example, an extended Web will last for <code>2</code> turns (instead of <code>1</code>).</li>
+            </ul>
+          </li>
+
+          <li>
+            <em>Maximize Spell</em><br>
+            Maximized spells apply all variable numeric effects — including damage, number of targets, and so on — at their maximum values.<br>
+            A maximized spell consumes a spell slot three levels higher than normal.
+            <ul>
+              <li>If you want to maximize a level <code>1</code> spell, all memorized spells of level <code>4</code> will be decremented by 1.</li>
+              <li>Wizard spells of level <code>7+</code> cannot be maximized.</li>
+              <li>Priest spells of level <code>5+</code> cannot be maximized.</li>
+              <li>As a completely artificial example, a maximized Magic Missile will deal <code>5</code> (instead of <code>1d4 + 1</code> ) points of damage.</li>
+            </ul>
+          </li>
+
+          <li>
+            <em>Silent Spell</em><br>
+            Silent spells are cast without a verbal component (that is to say, they can be cast while silenced).<br>
+            A silenced spell occupies a spell slot one level higher than normal.
+            <ul>
+              <li>If you want to silence a level <code>1</code> spell, all memorized spells of level <code>2</code> will be decremented by 1.</li>
+              <li>Wizard spells of level <code>9</code> cannot be silenced.</li>
+              <li>Priest spells of level <code>7</code> cannot be silenced.</li>
+              <li>
+                NOTE: silenced spells are a little bit more difficult to disrupt. The exact formula is:<br>
+                <code>1d20 + damageTaken > spellLevel + conBonus + luck</code>, where <code>conBonus = &#8970 (Constitution - 10) / 2 &#8971</code>.
+              </li>
+            </ul>
+          </li>
+
+          <li>
+            <em>Still Spell</em><br>
+            Still spells are cast without a somatic component. Any penalties incurred from casting in armor do not apply to a spell prepared with this feat.<br>
+            A stilled spell occupies a spell slot one level higher than normal.
+            <ul>
+              <li>If you want to still a level <code>1</code> spell, all memorized spells of level <code>2</code> will be decremented by 1.</li>
+              <li>Wizard spells of level <code>9</code> cannot be stilled.</li>
+              <li>Priest spells of level <code>7</code> cannot be stilled.</li>
+            </ul>
+          </li>
+        </ul>
+        Notes:
+        <ul>
+          <li>Self-buffs (Blur, Mirror Image, Stoneskin, and the like) cannot be modified.</li>
+          <li>Usage: The metamagic feats can be accessed via the Special Ability button (<code>F12</code>). Once selected, the next spell cast will be modified accordingly.</li>
+        </ul>
+      </p>
+
     </div>
     <div class="ribbon_rectangle_h2"> <a id="Contact" name="Contact"></a>
       <h2> Contact Information <a href="#Contact" rel=""><img alt="Link to this section" height="9" width="14" src="style/link.png" /></a></h2>
@@ -2409,8 +2489,8 @@ div.quote {
         <li>Updated the Russian, French, Spanish, Italian, and Chinese translations</li>
         <li>Version 17 is the largest expansion of the Anthology.
           <ul>
-            <li>Luke leveraged the expanded possibilities of EEex on the EEs, creating an entire new section of the mod, <a href="file:///D:/docs/IE Mod Packaging/Tweaks-Anthology/cdtweaks/readme-cdtweaks.html#contents_feats">NWN-Style Feats</a>: <strong>Disarm Class Feat for Rogues</strong>, <strong>Knockdown Class Feat for Fighters and Monks</strong>, <strong>Spellcaster Skill/Counterspell Class Talent</strong>, <strong>Spontaneous Casting for Clerics, Weapon Finesse Class Feat for Thieves, Dual-Wield Class Feat for Rangers, NWN-ish Armor vs. Dexterity, Defensive Roll Class Feat for Thieves, Divine Grace/Dark Blessing Feat for Paladins/Blackguards, Good Aim Racial Feat for Halflings, Cleave Class Feat for Fighters, Sneak Attack Class Feat for Blackguards, Fearless Racial Feat for Halflings, Poison Save Class Feat for Assassins, Planar Turning Class Feat for Clerics/Paladins, Circle Kick Class Feat for Monks, NWN-ish Barbarian Rage, &quot;Force&quot; the Archer Kit to Use Bows, Blind Fight Innate Feat for Berserkers, Dirty Fighting Class Feat for Chaotic-Aligned Rogues, Overwhelming/Devastating Critical Class Feat for Trueclass Fighters, Self Concealment Class Feat for Monks, Parry Mode Kit Feat for Blades and Swashbucklers, Armored Caster Class Feat for Bards, Trackless Step Class Feat for Rangers, Nature Sense Class Feat for Druids, Uncanny Dodge Class Feat for Barbarians and Rogues, NWN-ish Sneak Attack/Crippling Strike Class Feat for Thieves and Stalkers, </strong><strong>Evasion Class Feat for Thieves and Monks</strong>, <strong>Spell Penetration Class Feat for Spellcasters</strong>, <strong>Smite Evil/Good Class Feat for Paladins/Blackguards</strong>, <strong>Woodland Stride Class Feat for Druids</strong>, <strong>Bane of Enemies Class Feat for Rangers</strong>, <strong>Cantrips for Spellcasters</strong>, and <strong>Animal Companion Class Feat for Beastmasters</strong></li>
-            <li>In addition to the massive expansion above, Luke also contributed <strong>PnP Potions, More Sensible Cowled Wizards, Hide Visual Effects from Invisible Enemies, More Stoneskin Feedback,</strong> <strong>Improved Cure/Cause Wounds</strong>, <strong>Make Grease Ignitable</strong>, <strong>Make Bears and Boars Continue Fighting after Reaching 0 Hit Points</strong>, <strong>Limit Resting Mechanic</strong>, <strong>Make Infravision Useful</strong>, <strong>Alternate Concentration Checks</strong>, <strong>Revised Troll Regeneration</strong>, <strong>Extra Dispel Feedback</strong>, <strong>More Sensible Fireshield</strong>, <strong>More Sensible Blade Barrier</strong>, <strong>Dynamic FPS Change</strong>, and <strong>Make Rancor +1 a Bit More Reliable. </strong></li>
+            <li>Luke leveraged the expanded possibilities of EEex on the EEs, creating an entire new section of the mod, <a href="file:///D:/docs/IE Mod Packaging/Tweaks-Anthology/cdtweaks/readme-cdtweaks.html#contents_feats">NWN-Style Feats</a>: <strong>Disarm Class Feat for Rogues</strong>, <strong>Knockdown Class Feat for Fighters and Monks</strong>, <strong>Spellcaster Skill/Counterspell Class Talent</strong>, <strong>Spontaneous Casting for Clerics, Weapon Finesse Class Feat for Thieves, Dual-Wield Class Feat for Rangers, NWN-style Armor vs. Dexterity, Defensive Roll Class Feat for Thieves, Divine Grace/Dark Blessing Feat for Paladins/Blackguards, Good Aim Racial Feat for Halflings, Cleave Class Feat for Fighters, Sneak Attack Class Feat for Blackguards, Fearless Racial Feat for Halflings, Poison Save Class Feat for Assassins, Planar Turning Class Feat for Clerics/Paladins, Circle Kick Class Feat for Monks, NWN-style Barbarian Rage, &quot;Force&quot; the Archer Kit to Use Bows, Blind Fight Innate Feat for Berserkers, Dirty Fighting Class Feat for Chaotic-Aligned Rogues, Overwhelming/Devastating Critical Class Feat for Trueclass Fighters, Self Concealment Class Feat for Monks, Parry Mode Kit Feat for Blades and Swashbucklers, Armored Caster Class Feat for Bards, Trackless Step Class Feat for Rangers, Nature Sense Class Feat for Druids, Uncanny Dodge Class Feat for Barbarians and Rogues, NWN-style Sneak Attack/Crippling Strike Class Feat for Thieves and Stalkers, </strong><strong>Evasion Class Feat for Thieves and Monks</strong>, <strong>Spell Penetration Class Feat for Spellcasters</strong>, <strong>Smite Evil/Good Class Feat for Paladins/Blackguards</strong>, <strong>Woodland Stride Class Feat for Druids</strong>, <strong>Bane of Enemies Class Feat for Rangers</strong>, <strong>Cantrips for Spellcasters</strong>, <strong>Animal Companion Class Feat for Beastmasters</strong>, and <strong>Opportunist Class Feat for Chaotic-Aligned Rogues</strong>.</li>
+            <li>In addition to the massive expansion above, Luke also contributed <strong>PnP Potions, More Sensible Cowled Wizards, Hide Visual Effects from Invisible Enemies, More Stoneskin Feedback,</strong> <strong>Improved Cure/Cause Wounds</strong>, <strong>Make Grease Ignitable</strong>, <strong>Make Bears and Boars Continue Fighting after Reaching 0 Hit Points</strong>, <strong>Limit Resting Mechanic</strong>, <strong>Make Infravision Useful</strong>, <strong>Alternate Concentration Checks</strong>, <strong>Revised Troll Regeneration</strong>, <strong>Extra Dispel Feedback</strong>, <strong>More Sensible Fireshield</strong>, <strong>More Sensible Blade Barrier</strong>, <strong>Dynamic FPS Change</strong>, <strong>More Sensible Morentherene</strong>, <strong>NWN-Style Summons</strong>, and <strong>Make Rancor +1 a Bit More Reliable. </strong></li>
             <li>argent77  added <strong>Automatic &quot;Chapter Saves&quot; in PsT:EE, Restored Loading Hints,</strong> <strong>Automatic Transition to the Heart of Winter Expansion</strong>, <strong>Static PsT Character Portraits</strong>, and <strong>Colorize NPC Names and Tooltips</strong></li>
             <li> CamDawg added <strong>Sensible Regeneration When Traveling</strong>, <strong>Automatic Use of Ranger Tracking Skill</strong>, <strong>Outline White Spell Icons for Accessibility</strong>, <strong>Explicit Cast Warnings, </strong> and <strong>Karoug Weapon Vulnerability Adjustments</strong></li>
           </ul>

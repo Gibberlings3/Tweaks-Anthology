@@ -14,7 +14,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- internal function that applies the actual feat
 	local apply = function()
 		-- Mark the creature as 'feat applied'
-		sprite:setLocalInt("gtBardArmoredCaster", 1)
+		sprite:setLocalInt("gtNWNArmoredCaster", 1)
 		--
 		local effectCodes = {
 			{["op"] = 321}, -- Remove effects by resource
@@ -37,7 +37,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- CLASS=BARD
 	local applyAbility = spriteClassStr == "BARD"
 	--
-	if sprite:getLocalInt("gtBardArmoredCaster") == 0 then
+	if sprite:getLocalInt("gtNWNArmoredCaster") == 0 then
 		if applyAbility then
 			apply()
 		end
@@ -46,7 +46,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			-- Do nothing
 		else
 			-- Mark the creature as 'feat removed'
-			sprite:setLocalInt("gtBardArmoredCaster", 0)
+			sprite:setLocalInt("gtNWNArmoredCaster", 0)
 			--
 			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource
@@ -66,7 +66,7 @@ function %BARD_ARMORED_CASTER%(op403CGameEffect, CGameEffect, CGameSprite)
 		local pHeader = EEex_Resource_Demand(CGameEffect.m_sourceRes:get(), "itm") -- Item_Header_st
 		--
 		if pHeader then
-			local armorTypeStr = GT_Resource_IDSToSymbol["itemcat"][pHeader.itemType]
+			local armorTypeStr = EEex_Resource_ItemCategoryIDSToSymbol(pHeader.itemType)
 			local armorAnimation = EEex_CastUD(pHeader.animationType, "CResRef"):get()
 			--
 			if armorTypeStr == "ARMOR" and armorAnimation == "2A" then
