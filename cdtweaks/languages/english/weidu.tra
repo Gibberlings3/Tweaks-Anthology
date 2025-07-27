@@ -332,6 +332,7 @@ The uninstall messages above are normal and expected.
 @209001 = ~Remove experience cap~
 @209100 = ~Level 20 experience point cap~
 @209200 = ~Level 30 experience point cap~
+@209500 = ~Yoshi->Imoen, Experience Transfer~
 
 @210000 = ~Allow Thieving and Stealth in Heavy Armor per PnP~
 
