@@ -1792,7 +1792,6 @@ REQUIRE_PREDICATE NOT GAME_IS ~bgee bg1 totsc tutu tutu_totsc iwdee iwd how totl
 SUBCOMPONENT @209000 // change xp cap
 LABEL ~cd_tweaks_cap_xp_at_l30~
 
-
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -1801,7 +1800,7 @@ LABEL ~cd_tweaks_cap_xp_at_l30~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-BEGIN @209500 DESIGNATED 2095
+BEGIN @271000 DESIGNATED 2710
 GROUP @9
 REQUIRE_PREDICATE GAME_IS ~bg2ee eet soa tob bgt~ @25
 LABEL ~cd_tweaks_yoshi_imoen_xp_transfer~
