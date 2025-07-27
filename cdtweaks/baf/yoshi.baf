@@ -1,0 +1,138 @@
+IF
+  Global("yoshimo_killed_spellhold","GLOBAL",1)
+  XPLT(Myself,750000)
+  Global("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",3)
+END
+
+IF
+  Global("yoshimo_killed_spellhold","GLOBAL",1)
+  XPGT(Myself,750000)
+  XPLT(Myself,1000000)
+  Global("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",4)
+END
+
+IF
+  Global("yoshimo_killed_spellhold","GLOBAL",1)
+  XPGT(Myself,1000000)
+  XPLT(Myself,1250000)
+  Global("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",5)
+END
+
+IF
+  Global("yoshimo_killed_spellhold","GLOBAL",1)
+  XPGT(Myself,1250000)
+  XPLT(Myself,1500000)
+  Global("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",6)
+END
+
+IF
+  Global("yoshimo_killed_spellhold","GLOBAL",1)
+  XPGT(Myself,1500000)
+  XPLT(Myself,1750000)
+  Global("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",7)
+END
+
+IF
+  Global("yoshimo_killed_spellhold","GLOBAL",1)
+  XPGT(Myself,1750000)
+  XPLT(Myself,2000000)
+  Global("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",8)
+END
+
+IF
+  Global("yoshimo_killed_spellhold","GLOBAL",1)
+  XPGT(Myself,2000000)
+  XPLT(Myself,2250000)
+  Global("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",9)
+END
+
+IF
+  Global("yoshimo_killed_spellhold","GLOBAL",1)
+  XPGT(Myself,2250000)
+  XPLT(Myself,2500000)
+  Global("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",10)
+END
+
+IF
+  Global("yoshimo_killed_spellhold","GLOBAL",1)
+  XPGT(Myself,2500000)
+  XPLT(Myself,2750000)
+  Global("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",11)
+END
+
+IF
+  Global("yoshimo_killed_spellhold","GLOBAL",1)
+  XPGT(Myself,2750000)
+  XPLT(Myself,3000000)
+  Global("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",12)
+END
+
+IF
+  Global("yoshimo_killed_spellhold","GLOBAL",1)
+  XPGT(Myself,3000000)
+  XPLT(Myself,3250000)
+  Global("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",13)
+END
+
+IF
+  Global("yoshimo_killed_spellhold","GLOBAL",1)
+  XPGT(Myself,3250000)
+  XPLT(Myself,3500000)
+  Global("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",14)
+END
+
+IF
+  Global("yoshimo_killed_spellhold","GLOBAL",1)
+  XPGT(Myself,3500000)
+  XPLT(Myself,3750000)
+  Global("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",15)
+END
+
+IF
+  Global("yoshimo_killed_spellhold","GLOBAL",1)
+  XPGT(Myself,3750000)
+  XPLT(Myself,4000000)
+  Global("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",16)
+END

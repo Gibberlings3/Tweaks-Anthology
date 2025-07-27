@@ -1,0 +1,194 @@
+IF
+	Global("BD_JOINXP","LOCALS",1)
+	Global("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",3)
+	XPLT(Myself,750000)
+	Global("CD_JOINXP","LOCALS",0)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobal("CD_JOINXP","LOCALS",1)
+		ChangeStat(Myself,XP,750000,SET)
+		SetInterrupt(TRUE)
+END
+
+IF
+	Global("BD_JOINXP","LOCALS",1)
+	Global("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",4)
+	XPGT(Myself,750000)
+	XPLT(Myself,1000000)
+	Global("CD_JOINXP","LOCALS",0)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobal("CD_JOINXP","LOCALS",1)
+		ChangeStat(Myself,XP,1000000,SET)
+		SetInterrupt(TRUE)
+END
+
+IF
+	Global("BD_JOINXP","LOCALS",1)
+	Global("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",5)
+	XPGT(Myself,1000000)
+	XPLT(Myself,1250000)
+	Global("CD_JOINXP","LOCALS",0)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobal("CD_JOINXP","LOCALS",1)
+		ChangeStat(Myself,XP,1250000,SET)
+		SetInterrupt(TRUE)
+END
+
+IF
+	Global("BD_JOINXP","LOCALS",1)
+	Global("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",6)
+	XPGT(Myself,1250000)
+	XPLT(Myself,1500000)
+	Global("CD_JOINXP","LOCALS",0)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobal("CD_JOINXP","LOCALS",1)
+		ChangeStat(Myself,XP,1500000,SET)
+		SetInterrupt(TRUE)
+END
+
+IF
+	Global("BD_JOINXP","LOCALS",1)
+	Global("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",7)
+	XPGT(Myself,1500000)
+	XPLT(Myself,1750000)
+	Global("CD_JOINXP","LOCALS",0)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobal("CD_JOINXP","LOCALS",1)
+		ChangeStat(Myself,XP,1750000,SET)
+		SetInterrupt(TRUE)
+END
+
+IF
+	Global("BD_JOINXP","LOCALS",1)
+	Global("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",8)
+	XPGT(Myself,1750000)
+	XPLT(Myself,2000000)
+	Global("CD_JOINXP","LOCALS",0)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobal("CD_JOINXP","LOCALS",1)
+		ChangeStat(Myself,XP,2000000,SET)
+		SetInterrupt(TRUE)
+END
+
+IF
+	Global("BD_JOINXP","LOCALS",1)
+	Global("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",9)
+	XPGT(Myself,2000000)
+	XPLT(Myself,2250000)
+	Global("CD_JOINXP","LOCALS",0)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobal("CD_JOINXP","LOCALS",1)
+		ChangeStat(Myself,XP,2250000,SET)
+		SetInterrupt(TRUE)
+END
+
+IF
+	Global("BD_JOINXP","LOCALS",1)
+	Global("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",10)
+	XPGT(Myself,2250000)
+	XPLT(Myself,2500000)
+	Global("CD_JOINXP","LOCALS",0)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobal("CD_JOINXP","LOCALS",1)
+		ChangeStat(Myself,XP,2500000,SET)
+		SetInterrupt(TRUE)
+END
+
+IF
+	Global("BD_JOINXP","LOCALS",1)
+	Global("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",11)
+	XPGT(Myself,2500000)
+	XPLT(Myself,2750000)
+	Global("CD_JOINXP","LOCALS",0)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobal("CD_JOINXP","LOCALS",1)
+		ChangeStat(Myself,XP,2750000,SET)
+		SetInterrupt(TRUE)
+END
+
+IF
+	Global("BD_JOINXP","LOCALS",1)
+	Global("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",12)
+	XPGT(Myself,2750000)
+	XPLT(Myself,3000000)
+	Global("CD_JOINXP","LOCALS",0)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobal("CD_JOINXP","LOCALS",1)
+		ChangeStat(Myself,XP,3000000,SET)
+		SetInterrupt(TRUE)
+END
+
+IF
+	Global("BD_JOINXP","LOCALS",1)
+	Global("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",13)
+	XPGT(Myself,3000000)
+	XPLT(Myself,3250000)
+	Global("CD_JOINXP","LOCALS",0)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobal("CD_JOINXP","LOCALS",1)
+		ChangeStat(Myself,XP,3250000,SET)
+		SetInterrupt(TRUE)
+END
+
+IF
+	Global("BD_JOINXP","LOCALS",1)
+	Global("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",14)
+	XPGT(Myself,3250000)
+	XPLT(Myself,3500000)
+	Global("CD_JOINXP","LOCALS",0)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobal("CD_JOINXP","LOCALS",1)
+		ChangeStat(Myself,XP,3500000,SET)
+		SetInterrupt(TRUE)
+END
+
+IF
+	Global("BD_JOINXP","LOCALS",1)
+	Global("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",15)
+	XPGT(Myself,3500000)
+	XPLT(Myself,3750000)
+	Global("CD_JOINXP","LOCALS",0)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobal("CD_JOINXP","LOCALS",1)
+		ChangeStat(Myself,XP,3750000,SET)
+		SetInterrupt(TRUE)
+END
+
+IF
+	Global("BD_JOINXP","LOCALS",1)
+	Global("CD_YOSHI_IMOEN_TRANSFER","GLOBAL",16)
+	XPGT(Myself,3750000)
+	XPLT(Myself,4000000)
+	Global("CD_JOINXP","LOCALS",0)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobal("CD_JOINXP","LOCALS",1)
+		ChangeStat(Myself,XP,4000000,SET)
+		SetInterrupt(TRUE)
+END

@@ -1792,6 +1792,20 @@ REQUIRE_PREDICATE NOT GAME_IS ~bgee bg1 totsc tutu tutu_totsc iwdee iwd how totl
 SUBCOMPONENT @209000 // change xp cap
 LABEL ~cd_tweaks_cap_xp_at_l30~
 
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Yoshi-Imoen: Experience Transfer                 \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @209500 DESIGNATED 2095
+GROUP @9
+REQUIRE_PREDICATE GAME_IS ~bg2ee eet soa tob bgt~ @25
+LABEL ~cd_tweaks_yoshi_imoen_xp_transfer~
+
 /*
 neat idea inspired by similar components in EET, but unworkable for dual-classes
 
@@ -1821,6 +1835,7 @@ GROUP @9
 REQUIRE_PREDICATE GAME_IS ~bgt~ @25
 LABEL ~cd_tweaks_bgt_xp_cap_in_soa~
 */
+
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
