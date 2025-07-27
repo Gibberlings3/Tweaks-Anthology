@@ -754,6 +754,18 @@ Use Baldur.lua options: a7_interval_ini
 
 @347000 = ~Dynamic FPS Change [Luke (EEex)]~
 
+@348000 = ~Better Start~
+@348001 = ~Better Start Player1 at 300k~
+@348002 = ~Can not install 500k better start as well as this.~
+@348100 = ~Better Start Player1 at 500k~
+@348101 = ~Can not install 300k better start as well as this.~
+@348200 = ~Better Start Add all BG1 Tomes~
+@348300 = ~Better Start Add Golden Pantaloons~
+@348400 = ~Better Start Add Drizzt Items~
+@348500 = ~Better Start Balduran Cloak~
+@348900 = ~Better Start All Components Enabled~
+@348901 = ~This mod installs all better start components, it can't be installed with other components of the same group~
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\

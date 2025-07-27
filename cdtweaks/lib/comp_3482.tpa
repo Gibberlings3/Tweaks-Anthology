@@ -1,0 +1,5 @@
+/////                                                            \\\\\
+///// Tomes                                                      \\\\\
+/////                                                            \\\\\
+
+EXTEND_BOTTOM ~AR0602.BCS~ ~%MOD_FOLDER%/baf/start_tomes.baf~

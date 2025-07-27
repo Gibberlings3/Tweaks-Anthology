@@ -1,0 +1,14 @@
+
+IF
+  Global("NewGame","AR0602",1)
+  Global("TakeImportItems","AR0602",1)
+  Global("CD_BETTER_START_DRIZZT","GLOBAL", 0)
+THEN
+  RESPONSE #100
+    ActionOverride("Table1",CreateItem("CHAN06",0,0,0))
+    ActionOverride("Table1",CreateItem("SW1H15",0,0,0))
+    ActionOverride("Table1",CreateItem("SW1H16",0,0,0))
+    SetGlobal("CD_BETTER_START_DRIZZT","GLOBAL",1)
+    SetGlobal("BG1DrizztItem","GLOBAL",1)
+    Continue()
+END
