@@ -83,9 +83,10 @@ ACTION_IF !game_is_totsc THEN BEGIN
 
   COPY_EXISTING ~endch4.bcs~ ~override~
     DECOMPILE_AND_PATCH BEGIN
+      SPRINT replace ~~
       PATCH_IF tutu_gen BEGIN
         PATCH_FOR_EACH string IN 78162 85754 85767 80561 80565 86317 86297 85810 85824 85868 BEGIN
-          REPLACE_TEXTUALLY ~\(IncrementChapter(\)~ ~EraseJournalEntry(%string%) \1~
+          SPRINT replace ~%replace% EraseJournalEntry(%string%)~
         END
       END ELSE
       PATCH_IF game_is_bgt BEGIN
@@ -95,19 +96,15 @@ ACTION_IF !game_is_totsc THEN BEGIN
           74977 74978 74979 74980 74981 74982 74983 74984 74985 74986 74987 74988 74989
           74990 74991 74992 74993 74994 74995 74773 74775 74777 74996 74997 74784
         BEGIN
-          REPLACE_TEXTUALLY ~\(IncrementChapter(\)~ ~EraseJournalEntry(%string%) \1~
+          SPRINT replace ~%replace% EraseJournalEntry(%string%)~
         END
-      END ELSE
-      PATCH_IF game_is_bgee BEGIN
-        PATCH_FOR_EACH string IN 27047 27046 27060 27059 26829 27455 27173 BEGIN
-          REPLACE_TEXTUALLY ~\(IncrementChapter(\)~ ~EraseJournalEntry(%string%) \1~
-        END
-      END ELSE
-      PATCH_IF game_is_eet BEGIN
-        PATCH_FOR_EACH string IN 227047 227046 227060 227059 226829 227455 227173 BEGIN
-          REPLACE_TEXTUALLY ~\(IncrementChapter(\)~ ~EraseJournalEntry(%string%) \1~
+      END ELSE BEGIN // bgee, eet
+        PATCH_FOR_EACH string IN 27470 27047 27046 27060 27059 26829 27455 27173 BEGIN
+          PATCH_IF game_is_eet BEGIN SET string += 200000 END 
+          SPRINT replace ~%replace% EraseJournalEntry(%string%)~
         END
       END
+      REPLACE_TEXTUALLY ~\(IncrementChapter(\)~ ~%replace% \1~
     END
     BUT_ONLY
 
