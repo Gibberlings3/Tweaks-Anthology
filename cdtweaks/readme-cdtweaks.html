@@ -247,6 +247,7 @@ div.quote {
       <p> <a id="contents_260" name="contents_260"></a><strong>Hide Visual Effects from Invisible Enemies [Luke]</strong> <a href="#contents_260" rel=""><img alt="Link to this component" height="9" width="14" src="style/link.png" /></a><br />
         <em>EEex required; available for BGEE, BG2EE, IWDEE, EET</em></p>
       <p>This component simply makes sure that visual effects are hidden from invisible enemies. The player will no longer be able to &quot;see&quot; invisible mages just because they previously cast something like Fireshield or Globe of Invulnerability.</p>
+      <p>Note: it does not (intentionally) hide Entangle, Web, and Grease visual overlays.</p>
       <p> <a id="contents_270" name="contents_270"></a><a id="contents_271" name="contents_271"></a><strong>Static PsT Character Portraits [argent77]</strong> <a href="#contents_270" rel=""><img alt="Link to this component" height="9" width="14" src="style/link.png" /></a><br />
         <em><abbr title="Planescape: Torment">PsT</abbr>, <abbr title="Planescape: Torment: Enhanced Edition">PsTEE</abbr></em></p>
       <p>In contrast to Baldur's Gate and Icewind Dale, Planescape: Torment uses animated character portraits to represent current party members. This component turns the character portraits into still images. Two options are available:</p>
@@ -1511,11 +1512,11 @@ div.quote {
             <li>Large: bastard swords, katanas, halberds, staves, two-handed swords, spears, flails.</li>
             <li> Some examples:
               <ul>
-                <li>if the attacker is wielding a dagger and the defender is wielding a katana, the saving throw penalty is -4 (i.e., it's harder to succeed).</li>
-                <li>if the attacker is wielding a katana and the defender is wielding a dagger, the saving throw penalty is +4 (i.e., it's easier to succeed).</li>
-                <li>if the attacker is wielding a dagger and the defender is wielding a short bow, the saving throw penalty is -2 (i.e., it's harder to succeed).</li>
-                <li>if the attacker is wielding a scimitar and the defender is wielding a dagger, the saving throw penalty is +2 (i.e., it's easier to succeed).</li>
-                <li>if the attacker is wielding a katana and the defender is wielding a katana, the saving throw penalty is 0 (i.e., neutral).</li>
+                <li>if the attacker is wielding a dagger and the defender is wielding a katana, the size modifier is -4 (i.e., it's harder to succeed).</li>
+                <li>if the attacker is wielding a katana and the defender is wielding a dagger, the size modifier is +4 (i.e., it's easier to succeed).</li>
+                <li>if the attacker is wielding a dagger and the defender is wielding a short bow, the size modifier is -2 (i.e., it's harder to succeed).</li>
+                <li>if the attacker is wielding a scimitar and the defender is wielding a dagger, the size modifier is +2 (i.e., it's easier to succeed).</li>
+                <li>if the attacker is wielding a katana and the defender is wielding a katana, the size modifier is 0 (i.e., neutral).</li>
               </ul>
             </li>
           </ul>
@@ -1626,7 +1627,7 @@ div.quote {
       <ul>
         <li>This feat is only available to thieves (level 10) and shadowdancers (level 5).</li>
         <li>A &quot;potentially lethal blow&quot; refers to a standard attack with a weapon that would, if not for this feat, reduce the target below one hit point with just its physical damage.</li>
-        <li>Use: automatic, but limited to one use per day. Incapacitated characters cannot make a defensive roll.</li>
+        <li>Use: automatic, but limited to one use per 8 in-game hours. Incapacitated characters cannot make a defensive roll.</li>
       </ul>
       <p> <a id="contents_6080" name="contents_6080"></a><strong>Divine Grace/Dark Blessing Feat for Paladins/Blackguards [Luke]</strong> <a href="#contents_6080" rel=""><img alt="Link to this component" height="9" width="14" src="style/link.png" /></a><br />
         <em>EEex required; available for BGEE, BG2EE, IWDEE, EET</em></p>
@@ -1697,10 +1698,10 @@ div.quote {
       <p> <a id="contents_6090" name="contents_6090"></a><strong>Good Aim Racial Feat for Halflings [Luke]</strong> <a href="#contents_6090" rel=""><img alt="Link to this component" height="9" width="14" src="style/link.png" /></a><br />
         <em>EEex required; available for BGEE, BG2EE, IWDEE, EET</em></p>
       <p>This passive feat grants halflings a +1 THAC0 bonus with throwing weapons (i.e. throwing daggers, throwing axes, throwing hammers, darts).</p>
-      <p> <a id="contents_6100" name="contents_6100"></a><strong>Cleave Class Feat for Fighters [Luke]</strong> <a href="#contents_6100" rel=""><img alt="Link to this component" height="9" width="14" src="style/link.png" /></a><br />
+      <p> <a id="contents_6100" name="contents_6100"></a><strong>Cleave Class Feat for Fighters and Monks [Luke]</strong> <a href="#contents_6100" rel=""><img alt="Link to this component" height="9" width="14" src="style/link.png" /></a><br />
         <em>EEex required; available for BGEE, BG2EE, IWDEE, EET</em></p>
       <p> This component aims at implementing the NWN feat Cleave.
-        If the character kills an opponent, he gets a free attack against any opponent who is within melee weapon range. Use is automatic, but only available to fighters.</p>
+        If the character kills an opponent, he gets a free attack against any opponent who is within melee weapon range. Use is automatic, but only available to fighters and monks.</p>
       <p> <a id="contents_6110" name="contents_6110"></a><strong>Sneak Attack Class Feat for Blackguards [Luke]</strong> <a href="#contents_6110" rel=""><img alt="Link to this component" height="9" width="14" src="style/link.png" /></a><br />
         <em>EEex required; available for BGEE, BG2EE, IWDEE, EET</em></p>
       <p> This component adds the passive feat Sneak Attack to blackguards.
@@ -1970,7 +1971,7 @@ div.quote {
         <li>Bards, paladins and rangers are not eligible for this feat.</li>
         <li>This feat has no effect on creatures whose Magic Resistance is 100+.</li>
         <li>The bonus is capped at 30.</li>
-        <li>This feat does not apply to innate spells (i.e., it does not "help" innate spells penetrate a creature's magic resistance).</li>
+        <li>This feat does not apply to innate spells (i.e., it does not "help" innate spells penetrate a creature's magic resistance, should they check for magic resistance).</li>
       </ul>
       <p> <a id="contents_6300" name="contents_6300"></a><strong>Smite Evil/Good class feat for Paladins/Blackguards [Luke]</strong> <a href="#contents_6300" rel=""><img alt="Link to this component" height="9" width="14" src="style/link.png" /></a><br />
         <em>EEex required; available for BGEE, BG2EE, IWDEE, EET</em></p>
@@ -2167,7 +2168,7 @@ div.quote {
             <li>Immunity to Web.</li>
             <li> Web Tangle (1 use per day, +1 every 5 levels).
               <ul>
-                <li>Targeted creature must save vs. Breath or be webbed for 2d6 rounds. Large creatures are unaffected.</li>
+                <li>Targeted creature must save vs. Breath or be webbed for 2d6 rounds. Large creatures, incorporeal creatures &c. are unaffected.</li>
               </ul>
             </li>
           </ul>
