@@ -317,6 +317,7 @@ end)
 		}
 		--
 		local originatingSprite = context["originatingSprite"] -- CGameSprite
+		local projectileTypeStr = GT_Resource_IDSToSymbol["missile"][context["projectileType"]] -- The projectile type about to be decoded
 		--
 		if not actionSources[context.decodeSource] then
 			return
@@ -324,7 +325,9 @@ end)
 		--
 		local selectedWeapon = GT_Sprite_GetSelectedWeapon(originatingSprite)
 		-- morph projectile
-		return selectedWeapon["ability"].missileType
+		if projectileTypeStr == "GT_Called_Shot" then
+			return selectedWeapon["ability"].missileType
+		end
 	end,
 
 	["projectileMutator"] = function(context)
@@ -332,25 +335,8 @@ end)
 			[EEex_Projectile_DecodeSource.CGameAIBase_FireSpell] = true,
 		}
 		--
-		local originatingSprite = context["originatingSprite"] -- CGameSprite
-		--
 		if not actionSources[context.decodeSource] then
 			return
-		end
-		--
-		local projectile = context["projectile"] -- CProjectile
-		--
-		if EEex_Projectile_IsOfType(projectile, EEex_Projectile_Type["CProjectileArea"]) then
-			originatingSprite.m_curAction.m_actionID = 0 -- nuke current action
-			--
-			originatingSprite:applyEffect({
-				["effectID"] = 139, -- display string
-				["effectAmount"] = %feedback_strref_AoE%,
-				["sourceID"] = originatingSprite.m_id,
-				["sourceTarget"] = originatingSprite.m_id,
-			})
-			--
-			--projectile:ClearEffects()
 		end
 	end,
 
@@ -364,12 +350,20 @@ end)
 		end
 		--
 		local effect = context["effect"] -- CGameEffect
-		--
 		local projectile = context["projectile"] -- CProjectile
+		local originatingSprite = context["originatingSprite"] -- CGameSprite
 		--
 		if EEex_Projectile_IsOfType(projectile, EEex_Projectile_Type["CProjectileArea"]) then
 			if effect.m_effectId == 402 then -- invoke lua
 				if effect.m_res:get() == "%ARCHER_CALLED_SHOT%" then
+					-- print warning
+					originatingSprite:applyEffect({
+						["effectID"] = 139, -- display string
+						["effectAmount"] = %feedback_strref_AoE%,
+						["sourceID"] = originatingSprite.m_id,
+						["sourceTarget"] = originatingSprite.m_id,
+					})
+					-- nuke 402
 					effect.m_effectAmount = 0
 				end
 			end

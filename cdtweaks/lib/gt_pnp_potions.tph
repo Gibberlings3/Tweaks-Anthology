@@ -61,11 +61,7 @@ BEGIN
 				WRITE_SHORT 0x204 (16 * 5) // trigger radius
 				WRITE_SHORT 0x206 (16 * 5) // explosion size
 			BUT_ONLY
-			ADD_PROJECTILE "override\gtfire05.pro"
-			//
-			COPY_EXISTING "missile.ids" "override"
-				REPLACE_TEXTUALLY CASE_INSENSITIVE EXACT_MATCH "gtfire05" "GT_Fireball_5_ft_Radius"
-			BUT_ONLY
+			ADD_PROJECTILE "override\gtfire05.pro" "GT_Fireball_5_ft_Radius"
 		END
 	END
 
@@ -166,9 +162,11 @@ BEGIN
 			ACTION_IF !(MOD_IS_INSTALLED "EEex.tp2" 0) BEGIN
 				CREATE "eff" "gtptn#02"
 				COPY_EXISTING "gtptn#02.eff" "override"
-					WRITE_LONG 0x10 182 // since this opcode is bugged, we abuse it in order to bypass op101
+					WRITE_LONG 0x10 177 // Use EFF file
 					WRITE_SHORT 0x2C 100 // probability upper
-					WRITE_ASCII 0x70 "gtptnslp" #8 // actual "*.eff" applying sleep
+					WRITE_LONG 0x20 2 // EA.ANYONE
+					WRITE_ASCII 0x30 "GTPTNSLP" #8 // actual "*.eff" applying sleep
+					WRITE_LONG 0x68 1 // https://github.com/Gibberlings3/iesdp/pull/193
 				BUT_ONLY
 				CREATE "eff" "gtptnslp"
 				COPY_EXISTING "gtptnslp.eff" "override"

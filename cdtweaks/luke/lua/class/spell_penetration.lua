@@ -115,6 +115,11 @@ end
 		if spellResRef == "" then
 			spellResRef = GT_Utility_DecodeSpell(originatingSprite.m_curAction.m_specificID)
 		end
+		local pHeader = EEex_Resource_Demand(spellResRef, "spl")
+		--
+		if not (pHeader.itemType == 1 or pHeader.itemType == 2) then
+			return
+		end
 		--
 		local projectile = context["projectile"] -- CProjectile
 		--

@@ -4,50 +4,6 @@
 +---------------------------------------------------------------------------------------+
 --]]
 
--- op408 listener --
-
-%FIGHTER_DEVASTATING_CRITICAL%P = {
-
-	["typeMutator"] = function(context)
-		local actionSources = {
-			[EEex_Projectile_DecodeSource.CGameAIBase_FireSpell] = true,
-		}
-		--
-		local originatingSprite = context["originatingSprite"] -- CGameSprite
-		local projectileTypeStr = GT_Resource_IDSToSymbol["missile"][context["projectileType"]] -- The projectile type about to be decoded
-		--
-		if not actionSources[context.decodeSource] then
-			return
-		end
-		--
-		local selectedWeapon = GT_Sprite_GetSelectedWeapon(originatingSprite)
-		-- morph projectile
-		if projectileTypeStr == "GT_Devastating_Critical" then
-			return selectedWeapon["ability"].missileType
-		end
-	end,
-
-	["projectileMutator"] = function(context)
-		local actionSources = {
-			[EEex_Projectile_DecodeSource.CGameAIBase_FireSpell] = true,
-		}
-		--
-		if not actionSources[context.decodeSource] then
-			return
-		end
-	end,
-
-	["effectMutator"] = function(context)
-		local actionSources = {
-			[EEex_Projectile_AddEffectSource.CGameAIBase_FireSpell] = true,
-		}
-		--
-		if not actionSources[context.addEffectSource] then
-			return
-		end
-	end,
-}
-
 -- op402 listener --
 
 function %FIGHTER_DEVASTATING_CRITICAL%(CGameEffect, CGameSprite)
@@ -157,24 +113,25 @@ EEex_Sprite_AddAlterBaseWeaponDamageListener(function(context)
 								["sourceID"] = attacker.m_id,
 								["sourceTarget"] = target.m_id,
 							})
-						else -- ranged: make sure to use the same projectile as the ammo
-							EEex_GameObject_ApplyEffect(attacker,
-							{
-								["effectID"] = 408, -- proj mutator
-								["duration"] = 1,
-								["durationType"] = 10,
-								["res"] = "%FIGHTER_DEVASTATING_CRITICAL%P",
-								["sourceID"] = attacker.m_id,
-								["sourceTarget"] = attacker.m_id,
-							})
-							EEex_GameObject_ApplyEffect(target,
-							{
-								["effectID"] = 146, -- Cast spl
-								["dwFlags"] = 1,
-								["res"] = "%FIGHTER_DEVASTATING_CRITICAL%",
-								["sourceID"] = attacker.m_id,
-								["sourceTarget"] = target.m_id,
-							})
+						else -- ranged
+							attacker.m_curProjectile:AddEffect(GT_Utility_DecodeEffect(
+								{
+									["effectID"] = 402, -- Invoke lua
+									["res"] = "%FIGHTER_DEVASTATING_CRITICAL%",
+									--
+									["sourceX"] = attacker.m_pos.x,
+									["sourceY"] = attacker.m_pos.y,
+									["targetX"] = target.m_pos.x,
+									["targetY"] = target.m_pos.y,
+									--
+									["m_projectileType"] = ability.missileType - 1,
+									["m_sourceRes"] = context.weapon.cResRef:get(),
+									["m_sourceType"] = 2,
+									--
+									["sourceID"] = attacker.m_id,
+									["sourceTarget"] = target.m_id,
+								}
+							))
 						end
 					else
 						GT_Sprite_DisplayMessage(attacker, Infinity_FetchString(%feedback_strref_overwhelming_crit_hit%))

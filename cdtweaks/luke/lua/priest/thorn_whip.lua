@@ -53,6 +53,9 @@ function %CLERIC_THORN_WHIP%(CGameEffect, CGameSprite)
 					["m_sourceType"] = CGameEffect.m_sourceType,
 					["sourceID"] = CGameEffect.m_sourceId,
 					["sourceTarget"] = CGameEffect.m_sourceTarget,
+					["m_school"] = CGameEffect.m_school,
+					["m_secondaryType"] = CGameEffect.m_secondaryType,
+					["m_projectileType"] = CGameEffect.m_projectileType,
 				})
 				CGameSprite:applyEffect({
 					["effectID"] = 39, -- sleep
@@ -63,6 +66,9 @@ function %CLERIC_THORN_WHIP%(CGameEffect, CGameSprite)
 					["m_sourceType"] = CGameEffect.m_sourceType,
 					["sourceID"] = CGameEffect.m_sourceId,
 					["sourceTarget"] = CGameEffect.m_sourceTarget,
+					["m_school"] = CGameEffect.m_school,
+					["m_secondaryType"] = CGameEffect.m_secondaryType,
+					["m_projectileType"] = CGameEffect.m_projectileType,
 				})
 			end
 		end

@@ -77,6 +77,13 @@ BEGIN
 	// Called Shot (bows only!): Split it into two (arms/legs)
 	WITH_SCOPE BEGIN
 		ACTION_TO_LOWER "ARCHER_CALLED_SHOT"
+		// Add dummy projectile for Called Shot (to be replaced by the currently selected ammo/launcher)
+		WITH_SCOPE BEGIN
+			ACTION_IF IDS_OF_SYMBOL ("missile" "GT_Called_Shot") == "-1" BEGIN
+				COPY "cdtweaks\luke\pro\called_shot.pro" "override\%ARCHER_CALLED_SHOT%p.pro"
+				ADD_PROJECTILE "override\%ARCHER_CALLED_SHOT%p.pro" "GT_Called_Shot"
+			END
+		END
 		// Arms
 		CREATE "spl" "%ARCHER_CALLED_SHOT%b"
 		COPY_EXISTING "%ARCHER_CALLED_SHOT%b.spl" "override"
@@ -97,6 +104,8 @@ BEGIN
 		COPY_EXISTING "%ARCHER_CALLED_SHOT%b.spl" "override\%ARCHER_CALLED_SHOT%d.spl"
 			WRITE_LONG NAME1 "-1"
 			//
+			LPF "ALTER_SPELL_HEADER" INT_VAR "projectile" = IDS_OF_SYMBOL ("missile" "GT_Called_Shot") END
+			//
 			LPF "ALTER_SPELL_EFFECT" INT_VAR "match_opcode" = 138 "target" = 2 "parameter2" = 4 END // SEQ_DAMAGE
 			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 "parameter1" = 1 STR_VAR "resource" = "%ARCHER_CALLED_SHOT%" END // invoke lua
 		BUT_ONLY
@@ -111,6 +120,8 @@ BEGIN
 		//
 		COPY_EXISTING "%ARCHER_CALLED_SHOT%c.spl" "override\%ARCHER_CALLED_SHOT%e.spl"
 			WRITE_LONG NAME1 "-1"
+			//
+			LPF "ALTER_SPELL_HEADER" INT_VAR "projectile" = IDS_OF_SYMBOL ("missile" "GT_Called_Shot") END
 			//
 			LPF "ALTER_SPELL_EFFECT" INT_VAR "match_opcode" = 138 "target" = 2 "parameter2" = 4 END // SEQ_DAMAGE
 			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 "parameter1" = 2 STR_VAR "resource" = "%ARCHER_CALLED_SHOT%" END // invoke lua
