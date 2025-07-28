@@ -4594,31 +4594,31 @@ LABEL ~cd_tweaks_casting_warnings_all~
 ///// 300k EXP                                                   \\\\\
 /////                                                            \\\\\
 
-BEGIN @348001 DESIGNATED 3480
+BEGIN @349001 DESIGNATED 3490
 GROUP @4
-SUBCOMPONENT @348000
+SUBCOMPONENT @349000
 REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ @25
-REQUIRE_PREDICATE !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3481~ @348001
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3491~ @349001
 LABEL ~cd_tweaks_better_bg2ee_start_300k~
 
 /////                                                            \\\\\
 ///// 500k EXP                                                   \\\\\
 /////                                                            \\\\\
 
-BEGIN @348100 DESIGNATED 3481
+BEGIN @349100 DESIGNATED 3491
 GROUP @4
-SUBCOMPONENT @348000
+SUBCOMPONENT @349000
 REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ @25
-REQUIRE_PREDICATE !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3480~ @348101
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3490~ @349101
 LABEL ~cd_tweaks_better_bg2ee_start_500k~
 
 /////                                                            \\\\\
 ///// Tomes                                                      \\\\\
 /////                                                            \\\\\
 
-BEGIN @348200 DESIGNATED 3482
+BEGIN @349200 DESIGNATED 3492
 GROUP @4
-SUBCOMPONENT @348000
+SUBCOMPONENT @349000
 REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ @25
 LABEL ~cd_tweaks_better_bg2ee_start_tomes~
 
@@ -4626,9 +4626,9 @@ LABEL ~cd_tweaks_better_bg2ee_start_tomes~
 ///// Pantaloons                                                 \\\\\
 /////                                                            \\\\\
 
-BEGIN @348300 DESIGNATED 3483
+BEGIN @349300 DESIGNATED 3493
 GROUP @4
-SUBCOMPONENT @348000
+SUBCOMPONENT @349000
 REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ @25
 LABEL ~cd_tweaks_better_bg2ee_start_pantaloons~
 
@@ -4636,9 +4636,9 @@ LABEL ~cd_tweaks_better_bg2ee_start_pantaloons~
 ///// Drizzit                                                    \\\\\
 /////                                                            \\\\\
 
-BEGIN @348400 DESIGNATED 3484
+BEGIN @349400 DESIGNATED 3494
 GROUP @4
-SUBCOMPONENT @348000
+SUBCOMPONENT @349000
 REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ @25
 LABEL ~cd_tweaks_better_bg2ee_start_drizzt~
 
@@ -4646,9 +4646,9 @@ LABEL ~cd_tweaks_better_bg2ee_start_drizzt~
 ///// Balduran Cloak                                             \\\\\
 /////                                                            \\\\\
 
-BEGIN @348500 DESIGNATED 3485
+BEGIN @349500 DESIGNATED 3495
 GROUP @4
-SUBCOMPONENT @348000
+SUBCOMPONENT @349000
 REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ @25
 LABEL ~cd_tweaks_better_bg2ee_start_balduran~
 
@@ -4656,16 +4656,16 @@ LABEL ~cd_tweaks_better_bg2ee_start_balduran~
 ///// All Components Enabled                                     \\\\\
 /////                                                            \\\\\
 
-BEGIN @348900 DESIGNATED 3489
+BEGIN @349900 DESIGNATED 3499
 GROUP @4
-SUBCOMPONENT @348000
+SUBCOMPONENT @349000
 REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ @25
-REQUIRE_PREDICATE !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3480~ @348901
-REQUIRE_PREDICATE !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3481~ @348901
-REQUIRE_PREDICATE !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3482~ @348901
-REQUIRE_PREDICATE !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3483~ @348901
-REQUIRE_PREDICATE !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3484~ @348901
-REQUIRE_PREDICATE !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3485~ @348901
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3490~ @349901
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3491~ @349901
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3492~ @349901
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3493~ @349901
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3494~ @349901
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3495~ @349901
 LABEL ~cd_tweaks_better_bg2ee_start_all~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
