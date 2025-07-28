@@ -34,6 +34,11 @@ WITH_SCOPE BEGIN
 			LPF ~ADD_SPELL_HEADER~ INT_VAR "range" = 30 "projectile" = IDS_OF_SYMBOL ("projectl" "web1p") + 1 STR_VAR "icon" = "%WIZARD_WEB%B" END
 			/* Feature Blocks */
 			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 324 "target" = 2 "parameter2" = 13 STR_VAR "resource" = "%DEST_RES%" END // Immunity to resource and message (PERSONALSPACE>3)
+			PATCH_WITH_SCOPE BEGIN
+				PATCH_FOR_EACH "race" IN "SLIME" "SHADOW" "SPECTRE" "WRAITH" "MIST" "ELEMENTAL" "DEMILICH" "SPECTRAL_UNDEAD" BEGIN
+					LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 324 "target" = 2 "parameter2" = 104 "parameter1" = IDS_OF_SYMBOL ("race" "%race%") STR_VAR "resource" = "%DEST_RES%" END // immunity to resource and message
+				END
+			END
 			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 2 STR_VAR "resource" = "%DEST_RES%" END // Invoke lua
 		BUT_ONLY
 	END
