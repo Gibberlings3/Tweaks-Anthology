@@ -1659,6 +1659,19 @@ SUBCOMPONENT @136000
 REQUIRE_PREDICATE GAME_IS ~iwdee how totlm~ @25
 LABEL ~cd_tweaks_iwd_to_how_transition_no_hjollder~
 
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
+///// Allow Monks to Change Damage Types with Hand Weapons       \\\\\
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @137000 DESIGNATED 1370
+GROUP @13
+REQUIRE_PREDICATE GAME_IS ~bgee bg2ee iwdee eet~ @25
+LABEL ~cd_tweaks_monk_weapons~
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -1781,6 +1794,19 @@ REQUIRE_PREDICATE NOT GAME_IS ~bgee bg1 totsc tutu tutu_totsc iwdee iwd how totl
 SUBCOMPONENT @209000 // change xp cap
 LABEL ~cd_tweaks_cap_xp_at_l30~
 
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Yoshi-Imoen: Experience Transfer                 \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @272000 DESIGNATED 2720
+GROUP @9
+REQUIRE_PREDICATE GAME_IS ~bg2ee eet soa tob bgt~ @25
+LABEL ~cd_tweaks_yoshi_imoen_xp_transfer~
+
 /*
 neat idea inspired by similar components in EET, but unworkable for dual-classes
 
@@ -1810,6 +1836,7 @@ GROUP @9
 REQUIRE_PREDICATE GAME_IS ~bgt~ @25
 LABEL ~cd_tweaks_bgt_xp_cap_in_soa~
 */
+
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -2745,16 +2772,6 @@ LABEL ~cd_tweaks_cleric_multis_loosen_equipment_restrictions~
 
 /////                                                            \\\\\
 ///// Loosen Equipment Restrictions for Druid Multis             \\\\\
-/////                                                            \\\\\
-
-BEGIN @242900 DESIGNATED 2429
-GROUP @9
-SUBCOMPONENT @243001
-REQUIRE_PREDICATE NOT GAME_IS ~iwd2 pst pstee~ @25
-LABEL ~cd_tweaks_druid_multis_loosen_equipment_restrictions_no_dc_fix~
-
-/////                                                            \\\\\
-///// Loosen Equipment Restrictions for Druid Multis - dc fix    \\\\\
 /////                                                            \\\\\
 
 BEGIN @243000 DESIGNATED 2430

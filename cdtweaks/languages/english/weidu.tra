@@ -39,6 +39,7 @@
 @30 = ~NWN-Style Feats~
 @31 = ~Requires in-game option "3E Sneak Attack" (https://github.com/Argent77/A7-HiddenGameplayOptions).~
 @32 = ~Requires LuaJIT: https://github.com/Bubb13/EEex, component #1~
+@33 = ~Not enough free spell states~ 
 
 @100 = ~Batch Installer -- EXPERIMENTAL, use at own risk. Check the readme.~
 @101 = ~
@@ -149,6 +150,8 @@ The uninstall messages above are normal and expected.
 @27000 = ~Static PsT Character Portraits~
 @27001 = ~Visualize health and status changes~
 @27100 = ~Don't visualize health and status changes~
+
+@28000 = ~Add Visual Indicators for NPCs That Haven't Been Spoken To~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -299,6 +302,8 @@ The uninstall messages above are normal and expected.
 @136001 = ~Don't change the main game~
 @136100 = ~Remove Hjollder from Kuldahar~
 
+@137000 = ~Allow Monks to Change Damage Types with Hand Weapons~
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -435,8 +440,7 @@ The uninstall messages above are normal and expected.
 
 @242000 = ~Loosen Equipment Restrictions for Cleric Multi- and Dual-Classes~
 
-@242900 = ~Loosen equipment restrictions (without dual-class adjustment, see readme)~
-@243000 = ~Loosen equipment restrictions (with dual-class adjustment, see readme)~
+@243000 = ~Loosen equipment restrictions~
 @243001 = ~Change Equipment Restrictions for Druid Multi- and Dual-Classes~
 @243100 = ~Tighten equipment restrictions [Angel]~
 
@@ -499,6 +503,7 @@ The uninstall messages above are normal and expected.
 @270000 = "Revised Troll Regeneration [Luke (EEex)]"
 
 @271000 = "NWN-style Summons [Luke (EEex)]"
+@272000 = ~Yoshimo to Imoen Experience Transfer~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\

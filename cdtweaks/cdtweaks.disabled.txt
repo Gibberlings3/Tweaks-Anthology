@@ -151,10 +151,26 @@ OUTER_SET degrade_movement_speed = 0
 
 
 
-
-
-
-
+// For the 'Loosen Equipment Restrictions for Cleric Multi- and Dual-Classes' and the loosen option for the 
+// 'Change Equipment Restrictions for Druid Multi- and Dual-Classes', the EEs have a bug that can be adjusted here. 
+// 
+// {While the text below refers to dual-class fighter-druids, the same problem exists for dual-classed clerics)
+// 
+// Below is an option for including a "dual-class adjustment". The engine hardcodes weapon pips for dual-classed fighter-druids 
+// (in either direction) to allow proficiencies if and only if single-class druids can put points in that proficiency. As such 
+// Anthology lets the player select which of the two less-than-satisfying tradeoffs to use:
+//   * Without the dual-class adjustment, dual-class fighter-druids can only place pips in weapons allowed for druids, so they end 
+//     up being able to use bastard swords but not place any pips in them. Single-class druids work as normal.
+//   * With the dual-class adjustment, dual-class fighter-druids can now place points in all weapon proficiencies a fighter can. The 
+//     tradeoff is that single-class druids can now also place a single pip into anything a fighter can though they cannot use the 
+//     weapons, e.g. Cernd will be able to place a pip into bastard swords even though he can't use them so you'll need to be a 
+//     little careful when placing pips.
+//
+// Multi-class fighter-druids work as expected in either case--they can place two pips (five if Multi-Class Grandmastery is 
+// installed) in every weapon fighters can use. 
+//
+OUTER_SET cleric_dc_adjustment = 0 // change to 1 to apply the adjustment for dual-class clerics 
+OUTER_SET druid_dc_adjustment  = 0 // change to 1 to apply the adjustment for dual-class druids 
 
 
 

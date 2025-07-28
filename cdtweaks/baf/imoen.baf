@@ -1,0 +1,12 @@
+IF
+	%ee_trigger%
+  Global("yoshimo_killed_spellhold","GLOBAL",1)
+	%trigger%
+	Global("CD_JOINXP","LOCALS",0)
+THEN
+	RESPONSE #100
+		SetInterrupt(FALSE)
+		SetGlobal("CD_JOINXP","LOCALS",1)
+		%action%
+		SetInterrupt(TRUE)
+END

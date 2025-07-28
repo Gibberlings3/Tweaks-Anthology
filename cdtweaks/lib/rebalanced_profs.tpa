@@ -70,7 +70,7 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~ // item changes
     SET orig_prof = 0
     READ_ASCII 0x22 "anim" (2)
     READ_BYTE  0x31 "prof"
-    PATCH_IF ("%prof%" = 100 AND (("%anim%" STRING_COMPARE_CASE "ms" = 0) OR ("%anim%" STRING_COMPARE_CASE "mc" = 0))) BEGIN // morningstars
+    PATCH_IF ("%prof%" = 100 AND ("%anim%" STRING_COMPARE_REGEXP "[Mm][SsCc2]" = 0) BEGIN // morningstars
       SET prof = 101
       SET orig_prof = 100
     END ELSE

@@ -504,6 +504,18 @@ Special Abilities:
 @126005 = ~Lake Poet Willy~
 @126006 = ~Willy~
 
+@137001 = ~Punch Dagger~ 
+@137002 = ~Claws~ 
+@137003 = ~Padded Gloves~ 
+@137004 = ~Equip Punch Daggers~ 
+@137005 = ~Equipping punch daggers will change your unarmed attacks to do piercing damage.~ 
+@137006 = ~Use Bare Fist~ 
+@137007 = ~Using bare fists will revert your unarmed attacks to crushing damage.~
+@137008 = ~Equip Claws~ 
+@137009 = ~Equipping claws will change your unarmed attacks to do slashing damage.~ 
+@137010 = ~Equip Padded Gloves~ 
+@137011 = ~Equipping padded gloves will change your unarmed attacks to do normal fist damage so that you can knock opponents unconscious without killing them.~ 
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\

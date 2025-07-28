@@ -6,6 +6,10 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
+ACTION_IF !VARIABLE_IS_SET cleric_dc_adjustment OR !IS_AN_INT cleric_dc_adjustment OR !enhanced_edition BEGIN
+  OUTER_SET cleric_dc_adjustment = 0
+END 
+
 // basically, only mess with kit flags if they still have their original usability and have not been hijacked by kit mods as free flags
 OUTER_SET lathander = 0
 OUTER_SET helm = 0
@@ -144,6 +148,12 @@ ACTION_IF FILE_EXISTS_IN_GAME ~weapprof.2da~ THEN BEGIN
       END
       PATCH_IF (rgr > cr) BEGIN
         SET_2DA_ENTRY row 21 22 ~%rgr%~
+      END
+      PATCH_IF cleric_dc_adjustment BEGIN
+        READ_2DA_ENTRY row 6 22 cl  // cleric stars
+        PATCH_IF fgt AND !cl BEGIN
+          SET_2DA_ENTRY row 6 22 1
+        END
       END
     END
     BUT_ONLY
