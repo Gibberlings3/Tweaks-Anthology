@@ -1,0 +1,22 @@
+DEFINE_ACTION_FUNCTION "MORENTHERENE"
+BEGIN
+	// patch relevant area script \\
+	WITH_SCOPE BEGIN
+		COPY_EXISTING "bd7210.bcs" "override" // Wyrm Cave
+			DECOMPILE_AND_PATCH BEGIN
+				// delete relevant block
+				SET "found" = INDEX_BUFFER (CASE_SENSITIVE EVALUATE_REGEXP ~OR(3)%WNL%[ %TAB%]+SpellCast(.+,0)%WNL%[ %TAB%]+SpellCastPriest(.+,0)%WNL%[ %TAB%]+SpellCastInnate(.+,0)~)
+				//
+				PATCH_IF ("%found%" >= 0) BEGIN
+					SET "start" = RINDEX_BUFFER (CASE_SENSITIVE EXACT_MATCH ~IF~ "%found%")
+					SET "end" = INDEX_BUFFER (CASE_SENSITIVE EXACT_MATCH ~END~ "%start%")
+					//
+					DELETE_BYTES "%start%" ("%end%" - "%start%")
+				END
+			END
+		BUT_ONLY_IF_IT_CHANGES
+	END
+	// lua
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Misc Tweaks" "sourceFileSpec" = "cdtweaks\luke\lua\tweaks\morentherene.lua" "destRes" = "m_gttwks" END
+END
+

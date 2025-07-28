@@ -1,0 +1,36 @@
+DEFINE_ACTION_FUNCTION "DIRTY_FIGHTING"
+BEGIN
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"type" = 4
+		"level" = 4
+	STR_VAR
+		"idsName" = "THIEF_DIRTY_FIGHTING"
+	RET
+		"THIEF_DIRTY_FIGHTING" = "resName"
+	END
+	//
+	LAF "ADD_EXTENDED_STAT" STR_VAR "identifier" = "GT_DUMMY_STAT" END
+	//
+	WITH_SCOPE BEGIN
+		ACTION_TO_LOWER "THIEF_DIRTY_FIGHTING"
+		//
+		CREATE "eff" "%THIEF_DIRTY_FIGHTING%b"
+		COPY_EXISTING "%THIEF_DIRTY_FIGHTING%b.eff" "override"
+			WRITE_LONG 0x10 402 // invoke lua
+			WRITE_ASCII 0x30 "%THIEF_DIRTY_FIGHTING%" #8 // lua func
+			WRITE_SHORT 0x2C 100 // probability1
+		BUT_ONLY
+	END
+	// lua
+	WITH_SCOPE BEGIN
+		OUTER_SET "feedback_strref_hit" = RESOLVE_STR_REF (@100)
+		OUTER_SET "feedback_strref_immune" = RESOLVE_STR_REF (@101)
+		//
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Class/Kit Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\class\dirty_fighting.lua" "destRes" = "m_gtspcl" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\damage_type.lua" "destRes" = "m_gtsprt" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\check_ids.lua" "destRes" = "m_gtsprt" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\get_selected_weapon.lua" "destRes" = "m_gtsprt" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Eval Conditional" "sourceFileSpec" = "cdtweaks\luke\lib\misc\eval_conditional.lua" "destRes" = "m_gteval" END
+	END
+END

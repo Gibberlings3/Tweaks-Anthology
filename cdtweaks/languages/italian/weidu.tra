@@ -437,6 +437,7 @@ o rimpiazzata da - un'altra facente parte di uno dei mods installati.~
 @269004 = "v4 (fare riferimento al readme)"
 
 @270000 = "Modifica la meccanica della Rigenerazione dei Troll [Luke (EEex)]"
+@271000 = "Evocazioni in stile NWN [Luke (EEex)]"
 /*
 @258000 = ~Modifica tabella degli incantesimi divini divini basati sulla saggezza~
 @258001 = ~Usa tabella PnP/PsT~
@@ -672,6 +673,8 @@ Usa opzioni di Baldur.lua:           a7_interval_ini
 
 @347000 = ~Regola in modo automatico gli FPS [Luke (EEex)]~
 
+@348000 = "Rendi più accurata la meccanica che regola il risveglio di Morentherene [Luke (EEex)]"
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -756,33 +759,33 @@ Usa opzioni di Baldur.lua:           a7_interval_ini
 
 @602000 = "Aggiungi talento di classe Sapienza Magica / Controincantesimo per gli incantatori [Luke (EEex)]"
 
-@603000 = "Aggiungi talento di classe Lancio Spontaneo per i Chierici [Luke]"
+@603000 = "Aggiungi talento di classe Lancio Spontaneo per i Chierici [Luke (EEex)]"
 
-@604000 = "Aggiungi talento di classe Arma Preferita per i Ladri [Luke]"
+@604000 = "Aggiungi talento di classe Arma Preferita per i Ladri [Luke (EEex)]"
 
-@605000 = "Aggiungi talento di classe Doppia-Presa per i Ranger [Luke]"
+@605000 = "Aggiungi talento di classe Doppia-Presa per i Ranger [Luke (EEex)]"
 
-@606000 = "Armatura vs. Destrezza in stile NWN [Luke]"
+@606000 = "Armatura vs. Destrezza in stile NWN [Luke (EEex)]"
 
-@607000 = "Aggiungi talento di classe Tiro Difensivo per i ladri [Luke]"
+@607000 = "Aggiungi talento di classe Tiro Difensivo per i ladri [Luke (EEex)]"
 
-@608000 = "Grazia Divina / Benedizione Oscura per Paladini / Guardie Nere [Luke]"
+@608000 = "Grazia Divina / Benedizione Oscura per Paladini / Guardie Nere [Luke (EEex)]"
 
-@609000 = "Aggiungi talento razziale Buona Mira per gli Halfling [Luke]"
+@609000 = "Aggiungi talento razziale Buona Mira per gli Halfling [Luke (EEex)]"
 
-@610000 = "Aggiungi talento di classe Incalzare per i Guerrieri [Luke]"
+@610000 = "Aggiungi talento di classe Incalzare per i Guerrieri [Luke (EEex)]"
 
-@611000 = "Aggiungi talento di classe Attacco Furtivo per Guardie Nere [Luke]"
+@611000 = "Aggiungi talento di classe Attacco Furtivo per Guardie Nere [Luke (EEex)]"
 
-@612000 = "Aggiungi talento razziale Temerario per gli Halfling [Luke]"
+@612000 = "Aggiungi talento razziale Temerario per gli Halfling [Luke (EEex)]"
 
-@613000 = "Aggiungi talento di classe Resistenza ai Veleni per Assassini [Luke]"
+@613000 = "Aggiungi talento di classe Resistenza ai Veleni per Assassini [Luke (EEex)]"
 
-@614000 = "Aggiungi talento di classe Scacciare Creature Extraplanari per Paladini e Chierici [Luke]"
+@614000 = "Aggiungi talento di classe Scacciare Creature Extraplanari per Paladini e Chierici [Luke (EEex)]"
 
-@615000 = "Aggiungi talento di classe Calcio Rotante per i Monaci [Luke]"
+@615000 = "Aggiungi talento di classe Calcio Rotante per i Monaci [Luke (EEex)]"
 
-@616000 = "Ira Barbarica in stile NWN [Luke]"
+@616000 = "Ira Barbarica in stile NWN [Luke (EEex)]"
 
 @617000 = ~"Costringi" l'Arciere ad utilizzare gli archi [Luke (EEex)]~
 
@@ -819,3 +822,5 @@ Usa opzioni di Baldur.lua:           a7_interval_ini
 @633000 = "Aggiungi talento di classe Trucchetti per gli Incantatori [Luke (EEex)]"
 
 @634000 = "Aggiungi talento di classe Compagno Animale per gli Addestratori di Animali [Luke (EEex)]"
+
+@635000 = "Aggiungi talento di classe Opportunista per i Ladri di allineamento Caotico [Luke (EEex)]"

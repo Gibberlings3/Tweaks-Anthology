@@ -1,0 +1,11 @@
+DEFINE_ACTION_FUNCTION "NWN-STYLE_SUMMONS"
+BEGIN
+	// lua
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Rule Changes" "sourceFileSpec" = "cdtweaks\luke\lua\rule_changes\nwn-style_summons.lua" "destRes" = "m_gtrule" END
+
+	//
+	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
+		COPY "cdtweaks\luke\lib\resource\tables.lua" "override\m_gttbls.lua"
+	END
+END
+

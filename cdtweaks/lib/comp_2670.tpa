@@ -7,11 +7,11 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 WITH_SCOPE BEGIN
-  INCLUDE "cdtweaks\luke\misc.tph"
+  INCLUDE "cdtweaks\luke\lib\install.tph"
   //
-  INCLUDE "cdtweaks\lib\limit_resting_mechanic.tph"
+  INCLUDE "cdtweaks\lib\gt_limit_resting_mechanic.tph"
   //
-  WITH_TRA "cdtweaks\languages\english\limit_resting_mechanic.tra" "cdtweaks\languages\%LANGUAGE%\limit_resting_mechanic.tra" BEGIN
+  WITH_TRA "cdtweaks\languages\english\gt_limit_resting_mechanic.tra" "cdtweaks\languages\%LANGUAGE%\gt_limit_resting_mechanic.tra" BEGIN
     LAF "LIMIT_RESTING_MECHANIC" END
   END
 END

@@ -14,7 +14,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- internal function that applies the actual bonus
 	local apply = function(bonus)
 		-- Update tracking var
-		sprite:setLocalInt("gtPaladinDivineGrace", bonus)
+		sprite:setLocalInt("gtNWNDivineGrace", bonus)
 		--
 		sprite:applyEffect({
 			["effectID"] = 321, -- Remove effects by resource
@@ -52,19 +52,19 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- The paladin adds its charisma bonus (if positive) to all saving throws (provided it is not fallen)
 	local applyAbility = spriteClassStr == "PALADIN" and spriteKitStr ~= "Blackguard" and bonus and bonus > 0 and EEex_IsBitUnset(spriteFlags, 0x9)
 	--
-	if sprite:getLocalInt("gtPaladinDivineGrace") == 0 then
+	if sprite:getLocalInt("gtNWNDivineGrace") == 0 then
 		if applyAbility then
 			apply(bonus)
 		end
 	else
 		if applyAbility then
 			-- Check if Charisma has changed since the last application
-			if bonus ~= sprite:getLocalInt("gtPaladinDivineGrace") then
+			if bonus ~= sprite:getLocalInt("gtNWNDivineGrace") then
 				apply(bonus)
 			end
 		else
 			-- Mark the creature as 'bonus removed'
-			sprite:setLocalInt("gtPaladinDivineGrace", 0)
+			sprite:setLocalInt("gtNWNDivineGrace", 0)
 			--
 			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource

@@ -58,20 +58,32 @@ end)
 
 function GTSTNSKN(CGameEffect, CGameSprite)
 	local m_lHitter = EEex_GameObject_Get(CGameSprite.m_lHitter.m_Instance) -- CGameSprite
+	--
+	local func
+	local skins = {}
+	--
+	func = function(effect)
+		if effect.m_effectId == 177 or effect.m_effectId == 283 then -- Use EFF file
+			local CGameEffectBase = EEex_Resource_Demand(effect.m_res:get(), "eff")
+			--
+			if CGameEffectBase then
+				func(CGameEffectBase)
+			end
+		elseif effect.m_effectId == 0xDA then -- Stoneskin effect (218)
+			table.insert(skins, effect.m_effectAmount)
+		end
+	end
 	-- sanity check
 	if m_lHitter ~= nil then
-		local skins = {}
 		-- ignore non-weapon attacks
 		if m_lHitter.m_targetId == CGameSprite.m_id then
-			EEex_Utility_IterateCPtrList(CGameSprite.m_timedEffectList, function(effect)
-				if effect.m_effectId == 0xDA then -- Stoneskin effect (218)
-					table.insert(skins, effect.m_effectAmount)
-				end
-			end)
+			EEex_Utility_IterateCPtrList(CGameSprite.m_timedEffectList, func)
+			EEex_Utility_IterateCPtrList(CGameSprite.m_equipedEffectList, func)
 			--
-			GT_Utility_DisplaySpriteMessage(CGameSprite,
-				string.format("%s : %d %s", Infinity_FetchString(%feedback_strref_stoneskin_hit%), GT_LuaTool_FindGreatestInt(skins), Infinity_FetchString(%feedback_strref_skins_left%)),
-				0x808080, 0x808080 -- Grey
+			GT_Sprite_DisplayMessage(CGameSprite,
+				string.format("%s : %d %s",
+					Infinity_FetchString(%feedback_strref_stoneskin_hit%), GT_Utility_FindGreatestInt(skins), Infinity_FetchString(%feedback_strref_skins_left%)),
+				0x808080 -- Grey
 			)
 		end
 	end

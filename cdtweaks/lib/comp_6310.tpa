@@ -7,11 +7,11 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
 
 WITH_SCOPE BEGIN
-  INCLUDE "cdtweaks\luke\misc.tph"
+  INCLUDE "cdtweaks\luke\lib\install.tph"
   //
-  INCLUDE "cdtweaks\lib\woodland_stride.tph"
+  INCLUDE "cdtweaks\lib\gt_woodland_stride.tph"
   //
-  WITH_TRA "cdtweaks\languages\english\woodland_stride.tra" "cdtweaks\languages\%LANGUAGE%\woodland_stride.tra" BEGIN
+  WITH_TRA "cdtweaks\languages\english\gt_woodland_stride.tra" "cdtweaks\languages\%LANGUAGE%\gt_woodland_stride.tra" BEGIN
     LAF "WOODLAND_STRIDE" END
   END
 END

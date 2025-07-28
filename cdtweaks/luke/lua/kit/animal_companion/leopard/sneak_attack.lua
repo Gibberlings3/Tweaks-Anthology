@@ -10,15 +10,15 @@ function %INNATE_LEOPARD_SNEAK_ATTACK%(CGameEffect, CGameSprite)
 		--
 		local targetActiveStats = EEex_Sprite_GetActiveStats(CGameSprite)
 		-- limit to once per round
-		local conditionalString = EEex_Trigger_ParseConditionalString('!GlobalTimerNotExpired("gtLeopardSneakattTimer","LOCALS")')
-		local responseString = EEex_Action_ParseResponseString('SetGlobalTimer("gtLeopardSneakattTimer","LOCALS",6)')
+		local conditionalString = '!GlobalTimerNotExpired("gtLeopardSneakattTimer","LOCALS")'
+		local responseString = 'SetGlobalTimer("gtLeopardSneakattTimer","LOCALS",6)'
 		--
-		local isWeaponRanged = EEex_Trigger_ParseConditionalString("IsWeaponRanged(Myself)")
+		--local selectedWeapon = GT_Sprite_GetSelectedWeapon(CGameSprite)
 		--
-		if conditionalString:evalConditionalAsAIBase(sourceSprite) then
-			-- if the target is incapacitated || the target is in combat with someone else || the target is equipped with a ranged weapon
-			if EEex_BAnd(targetActiveStats.m_generalState, 0x100029) ~= 0 or CGameSprite.m_targetId ~= sourceSprite.m_id or isWeaponRanged:evalConditionalAsAIBase(CGameSprite) then
-				responseString:executeResponseAsAIBaseInstantly(sourceSprite)
+		if GT_EvalConditional["parseConditionalString"](sourceSprite, nil, conditionalString) then
+			-- if the target is incapacitated || the target is in combat with someone else
+			if EEex_BAnd(targetActiveStats.m_generalState, 0x100029) ~= 0 or CGameSprite.m_targetId ~= sourceSprite.m_id then
+				GT_ExecuteResponse["parseResponseString"](sourceSprite, nil, responseString)
 				--
 				CGameSprite:applyEffect({
 					["effectID"] = 146, -- Cast spell
@@ -29,32 +29,25 @@ function %INNATE_LEOPARD_SNEAK_ATTACK%(CGameEffect, CGameSprite)
 				})
 			end
 		end
-		--
-		isWeaponRanged:free()
-		responseString:free()
-		conditionalString:free()
 	elseif CGameEffect.m_effectAmount == 2 then -- actual sneak attack
 		local sneakatt = GT_Resource_2DA["sneakatt"]
 		--
 		local sourceSprite = EEex_GameObject_Get(CGameEffect.m_sourceId)
 		local sourceActiveStats = EEex_Sprite_GetActiveStats(sourceSprite)
 		--
-		local equipment = sourceSprite.m_equipment -- CGameSpriteEquipment
-		local selectedWeapon = equipment.m_items:get(equipment.m_selectedWeapon) -- CItem
-		local selectedWeaponHeader = selectedWeapon.pRes.pHeader -- Item_Header_st
-		local selectedWeaponAbility = EEex_Resource_GetItemAbility(selectedWeaponHeader, equipment.m_selectedWeaponAbility) -- Item_ability_st
+		local selectedWeapon = GT_Sprite_GetSelectedWeapon(sourceSprite)
 		--
-		local immunityToDamage = EEex_Trigger_ParseConditionalString("EEex_IsImmuneToOpcode(Myself,12)")
+		local string = "EEex_IsImmuneToOpcode(Myself,12)"
 		--
 		local targetActiveStats = EEex_Sprite_GetActiveStats(CGameSprite)
 		--
-		local op12DamageType, ACModifier = GT_Utility_DamageTypeConverter(selectedWeaponAbility.damageType, targetActiveStats)
+		local damageTypeIDS, ACModifier = GT_Sprite_ItmDamageTypeToIDS(selectedWeapon["ability"].damageType, targetActiveStats)
 		--
-		if not immunityToDamage:evalConditionalAsAIBase(CGameSprite) then
+		if not GT_EvalConditional["parseConditionalString"](CGameSprite, nil, string) then
 			EEex_GameObject_ApplyEffect(CGameSprite,
 			{
 				["effectID"] = 0xC, -- Damage
-				["dwFlags"] = op12DamageType * 0x10000, -- mode: normal
+				["dwFlags"] = damageTypeIDS * 0x10000, -- mode: normal
 				["numDice"] = tonumber(sneakatt["ASSASIN"][string.format("%s", sourceActiveStats.m_nLevel1)]), -- typo in KIT.IDS / KITLIST.2DA
 				["diceSize"] = 6,
 				["m_sourceRes"] = CGameEffect.m_sourceRes:get(),
@@ -73,7 +66,5 @@ function %INNATE_LEOPARD_SNEAK_ATTACK%(CGameEffect, CGameSprite)
 				["sourceTarget"] = CGameEffect.m_sourceTarget,
 			})
 		end
-		--
-		immunityToDamage:free()
 	end
 end

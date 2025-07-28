@@ -4,7 +4,7 @@
 +----------------------------------------------------------------------+
 --]]
 
-function GT_AnimalCompanion_FixGeneral()
+function GT_NWN_AnmlComp_FixGeneral()
 	if EEex_LuaAction_Object.m_scriptName:get() == "gtAnmlCompSpider" then
 		EEex_LuaAction_Object:applyEffect({
 			["effectID"] = 72, -- change AI type
@@ -27,3 +27,4 @@ function GT_AnimalCompanion_FixGeneral()
 		})
 	end
 end
+

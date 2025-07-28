@@ -8,7 +8,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- internal function that applies the actual bonus
 	local apply = function()
 		-- Mark the creature as 'bonus applied'
-		sprite:setLocalInt("gtInnateBlindFight", 1)
+		sprite:setLocalInt("gtNWNBlindFight", 1)
 		--
 		local effectCodes = {
 			{["op"] = 321, ["res"] = "%INNATE_BLIND_FIGHT%"}, -- Remove effects by resource
@@ -31,23 +31,18 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		end
 	end
 	-- Check creature's kit / state
-	local spriteFlags = sprite.m_baseStats.m_flags
-	local spriteClassStr = GT_Resource_IDSToSymbol["class"][sprite.m_typeAI.m_Class]
+	local class = GT_Resource_SymbolToIDS["class"]
 	-- since ``EEex_Opcode_AddListsResolvedListener`` is running after the effect lists have been evaluated, ``m_bonusStats`` has already been added to ``m_derivedStats`` by the engine
-	local spriteKitStr = GT_Resource_IDSToSymbol["kit"][sprite.m_derivedStats.m_nKit]
-	local spriteLevel1 = sprite.m_derivedStats.m_nLevel1
-	local spriteLevel2 = sprite.m_derivedStats.m_nLevel2
+	local spriteKitStr = EEex_Resource_KitIDSToSymbol(sprite.m_derivedStats.m_nKit)
 	local spriteGeneralState = sprite.m_derivedStats.m_generalState
-	-- single/multi/(complete)dual berserkers
+	-- any fighter class (single/multi/(complete)dual)
+	local isFighterAll = GT_Sprite_CheckIDS(sprite, class["FIGHTER_ALL"], 5)
+	-- berserkers
 	local applyAbility = EEex_IsBitSet(spriteGeneralState, 0x12) -- STATE_BLIND
 		and spriteKitStr == "BERSERKER"
-		and (spriteClassStr == "FIGHTER"
-			or (spriteClassStr == "FIGHTER_MAGE" and (EEex_IsBitUnset(spriteFlags, 0x3) or spriteLevel2 > spriteLevel1))
-			or (spriteClassStr == "FIGHTER_CLERIC" and (EEex_IsBitUnset(spriteFlags, 0x3) or spriteLevel2 > spriteLevel1))
-			or (spriteClassStr == "FIGHTER_THIEF" and (EEex_IsBitUnset(spriteFlags, 0x3) or spriteLevel2 > spriteLevel1))
-			or (spriteClassStr == "FIGHTER_DRUID" and (EEex_IsBitUnset(spriteFlags, 0x3) or spriteLevel2 > spriteLevel1)))
+		and isFighterAll
 	--
-	if sprite:getLocalInt("gtInnateBlindFight") == 0 then
+	if sprite:getLocalInt("gtNWNBlindFight") == 0 then
 		if applyAbility then
 			apply()
 		end
@@ -56,7 +51,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			-- do nothing
 		else
 			-- Mark the creature as 'bonus removed'
-			sprite:setLocalInt("gtInnateBlindFight", 0)
+			sprite:setLocalInt("gtNWNBlindFight", 0)
 			--
 			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource

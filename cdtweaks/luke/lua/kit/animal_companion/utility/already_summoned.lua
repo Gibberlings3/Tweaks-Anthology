@@ -6,7 +6,7 @@
 
 function %BEASTMASTER_ANIMAL_COMPANION%(CGameEffect, CGameSprite)
 	if CGameEffect.m_effectAmount == 0 then
-		if EEex_Sprite_GetLocalInt(CGameSprite, "gtAnimalCompanion") == 1 then
+		if EEex_Sprite_GetLocalInt(CGameSprite, "gtNWNAnmlCompSummoned") == 1 then
 			EEex_GameObject_ApplyEffect(CGameSprite,
 			{
 				["effectID"] = 206, -- Protection from spell
@@ -22,6 +22,7 @@ function %BEASTMASTER_ANIMAL_COMPANION%(CGameEffect, CGameSprite)
 		local summonerID = CGameSprite.m_lSummonedBy.m_Instance
 		local summonerSprite = EEex_GameObject_Get(summonerID)
 		--
-		EEex_Sprite_SetLocalInt(summonerSprite, "gtAnimalCompanion", 0)
+		EEex_Sprite_SetLocalInt(summonerSprite, "gtNWNAnmlCompSummoned", 0)
 	end
 end
+

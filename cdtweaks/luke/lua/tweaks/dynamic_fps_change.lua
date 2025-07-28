@@ -21,7 +21,7 @@ end)
 
 -- When in combat, lock FPS to 30. Otherwise, set to 60 --
 
-function cdtweaks_DynamicFPSChange()
+function GT_LuaAction_DynamicFPSChange()
 	-- [Bubb] Each area has its own combat counter. You can check the global script runner's area in this way...
 	local globalScriptRunnerId = EngineGlobals.g_pBaldurChitin.m_pObjectGame.m_nAIIndex
 	local globalScriptRunner = EEex_GameObject_Get(globalScriptRunnerId) -- CGameSprite

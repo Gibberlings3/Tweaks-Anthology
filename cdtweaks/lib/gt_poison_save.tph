@@ -1,0 +1,32 @@
+DEFINE_ACTION_FUNCTION "POISON_SAVE"
+BEGIN
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"type" = 4
+		"level" = 4
+	STR_VAR
+		"idsName" = "ASSASSIN_POISON_SAVE"
+	RET
+		"ASSASSIN_POISON_SAVE" = "resName"
+	END
+	//
+	WITH_SCOPE BEGIN
+		ACTION_TO_LOWER "ASSASSIN_POISON_SAVE"
+		COPY "cdtweaks\luke\bam\kit\poison_save.bam" "override\%ASSASSIN_POISON_SAVE%d.bam"
+	END
+	// immunities via 403
+	LAF "IMMUNITY_REMOVAL" STR_VAR "path" = "cdtweaks\luke\lib" END
+	//
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\check_ids.lua" "destRes" = "m_gtsprt" END
+	//
+	WITH_SCOPE BEGIN
+		LAF "ADD_STATDESC_ENTRY" INT_VAR "description" = RESOLVE_STR_REF (@0) STR_VAR "bam_file" = "%ASSASSIN_POISON_SAVE%D" RET "feedback_icon" = "index" END
+		// Listener: run 'func' each time a sprite has finished evaluating its effects
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Class/Kit Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\kit\poison_save.lua" "destRes" = "m_gtspcl" END
+	END
+	//
+	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
+		COPY "cdtweaks\luke\lib\resource\tables.lua" "override\m_gttbls.lua"
+	END
+END
+

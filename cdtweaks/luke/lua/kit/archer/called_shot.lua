@@ -4,37 +4,34 @@
 +--------------------------------------------+
 --]]
 
--- NWN-ish Called Shot ability. Creatures with no arms --
-
-local cdtweaks_CalledShot_NoArms = {
-	{"WEAPON"}, -- GENERAL.IDS
-	{"DOG", "WOLF", "ANKHEG", "BASILISK", "CARRIONCRAWLER", "SPIDER", "WYVERN", "SLIME", "BEHOLDER", "DEMILICH", "BEETLE", "BIRD", "WILL-O-WISP"}, -- RACE.IDS
-	{"WOLF_WORG", "ELEMENTAL_AIR", "WIZARD_EYE"}, -- CLASS.IDS
-	-- ANIMATE.IDS
-	{
-		"DOOM_GUARD", "DOOM_GUARD_LARGER", -- 0x6000
-		"SNAKE", "DANCING_SWORD", "BLOB_MIST_CREATURE", "HAKEASHAR", "NISHRUU", "SNAKE_WATER", -- 0x7000
-		"BOAR_ARCTIC", "BOAR_WILD", "BONEBAT", "WATER_WEIRD", "GT_NWN_FALCON" -- 0xE000
-	},
-}
-
--- NWN-ish Called Shot ability. Creatures with no legs --
-
-local cdtweaks_CalledShot_NoLegs = {
-	{"WEAPON"}, -- GENERAL.IDS
-	{"ANKHEG", "WYVERN", "SLIME", "BEHOLDER", "MEPHIT", "IMP", "YUANTI", "DEMILICH", "FEYR", "SALAMANDER", "BIRD", "WILL-O-WISP"}, -- RACE.IDS
-	{"MEPHIT", "ELEMENTAL_AIR", "WIZARD_EYE"}, -- CLASS.IDS
-	-- ANIMATE.IDS
-	{
-		"DOOM_GUARD", "DOOM_GUARD_LARGER", -- 0x6000
-		"IMP", "SNAKE", "DANCING_SWORD", "MIST_CREATURE", "BLOB_MIST_CREATURE", "HAKEASHAR", "NISHRUU", "SNAKE_WATER", -- 0x7000
-		"LEMURE", "BONEBAT", "SHADOW_SMALL", "SHADOW_LARGE", "WATER_WEIRD", "GT_NWN_FALCON" -- 0xE000
-	},
-}
-
 -- NWN-ish Called Shot ability (main) --
 
 function %ARCHER_CALLED_SHOT%(CGameEffect, CGameSprite)
+	-- Creatures with no arms --
+	local armless = {
+		{"WEAPON"}, -- GENERAL.IDS
+		{"DOG", "WOLF", "ANKHEG", "BASILISK", "CARRIONCRAWLER", "SPIDER", "WYVERN", "SLIME", "BEHOLDER", "DEMILICH", "BEETLE", "BIRD", "WILL-O-WISP"}, -- RACE.IDS
+		{"WOLF_WORG", "ELEMENTAL_AIR", "WIZARD_EYE"}, -- CLASS.IDS
+		-- ANIMATE.IDS
+		{
+			"DOOM_GUARD", "DOOM_GUARD_LARGER", -- 0x6000
+			"SNAKE", "DANCING_SWORD", "BLOB_MIST_CREATURE", "HAKEASHAR", "NISHRUU", "SNAKE_WATER", -- 0x7000
+			"BOAR_ARCTIC", "BOAR_WILD", "BONEBAT", "WATER_WEIRD", "GT_NWN_FALCON" -- 0xE000
+		},
+	}
+	-- Creatures with no legs --
+	local legless = {
+		{"WEAPON"}, -- GENERAL.IDS
+		{"ANKHEG", "WYVERN", "SLIME", "BEHOLDER", "MEPHIT", "IMP", "YUANTI", "DEMILICH", "FEYR", "SALAMANDER", "BIRD", "WILL-O-WISP"}, -- RACE.IDS
+		{"MEPHIT", "ELEMENTAL_AIR", "WIZARD_EYE"}, -- CLASS.IDS
+		-- ANIMATE.IDS
+		{
+			"DOOM_GUARD", "DOOM_GUARD_LARGER", -- 0x6000
+			"IMP", "SNAKE", "DANCING_SWORD", "MIST_CREATURE", "BLOB_MIST_CREATURE", "HAKEASHAR", "NISHRUU", "SNAKE_WATER", -- 0x7000
+			"LEMURE", "BONEBAT", "SHADOW_SMALL", "SHADOW_LARGE", "WATER_WEIRD", "GT_NWN_FALCON" -- 0xE000
+		},
+	}
+	--
 	if CGameEffect.m_effectAmount == 0 then
 		-- do nothing (AoE missile!)
 	else
@@ -54,28 +51,35 @@ function %ARCHER_CALLED_SHOT%(CGameEffect, CGameSprite)
 		local sourceActiveStats = EEex_Sprite_GetActiveStats(sourceSprite) -- CDerivedStats
 		--
 		local thac0 = sourceActiveStats.m_nTHAC0 -- base thac0 (STAT 7)
-		local thac0BonusRight = sourceActiveStats.m_THAC0BonusRight -- this should include the bonus from the weapon + dex + wspecial.2da
-		local missileTHAC0Bonus = sourceActiveStats.m_nMissileTHAC0Bonus -- op167 (STAT 72)
+		local luck = sourceActiveStats.m_nLuck -- STAT 32
+		local thac0BonusRight = sourceActiveStats.m_THAC0BonusRight -- this should include the bonus from the weapon + dex + wspecial.2da + op167 (STAT 72)
+		--local missileTHAC0Bonus = sourceActiveStats.m_nMissileTHAC0Bonus -- op167 (STAT 72)
+		-- op178
+		local thac0VsTypeBonus = GT_Sprite_Thac0VsTypeBonus(sourceSprite, CGameSprite)
+		-- op219
+		local attackRollPenalty = GT_Sprite_AttackRollPenalty(sourceSprite, CGameSprite)
+		-- racial enemy
+		local racialEnemy = GT_Sprite_GetRacialEnemyBonus(sourceSprite, CGameSprite)
 		-- op120
-		sourceSprite:setStoredScriptingTarget("GT_ScriptingTarget_CalledShot", CGameSprite)
-		local weaponEffectiveVs = EEex_Trigger_ParseConditionalString('WeaponEffectiveVs(EEex_Target("GT_ScriptingTarget_CalledShot"),MAINHAND)')
+		local weaponEffectiveVs = 'WeaponEffectiveVs(EEex_Target("gtScriptingTarget"),MAINHAND)'
 		-- mainhand weapon
-		local equipment = sourceSprite.m_equipment -- CGameSpriteEquipment
-		local selectedWeapon = equipment.m_items:get(equipment.m_selectedWeapon) -- CItem
-		local selectedWeaponHeader = selectedWeapon.pRes.pHeader -- Item_Header_st
-		local selectedWeaponAbility = EEex_Resource_GetItemAbility(selectedWeaponHeader, equipment.m_selectedWeaponAbility) -- Item_ability_st
+		local selectedWeapon = GT_Sprite_GetSelectedWeapon(sourceSprite)
 		--
-		local op12DamageType, ACModifier = GT_Utility_DamageTypeConverter(selectedWeaponAbility.damageType, targetActiveStats)
+		local damageTypeIDS, ACModifier = GT_Sprite_ItmDamageTypeToIDS(selectedWeapon["ability"].damageType, targetActiveStats)
 		--
-		if weaponEffectiveVs:evalConditionalAsAIBase(sourceSprite) then
-			-- compute attack roll (simplified for the time being... it doesn't consider attack of opportunity, invisibility, luck, op178, op301, op362, &c.)
+		if GT_EvalConditional["parseConditionalString"](sourceSprite, CGameSprite, weaponEffectiveVs) then
+			-- compute attack roll (am I missing something...?)
 			local success = false
-			local modifier = thac0BonusRight + missileTHAC0Bonus - 4
+			local modifier = luck + thac0BonusRight + thac0VsTypeBonus - attackRollPenalty + racialEnemy - 4
 			--
-			if roll == 20 then -- automatic hit
+			local criticalHitMod, criticalMissMod = GT_Sprite_GetCriticalModifiers(sourceSprite)
+			--
+			local m_nTimeStopCaster = EngineGlobals.g_pBaldurChitin.m_pObjectGame.m_nTimeStopCaster
+			--
+			if (roll >= 20 - criticalHitMod) or EEex_BAnd(targetActiveStats.m_generalState, 0x100029) ~= 0 or m_nTimeStopCaster == sourceSprite.m_id then -- automatic hit
 				success = true
 				modifier = 0
-			elseif roll == 1 then -- automatic miss (critical failure)
+			elseif roll <= 1 + criticalMissMod then -- automatic miss (critical failure)
 				modifier = 0
 			elseif roll + modifier >= thac0 - (targetActiveStats.m_nArmorClass + ACModifier) then
 				success = true
@@ -83,10 +87,10 @@ function %ARCHER_CALLED_SHOT%(CGameEffect, CGameSprite)
 			--
 			if success then
 				-- display feedback message
-				GT_Utility_DisplaySpriteMessage(sourceSprite,
-					string.format("%s : %d + %d = %d : %s",
-						CGameEffect.m_effectAmount == 1 and Infinity_FetchString(%feedback_strref_called_shot_arms%) or Infinity_FetchString(%feedback_strref_called_shot_legs%), roll, modifier, roll + modifier, Infinity_FetchString(%feedback_strref_hit%)),
-					0xBED7D7, 0xBED7D7
+				GT_Sprite_DisplayMessage(sourceSprite,
+					string.format("%s : %d %s %d = %d : %s",
+						CGameEffect.m_effectAmount == 1 and Infinity_FetchString(%feedback_strref_called_shot_arms%) or Infinity_FetchString(%feedback_strref_called_shot_legs%), roll, modifier < 0 and "-" or "+", math.abs(modifier), roll + modifier, Infinity_FetchString(%feedback_strref_hit%)),
+					0xBED7D7
 				)
 				--
 				if CGameEffect.m_effectAmount == 1 then
@@ -94,7 +98,7 @@ function %ARCHER_CALLED_SHOT%(CGameEffect, CGameSprite)
 					local found = false
 					--
 					do
-						for index, symbolList in ipairs(cdtweaks_CalledShot_NoArms) do
+						for index, symbolList in ipairs(armless) do
 							for _, symbol in ipairs(symbolList) do
 								if targetIDS[index] == symbol then
 									found = true
@@ -136,7 +140,7 @@ function %ARCHER_CALLED_SHOT%(CGameEffect, CGameSprite)
 					local found = false
 					--
 					do
-						for index, symbolList in ipairs(cdtweaks_CalledShot_NoLegs) do
+						for index, symbolList in ipairs(legless) do
 							for _, symbol in ipairs(symbolList) do
 								if targetIDS[index] == symbol then
 									found = true
@@ -151,7 +155,7 @@ function %ARCHER_CALLED_SHOT%(CGameEffect, CGameSprite)
 						--
 						local effectCodes = {
 							{["op"] = 15, ["p1"] = (targetDEX <= 1) and 0 or ((targetDEX > 2) and -2 or -1), ["dur"] = 24}, -- dex bonus
-							{["op"] = 176, ["p1"] = 80, ["p2"] = 5, ["dur"] = 24} -- movement rate bonus (mode: multiply %)
+							{["op"] = 176, ["p1"] = 80, ["p2"] = 5, ["dur"] = 24}, -- movement rate bonus (mode: multiply %)
 							{["op"] = 139, ["p1"] = %feedback_strref_dex_mod%} -- feedback string
 						}
 						--
@@ -180,10 +184,10 @@ function %ARCHER_CALLED_SHOT%(CGameEffect, CGameSprite)
 				end
 			else
 				-- display feedback message
-				GT_Utility_DisplaySpriteMessage(sourceSprite,
-					string.format("%s : %d + %d = %d : %s",
-						CGameEffect.m_effectAmount == 1 and Infinity_FetchString(%feedback_strref_called_shot_arms%) or Infinity_FetchString(%feedback_strref_called_shot_legs%), roll, modifier, roll + modifier, Infinity_FetchString(%feedback_strref_miss%)),
-					0xBED7D7, 0xBED7D7
+				GT_Sprite_DisplayMessage(sourceSprite,
+					string.format("%s : %d %s %d = %d : %s",
+						CGameEffect.m_effectAmount == 1 and Infinity_FetchString(%feedback_strref_called_shot_arms%) or Infinity_FetchString(%feedback_strref_called_shot_legs%), roll, modifier < 0 and "-" or "+", math.abs(modifier), roll + modifier, Infinity_FetchString(%feedback_strref_miss%)),
+					0xBED7D7
 				)
 			end
 		else
@@ -195,8 +199,6 @@ function %ARCHER_CALLED_SHOT%(CGameEffect, CGameSprite)
 				["sourceTarget"] = CGameEffect.m_sourceTarget,
 			})
 		end
-		--
-		weaponEffectiveVs:free()
 	end
 end
 
@@ -207,11 +209,11 @@ EEex_Sprite_AddQuickListsCheckedListener(function(sprite, resref, changeAmount)
 	local spriteAux = EEex_GetUDAux(sprite)
 
 	local resToAux = {
-		["%ARCHER_CALLED_SHOT%B"] = "gtCallShotArmTargetID",
-		["%ARCHER_CALLED_SHOT%C"] = "gtCallShotLegTargetID",
+		["%ARCHER_CALLED_SHOT%B"] = "gt_NWN_CallShotArm_TargetID",
+		["%ARCHER_CALLED_SHOT%C"] = "gt_NWN_CallShotLeg_TargetID",
 	}
 
-	if not (sprite:getLocalInt("gtArcherCalledShot") == 1 and curAction.m_actionID == 31 and resToAux[resref] and changeAmount < 0) then
+	if not (sprite:getLocalInt("gtNWNCalledShot") == 1 and curAction.m_actionID == 31 and resToAux[resref] and changeAmount < 0) then
 		return
 	end
 
@@ -234,10 +236,8 @@ EEex_Sprite_AddQuickListsCheckedListener(function(sprite, resref, changeAmount)
 	end)
 
 	-- make sure the creature is equipped with a bow
-	local equipment = sprite.m_equipment
-	local selectedWeapon = equipment.m_items:get(equipment.m_selectedWeapon) -- CItem
-	local selectedWeaponHeader = selectedWeapon.pRes.pHeader -- Item_Header_st
-	local selectedWeaponTypeStr = EEex_Resource_ItemCategoryIDSToSymbol(selectedWeaponHeader.itemType)
+	local selectedWeapon = GT_Sprite_GetSelectedWeapon(sprite)
+	local selectedWeaponTypeStr = EEex_Resource_ItemCategoryIDSToSymbol(selectedWeapon["header"].itemType)
 	-- Bow with arrows equipped || bow with unlimited ammo equipped
 	if selectedWeaponTypeStr == "ARROW" or selectedWeaponTypeStr == "BOW" then
 		-- store target id
@@ -265,16 +265,14 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	local spriteAux = EEex_GetUDAux(sprite)
 	--
 	local auxToRes = {
-		["gtCallShotArmTargetID"] = "%ARCHER_CALLED_SHOT%D",
-		["gtCallShotLegTargetID"] = "%ARCHER_CALLED_SHOT%E",
+		["gt_NWN_CallShotArm_TargetID"] = "%ARCHER_CALLED_SHOT%D",
+		["gt_NWN_CallShotLeg_TargetID"] = "%ARCHER_CALLED_SHOT%E",
 	}
 	-- make sure the creature is equipped with a bow
-	local equipment = sprite.m_equipment
-	local selectedWeapon = equipment.m_items:get(equipment.m_selectedWeapon) -- CItem
-	local selectedWeaponHeader = selectedWeapon.pRes.pHeader -- Item_Header_st
-	local selectedWeaponTypeStr = EEex_Resource_ItemCategoryIDSToSymbol(selectedWeaponHeader.itemType)
+	local selectedWeapon = GT_Sprite_GetSelectedWeapon(sprite)
+	local selectedWeaponTypeStr = EEex_Resource_ItemCategoryIDSToSymbol(selectedWeapon["header"].itemType)
 	--
-	if sprite:getLocalInt("gtArcherCalledShot") == 1 then
+	if sprite:getLocalInt("gtNWNCalledShot") == 1 then
 		if selectedWeaponTypeStr == "ARROW" or selectedWeaponTypeStr == "BOW" then
 			if sprite.m_nSequence == 8 and sprite.m_attackFrame == 6 then -- SetSequence(SEQ_SHOOT)
 				for aux, res in pairs(auxToRes) do
@@ -283,21 +281,23 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 						local targetSprite = EEex_GameObject_Get(spriteAux[aux])
 						spriteAux[aux] = nil
 						-- make sure to use the currently selected projectile
-						sprite:applyEffect({
-							["effectID"] = 408, -- projectile mutator
-							["durationType"] = 10, -- ticks
-							["duration"] = 1,
-							["res"] = "%ARCHER_CALLED_SHOT%P",
-							["sourceID"] = sprite.m_id,
-							["sourceTarget"] = sprite.m_id,
-						})
-						targetSprite:applyEffect({
-							["effectID"] = 146, -- cast spl
-							["dwFlags"] = 1, -- instant / ignore level
-							["res"] = res,
-							["sourceID"] = sprite.m_id,
-							["sourceTarget"] = targetSprite.m_id,
-						})
+						if targetSprite then
+							sprite:applyEffect({
+								["effectID"] = 408, -- projectile mutator
+								["durationType"] = 10, -- ticks
+								["duration"] = 1,
+								["res"] = "%ARCHER_CALLED_SHOT%P",
+								["sourceID"] = sprite.m_id,
+								["sourceTarget"] = sprite.m_id,
+							})
+							targetSprite:applyEffect({
+								["effectID"] = 146, -- cast spl
+								["dwFlags"] = 1, -- instant / ignore level
+								["res"] = res,
+								["sourceID"] = sprite.m_id,
+								["sourceTarget"] = targetSprite.m_id,
+							})
+						end
 						--
 						break
 					end
@@ -317,16 +317,17 @@ end)
 		}
 		--
 		local originatingSprite = context["originatingSprite"] -- CGameSprite
+		local projectileTypeStr = GT_Resource_IDSToSymbol["missile"][context["projectileType"]] -- The projectile type about to be decoded
 		--
 		if not actionSources[context.decodeSource] then
 			return
 		end
 		--
-		local equipment = originatingSprite.m_equipment
-		local selectedWeapon = equipment.m_items:get(equipment.m_selectedWeapon) -- CItem
-		local selectedWeaponAbility = EEex_Resource_GetCItemAbility(selectedWeapon, equipment.m_selectedWeaponAbility) -- Item_ability_st
+		local selectedWeapon = GT_Sprite_GetSelectedWeapon(originatingSprite)
 		-- morph projectile
-		return selectedWeaponAbility.missileType
+		if projectileTypeStr == "GT_Called_Shot" then
+			return selectedWeapon["ability"].missileType
+		end
 	end,
 
 	["projectileMutator"] = function(context)
@@ -334,25 +335,8 @@ end)
 			[EEex_Projectile_DecodeSource.CGameAIBase_FireSpell] = true,
 		}
 		--
-		local originatingSprite = context["originatingSprite"] -- CGameSprite
-		--
 		if not actionSources[context.decodeSource] then
 			return
-		end
-		--
-		local projectile = context["projectile"] -- CProjectile
-		--
-		if EEex_Projectile_IsOfType(projectile, EEex_Projectile_Type["CProjectileArea"]) then
-			originatingSprite.m_curAction.m_actionID = 0 -- nuke current action
-			--
-			originatingSprite:applyEffect({
-				["effectID"] = 139, -- display string
-				["effectAmount"] = %feedback_strref_AoE%,
-				["sourceID"] = originatingSprite.m_id,
-				["sourceTarget"] = originatingSprite.m_id,
-			})
-			--
-			--projectile:ClearEffects()
 		end
 	end,
 
@@ -366,12 +350,20 @@ end)
 		end
 		--
 		local effect = context["effect"] -- CGameEffect
-		--
 		local projectile = context["projectile"] -- CProjectile
+		local originatingSprite = context["originatingSprite"] -- CGameSprite
 		--
 		if EEex_Projectile_IsOfType(projectile, EEex_Projectile_Type["CProjectileArea"]) then
 			if effect.m_effectId == 402 then -- invoke lua
 				if effect.m_res:get() == "%ARCHER_CALLED_SHOT%" then
+					-- print warning
+					originatingSprite:applyEffect({
+						["effectID"] = 139, -- display string
+						["effectAmount"] = %feedback_strref_AoE%,
+						["sourceID"] = originatingSprite.m_id,
+						["sourceTarget"] = originatingSprite.m_id,
+					})
+					-- nuke 402
 					effect.m_effectAmount = 0
 				end
 			end
@@ -379,17 +371,17 @@ end)
 	end,
 }
 
--- Forget about ``spriteAux["gtCallShotXTargetID"]`` if the player manually interrupts the action --
+-- Forget about ``spriteAux["gt_Aux_NWN_CallShotX_TargetID"]`` if the player manually interrupts the action --
 
 EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
 	local spriteAux = EEex_GetUDAux(sprite)
 	--
 	local resToAux = {
-		["%ARCHER_CALLED_SHOT%B"] = "gtCallShotArmTargetID",
-		["%ARCHER_CALLED_SHOT%C"] = "gtCallShotLegTargetID",
+		["%ARCHER_CALLED_SHOT%B"] = "gt_NWN_CallShotArm_TargetID",
+		["%ARCHER_CALLED_SHOT%C"] = "gt_NWN_CallShotLeg_TargetID",
 	}
 	--
-	if sprite:getLocalInt("gtArcherCalledShot") == 1 then
+	if sprite:getLocalInt("gtNWNCalledShot") == 1 then
 		if not (action.m_actionID == 113 and resToAux[action.m_string1.m_pchData:get()]) then
 			for _, aux in pairs(resToAux) do
 				if spriteAux[aux] ~= nil then
@@ -410,7 +402,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- internal function that grants the ability
 	local gain = function()
 		-- Mark the creature as 'feat granted'
-		sprite:setLocalInt("gtArcherCalledShot", 1)
+		sprite:setLocalInt("gtNWNCalledShot", 1)
 		--
 		local effectCodes = {
 			{["op"] = 172, ["res"] = "%ARCHER_CALLED_SHOT%B"}, -- remove spell
@@ -421,7 +413,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		--
 		for _, attributes in ipairs(effectCodes) do
 			sprite:applyEffect({
-				["effectID"] = attributes["op"] or -1,
+				["effectID"] = attributes["op"] or EEex_Error("opcode number not specified"),
 				["res"] = attributes["res"] or "",
 				["sourceID"] = sprite.m_id,
 				["sourceTarget"] = sprite.m_id,
@@ -429,20 +421,15 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		end
 	end
 	-- Check creature's class / kit
-	local spriteClassStr = GT_Resource_IDSToSymbol["class"][sprite.m_typeAI.m_Class]
-	--
-	local spriteFlags = sprite.m_baseStats.m_flags
+	local class = GT_Resource_SymbolToIDS["class"]
 	-- since ``EEex_Opcode_AddListsResolvedListener`` is running after the effect lists have been evaluated, ``m_bonusStats`` has already been added to ``m_derivedStats`` by the engine
-	local spriteLevel1 = sprite.m_derivedStats.m_nLevel1
-	local spriteLevel2 = sprite.m_derivedStats.m_nLevel2
 	local spriteKitStr = EEex_Resource_KitIDSToSymbol(sprite.m_derivedStats.m_nKit)
+	-- any ranger (single/multi/(complete)dual, not fallen)
+	local isRangerAll = GT_Sprite_CheckIDS(sprite, class["RANGER_ALL"], 5, true)
 	--
-	local gainAbility = spriteKitStr == "FERALAN"
-		and (spriteClassStr == "RANGER"
-			or (spriteClassStr == "CLERIC_RANGER" and (EEex_IsBitUnset(spriteFlags, 0x8) or spriteLevel1 > spriteLevel2)))
-		and EEex_IsBitUnset(spriteFlags, 10) -- must not be fallen
+	local gainAbility = spriteKitStr == "FERALAN" and isRangerAll
 	--
-	if sprite:getLocalInt("gtArcherCalledShot") == 0 then
+	if sprite:getLocalInt("gtNWNCalledShot") == 0 then
 		if gainAbility then
 			gain()
 		end
@@ -451,7 +438,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			-- do nothing
 		else
 			-- Mark the creature as 'feat removed'
-			sprite:setLocalInt("gtArcherCalledShot", 0)
+			sprite:setLocalInt("gtNWNCalledShot", 0)
 			--
 			sprite:applyEffect({
 				["effectID"] = 172, -- remove spell

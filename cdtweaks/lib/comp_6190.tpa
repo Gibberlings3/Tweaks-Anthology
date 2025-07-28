@@ -7,11 +7,11 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
 
 WITH_SCOPE BEGIN
-  INCLUDE "cdtweaks\luke\misc.tph"
+  INCLUDE "cdtweaks\luke\lib\install.tph"
   //
-  INCLUDE "cdtweaks\lib\dirty_fighting.tph"
+  INCLUDE "cdtweaks\lib\gt_dirty_fighting.tph"
   //
-  WITH_TRA "cdtweaks\languages\english\dirty_fighting.tra" "cdtweaks\languages\%LANGUAGE%\dirty_fighting.tra" BEGIN
+  WITH_TRA "cdtweaks\languages\english\gt_dirty_fighting.tra" "cdtweaks\languages\%LANGUAGE%\gt_dirty_fighting.tra" BEGIN
     LAF "DIRTY_FIGHTING" END
   END
 END

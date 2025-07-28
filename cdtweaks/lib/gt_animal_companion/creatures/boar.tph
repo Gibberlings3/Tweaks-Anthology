@@ -1,0 +1,181 @@
+/*
++-------------+
+| SPL file(s) |
++-------------+
+*/
+
+LAF "GT_ADD_SPELL"
+INT_VAR
+	"type" = 3
+	"level" = 3
+	"preferredSlot" = 21
+STR_VAR
+	"idsName" = "INNATE_ANIMAL_FEROCITY"
+RET
+	"INNATE_ANIMAL_FEROCITY" = "resName"
+END
+
+WITH_SCOPE BEGIN
+	ACTION_IF !(FILE_EXISTS_IN_GAME "%INNATE_ANIMAL_FEROCITY%.spl") BEGIN
+		ACTION_TO_LOWER "INNATE_ANIMAL_FEROCITY"
+		//
+		CREATE "spl" "%INNATE_ANIMAL_FEROCITY%"
+		COPY_EXISTING "%INNATE_ANIMAL_FEROCITY%.spl" "override"
+			/* Header */
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@3000)
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC RESOLVE_STR_REF (@3001)
+			WRITE_LONG DESC "-1"
+			WRITE_LONG 0x18 (BIT14 BOR BIT25 BOR BIT9 BOR BIT10) // Ignore dead/wild magic, Castable when silenced, Break sanctuary/invisibility
+			WRITE_SHORT 0x1C 4 // Type: Innate
+			WRITE_LONG 0x34 1 // Level
+			PATCH_IF GAME_IS "iwdee" BEGIN
+				WRITE_ASCII 0x3A ~%INNATE_WAR_CRY%B~ #8 // Icon
+			END ELSE BEGIN
+				WRITE_ASCII 0x3A ~%MINSC_BERSERK%B~ #8 // Icon
+			END
+			/* Extended Header */
+			PATCH_IF GAME_IS "iwdee" BEGIN
+				LPF ~ADD_SPELL_HEADER~ INT_VAR "range" = 30 "target" = 5 STR_VAR "icon" = ~%INNATE_WAR_CRY%B~ END
+			END ELSE BEGIN
+				LPF ~ADD_SPELL_HEADER~ INT_VAR "range" = 30 "target" = 5 STR_VAR "icon" = ~%MINSC_BERSERK%B~ END
+			END
+			/* Feature Blocks */
+			//LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 215 "target" = 1 "duration" = 2 "parameter2" = 1 STR_VAR "resource" = "ICSTRENI" END // play visual effect
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 402 "target" = 1 STR_VAR "resource" = "%DEST_RES%" END // invoke lua
+		BUT_ONLY
+	END
+END
+
+/*
++----------+
+| CRE file |
++----------+
+*/
+
+// creature animation files
+WITH_SCOPE BEGIN
+	ACTION_BASH_FOR "cdtweaks\luke\animation\boar_wild" "^.+\.\(bam\|wav\|bmp\|ini\)$" BEGIN
+		ACTION_IF !(FILE_EXISTS_IN_GAME "%BASH_FOR_FILE%") BEGIN
+			ACTION_TO_LOWER "BASH_FOR_FILESPEC"
+			COPY "%BASH_FOR_FILESPEC%" "override"
+		END
+	END
+	APPEND "animate.ids" "0xE27F BOAR_WILD" UNLESS "BOAR_WILD"
+END
+
+WITH_SCOPE BEGIN
+	ACTION_TO_LOWER "BEASTMASTER_ANIMAL_COMPANION"
+	//
+	CREATE "cre" "%BEASTMASTER_ANIMAL_COMPANION%c"
+	COPY_EXISTING "%BEASTMASTER_ANIMAL_COMPANION%c.cre" "override"
+		LPF "WRITE_CRE_HEADER"
+		INT_VAR
+			"name" = RESOLVE_STR_REF (@3002)
+			"tooltip" = RESOLVE_STR_REF (@3002)
+			//
+			"flags" = BIT1 // no corpse
+			//
+			"curHP" = 1
+			"maxHP" = 1
+			//
+			"animation" = IDS_OF_SYMBOL ("animate" "BOAR_WILD")
+			//
+			"metal_color" = 30
+			"minor_color" = 37
+			"major_color" = 1
+			"skin_color" = 9
+			"leather_color" = 23
+			"armor_color" = 30
+			"hair_color" = 1
+			//
+			"AC" = 7
+			//
+			"apr" = 1 // # attacks/round
+			//
+			"sex" = IDS_OF_SYMBOL ("gender" "FEMALE")
+			// abilities
+			"STR" = 16
+			"INT" = 4
+			"WIS" = 2
+			"DEX" = 10
+			"CON" = 16
+			"CHR" = 3
+			//
+			"morale" = 10
+			"morale_break" = 5
+			"morale_recovery" = 60
+			// IDS
+			"allegiance" = IDS_OF_SYMBOL ("ea" "NEUTRAL")
+			"general" = IDS_OF_SYMBOL ("general" "ANIMAL")
+			"race" = IDS_OF_SYMBOL ("race" "MAMMAL")
+			"class" = IDS_OF_SYMBOL ("class" "NO_CLASS")
+			"gender" = IDS_OF_SYMBOL ("gender" "FEMALE")
+			"alignment" = IDS_OF_SYMBOL ("align" "NEUTRAL")
+		STR_VAR
+			"script_override" = "%BEASTMASTER_ANIMAL_COMPANION%x"
+			"script_class" = "%BEASTMASTER_ANIMAL_COMPANION%y"
+			"script_default" = "%BEASTMASTER_ANIMAL_COMPANION%z"
+			//
+			"deathvar" = "gtNWNAnmlCompBoar"
+		END
+		// equipment
+		ADD_CRE_ITEM "gtpet03a" #0 #0 #0 "identified&unstealable&undroppable" "weapon" EQUIP
+		// passive traits
+		LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 268 "target" = 1 "timing" = 1 END // clear fog of war
+		LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 232 "target" = 1 "timing" = 1 "parameter2" = 16 "special" = BIT2 STR_VAR "resource" = "%BEASTMASTER_ANIMAL_COMPANION%#" END // cast spell onto myself upon death (suppress spell's name)
+		// spellbook
+		ADD_MEMORIZED_SPELL "%BEASTMASTER_ANIMAL_COMPANION%#" #0 "innate" // banish
+		ADD_MEMORIZED_SPELL "%INNATE_ANIMAL_FEROCITY%" #0 "innate"
+	BUT_ONLY_IF_IT_CHANGES
+END
+
+/*
++-------------+
+| ITM file(s) |
++-------------+
+*/
+
+WITH_SCOPE BEGIN
+	CREATE "itm" "gtpet03a"
+	COPY_EXISTING "gtpet03a.itm" "override"
+		/* Header */
+		WRITE_LONG NAME1 "-1"
+		WRITE_LONG NAME2 "-1"
+		WRITE_LONG UNIDENTIFIED_DESC "-1"
+		WRITE_LONG DESC "-1"
+		WRITE_LONG 0x18 BIT5 // flags: not copyable (not needed...?)
+		WRITE_SHORT 0x38 1 // maximum in stack
+		WRITE_ASCII 0x3A "IWOLF" #8
+		/* Extended Header */
+		LPF ~ADD_ITEM_HEADER~ INT_VAR "type" = 1 "location" = 1 "range" = 1 "dicenumber" = 3 "dicesize" = 4 "damage_type" = 1 "depletion" = 1 "flags" = BIT0 "overhand" = 34 "backhand" = 33 "thrust" = 33 STR_VAR "icon" = "IWOLF" END // 3d4 (piercing)
+	BUT_ONLY_IF_IT_CHANGES
+	//
+	WITH_SCOPE BEGIN
+		ACTION_DEFINE_ASSOCIATIVE_ARRAY "gtBoarWeaponUpgrades" BEGIN
+			"b" => 0 // magical (+0)
+			"c" => 1 // magical (+1)
+			"d" => 2 // magical (+2)
+			"e" => 3 // magical (+3)
+		END
+		ACTION_PHP_EACH "gtBoarWeaponUpgrades" AS "id" => "enchantment" BEGIN
+			COPY_EXISTING "gtpet03a.itm" "override\gtpet03%id%.itm"
+				WRITE_LONG 0x18 (THIS BOR BIT6) // flags: magical
+				WRITE_LONG 0x60 "%enchantment%"
+				//
+				LPF "ALTER_ITEM_HEADER" INT_VAR "damage_bonus" = "%enchantment%" "thac0_bonus" = "%enchantment%" END
+			BUT_ONLY_IF_IT_CHANGES
+		END
+	END
+END
+
+/*
++-------------+
+**LUA file(s) |
++-------------+
+*/
+
+WITH_SCOPE BEGIN
+	OUTER_SET "feedback_strref_already_cast" = RESOLVE_STR_REF (@3003)
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Innate Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\kit\animal_companion\boar\ferocity.lua" "destRes" = "m_gtspin" END
+END

@@ -40,29 +40,30 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		})
 	end
 	-- Check creature's equipment / class / kit / levels
-	local equipment = sprite.m_equipment
-	local selectedWeapon = equipment.m_items:get(equipment.m_selectedWeapon)
-	local selectedWeaponHeader = selectedWeapon.pRes.pHeader
-	--
 	local spriteClassStr = GT_Resource_IDSToSymbol["class"][sprite.m_typeAI.m_Class]
 	--
-	local selectedWeaponTypeStr = EEex_Resource_ItemCategoryIDSToSymbol(selectedWeaponHeader.itemType)
+	local selectedWeapon = GT_Sprite_GetSelectedWeapon(sprite)
+	local selectedWeaponTypeStr = EEex_Resource_ItemCategoryIDSToSymbol(selectedWeapon["header"].itemType)
 	--
 	local spriteFlags = sprite.m_baseStats.m_flags
 	-- since ``EEex_Opcode_AddListsResolvedListener`` is running after the effect lists have been evaluated, ``m_bonusStats`` has already been added to ``m_derivedStats`` by the engine
 	local spriteLevel1 = sprite.m_derivedStats.m_nLevel1
 	local spriteLevel2 = sprite.m_derivedStats.m_nLevel2
 	local spriteKitStr = EEex_Resource_KitIDSToSymbol(sprite.m_derivedStats.m_nKit)
+	-- any ranger (single/multi/(complete)dual, not fallen)
+	local isRanger = spriteClassStr == "RANGER"
+	local isClericRanger = spriteClassStr == "CLERIC_RANGER" and (EEex_IsBitUnset(spriteFlags, 0x8) or spriteLevel1 > spriteLevel2)
+	local isFallenRanger = EEex_IsBitSet(spriteFlags, 10)
 	--
 	local bonus = 0
 	--
-	if spriteClassStr == "RANGER" then
+	if isRanger then
 		if spriteLevel1 <= 18 then
 			bonus = math.floor(spriteLevel1 / 3)
 		else
 			bonus = math.floor((spriteLevel1 - 18) / 5) + (18 / 3)
 		end
-	else
+	elseif isClericRanger then
 		if spriteLevel2 <= 18 then
 			bonus = math.floor(spriteLevel2 / 3)
 		else
@@ -72,10 +73,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- (Bow with arrows equipped || bow with unlimited ammo equipped) && Archer kit
 	local applyAbility = (selectedWeaponTypeStr == "ARROW" or selectedWeaponTypeStr == "BOW")
 		and spriteKitStr == "FERALAN"
-		and (spriteClassStr == "RANGER"
-			-- incomplete dual-class characters are not supposed to benefit from this passive feat
-			or (spriteClassStr == "CLERIC_RANGER" and (EEex_IsBitUnset(spriteFlags, 0x8) or spriteLevel1 > spriteLevel2)))
-		and EEex_IsBitUnset(spriteFlags, 10) -- not Fallen Ranger
+		and ((isRanger or isClericRanger) and not isFallenRanger)
 		and bonus > 0
 	--
 	if sprite:getLocalInt("gtArcherKitBonus") == 0 then

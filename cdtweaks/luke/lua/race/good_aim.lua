@@ -14,7 +14,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- internal function that applies the actual bonus
 	local apply = function()
 		-- Mark the creature as 'bonus applied'
-		sprite:setLocalInt("gtHalflingGoodAim", 1)
+		sprite:setLocalInt("gtNWNGoodAim", 1)
 		--
 		sprite:applyEffect({
 			["effectID"] = 321, -- Remove effects by resource
@@ -40,20 +40,16 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		})
 	end
 	-- Check creature's equipment / race
-	local equipment = sprite.m_equipment -- CGameSpriteEquipment
-	local selectedWeapon = equipment.m_items:get(equipment.m_selectedWeapon) -- CItem
-	local selectedWeaponHeader = selectedWeapon.pRes.pHeader -- Item_Header_st
-	local selectedWeaponAbility = EEex_Resource_GetItemAbility(selectedWeaponHeader, equipment.m_selectedWeaponAbility) -- Item_ability_st
+	local selectedWeapon = GT_Sprite_GetSelectedWeapon(sprite)
+	local selectedWeaponTypeStr = EEex_Resource_ItemCategoryIDSToSymbol(selectedWeapon["header"].itemType)
 	--
 	local spriteRaceStr = GT_Resource_IDSToSymbol["race"][sprite.m_typeAI.m_Race]
-	--
-	local selectedWeaponTypeStr = EEex_Resource_ItemCategoryIDSToSymbol(selectedWeaponHeader.itemType)
 	-- This feat grants a +1 thac0 bonus with throwing weapons (throwing daggers, throwing axes, darts, throwing hammers)
 	local applyAbility = (selectedWeaponTypeStr == "DAGGER" or selectedWeaponTypeStr == "AXE" or selectedWeaponTypeStr == "HAMMER" or selectedWeaponTypeStr == "DART")
-		and selectedWeaponAbility.type == 2 -- Ranged
+		and selectedWeapon["ability"].type == 2 -- Ranged
 		and spriteRaceStr == "HALFLING"
 	--
-	if sprite:getLocalInt("gtHalflingGoodAim") == 0 then
+	if sprite:getLocalInt("gtNWNGoodAim") == 0 then
 		if applyAbility then
 			apply()
 		end
@@ -62,7 +58,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			-- do nothing
 		else
 			-- Mark the creature as 'bonus removed'
-			sprite:setLocalInt("gtHalflingGoodAim", 0)
+			sprite:setLocalInt("gtNWNGoodAim", 0)
 			--
 			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource

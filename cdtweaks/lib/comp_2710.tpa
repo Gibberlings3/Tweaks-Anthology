@@ -1,59 +1,15 @@
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-/////                                                  \\\\\
-///// Yoshi-Imoen: Experience Transfer                 \\\\\
-/////                                                  \\\\\
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                                                          \\\\\
+///// NWN-like Summons                                                                         \\\\\
+/////                                                                                          \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-OUTER_SPRINT ee_trigger ~Global("BD_JOINXP","LOCALS",1)~
-ACTION_IF !enhanced_edition BEGIN // obg2 doesn't set yoshimo_killed_spellhold
-
-  OUTER_SPRINT ee_trigger ~~ // no BD_JOINXP on oBG2
-  
-  COPY_EXISTING ~yoshimox.bcs~ ~override~ // add yoshimo_killed_spellhold to existing die() block
-    DECOMPILE_AND_PATCH BEGIN 
-      REPLACE_TEXTUALLY ~\(CreateItem("miscbu",0,0,0)\)~ ~\1 SetGlobal("yoshimo_killed_spellhold","GLOBAL",1)~
-    END
-    BUT_ONLY 
-  
-END 
-
-OUTER_FOR (index = 3 ; index < 18 ; ++index) BEGIN // 750k to 4M, iterating every 250k
-
-  OUTER_SET higher = index * 250000
-  OUTER_SET lower = higher - 250001
-  
-  ACTION_IF index != 17 BEGIN // don't bother setting actions/triggers for kill block
-  
-    ACTION_IF !enhanced_edition BEGIN // no changestat in obg2, so do it via op 104
-    
-      COPY ~cdtweaks/spl/cdimxp3.spl~ ~override/cdimxp%index%.spl~ // spell to match xp
-        LPF ALTER_EFFECT INT_VAR match_opcode = 104 parameter1 = higher END
-      
-      OUTER_SPRINT action ~ApplySpellRES("cdimxp%index%",Myself)~ // no changestat in obg2
-    
-    END ELSE BEGIN
-  
-      OUTER_SPRINT action ~ChangeStat(Myself,XP,%higher%,SET)~
-    
-    END  
-    
-    OUTER_SPRINT trigger ~XPLT(Myself,%higher%)~
-    ACTION_IF index != 3 BEGIN // add lower bound to all except first block
-      OUTER_SPRINT trigger ~%trigger% XPGT("yoshimo",%lower%)~
-    END    
-    ACTION_IF index != 16 BEGIN // add upper bound to all except last block
-      OUTER_SPRINT trigger ~%trigger% XPLT("yoshimo",%higher%)~
-    END   
-  
-  END ELSE BEGIN // last block (kill block)
-  
-    OUTER_SPRINT action ~~
-    OUTER_SPRINT trigger ~~
-    
-  END    
-
-  EXTEND_BOTTOM ~IMOEN2.BCS~   ~%MOD_FOLDER%/baf/imoen.baf~ EVALUATE_BUFFER
-  
-END 
+WITH_SCOPE BEGIN
+  INCLUDE "cdtweaks\luke\lib\install.tph"
+  //
+  INCLUDE "cdtweaks\lib\gt_nwn-style_summons.tph"
+  //
+  LAF "NWN-STYLE_SUMMONS" END
+END

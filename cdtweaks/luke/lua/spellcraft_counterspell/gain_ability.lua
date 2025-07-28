@@ -8,38 +8,35 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- internal function that grants the actual feat
 	local gain = function()
 		-- Mark the creature as 'feat granted'
-		sprite:setLocalInt("gtCounterSpell", 1)
+		sprite:setLocalInt("gtNWNCounterSpell", 1)
 		--
-		sprite:applyEffect({
-			["effectID"] = 172, -- Remove spell
-			["res"] = "%INNATE_COUNTERSPELL%",
-			["sourceID"] = sprite.m_id,
-			["sourceTarget"] = sprite.m_id,
-		})
-		sprite:applyEffect({
-			["effectID"] = 171, -- Give spell
-			["res"] = "%INNATE_COUNTERSPELL%",
-			["sourceID"] = sprite.m_id,
-			["sourceTarget"] = sprite.m_id,
-		})
+		if sprite.m_typeAI.m_Class ~= 5 then -- skip bards
+			sprite:applyEffect({
+				["effectID"] = 172, -- Remove spell
+				["res"] = "%INNATE_COUNTERSPELL%",
+				["sourceID"] = sprite.m_id,
+				["sourceTarget"] = sprite.m_id,
+			})
+			sprite:applyEffect({
+				["effectID"] = 171, -- Give spell
+				["res"] = "%INNATE_COUNTERSPELL%",
+				["sourceID"] = sprite.m_id,
+				["sourceTarget"] = sprite.m_id,
+			})
+		end
 	end
 	-- Check creature's class / flags
-	local spriteClassStr = GT_Resource_IDSToSymbol["class"][sprite.m_typeAI.m_Class]
-	--
-	local spriteFlags = sprite.m_baseStats.m_flags
-	-- since ``EEex_Opcode_AddListsResolvedListener`` is running after the effect lists have been evaluated, ``m_bonusStats`` has already been added to ``m_derivedStats`` by the engine
-	local spriteLevel1 = sprite.m_derivedStats.m_nLevel1
-	local spriteLevel2 = sprite.m_derivedStats.m_nLevel2
+	local class = GT_Resource_SymbolToIDS["class"]
 	-- Check if spellcaster class -- single/multi/(complete)dual
-	local gainAbility = spriteClassStr == "BARD" or spriteClassStr == "MAGE" or spriteClassStr == "CLERIC" or spriteClassStr == "DRUID" or spriteClassStr == "FIGHTER_MAGE_THIEF" or spriteClassStr == "FIGHTER_MAGE_CLERIC" or spriteClassStr == "CLERIC_MAGE"
-		or (spriteClassStr == "FIGHTER_MAGE" and (EEex_IsBitUnset(spriteFlags, 0x4) or spriteLevel1 > spriteLevel2))
-		or (spriteClassStr == "FIGHTER_CLERIC" and (EEex_IsBitUnset(spriteFlags, 0x5) or spriteLevel1 > spriteLevel2))
-		or (spriteClassStr == "MAGE_THIEF" and (EEex_IsBitUnset(spriteFlags, 0x4) or spriteLevel2 > spriteLevel1))
-		or (spriteClassStr == "CLERIC_THIEF" and (EEex_IsBitUnset(spriteFlags, 0x5) or spriteLevel2 > spriteLevel1))
-		or (spriteClassStr == "FIGHTER_DRUID" and (EEex_IsBitUnset(spriteFlags, 0x7) or spriteLevel1 > spriteLevel2))
-		or (spriteClassStr == "CLERIC_RANGER" and (EEex_IsBitUnset(spriteFlags, 0x5) or spriteLevel2 > spriteLevel1))
+	local isClericAll = GT_Sprite_CheckIDS(sprite, class["CLERIC_ALL"], 5)
+	local isMageAll = GT_Sprite_CheckIDS(sprite, class["MAGE_ALL"], 5)
+	local isDruidAll = GT_Sprite_CheckIDS(sprite, class["DRUID_ALL"], 5)
+	local isShaman = GT_Sprite_CheckIDS(sprite, class["SHAMAN"], 5)
+	local isBardAll = GT_Sprite_CheckIDS(sprite, class["BARD_ALL"], 5)
 	--
-	if sprite:getLocalInt("gtCounterSpell") == 0 then
+	local gainAbility = isClericAll or isMageAll or isDruidAll or isShaman or isBardAll
+	--
+	if sprite:getLocalInt("gtNWNCounterSpell") == 0 then
 		if gainAbility then
 			gain()
 		end
@@ -48,9 +45,9 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			-- do nothing
 		else
 			-- Mark the creature as 'feat removed'
-			sprite:setLocalInt("gtCounterSpell", 0)
+			sprite:setLocalInt("gtNWNCounterSpell", 0)
 			--
-			if sprite:getLocalInt("gtCounterSpellMode") == 1 then
+			if sprite:getLocalInt("gtNWNCounterSpellMode") == 1 then
 				sprite:applyEffect({
 					["effectID"] = 146, -- Cast spell
 					["dwFlags"] = 1, -- instant/ignore level
