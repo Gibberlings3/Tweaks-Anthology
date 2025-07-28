@@ -4,16 +4,6 @@
 +----------------------------------------+
 --]]
 
-local cdtweaks_MoreSensibleCowledWizards = {
-	["AR0020"] = true, -- City Gates
-	["AR0300"] = true, -- The Docks
-	["AR0400"] = true, -- Slums
-	["AR0500"] = true, -- Bridge District
-	["AR0700"] = true, -- Waukeen's Promenade
-	["AR0900"] = true, -- Temple District
-	["AR1000"] = true, -- Government District
-}
-
 -- set a GLOBAL var when a PC casts a wizard spell and is in Athkatla --
 
 GTCOWENF = {
@@ -39,6 +29,16 @@ GTCOWENF = {
 			[EEex_Projectile_DecodeSource.CGameAIBase_ForceSpellPoint] = true,
 		}
 		--
+		local areaSources = {
+			["AR0020"] = true, -- City Gates
+			["AR0300"] = true, -- The Docks
+			["AR0400"] = true, -- Slums
+			["AR0500"] = true, -- Bridge District
+			["AR0700"] = true, -- Waukeen's Promenade
+			["AR0900"] = true, -- Temple District
+			["AR1000"] = true, -- Government District
+		}
+		--
 		if not actionSources[context.decodeSource] then
 			return
 		end
@@ -54,8 +54,8 @@ GTCOWENF = {
 		--
 		local spellHeader = EEex_Resource_Demand(spellResRef, "SPL")
 		--
-		if spellHeader.itemType == 1 and cdtweaks_MoreSensibleCowledWizards[originatingSprite.m_pArea.m_resref:get()] then -- if wizard spell and in Athkatla ...
-			EEex_GameState_SetGlobalInt("gt_CowledWizardsTriggered", 1)
+		if spellHeader.itemType == 1 and areaSources[originatingSprite.m_pArea.m_resref:get()] then -- if wizard spell and in Athkatla ...
+			EEex_GameState_SetGlobalInt("gtCowledWizardsTriggered", 1)
 		end
 	end,
 
@@ -83,7 +83,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- internal function that applies the actual condition
 	local apply = function()
 		-- Mark the creature as 'condition applied'
-		sprite:setLocalInt("cdtweaksCowledWizards", 1)
+		sprite:setLocalInt("gtMoreSensibleCowlies", 1)
 		--
 		local effectCodes = {
 			{["op"] = 321}, -- Remove effects by resource
@@ -104,7 +104,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- Check creature's EA
 	local applyCondition = sprite.m_typeAI.m_EnemyAlly == 2 -- PC
 	--
-	if sprite:getLocalInt("cdtweaksCowledWizards") == 0 then
+	if sprite:getLocalInt("gtMoreSensibleCowlies") == 0 then
 		if applyCondition then
 			apply()
 		end
@@ -113,7 +113,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			-- do nothing
 		else
 			-- Mark the creature as 'condition removed'
-			sprite:setLocalInt("cdtweaksCowledWizards", 0)
+			sprite:setLocalInt("gtMoreSensibleCowlies", 0)
 			--
 			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource

@@ -16,6 +16,9 @@ function %CLERIC_VIRTUE%(CGameEffect, CGameSprite)
 			["numDice"] = 1,
 			["diceSize"] = 6,
 			["m_flags"] = 0x3, -- dispellable/bypass mr
+			["m_school"] = CGameEffect.m_school,
+			["m_secondaryType"] = CGameEffect.m_secondaryType,
+			["m_projectileType"] = CGameEffect.m_projectileType,
 			["duration"] = 60,
 			["m_sourceRes"] = CGameEffect.m_sourceRes:get(),
 			["m_sourceType"] = CGameEffect.m_sourceType,
@@ -28,6 +31,9 @@ function %CLERIC_VIRTUE%(CGameEffect, CGameSprite)
 			["numDice"] = 1,
 			["diceSize"] = 6,
 			["m_flags"] = 0x3, -- dispellable/bypass mr
+			["m_school"] = CGameEffect.m_school,
+			["m_secondaryType"] = CGameEffect.m_secondaryType,
+			["m_projectileType"] = CGameEffect.m_projectileType,
 			["duration"] = 60,
 			["dwFlags"] = 3, -- Increment, don't update current HP
 			["m_sourceRes"] = CGameEffect.m_sourceRes:get(),

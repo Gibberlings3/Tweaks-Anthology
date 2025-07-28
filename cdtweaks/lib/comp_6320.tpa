@@ -7,9 +7,9 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
 
 WITH_SCOPE BEGIN
-  INCLUDE "cdtweaks\luke\misc.tph"
+  INCLUDE "cdtweaks\luke\lib\install.tph"
   //
-  INCLUDE "cdtweaks\lib\bane_of_enemies.tph"
+  INCLUDE "cdtweaks\lib\gt_bane_of_enemies.tph"
   //
-  LAF "RANGER_BANE_OF_ENEMIES" END
+  LAF "BANE_OF_ENEMIES" END
 END

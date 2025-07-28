@@ -1,0 +1,240 @@
+@0 = "ADDESTRATORE DI ANIMALI: Questo ranger è un nomade che non si trova a suo agio nelle terre civilizzate. Mantiene una naturale affinità con gli animali, i quali sono suoi amici e suoi compagni d'armi. Con loro, l'addestratore di animali ha una limitata forma di comunicazione telepatica.
+
+Vantaggi:
+- Muoversi Silenziosamente/Nascondersi tra le Ombre: +15%.
+- Può utilizzare l'abilità Evoca Compagno Animale per evocare una creatura speciale in grado di assistere il suo padrone in combattimento o durante l'esplorazione.
+- Può lanciare l'incantesimo Attirare Animali I a partire dall'8° livello. 
+- Può lanciare l'incantesimo Attirare Animali II a partire dal 10° livello.
+- Può lanciare l'incantesimo Attirare Animali III a partire dall'12° livello.
+
+Svantaggi:
+- Non può utilizzare nessun'arma di metallo (ad esempio: spade, alabarde, martelli da guerra o morning star).
+- Non può utilizzare armature più pesanti del cuoio borchiato."
+
+@1 = "Evoca Compagno Animale"
+@2 = "Evoca Compagno Animale
+(Evocazione)
+
+Livello: 1
+Raggio d'azione: 0
+Durata: Permanente
+Tempo di lancio: 1
+Area d'effetto: Speciale
+Tiro-salvezza: Nessuno
+
+Questo incantesimo consente all'Addestratore di Animali di evocare una creatura speciale che funga da aiutante e compagno. Un compagno animale può giovare molto al suo padrone, trasmettendogli i suoi poteri sensoriali, conversando con lui e fungendo anche da guardia/scout/spia. Un Addestratore di Animali può avere un solo compagno animale alla volta.
+
+Ecco un elenco dei compagni animali che l'Addestratore di Animali può evocare:
+
+
+
+ORSO DELLE CAVERNE
+
+Statistiche di Base:
+– Punti Ferita: pari a quelli di un addestratore di animali di uguale livello
+– Classe Armatura: 6 (+1 ogni 5 livelli)
+– THAC0: pari a quello di un ranger di uguale livello
+– Tiri-salvezza: pari a quelli di un ranger di uguale livello
+– For(18/100), Int(4), Sag(2), Des(9), Cos(16), Car(3)
+– Danno: 3 attacchi per round, ognuno dei quali infligge 1d12 danni taglienti (+1 ogni 5 livelli, a partire dal livello 10, fino a un massimo di +3 al livello 20)
+
+Abilità Speciali:
+– Possibilità di sferrare un Colpo Critico: +10% (a partire dal livello 5)
+– Infligge 2d8 punti danno aggiuntivi per ogni colpo critico messo a segno (a partire dal livello 5)
+
+
+
+LUPO INVERNALE
+
+Statistiche di Base:
+– Punti Ferita: pari a quelli di un addestratore di animali di uguale livello
+– Classe Armatura: 5 (+1 ogni 5 livelli)
+– THAC0: pari a quello di un ranger di uguale livello
+– Tiri-salvezza: pari a quelli di un ranger di uguale livello
+– For(18), Int(10), Sag(8), Des(12), Cos(16), Car(6)
+– Danno: 1 attacco per round che infligge 2d4 danni perforanti (+1 ogni 5 livelli, a partire dal livello 10, fino a un massimo di +3 al livello 20)
+– Resistenza al Freddo: 125%
+– Resistenza al Fuoco: -25%
+
+Abilità Speciali:
+– Respiro Ghiacciato (1 uso al giorno, +1 ogni 5 livelli)
+
+
+
+RAGNO SPADACCINO
+
+Statistiche di Base:
+– Punti Ferita: pari a quelli di un addestratore di animali di uguale livello
+– Classe Armatura: 3 (+1 ogni 5 livelli)
+– THAC0: pari a quello di un ranger di uguale livello
+– Tiri-salvezza: pari a quelli di un ranger di uguale livello
+– For(16), Int(10), Sag(2), Des(14), Cos(14), Car(3)
+– Danno: 2 attacchi per round, ognuno dei quali infligge 2d6 danni perforanti (+1 ogni 5 livelli, a partire dal livello 10, fino a un massimo di +3 al livello 20)
+
+Abilità Speciali:
+– Velocità Migliorata
+– Immunità a Ragnatela
+– Ragnatela (1 uso al giorno, +1 ogni 5 livelli)
+
+
+
+LEOPARDO
+
+Statistiche di Base:
+– Punti Ferita: pari a quelli di un addestratore di animali di uguale livello
+– Classe Armatura: 6 (+1 ogni 5 livelli)
+– THAC0: pari a quello di un ranger di uguale livello
+– Tiri-salvezza: pari a quelli di un ranger di uguale livello
+– For(14), Int(4), Sag(12), Des(15, +1 ogni 10 livelli), Cos(13), Car(6)
+– Nascondersi nelle Ombre: 10 (+5 ogni livello)
+– Muoversi Silenziosamente: 10 (+5 ogni livello)
+– Danno: 3 attacchi per round, ognuno dei quali infligge 1d6 danni taglienti (+1 ogni 5 livelli, a partire dal livello 10, fino a un massimo di +3 al livello 20)
+
+Abilità Speciali:
+– Può nascondersi nelle ombre
+– Può effettuare attacchi furtivi
+
+
+
+CINGHIALE CRUDELE
+
+Statistiche di Base:
+– Punti Ferita: pari a quelli di un addestratore di animali di uguale livello
+– Classe Armatura: 7 (+1 ogni 5 livelli)
+– THAC0: pari a quello di un ranger di uguale livello
+– Tiri-salvezza: pari a quelli di un ranger di uguale livello
+– For(16), Int(4), Sag(2), Des(10), Cos(16), Car(3)
+– Danno: 1 attacco per round che infligge 3d4 danni perforanti (+1 ogni 5 livelli, a partire dal livello 10, fino a un massimo di +3 al livello 20)
+
+Abilità Speciali:
+– Ferocia (1 uso al giorno, +1 ogni 5 livelli)
+
+
+
+SERPENTE STRITOLATORE GIGANTE
+
+Statistiche di Base:
+– Punti Ferita: pari a quelli di un addestratore di animali di uguale livello
+– Classe Armatura: 5 (+1 ogni 5 livelli)
+– THAC0: pari a quello di un ranger di uguale livello
+– Tiri-salvezza: pari a quelli di un ranger di uguale livello
+– For(3), Int(1), Sag(2), Des(16), Cos(12), Car(3)
+– Danno: 2 attacchi per round che infligge 2d4 danni perforanti (+1 ogni 5 livelli, a partire dal livello 10, fino a un massimo di +3 al livello 20)
+
+Abilità Speciali:
+– Penalità pari a -1 al morale ogni qual volta viene colpito dal fuoco
+– Charmare Animali (usi illimitati al giorno)
+– Stritolamento (1 uso al giorno, +1 ogni 5 livelli)
+
+
+
+SCARABEO BOMBARDIERE
+
+Statistiche di Base:
+– Punti Ferita: pari a quelli di un addestratore di animali di uguale livello
+– Classe Armatura: 4 (+1 ogni 5 livelli)
+– THAC0: pari a quello di un ranger di uguale livello
+– Tiri-salvezza: pari a quelli di un ranger di uguale livello
+– For(3), Int(1), Sag(1), Des(10), Cos(14), Car(1)
+– Danno: 1 attacco per round che infligge 2d6 danni taglienti (+1 ogni 5 livelli, a partire dal livello 10, fino a un massimo di +3 al livello 20)
+
+Abilità Speciali:
+– Quando viene attaccato, ha il 50% di possibilità di rilasciare una nube di vapore acido e rossastro dal suo addome. Questa nube provoca 3d4 danni da acido a qualsiasi creatura nel raggio d'azione. Inoltre, il suono causato dal rilascio del vapore ha una probabilità del 20% di stordire e una probabilità simile di assordare. Lo stordimento dura 2d4 round, l'assordimento 2d6 round
+
+
+
+FALCO
+
+Statistiche di Base:
+– Punti Ferita: pari a quelli di un addestratore di animali di uguale livello
+– Classe Armatura: 5 (+1 ogni 5 livelli)
+– THAC0: pari a quello di un ranger di uguale livello
+– Tiri-salvezza: pari a quelli di un ranger di uguale livello
+– For(5), Int(1), Sag(14), Des(16), Cos(8), Car(6)
+– Danno: 3 attacchi per round, ognuno dei quali infligge 1d1 danni perforanti (+1 ogni 5 livelli, a partire dal livello 10, fino a un massimo di +3 al livello 20)
+
+Abilità Speciali:
+– Tutti gli attacchi messi a segno hanno il 25% di possibilità di accecare il bersaglio per 1d10 round (un tiro-salvezza contro Soffio nega gli effetti)
+– Raggio Visivo aumentato
+"
+
+@3 = "Un Compagno Animale è già stato evocato"
+
+//
+@100 = "Evoca Orso delle Caverne"
+@101 = "Evoca Scarabeo Bombardiere"
+@102 = "Evoca Cinghiale Crudele"
+@103 = "Evoca Falco"
+@104 = "Evoca Leopardo"
+@105 = "Evoca Serpente Stritolatore Gigante"
+@106 = "Evoca Ragno Spadaccino"
+@107 = "Evoca Lupo Invernale"
+
+
+//
+@200 = "Libera Compagno Animale"
+
+//
+@1000 = "Orso delle Caverne"
+@1001 = "Stritolare"
+
+//
+@2000 = "Emette Vapori Acidi"
+@2001 = "Scarabeo Bombardiere"
+@2002 = "Stordito"
+@2003 = "Assordato"
+
+//
+@3000 = "Ferocia"
+@3001 = "Ferocia
+
+La creatura che usa questa abilità diventa feroce, guadagnando un bonus pari a 1d6 a Forza e Costituzione, oltre all'immunità a Charme, Regressione Mentale e Confusione.
+Durata: 5 round, +1 round ogni 5 livelli.
+"
+@3002 = "Cinghiale Crudele"
+@3003 = "Non puoi usare questa abilità finché l'attuale effetto non è terminato"
+
+//
+@4000 = "Falco"
+@4001 = "Accecato"
+
+//
+@5000 = "Leopardo"
+@5001 = "Attacco Furtivo"
+@5002 = "Attacco"
+
+//
+@6000 = "Charme"
+@6001 = "Charme
+
+Questa abilità influenza ogni animale su cui è lanciata. L'animale riceve un tiro-salvezza contro Incantesimi per evitarne l'effetto.
+Se il bersaglio fallisce il suo tiro-salvezza, percepirà il lanciatore come un amico fidato e un alleato da ascoltare e da proteggere. Il lanciatore può impartire degli ordini e il bersaglio charmato li eseguirà il più velocemente possibile.
+Se il personaggio ferisce (o cerca di ferire) l'animale charmato con qualche azione deliberata, lo charme viene infranto. Se due o più effetti di charme sono usati con successo sulla creatura, il più recente ha la precedenza.
+Durata: 2d6 round.
+"
+@6002 = "Serpente Stritolatore Gigante"
+@6003 = "Modificatore al Morale"
+@6004 = "Stritolare"
+@6005 = "Stritolare
+
+La creatura selezionata viene stritolata per 5 round (+1 round ogni 5 livelli). Le creature stritolate possono liberarsi effettuando con successo un tiro per forzare serrature (se il bersaglio ha Forza pari a 19 o superiore, si libera automaticamente). Chiunque tenti di liberare la vittima attaccando il serpente ha il 20% di possibilità di colpire lei anzichè il serpente.
+Le creature troppo grandi, incorporee, le melme, gli elementali e &c. non possono essere stritolate.
+"
+@6006 = "La creatura selezionata è già stritolata"
+@6007 = "La creatura si libera dalla presa"
+
+//
+@7000 = "Ragnatela"
+@7001 = "Ragnatela
+
+La creatura selezionata deve effettuare un tiro-salvezza contro Soffio o rimanere impigliata per 2d6 round. Le creature di grandi dimensioni ne sono immuni.
+"
+@7002 = "Ragno Spadaccino"
+
+//
+@8000 = "Respiro Ghiacciato"
+@8001 = "Respiro Ghiacciato
+
+La creatura può emettere un soffio di gelo che provoca 6d4 danni da freddo (il soffio ha origine dalla creatura e si estende verso l'esterno in un cono lungo 17 piedi con un arco di 90 gradi). Coloro che effettuano con successo un tiro-salvezza contro Soffio subiscono solo metà del danno.
+"
+@8002 = "Lupo Invernale"

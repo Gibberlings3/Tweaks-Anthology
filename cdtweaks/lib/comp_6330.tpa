@@ -7,12 +7,12 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
 
 WITH_SCOPE BEGIN
-  INCLUDE "cdtweaks\luke\misc.tph"
+  INCLUDE "cdtweaks\luke\lib\install.tph"
   INCLUDE "cdtweaks\ardanis\functions.tph"
   //
-  INCLUDE "cdtweaks\lib\cantrips.tph"
+  INCLUDE "cdtweaks\lib\gt_cantrips.tph"
   //
-  WITH_TRA "cdtweaks\languages\english\cantrips.tra" "cdtweaks\languages\%LANGUAGE%\cantrips.tra" BEGIN
+  WITH_TRA "cdtweaks\languages\english\gt_cantrips.tra" "cdtweaks\languages\%LANGUAGE%\gt_cantrips.tra" BEGIN
     LAF "CANTRIPS" END
   END
 END

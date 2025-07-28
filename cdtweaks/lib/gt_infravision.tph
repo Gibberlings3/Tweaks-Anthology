@@ -1,0 +1,17 @@
+DEFINE_ACTION_FUNCTION "MAKE_INFRAVISION_USEFUL"
+BEGIN
+	WITH_SCOPE BEGIN
+		COPY "cdtweaks\luke\bam\rule_changes\no_infravision.bam" "override\gtrule02.bam"
+	END
+	//
+	WITH_SCOPE BEGIN
+		LAF "ADD_STATDESC_ENTRY" INT_VAR "description" = RESOLVE_STR_REF (@0) STR_VAR "bam_file" = "gtrule02" RET "feedback_icon" = "index" END
+		// Listener: run 'func' each time a sprite has finished evaluating its effects
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Rule Changes" "sourceFileSpec" = "cdtweaks\luke\lua\rule_changes\infravision.lua" "destRes" = "m_gtrule" END
+		//LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Lua Tools" "sourceFileSpec" = "cdtweaks/luke/lua/tool/key_exists.lua" "destRes" = "m_gttool" END
+		//
+		ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
+			COPY "cdtweaks\luke\lib\resource\tables.lua" "override\m_gttbls.lua"
+		END
+	END
+END

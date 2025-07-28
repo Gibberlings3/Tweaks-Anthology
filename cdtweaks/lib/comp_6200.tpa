@@ -7,12 +7,12 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
 
 WITH_SCOPE BEGIN
-  INCLUDE "cdtweaks\luke\misc.tph"
+  INCLUDE "cdtweaks\luke\lib\install.tph"
   INCLUDE "cdtweaks\ardanis\functions.tph"
   //
-  INCLUDE "cdtweaks\lib\overwhelming_devastating_critical.tph"
+  INCLUDE "cdtweaks\lib\gt_overwhelming_devastating_critical.tph"
   //
-  WITH_TRA "cdtweaks\languages\english\overwhelming_devastating_critical.tra" "cdtweaks\languages\%LANGUAGE%\overwhelming_devastating_critical.tra" BEGIN
+  WITH_TRA "cdtweaks\languages\english\gt_overwhelming_devastating_critical.tra" "cdtweaks\languages\%LANGUAGE%\gt_overwhelming_devastating_critical.tra" BEGIN
     LAF "OVERWHELMING_DEVASTATING_CRITICAL" END
   END
 END

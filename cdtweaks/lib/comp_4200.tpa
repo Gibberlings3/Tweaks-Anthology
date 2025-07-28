@@ -7,7 +7,8 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 WITH_SCOPE BEGIN
-  INCLUDE "cdtweaks\luke\misc.tph"
-  INCLUDE "cdtweaks\lib\dorns_sword.tph"
+  INCLUDE "cdtweaks\luke\lib\install.tph"
+  //
+  INCLUDE "cdtweaks\lib\gt_dorns_sword.tph"
   LAF "DORNS_SWORD" END
 END

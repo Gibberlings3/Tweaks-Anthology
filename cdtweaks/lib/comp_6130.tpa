@@ -7,10 +7,10 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
 
 WITH_SCOPE BEGIN
-  INCLUDE "cdtweaks\luke\misc.tph"
-  INCLUDE "cdtweaks\lib\poison_save.tph"
+  INCLUDE "cdtweaks\luke\lib\install.tph"
+  INCLUDE "cdtweaks\lib\gt_poison_save.tph"
   //
-  WITH_TRA "cdtweaks\languages\english\poison_save.tra" "cdtweaks\languages\%LANGUAGE%\poison_save.tra" BEGIN
+  WITH_TRA "cdtweaks\languages\english\gt_poison_save.tra" "cdtweaks\languages\%LANGUAGE%\gt_poison_save.tra" BEGIN
     LAF "POISON_SAVE" END
   END
 END

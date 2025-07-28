@@ -1,0 +1,33 @@
+DEFINE_ACTION_FUNCTION "SELF_CONCEALMENT"
+BEGIN
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"level" = 8
+		"type" = 4
+	STR_VAR
+		"idsName" = "MONK_SELF_CONCEALMENT"
+	RET
+		"MONK_SELF_CONCEALMENT" = "resName"
+	END
+	// Listener: run 'func' each time a sprite has finished evaluating its effects
+	WITH_SCOPE BEGIN
+		ACTION_TO_LOWER "MONK_SELF_CONCEALMENT"
+		//
+		COPY "cdtweaks\luke\bam\class\self_concealment.bam" "override\%MONK_SELF_CONCEALMENT%d.bam"
+		LAF "ADD_STATDESC_ENTRY" INT_VAR "description" = RESOLVE_STR_REF (@0) STR_VAR "bam_file" = "%MONK_SELF_CONCEALMENT%d" RET "feedback_icon" = "index" END
+		//
+		ACTION_TO_UPPER "MONK_SELF_CONCEALMENT"
+		//
+		OUTER_SET "strref_10" = RESOLVE_STR_REF (@10)
+		OUTER_SET "strref_20" = RESOLVE_STR_REF (@11)
+		OUTER_SET "strref_30" = RESOLVE_STR_REF (@12)
+		OUTER_SET "strref_40" = RESOLVE_STR_REF (@13)
+		OUTER_SET "strref_50" = RESOLVE_STR_REF (@14)
+		//
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Class/Kit Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\class\self_concealment.lua" "destRes" = "m_gtspcl" END
+	END
+	//
+	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
+		COPY "cdtweaks\luke\lib\resource\tables.lua" "override\m_gttbls.lua"
+	END
+END

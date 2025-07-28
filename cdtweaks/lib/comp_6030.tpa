@@ -1,4 +1,3 @@
-<<<<<<<< HEAD:cdtweaks/lib/comp_6030.tpa
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
 /////                                                                 /////
@@ -6,29 +5,14 @@
 /////                                                                 \\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
-========
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
-/////                                                                           /////
-///// Make Grease Ignitable                                                     \\\\\
-/////                                                                           \\\\\
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
->>>>>>>> upstream/master:cdtweaks/lib/comp_2650.tpa
 
 WITH_SCOPE BEGIN
-  INCLUDE "cdtweaks\luke\misc.tph"
+  INCLUDE "cdtweaks\luke\lib\install.tph"
   INCLUDE "cdtweaks\ardanis\functions.tph"
   //
-<<<<<<<< HEAD:cdtweaks/lib/comp_6030.tpa
-  INCLUDE "cdtweaks\lib\spontaneous_casting.tph"
+  INCLUDE "cdtweaks\lib\gt_spontaneous_casting.tph"
   //
-  WITH_TRA "cdtweaks\languages\english\spontaneous_casting.tra" "cdtweaks\languages\%LANGUAGE%\spontaneous_casting.tra" BEGIN
+  WITH_TRA "cdtweaks\languages\english\gt_spontaneous_casting.tra" "cdtweaks\languages\%LANGUAGE%\gt_spontaneous_casting.tra" BEGIN
     LAF "SPONTANEOUS_CASTING" END
   END
-========
-  INCLUDE "cdtweaks\lib\make_grease_ignitable.tph"
-  //
-  LAF "MAKE_GREASE_IGNITABLE" END
->>>>>>>> upstream/master:cdtweaks/lib/comp_2650.tpa
 END

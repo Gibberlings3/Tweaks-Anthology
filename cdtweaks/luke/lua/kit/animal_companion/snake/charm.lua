@@ -9,11 +9,11 @@ function %INNATE_SNAKE_CHARM%(CGameEffect, CGameSprite)
 	--
 	local sourceSprite = EEex_GameObject_Get(CGameEffect.m_sourceId) -- CGameSprite
 	--
-	local charmImmunity = EEex_Trigger_ParseConditionalString("EEex_IsImmuneToOpcode(Myself,5)")
+	local charmImmunity = "EEex_IsImmuneToOpcode(Myself,5)"
 	--
 	local levelModifier = math.floor(sourceSprite:getActiveStats().m_nLevel1 / 5) -- +1 every 5 levels
 	--
-	if not charmImmunity:evalConditionalAsAIBase(CGameSprite) then
+	if not GT_EvalConditional["parseConditionalString"](CGameSprite, nil, charmImmunity) then
 		EEex_GameObject_ApplyEffect(CGameSprite,
 		{
 			["effectID"] = 5, -- Charm
@@ -41,6 +41,4 @@ function %INNATE_SNAKE_CHARM%(CGameEffect, CGameSprite)
 			["sourceTarget"] = CGameEffect.m_sourceTarget,
 		})
 	end
-	--
-	charmImmunity:free()
 end

@@ -7,9 +7,9 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
 
 WITH_SCOPE BEGIN
-  INCLUDE "cdtweaks\luke\misc.tph"
+  INCLUDE "cdtweaks\luke\lib\install.tph"
   //
-  INCLUDE "cdtweaks\lib\armored_caster.tph"
+  INCLUDE "cdtweaks\lib\gt_armored_caster.tph"
   //
   LAF "ARMORED_CASTER" END
 END

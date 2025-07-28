@@ -4,7 +4,7 @@
 +--------------------------------------------------------------------------+
 --]]
 
-function GT_AnimalCompanion_SummonerClassCheck()
+function GT_NWN_AnmlComp_SummonerClassCheck()
 	local summonerID = EEex_LuaTrigger_Object.m_lSummonedBy.m_Instance
 	local summonerSprite = EEex_GameObject_Get(summonerID)
 	--

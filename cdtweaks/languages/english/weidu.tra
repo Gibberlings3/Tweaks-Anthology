@@ -502,6 +502,7 @@ The uninstall messages above are normal and expected.
 
 @270000 = "Revised Troll Regeneration [Luke (EEex)]"
 
+@271000 = "NWN-style Summons [Luke (EEex)]"
 @272000 = ~Yoshimo to Imoen Experience Transfer~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -754,6 +755,8 @@ Use Baldur.lua options: a7_interval_ini
 
 @347000 = ~Dynamic FPS Change [Luke (EEex)]~
 
+@348000 = "More Sensible Morentherene [Luke (EEex)]"
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -841,7 +844,7 @@ Use Baldur.lua options: a7_interval_ini
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
-///// NWN-ish feats collection                         \\\\\
+///// NWN-style feats collection                       \\\\\
 /////                                                  \\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -852,33 +855,33 @@ Use Baldur.lua options: a7_interval_ini
 
 @602000 = "Spellcaster Skill/Counterspell Class Talent [Luke (EEex)]"
 
-@603000 = "Spontaneous Casting for Clerics [Luke]"
+@603000 = "Spontaneous Casting for Clerics [Luke (EEex)]"
 
-@604000 = "Weapon Finesse Class Feat for Thieves [Luke]"
+@604000 = "Weapon Finesse Class Feat for Thieves [Luke (EEex)]"
 
-@605000 = "Dual-Wield Class Feat for Rangers [Luke]"
+@605000 = "Dual-Wield Class Feat for Rangers [Luke (EEex)]"
 
-@606000 = "NWN-ish Armor vs. Dexterity [Luke]"
+@606000 = "NWN-style Armor vs. Dexterity [Luke (EEex)]"
 
-@607000 = "Defensive Roll Class Feat for Thieves [Luke]"
+@607000 = "Defensive Roll Class Feat for Thieves [Luke (EEex)]"
 
-@608000 = "Divine Grace/Dark Blessing Feat for Paladins/Blackguards [Luke]"
+@608000 = "Divine Grace/Dark Blessing Feat for Paladins/Blackguards [Luke (EEex)]"
 
-@609000 = "Good Aim Racial Feat for Halflings [Luke]"
+@609000 = "Good Aim Racial Feat for Halflings [Luke (EEex)]"
 
-@610000 = "Cleave Class Feat for Fighters [Luke]"
+@610000 = "Cleave Class Feat for Fighters [Luke (EEex)]"
 
-@611000 = "Sneak Attack Class Feat for Blackguards [Luke]"
+@611000 = "Sneak Attack Class Feat for Blackguards [Luke (EEex)]"
 
-@612000 = "Fearless Racial Feat for Halflings [Luke]"
+@612000 = "Fearless Racial Feat for Halflings [Luke (EEex)]"
 
-@613000 = "Poison Save Class Feat for Assassins [Luke]"
+@613000 = "Poison Save Class Feat for Assassins [Luke (EEex)]"
 
-@614000 = "Planar Turning Class Feat for Clerics/Paladins [Luke]"
+@614000 = "Planar Turning Class Feat for Clerics/Paladins [Luke (EEex)]"
 
-@615000 = "Circle Kick Class Feat for Monks [Luke]"
+@615000 = "Circle Kick Class Feat for Monks [Luke (EEex)]"
 
-@616000 = "NWN-ish Barbarian Rage [Luke]"
+@616000 = "NWN-style Barbarian Rage [Luke (EEex)]"
 
 @617000 = ~"Force" the Archer Kit to Use Bows [Luke (EEex)]~
 
@@ -900,7 +903,7 @@ Use Baldur.lua options: a7_interval_ini
 
 @626000 = "Uncanny Dodge Class Feat for Barbarians and Rogues [Luke (EEex)]"
 
-@627000 = "NWN-ish Sneak Attack/Crippling Strike Class Feat for Thieves and Stalkers [Luke (EEex)]"
+@627000 = "NWN-style Sneak Attack/Crippling Strike Class Feat for Thieves and Stalkers [Luke (EEex)]"
 
 @628000 = "Evasion Class Feat for Monks and Rogues [Luke (EEex)]"
 
@@ -915,3 +918,5 @@ Use Baldur.lua options: a7_interval_ini
 @633000 = "Cantrips Class Feat for Spellcasters [Luke (EEex)]"
 
 @634000 = "Animal Companion Class Feat for Beastmasters [Luke (EEex)]"
+
+@635000 = "Opportunist class feat for Chaotic-Aligned Rogues [Luke (EEex)]"

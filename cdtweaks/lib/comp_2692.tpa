@@ -7,11 +7,11 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 WITH_SCOPE BEGIN
-  INCLUDE "cdtweaks\luke\misc.tph"
+  INCLUDE "cdtweaks\luke\lib\install.tph"
   //
-  INCLUDE "cdtweaks\lib\concentration.tph"
+  INCLUDE "cdtweaks\lib\gt_concentration.tph"
   //
-  WITH_TRA "cdtweaks\languages\english\concentration.tra" "cdtweaks\languages\%LANGUAGE%\concentration.tra" BEGIN
+  WITH_TRA "cdtweaks\languages\english\gt_concentration.tra" "cdtweaks\languages\%LANGUAGE%\gt_concentration.tra" BEGIN
     LAF "ALTERNATE_CONCENTRATION_CHECK" INT_VAR "version" = 2 END
   END
 END

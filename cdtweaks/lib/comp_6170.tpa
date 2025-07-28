@@ -1,0 +1,18 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////                                                                 /////
+/////  "Force" the Archer kit to use bows                             \\\\\
+/////                                                                 \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+
+WITH_SCOPE BEGIN
+  INCLUDE "cdtweaks\luke\lib\install.tph"
+  INCLUDE "cdtweaks\ardanis\functions.tph"
+  //
+  INCLUDE "cdtweaks\lib\gt_revised_archer.tph"
+  //
+  WITH_TRA "cdtweaks\languages\english\gt_revised_archer.tra" "cdtweaks\languages\%LANGUAGE%\gt_revised_archer.tra" BEGIN
+    LAF "REVISED_ARCHER" END
+  END
+END

@@ -5,10 +5,10 @@
 */
 
 IF
-	Global("gtAnmlCompSetup","LOCALS",0)
+	Global("gtNWNAnmlCompSetup","LOCALS",0)
 THEN
 	RESPONSE #100
-		SetGlobal("gtAnmlCompSetup","LOCALS",1)
+		SetGlobal("gtNWNAnmlCompSetup","LOCALS",1)
 		ChangeEnemyAlly(Myself,NEUTRAL) // I shouldn't be controlled by the player
 		ApplySpellRES("GTEMPTY",Myself) // Absolutely empty spell, with a useless effect: (Opcode #0 with all fields 0'd, Target=Self, Probability1=100)
 		MakeGlobal() // Non-instant action, allows our spell to apply and gets the engine to realize I am no longer a controlled creature. Familiars must also be global
@@ -24,7 +24,7 @@ IF
 	OnCreation()
 THEN
 	RESPONSE #100
-		EEex_LuaAction("GT_AnimalCompanion_FixGeneral()")
+		EEex_LuaAction("GT_NWN_AnmlComp_FixGeneral()")
 		Continue()
 END
 

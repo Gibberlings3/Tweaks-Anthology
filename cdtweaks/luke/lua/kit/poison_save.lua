@@ -14,7 +14,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- internal function that applies the actual feat
 	local apply = function()
 		-- Mark the creature as 'feat applied'
-		sprite:setLocalInt("gtAssassinPoisonSave", 1)
+		sprite:setLocalInt("gtNWNPoisonSave", 1)
 		--
 		sprite:applyEffect({
 			["effectID"] = 321, -- Remove effects by resource
@@ -42,20 +42,16 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		})
 	end
 	-- Check creature's class / kit
-	local spriteFlags = sprite.m_baseStats.m_flags
-	local spriteClassStr = GT_Resource_IDSToSymbol["class"][sprite.m_typeAI.m_Class]
+	local class = GT_Resource_SymbolToIDS["class"]
 	-- since ``EEex_Opcode_AddListsResolvedListener`` is running after the effect lists have been evaluated, ``m_bonusStats`` has already been added to ``m_derivedStats`` by the engine
 	local spriteKitStr = EEex_Resource_KitIDSToSymbol(sprite.m_derivedStats.m_nKit)
-	local spriteLevel1 = sprite.m_derivedStats.m_nLevel1
-	local spriteLevel2 = sprite.m_derivedStats.m_nLevel2
 	-- single/multi/(complete)dual assassins
-	local applyAbility = spriteClassStr == "THIEF"
-		or (spriteClassStr == "FIGHTER_THIEF" and (EEex_IsBitUnset(spriteFlags, 0x6) or spriteLevel1 > spriteLevel2))
-		or (spriteClassStr == "MAGE_THIEF" and (EEex_IsBitUnset(spriteFlags, 0x6) or spriteLevel1 > spriteLevel2))
-		or (spriteClassStr == "CLERIC_THIEF" and (EEex_IsBitUnset(spriteFlags, 0x6) or spriteLevel1 > spriteLevel2))
-	local applyAbility = applyAbility and spriteKitStr == "ASSASIN" -- typo in kit.ids / kitlist.2da
+	local isThiefAll = GT_Sprite_CheckIDS(sprite, class["THIEF_ALL"], 5)
+	local isAssassin = spriteKitStr == "ASSASIN" -- typo in kit.ids / kitlist.2da
 	--
-	if sprite:getLocalInt("gtAssassinPoisonSave") == 0 then
+	local applyAbility = isThiefAll and isAssassin
+	--
+	if sprite:getLocalInt("gtNWNPoisonSave") == 0 then
 		if applyAbility then
 			apply()
 		end
@@ -64,7 +60,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			-- do nothing
 		else
 			-- Mark the creature as 'feat removed'
-			sprite:setLocalInt("gtAssassinPoisonSave", 0)
+			sprite:setLocalInt("gtNWNPoisonSave", 0)
 			--
 			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource
