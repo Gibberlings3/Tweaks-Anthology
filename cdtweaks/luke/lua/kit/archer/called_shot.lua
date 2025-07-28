@@ -155,7 +155,7 @@ function %ARCHER_CALLED_SHOT%(CGameEffect, CGameSprite)
 						--
 						local effectCodes = {
 							{["op"] = 15, ["p1"] = (targetDEX <= 1) and 0 or ((targetDEX > 2) and -2 or -1), ["dur"] = 24}, -- dex bonus
-							{["op"] = 176, ["p1"] = 80, ["p2"] = 5, ["dur"] = 24} -- movement rate bonus (mode: multiply %)
+							{["op"] = 176, ["p1"] = 80, ["p2"] = 5, ["dur"] = 24}, -- movement rate bonus (mode: multiply %)
 							{["op"] = 139, ["p1"] = %feedback_strref_dex_mod%} -- feedback string
 						}
 						--
