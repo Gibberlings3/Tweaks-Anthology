@@ -1,0 +1,10 @@
+IF
+  Global("BG1Pantaloons","GLOBAL",0)
+  Global("CD_BETTER_START_PANTALOONS","GLOBAL", 0)
+THEN
+  RESPONSE #100
+    SetGlobal("BG1Pantaloons","GLOBAL",1)
+    SetGlobal("CD_BETTER_START_PANTALOONS","GLOBAL",1)
+    ActionOverride("Picture1",CreateItem("MISC47",0,0,0))  // Golden Pantaloons
+    Continue()
+END

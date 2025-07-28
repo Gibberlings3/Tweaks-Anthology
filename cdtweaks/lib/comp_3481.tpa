@@ -1,0 +1,5 @@
+/////                                                            \\\\\
+///// 500k EXP                                                        \\\\\
+/////                                                            \\\\\
+
+EXTEND_BOTTOM ~AR0602.BCS~ ~%MOD_FOLDER%/baf/start_500k.baf~

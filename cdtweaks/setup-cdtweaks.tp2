@@ -4585,6 +4585,92 @@ LABEL ~cd_tweaks_casting_warnings_all~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                            \\\\\
+///// Better Start BG2EE                                         \\\\\
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+/////                                                            \\\\\
+///// 300k EXP                                                   \\\\\
+/////                                                            \\\\\
+
+BEGIN @348001 DESIGNATED 3480
+GROUP @4
+SUBCOMPONENT @348000
+REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ @25
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3481~ @348001
+LABEL ~cd_tweaks_better_bg2ee_start_300k~
+
+/////                                                            \\\\\
+///// 500k EXP                                                   \\\\\
+/////                                                            \\\\\
+
+BEGIN @348100 DESIGNATED 3481
+GROUP @4
+SUBCOMPONENT @348000
+REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ @25
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3480~ @348101
+LABEL ~cd_tweaks_better_bg2ee_start_500k~
+
+/////                                                            \\\\\
+///// Tomes                                                      \\\\\
+/////                                                            \\\\\
+
+BEGIN @348200 DESIGNATED 3482
+GROUP @4
+SUBCOMPONENT @348000
+REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ @25
+LABEL ~cd_tweaks_better_bg2ee_start_tomes~
+
+/////                                                            \\\\\
+///// Pantaloons                                                 \\\\\
+/////                                                            \\\\\
+
+BEGIN @348300 DESIGNATED 3483
+GROUP @4
+SUBCOMPONENT @348000
+REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ @25
+LABEL ~cd_tweaks_better_bg2ee_start_pantaloons~
+
+/////                                                            \\\\\
+///// Drizzit                                                    \\\\\
+/////                                                            \\\\\
+
+BEGIN @348400 DESIGNATED 3484
+GROUP @4
+SUBCOMPONENT @348000
+REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ @25
+LABEL ~cd_tweaks_better_bg2ee_start_drizzt~
+
+/////                                                            \\\\\
+///// Balduran Cloak                                             \\\\\
+/////                                                            \\\\\
+
+BEGIN @348500 DESIGNATED 3485
+GROUP @4
+SUBCOMPONENT @348000
+REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ @25
+LABEL ~cd_tweaks_better_bg2ee_start_balduran~
+
+/////                                                            \\\\\
+///// All Components Enabled                                     \\\\\
+/////                                                            \\\\\
+
+BEGIN @348900 DESIGNATED 3489
+GROUP @4
+SUBCOMPONENT @348000
+REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ @25
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3480~ @348901
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3481~ @348901
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3482~ @348901
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3483~ @348901
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3484~ @348901
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3485~ @348901
+LABEL ~cd_tweaks_better_bg2ee_start_all~
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
 ///// More Sensible Cowled Wizards                               \\\\\
 /////                                                            \\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\

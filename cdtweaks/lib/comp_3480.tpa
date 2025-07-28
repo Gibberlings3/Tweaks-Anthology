@@ -1,3 +1,11 @@
+
+
+/////                                                            \\\\\
+///// 300k EXP                                                        \\\\\
+/////                                                            \\\\\
+
+EXTEND_BOTTOM ~AR0602.BCS~ ~%MOD_FOLDER%/baf/start_300k.baf~
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                            \\\\\
@@ -12,3 +20,4 @@ WITH_SCOPE BEGIN
   INCLUDE "cdtweaks\lib\gt_morentherene.tph"
   LAF "MORENTHERENE" END
 END
+

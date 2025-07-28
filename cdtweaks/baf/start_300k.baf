@@ -1,0 +1,12 @@
+
+IF
+  Global("NewGame","AR0602",1)
+  Global("TakeImportItems","AR0602",1)
+  Global("CD_BETTER_START_300k","GLOBAL", 0)
+  XPLT(Player1,300000)
+THEN
+  RESPONSE #100
+    ChangeStat(Player1,XP,300000,SET)
+    ChangeStat(Player2,XP,300000,SET) // Imoen
+    SetGlobal("CD_BETTER_START_300k","GLOBAL", 1)
+END
