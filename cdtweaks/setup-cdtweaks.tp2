@@ -1800,7 +1800,7 @@ LABEL ~cd_tweaks_cap_xp_at_l30~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-BEGIN @271000 DESIGNATED 2710
+BEGIN @272000 DESIGNATED 2720
 GROUP @9
 REQUIRE_PREDICATE GAME_IS ~bg2ee eet soa tob bgt~ @25
 LABEL ~cd_tweaks_yoshi_imoen_xp_transfer~
