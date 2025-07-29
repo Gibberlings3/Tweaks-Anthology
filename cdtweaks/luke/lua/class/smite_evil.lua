@@ -265,12 +265,12 @@ function %PALADIN_SMITE_EVIL%(CGameEffect, CGameSprite)
 	local strikingFromInvisibility = GT_Sprite_StrikingFromInvisibilityBonus(sourceSprite, CGameSprite)
 	local invisibleTarget = GT_Sprite_InvisibleTargetPenalty(sourceSprite, CGameSprite)
 	-- op120
-	local weaponEffectiveVs = 'WeaponEffectiveVs(EEex_Target("gtScriptingTarget"),MAINHAND)'
+	local conditionalString = 'WeaponEffectiveVs(EEex_Target("gtSmiteEvilTarget"),MAINHAND)'
 	-- alignment check
 	local align = GT_Resource_SymbolToIDS["align"]
 	local isEvil = GT_Sprite_CheckIDS(CGameSprite, align["MASK_EVIL"], 8)
 	--
-	if GT_EvalConditional["parseConditionalString"](sourceSprite, CGameSprite, weaponEffectiveVs) then
+	if GT_EvalConditional["parseConditionalString"](sourceSprite, CGameSprite, conditionalString, "gtSmiteEvilTarget") then
 		if isEvil then
 			-- compute attack roll (am I missing something...?)
 			local success = false

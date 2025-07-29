@@ -61,13 +61,13 @@ function %ARCHER_CALLED_SHOT%(CGameEffect, CGameSprite)
 		-- racial enemy
 		local racialEnemy = GT_Sprite_GetRacialEnemyBonus(sourceSprite, CGameSprite)
 		-- op120
-		local weaponEffectiveVs = 'WeaponEffectiveVs(EEex_Target("gtScriptingTarget"),MAINHAND)'
+		local conditionalString = 'WeaponEffectiveVs(EEex_Target("gtCalledShotTarget"),MAINHAND)'
 		-- mainhand weapon
 		local selectedWeapon = GT_Sprite_GetSelectedWeapon(sourceSprite)
 		--
 		local damageTypeIDS, ACModifier = GT_Sprite_ItmDamageTypeToIDS(selectedWeapon["ability"].damageType, targetActiveStats)
 		--
-		if GT_EvalConditional["parseConditionalString"](sourceSprite, CGameSprite, weaponEffectiveVs) then
+		if GT_EvalConditional["parseConditionalString"](sourceSprite, CGameSprite, conditionalString, "gtCalledShotTarget") then
 			-- compute attack roll (am I missing something...?)
 			local success = false
 			local modifier = luck + thac0BonusRight + thac0VsTypeBonus - attackRollPenalty + racialEnemy - 4

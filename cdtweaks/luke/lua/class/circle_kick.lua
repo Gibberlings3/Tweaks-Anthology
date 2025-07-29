@@ -65,8 +65,8 @@ function %MONK_CIRCLE_KICK%(CGameEffect, CGameSprite)
 		local sourceSprite = EEex_GameObject_Get(CGameEffect.m_sourceId)
 		local sourceActiveStats = EEex_Sprite_GetActiveStats(sourceSprite)
 		-- limit to once per round
-		local conditionalString = '!GlobalTimerNotExpired("gtNWNCircleKickTimer","LOCALS") \n InWeaponRange(EEex_Target("gtScriptingTarget"))'
-		local responseString = 'SetGlobalTimer("gtNWNCircleKickTimer","LOCALS",6) \n ReallyForceSpellRES("%MONK_CIRCLE_KICK%B",EEex_Target("gtScriptingTarget"))'
+		local conditionalString = '!GlobalTimerNotExpired("gtNWNCircleKickTimer","LOCALS") \n InWeaponRange(EEex_Target("gtCircleKickTarget"))'
+		local responseString = 'SetGlobalTimer("gtNWNCircleKickTimer","LOCALS",6) \n ReallyForceSpellRES("%MONK_CIRCLE_KICK%B",EEex_Target("gtCircleKickTarget"))'
 		--
 		local potentialTargets = {}
 		if sourceSprite.m_typeAI.m_EnemyAlly > 200 then -- EVILCUTOFF
@@ -82,10 +82,10 @@ function %MONK_CIRCLE_KICK%(CGameEffect, CGameSprite)
 				--
 				local itrSpriteActiveStats = EEex_Sprite_GetActiveStats(itrSprite)
 				--
-				if GT_EvalConditional["parseConditionalString"](sourceSprite, itrSprite, conditionalString) and EEex_IsBitUnset(itrSpriteActiveStats.m_generalState, 11) then -- if not dead
+				if GT_EvalConditional["parseConditionalString"](sourceSprite, itrSprite, conditionalString, "gtCircleKickTarget") and EEex_IsBitUnset(itrSpriteActiveStats.m_generalState, 11) then -- if not dead
 					if EEex_IsBitUnset(itrSpriteActiveStats.m_generalState, 0x4) or sourceActiveStats.m_bSeeInvisible > 0 then -- if not invisible or can see through invisibility
 						if itrSpriteActiveStats.m_bSanctuary == 0 then
-							GT_ExecuteResponse["parseResponseString"](sourceSprite, itrSprite, responseString)
+							GT_ExecuteResponse["parseResponseString"](sourceSprite, itrSprite, responseString, "gtCircleKickTarget")
 							break
 						end
 					end
