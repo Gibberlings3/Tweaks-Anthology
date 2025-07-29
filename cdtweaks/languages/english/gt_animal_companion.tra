@@ -230,7 +230,7 @@ Large creatures, incorporeal creatures, slimes, elementals &c. cannot be constri
 @7000 = "Web Tangle"
 @7001 = "Web Tangle
 
-Targeted creature must save vs. Breath or be webbed for 2d6 rounds. Large creatures are unaffected.
+Targeted creature must save vs. Breath or be webbed for 2d6 rounds. Large creatures, incorporeal creatures, magically levitating creatures, slimes, and elementals are unaffected.
 "
 @7002 = "Sword Spider"
 
