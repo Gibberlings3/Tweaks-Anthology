@@ -1,0 +1,19 @@
+
+IF
+  Global("CD_BETTER_START_%xp%k_P%index%","GLOBAL",0)
+  Name("None",Player%index%)
+  XPLT(Player%index%,500000)
+THEN
+  RESPONSE #100
+    %action%
+    SetGlobal("CD_BETTER_START_%xp%k_P%index%","GLOBAL",1)
+END
+IF
+  Global("CD_BETTER_START_%xp%k_P%index%","GLOBAL",0)
+  OR(2)
+    !Name("None",Player%index%)
+    !XPLT(Player%index%,500000)
+THEN
+  RESPONSE #100
+    SetGlobal("CD_BETTER_START_%xp%k_P%index%","GLOBAL",1)
+END

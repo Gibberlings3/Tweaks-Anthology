@@ -1,5 +1,31 @@
 /////                                                            \\\\\
-///// 500k EXP                                                        \\\\\
+///// 500k EXP, no items                                         \\\\\
 /////                                                            \\\\\
 
-EXTEND_BOTTOM ~AR0602.BCS~ ~%MOD_FOLDER%/baf/start_500k.baf~
+OUTER_SET xp = 500
+ACTION_IF !enhanced_edition BEGIN // no changestat in obg2, so do it via op 104
+
+  COPY ~cdtweaks/spl/cdimxp3.spl~ ~override/cdsxp%xp%.spl~ // spell to match xp
+    LPF ALTER_EFFECT INT_VAR match_opcode = 104 parameter1 = (xp * 1000) END
+  
+  OUTER_SPRINT action ~ApplySpellRES("cdsxp%xp%",Player1) ApplySpellRES("cdsxp%xp%","imoen")~ // no changestat in obg2
+
+END ELSE BEGIN
+
+  OUTER_SPRINT action ~ChangeStat(Player1,XP,%xp%000,SET) ChangeStat("imoen",XP,%xp%000,SET)~
+
+END  
+
+EXTEND_BOTTOM ~AR0602.BCS~ ~%MOD_FOLDER%/baf/start_300k.baf~ EVALUATE_BUFFER
+
+OUTER_FOR (index = 2 ; index < 7 ; ++index) BEGIN // add XP to MP-created NPCs
+
+  ACTION_IF !enhanced_edition BEGIN 
+    OUTER_SPRINT action ~ApplySpellRES("cdsxp%xp%",Player%index%)~ // no changestat in obg2
+  END ELSE BEGIN
+    OUTER_SPRINT action ~ChangeStat(Player%index%,XP,%xp%000,SET)~
+  END  
+
+  EXTEND_BOTTOM ~AR0602.BCS~ ~%MOD_FOLDER%/baf/start_300k_mp.baf~ EVALUATE_BUFFER
+
+END 

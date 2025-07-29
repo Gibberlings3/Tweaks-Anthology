@@ -1,5 +1,22 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                            \\\\\
-///// drizzt                                                     \\\\\
+///// Better Shadows of Amn Start: Add All BG Tomes              \\\\\
 /////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-EXTEND_BOTTOM ~AR0602.BCS~ ~%MOD_FOLDER%/baf/start_drizzt.baf~
+EXTEND_BOTTOM ~AR0602.BCS~ ~%MOD_FOLDER%/baf/start_tomes.baf~
+
+ACTION_IF !enhanced_edition BEGIN // some tomes in obg2 can't be equipped (wrong item type)
+
+  COPY_EXISTING ~book03.itm~ ~override~
+                ~book04.itm~ ~override~
+                ~book05.itm~ ~override~
+                ~book06.itm~ ~override~
+                ~book07.itm~ ~override~
+                ~book08.itm~ ~override~
+    WRITE_SHORT 0x1c 0 // type: misc
+    BUT_ONLY
+
+END

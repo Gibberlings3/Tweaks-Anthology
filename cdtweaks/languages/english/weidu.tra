@@ -503,6 +503,7 @@ The uninstall messages above are normal and expected.
 @270000 = "Revised Troll Regeneration [Luke (EEex)]"
 
 @271000 = "NWN-style Summons [Luke (EEex)]"
+
 @272000 = ~Yoshimo to Imoen Experience Transfer~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -757,17 +758,15 @@ Use Baldur.lua options: a7_interval_ini
 
 @348000 = "More Sensible Morentherene [Luke (EEex)]"
 
-@349000 = ~Better Start~
-@349001 = ~Better Start Player1 at 300k~
-@349002 = ~Can not install 500k better start as well as this.~
-@349100 = ~Better Start Player1 at 500k~
-@349101 = ~Can not install 300k better start as well as this.~
-@349200 = ~Better Start Add all BG1 Tomes~
-@349300 = ~Better Start Add Golden Pantaloons~
-@349400 = ~Better Start Add Drizzt Items~
-@349500 = ~Better Start Balduran Cloak~
-@349900 = ~Better Start All Components Enabled~
-@349901 = ~This mod installs all better start components, it can't be installed with other components of the same group~
+@349000 = ~Better Shadows of Amn Start~
+@349001 = ~Start Player1 at 300k XP, select items below~
+@349100 = ~Start Player1 at 500k XP, select items below~
+@349200 = ~Start Player1 at 300k XP plus all items~
+@349300 = ~Start Player1 at 500k XP plus all items~
+@349400 = ~Better Shadows of Amn Start: Add All BG Tomes~
+@349500 = ~Better Shadows of Amn Start: Add Golden Pantaloons~
+@349600 = ~Better Shadows of Amn Start: Add Drizzt Items~
+@349700 = ~Better Shadows of Amn Start: Add Balduran's Cloak~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\

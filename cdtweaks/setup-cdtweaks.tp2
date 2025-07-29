@@ -4585,88 +4585,122 @@ LABEL ~cd_tweaks_casting_warnings_all~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                            \\\\\
-///// Better Start BG2EE                                         \\\\\
+///// Better Shadows of Amn Start                                \\\\\
 /////                                                            \\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 /////                                                            \\\\\
-///// 300k EXP                                                   \\\\\
+///// 300k EXP, no items                                         \\\\\
 /////                                                            \\\\\
 
 BEGIN @349001 DESIGNATED 3490
 GROUP @4
 SUBCOMPONENT @349000
-REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ @25
+REQUIRE_PREDICATE GAME_IS ~bg2ee eet soa tob bgt~ @25
 REQUIRE_PREDICATE !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3491~ @349001
-LABEL ~cd_tweaks_better_bg2ee_start_300k~
+LABEL ~cd_tweaks_better_soa_start_300k~
 
 /////                                                            \\\\\
-///// 500k EXP                                                   \\\\\
+///// 500k EXP, no items                                         \\\\\
 /////                                                            \\\\\
 
 BEGIN @349100 DESIGNATED 3491
 GROUP @4
 SUBCOMPONENT @349000
-REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ @25
+REQUIRE_PREDICATE GAME_IS ~bg2ee eet soa tob bgt~ @25
 REQUIRE_PREDICATE !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3490~ @349101
-LABEL ~cd_tweaks_better_bg2ee_start_500k~
+LABEL ~cd_tweaks_better_soa_start_500k~
 
 /////                                                            \\\\\
-///// Tomes                                                      \\\\\
+///// 300k EXP + all items                                       \\\\\
 /////                                                            \\\\\
 
 BEGIN @349200 DESIGNATED 3492
 GROUP @4
 SUBCOMPONENT @349000
-REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ @25
-LABEL ~cd_tweaks_better_bg2ee_start_tomes~
+REQUIRE_PREDICATE GAME_IS ~bg2ee eet soa tob bgt~ @25
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3491~ @349001
+LABEL ~cd_tweaks_better_soa_start_300k_all_items~
 
 /////                                                            \\\\\
-///// Pantaloons                                                 \\\\\
+///// 500k EXP + all items                                       \\\\\
 /////                                                            \\\\\
 
 BEGIN @349300 DESIGNATED 3493
 GROUP @4
 SUBCOMPONENT @349000
-REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ @25
-LABEL ~cd_tweaks_better_bg2ee_start_pantaloons~
+REQUIRE_PREDICATE GAME_IS ~bg2ee eet soa tob bgt~ @25
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3490~ @349101
+LABEL ~cd_tweaks_better_soa_start_500k_all_items~
 
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                            \\\\\
-///// Drizzit                                                    \\\\\
+///// Better Shadows of Amn Start: Add All BG Tomes              \\\\\
 /////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 BEGIN @349400 DESIGNATED 3494
 GROUP @4
-SUBCOMPONENT @349000
-REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ @25
-LABEL ~cd_tweaks_better_bg2ee_start_drizzt~
+REQUIRE_PREDICATE (((!VARIABLE_IS_SET cd_tweaks_batch_install OR !cd_tweaks_batch_install) AND // straight component checks if not in batch mode
+                       (!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3492~) AND (!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3493~)) OR
+                   ((VARIABLE_IS_SET cd_tweaks_batch_install AND cd_tweaks_batch_install) AND // otherwise have to check for install variables
+                       (!VARIABLE_IS_SET cdtweaks_3492_installed OR !cdtweaks_3492_installed) AND (!VARIABLE_IS_SET cdtweaks_3493_installed OR !cdtweaks_3493_installed))) @16
+REQUIRE_PREDICATE GAME_IS ~bg2ee eet soa tob bgt~ @25
+LABEL ~cd_tweaks_better_soa_start_tomes~
 
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                            \\\\\
-///// Balduran Cloak                                             \\\\\
+///// Better Shadows of Amn Start: Add Golden Pantaloons         \\\\\
 /////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 BEGIN @349500 DESIGNATED 3495
 GROUP @4
-SUBCOMPONENT @349000
-REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ @25
-LABEL ~cd_tweaks_better_bg2ee_start_balduran~
+REQUIRE_PREDICATE (((!VARIABLE_IS_SET cd_tweaks_batch_install OR !cd_tweaks_batch_install) AND // straight component checks if not in batch mode
+                       (!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3492~) AND (!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3493~)) OR
+                   ((VARIABLE_IS_SET cd_tweaks_batch_install AND cd_tweaks_batch_install) AND // otherwise have to check for install variables
+                       (!VARIABLE_IS_SET cdtweaks_3492_installed OR !cdtweaks_3492_installed) AND (!VARIABLE_IS_SET cdtweaks_3493_installed OR !cdtweaks_3493_installed))) @16
+REQUIRE_PREDICATE GAME_IS ~bg2ee eet soa tob bgt~ @25
+LABEL ~cd_tweaks_better_soa_start_pantaloons~
 
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                            \\\\\
-///// All Components Enabled                                     \\\\\
+///// Better Shadows of Amn Start: Add Drizzt Items              \\\\\
 /////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-BEGIN @349900 DESIGNATED 3499
+BEGIN @349600 DESIGNATED 3496
 GROUP @4
-SUBCOMPONENT @349000
-REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ @25
-REQUIRE_PREDICATE !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3490~ @349901
-REQUIRE_PREDICATE !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3491~ @349901
-REQUIRE_PREDICATE !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3492~ @349901
-REQUIRE_PREDICATE !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3493~ @349901
-REQUIRE_PREDICATE !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3494~ @349901
-REQUIRE_PREDICATE !MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3495~ @349901
-LABEL ~cd_tweaks_better_bg2ee_start_all~
+REQUIRE_PREDICATE (((!VARIABLE_IS_SET cd_tweaks_batch_install OR !cd_tweaks_batch_install) AND // straight component checks if not in batch mode
+                       (!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3492~) AND (!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3493~)) OR
+                   ((VARIABLE_IS_SET cd_tweaks_batch_install AND cd_tweaks_batch_install) AND // otherwise have to check for install variables
+                       (!VARIABLE_IS_SET cdtweaks_3492_installed OR !cdtweaks_3492_installed) AND (!VARIABLE_IS_SET cdtweaks_3493_installed OR !cdtweaks_3493_installed))) @16
+REQUIRE_PREDICATE GAME_IS ~bg2ee eet soa tob bgt~ @25
+LABEL ~cd_tweaks_better_soa_start_drizzt~
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
+///// Better Shadows of Amn Start: Add Balduran's Cloak          \\\\\
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @349700 DESIGNATED 3497
+GROUP @4
+REQUIRE_PREDICATE (((!VARIABLE_IS_SET cd_tweaks_batch_install OR !cd_tweaks_batch_install) AND // straight component checks if not in batch mode
+                       (!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3492~) AND (!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~3493~)) OR
+                   ((VARIABLE_IS_SET cd_tweaks_batch_install AND cd_tweaks_batch_install) AND // otherwise have to check for install variables
+                       (!VARIABLE_IS_SET cdtweaks_3492_installed OR !cdtweaks_3492_installed) AND (!VARIABLE_IS_SET cdtweaks_3493_installed OR !cdtweaks_3493_installed))) @16
+REQUIRE_PREDICATE GAME_IS ~bg2ee eet soa tob bgt~ @25
+LABEL ~cd_tweaks_better_soa_start_balduran~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
