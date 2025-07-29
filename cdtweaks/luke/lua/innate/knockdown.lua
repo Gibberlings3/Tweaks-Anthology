@@ -79,13 +79,13 @@ function %INNATE_KNOCKDOWN%(CGameEffect, CGameSprite)
 			local strikingFromInvisibility = GT_Sprite_StrikingFromInvisibilityBonus(sourceSprite, CGameSprite)
 			local invisibleTarget = GT_Sprite_InvisibleTargetPenalty(sourceSprite, CGameSprite)
 			-- op120
-			local conditionalString = 'WeaponEffectiveVs(EEex_Target("gtScriptingTarget"),MAINHAND)'
+			local conditionalString = 'WeaponEffectiveVs(EEex_Target("gtKnockdownTarget"),MAINHAND)'
 			-- mainhand weapon
 			local selectedWeapon = GT_Sprite_GetSelectedWeapon(sourceSprite)
 			--
 			local damageTypeIDS, ACModifier = GT_Sprite_ItmDamageTypeToIDS(selectedWeapon["ability"].damageType, targetActiveStats)
 			--
-			if GT_EvalConditional["parseConditionalString"](sourceSprite, CGameSprite, conditionalString) then
+			if GT_EvalConditional["parseConditionalString"](sourceSprite, CGameSprite, conditionalString, "gtKnockdownTarget") then
 				-- compute attack roll (am I missing something...?)
 				local success = false
 				local modifier = luck + thac0BonusRight + thac0VsTypeBonus - attackRollPenalty + racialEnemy + attackOfOpportunity + strikingFromInvisibility - invisibleTarget + creatureSizeModifier - 4

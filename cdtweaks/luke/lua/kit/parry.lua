@@ -343,7 +343,7 @@ function %BLADE_SWASHBUCKLER_PARRY%(CGameEffect, CGameSprite)
 		local wspecial = sourceActiveStats.m_DamageBonusRight -- wspecial.2da
 		local meleeDamageBonus = sourceActiveStats.m_nMeleeDamageBonus -- op285 (STAT 167)
 		-- op120
-		local weaponEffectiveVs = 'WeaponEffectiveVs(EEex_Target("gtScriptingTarget"),MAINHAND)'
+		local conditionalString = 'WeaponEffectiveVs(EEex_Target("gtParryTarget"),MAINHAND)'
 		--
 		if EEex_BAnd(selectedWeapon["header"].itemFlags, itemflag["TWOHANDED"]) == 0 and Infinity_RandomNumber(1, 2) == 1 then -- if single-handed and 1d2 == 1 (50% chance)
 			local items = sourceSprite.m_equipment.m_items -- Array<CItem*,39>
@@ -358,7 +358,7 @@ function %BLADE_SWASHBUCKLER_PARRY%(CGameEffect, CGameSprite)
 					--
 					wspecial = sourceActiveStats.m_DamageBonusLeft -- wspecial.2da
 					--
-					weaponEffectiveVs = 'WeaponEffectiveVs(EEex_Target("gtScriptingTarget"),OFFHAND)'
+					conditionalString = 'WeaponEffectiveVs(EEex_Target("gtParryTarget"),OFFHAND)'
 				end
 			end
 		end
@@ -397,7 +397,7 @@ function %BLADE_SWASHBUCKLER_PARRY%(CGameEffect, CGameSprite)
 		--
 		local damageTypeIDS, ACModifier = GT_Sprite_ItmDamageTypeToIDS(selectedWeapon["ability"].damageType, targetActiveStats)
 		--
-		if GT_EvalConditional["parseConditionalString"](sourceSprite, CGameSprite, weaponEffectiveVs) then
+		if GT_EvalConditional["parseConditionalString"](sourceSprite, CGameSprite, conditionalString, "gtParryTarget") then
 			-- damage type ``NONE`` requires extra care
 			local mode = 0 -- normal
 			if selectedWeapon["ability"].damageType == 0 and selectedWeapon["ability"].damageDiceCount > 0 then

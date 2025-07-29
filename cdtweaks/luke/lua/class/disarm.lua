@@ -89,11 +89,11 @@ function %THIEF_DISARM%(CGameEffect, CGameSprite)
 						local strikingFromInvisibility = GT_Sprite_StrikingFromInvisibilityBonus(sourceSprite, CGameSprite)
 						local invisibleTarget = GT_Sprite_InvisibleTargetPenalty(sourceSprite, CGameSprite)
 						-- op120
-						local conditionalString = 'WeaponEffectiveVs(EEex_Target("gtScriptingTarget"),MAINHAND)'
+						local conditionalString = 'WeaponEffectiveVs(EEex_Target("gtDisarmTarget"),MAINHAND)'
 						--
 						local damageTypeIDS, ACModifier = GT_Sprite_ItmDamageTypeToIDS(sourceSelectedWeapon["ability"].damageType, targetActiveStats)
 						--
-						if GT_EvalConditional["parseConditionalString"](sourceSprite, CGameSprite, conditionalString) then
+						if GT_EvalConditional["parseConditionalString"](sourceSprite, CGameSprite, conditionalString, "gtDisarmTarget") then
 							-- compute attack roll (am I missing something...?)
 							local success = false
 							local modifier = luck + thac0BonusRight + thac0VsTypeBonus + racialEnemy - attackRollPenalty + attackOfOpportunity + strikingFromInvisibility - invisibleTarget + weaponSizeModifier - 6

@@ -176,9 +176,9 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	EEex_Utility_IterateCPtrList(sprite.m_timedEffectList, func)
 	--
 	if victim then
-		local conditionalString = 'Range(EEex_Target("gtScriptingTarget"),4)'
+		local conditionalString = 'Range(EEex_Target("gtCoiledVictim"),4)'
 		--
-		if EEex_BAnd(sprite.m_derivedStats.m_generalState, 0x80102FEF) ~= 0 or not EEex_UDEqual(sprite.m_pArea, victim.m_pArea) or isMazed or not GT_EvalConditional["parseConditionalString"](sprite, victim, conditionalString) then
+		if EEex_BAnd(sprite.m_derivedStats.m_generalState, 0x80102FEF) ~= 0 or not EEex_UDEqual(sprite.m_pArea, victim.m_pArea) or isMazed or not GT_EvalConditional["parseConditionalString"](sprite, victim, conditionalString, "gtCoiledVictim") then
 			sprite:applyEffect({
 				["effectID"] = 146, -- cast spell
 				["dwFlags"] = 1, -- instant/ignore level
@@ -355,9 +355,9 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 				--
 				local roll = math.random(20) -- 1d20
 				--
-				local conditionalString = 'InWeaponRange(EEex_Target("gtScriptingTarget"))'
+				local conditionalString = 'InWeaponRange(EEex_Target("gtCoiledVictim"))'
 				--
-				if victim and roll <= 4 and GT_EvalConditional["parseConditionalString"](sprite, victim, conditionalString) then -- 20% chance + InWeaponRange()
+				if victim and roll <= 4 and GT_EvalConditional["parseConditionalString"](sprite, victim, conditionalString, "gtCoiledVictim") then -- 20% chance + InWeaponRange()
 					-- store original ``m_actionID`` and ``m_acteeID``
 					-- NB.: this is because we recall some weirdness with ``AttackReevaluate()`` and how it stores its target!
 					attackerAux["gt_SnakeGrasp_StrikeVictim"] = {

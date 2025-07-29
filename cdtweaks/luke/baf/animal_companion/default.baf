@@ -257,6 +257,17 @@ END
 */
 
 IF
+	Race(Myself, SPIDER)
+	EEex_LuaTrigger("return GT_LuaTrigger_PartyAI()")
+	EEex_LuaTrigger("return GT_LuaTrigger_InterruptableAction()")
+	See(NearestEnemyOf(Myself))
+THEN
+	RESPONSE #100
+		AttackReevaluate(EEex_LuaDecode("return GT_LuaDecode_Attack(GT_AI_LuaChunks['webbedPreferringWeak'])"),30)
+END
+
+IF
+	!Race(Myself, SPIDER)
 	EEex_LuaTrigger("return GT_LuaTrigger_PartyAI()")
 	EEex_LuaTrigger("return GT_LuaTrigger_InterruptableAction()")
 	OR(2)

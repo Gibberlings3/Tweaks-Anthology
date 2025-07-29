@@ -67,8 +67,8 @@ function %FIGHTER_CLEAVE%(CGameEffect, CGameSprite)
 		--
 		local sourceActiveStats = EEex_Sprite_GetActiveStats(sourceSprite)
 		--
-		local conditionalString = 'InWeaponRange(EEex_Target("gtScriptingTarget"))'
-		local responseString = 'ReallyForceSpellRES("%FIGHTER_CLEAVE%B",EEex_Target("gtScriptingTarget"))'
+		local conditionalString = 'InWeaponRange(EEex_Target("gtCleaveTarget"))'
+		local responseString = 'ReallyForceSpellRES("%FIGHTER_CLEAVE%B",EEex_Target("gtCleaveTarget"))'
 		--
 		local targetActiveStats = EEex_Sprite_GetActiveStats(CGameSprite)
 		--
@@ -83,10 +83,10 @@ function %FIGHTER_CLEAVE%(CGameEffect, CGameSprite)
 			for _, itrSprite in ipairs(potentialTargets) do
 				local itrSpriteActiveStats = EEex_Sprite_GetActiveStats(itrSprite)
 				--
-				if GT_EvalConditional["parseConditionalString"](sourceSprite, itrSprite, conditionalString) and EEex_IsBitUnset(itrSpriteActiveStats.m_generalState, 11) then -- if not dead
+				if GT_EvalConditional["parseConditionalString"](sourceSprite, itrSprite, conditionalString, "gtCleaveTarget") and EEex_IsBitUnset(itrSpriteActiveStats.m_generalState, 11) then -- if not dead
 					if EEex_IsBitUnset(itrSpriteActiveStats.m_generalState, 0x4) or sourceActiveStats.m_bSeeInvisible > 0 then
 						if itrSpriteActiveStats.m_bSanctuary == 0 then
-							GT_ExecuteResponse["parseResponseString"](sourceSprite, itrSprite, responseString)
+							GT_ExecuteResponse["parseResponseString"](sourceSprite, itrSprite, responseString, "gtCleaveTarget")
 							break
 						end
 					end
