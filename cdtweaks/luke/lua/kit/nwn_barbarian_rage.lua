@@ -74,7 +74,7 @@ function %BARBARIAN_RAGE%(CGameEffect, CGameSprite)
 			{["op"] = 0, ["p1"] = -2}, -- AC bonus (-2)
 			{["op"] = 341, ["res"] = "%BARBARIAN_RAGE%C", ["spec"] = 1}, -- critical hit effect (melee attacks only, +2d6 extra damage)
 			{["op"] = 248, ["res"] = "%BARBARIAN_RAGE%D"}, -- melee hit effect (deafness, 25% chance, no save)
-			{["op"] = 142, ["p2"] = 138} -- icon: rage
+			{["op"] = 142, ["p2"] = 138}, -- icon: rage
 			{["op"] = 206, ["res"] = CGameEffect.m_sourceRes:get(), ["p1"] = %feedback_strref_already_cast%}, -- protection from spell
 		}
 		--

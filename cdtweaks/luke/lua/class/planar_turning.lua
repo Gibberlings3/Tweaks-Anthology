@@ -65,7 +65,7 @@ function %PRIEST_PLANAR_TURNING%(CGameEffect, CGameSprite)
 					{["op"] = 141, ["p2"] = 24}, -- lighting effects (invocation air)
 					{["op"] = 321, ["res"] = parentResRef}, -- remove effects by resource
 					{["op"] = 24, ["p2"] = 1, ["dur"] = 60}, -- panic (bypass immunity)
-					{["op"] = 142, ["p2"] = 36, ["dur"] = 60} -- icon: panic
+					{["op"] = 142, ["p2"] = 36, ["dur"] = 60}, -- icon: panic
 					{["op"] = 139, ["p1"] = %feedback_strref%}, -- feedback string
 				}
 			end
