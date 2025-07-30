@@ -1,15 +1,16 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                            \\\\\
-///// Revised Troll Regeneration                                 \\\\\
+///// Defensive Roll feat for Thieves                            \\\\\
 /////                                                            \\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 WITH_SCOPE BEGIN
-  INCLUDE "cdtweaks\luke\misc.tph"
+  INCLUDE "cdtweaks\luke\lib\install.tph"
   //
-  INCLUDE "cdtweaks\lib\revised_troll_regeneration.tph"
-  //
-  LAF "REVISED_TROLL_REGENERATION" END
+  INCLUDE "cdtweaks\lib\gt_defensive_roll.tph"
+  WITH_TRA "cdtweaks\languages\english\gt_defensive_roll.tra" "cdtweaks\languages\%LANGUAGE%\gt_defensive_roll.tra" BEGIN
+    LAF "DEFENSIVE_ROLL" END
+  END
 END

@@ -7,11 +7,11 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
 
 WITH_SCOPE BEGIN
-  INCLUDE "cdtweaks\luke\misc.tph"
+  INCLUDE "cdtweaks\luke\lib\install.tph"
   //
-  INCLUDE "cdtweaks\lib\sneakatt_rogue.tph"
+  INCLUDE "cdtweaks\lib\gt_sneakatt_rogue.tph"
   //
-  WITH_TRA "cdtweaks\languages\english\sneakatt_rogue.tra" "cdtweaks\languages\%LANGUAGE%\sneakatt_rogue.tra" BEGIN
+  WITH_TRA "cdtweaks\languages\english\gt_sneakatt_rogue.tra" "cdtweaks\languages\%LANGUAGE%\gt_sneakatt_rogue.tra" BEGIN
     LAF "SNEAKATT_ROGUE" END
   END
 END

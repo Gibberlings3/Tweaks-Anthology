@@ -21,10 +21,19 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			["sourceTarget"] = sprite.m_id,
 		})
 	end
+	-- turn undead lvl 21+; wis 17+, cha 17+; paladin or cleric
+	local spriteWIS = sprite.m_derivedStats.m_nWIS
+	local spriteCHR = sprite.m_derivedStats.m_nCHR
+	--
+	local class = GT_Resource_SymbolToIDS["class"]
+	local isPaladinAll = GT_Sprite_CheckIDS(sprite, class["PALADIN_ALL"], 5, true)
+	local isClericAll = GT_Sprite_CheckIDS(sprite, class["CLERIC_ALL"], 5)
+	--
+	local spriteTurnUndeadLevel = sprite.m_derivedStats.m_nTurnUndeadLevel
 	-- Check if the creature is turning undead
 	local turnUndeadMode = EEex_Sprite_GetModalState(sprite) == 4 and EEex_Sprite_GetModalTimer(sprite) == 0
 	--
-	if turnUndeadMode then
+	if (isPaladinAll or isClericAll) and turnUndeadMode and spriteTurnUndeadLevel >= 21 and spriteWIS >= 17 and spriteCHR >= 17 then
 		turnPlanarMode()
 	end
 end)
@@ -36,7 +45,8 @@ function %PRIEST_PLANAR_TURNING%(CGameEffect, CGameSprite)
 	--
 	local sourceSprite = EEex_GameObject_Get(CGameEffect.m_sourceId)
 	--
-	local isEvil = EEex_Trigger_ParseConditionalString("Alignment(Myself,MASK_EVIL)")
+	local align = GT_Resource_SymbolToIDS["align"]
+	local isEvil = GT_Sprite_CheckIDS(sourceSprite, align["MASK_EVIL"], 8)
 	--
 	local sourceActiveStats = EEex_Sprite_GetActiveStats(sourceSprite)
 	local targetActiveStats = EEex_Sprite_GetActiveStats(CGameSprite)
@@ -55,12 +65,12 @@ function %PRIEST_PLANAR_TURNING%(CGameEffect, CGameSprite)
 					{["op"] = 141, ["p2"] = 24}, -- lighting effects (invocation air)
 					{["op"] = 321, ["res"] = parentResRef}, -- remove effects by resource
 					{["op"] = 24, ["p2"] = 1, ["dur"] = 60}, -- panic (bypass immunity)
-					{["op"] = 142, ["p2"] = 36, ["dur"] = 60} -- icon: panic
+					{["op"] = 142, ["p2"] = 36, ["dur"] = 60}, -- icon: panic
 					{["op"] = 139, ["p1"] = %feedback_strref%}, -- feedback string
 				}
 			end
 		else -- destroy or take control
-			if isEvil:evalConditionalAsAIBase(sourceSprite) then -- take control
+			if isEvil then -- take control
 				effectCodes = {
 					{["op"] = 174, ["res"] = "ACT_06"}, -- play sound
 					{["op"] = 141, ["p2"] = 24}, -- lighting effects (invocation air)
@@ -91,6 +101,4 @@ function %PRIEST_PLANAR_TURNING%(CGameEffect, CGameSprite)
 			})
 		end
 	end
-	--
-	isEvil:free()
 end

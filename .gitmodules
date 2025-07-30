@@ -1,0 +1,4 @@
+[submodule "luke_resources"]
+	path = cdtweaks/luke/lib
+	url = https://github.com/4Luke4/luke-resources
+	branch = main

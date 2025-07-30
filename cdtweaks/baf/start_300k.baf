@@ -1,0 +1,10 @@
+IF
+  Global("NewGame","AR0602",1)
+  Global("TakeImportItems","AR0602",1)
+  Global("CD_BETTER_START_%xp%k","GLOBAL", 0)
+  XPLT(Player1,%xp%000)
+THEN
+  RESPONSE #100
+    %action%
+    SetGlobal("CD_BETTER_START_%xp%k","GLOBAL", 1)
+END

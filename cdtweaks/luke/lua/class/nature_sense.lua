@@ -14,7 +14,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- internal function that applies the actual bonus
 	local apply = function()
 		-- Mark the creature as 'bonus applied'
-		sprite:setLocalInt("gtDruidNatureSense", 1)
+		sprite:setLocalInt("gtNWNNatureSense", 1)
 		--
 		sprite:applyEffect({
 			["effectID"] = 321, -- Remove effects by resource
@@ -40,22 +40,16 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		})
 	end
 	-- Check creature's area / class
-	local spriteClassStr = GT_Resource_IDSToSymbol["class"][sprite.m_typeAI.m_Class]
+	local class = GT_Resource_SymbolToIDS["class"]
 	--
 	local isForest = EEex_IsBitSet(sprite.m_pArea.m_header.m_areaType, 0x4)
 	local isOutdoor = EEex_IsBitSet(sprite.m_pArea.m_header.m_areaType, 0x0)
+	-- any druid (single/multi/(complete)dual)
+	local isDruidAll = GT_Sprite_CheckIDS(sprite, class["DRUID_ALL"], 5)
 	--
-	local spriteFlags = sprite.m_baseStats.m_flags
-	-- since ``EEex_Opcode_AddListsResolvedListener`` is running after the effect lists have been evaluated, ``m_bonusStats`` has already been added to ``m_derivedStats`` by the engine
-	local spriteLevel1 = sprite.m_derivedStats.m_nLevel1
-	local spriteLevel2 = sprite.m_derivedStats.m_nLevel2
+	local applyAbility = (isForest and isOutdoor) and isDruidAll
 	--
-	local applyAbility = (isForest and isOutdoor)
-		and (spriteClassStr == "DRUID"
-			-- incomplete dual-class characters are not supposed to benefit from this passive feat
-			or (spriteClassStr == "FIGHTER_DRUID" and (EEex_IsBitUnset(spriteFlags, 0x7) or spriteLevel1 > spriteLevel2)))
-	--
-	if sprite:getLocalInt("gtDruidNatureSense") == 0 then
+	if sprite:getLocalInt("gtNWNNatureSense") == 0 then
 		if applyAbility then
 			apply()
 		end
@@ -64,7 +58,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			-- do nothing
 		else
 			-- Mark the creature as 'bonus removed'
-			sprite:setLocalInt("gtDruidNatureSense", 0)
+			sprite:setLocalInt("gtNWNNatureSense", 0)
 			--
 			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource

@@ -7,9 +7,9 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
 
 WITH_SCOPE BEGIN
-  INCLUDE "cdtweaks\luke\misc.tph"
+  INCLUDE "cdtweaks\luke\lib\install.tph"
   //
-  INCLUDE "cdtweaks\lib\blade_barrier.tph"
+  INCLUDE "cdtweaks\lib\gt_blade_barrier.tph"
   //
   LAF "MORE_SENSIBLE_BLADE_BARRIER" END
 END

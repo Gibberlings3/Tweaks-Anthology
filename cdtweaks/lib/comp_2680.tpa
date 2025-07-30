@@ -7,11 +7,11 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 WITH_SCOPE BEGIN
-  INCLUDE "cdtweaks\luke\misc.tph"
+  INCLUDE "cdtweaks\luke\lib\install.tph"
   //
-  INCLUDE "cdtweaks\lib\infravision.tph"
+  INCLUDE "cdtweaks\lib\gt_infravision.tph"
   //
-  WITH_TRA "cdtweaks\languages\english\infravision.tra" "cdtweaks\languages\%LANGUAGE%\infravision.tra" BEGIN
+  WITH_TRA "cdtweaks\languages\english\gt_infravision.tra" "cdtweaks\languages\%LANGUAGE%\gt_infravision.tra" BEGIN
     LAF "MAKE_INFRAVISION_USEFUL" END
   END
 END

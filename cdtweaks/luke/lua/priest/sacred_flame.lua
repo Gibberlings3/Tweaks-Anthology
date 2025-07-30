@@ -41,6 +41,10 @@ function %CLERIC_SACRED_FLAME%(CGameEffect, CGameSprite)
 		["dwFlags"] = dmgtype["MAGIC"],
 		["numDice"] = 1,
 		["diceSize"] = diceSize,
+		["m_flags"] = 0x3, -- dispellable/bypass mr
+		["m_school"] = CGameEffect.m_school,
+		["m_secondaryType"] = CGameEffect.m_secondaryType,
+		["m_projectileType"] = CGameEffect.m_projectileType,
 		["m_sourceRes"] = CGameEffect.m_sourceRes:get(),
 		["m_sourceType"] = CGameEffect.m_sourceType,
 		["sourceID"] = CGameEffect.m_sourceId,

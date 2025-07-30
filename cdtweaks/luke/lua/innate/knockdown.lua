@@ -4,29 +4,26 @@
 +------------------------------------------------------------+
 --]]
 
--- NWN-ish Knockdown ability. Creatures already on the ground / levitating / etc. should be immune to this feat --
-
-local cdtweaks_ImmuneToKnockdown = {
-	{"WEAPON"}, -- GENERAL.IDS
-	{"DRAGON", "BEHOLDER", "ANKHEG", "SLIME", "DEMILICH", "WILL-O-WISP", "SPECTRAL_UNDEAD", "SHADOW", "SPECTRE", "WRAITH", "MIST", "GENIE", "ELEMENTAL", "SALAMANDER"}, -- RACE.IDS
-	{"WIZARD_EYE", "SPECTRAL_TROLL", "SPIDER_WRAITH"}, -- CLASS.IDS
-	-- ANIMATE.IDS
-	{
-		"DOOM_GUARD", "DOOM_GUARD_LARGER", -- 0x6000
-		"SNAKE", "BLOB_MIST_CREATURE", "MIST_CREATURE", "HAKEASHAR", "NISHRUU", "SNAKE_WATER", "DANCING_SWORD", -- 0x7000
-		"SHADOW_SMALL", "SHADOW_LARGE", "WATER_WEIRD" -- 0xE000
-	},
-}
-
 -- NWN-ish Knockdown ability (main) --
 
 function %INNATE_KNOCKDOWN%(CGameEffect, CGameSprite)
+	-- Creatures already on the ground / levitating / etc. should be immune to this feat --
+	local naturalImmunity = {
+		{"WEAPON"}, -- GENERAL.IDS
+		{"DRAGON", "BEHOLDER", "ANKHEG", "SLIME", "DEMILICH", "WILL-O-WISP", "SPECTRAL_UNDEAD", "SHADOW", "SPECTRE", "WRAITH", "MIST", "GENIE", "ELEMENTAL", "SALAMANDER"}, -- RACE.IDS
+		{"WIZARD_EYE", "SPECTRAL_TROLL", "SPIDER_WRAITH"}, -- CLASS.IDS
+		-- ANIMATE.IDS
+		{
+			"DOOM_GUARD", "DOOM_GUARD_LARGER", -- 0x6000
+			"SNAKE", "BLOB_MIST_CREATURE", "MIST_CREATURE", "HAKEASHAR", "NISHRUU", "SNAKE_WATER", "DANCING_SWORD", -- 0x7000
+			"SHADOW_SMALL", "SHADOW_LARGE", "WATER_WEIRD" -- 0xE000
+		},
+	}
+	--
 	local sourceSprite = EEex_GameObject_Get(CGameEffect.m_sourceId) -- CGameSprite
 	-- Get personal space
-	local sourcePersonalSpace = sourceSprite.m_animation.m_animation.m_personalSpace
-	local targetPersonalSpace = CGameSprite.m_animation.m_animation.m_personalSpace
-	--
-	local class = GT_Resource_SymbolToIDS["class"]
+	local sourcePersonalSpace = EEex_Sprite_GetPersonalSpace(sourceSprite)
+	local targetPersonalSpace = EEex_Sprite_GetPersonalSpace(CGameSprite)
 	--
 	local targetGeneralStr = GT_Resource_IDSToSymbol["general"][CGameSprite.m_typeAI.m_General]
 	local targetRaceStr = GT_Resource_IDSToSymbol["race"][CGameSprite.m_typeAI.m_Race]
@@ -38,16 +35,17 @@ function %INNATE_KNOCKDOWN%(CGameEffect, CGameSprite)
 	-- immunity check
 	local found = false
 	do
-		for index, symbolList in ipairs(cdtweaks_ImmuneToKnockdown) do
+		for index, symbolList in ipairs(naturalImmunity) do
 			for _, symbol in ipairs(symbolList) do
 				if targetIDS[index] == symbol then
 					found = true
-					break
+					goto found
 				end
 			end
 		end
 	end
 	--
+	::found::
 	if not found then
 		if (sourcePersonalSpace - targetPersonalSpace) >= -1 then
 			-- Fetch components of check
@@ -65,28 +63,41 @@ function %INNATE_KNOCKDOWN%(CGameEffect, CGameSprite)
 			end
 			--
 			local thac0 = sourceActiveStats.m_nTHAC0 -- base thac0 (STAT 7)
-			local thac0BonusRight = sourceActiveStats.m_THAC0BonusRight -- this should include the bonus from the weapon + str + wspecial.2da
-			local meleeTHAC0Bonus = sourceActiveStats.m_nMeleeTHAC0Bonus -- op284 (STAT 166)
+			local luck = sourceActiveStats.m_nLuck -- STAT 32
+			local thac0BonusRight = sourceActiveStats.m_THAC0BonusRight -- this should include the bonus from the weapon + str + wspecial.2da + op288 (STAT 170) + op284 (STAT 166) + stylbonu.2da
+			--local meleeTHAC0Bonus = sourceActiveStats.m_nMeleeTHAC0Bonus -- op284 (STAT 166)
+			--local fistTHAC0Bonus = sourceActiveStats.m_nFistTHAC0Bonus -- op288 (STAT 170)
+			-- op178
+			local thac0VsTypeBonus = GT_Sprite_Thac0VsTypeBonus(sourceSprite, CGameSprite)
+			-- op219
+			local attackRollPenalty = GT_Sprite_AttackRollPenalty(sourceSprite, CGameSprite)
+			-- racial enemy
+			local racialEnemy = GT_Sprite_GetRacialEnemyBonus(sourceSprite, CGameSprite)
+			-- attack of opportunity
+			local attackOfOpportunity = GT_Sprite_GetAttackOfOpportunityBonus(sourceSprite, CGameSprite)
+			-- invisibility
+			local strikingFromInvisibility = GT_Sprite_StrikingFromInvisibilityBonus(sourceSprite, CGameSprite)
+			local invisibleTarget = GT_Sprite_InvisibleTargetPenalty(sourceSprite, CGameSprite)
 			-- op120
-			sourceSprite:setStoredScriptingTarget("GT_ScriptingTarget_Knockdown", CGameSprite)
-			local weaponEffectiveVs = EEex_Trigger_ParseConditionalString('WeaponEffectiveVs(EEex_Target("GT_ScriptingTarget_Knockdown"),MAINHAND)')
+			local conditionalString = 'WeaponEffectiveVs(EEex_Target("gtKnockdownTarget"),MAINHAND)'
 			-- mainhand weapon
-			local equipment = sourceSprite.m_equipment -- CGameSpriteEquipment
-			local selectedWeapon = equipment.m_items:get(equipment.m_selectedWeapon) -- CItem
-			local selectedWeaponHeader = selectedWeapon.pRes.pHeader -- Item_Header_st
-			local selectedWeaponAbility = EEex_Resource_GetItemAbility(selectedWeaponHeader, equipment.m_selectedWeaponAbility) -- Item_ability_st
+			local selectedWeapon = GT_Sprite_GetSelectedWeapon(sourceSprite)
 			--
-			local op12DamageType, ACModifier = GT_Utility_DamageTypeConverter(selectedWeaponAbility.damageType, targetActiveStats)
+			local damageTypeIDS, ACModifier = GT_Sprite_ItmDamageTypeToIDS(selectedWeapon["ability"].damageType, targetActiveStats)
 			--
-			if weaponEffectiveVs:evalConditionalAsAIBase(sourceSprite) then
-				-- compute attack roll (simplified for the time being... it doesn't consider attack of opportunity, invisibility, luck, op178, op301, op362, &c.)
+			if GT_EvalConditional["parseConditionalString"](sourceSprite, CGameSprite, conditionalString, "gtKnockdownTarget") then
+				-- compute attack roll (am I missing something...?)
 				local success = false
-				local modifier = thac0BonusRight + meleeTHAC0Bonus + creatureSizeModifier - 4
+				local modifier = luck + thac0BonusRight + thac0VsTypeBonus - attackRollPenalty + racialEnemy + attackOfOpportunity + strikingFromInvisibility - invisibleTarget + creatureSizeModifier - 4
 				--
-				if roll == 20 then -- automatic hit
+				local criticalHitMod, criticalMissMod = GT_Sprite_GetCriticalModifiers(sourceSprite)
+				--
+				local m_nTimeStopCaster = EngineGlobals.g_pBaldurChitin.m_pObjectGame.m_nTimeStopCaster
+				--
+				if (roll >= 20 - criticalHitMod) or EEex_BAnd(targetActiveStats.m_generalState, 0x100029) ~= 0 or m_nTimeStopCaster == sourceSprite.m_id then -- automatic hit
 					success = true
 					modifier = 0
-				elseif roll == 1 then -- automatic miss (critical failure)
+				elseif roll <= 1 + criticalMissMod then -- automatic miss (critical failure)
 					modifier = 0
 				elseif roll + modifier >= thac0 - (targetActiveStats.m_nArmorClass + ACModifier) then
 					success = true
@@ -94,10 +105,10 @@ function %INNATE_KNOCKDOWN%(CGameEffect, CGameSprite)
 				--
 				if success then
 					-- display feedback message
-					GT_Utility_DisplaySpriteMessage(sourceSprite,
-						string.format("%s : %d + %d = %d : %s",
-							Infinity_FetchString(%feedback_strref_knockdown%), roll, modifier, roll + modifier, Infinity_FetchString(%feedback_strref_hit%)),
-						0xBED7D7, 0xBED7D7
+					GT_Sprite_DisplayMessage(sourceSprite,
+						string.format("%s : %d %s %d = %d : %s",
+							Infinity_FetchString(%feedback_strref_knockdown%), roll, modifier < 0 and "-" or "+", math.abs(modifier), roll + modifier, Infinity_FetchString(%feedback_strref_hit%)),
+						0xBED7D7
 					)
 					--
 					local effectCodes = {
@@ -120,10 +131,10 @@ function %INNATE_KNOCKDOWN%(CGameEffect, CGameSprite)
 					end
 				else
 					-- display feedback message
-					GT_Utility_DisplaySpriteMessage(sourceSprite,
-						string.format("%s : %d + %d = %d : %s",
-							Infinity_FetchString(%feedback_strref_knockdown%), roll, modifier, roll + modifier, Infinity_FetchString(%feedback_strref_miss%)),
-						0xBED7D7, 0xBED7D7
+					GT_Sprite_DisplayMessage(sourceSprite,
+						string.format("%s : %d %s %d = %d : %s",
+							Infinity_FetchString(%feedback_strref_knockdown%), roll, modifier < 0 and "-" or "+", math.abs(modifier), roll + modifier, Infinity_FetchString(%feedback_strref_miss%)),
+						0xBED7D7
 					)
 				end
 			else
@@ -135,8 +146,6 @@ function %INNATE_KNOCKDOWN%(CGameEffect, CGameSprite)
 					["sourceTarget"] = CGameEffect.m_sourceTarget,
 				})
 			end
-			--
-			weaponEffectiveVs:free()
 		else
 			CGameSprite:applyEffect({
 				["effectID"] = 139, -- display string
@@ -184,10 +193,10 @@ EEex_Sprite_AddQuickListsCheckedListener(function(sprite, resref, changeAmount)
 	end)
 
 	-- make sure the creature is equipped with a melee weapon
-	local isWeaponRanged = EEex_Trigger_ParseConditionalString("IsWeaponRanged(Myself)")
-	if not isWeaponRanged:evalConditionalAsAIBase(sprite) then
+	local selectedWeapon = GT_Sprite_GetSelectedWeapon(sprite)
+	if selectedWeapon["ability"].type == 1 then
 		-- store target id
-		spriteAux["gtKnockdownTargetID"] = curAction.m_acteeID.m_Instance
+		spriteAux["gt_NWN_Knockdown_TargetID"] = curAction.m_acteeID.m_Instance
 		-- initialize the attack frame counter
 		sprite.m_attackFrame = 0
 	else
@@ -199,7 +208,6 @@ EEex_Sprite_AddQuickListsCheckedListener(function(sprite, resref, changeAmount)
 		})
 	end
 
-	isWeaponRanged:free()
 end)
 
 -- Cast the "actual" spl (ability) when the attack frame counter is 6 --
@@ -212,45 +220,45 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	--
 	local spriteAux = EEex_GetUDAux(sprite)
 	--
-	local isWeaponRanged = EEex_Trigger_ParseConditionalString("IsWeaponRanged(Myself)")
+	local selectedWeapon = GT_Sprite_GetSelectedWeapon(sprite)
 	--
-	if sprite:getLocalInt("gtInnateKnockdown") == 1 then
-		if not isWeaponRanged:evalConditionalAsAIBase(sprite) then
+	if sprite:getLocalInt("gtNWNKnockdown") == 1 then
+		if selectedWeapon["ability"].type == 1 then -- melee weapon
 			if sprite.m_nSequence == 0 and sprite.m_attackFrame == 6 then -- SetSequence(SEQ_ATTACK)
-				if spriteAux["gtKnockdownTargetID"] then
+				if spriteAux["gt_NWN_Knockdown_TargetID"] then
 					-- retrieve / forget target sprite
-					local targetSprite = EEex_GameObject_Get(spriteAux["gtKnockdownTargetID"])
-					spriteAux["gtKnockdownTargetID"] = nil
+					local targetSprite = EEex_GameObject_Get(spriteAux["gt_NWN_Knockdown_TargetID"])
+					spriteAux["gt_NWN_Knockdown_TargetID"] = nil
 					--
-					targetSprite:applyEffect({
-						["effectID"] = 138, -- set animation
-						["dwFlags"] = 4, -- SEQ_DAMAGE
-						["sourceID"] = sprite.m_id,
-						["sourceTarget"] = targetSprite.m_id,
-					})
-					targetSprite:applyEffect({
-						["effectID"] = 402, -- invoke lua
-						["res"] = "%INNATE_KNOCKDOWN%",
-						["sourceID"] = sprite.m_id,
-						["sourceTarget"] = targetSprite.m_id,
-					})
+					if targetSprite then
+						targetSprite:applyEffect({
+							["effectID"] = 138, -- set animation
+							["dwFlags"] = 4, -- SEQ_DAMAGE
+							["sourceID"] = sprite.m_id,
+							["sourceTarget"] = targetSprite.m_id,
+						})
+						targetSprite:applyEffect({
+							["effectID"] = 402, -- invoke lua
+							["res"] = "%INNATE_KNOCKDOWN%",
+							["sourceID"] = sprite.m_id,
+							["sourceTarget"] = targetSprite.m_id,
+						})
+					end
 				end
 			end
 		end
 	end
-	--
-	isWeaponRanged:free()
 end)
 
--- Forget about ``spriteAux["gtKnockdownTargetID"]`` if the player manually interrupts the action --
+-- Forget about ``spriteAux["gt_Aux_NWN_Knockdown_TargetID"]`` if the player manually interrupts the action --
 
 EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
 	local spriteAux = EEex_GetUDAux(sprite)
 	--
-	if sprite:getLocalInt("gtInnateKnockdown") == 1 then
+	if sprite:getLocalInt("gtNWNKnockdown") == 1 then
 		if not (action.m_actionID == 113 and action.m_string1.m_pchData:get() == "%INNATE_KNOCKDOWN%") then
-			if spriteAux["gtKnockdownTargetID"] ~= nil then
-				spriteAux["gtKnockdownTargetID"] = nil
+			if spriteAux["gt_NWN_Knockdown_TargetID"] ~= nil then
+				spriteAux["gt_NWN_Knockdown_TargetID"] = nil
 			end
 		end
 	end
@@ -266,7 +274,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- internal function that grants the ability
 	local gain = function()
 		-- Mark the creature as 'feat granted'
-		sprite:setLocalInt("gtInnateKnockdown", 1)
+		sprite:setLocalInt("gtNWNKnockdown", 1)
 		--
 		local effectCodes = {
 			{["op"] = 172}, -- remove spell
@@ -283,24 +291,13 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		end
 	end
 	-- Check creature's class
-	local spriteClassStr = GT_Resource_IDSToSymbol["class"][sprite.m_typeAI.m_Class]
+	local class = GT_Resource_SymbolToIDS["class"]
 	--
-	local spriteFlags = sprite.m_baseStats.m_flags
-	-- since ``EEex_Opcode_AddListsResolvedListener`` is running after the effect lists have been evaluated, ``m_bonusStats`` has already been added to ``m_derivedStats`` by the engine
-	local spriteLevel1 = sprite.m_derivedStats.m_nLevel1
-	local spriteLevel2 = sprite.m_derivedStats.m_nLevel2
+	local isFighterAll = GT_Sprite_CheckIDS(sprite, class["FIGHTER_ALL"], 5)
 	--
-	local isMonk = spriteClassStr == "MONK"
+	local gainAbility = isFighterAll
 	--
-	local isFighter = spriteClassStr == "FIGHTER" or spriteClassStr == "FIGHTER_MAGE_THIEF" or spriteClassStr == "FIGHTER_MAGE_CLERIC"
-		or (spriteClassStr == "FIGHTER_MAGE" and (EEex_IsBitUnset(spriteFlags, 0x3) or spriteLevel2 > spriteLevel1))
-		or (spriteClassStr == "FIGHTER_CLERIC" and (EEex_IsBitUnset(spriteFlags, 0x3) or spriteLevel2 > spriteLevel1))
-		or (spriteClassStr == "FIGHTER_THIEF" and (EEex_IsBitUnset(spriteFlags, 0x3) or spriteLevel2 > spriteLevel1))
-		or (spriteClassStr == "FIGHTER_DRUID" and (EEex_IsBitUnset(spriteFlags, 0x3) or spriteLevel2 > spriteLevel1))
-	--
-	local gainAbility = isMonk or isFighter
-	--
-	if sprite:getLocalInt("gtInnateKnockdown") == 0 then
+	if sprite:getLocalInt("gtNWNKnockdown") == 0 then
 		if gainAbility then
 			gain()
 		end
@@ -309,7 +306,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			-- do nothing
 		else
 			-- Mark the creature as 'feat removed'
-			sprite:setLocalInt("gtInnateKnockdown", 0)
+			sprite:setLocalInt("gtNWNKnockdown", 0)
 			--
 			sprite:applyEffect({
 				["effectID"] = 172, -- remove spell
@@ -320,3 +317,4 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		end
 	end
 end)
+

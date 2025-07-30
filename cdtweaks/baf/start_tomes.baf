@@ -1,0 +1,18 @@
+
+IF
+  Global("NewGame","AR0602",1)
+  Global("TakeImportItems","AR0602",1)
+  Global("CD_BETTER_START_TOMES","GLOBAL", 0)
+THEN
+  RESPONSE #100
+    ActionOverride("Picture1",CreateItem("BOOK03",1,0,0))
+    ActionOverride("Picture1",CreateItem("BOOK04",1,0,0))
+    ActionOverride("Picture1",CreateItem("BOOK05",1,0,0))
+    ActionOverride("Picture1",CreateItem("BOOK06",1,0,0))
+    ActionOverride("Picture1",CreateItem("BOOK07",1,0,0))
+    ActionOverride("Picture1",CreateItem("BOOK08",1,0,0))
+    ActionOverride("Picture1",CreateItem("BOOK08",1,0,0))
+    ActionOverride("Picture1",CreateItem("BOOK08",1,0,0))
+    SetGlobal("CD_BETTER_START_TOMES","GLOBAL", 1)
+    Continue()
+END

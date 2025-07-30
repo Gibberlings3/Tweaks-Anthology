@@ -7,9 +7,9 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\////
 
 WITH_SCOPE BEGIN
-  INCLUDE "cdtweaks\luke\misc.tph"
+  INCLUDE "cdtweaks\luke\lib\install.tph"
   //
-  INCLUDE "cdtweaks\lib\fireshield.tph"
+  INCLUDE "cdtweaks\lib\gt_fireshield.tph"
   //
   LAF "MORE_SENSIBLE_FIRESHIELD" END
 END

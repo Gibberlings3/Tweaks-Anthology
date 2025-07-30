@@ -8,18 +8,20 @@
 
 function %INNATE_SNAKE_GRASP%(CGameEffect, CGameSprite)
 	local sourceSprite = EEex_GameObject_Get(CGameEffect.m_sourceId)
-	local sourceAux = EEex_GetUDAux(sourceSprite)
+	--local sourceAux = EEex_GetUDAux(sourceSprite)
 	--
 	if CGameEffect.m_effectAmount == 0 then
 		local sourceActiveStats = EEex_Sprite_GetActiveStats(sourceSprite)
 		--
 		local levelModifier = math.floor(sourceActiveStats.m_nLevel1 / 5) -- +1 round every 5 levels
 		--
-		local holdImmunity = EEex_Trigger_ParseConditionalString("EEex_IsImmuneToOpcode(Myself,185)")
+		local holdImmunity = "EEex_IsImmuneToOpcode(Myself,185)"
 		--
-		if not holdImmunity:evalConditionalAsAIBase(CGameSprite) then
+		if not GT_EvalConditional["parseConditionalString"](CGameSprite, nil, holdImmunity) then
 			-- store targeted creature (sprite)
-			sourceAux["gt_InnateSnakeGrasp_CoiledVictim"] = CGameSprite
+			--sourceAux["gt_Aux_SnakeGrasp_CoiledVictim"] = CGameSprite
+			-- store targeted creature (id): this is because ``aux`` does not survive reloads, so if we save and reload the game while grasping a creature, the coiled victim will be lost
+			sourceSprite:setLocalInt("gtSnakeGraspCoiledVictimID", CGameSprite.m_id)
 			-- free the coiled victim upon death
 			do
 				local effectCodes = {
@@ -75,10 +77,8 @@ function %INNATE_SNAKE_GRASP%(CGameEffect, CGameSprite)
 				["sourceTarget"] = CGameEffect.m_sourceTarget,
 			})
 		end
-		--
-		holdImmunity:free()
 	else
-		local victim = sourceAux["gt_InnateSnakeGrasp_CoiledVictim"] -- CGameSprite
+		local victim = EEex_GameObject_Get(sourceSprite:getLocalInt("gtSnakeGraspCoiledVictimID")) -- CGameSprite
 		--
 		sourceSprite:applyEffect({
 			["effectID"] = 321, -- remove effects by resource
@@ -104,7 +104,7 @@ function %INNATE_SNAKE_GRASP%(CGameEffect, CGameSprite)
 				["sourceTarget"] = victim.m_id,
 			})
 			--
-			sourceAux["gt_InnateSnakeGrasp_CoiledVictim"] = nil
+			sourceSprite:setLocalInt("gtSnakeGraspCoiledVictimID", -1)
 		end
 	end
 end
@@ -118,13 +118,13 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		return
 	end
 	--
-	local aux = EEex_GetUDAux(sprite)
-	local victim = aux["gt_InnateSnakeGrasp_CoiledVictim"] -- CGameSprite
+	--local aux = EEex_GetUDAux(sprite)
+	local victim = EEex_GameObject_Get(sprite:getLocalInt("gtSnakeGraspCoiledVictimID")) -- CGameSprite
 	--
 	if victim then
 		local found = false
 		EEex_Utility_IterateCPtrList(victim.m_timedEffectList, function(effect)
-			if effect.m_effectId == 185 and effect.m_sourceId == sprite.m_id then
+			if effect.m_effectId == 185 and effect.m_sourceId == sprite.m_id and effect.m_sourceRes:get() == "%INNATE_SNAKE_GRASP%" then
 				found = true
 				return true
 			end
@@ -151,22 +151,34 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		return
 	end
 	--
-	local aux = EEex_GetUDAux(sprite)
-	local victim = aux["gt_InnateSnakeGrasp_CoiledVictim"] -- CGameSprite
+	--local aux = EEex_GetUDAux(sprite)
+	local victim = EEex_GameObject_Get(sprite:getLocalInt("gtSnakeGraspCoiledVictimID")) -- CGameSprite
 	--
 	local isMazed = false
-	EEex_Utility_IterateCPtrList(sprite.m_timedEffectList, function(effect)
-		if effect.m_effectId == 213 then -- Maze
+	--
+	local func
+	func = function(effect)
+		if effect.m_effectId == 177 or effect.m_effectId == 283 then -- Use EFF file
+			local CGameEffectBase = EEex_Resource_Demand(effect.m_res:get(), "eff")
+			--
+			if CGameEffectBase then -- sanity check
+				if func(CGameEffectBase) then
+					isMazed = true
+					return true
+				end
+			end
+		elseif effect.m_effectId == 0xD5 then -- Maze (213)
 			isMazed = true
 			return true
 		end
-	end)
+	end
+	--
+	EEex_Utility_IterateCPtrList(sprite.m_timedEffectList, func)
 	--
 	if victim then
-		sprite:setStoredScriptingTarget("GT_InnateSnakeGrasp_RangeCheck", victim)
-		local conditionalString = EEex_Trigger_ParseConditionalString('Range(EEex_Target("GT_InnateSnakeGrasp_RangeCheck"),4)')
+		local conditionalString = 'Range(EEex_Target("gtCoiledVictim"),4)'
 		--
-		if EEex_BAnd(sprite.m_derivedStats.m_generalState, 0x80102FEF) ~= 0 or not EEex_UDEqual(sprite.m_pArea, victim.m_pArea) or isMazed or not conditionalString:evalConditionalAsAIBase(sprite) then
+		if EEex_BAnd(sprite.m_derivedStats.m_generalState, 0x80102FEF) ~= 0 or not EEex_UDEqual(sprite.m_pArea, victim.m_pArea) or isMazed or not GT_EvalConditional["parseConditionalString"](sprite, victim, conditionalString, "gtCoiledVictim") then
 			sprite:applyEffect({
 				["effectID"] = 146, -- cast spell
 				["dwFlags"] = 1, -- instant/ignore level
@@ -176,8 +188,6 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 				["sourceTarget"] = sprite.m_id,
 			})
 		end
-		--
-		conditionalString:free()
 	end
 end)
 
@@ -199,15 +209,14 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		if effect.m_effectId == 185 and effect.m_sourceRes:get() == "%INNATE_SNAKE_GRASP%" then
 			constricted = true
 			id = effect.m_sourceId
-		elseif effect.m_effectId == 401 and effect.m_special == stats["GT_DUMMY_STAT"] and effect.m_scriptName:get() == "gtInnateSnakeGraspTimer" then -- dummy opcode that acts as a marker/timer
+		elseif effect.m_effectId == 401 and effect.m_special == stats["GT_DUMMY_STAT"] and effect.m_scriptName:get() == "gtSnakeGraspTimer" then -- dummy opcode that acts as a marker/timer
 			timerRunning = true
 		end
 	end)
 	--
 	if constricted then
-		if EEex_GameObject_Get(id) then
-			local src = EEex_GameObject_Get(id)
-			local srcAux = EEex_GetUDAux(src)
+		if EEex_GameObject_Get(id) then -- sanity check
+			local src = EEex_GameObject_Get(id) -- CGameSprite (snake)
 			--
 			if not timerRunning then
 				-- fetch components of check
@@ -233,7 +242,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 					sprite:applyEffect({
 						["effectID"] = 401, -- Set extended stat
 						["special"] = stats["GT_DUMMY_STAT"],
-						["m_scriptName"] = "gtInnateSnakeGraspTimer",
+						["m_scriptName"] = "gtSnakeGraspTimer",
 						["duration"] = 6,
 						["noSave"] = true,
 						["m_sourceRes"] = "%INNATE_SNAKE_GRASP%",
@@ -265,8 +274,8 @@ end)
 -- free the coiled victim upon attacking/casting/moving/... --
 
 EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
-	local aux = EEex_GetUDAux(sprite)
-	local victim = aux["gt_InnateSnakeGrasp_CoiledVictim"] -- CGameSprite
+	--local aux = EEex_GetUDAux(sprite)
+	local victim = EEex_GameObject_Get(sprite:getLocalInt("gtSnakeGraspCoiledVictimID")) -- CGameSprite
 	--
 	local actionSources = {
 		[31] = true, -- Spell()
@@ -335,24 +344,23 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	local m_curAction = sprite.m_curAction -- CAIAction
 	--
 	if sprite.m_startedSwing == 1 then
-		if actionSources[m_curAction.m_actionID] and not attackerAux["gt_InnateSnakeGrasp_StrikeVictim"] then
-			attackerAux["gt_InnateSnakeGrasp_StrikeVictim"] = {}
+		if actionSources[m_curAction.m_actionID] and not attackerAux["gt_SnakeGrasp_StrikeVictim"] then
+			attackerAux["gt_SnakeGrasp_StrikeVictim"] = {}
 			--
-			local target = EEex_GameObject_Get(sprite.m_targetId)
+			local target = EEex_GameObject_Get(sprite.m_targetId) -- CGameSprite
 			-- if the targeted creature is not dead...
 			if target and EEex_IsBitUnset(target.m_derivedStats.m_generalState, 11) then
-				local targetAux = EEex_GetUDAux(target)
-				local victim = targetAux["gt_InnateSnakeGrasp_CoiledVictim"] -- CGameSprite
+				--local targetAux = EEex_GetUDAux(target)
+				local victim = EEex_GameObject_Get(target:getLocalInt("gtSnakeGraspCoiledVictimID")) -- CGameSprite
 				--
 				local roll = math.random(20) -- 1d20
 				--
-				sprite:setStoredScriptingTarget("GT_InnateSnakeGrasp_InWeaponRangeCheck", victim)
-				local conditionalString = EEex_Trigger_ParseConditionalString('InWeaponRange(EEex_Target("GT_InnateSnakeGrasp_InWeaponRangeCheck"))')
+				local conditionalString = 'InWeaponRange(EEex_Target("gtCoiledVictim"))'
 				--
-				if victim and roll <= 4 and conditionalString:evalConditionalAsAIBase(sprite) then -- 20% chance + InWeaponRange()
+				if victim and roll <= 4 and GT_EvalConditional["parseConditionalString"](sprite, victim, conditionalString, "gtCoiledVictim") then -- 20% chance + InWeaponRange()
 					-- store original ``m_actionID`` and ``m_acteeID``
 					-- NB.: this is because we recall some weirdness with ``AttackReevaluate()`` and how it stores its target!
-					attackerAux["gt_InnateSnakeGrasp_StrikeVictim"] = {
+					attackerAux["gt_SnakeGrasp_StrikeVictim"] = {
 						["actionID"] = m_curAction.m_actionID,
 						["instance"] = m_curAction.m_acteeID.m_Instance,
 					}
@@ -360,20 +368,18 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 					m_curAction.m_actionID = 105 -- ``AttackOneRound()``
 					m_curAction.m_acteeID.m_Instance = victim.m_id
 				end
-				--
-				conditionalString:free()
 			end
 		end
-	elseif attackerAux["gt_InnateSnakeGrasp_StrikeVictim"] then
+	elseif attackerAux["gt_SnakeGrasp_StrikeVictim"] then
 		-- restore original action if needed
-		if actionSources[m_curAction.m_actionID] and attackerAux["gt_InnateSnakeGrasp_StrikeVictim"]["actionID"] then
-			m_curAction.m_actionID = attackerAux["gt_InnateSnakeGrasp_StrikeVictim"]["actionID"]
+		if actionSources[m_curAction.m_actionID] and attackerAux["gt_SnakeGrasp_StrikeVictim"]["actionID"] then
+			m_curAction.m_actionID = attackerAux["gt_SnakeGrasp_StrikeVictim"]["actionID"]
 		end
-		if actionSources[m_curAction.m_actionID] and attackerAux["gt_InnateSnakeGrasp_StrikeVictim"]["instance"] then
-			m_curAction.m_acteeID.m_Instance = attackerAux["gt_InnateSnakeGrasp_StrikeVictim"]["instance"]
+		if actionSources[m_curAction.m_actionID] and attackerAux["gt_SnakeGrasp_StrikeVictim"]["instance"] then
+			m_curAction.m_acteeID.m_Instance = attackerAux["gt_SnakeGrasp_StrikeVictim"]["instance"]
 		end
 		--
-		attackerAux["gt_InnateSnakeGrasp_StrikeVictim"] = nil
+		attackerAux["gt_SnakeGrasp_StrikeVictim"] = nil
 	end
 end)
 

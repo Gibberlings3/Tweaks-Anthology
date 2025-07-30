@@ -14,7 +14,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- internal function that applies the actual bonus
 	local apply = function(bonus)
 		-- Update tracking var
-		sprite:setLocalInt("gtBlackguardDarkBlessing", bonus)
+		sprite:setLocalInt("gtNWNDarkBlessing", bonus)
 		--
 		sprite:applyEffect({
 			["effectID"] = 321, -- Remove effects by resource
@@ -52,19 +52,19 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- The blackguard adds its charisma bonus to all saving throws (provided it is not fallen)
 	local applyAbility = spriteClassStr == "PALADIN" and spriteKitStr == "Blackguard" and bonus and bonus ~= 0 and EEex_IsBitUnset(spriteFlags, 0x9)
 	--
-	if sprite:getLocalInt("gtBlackguardDarkBlessing") == 0 then
+	if sprite:getLocalInt("gtNWNDarkBlessing") == 0 then
 		if applyAbility then
 			apply(bonus)
 		end
 	else
 		if applyAbility then
 			-- Check if Charisma has changed since the last application
-			if bonus ~= sprite:getLocalInt("gtBlackguardDarkBlessing") then
+			if bonus ~= sprite:getLocalInt("gtNWNDarkBlessing") then
 				apply(bonus)
 			end
 		else
 			-- Mark the creature as 'bonus removed'
-			sprite:setLocalInt("gtBlackguardDarkBlessing", 0)
+			sprite:setLocalInt("gtNWNDarkBlessing", 0)
 			--
 			sprite:applyEffect({
 				["effectID"] = 321, -- Remove effects by resource

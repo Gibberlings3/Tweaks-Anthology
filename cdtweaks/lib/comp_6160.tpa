@@ -7,12 +7,12 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
 
 WITH_SCOPE BEGIN
-  INCLUDE "cdtweaks\luke\misc.tph"
+  INCLUDE "cdtweaks\luke\lib\install.tph"
   INCLUDE "cdtweaks\ardanis\functions.tph"
   //
-  INCLUDE "cdtweaks\lib\nwn_barbarian_rage.tph"
+  INCLUDE "cdtweaks\lib\gt_nwn_barbarian_rage.tph"
   //
-  WITH_TRA "cdtweaks\languages\english\nwn_barbarian_rage.tra" "cdtweaks\languages\%LANGUAGE%\nwn_barbarian_rage.tra" BEGIN
+  WITH_TRA "cdtweaks\languages\english\gt_nwn_barbarian_rage.tra" "cdtweaks\languages\%LANGUAGE%\gt_nwn_barbarian_rage.tra" BEGIN
     LAF "NWN_BARBARIAN_RAGE" END
   END
 END

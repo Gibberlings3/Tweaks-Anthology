@@ -73,8 +73,9 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	local spriteKitStr = EEex_Resource_KitIDSToSymbol(sprite.m_derivedStats.m_nKit)
 	--
 	local gainAbility = spriteClassStr == "PALADIN" and spriteKitStr ~= "Blackguard" and EEex_IsBitUnset(spriteFlags, 0x9)
-	-- One use per 5 levels (starting from level 1)
-	local usesPerDay = math.floor(spriteLevel1 / 5) + 1
+	-- One use per level (starting from level 1)
+	--local usesPerDay = math.floor(spriteLevel1 / 5) + 1
+	local usesPerDay = math.floor(spriteLevel1 / 1) + 0
 	--
 	if sprite:getLocalInt("gtNWNSmiteEvil") == 0 then
 		if gainAbility then
@@ -117,12 +118,10 @@ EEex_Sprite_AddQuickListsCheckedListener(function(sprite, resref, changeAmount)
 	local spellLevelMemListArray = sprite.m_memorizedSpellsInnate
 	local memList = spellLevelMemListArray:getReference(spellHeader.spellLevel - 1) -- *count starts from 0*
 
-	local isWeaponRanged = EEex_Trigger_ParseConditionalString("IsWeaponRanged(Myself)")
-
-	local equipment = sprite.m_equipment -- CGameSpriteEquipment
+	local selectedWeapon = GT_Sprite_GetSelectedWeapon(sprite)
 
 	-- restore memorization bit (in case of invalid weapon)
-	if equipment.m_selectedWeapon == 10 or equipment.m_selectedWeapon == 34 or isWeaponRanged:evalConditionalAsAIBase(sprite) then
+	if selectedWeapon["slot"] == 10 or selectedWeapon["slot"] == 34 or selectedWeapon["ability"].type ~= 1 then
 
 		EEex_Utility_IterateCPtrList(memList, function(memInstance)
 			local memInstanceResref = memInstance.m_spellId:get()
@@ -145,25 +144,24 @@ EEex_Sprite_AddQuickListsCheckedListener(function(sprite, resref, changeAmount)
 	else
 
 		-- store target id
-		spriteAux["gtSmiteEvilTargetID"] = curAction.m_acteeID.m_Instance
+		spriteAux["gt_NWN_SmiteEvil_TargetID"] = curAction.m_acteeID.m_Instance
 
 		-- initialize the attack frame counter
 		sprite.m_attackFrame = 0
 
 	end
 
-	isWeaponRanged:free()
 end)
 
--- Forget about ``spriteAux["gtSmiteEvilTargetID"]`` if the player manually interrupts the action --
+-- Forget about ``spriteAux["gt_NWN_SmiteEvil_TargetID"]`` if the player manually interrupts the action --
 
 EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
 	local spriteAux = EEex_GetUDAux(sprite)
 	--
 	if sprite:getLocalInt("gtNWNSmiteEvil") > 0 then
 		if not (action.m_actionID == 113 and action.m_string1.m_pchData:get() == "%PALADIN_SMITE_EVIL%") then
-			if spriteAux["gtSmiteEvilTargetID"] ~= nil then
-				spriteAux["gtSmiteEvilTargetID"] = nil
+			if spriteAux["gt_NWN_SmiteEvil_TargetID"] ~= nil then
+				spriteAux["gt_NWN_SmiteEvil_TargetID"] = nil
 			end
 		end
 	end
@@ -179,29 +177,28 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	--
 	local spriteAux = EEex_GetUDAux(sprite)
 	--
-	local isWeaponRanged = EEex_Trigger_ParseConditionalString("IsWeaponRanged(Myself)")
-	local equipment = sprite.m_equipment -- CGameSpriteEquipment
+	local selectedWeapon = GT_Sprite_GetSelectedWeapon(sprite)
 	--
 	if sprite:getLocalInt("gtNWNSmiteEvil") > 0 then
-		if not (equipment.m_selectedWeapon == 10 or equipment.m_selectedWeapon == 34 or isWeaponRanged:evalConditionalAsAIBase(sprite)) then
+		if not (selectedWeapon["slot"] == 10 or selectedWeapon["slot"] == 34 or selectedWeapon["ability"].type ~= 1) then
 			if sprite.m_nSequence == 0 and sprite.m_attackFrame == 6 then -- SetSequence(SEQ_ATTACK)
-				if spriteAux["gtSmiteEvilTargetID"] then
+				if spriteAux["gt_NWN_SmiteEvil_TargetID"] then
 					-- retrieve / forget target sprite
-					local targetSprite = EEex_GameObject_Get(spriteAux["gtSmiteEvilTargetID"])
-					spriteAux["gtSmiteEvilTargetID"] = nil
+					local targetSprite = EEex_GameObject_Get(spriteAux["gt_NWN_SmiteEvil_TargetID"])
+					spriteAux["gt_NWN_SmiteEvil_TargetID"] = nil
 					--
-					targetSprite:applyEffect({
-						["effectID"] = 402, -- invoke lua
-						["res"] = "%PALADIN_SMITE_EVIL%",
-						["sourceID"] = sprite.m_id,
-						["sourceTarget"] = targetSprite.m_id,
-					})
+					if targetSprite then
+						targetSprite:applyEffect({
+							["effectID"] = 402, -- invoke lua
+							["res"] = "%PALADIN_SMITE_EVIL%",
+							["sourceID"] = sprite.m_id,
+							["sourceTarget"] = targetSprite.m_id,
+						})
+					end
 				end
 			end
 		end
 	end
-	--
-	isWeaponRanged:free()
 end)
 
 -- core op402 listener --
@@ -219,22 +216,19 @@ function %PALADIN_SMITE_EVIL%(CGameEffect, CGameSprite)
 	local chrBonus = tonumber(gtabmod[string.format("%s", sourceActiveStats.m_nCHR)]["BONUS"])
 	--
 	local thac0 = sourceActiveStats.m_nTHAC0 -- base thac0 (STAT 7)
-	local thac0BonusRight = sourceActiveStats.m_THAC0BonusRight -- this should include the bonus from the weapon + str + wspecial.2da
-	local meleeTHAC0Bonus = sourceActiveStats.m_nMeleeTHAC0Bonus -- op284 (STAT 166)
+	local luck = sourceActiveStats.m_nLuck -- STAT 32
+	local thac0BonusRight = sourceActiveStats.m_THAC0BonusRight -- this should include the bonus from the weapon + str + wspecial.2da + op284 (STAT 166) + stylbonu.2da + op288 (STAT 170)
+	--local meleeTHAC0Bonus = sourceActiveStats.m_nMeleeTHAC0Bonus -- op284 (STAT 166)
 	-- collect on-hit effects (if any)
-	local equipment = sourceSprite.m_equipment -- CGameSpriteEquipment
-	local selectedWeapon = equipment.m_items:get(equipment.m_selectedWeapon) -- CItem
-	local selectedWeaponResRef = selectedWeapon.pRes.resref:get()
-	local selectedWeaponHeader = selectedWeapon.pRes.pHeader -- Item_Header_st
-	local selectedWeaponAbility = EEex_Resource_GetItemAbility(selectedWeaponHeader, equipment.m_selectedWeaponAbility) -- Item_ability_st
+	local selectedWeapon = GT_Sprite_GetSelectedWeapon(sourceSprite)
 	--
-	local op12DamageType, ACModifier = GT_Utility_DamageTypeConverter(selectedWeaponAbility.damageType, targetActiveStats)
+	local damageTypeIDS, ACModifier = GT_Sprite_ItmDamageTypeToIDS(selectedWeapon["ability"].damageType, targetActiveStats)
 	--
 	local onHitEffects = {}
 	do
-		local currentEffectAddress = EEex_UDToPtr(selectedWeaponHeader) + selectedWeaponHeader.effectsOffset + selectedWeaponAbility.startingEffect * Item_effect_st.sizeof
+		local currentEffectAddress = EEex_UDToPtr(selectedWeapon["header"]) + selectedWeapon["header"].effectsOffset + selectedWeapon["ability"].startingEffect * Item_effect_st.sizeof
 		--
-		for idx = 1, selectedWeaponAbility.effectCount do
+		for idx = 1, selectedWeapon["ability"].effectCount do
 			local pEffect = EEex_PtrToUD(currentEffectAddress, "Item_effect_st")
 			--
 			table.insert(onHitEffects, {
@@ -259,22 +253,37 @@ function %PALADIN_SMITE_EVIL%(CGameEffect, CGameSprite)
 			currentEffectAddress = currentEffectAddress + Item_effect_st.sizeof
 		end
 	end
+	-- op178
+	local thac0VsTypeBonus = GT_Sprite_Thac0VsTypeBonus(sourceSprite, CGameSprite)
+	-- op219
+	local attackRollPenalty = GT_Sprite_AttackRollPenalty(sourceSprite, CGameSprite)
+	-- racial enemy
+	local racialEnemy = GT_Sprite_GetRacialEnemyBonus(sourceSprite, CGameSprite)
+	-- attack of opportunity
+	local attackOfOpportunity = GT_Sprite_GetAttackOfOpportunityBonus(sourceSprite, CGameSprite)
+	-- invisibility
+	local strikingFromInvisibility = GT_Sprite_StrikingFromInvisibilityBonus(sourceSprite, CGameSprite)
+	local invisibleTarget = GT_Sprite_InvisibleTargetPenalty(sourceSprite, CGameSprite)
 	-- op120
-	sourceSprite:setStoredScriptingTarget("GT_ScriptingTarget_SmiteEvil", CGameSprite)
-	local weaponEffectiveVs = EEex_Trigger_ParseConditionalString('WeaponEffectiveVs(EEex_Target("GT_ScriptingTarget_SmiteEvil"),MAINHAND)')
+	local conditionalString = 'WeaponEffectiveVs(EEex_Target("gtSmiteEvilTarget"),MAINHAND)'
+	-- alignment check
+	local align = GT_Resource_SymbolToIDS["align"]
+	local isEvil = GT_Sprite_CheckIDS(CGameSprite, align["MASK_EVIL"], 8)
 	--
-	local isEvil = EEex_Trigger_ParseConditionalString('Alignment(Myself,MASK_EVIL)')
-	--
-	if weaponEffectiveVs:evalConditionalAsAIBase(sourceSprite) then
-		if isEvil:evalConditionalAsAIBase(CGameSprite) then
-			-- compute attack roll (simplified for the time being... it doesn't consider attack of opportunity, invisibility, luck, op178, op301, op362, &c.)
+	if GT_EvalConditional["parseConditionalString"](sourceSprite, CGameSprite, conditionalString, "gtSmiteEvilTarget") then
+		if isEvil then
+			-- compute attack roll (am I missing something...?)
 			local success = false
-			local modifier = thac0BonusRight + meleeTHAC0Bonus + chrBonus
+			local modifier = luck + thac0BonusRight + thac0VsTypeBonus - attackRollPenalty + racialEnemy + attackOfOpportunity + strikingFromInvisibility - invisibleTarget + chrBonus
 			--
-			if roll == 20 then -- automatic hit
+			local criticalHitMod, criticalMissMod = GT_Sprite_GetCriticalModifiers(sourceSprite)
+			--
+			local m_nTimeStopCaster = EngineGlobals.g_pBaldurChitin.m_pObjectGame.m_nTimeStopCaster
+			--
+			if (roll >= 20 - criticalHitMod) or EEex_BAnd(targetActiveStats.m_generalState, 0x100029) ~= 0 or m_nTimeStopCaster == sourceSprite.m_id then -- automatic hit
 				success = true
 				modifier = 0
-			elseif roll == 1 then -- automatic miss (critical failure)
+			elseif roll <= 1 + criticalMissMod then -- automatic miss (critical failure)
 				modifier = 0
 			elseif roll + modifier >= thac0 - (targetActiveStats.m_nArmorClass + ACModifier) then
 				success = true
@@ -282,10 +291,10 @@ function %PALADIN_SMITE_EVIL%(CGameEffect, CGameSprite)
 			--
 			if success then
 				-- display feedback message
-				GT_Utility_DisplaySpriteMessage(sourceSprite,
-					string.format("%s : %d + %d = %d : %s",
-						Infinity_FetchString(%feedback_strref_smite_evil%), roll, modifier, roll + modifier, Infinity_FetchString(%feedback_strref_hit%)),
-					0x3479BA, 0x3479BA -- Light Bronze
+				GT_Sprite_DisplayMessage(sourceSprite,
+					string.format("%s : %d %s %d = %d : %s",
+						Infinity_FetchString(%feedback_strref_smite_evil%), roll, modifier < 0 and "-" or "+", math.abs(modifier), roll + modifier, Infinity_FetchString(%feedback_strref_hit%)),
+					0x3479BA -- Light Bronze
 				)
 				--
 				local strmod = GT_Resource_2DA["strmod"]
@@ -294,42 +303,44 @@ function %PALADIN_SMITE_EVIL%(CGameEffect, CGameSprite)
 				local strBonus = tonumber(strmod[string.format("%s", sourceActiveStats.m_nSTR)]["DAMAGE"])
 				local strExtraBonus = sourceActiveStats.m_nSTR == 18 and tonumber(strmodex[string.format("%s", sourceActiveStats.m_nSTRExtra)]["DAMAGE"]) or 0
 				local damageBonus = sourceActiveStats.m_nDamageBonus -- op73
-				local damageBonusRight = sourceActiveStats.m_DamageBonusRight -- wspecial.2da
+				local damageBonusRight = sourceActiveStats.m_DamageBonusRight -- wspecial.2da + stylbonu.2da + op289 (STAT 171)
 				local meleeDamageBonus = sourceActiveStats.m_nMeleeDamageBonus -- op285 (STAT 167)
+				-- op179
+				local damageVsTypeBonus = GT_Sprite_DamageVsTypeBonus(sourceSprite, CGameSprite)
 				--
-				local modifier = strBonus + strExtraBonus + damageBonus + damageBonusRight + meleeDamageBonus + sourceActiveStats.m_nLevel1
+				local modifier = strBonus + strExtraBonus + damageBonus + damageBonusRight + meleeDamageBonus + damageVsTypeBonus + attackOfOpportunity + sourceActiveStats.m_nLevel1
 				-- damage type ``NONE`` requires extra care
 				local mode = 0 -- normal
-				if selectedWeaponAbility.damageType == 0 and selectedWeaponAbility.damageDiceCount > 0 then
+				if selectedWeapon["ability"].damageType == 0 and selectedWeapon["ability"].damageDiceCount > 0 then
 					mode = 1 -- set HP to value
 				end
 				-- op12 (weapon damage)
 				EEex_GameObject_ApplyEffect(CGameSprite,
 				{
 					["effectID"] = 0xC, -- Damage (12)
-					["dwFlags"] = op12DamageType * 0x10000 + mode,
-					["effectAmount"] = (selectedWeaponAbility.damageDiceCount == 0 and selectedWeaponAbility.damageDice == 0 and selectedWeaponAbility.damageDiceBonus == 0) and 0 or (selectedWeaponAbility.damageDiceBonus + modifier),
-					["numDice"] = selectedWeaponAbility.damageDiceCount,
-					["diceSize"] = selectedWeaponAbility.damageDice,
+					["dwFlags"] = damageTypeIDS * 0x10000 + mode,
+					["effectAmount"] = (selectedWeapon["ability"].damageDiceCount == 0 and selectedWeapon["ability"].damageDice == 0 and selectedWeapon["ability"].damageDiceBonus == 0) and 0 or (selectedWeapon["ability"].damageDiceBonus + modifier),
+					["numDice"] = selectedWeapon["ability"].damageDiceCount,
+					["diceSize"] = selectedWeapon["ability"].damageDice,
 					["sourceID"] = CGameEffect.m_sourceId,
 					["sourceTarget"] = CGameEffect.m_sourceTarget,
 				})
 				-- apply on-hit effects (if any)
-				for _, v in ipairs(onHitEffects) do
+				for _, effect in ipairs(onHitEffects) do
 					local array = {}
 					--
-					if v["targetType"] == 1 or v["targetType"] == 9 then -- self / original caster
+					if effect["targetType"] == 1 or effect["targetType"] == 9 then -- self / original caster
 						table.insert(array, sourceSprite)
-					elseif v["targetType"] == 2 then -- projectile target
+					elseif effect["targetType"] == 2 then -- projectile target
 						table.insert(array, CGameSprite)
-					elseif v["targetType"] == 3 or (v["targetType"] == 6 and sourceSprite.m_typeAI.m_EnemyAlly == 2) then -- party
+					elseif effect["targetType"] == 3 or (effect["targetType"] == 6 and sourceSprite.m_typeAI.m_EnemyAlly == 2) then -- party
 						for i = 0, 5 do
 							local partyMember = EEex_Sprite_GetInPortrait(i) -- CGameSprite
 							if partyMember and EEex_BAnd(partyMember:getActiveStats().m_generalState, 0x800) == 0 then -- skip if STATE_DEAD
 								table.insert(array, partyMember)
 							end
 						end
-					elseif v["targetType"] == 4 then -- everyone
+					elseif effect["targetType"] == 4 then -- everyone
 						local everyone = EEex_Area_GetAllOfTypeInRange(sourceSprite.m_pArea, sourceSprite.m_pos.x, sourceSprite.m_pos.y, GT_AI_ObjectType["ANYONE"], 0x7FFF, false, nil, nil)
 						--
 						for _, itrSprite in ipairs(everyone) do
@@ -337,7 +348,7 @@ function %PALADIN_SMITE_EVIL%(CGameEffect, CGameSprite)
 								table.insert(array, itrSprite)
 							end
 						end
-					elseif v["targetType"] == 5 then -- everyone but party
+					elseif effect["targetType"] == 5 then -- everyone but party
 						local everyone = EEex_Area_GetAllOfTypeInRange(sourceSprite.m_pArea, sourceSprite.m_pos.x, sourceSprite.m_pos.y, GT_AI_ObjectType["ANYONE"], 0x7FFF, false, nil, nil)
 						--
 						for _, itrSprite in ipairs(everyone) do
@@ -347,7 +358,7 @@ function %PALADIN_SMITE_EVIL%(CGameEffect, CGameSprite)
 								end
 							end
 						end
-					elseif v["targetType"] == 6 then -- caster group
+					elseif effect["targetType"] == 6 then -- caster group
 						local casterGroup = EEex_Area_GetAllOfTypeStringInRange(sourceSprite.m_pArea, sourceSprite.m_pos.x, sourceSprite.m_pos.y, string.format("[0.0.0.0.%d]", sourceSprite.m_typeAI.m_Specifics), 0x7FFF, false, nil, nil)
 						--
 						for _, itrSprite in ipairs(casterGroup) do
@@ -355,7 +366,7 @@ function %PALADIN_SMITE_EVIL%(CGameEffect, CGameSprite)
 								table.insert(array, itrSprite)
 							end
 						end
-					elseif v["targetType"] == 7 then -- target group
+					elseif effect["targetType"] == 7 then -- target group
 						local targetGroup = EEex_Area_GetAllOfTypeStringInRange(sourceSprite.m_pArea, sourceSprite.m_pos.x, sourceSprite.m_pos.y, string.format("[0.0.0.0.%d]", CGameSprite.m_typeAI.m_Specifics), 0x7FFF, false, nil, nil)
 						--
 						for _, itrSprite in ipairs(targetGroup) do
@@ -363,7 +374,7 @@ function %PALADIN_SMITE_EVIL%(CGameEffect, CGameSprite)
 								table.insert(array, itrSprite)
 							end
 						end
-					elseif v["targetType"] == 8 then -- everyone but self
+					elseif effect["targetType"] == 8 then -- everyone but self
 						local everyone = EEex_Area_GetAllOfTypeInRange(sourceSprite.m_pArea, sourceSprite.m_pos.x, sourceSprite.m_pos.y, GT_AI_ObjectType["ANYONE"], 0x7FFF, false, nil, nil)
 						--
 						for _, itrSprite in ipairs(everyone) do
@@ -378,26 +389,26 @@ function %PALADIN_SMITE_EVIL%(CGameEffect, CGameSprite)
 					for _, object in ipairs(array) do
 						EEex_GameObject_ApplyEffect(object,
 						{
-							["effectID"] = v["effectID"],
-							["spellLevel"] = v["spellLevel"],
-							["effectAmount"] = v["effectAmount"],
-							["dwFlags"] = v["dwFlags"],
-							["durationType"] = v["durationType"],
-							["m_flags"] = v["m_flags"],
-							["duration"] = v["duration"],
-							["probabilityUpper"] = v["probabilityUpper"],
-							["probabilityLower"] = v["probabilityLower"],
-							["res"] = v["res"],
-							["numDice"] = v["numDice"],
-							["diceSize"] = v["diceSize"],
-							["savingThrow"] = v["savingThrow"],
-							["saveMod"] = v["saveMod"],
-							["special"] = v["special"],
+							["effectID"] = effect["effectID"],
+							["spellLevel"] = effect["spellLevel"],
+							["effectAmount"] = effect["effectAmount"],
+							["dwFlags"] = effect["dwFlags"],
+							["durationType"] = effect["durationType"],
+							["m_flags"] = effect["m_flags"],
+							["duration"] = effect["duration"],
+							["probabilityUpper"] = effect["probabilityUpper"],
+							["probabilityLower"] = effect["probabilityLower"],
+							["res"] = effect["res"],
+							["numDice"] = effect["numDice"],
+							["diceSize"] = effect["diceSize"],
+							["savingThrow"] = effect["savingThrow"],
+							["saveMod"] = effect["saveMod"],
+							["special"] = effect["special"],
 							--
-							["m_school"] = selectedWeaponAbility.school,
-							["m_secondaryType"] = selectedWeaponAbility.secondaryType,
+							["m_school"] = selectedWeapon["ability"].school,
+							["m_secondaryType"] = selectedWeapon["ability"].secondaryType,
 							--
-							["m_sourceRes"] = selectedWeaponResRef,
+							["m_sourceRes"] = selectedWeapon["resref"],
 							["m_sourceType"] = 2,
 							["sourceID"] = CGameEffect.m_sourceId,
 							["sourceTarget"] = CGameEffect.m_sourceTarget,
@@ -406,10 +417,10 @@ function %PALADIN_SMITE_EVIL%(CGameEffect, CGameSprite)
 				end
 			else
 				-- display feedback message
-				GT_Utility_DisplaySpriteMessage(sourceSprite,
-					string.format("%s : %d + %d = %d : %s",
-						Infinity_FetchString(%feedback_strref_smite_evil%), roll, modifier, roll + modifier, Infinity_FetchString(%feedback_strref_miss%)),
-					0x3479BA, 0x3479BA -- Light Bronze
+				GT_Sprite_DisplayMessage(sourceSprite,
+					string.format("%s : %d %s %d = %d : %s",
+						Infinity_FetchString(%feedback_strref_smite_evil%), roll, modifier < 0 and "-" or "+", math.abs(modifier), roll + modifier, Infinity_FetchString(%feedback_strref_miss%)),
+					0x3479BA -- Light Bronze
 				)
 			end
 		else
@@ -430,7 +441,5 @@ function %PALADIN_SMITE_EVIL%(CGameEffect, CGameSprite)
 			["sourceTarget"] = CGameEffect.m_sourceTarget,
 		})
 	end
-	--
-	weaponEffectiveVs:free()
-	isEvil:free()
 end
+

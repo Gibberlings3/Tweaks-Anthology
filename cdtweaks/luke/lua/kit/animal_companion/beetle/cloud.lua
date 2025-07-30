@@ -8,10 +8,10 @@ function %INNATE_BOMBARDIER_BEETLE_CLOUD%(CGameEffect, CGameSprite)
 	local stunDuration = math.random(4) + math.random(4) -- 2d4
 	local deafDuration = math.random(6) + math.random(6) -- 2d6
 	--
-	local stunImmunity = EEex_Trigger_ParseConditionalString("EEex_IsImmuneToOpcode(Myself,45)")
-	local deafImmunity = EEex_Trigger_ParseConditionalString("EEex_IsImmuneToOpcode(Myself,80)")
+	local stunImmunity = "EEex_IsImmuneToOpcode(Myself,45)"
+	local deafImmunity = "EEex_IsImmuneToOpcode(Myself,80)"
 	--
-	if not stunImmunity:evalConditionalAsAIBase(CGameSprite) then
+	if not GT_EvalConditional["parseConditionalString"](CGameSprite, nil, stunImmunity) then
 		if math.random(5) == 1 then -- 20% chance
 			EEex_GameObject_ApplyEffect(CGameSprite,
 			{
@@ -34,7 +34,7 @@ function %INNATE_BOMBARDIER_BEETLE_CLOUD%(CGameEffect, CGameSprite)
 		end
 	end
 	--
-	if not deafImmunity:evalConditionalAsAIBase(CGameSprite) then
+	if not GT_EvalConditional["parseConditionalString"](CGameSprite, nil, deafImmunity) then
 		if math.random(5) == 1 then -- 20% chance
 			EEex_GameObject_ApplyEffect(CGameSprite,
 			{
@@ -66,7 +66,4 @@ function %INNATE_BOMBARDIER_BEETLE_CLOUD%(CGameEffect, CGameSprite)
 			})
 		end
 	end
-	--
-	stunImmunity:free()
-	deafImmunity:free()
 end

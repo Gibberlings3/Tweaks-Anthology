@@ -14,7 +14,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- internal function that grants the actual feat
 	local gain = function()
 		-- Mark the creature as 'feat granted'
-		sprite:setLocalInt("gtBeastmasterAnimalCompanion", 1)
+		sprite:setLocalInt("gtNWNAnimalCompanion", 1)
 		--
 		sprite:applyEffect({
 			["effectID"] = 172, -- Remove spell
@@ -30,18 +30,16 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		})
 	end
 	-- Check creature's class / kit / flags
-	local spriteClassStr = GT_Resource_IDSToSymbol["class"][sprite.m_typeAI.m_Class]
-	--
-	local spriteFlags = sprite.m_baseStats.m_flags
+	local class = GT_Resource_SymbolToIDS["class"]
 	-- since ``EEex_Opcode_AddListsResolvedListener`` is running after the effect lists have been evaluated, ``m_bonusStats`` has already been added to ``m_derivedStats`` by the engine
-	local spriteLevel1 = sprite.m_derivedStats.m_nLevel1
-	local spriteLevel2 = sprite.m_derivedStats.m_nLevel2
 	local spriteKitStr = EEex_Resource_KitIDSToSymbol(sprite.m_derivedStats.m_nKit)
 	-- Check if beastmaster -- single/multi/(complete)dual
-	local gainAbility = spriteClassStr == "RANGER" or (spriteClassStr == "CLERIC_RANGER" and (EEex_IsBitUnset(spriteFlags, 0x8) or spriteLevel1 > spriteLevel2)) and EEex_IsBitUnset(spriteFlags, 10)
-	local gainAbility = gainAbility and spriteKitStr == "BEASTMASTER"
+	local isRangerAll = GT_Sprite_CheckIDS(sprite, class["RANGER_ALL"], 5, true)
+	local isBeastmaster = spriteKitStr == "BEASTMASTER"
 	--
-	if sprite:getLocalInt("gtBeastmasterAnimalCompanion") == 0 then
+	local gainAbility = isRangerAll and isBeastmaster
+	--
+	if sprite:getLocalInt("gtNWNAnimalCompanion") == 0 then
 		if gainAbility then
 			gain()
 		end
@@ -50,7 +48,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			-- do nothing
 		else
 			-- Mark the creature as 'feat removed'
-			sprite:setLocalInt("gtBeastmasterAnimalCompanion", 0)
+			sprite:setLocalInt("gtNWNAnimalCompanion", 0)
 			--
 			sprite:applyEffect({
 				["effectID"] = 172, -- Remove spell

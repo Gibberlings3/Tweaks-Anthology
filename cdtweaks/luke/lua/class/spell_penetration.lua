@@ -32,33 +32,14 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		})
 	end
 	-- Check creature's class / levels
-	local spriteClassStr = GT_Resource_IDSToSymbol["class"][sprite.m_typeAI.m_Class]
-	--
-	local spriteFlags = sprite.m_baseStats.m_flags
-	-- since ``EEex_Opcode_AddListsResolvedListener`` is running after the effect lists have been evaluated, ``m_bonusStats`` has already been added to ``m_derivedStats`` by the engine
-	local spriteLevel1 = sprite.m_derivedStats.m_nLevel1
-	local spriteLevel2 = sprite.m_derivedStats.m_nLevel2
+	local class = GT_Resource_SymbolToIDS["class"]
 	-- Spellcaster classes (all but rangers, paladins, bards)
-	local isTripleClass = spriteClassStr == "FIGHTER_MAGE_THIEF" or spriteClassStr == "FIGHTER_MAGE_CLERIC"
+	local isMageAll = GT_Sprite_CheckIDS(sprite, class["MAGE_ALL"], 5)
+	local isDruidAll = GT_Sprite_CheckIDS(sprite, class["DRUID_ALL"], 5)
+	local isClericAll = GT_Sprite_CheckIDS(sprite, class["CLERIC_ALL"], 5)
+	local isShaman = GT_Sprite_CheckIDS(sprite, class["SHAMAN"], 5)
 	--
-	local isClericMage = spriteClassStr == "CLERIC_MAGE"
-	--
-	local isShaman = spriteClassStr == "SHAMAN"
-	--
-	local isDruid = spriteClassStr == "DRUID" or (spriteClassStr == "FIGHTER_DRUID" and (EEex_IsBitUnset(spriteFlags, 0x7) or spriteLevel1 > spriteLevel2))
-	--
-	local isCleric = spriteClassStr == "CLERIC"
-		or (spriteClassStr == "FIGHTER_CLERIC" and (EEex_IsBitUnset(spriteFlags, 0x5) or spriteLevel1 > spriteLevel2))
-		or (spriteClassStr == "CLERIC_THIEF" and (EEex_IsBitUnset(spriteFlags, 0x5) or spriteLevel2 > spriteLevel1))
-		or (spriteClassStr == "CLERIC_RANGER" and (EEex_IsBitUnset(spriteFlags, 0x5) or spriteLevel2 > spriteLevel1))
-	--
-	local isMage = spriteClassStr == "MAGE"
-		or (spriteClassStr == "FIGHTER_MAGE" and (EEex_IsBitUnset(spriteFlags, 0x4) or spriteLevel1 > spriteLevel2))
-		or (spriteClassStr == "MAGE_THIEF" and (EEex_IsBitUnset(spriteFlags, 0x4) or spriteLevel2 > spriteLevel1))
-	--
-	local isSorcerer = spriteClassStr == "SORCERER"
-	--
-	local applyAbility = isTripleClass or isClericMage or isShaman or isDruid or isCleric or isMage or isSorcerer
+	local applyAbility = isMageAll or isDruidAll or isClericAll or isShaman
 	--
 	if sprite:getLocalInt("gtNWNSpellPenetration") == 0 then
 		if applyAbility then
@@ -133,6 +114,11 @@ end
 		local spellResRef = originatingSprite.m_curAction.m_string1.m_pchData:get()
 		if spellResRef == "" then
 			spellResRef = GT_Utility_DecodeSpell(originatingSprite.m_curAction.m_specificID)
+		end
+		local pHeader = EEex_Resource_Demand(spellResRef, "spl")
+		--
+		if not (pHeader.itemType == 1 or pHeader.itemType == 2) then
+			return
 		end
 		--
 		local projectile = context["projectile"] -- CProjectile

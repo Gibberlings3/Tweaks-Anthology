@@ -14,9 +14,9 @@ function %INNATE_ANIMAL_FEROCITY%(CGameEffect, CGameSprite)
 	--
 	local levelModifier = math.floor(spriteActiveStats.m_nLevel1 / 5) -- +1 round every 5 levels
 	--
-	local berserkImmunity = EEex_Trigger_ParseConditionalString("EEex_IsImmuneToOpcode(Myself,3)")
+	local berserkImmunity = "EEex_IsImmuneToOpcode(Myself,3)"
 	--
-	if not berserkImmunity:evalConditionalAsAIBase(CGameSprite) then
+	if not GT_EvalConditional["parseConditionalString"](CGameSprite, nil, berserkImmunity) then
 		local effectCodes = {
 			--{["op"] = 3}, -- berserk (mode: normal)
 			{["op"] = 44, ["p1"] = math.random(6)}, -- STR mod (+1d6)
@@ -45,6 +45,4 @@ function %INNATE_ANIMAL_FEROCITY%(CGameEffect, CGameSprite)
 			})
 		end
 	end
-	--
-	berserkImmunity:free()
 end

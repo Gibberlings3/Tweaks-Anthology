@@ -1,0 +1,16 @@
+DEFINE_ACTION_FUNCTION "ARMORED_CASTER" BEGIN
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"type" = 4
+	STR_VAR
+		"idsName" = "BARD_ARMORED_CASTER"
+	RET
+		"BARD_ARMORED_CASTER" = "resName"
+	END
+	//
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Class/Kit Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\class\armored_caster.lua" "destRes" = "m_gtspcl" END
+	//
+	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
+		COPY "cdtweaks\luke\lib\resource\tables.lua" "override\m_gttbls.lua"
+	END
+END

@@ -1,0 +1,11 @@
+
+IF
+  Global("NewGame","AR0602",1)
+  Global("TakeImportItems","AR0602",1)
+  Global("CD_BETTER_START_BALDURAN","GLOBAL", 0)
+THEN
+  RESPONSE #100
+    ActionOverride("Shelf12",CreateItem("CLCK05",0,0,0))
+    SetGlobal("CD_BETTER_START_BALDURAN","GLOBAL", 1)
+    Continue()
+END

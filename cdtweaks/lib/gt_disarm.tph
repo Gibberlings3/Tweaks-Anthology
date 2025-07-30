@@ -1,0 +1,75 @@
+DEFINE_ACTION_FUNCTION "DISARM"
+BEGIN
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"level" = 4
+		"preferredSlot" = 44
+		"type" = 4
+	STR_VAR
+		"idsName" = "THIEF_DISARM"
+	RET
+		"THIEF_DISARM" = "resName"
+	END
+	//
+	WITH_SCOPE BEGIN
+		ACTION_TO_LOWER "THIEF_DISARM"
+		// dummy item to mark the weapon as disarmable
+		CREATE "itm" "%THIEF_DISARM%"
+		COPY_EXISTING "%THIEF_DISARM%.itm" "override"
+			WRITE_LONG NAME1 "-1"
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC "-1"
+			WRITE_LONG DESC "-1"
+			WRITE_SHORT 0x38 1 // maximum in stack
+		BUT_ONLY_IF_IT_CHANGES
+		// Disarm (main spl file)
+		CREATE "spl" "%THIEF_DISARM%"
+		COPY_EXISTING "%THIEF_DISARM%.spl" "override"
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@0)
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC RESOLVE_STR_REF (@1)
+			WRITE_LONG DESC "-1"
+			WRITE_LONG 0x18 (BIT14 BOR BIT25) // ignore dead/wild magic, castable when silenced
+			WRITE_SHORT 0x1C 4 // innate
+			WRITE_LONG 0x34 1 // level
+			WRITE_ASCII 0x3A "%DEST_RES%B" #8 // icon
+			//
+			LPF "ADD_SPELL_HEADER" INT_VAR "range" = 0 STR_VAR "icon" = "%DEST_RES%B" END
+			//
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 138 "target" = 1 "parameter2" = 0 END // SEQ_ATTACK
+		BUT_ONLY
+		// icon
+		COPY "cdtweaks\luke\bam\class\disarm.bam" "override\%THIEF_DISARM%b.bam"
+	END
+	// lua
+	WITH_SCOPE BEGIN
+		OUTER_SET "feedback_strref_disarm" = RESOLVE_STR_REF (@0)
+		OUTER_SET "feedback_strref_inventory_full" = RESOLVE_STR_REF (@101)
+		OUTER_SET "feedback_strref_hit" = RESOLVE_STR_REF (@102)
+		OUTER_SET "feedback_strref_miss" = RESOLVE_STR_REF (@103)
+		OUTER_SET "feedback_strref_melee_only" = RESOLVE_STR_REF (@104)
+		OUTER_SET "feedback_strref_cannot_be_disarmed" = RESOLVE_STR_REF (@105)
+		OUTER_SET "feedback_strref_weapon_ineffective" = RESOLVE_STR_REF (@106)
+		//
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Class/Kit Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\class\disarm.lua" "destRes" = "m_gtspcl" END
+		//
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\damage_type.lua" "destRes" = "m_gtsprt" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\display_message.lua" "destRes" = "m_gtsprt" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\check_ids.lua" "destRes" = "m_gtsprt" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\get_selected_weapon.lua" "destRes" = "m_gtsprt" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\get_critical_modifiers.lua" "destRes" = "m_gtsprt" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\attack_of_opportunity.lua" "destRes" = "m_gtsprt" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\attack_roll_penalty.lua" "destRes" = "m_gtsprt" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\racial_enemy.lua" "destRes" = "m_gtsprt" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\invisible_target.lua" "destRes" = "m_gtsprt" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\striking_from_invisibility.lua" "destRes" = "m_gtsprt" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\thac0_vs_type_bonus.lua" "destRes" = "m_gtsprt" END
+		//
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Eval Conditional" "sourceFileSpec" = "cdtweaks\luke\lib\misc\eval_conditional.lua" "destRes" = "m_gteval" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Execute Response" "sourceFileSpec" = "cdtweaks\luke\lib\misc\execute_response.lua" "destRes" = "m_gtexec" END
+	END
+	//
+	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
+		COPY "cdtweaks\luke\lib\resource\tables.lua" "override\m_gttbls.lua"
+	END
+END

@@ -7,10 +7,10 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
 
 WITH_SCOPE BEGIN
-  INCLUDE "cdtweaks\luke\misc.tph"
-  INCLUDE "cdtweaks\lib\fearless.tph"
+  INCLUDE "cdtweaks\luke\lib\install.tph"
+  INCLUDE "cdtweaks\lib\gt_fearless.tph"
   //
-  WITH_TRA "cdtweaks\languages\english\fearless.tra" "cdtweaks\languages\%LANGUAGE%\fearless.tra" BEGIN
+  WITH_TRA "cdtweaks\languages\english\gt_fearless.tra" "cdtweaks\languages\%LANGUAGE%\gt_fearless.tra" BEGIN
     LAF "FEARLESS" END
   END
 END

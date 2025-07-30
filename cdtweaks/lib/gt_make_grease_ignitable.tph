@@ -1,0 +1,50 @@
+DEFINE_ACTION_FUNCTION "MAKE_GREASE_IGNITABLE"
+BEGIN
+	ACTION_IF !(FILE_EXISTS_IN_GAME "SOFLAMC.BAM") BEGIN
+		COPY "cdtweaks\luke\bam\soflamc.bam" "override"
+	END
+	ACTION_IF !(FILE_EXISTS_IN_GAME "#SHROUD.VVC") BEGIN
+		COPY "cdtweaks\luke\vvc\#shroud.vvc" "override"
+	END
+	ACTION_IF !(FILE_EXISTS_IN_GAME "MISC_01C.WAV") BEGIN
+		COPY "cdtweaks\luke\wav\misc_01c.wav" "override"
+	END
+	//
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Misc Tweaks" "sourceFileSpec" = "cdtweaks\luke\lua\tweaks\make_grease_ignitable.lua" "destRes" = "m_gttwks" END
+
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\has_bounce_effects.lua" "destRes" = "m_gtsprt" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\has_immunity_effects.lua" "destRes" = "m_gtsprt" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\has_trap_effect.lua" "destRes" = "m_gtsprt" END
+
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lib\utility\get_effect_fields.lua" "destRes" = "m_gtutil" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lib\utility\array_contains.lua" "destRes" = "m_gtutil" END
+
+	//
+	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
+		COPY "cdtweaks\luke\lib\resource\tables.lua" "override\m_gttbls.lua"
+	END
+	//
+	CREATE "spl" "gtflmgrs"
+	COPY_EXISTING "gtflmgrs.spl" "override"
+		WRITE_LONG NAME1 "-1"
+		WRITE_LONG NAME2 "-1"
+		WRITE_LONG UNIDENTIFIED_DESC "-1"
+		WRITE_LONG DESC "-1"
+		WRITE_SHORT 0x1C 4 // type: innate
+		WRITE_LONG 0x34 1 // level
+		//
+		FOR ("lvl" = 1 ; "%lvl%" <= 3 ; "lvl" += 1) BEGIN
+			LPF "ADD_SPELL_HEADER" INT_VAR "required_level" = "%lvl%" "range" = 30 END
+			//
+			LPF "ADD_SPELL_EFFECT" INT_VAR "header" = SHORT_AT 0x68 "opcode" = 12 "target" = 2 "parameter2" = IDS_OF_SYMBOL ("dmgtype" "FIRE") "dicenumber" = 3 "dicesize" = 6 "savingthrow" = BIT1 "special" = BIT8 END // Damage (save vs. breath for half)
+			//
+			PATCH_IF ("%lvl%" >= 2) BEGIN
+				FOR ("i" = 2 ; "%i%" <= "%lvl%" ; "i" += 1) BEGIN
+					LPF "CLONE_EFFECT" INT_VAR "multi_match" = 1 "header" = (SHORT_AT 0x68) - 1 "timing" = 4 "duration" = (6 * "%i%") - 6 "match_opcode" = 12 STR_VAR "insert" = "below" END // Damage (save vs. breath for half)
+				END
+				//
+				LPF "ADD_SPELL_EFFECT" INT_VAR "header" = SHORT_AT 0x68 "opcode" = 215 "target" = 2 "parameter2" = 1 "duration" = (6 * "%lvl%") - 6 STR_VAR "resource" = "#SHROUD" END // play visual effect (Over target (attached))
+			END
+		END
+	BUT_ONLY
+END
