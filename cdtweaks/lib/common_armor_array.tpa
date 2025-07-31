@@ -925,9 +925,11 @@ ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_common_armor_list_full BEGIN
   ~kovaarm5~, ~200~, ~leather~, ~10~, ~0~, ~255~, ~255~, ~0~, ~0~, ~0~ => ~kovaarm5~ // haeloven +4
   ~kovawed1~, ~304~, ~chain_elven~, ~0~, ~20~, ~5~, ~5~, ~10~, ~10~, ~10~ => ~kovawed1~ // bladesinger chain +4
   ~kreeplat~, ~209~, ~plate_full~, ~35~, ~95~, ~80~, ~80~, ~95~, ~95~, ~95~ => ~kreeplat~ // full metal plate of stone +2
+  ~l#2eddur~, ~200~, ~leather~, ~0~, ~0~, ~255~, ~255~, ~0~, ~0~, ~0~ => ~l#2eddur~ //Ursa's Fur Armor (Leather Armor, allows casting)
   ~l#2sde1~, ~201~, ~leather_studded~, ~255~, ~30~, ~10~, ~10~, ~20~, ~20~, ~20~ => ~l#2sde1~ // Studded Leather 'Dirty Trick' (Studded Leather Armor, allows casting)
   ~l#2sds05~, ~1~, ~robe~, ~255~, ~255~, ~255~, ~255~, ~255~, ~255~, ~255~ => ~l#2sds05~ //Duke Jannath's Spare Robe (Duke Jannath's Spare Robe)
   ~l#2sds08~, ~201~, ~leather_studded~, ~15~, ~30~, ~10~, ~10~, ~20~, ~20~, ~20~ => ~l#2sds08~ //Crusade's Distant Ally (Studded Leather Armor)
+  ~l#2sdsja~, ~201~, ~leather_studded~, ~15~, ~30~, ~10~, ~10~, ~255~, ~20~, ~255~ => ~l#2sdsja~ //Skie's Jacket (Studded Leather Armor, has MS bonus)
   ~l#afchn~, ~203~, ~chain~, ~30~, ~40~, ~15~, ~15~, ~255~, ~255~, ~255~ => ~l#afchn~ //Big Heart's Chain (Chain Mail, already has MS/HiS penalties)
   ~l#afpla~, ~208~, ~plate~, ~40~, ~75~, ~40~, ~40~, ~80~, ~75~, ~75~ => ~l#afpla~ //Copper Dragon Scale (Copper Dragon Scales)
   ~l#bbleat~, ~200~, ~leather~, ~255~, ~0~, ~255~, ~255~, ~0~, ~0~, ~0~ => ~l#bbleat~ // Leather Harness - AC like studded leather, allows spellcasting and thieving
@@ -936,6 +938,7 @@ ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_common_armor_list_full BEGIN
   ~l#dvadar~, ~201~, ~leather_studded~, ~0~, ~30~, ~10~, ~10~, ~20~, ~20~, ~20~ => ~l#dvadar~ // Aarlagleth +2 (Studded Leather Armor, casting allowed)
   ~l#dvalea~, ~201~, ~leather_studded~, ~15~, ~30~, ~10~, ~10~, ~255~, ~255~, ~255~ => ~l#dvalea~ // Rockneedle Light Studded Jacket (Studded Leather, has MS/HiS bonuses)
   ~l#dvarob~, ~1~, ~robe~, ~255~, ~255~, ~255~, ~255~, ~255~, ~255~, ~255~ => ~l#dvarob~ // Robe of the Webbed Archmagi (Robe)
+  ~l#dynrb~, ~1~, ~robe~, ~255~, ~255~, ~255~, ~255~, ~255~, ~255~, ~255~ => ~l#dynrb~ //Robe of All-Seeing Archmagi (Robe)
   ~l#faibu~, ~100~, ~shield_buckler~, ~5~, ~255~, ~255~, ~255~, ~255~, ~255~, ~255~ => ~l#faibu~ // Buckler of the Dark Lore +1
   ~l#farm~, ~200~, ~leather~, ~255~, ~0~, ~255~, ~255~, ~0~, ~0~, ~0~ => ~l#farm~ // Dusty Leather (allows spellcasting)
   ~l#fcha~, ~203~, ~chain~, ~30~, ~40~, ~15~, ~15~, ~40~, ~30~, ~30~ => ~l#fcha~ // Chain of the Solar (Chain of the Solar)
@@ -944,6 +947,9 @@ ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_common_armor_list_full BEGIN
   ~l#fwmcha~, ~1~, ~robe~, ~255~, ~255~, ~255~, ~255~, ~255~, ~255~, ~255~ => ~l#fwmcha~ // Long Gone Chain Mail (ethereal, provides no actual AC so no penalties)
   ~l#fwmshi~, ~1~, ~robe~, ~255~, ~255~, ~255~, ~255~, ~255~, ~255~, ~255~ => ~l#fwmshi~ // Long Gone Large Shield (ethereal, provides no actual AC so no penalties)
   ~l#harha~, ~200~, ~leather~, ~255~, ~0~, ~255~, ~255~, ~0~, ~0~, ~0~ => ~l#harha~ // Leather Harness - AC like studded leather, allows spellcasting and thieving
+  ~l#hphfo1~, ~203~, ~chain~, ~0~, ~40~, ~15~, ~15~, ~40~, ~30~, ~30~ => ~l#hphfo1~ //Corrupted Chain of the Solar (Chain Mail, allows casting)
+  ~l#hphhum~, ~200~, ~leather~, ~0~, ~0~, ~255~, ~255~, ~255~, ~0~, ~255~ => ~l#hphhum~ //Corrupted Man's Skin (Leather armor, MS bonus, allows casting)
+  ~l#hphis1~, ~205~, ~scale~, ~0~, ~50~, ~20~, ~20~, ~60~, ~50~, ~50~ => ~l#hphis1~ //Corrupted Golden Dragon Scale Armor (scale, allows casting)
   ~l#iarm1~, ~201~, ~leather_studded~, ~255~, ~255~, ~10~, ~10~, ~20~, ~20~, ~20~ => ~l#iarm1~ // Dragon Cult's Tunic (allows casting, PP bonus)
   ~l#iarm2~, ~201~, ~leather_studded~, ~15~, ~30~, ~10~, ~10~, ~20~, ~20~, ~20~ => ~l#iarm2~ // Glacier Studded Leather +2
   ~l#iarm3~, ~1~, ~robe~, ~255~, ~255~, ~255~, ~255~, ~255~, ~255~, ~255~ => ~l#iarm3~ // Robe of Mystery +2
@@ -953,9 +959,11 @@ ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_common_armor_list_full BEGIN
   ~l#jnar~, ~201~, ~leather_studded~, ~0~, ~30~, ~10~, ~10~, ~20~, ~20~, ~20~ => ~l#jnar~ //Vistani's Intuition (Studded Leather Armor, allows casting)
   ~l#jncha1~, ~203~, ~chain~, ~30~, ~40~, ~15~, ~15~, ~40~, ~30~, ~30~ => ~l#jncha1~ //Singing Plasma +5 (Chain Mail, allows casting)
   ~l#jnsh1~, ~101~, ~shield_small~, ~5~, ~255~, ~255~, ~255~, ~255~, ~255~, ~255~ => ~l#jnsh1~ //Scorched Small Shield +3 (Small shield)
+  ~l#khashi~, ~102~, ~shield_medium~, ~15~, ~255~, ~255~, ~255~, ~255~, ~255~, ~255~ => ~l#khashi~ //Jaheira's Guarding Paw +4 (Medium Shield)
   ~l#kobi1~, ~101~, ~shield_small~, ~5~, ~255~, ~255~, ~255~, ~255~, ~255~, ~255~ => ~l#kobi1~ // Dreamless Lantern
   ~l#kubok3~, ~1~, ~robe~, ~255~, ~255~, ~255~, ~255~, ~255~, ~255~, ~255~ => ~l#kubok3~ // Book of Bigby's Heritage, offhand item
   ~l#kudddd~, ~102~, ~shield_medium~, ~15~, ~255~, ~255~, ~255~, ~255~, ~255~, ~255~ => ~l#kudddd~ // Alobal Lorfiril's Pleasure +2
+  ~l#lhaat~, ~1~, ~robe~, ~255~, ~255~, ~255~, ~255~, ~255~, ~255~, ~255~ => ~l#lhaat~ //Attire of Black Ink (Attire)
   ~l#melsh~, ~1~, ~robe~, ~255~, ~255~, ~255~, ~255~, ~255~, ~255~, ~255~ => ~l#melsh~ // Shirt of the Melting Man
   ~l#nddre~, ~1~, ~robe~, ~255~, ~255~, ~255~, ~255~, ~255~, ~255~, ~255~ => ~l#nddre~ // Mersace's Orange Dress (Mersace's Orange Dress)
   ~l#ndrob~, ~1~, ~robe~, ~255~, ~255~, ~255~, ~255~, ~255~, ~255~, ~255~ => ~l#ndrob~ // Robe of the Faithful Archmagi (Robe)
@@ -981,6 +989,12 @@ ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_common_armor_list_full BEGIN
   ~l#uflan~, ~101~, ~shield_small~, ~5~, ~255~, ~255~, ~255~, ~255~, ~255~, ~255~ => ~l#uflan~ // Dreamless Lantern
   ~l#ulcar~, ~208~, ~plate~, ~40~, ~75~, ~40~, ~40~, ~80~, ~75~, ~75~ => ~l#ulcar~ // Plate of a Wise Fighter
   ~l#ulcla~, ~200~, ~leather~, ~255~, ~0~, ~255~, ~255~, ~0~, ~0~, ~0~ => ~l#ulcla~ // Ghost-Feeding Spider's Armor (allows spellcasting)
+  ~l#wilarm~, ~205~, ~scale~, ~0~, ~50~, ~20~, ~20~, ~60~, ~50~, ~50~ => ~l#wilarm~ //Beary Powerful Dragon Scale Armor (Beary Powerful Dragon Scale Armor, allows casting)
+  ~l#xzamo1~, ~1~, ~robe~, ~255~, ~255~, ~255~, ~255~, ~255~, ~255~, ~255~ => ~l#xzamo1~ //Robe of the Cosmic Spores (Robe)
+  ~l#xzeana~, ~208~, ~plate~, ~40~, ~75~, ~40~, ~40~, ~80~, ~75~, ~75~ => ~l#xzeana~ //Zombie Ankheg Plate (Ankheg Plate Mail)
+  ~l#xzebuc~, ~100~, ~shield_buckler~, ~5~, ~255~, ~255~, ~255~, ~255~, ~255~, ~255~ => ~l#xzebuc~ //Evening Buckler (Buckler)
+  ~l#xzmi1~, ~201~, ~leather_studded~, ~15~, ~30~, ~10~, ~10~, ~20~, ~20~, ~20~ => ~l#xzmi1~ //Zhent's Second Skin +3 (Studded Leather Armor)
+  ~l#xzmi3~, ~100~, ~shield_buckler~, ~5~, ~255~, ~255~, ~255~, ~255~, ~255~, ~255~ => ~l#xzmi3~ //Zhentarim Buckler +2 (Buckler)
   ~l#zsod3~, ~104~, ~shield_large~, ~50~, ~255~, ~255~, ~255~, ~255~, ~255~, ~255~ => ~l#zsod3~ // Dragonsbane Shield +1
   ~l#zsod7~, ~1~, ~robe~, ~255~, ~255~, ~255~, ~255~, ~255~, ~255~, ~255~ => ~l#zsod7~ // Tome of Arc-Akasha, offhand item
   ~l0buc2~, ~100~, ~shield_buckler~, ~5~, ~255~, ~255~, ~255~, ~255~, ~255~, ~255~ => ~l0buc2~ // Arsonist's Spirit
