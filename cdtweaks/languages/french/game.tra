@@ -66,7 +66,7 @@
 @106203 = ~^\([ %TAB%]*PARAMÈTRES[ %TAB%]*:?[ %TAB%]*\)~
 @106204 = ~Le fer de mauvaise qualité a provoqué une dégradation de cette armure.~
 @106205 = ~\(-?[0-9]+\)\([ %TAB%]*vs\.[ %TAB%]*\(tranchant\|contondant\|perforant et projectile\)\)~
-@106206 = ~Endommagée~
+@106206 = ~Endommagée :~
 
 @107001 = ~Va nous attendre à l'auberge du Bras Amical. Si les choses changent, nous irons te chercher là-bas.~
 @107002 = ~Rejoins le groupe s'il te plaît.~

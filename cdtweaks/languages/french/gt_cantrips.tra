@@ -4,27 +4,27 @@
 
 @20 = "Rayon de givre"
 
-@30 = "Pulsion électrique"
+@30 = "Pulsion Ã©lectrique"
 
-@40 = "Bouffée de poison"
+@40 = "BouffÃ©e de poison"
 
-@50 = "Étincelles"
+@50 = "Ã‰tincelles"
 
-@60 = "Coup avisé"
+@60 = "Coup avisÃ©"
 
 //////////////////////////////
 
-@1000 = "Soins légers"
+@1000 = "Soins lÃ©gers"
 
-@1010 = "Blessures légères"
+@1010 = "Blessures lÃ©gÃ¨res"
 
 @1020 = "Protection contre les armes"
 
-@1030 = "Flamme sacrée"
+@1030 = "Flamme sacrÃ©e"
 
 @1040 = "Vertu"
 
-@1050 = "Résistance "
+@1050 = "RÃ©sistance "
 
-@1060 = "Fouet épineux"
+@1060 = "Fouet Ã©pineux"
 

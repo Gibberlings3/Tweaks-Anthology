@@ -1,14 +1,14 @@
-@0 = "Désarmer"
+@0 = "DÃ©sarmer"
 
-@1 = "Désarmer
+@1 = "DÃ©sarmer
 
-Le personnage peut tenter de désarmer un adversaire lors d'un combat au corps à corps. La tentative de désarmement impose un malus de 6 au jet d'attaque, et le combattant qui possède l'arme la plus imposante bénéficie d'un bonus de 2 par catégorie de taille supérieure. En cas de succès, l'adversaire est privé de son arme."
+Le personnage peut tenter de dÃ©sarmer un adversaire lors d'un combat au corps Ã  corps. La tentative de dÃ©sarmement impose un malus de 6 au jet d'attaque, et le combattant qui possÃ¨de l'arme la plus imposante bÃ©nÃ©ficie d'un bonus de 2 par catÃ©gorie de taille supÃ©rieure. En cas de succÃ¨s, l'adversaire est privÃ© de son arme."
 
 //@100 = "The selected target is out of range"
-@101 = "Désarmement impossible : l'inventaire est plein"
-@102 = "Touché"
-@103 = "Manqué"
-@104 = "Cette aptitude ne peut pas être utilisée avec une arme à distance."
-@105 = "La créature ciblée ne peut être désarmée"
+@101 = "DÃ©sarmement impossible : l'inventaire est plein"
+@102 = "TouchÃ©"
+@103 = "ManquÃ©"
+@104 = "Cette aptitude ne peut pas Ãªtre utilisÃ©e avec une arme Ã  distance."
+@105 = "La crÃ©ature ciblÃ©e ne peut Ãªtre dÃ©sarmÃ©e"
 //@106 = "Unaffected by effects from Disarm"
 @106 = "Arme inefficace"

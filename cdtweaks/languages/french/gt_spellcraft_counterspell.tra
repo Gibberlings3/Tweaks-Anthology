@@ -3,15 +3,15 @@
 @3 = "Contre-sort (Divination)"
 @4 = "Contre-sort (Enchantement/Charme)"
 @5 = "Contre-sort (Illusion/Phantasme)"
-@6 = "Contre-sort (Évocation)"
-@7 = "Contre-sort (Nécromancie)"
-@8 = "Contre-sort (Altération)"
+@6 = "Contre-sort (Ã‰vocation)"
+@7 = "Contre-sort (NÃ©cromancie)"
+@8 = "Contre-sort (AltÃ©ration)"
 
-@100 = "Contrer le sortilège"
+@100 = "Contrer le sortilÃ¨ge"
 @101 = "Contre-sort"
-@102 = "Contre-sort activé"
-@103 = "Contre-sort désactivé"
+@102 = "Contre-sort activÃ©"
+@103 = "Contre-sort dÃ©sactivÃ©"
 
 // NB.: the leading/trailing spaces are not a typo
-@200 = "Analyse le sortilège" // sortilège
+@200 = "Analyse le sortilÃ¨ge" // sortilÃ¨ge
 @201 = "est sur le point de lancer"

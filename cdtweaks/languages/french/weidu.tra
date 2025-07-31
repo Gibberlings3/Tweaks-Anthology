@@ -486,13 +486,13 @@ Les messages de desinstallation ci-dessus sont normaux et attendus.
 
 @264000 = "PnP Potions [Luke]"
 
-@265000 = "Rendre le sort de Glisse inflammable [Luke (EEex)]"
+@265000 = "Make Grease ignitable [Luke (EEex)]"
 
 @266000 = "Donner aux ours et aux sangliers un baroud d'honneur lorsqu'ils atteignent 0 point de vie [Luke (EEex)]"
 
 @267000 = "Mecanique limitant la possibilite de repos [Luke (EEex)]"
 
-@268000 = ~Rendre l'infravision utile (Malus de 4 au THAC0 dans l'obscurité sans infravision) [Luke (EEex)]~ // Removed ~« Impose » l'utilisation des arcs a l'Archer [Luke]~
+@268000 = ~Make Infravision Useful [Luke (EEex)]~ // Removed ~« Impose » l'utilisation des arcs a l'Archer [Luke]~
 
 @269000 = "Concentration avancee [Luke (EEex)]"
 @269001 = "v1 (Echec du sort si (1d20-1) + Chance  ≤ Niveau du sort + Degats reçus)"
@@ -879,13 +879,13 @@ Utiliser les parametres de Baldur.lua :      a7_interval_ini
 
 @608000 = "Grace divine / Sombre benediction : Capacite de classe pour les Paladins / Chevalier noir [Luke (EEex)]"
 
-@609000 = "Œil de lynx : Capacite de race pour les Petites-personnes [Luke (EEex)]"
+@609000 = "Œil de lynx (Bonus de 1 au THAC0 avec les armes de jets) : Capacite de race pour les Petites-personnes [Luke (EEex)]"
 
 @610000 = "Enchainement : Capacite de classe passive pour les Guerriers et les Moines [Luke (EEex)]"
 
 @611000 = "Attaque sournoise : Capacite de kit passive pour les Chevalier noir [Luke (EEex)]"
 
-@612000 = "Intrepide : Capacite de race pour les Petites-personnes [Luke (EEex)]"
+@612000 = "Intrepide (Bonus de 2 aux jets de sauvegarde contre la peur) : Capacite de race pour les Petites-personnes [Luke (EEex)]"
 
 @613000 = "Tolerance aux poisons : Capacite de kit pour les Assassins [Luke (EEex)]"
 
@@ -909,9 +909,9 @@ Utiliser les parametres de Baldur.lua :      a7_interval_ini
 
 @623000 = "Lancement des sorts en armure legere : Capacite de classe pour les Bardes [Luke (EEex)]"
 
-@624000 = "Un avec Mere Nature : Capacite de classe passive pour les Rodeurs [Luke (EEex)]"
+@624000 = "Un avec Mere Nature (Deplacement silencieux bonus de 25 % dans la nature) : Capacite de classe passive pour les Rodeurs [Luke (EEex)]"
 
-@625000 = "Ardeur de Mere Nature : Capacite de classe passive pour les Druides [Luke (EEex)]"
+@625000 = "Ardeur de Mere Nature (Bonus de 2 aux jets d'attaque dans la nature) : Capacite de classe passive pour les Druides [Luke (EEex)]"
 
 @626000 = "Pirouette (Bonus de 2 aux jets de sauvegarde contre les pieges) : Capacite de classe passive pour les Barbares et les Voleurs [Luke (EEex)]"
 
@@ -923,7 +923,7 @@ Utiliser les parametres de Baldur.lua :      a7_interval_ini
 
 @630000 = "Chatier le malveillant / bienveillant : Capacite de classe / kit pour les Paladins / Chevalier noir [Luke]"
 
-@631000 = "Arpenter les sentiers : Capacite de classe passive pour les Druides [Luke (EEex)]"
+@631000 = "Arpenter les sentiers (Niveau 2 : immunite à Glisse, Toile et Enchevetrement) : Capacite de classe passive pour les Druides [Luke (EEex)]"
 
 @632000 = "Fleau pour les ennemis (bonus de 2 au toucher et 2d6 points de degats supplementaires contre la race ennemie): Capacite de classe passive pour les Rodeurs [Luke (EEex)]"
 

@@ -1,17 +1,17 @@
-@0 = "Châtier le bienveillant"
-@1 = "Châtier le bienveillant
+@0 = "ChÃ¢tier le bienveillant"
+@1 = "ChÃ¢tier le bienveillant
 
-Un chevalier noir peut tenter de châtier un adversaire d'alignement bon avec une attaque de mêlée spéciale. Il bénéficiera de son bonus de charisme au jet d'attaque, ainsi qu'un point de dégâts supplémentaire par niveau."
+Un chevalier noir peut tenter de chÃ¢tier un adversaire d'alignement bon avec une attaque de mÃªlÃ©e spÃ©ciale. Il bÃ©nÃ©ficiera de son bonus de charisme au jet d'attaque, ainsi qu'un point de dÃ©gÃ¢ts supplÃ©mentaire par niveau."
 
-@2 = "Châtier le malveillant"
-@3 = "Châtier le malveillant
+@2 = "ChÃ¢tier le malveillant"
+@3 = "ChÃ¢tier le malveillant
 
-Un paladin peut tenter de châtier un adversaire d'alignement mauvais avec une attaque de mêlée spéciale. Il bénéficiera de son bonus de charisme au jet d'attaque, ainsi qu'un point de dégâts supplémentaire par niveau."
+Un paladin peut tenter de chÃ¢tier un adversaire d'alignement mauvais avec une attaque de mÃªlÃ©e spÃ©ciale. Il bÃ©nÃ©ficiera de son bonus de charisme au jet d'attaque, ainsi qu'un point de dÃ©gÃ¢ts supplÃ©mentaire par niveau."
 
-@10 = "Arme inadapté"
+@10 = "Arme inadaptÃ©"
 @11 = "Arme inefficace"
-@12 = "Touché"
-@13 = "Manqué"
+@12 = "TouchÃ©"
+@13 = "ManquÃ©"
 
-@20 = "Insensible aux effets de Châtier le bienveillant"
-@30 = "Insensible aux effets de Châtier le malveillant"
+@20 = "Insensible aux effets de ChÃ¢tier le bienveillant"
+@30 = "Insensible aux effets de ChÃ¢tier le malveillant"

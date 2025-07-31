@@ -1,9 +1,9 @@
-@0 = "Paralysé(e)"
-@1 = "Attaque handicapante : La créature ciblée est déjà Paralysée"
+@0 = "ParalysÃ©(e)"
+@1 = "Attaque handicapante : La crÃ©ature ciblÃ©e est dÃ©jÃ  ParalysÃ©e"
 //
-@10 = "Réduit(e) au silence"
-@11 = "Attaque handicapante : La créature ciblée est déjà réduite au silence"
+@10 = "RÃ©duit(e) au silence"
+@11 = "Attaque handicapante : La crÃ©ature ciblÃ©e est dÃ©jÃ  rÃ©duite au silence"
 //
 @20 = "Modification de la force"
 //
-@100 = "N'est pas affecté par les effets de l'attaque handicapante"
+@100 = "N'est pas affectÃ© par les effets de l'attaque handicapante"

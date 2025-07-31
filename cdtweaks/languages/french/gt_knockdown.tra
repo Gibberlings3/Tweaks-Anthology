@@ -2,19 +2,19 @@
 
 @1 = "Assommer
 
-Un personnage doté de cette aptitude peut tenter d'assommer ses adversaires lors d'un combat au corps à corps. Le personnage effectue un jet d'attaque à -4, s'il réussit, l'adversaire sera mis à terre."
+Un personnage dotÃ© de cette aptitude peut tenter d'assommer ses adversaires lors d'un combat au corps Ã  corps. Le personnage effectue un jet d'attaque Ã  -4, s'il rÃ©ussit, l'adversaire sera mis Ã  terre."
 
 @50 = "Inconscient "
 
 //@100 = "The selected target is out of range"
-@101 = "La cible est déjà à terre"
+@101 = "La cible est dÃ©jÃ  Ã  terre"
 @102 = "La cible est trop imposante"
-@103 = "Cette aptitude ne peut pas être utilisée avec une arme à distance"
+@103 = "Cette aptitude ne peut pas Ãªtre utilisÃ©e avec une arme Ã  distance"
 
-@104 = "La créature ciblée ne peut être assommée"
+@104 = "La crÃ©ature ciblÃ©e ne peut Ãªtre assommÃ©e"
 
 //@105 = "Unaffected by effects from Knockdown"
 
-@105 = "Touché"
-@106 = "Manqué"
+@105 = "TouchÃ©"
+@106 = "ManquÃ©"
 @107 = "Arme inefficace"
