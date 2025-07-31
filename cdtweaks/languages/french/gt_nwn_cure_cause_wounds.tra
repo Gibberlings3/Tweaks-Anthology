@@ -1,0 +1,226 @@
+@0 = "Soins des blessures légères
+(Nécromancie)
+
+Niveau : 1
+Sphère : guérison
+Portée : contact
+Durée : permanente
+Temps d'incantation : 5
+Zone d'effet : 1 créature
+Jet de sauvegarde : aucun
+
+Lorsque le prêtre jette ce sort et pose sa main sur une créature, il soigne 1d8 points de vie (bonus de 1 par niveau, pour un maximum de 5 points de vie supplémentaires) ainsi que l'état d'ébriété. Ce sort n'a aucun effet sur les créatures non-corporelles ou extraplanaires.
+
+Note : Ce sort à l'effet inverse et blesse les morts-vivants (jet de sauvegarde contre les sorts pour réduire les dégâts de moitié)."
+
+@1 = "Soins des blessures modérées
+(Nécromancie)
+
+Niveau : 2
+Sphère : guérison
+Portée : contact
+Durée : permanente
+Temps d'incantation : 5
+Zone d'effet : 1 créature
+Jet de sauvegarde : aucun
+
+Une version plus puissante du sort de Soins des blessures légères, Soins des blessures modérées soigne 2d8 points de vie (bonus de 1 par niveau, pour un maximum de 10 points de vie supplémentaires) ainsi que l'état d'ébriété. Ce sort n'a aucun effet sur les créatures non-corporelles ou extraplanaires.
+
+Note : Ce sort à l'effet inverse et blesse les morts-vivants (jet de sauvegarde contre les sorts pour réduire les dégâts de moitié)."
+
+@2 = "Soins des blessures moyennes
+(Nécromancie)
+
+Niveau : 3
+Sphère : guérison
+Portée : contact
+Durée : permanente
+Temps d'incantation : 5
+Zone d'effet : 1 créature
+Jet de sauvegarde : aucun
+
+Lorsque le prêtre jette ce sort et pose sa main sur une créature, il soigne 3d8 points de vie (bonus de 1 par niveau, pour un maximum de 15 points de vie supplémentaires) ainsi que l'état d'ébriété. Ce sort n'a aucun effet sur les créatures non-corporelles ou extraplanaires.
+
+Note : Ce sort à l'effet inverse et blesse les morts-vivants (jet de sauvegarde contre les sorts pour réduire les dégâts de moitié)."
+
+@3 = "Soins des blessures graves
+(Nécromancie)
+
+Niveau : 4
+Sphère : guérison
+Portée : contact
+Durée : permanente
+Temps d'incantation : 7
+Zone d'effet : 1 créature
+Jet de sauvegarde : aucun
+
+Lorsque le prêtre jette ce sort et pose sa main sur une créature, il soigne 4d8 points de vie (bonus de 1 par niveau, pour un maximum de 20 points de vie supplémentaires) ainsi que l'état d'ébriété. Ce sort n'a aucun effet sur les créatures non-corporelles ou extraplanaires.
+
+Note : Ce sort à l'effet inverse et blesse les morts-vivants (jet de sauvegarde contre les sorts pour réduire les dégâts de moitié)."
+
+@4 = "Soins des blessures critiques
+(Nécromancie)
+
+Niveau : 5
+Sphère : guérison
+Portée : contact
+Durée : permanente
+Temps d'incantation : 8
+Zone d'effet : 1 créature
+Jet de sauvegarde : aucun
+
+Lorsque le prêtre jette ce sort et pose sa main sur une créature, il soigne 5d8 points de vie (bonus de 1 par niveau, pour un maximum de 25 points de vie supplémentaires) ainsi que l'état d'ébriété. Ce sort n'a aucun effet sur les créatures non-corporelles ou extraplanaires.
+
+Note : Ce sort à l'effet inverse et blesse les morts-vivants (jet de sauvegarde contre les sorts pour réduire les dégâts de moitié)."
+
+@5 = "Soin de masse des blessures légères
+(Nécromancie)
+
+Niveau : 5
+Sphère : guérison
+Portée : champ visuel du lanceur
+Durée : permanente
+Temps d'incantation : 5
+Zone d'effet : rayon de 4,5 mètres
+Jet de sauvegarde : aucun
+
+Lorsqu'il lance ce sort, le prêtre doit se concentrer sur les visages de ses compagnons et sur l'unité du groupe. Une fois l'incantation achevée, tous les membres du groupe dans un rayon de 4,5 mètres reçoivent 1d8 points de vie +1 par niveau d'expérience. Ce sort n'a aucun effet sur les créatures non-corporelles ou extraplanaires et ne peut être lancé par les alignements mauvais.
+
+Note : Ce sort à l'effet inverse et blesse les morts-vivants (jet de sauvegarde contre les sorts pour réduire les dégâts de moitié)."
+
+@6 = "Guérison
+(Nécromancie)
+
+Niveau : 6
+Sphère : guérison
+Portée : contact
+Durée : permanente
+Temps d'incantation : 9
+Zone d'effet : 1 créature
+Jet de sauvegarde : aucun
+
+Le puissant sort de Guérison permet au lanceur de débarrasser la cible du sort de toute forme de maladies ou de blessures l'affectant. Toutes les maladies, la surdité et la cécité sont guéries et l'intégralité des points de vie perdus à la suite de blessures sont restaurés. Il permet aussi de neutraliser les poisons et l'état d'ébriété ainsi que d'annuler les effets du sort Débilité mentale. Ce sort n'a aucun effet sur les créatures non-corporelles ou extraplanaires et ne peut être lancé par les alignements mauvais.
+
+Note : Ce sort à l'effet inverse et blesse les morts-vivants en les réduisant à seulement 1d4 points de vie (jet de sauvegarde contre les sorts pour réduire les dégâts de moitié)."
+
+//////////////////////////////////////////////
+
+@100 = "Blessures légères
+(Nécromancie)
+
+Niveau : 1
+Sphère : guérison
+Portée : contact
+Durée : permanente
+Temps d'incantation : 5
+Zone d'effet : 1 créature
+Jet de sauvegarde : 1/2
+
+Lorsque le prêtre jette ce sort et pose sa main sur une créature, il inflige 1d8 points de dégâts (bonus de 1 par niveau, pour un maximum de 5 points de dégâts supplémentaires) ainsi que l'état d'ébriété. Ce sort n'a aucun effet sur les créatures non-corporelles ou extraplanaires et ne peut être lancé par les alignements bon.
+
+Note : Ce sort à l'effet inverse et soigne les morts-vivants."
+
+@101 = "Blessures modérées
+(Nécromancie)
+
+Niveau : 2
+Sphère : guérison
+Portée : contact
+Durée : permanente
+Temps d'incantation : 5
+Zone d'effet : 1 créature
+Jet de sauvegarde : 1/2
+
+Lorsque le prêtre jette ce sort et pose sa main sur une créature, il inflige 2d8 points de dégâts (bonus de 1 par niveau, pour un maximum de 10 points de dégâts supplémentaires) ainsi que l'état d'ébriété. Ce sort n'a aucun effet sur les créatures non-corporelles ou extraplanaires et ne peut être lancé par les alignements bon.
+
+Note : Ce sort à l'effet inverse et soigne les morts-vivants."
+
+@102 = "Blessures moyennes
+(Nécromancie)
+
+Niveau : 3
+Sphère : guérison
+Portée : contact
+Durée : permanente
+Temps d'incantation : 5
+Zone d'effet : 1 créature
+Jet de sauvegarde : 1/2
+
+Lorsque le prêtre jette ce sort et pose sa main sur une créature, il inflige 3d8 points de dégâts (bonus de 1 par niveau, pour un maximum de 15 points de dégâts supplémentaires) ainsi que l'état d'ébriété. Ce sort n'a aucun effet sur les créatures non-corporelles ou extraplanaires et ne peut être lancé par les alignements bon.
+
+Note : Ce sort à l'effet inverse et soigne les morts-vivants."
+
+@103 = "Blessures graves
+(Nécromancie)
+
+Niveau : 4
+Sphère : guérison
+Portée : contact
+Durée : permanente
+Temps d'incantation : 7
+Zone d'effet : 1 créature
+Jet de sauvegarde : 1/2
+
+Lorsque le prêtre jette ce sort et pose sa main sur une créature, il inflige 4d8 points de dégâts (bonus de 1 par niveau, pour un maximum de 10 points de dégâts supplémentaires) ainsi que l'état d'ébriété. Ce sort n'a aucun effet sur les créatures non-corporelles ou extraplanaires et ne peut être lancé par les alignements bon.
+
+Note : Ce sort à l'effet inverse et soigne les morts-vivants."
+
+@104 = "Blessures critiques
+(Nécromancie)
+
+Niveau : 5
+Sphère : guérison
+Portée : contact
+Durée : permanente
+Temps d'incantation : 8
+Zone d'effet : 1 créature
+Jet de sauvegarde : 1/2
+
+Lorsque le prêtre jette ce sort et pose sa main sur une créature, il inflige 5d8 points de dégâts (bonus de 1 par niveau, pour un maximum de 25 points de dégâts supplémentaires) ainsi que l'état d'ébriété. Ce sort n'a aucun effet sur les créatures non-corporelles ou extraplanaires et ne peut être lancé par les alignements bon.
+
+Note : Ce sort à l'effet inverse et soigne les morts-vivants."
+
+@105 = "Blessures légères de masse
+(Nécromancie)
+
+Niveau : 5
+Sphère : guérison
+Portée : champ visuel du lanceur
+Durée : permanente
+Temps d'incantation : 5
+Zone d'effet : rayon de 4,5 mètres
+Jet de sauvegarde : 1/2
+
+Lorsqu'il lance ce sort, le prêtre inflige 1d8 points de dégâts +1 par niveau d'expérience au ennemis dans un rayon de 4,5 mètres (jet de sauvegarde contre les sorts pour réduire les dégâts de moitié). Ce sort n'a aucun effet sur les créatures non-corporelles ou extraplanaires et ne peut être lancé que par les alignements mauvais.
+
+Note : Ce sort à l'effet inverse et soigne les morts-vivants."
+
+@106 = "Mise à mal
+(Nécromancie)
+
+Niveau : 6
+Sphère : guérison
+Portée : contact
+Durée : permanente
+Temps d'incantation : 9
+Zone d'effet : 1 créature
+Jet de sauvegarde : annule
+
+Lorsqu'il lance ce sort, le prêtre au lieu de guérir la créature touchée, il lui inflige d'importants dégâts, la victime voit ses points de vie réduits à 1d4 (jet de sauvegarde contre les sorts pour annuler). Ce sort n'a aucun effet sur les créatures non-corporelles ou extraplanaires et ne peut être lancé que par les alignements mauvais.
+
+Note : Ce sort à l'effet inverse et soigne complètement les morts-vivants."
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+@200 = "Imposition des mains
+(Nécromancie)
+
+Portée : contact
+Durée : instantanée
+Temps d'incantation : 1
+Zone d'effet : 1 créature
+Jet de sauvegarde : aucun
+
+Le personnage puise dans l'énergie positive pour soigner une créature qu'il touche à hauteur de 2 points de vie par niveau d'expérience. Ce sort n'a aucun effet sur les créatures non-corporelles ou extraplanaires.
+
+Note : Ce sort à l'effet inverse et blesse les morts-vivants (jet de sauvegarde contre les sorts pour réduire les dégâts de moitié)."
