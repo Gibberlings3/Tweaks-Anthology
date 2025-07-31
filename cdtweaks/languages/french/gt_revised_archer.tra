@@ -39,3 +39,6 @@ Un Tir ajusté réussi au niveau des jambes inflige un malus cumulatif de 2 à l
 @300 = "Le personnage ne peut pas utiliser cette capacité avec des munitions effectives sur une zone."
 
 // @400 = "Insensible aux effets du Tir ajusté"
+@400 = "Touché"
+@401 = "Manqué"
+@402 = "Arme inefficace"

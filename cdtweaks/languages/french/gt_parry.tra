@@ -1,0 +1,19 @@
+@0 = "Parade"
+@1 = "Parade
+
+La parade permet au personnage de bloquer les attaques de son adversaire et d'effectuer des ripostes spectaculaires.
+Une parade réussie (jet de sauvegarde contre le souffle) évite ainsi de subir le moindre dégâts."
+
+@2 = "Parade activée"
+
+@3 = "Parade désactivée"
+
+@4 = "Parade"
+
+@5 = "Riposte"
+
+@6 = "Réussite"
+
+@7 = "Échec"
+
+@100 = "Arme inefficace"

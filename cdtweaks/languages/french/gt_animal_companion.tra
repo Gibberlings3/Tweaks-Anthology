@@ -1,0 +1,242 @@
+@0 = "BELLUAIRE : Ce type de rôdeur est un solitaire, rarement à l'aise en milieu urbain. En conséquence, il a une affinité naturelle avec les animaux : ce sont ses amis et ses frères d'armes, avec lesquels il entretient une forme limitée de communication télépathique.
+
+Avantages :
+- Bonus de 15 % en Déplacement silencieux et Se cacher dans l'ombre.
+- Peut utiliser la capacité de « Compagnon animal  » pour convoquer une créature capable de l'aider au combat ou en éclaireur.
+- Niveau 8 : Peut lancer « Convocation d'animaux I ».
+- Niveau 10 : Peut lancer « Convocation d'animaux II ».
+- Niveau 12 : Peut lancer « Convocation d'animaux III ».
+
+Désavantages :
+- Ne peut pas utiliser d'armes métalliques (comme les épées, hallebardes, marteaux de guerre ou les étoiles du matin).
+- Ne peut pas porter d'armure plus lourde que la besantine."
+
+@1 = "Compagnon animal"
+@2 = "Compagnon animal
+(Conjuration / Convocation)
+
+Niveau : 1
+Portée : 0
+Durée : Permanent
+Temps d'incantation : 1
+Zone d'effet: Spécial
+Jet de sauvegarde : Aucun
+
+Ce sort permet au BELLUAIRE de convoquer un animal qui deviendra son aide et son compagnon. Les animaux peuvent aider leur maître en transmettant leurs capacités sensorielles, en conversant avec lui ou en lui servant de garde, d'éclaireur ou d'espion. Un belluaire ne peut avoir qu'un seul compagnon animal à la fois.
+
+Voici une liste des compagnons que le belluaire peut convoquer :
+
+
+OURS DES CAVERNES
+
+Statistiques de base :
+– Points de vie : similaire à un belluaire de même niveau
+– Classe d'armure : 6 (bonus de 1 tous les 5 niveaux)
+– THAC0 : similaire à un belluaire de même niveau
+– Jets de sauvegarde : similaire à un belluaire de même niveau
+– Force (18/100), Intelligence (4), Sagesse (2), Dextérité (9), Constitution (16), Charisme (3)
+– Capacités de Combat : 3 attaques par round, 1d12 points de dégâts tranchants (bonus de 1 aux dégâts au niveau 10, 15 et 20)
+
+Capacités Spéciales :
+– Chance de coups critiques : +10 % (à partir du niveau 5)
+– Inflige 2d8 points de dégâts lors d'un coup critique (à partir du niveau 5)
+
+
+
+LOUP DES GLACES
+
+Statistiques de base :
+– Points de vie : similaire à un belluaire de même niveau
+– Classe d'armure : 5 (bonus de 1 tous les 5 niveaux)
+– THAC0 : similaire à un rôdeur de même niveau
+– Jets de sauvegarde : similaire à un rôdeur de même niveau
+– Force (18), Intelligence (10), Sagesse (8), Dextérité (12), Constitution (16), Charisme (6)
+– Capacités de Combat : 1 attaque par round, 2d4 points de dégâts perforants (bonus de 1 aux dégâts au niveau 10, 15 et 20)
+– Résistance au froid : 125 %
+– Résistance au feu : -25 %
+
+Capacités Spéciales :
+– Souffle de givre (une fois par jour, puis une fois supplémentaire tous les 5 niveaux)
+
+
+
+ARAIGNÉE-SABRE
+
+Statistiques de base :
+– Points de vie : similaire à un belluaire de même niveau
+– Classe d'armure : 3 (bonus de 1 tous les 5 niveaux)
+– THAC0 : similaire à un rôdeur de même niveau
+– Jets de sauvegarde : similaire à un rôdeur de même niveau
+– Force (16), Intelligence (10), Sagesse (2), Dextérité (14), Constitution (14), Charisme (3)
+– Capacités de Combat : 2 attaques par round, 2d6 points de dégâts perforants (bonus de 1 aux dégâts au niveau 10, 15 et 20)
+
+Capacités Spéciales :
+– Sous l'effet de la hâte améliorée en permanence
+– Immunité aux effets de toile d'araignée
+– Emberlificoter (une fois par jour, puis une fois supplémentaire tous les 5 niveaux)
+
+
+
+LÉOPARD
+
+Statistiques de base :
+– Points de vie : similaire à un belluaire de même niveau
+– Classe d'armure : 6 (bonus de 1 tous les 5 niveaux)
+– THAC0 : similaire à un rôdeur de même niveau
+– Jets de sauvegarde : similaire à un rôdeur de même niveau
+– Force (14), Intelligence (4), Sagesse (12), Dextérité (15, puis un point supplémentaire tous les 10 niveaux), Constitution (13), Charisme (6)
+– Se cacher dans l'ombre : 10 (bonus de 5 à chaque montée de niveau)
+– Déplacement silencieux : 10 (bonus de 5 à chaque montée de niveau)
+– Capacités de Combat : 3 attaques par round, 1d6 points de dégâts tranchants (bonus de 1 aux dégâts au niveau 10, 15 et 20)
+
+Capacités Spéciales :
+– Se cacher dans l'ombre
+– Attaque sournoise
+
+
+
+SANGLIER NOIR
+
+Statistiques de base :
+– Points de vie : similaire à un belluaire de même niveau
+– Classe d'armure : 7 (bonus de 1 tous les 5 niveaux)
+– THAC0 : similaire à un rôdeur de même niveau
+– Jets de sauvegarde : similaire à un rôdeur de même niveau
+– Force (16), Intelligence (4), Sagesse (2), Dextérité (10), Constitution (16), Charisme (3)
+– Capacités de Combat : 1 attaque par round, 3d4 points de dégâts perforants (bonus de 1 aux dégâts au niveau 10, 15 et 20)
+
+Capacités Spéciales :
+– Féroce (une fois par jour, puis une fois supplémentaire tous les 5 niveaux)
+
+
+
+SERPENT CONSTRICTEUR GÉANT
+
+Statistiques de base :
+– Points de vie : similaire à un belluaire de même niveau
+– Classe d'armure : 5 (bonus de 1 tous les 5 niveaux)
+– THAC0 : similaire à un rôdeur de même niveau
+– Jets de sauvegarde : similaire à un rôdeur de même niveau
+– Force (3), Intelligence (1), Sagesse (2), Dextérité (16), Constitution (12), Charisme (3)
+– Capacités de Combat : 2 attaques par round, 2d4 points de dégâts perforants (bonus de 1 aux dégâts au niveau 10, 15 et 20)
+
+Capacités Spéciales :
+– Constriction (une fois par jour, puis une fois supplémentaire tous les 5 niveaux)
+– Malus de 1 au un modificateur de moral lorsque le feu est utilisé contre lui.
+– Charme-animal (illimitée)
+
+
+
+SCARABÉE BOMBARDIER
+
+Statistiques de base :
+– Points de vie : similaire à un belluaire de même niveau
+– Classe d'armure : 4 (bonus de 1 tous les 5 niveaux)
+– THAC0 : similaire à un rôdeur de même niveau
+– Jets de sauvegarde : similaire à un rôdeur de même niveau
+– Force (3), Intelligence (1), Sagesse (1), Dextérité (10), Constitution (14), Charisme (1)
+– Capacités de Combat : 1 attaque par round, 2d6 points de dégâts tranchants (bonus de 1 aux dégâts au niveau 10, 15 et 20)
+
+Capacités Spéciales :
+– Lorsqu'il est attaqué, à chaque round, le scarabée bombardier a 50 % de chances de flatuler un nuage de vapeur rougeâtre acide et nauséabonde depuis son abdomen, infligeant 3d4 points de dégâts d'acide à toute créatures à proximité. En outre, le bruit provoqué par les flatulences a 20 % de chances d'étourdir pour une durée de 2d4 rounds et autant de chances de provoquer la surdité pendant 2d6 rounds.
+
+
+
+FAUCON
+
+Statistiques de base :
+– Points de vie : similaire à un belluaire de même niveau
+– Classe d'armure : 5 (bonus de 1 tous les 5 niveaux)
+– THAC0 : similaire à un rôdeur de même niveau
+– Jets de sauvegarde : similaire à un rôdeur de même niveau
+– Force (5), Intelligence (1), Sagesse (14), Dextérité (16), Constitution (8), Charisme (6)
+– Capacités de Combat : 3 attaques par round, 1d1 points de dégâts perforants (bonus de 1 aux dégâts au niveau 10, 15 et 20)
+
+Capacités Spéciales :
+– La créature ciblée doit réussir un jet de sauvegarde contre les souffles ou être aveuglé pendant 1d10 rounds (25 % chance à chaque attaque réussie)
+– Champ de vision accru
+"
+
+@3 = "Un compagnon animal est déjà à vos côtés"
+
+//
+@100 = "Convoquer un ours des cavernes"
+@101 = "Convoquer un scarabée bombardier"
+@102 = "Convoquer un sanglier noir"
+@103 = "Convoquer un Faucon"
+@104 = "Convoquer un Léopard"
+@105 = "Convoquer un serpent constricteur géant"
+@106 = "Convoquer un araignée-sabre"
+@107 = "Convoquer un loup des glaces"
+
+
+//
+@200 = "Expulser votre compagnon animal"
+
+//
+@1000 = "Ours des cavernes"
+@1001 = "Étreinte"
+
+//
+@2000 = "Flatule des vapeurs acides"
+@2001 = "Scarabée bombardier"
+@2002 = "Étourdi(e)"
+@2003 = "Surdité"
+
+//
+@3000 = "Féroce"
+@3001 = "Féroce
+
+La créature qui utilise cette capacité devient redoutable, elle bénéficie d'un bonus de 1d6 à la Force et à la Constitution, ainsi qu'une immunité contre les charmes, la débilité mental et la confusion.
+Durée : 5 rounds, (un round supplémentaire tous les 5 niveaux)
+"
+@3002 = "Sanglier noir"
+@3003 = "Vous ne pouvez pas utiliser cette capacité tant que la précédente n’a pas expiré."
+
+//
+@4000 = "Faucon"
+@4001 = "Aveuglé"
+
+//
+@5000 = "Léopard"
+@5001 = "Attaque sournoise"
+@5002 = "Attaque"
+
+//
+@6000 = "Charme-animal"
+@6001 = "Charme-animal
+
+Ce sort affecte n'importe quel animal ciblé. Ce dernier a tout de même droit à un jet de sauvegarde contre les sorts pour y échapper.
+
+En cas d'échec du jet de sauvegarde, il considère le lanceur comme un véritable ami et allié méritant son attention et sa protection. Le lanceur peut lui donner des ordres auxquels il obéira le plus vite possible.
+
+Si le jeteur de sorts nuit ou essaie de nuire à l'animal sous le charme par une action volontaire le charme est rompu.Si plusieurs effets de charmes affectent simultanément un animal, le charme le plus récent prend le dessus..
+
+Durée : 2d6 rounds
+"
+@6002 = "Serpent constricteur géant"
+@6003 = "Modification du moral"
+@6004 = "Constriction"
+@6005 = "Constriction
+
+La créature ciblée est étranglée pendant 5 rounds (un round supplémentaire tous les 5 niveaux), mais elle peut peuvent se libérer des anneaux en réussissant l’équivalent d'un enfonçage de porte (une Force supérieure à 19 se libèrent sans difficultés).
+Toute tentative de libérer une victime en attaquant le serpent constricteur a 20 % de chances de blesser sa proie.
+Les créatures très imposantes ou incorporel sont insensible au effets d', tout comme les slimes et les élémentaires.
+"
+@6006 = "La créature ciblée est déjà sous l'effet de Constriction"
+@6007 = "La créature parvient à s'échapper"
+
+//
+@7000 = "Emberlificoter"
+@7001 = "Emberlificoter
+
+La créature ciblée doit réussir un jet de sauvegarde contre les souffles ou être empêtrée dans une toiles pendant 2d6 rounds. Les créatures très imposantes, incorporel ou capable de léviter sont insensible au effets d'emberlificoter, tout comme les slimes et les élémentaires."
+@7002 = "Araignée-sabre"
+
+//
+@8000 = "Souffle de givre"
+@8001 = "Souffle de givre
+
+Le loup des glaces éructe un souffle de givre, infligeant 6d4 points de dégâts de froid (relâcher à l'aide des poumons le souffle de forme de conique peut s'étendre sur 5m avec un arc de 90 degrés). Un jet de sauvegarde contre les souffles réussi réduit les dégâts de moitié."
+@8002 = "Loup des glaces"
+
