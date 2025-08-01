@@ -40,6 +40,31 @@
 @31 = ~Requires in-game option "3E Sneak Attack" (https://github.com/Argent77/A7-HiddenGameplayOptions).~
 @32 = ~Requires LuaJIT: https://github.com/Bubb13/EEex, component #1~
 @33 = ~Not enough free spell states~ 
+@34 = ~
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+Tweaks Anthology found armor and/or shields that are not covered
+by some of the armor components. Anthology has automatically
+gathered information about these items for future inclusion.
+To help future development, please zip/rar the contents of the
+
+(game folder)/weidu_external/cdtweaks_helper/email_to_cam 
+
+folder and send this file to CamDawg via:
+
+  * email: pcamagna@yahoo.com
+  * Discord: send to user camdawg_g3 or the G3 Discord at https://discord.gg/yTzjMTb
+  * G3 forum: Private message user CamDawg or post at 
+      https://www.gibberlings3.net/forums/topic/30082-tweaks-anthology-helper-tool-updated/
+
+Thanks!
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+~
 
 @100 = ~Batch Installer -- EXPERIMENTAL, use at own risk. Check the readme.~
 @101 = ~

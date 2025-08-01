@@ -8,17 +8,13 @@
 
 INCLUDE ~cdtweaks/lib/thieving_descripts.tpa~ // text replacement macros
 INCLUDE ~cdtweaks/lib/thieving_to_50.tpa~     // extend bard, ranger pickpocketing to 200 and levels to 50
+INCLUDE ~cdtweaks/lib/common_armor_list.tpa~  // master armor list
 
 // to get unarmored bonuses to work, bonuses are added in the race bonus tables
 // all non-robe armor offsets these
 COPY_EXISTING ~skillrac.2da~ ~override~
-  PATCH_IF original_bg1 OR original_iwd OR game_is_pst OR game_is_pstee BEGIN // games that use stealth
-    SET use_stealth = 1
-    SET max_col = 5
-  END ELSE BEGIN
-    SET use_stealth = 0
-    SET max_col = 8
-  END
+  // use_stealth var now set in common_armor_list.tpa
+  SET max_col = 8 - (3 * use_stealth) // 5 with stealth, 8 without
   COUNT_2DA_ROWS max_col rows // five columns in bg/iwd, eight otherwise
   FOR (index = 0 ; index < rows ; ++index) BEGIN
     READ_2DA_ENTRY index 1 max_col val
@@ -32,14 +28,7 @@ COPY_EXISTING ~skillrac.2da~ ~override~
   END
   BUT_ONLY
 
-INCLUDE ~cdtweaks/lib/common_armor_list.tpa~
-
 ACTION_PHP_EACH cd_common_armor_list AS params => item BEGIN
-
-  ACTION_IF use_stealth BEGIN
-    OUTER_SET params_7 = params_9 // use 'stealth' value for move silently
-    OUTER_SET params_8 = 255      // ignore hide in shadows
-  END
 
   // make sure we have something to do, e.g. not futzing with a robe
   ACTION_IF ((params_4 != 255) OR     // pickpocketing
@@ -96,3 +85,5 @@ ACTION_PHP_EACH cd_common_armor_list AS params => item BEGIN
   END // end skill check
 
 END // end php_each
+
+LAM cdtweaks_helper_email

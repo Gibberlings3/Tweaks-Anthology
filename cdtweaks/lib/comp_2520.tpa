@@ -66,3 +66,5 @@ ACTION_IF MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2060~ THEN BEGIN // we
     BUT_ONLY
 
 END
+
+LAM cdtweaks_helper_email
