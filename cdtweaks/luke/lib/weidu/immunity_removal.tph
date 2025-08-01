@@ -1,0 +1,38 @@
+// Installer for "misc\immunity_removal.lua" //
+
+DEFINE_ACTION_FUNCTION "IMMUNITY_REMOVAL"
+STR_VAR
+	"path" = ""
+BEGIN
+	ACTION_IF IDS_OF_SYMBOL ("stats" "GT_IMMUNITIES_VIA_403") == "-1" BEGIN
+		LAF "ADD_EXTENDED_STAT" STR_VAR "identifier" = "GT_IMMUNITIES_VIA_403" END
+		//
+		LAM "READ_SPELL_IDS"
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Immunities via 403 / Removal via 402" "sourceFileSpec" = "%path%\misc\immunity_removal.lua" "destRes" = "m_gtimrm" END
+		//
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "%path%\utility\array_contains.lua" "destRes" = "m_gtutil" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "%path%\utility\get_effect_fields.lua" "destRes" = "m_gtutil" END
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "AI-related stuff" "sourceFileSpec" = "%path%\ai\object_type.lua" "destRes" = "m_gt#ai" END
+		//
+		WITH_SCOPE BEGIN
+			<<<<<<<< .../%MOD_FOLDER%-inlined/gt_clear_aux.baf
+			IF
+				True()
+			THEN
+				RESPONSE #100
+					EEex_LuaAction("GT_LuaAction_ClearImmunityAux()")
+					Continue()
+			END
+			>>>>>>>>
+			//
+			ACTION_FOR_EACH "world_script" IN "baldur" "baldur25" "bdbaldur" BEGIN
+				ACTION_IF (FILE_EXISTS_IN_GAME "%world_script%.bcs") BEGIN
+					EXTEND_TOP "%world_script%.bcs" ".../%MOD_FOLDER%-inlined/gt_clear_aux.baf"
+				END
+			END
+		END
+		//
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Lua Actions" "sourceFileSpec" = "%path%\action\clear_immunity_aux.lua" "destRes" = "m_gt#act" END
+	END
+END
+

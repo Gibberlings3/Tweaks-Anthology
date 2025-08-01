@@ -1,0 +1,43 @@
+/*
++------------------------------------------------------------------------------------------------------------------------+
+| ADD_EXTENDED_STAT: For use with EEex (https://eeex-docs.readthedocs.io/en/latest/EEex%20Opcodes/index.html#opcode-401) |
++------------------------------------------------------------------------------------------------------------------------+
+*/
+
+DEFINE_DIMORPHIC_FUNCTION "ADD_EXTENDED_STAT"
+INT_VAR
+	"min" = 0 // for use in "x-stats.2da"
+	"max" = 1 // for use in "x-stats.2da"
+	"default" = 0 // for use in "x-stats.2da"
+STR_VAR
+	"identifier" = "" // for use in "stats.ids"
+RET
+	"value"
+BEGIN
+	OUTER_SET "value" = IDS_OF_SYMBOL ("stats" "%identifier%")
+	//
+	ACTION_IF ("%value%" == "-1") BEGIN
+		OUTER_PATCH ~~ BEGIN
+			FOR ("id" = 203 ; "%id%" <= 0xFFFF + 202 ; "id" += 1) BEGIN
+				LOOKUP_IDS_SYMBOL_OF_INT "symbol" ~stats~ "%id%"
+				PATCH_IF (~%symbol%~ STRING_EQUAL ~%id%~) BEGIN
+					SET "value" = "%id%"
+					SET "id" = 0xFFFF + 202 + 1 // Kill FOR-loop
+				END
+			END
+		END
+		//
+		ACTION_IF ("%value%" != "-1") BEGIN
+			APPEND "stats.ids" "%value% %identifier%"
+			//
+			APPEND "x-stats.2da" "%identifier% %min% %max% %default%"
+			// Formatting
+			COPY_EXISTING "x-stats.2da" "override"
+				PRETTY_PRINT_2DA
+			BUT_ONLY
+		END ELSE BEGIN
+			FAIL "ADD_EXTENDED_STAT: there's no room in ~stats.ids~ for appending ~%identifier%~"
+		END
+	END
+END
+

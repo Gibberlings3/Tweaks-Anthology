@@ -1,0 +1,40 @@
+/*
++----------------------------------------------------------+
+| Add a new entry to "statdesc.2da" (tweaked from CamDawg) |
++----------------------------------------------------------+
+*/
+
+DEFINE_DIMORPHIC_FUNCTION "ADD_STATDESC_ENTRY"
+INT_VAR
+	"description" = "-1"
+STR_VAR
+	"bam_file" = "****"
+RET
+	"index"
+BEGIN
+	COPY_EXISTING - ~statdesc.2da~ ~override~
+		COUNT_2DA_COLS "cols"
+		SET "index" = "-1"
+		READ_2DA_ENTRIES_NOW "read_statdesc" "%cols%"
+		FOR ("i" = 0 ; "%i%" < "%read_statdesc%" ; "i" += 1) BEGIN
+			READ_2DA_ENTRY_FORMER "read_statdesc" "%i%" 2 "current_bam_file"
+			PATCH_IF ("%current_bam_file%" STR_EQ "%bam_file%") BEGIN
+				READ_2DA_ENTRY_FORMER "read_statdesc" "%i%" 1 "current_description"
+				PATCH_IF ("%current_description%" == "%description%") BEGIN
+					READ_2DA_ENTRY_FORMER "read_statdesc" "%i%" 0 "index"
+					SET "i" = "%read_statdesc%" // kill FOR-loop
+				END
+			END
+		END
+	BUT_ONLY
+	//
+	ACTION_IF ("%index%" == "-1") BEGIN
+		OUTER_SET "index" = "%i%"
+		APPEND ~statdesc.2da~ ~%i% %description% %bam_file%~
+		// Prettify
+		COPY_EXISTING ~statdesc.2da~ ~override~
+			PRETTY_PRINT_2DA
+		BUT_ONLY_IF_IT_CHANGES
+	END
+END
+

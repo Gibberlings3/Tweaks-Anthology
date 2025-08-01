@@ -1,0 +1,6 @@
+// include WeiDU library
+ACTION_BASH_FOR "%gtPathToLib%\weidu" "^.+\.tph$" BEGIN
+	//PRINT "%BASH_FOR_FILESPEC%"
+	INCLUDE "%BASH_FOR_FILESPEC%"
+END
+

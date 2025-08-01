@@ -1,0 +1,48 @@
+/*
++------------------------------------------------------------------------------------------------------+
+| SORT_IDS_FILE                                                                                        |
++------------------------------------------------------------------------------------------------------+
+| Sort "%idsFile%" in ascending numerical order                                                        |
+| - Do not use without a real reason (it may take up to several seconds... probably not a big deal...) |
++------------------------------------------------------------------------------------------------------+
+*/
+
+DEFINE_DIMORPHIC_FUNCTION "SORT_IDS_FILE"
+STR_VAR
+	"idsFile" = ""
+BEGIN
+	ACTION_CLEAR_ARRAY "ids_sorted"
+	//
+	COPY_EXISTING "%idsFile%.ids" "override"
+		COUNT_2DA_COLS "cols"
+		READ_2DA_ENTRIES_NOW "sort_ids_file" "%cols%"
+		// Header
+		READ_2DA_ENTRY_FORMER "sort_ids_file" 0 0 "value"
+		PATCH_IF ("%value%" STR_EQ "IDS") BEGIN
+			SET "#_entries" = "%sort_ids_file%" - 1
+		END ELSE BEGIN
+			SET "#_entries" = "%sort_ids_file%"
+		END
+		// Body
+		FOR ("row" = 0 ; "%row%" < "%sort_ids_file%" ; "row" += 1) BEGIN
+			READ_2DA_ENTRY_FORMER "sort_ids_file" "%row%" 0 "value"
+			PATCH_IF ("%value%" STRING_COMPARE_CASE "IDS") BEGIN
+				READ_2DA_ENTRY_FORMER "sort_ids_file" "%row%" 1 "identifier"
+				DEFINE_ASSOCIATIVE_ARRAY "ids_sorted" BEGIN
+					"%value%" , "%row%" => "%identifier%" // preserve duplicate entries
+				END
+			END
+		END
+		// Main
+		DELETE_BYTES 0x0 BUFFER_LENGTH
+		INSERT_2DA_ROW 0 0 "IDS V1.0"
+		INSERT_2DA_ROW 1 0 "%#_entries%"
+		SORT_ARRAY_INDICES "ids_sorted" NUMERICALLY
+		SET "row" = 2
+		PHP_EACH "ids_sorted" AS "value" => "identifier" BEGIN
+			INSERT_2DA_ROW "%row%" 0 "%value% %identifier%"
+			SET "row" += 1
+		END
+	BUT_ONLY_IF_IT_CHANGES
+END
+
