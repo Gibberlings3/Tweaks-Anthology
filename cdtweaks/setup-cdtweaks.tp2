@@ -2252,6 +2252,36 @@ LABEL ~cd_tweaks_cleric_spell_progression_pnp~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 /////                                                            \\\\\
+///// druid level, cleric spells                                 \\\\\
+/////                                                            \\\\\
+
+BEGIN @228800 DESIGNATED 2288
+GROUP @9
+SUBCOMPONENT @229000 // alter druid progression
+REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
+REQUIRE_PREDICATE NOT FILE_EXISTS_IN_GAME ~bpduearc.spl~ @16      // non-BP
+REQUIRE_PREDICATE NOT (GAME_IS ~bg2 tob bgt~ AND FILE_EXISTS ~data/rot-rule.bif~) @16 // non-RoT
+REQUIRE_PREDICATE NOT FILE_EXISTS         ~data/tdd-rule.bif~ @16 // non-TDD
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2~ @25
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~dw_talents/dw_talents.tp2~ 40610 @24 // Druids Use Cleric XP and Spell Tables
+LABEL ~cd_tweaks_druid_spell_progression_cleric_druid_level~
+
+/////                                                            \\\\\
+///// druid level, un-nerfed cleric spells                        \\\\\
+/////                                                            \\\\\
+
+BEGIN @228900 DESIGNATED 2289
+GROUP @9
+SUBCOMPONENT @229000 // alter druid progression
+REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
+REQUIRE_PREDICATE NOT FILE_EXISTS_IN_GAME ~bpduearc.spl~ @16      // non-BP
+REQUIRE_PREDICATE NOT (GAME_IS ~bg2 tob bgt~ AND FILE_EXISTS ~data/rot-rule.bif~) @16 // non-RoT
+REQUIRE_PREDICATE NOT FILE_EXISTS         ~data/tdd-rule.bif~ @16 // non-TDD
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2~ @25
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~dw_talents/dw_talents.tp2~ 40610 @24 // Druids Use Cleric XP and Spell Tables
+LABEL ~cd_tweaks_druid_spell_progression_cleric_unnerfed_druid_level~
+
+/////                                                            \\\\\
 ///// druid level, un-nerfed druid spells                        \\\\\
 /////                                                            \\\\\
 
@@ -2337,6 +2367,126 @@ REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME 
 REQUIRE_PREDICATE NOT GAME_IS ~iwd2~ @25
 REQUIRE_PREDICATE !MOD_IS_INSTALLED ~dw_talents/dw_talents.tp2~ 40610 @24 // Druids Use Cleric XP and Spell Tables
 LABEL ~cd_tweaks_druid_spell_progression_cleric_unnerfed_cleric_level~
+
+/////                                                            \\\\\
+///// iwd druid level, normal druid spells                       \\\\\
+/////                                                            \\\\\
+
+BEGIN @273000 DESIGNATED 2730
+GROUP @9
+SUBCOMPONENT @229000 // alter druid progression
+REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2 iwd how totlm iwdee~ @25
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~dw_talents/dw_talents.tp2~ 40610 @24 // Druids Use Cleric XP and Spell Tables
+LABEL ~cd_tweaks_druid_spell_progression_unchanged_iwd_druid_level~
+
+/////                                                            \\\\\
+///// iwd druid level, un-nerfed druid spells                    \\\\\
+/////                                                            \\\\\
+
+BEGIN @273100 DESIGNATED 2731
+GROUP @9
+SUBCOMPONENT @229000 // alter druid progression
+REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2 iwd how totlm iwdee~ @25
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~dw_talents/dw_talents.tp2~ 40610 @24 // Druids Use Cleric XP and Spell Tables
+LABEL ~cd_tweaks_druid_spell_progression_unnerfed_iwd_druid_level~
+
+/////                                                            \\\\\
+///// iwd druid level, pnp cleric/druid spells                   \\\\\
+/////                                                            \\\\\
+
+BEGIN @273200 DESIGNATED 2732
+GROUP @9
+SUBCOMPONENT @229000 // alter druid progression
+REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2 iwd how totlm iwdee~ @25
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~dw_talents/dw_talents.tp2~ 40610 @24 // Druids Use Cleric XP and Spell Tables
+LABEL ~cd_tweaks_druid_spell_progression_pnp_iwd_druid_level~
+
+/////                                                            \\\\\
+///// iwd druid level, normal cleric spells                      \\\\\
+/////                                                            \\\\\
+
+BEGIN @273300 DESIGNATED 2733
+GROUP @9
+SUBCOMPONENT @229000 // alter druid progression
+REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2 iwd how totlm iwdee~ @25
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~dw_talents/dw_talents.tp2~ 40610 @24 // Druids Use Cleric XP and Spell Tables
+LABEL ~cd_tweaks_druid_spell_progression_cleric_normal_iwd_druid_level~
+
+/////                                                            \\\\\
+///// iwd druid level, un-nerfed cleric spells                   \\\\\
+/////                                                            \\\\\
+
+BEGIN @273400 DESIGNATED 2734
+GROUP @9
+SUBCOMPONENT @229000 // alter druid progression
+REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2 iwd how totlm iwdee~ @25
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~dw_talents/dw_talents.tp2~ 40610 @24 // Druids Use Cleric XP and Spell Tables
+LABEL ~cd_tweaks_druid_spell_progression_cleric_unnerfed_iwd_druid_level~
+
+/////                                                            \\\\\
+///// bg2 druid level, normal druid spells                       \\\\\
+/////                                                            \\\\\
+
+BEGIN @273500 DESIGNATED 2735
+GROUP @9
+SUBCOMPONENT @229000 // alter druid progression
+REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2 bg1 totsc bgee bg2ee bg2 tob eet bgt tutu tutu_totsc~ @25
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~dw_talents/dw_talents.tp2~ 40610 @24 // Druids Use Cleric XP and Spell Tables
+LABEL ~cd_tweaks_druid_spell_progression_unchanged_bg2_druid_level~
+
+/////                                                            \\\\\
+///// bg2 druid level, un-nerfed druid spells                    \\\\\
+/////                                                            \\\\\
+
+BEGIN @273600 DESIGNATED 2736
+GROUP @9
+SUBCOMPONENT @229000 // alter druid progression
+REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2 bg1 totsc bgee bg2ee bg2 tob eet bgt tutu tutu_totsc~ @25
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~dw_talents/dw_talents.tp2~ 40610 @24 // Druids Use Cleric XP and Spell Tables
+LABEL ~cd_tweaks_druid_spell_progression_unnerfed_bg2_druid_level~
+
+/////                                                            \\\\\
+///// bg2 druid level, pnp cleric/druid spells                   \\\\\
+/////                                                            \\\\\
+
+BEGIN @273700 DESIGNATED 2737
+GROUP @9
+SUBCOMPONENT @229000 // alter druid progression
+REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2 bg1 totsc bgee bg2ee bg2 tob eet bgt tutu tutu_totsc~ @25
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~dw_talents/dw_talents.tp2~ 40610 @24 // Druids Use Cleric XP and Spell Tables
+LABEL ~cd_tweaks_druid_spell_progression_pnp_bg2_druid_level~
+
+/////                                                            \\\\\
+///// bg2 druid level, normal cleric spells                      \\\\\
+/////                                                            \\\\\
+
+BEGIN @273800 DESIGNATED 2738
+GROUP @9
+SUBCOMPONENT @229000 // alter druid progression
+REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2 bg1 totsc bgee bg2ee bg2 tob eet bgt tutu tutu_totsc~ @25
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~dw_talents/dw_talents.tp2~ 40610 @24 // Druids Use Cleric XP and Spell Tables
+LABEL ~cd_tweaks_druid_spell_progression_cleric_normal_bg2_druid_level~
+
+/////                                                            \\\\\
+///// bg2 druid level, un-nerfed cleric spells                   \\\\\
+/////                                                            \\\\\
+
+BEGIN @273900 DESIGNATED 2739
+GROUP @9
+SUBCOMPONENT @229000 // alter druid progression
+REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2 bg1 totsc bgee bg2ee bg2 tob eet bgt tutu tutu_totsc~ @25
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~dw_talents/dw_talents.tp2~ 40610 @24 // Druids Use Cleric XP and Spell Tables
+LABEL ~cd_tweaks_druid_spell_progression_cleric_unnerfed_bg2_druid_level~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\

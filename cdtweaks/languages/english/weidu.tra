@@ -413,6 +413,8 @@ The uninstall messages above are normal and expected.
 
 @228000 = ~Alter Cleric Spell Progression Table~
 
+@228800 = ~No level progression changes, normal cleric spell table~
+@228900 = ~No level progression changes, un-nerfed cleric spell table [Blucher]~
 @229000 = ~Alter Druid Spell and Level Progression Tables~
 @229001 = ~No level progression changes, un-nerfed druid spell table only [Blucher]~
 @229100 = ~No level progression changes, PnP druid/cleric spell table only~
@@ -530,6 +532,17 @@ The uninstall messages above are normal and expected.
 @271000 = "NWN-Style Summons [Luke]"
 
 @272000 = ~Yoshimo to Imoen Experience Transfer [dark0dave]~
+
+@273000 = ~Use IWD druid level progression changes with normal druid spell table~
+@273100 = ~Use IWD druid level progression changes with un-nerfed druid spell table [Blucher]~
+@273200 = ~Use IWD druid level progression changes with pnp druid/cleric spell table~
+@273300 = ~Use IWD druid level progression changes with normal cleric spell table~
+@273400 = ~Use IWD druid level progression changes with un-nerfed cleric spell table [Blucher]~
+@273500 = ~Use BG/BG2 druid level progression changes with normal druid spell table~
+@273600 = ~Use BG/BG2 druid level progression changes with un-nerfed druid spell table [Blucher]~
+@273700 = ~Use BG/BG2 druid level progression changes with pnp druid/cleric spell table~
+@273800 = ~Use BG/BG2 druid level progression changes with normal cleric spell table~
+@273900 = ~Use BG/BG2 druid level progression changes with un-nerfed cleric spell table [Blucher]~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\

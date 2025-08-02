@@ -1,0 +1,21 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
+///// Alter druid Spell/level Progression Table                  \\\\\
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+/////                                                            \\\\\
+///// druid level, un-nerfed cleric spells                       \\\\\
+/////                                                            \\\\\
+
+ACTION_IF game_is_iwd2 THEN BEGIN
+
+  COPY ~cdtweaks/2da/un_mxsplprs.2da~ ~override/mxspldrd.2da~
+
+END ELSE BEGIN
+
+  COPY ~cdtweaks/2da/un_mxsplprs.2da~ ~override/mxspldru.2da~
+
+END

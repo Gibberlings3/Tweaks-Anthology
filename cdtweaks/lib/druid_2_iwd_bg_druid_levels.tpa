@@ -1,0 +1,54 @@
+ACTION_IF FILE_EXISTS_IN_GAME ~xpcap.2da~ THEN BEGIN // check this for current XP cap to set final (e.g. level 41/51) XP requirement
+
+  COPY_EXISTING ~xpcap.2da~ ~override~
+    REPLACE_EVALUATE ~^\(DRUID[ %TAB%]+\)\(-?[0-9]+\)~ BEGIN
+      PATCH_IF MATCH2 > druidcap BEGIN SET druidcap = MATCH2 + 1000000 END // if current table can't reach cap, use cap + 100k as final level bump
+      PATCH_IF MATCH2 < 0        BEGIN SET druidcap = "-1"             END // use -1 for xp cap removed
+    END ~%MATCH1%%MATCH2%~
+    BUT_ONLY
+    
+END
+
+COPY_EXISTING ~xplevel.2da~ ~override~
+  SET fd_adj = 0
+  PATCH_IF game_includes_iwd BEGIN // get current XP for last attainable druid level
+    REPLACE_EVALUATE ~^\(DRUID[ %TAB%]+.+\)\([0-9]+\)\([ %TAB%]+[0-9]+\)~ BEGIN // get XP for last attainable fighter level
+      SET fd_adj = MATCH2
+    END ~%MATCH1%%MATCH2%%MATCH3%~ // used for patching xpcap, below
+  END   
+  COUNT_2DA_COLS cols
+  INNER_PATCH_SAVE druidxp "%druidxp%" BEGIN 
+    FOR (index = 52 ; index > cols ; --index) BEGIN 
+      REPLACE_TEXTUALLY ~[0-9]+[ %TAB%]+CDEND~ ~ CDEND~
+    END
+    REPLACE_EVALUATE ~\([0-9]+\)[ %TAB%]+CDEND~ BEGIN // get XP for last attainable druid level, used for xpcap f/d patching
+      SET fd_adj = (MATCH1 - fd_adj) // only used for iwd/iwdee
+    END ~%MATCH1% %druidcap%~
+  END
+  REPLACE_TEXTUALLY ~^\(DRUID[ %TAB%]+\).+~ ~\1%druidxp%~ // actual replacement
+  PRETTY_PRINT_2DA
+  BUT_ONLY
+  
+ACTION_IF game_includes_iwd AND FILE_EXISTS_IN_GAME ~xpcap.2da~ THEN BEGIN
+
+  COPY_EXISTING ~xpcap.2da~ ~override~
+    REPLACE_EVALUATE ~^\(FIGHTER_DRUID[ %TAB%]+\)\([0-9]+\)~ BEGIN
+      SET MATCH2 += fd_adj
+    END ~%MATCH1%%MATCH2%~
+    BUT_ONLY
+    
+END
+
+ACTION_IF FILE_EXISTS_IN_GAME ~lunumab.2da~ THEN BEGIN
+
+  ACTION_IF MOD_IS_INSTALLED ~cdtweaks.tp2~ 2080 BEGIN // delay HLAs to level 21 
+    ACTION_IF hla_druid < 21 BEGIN OUTER_SET hla_druid = 21 END 
+    ACTION_IF hla_multi < 21 BEGIN OUTER_SET hla_multi = 21 END 
+  END   
+
+  COPY_EXISTING ~lunumab.2da~ ~override~
+    REPLACE_TEXTUALLY ~^\(DRUID[ %TAB%]+\)[0-9]+~ ~\1%hla_druid%~
+    REPLACE_TEXTUALLY ~^\(MULTI2DRUID[ %TAB%]+\)[0-9]+~ ~\1%hla_multi%~
+    BUT_ONLY
+
+END
