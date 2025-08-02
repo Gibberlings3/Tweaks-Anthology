@@ -484,15 +484,15 @@ Les messages de desinstallation ci-dessus sont normaux et attendus.
 
 @263000 = "Ameliore les sorts « Soins des blessures » / « Blessures » [Luke]"
 
-@264000 = "PnP Potions [Luke]"
+@264000 = "Potions PnP [Luke]"
 
-@265000 = "Make Grease ignitable [Luke (EEex)]"
+@265000 = "Rendre le sort de Glisse inflammable [Luke (EEex)]"
 
 @266000 = "Donner aux ours et aux sangliers un baroud d'honneur lorsqu'ils atteignent 0 point de vie [Luke (EEex)]"
 
 @267000 = "Mecanique limitant la possibilite de repos [Luke (EEex)]"
 
-@268000 = ~Make Infravision Useful [Luke (EEex)]~ // Removed ~« Impose » l'utilisation des arcs a l'Archer [Luke]~
+@268000 = ~Rendre Infravision utile (Malus de 4 au THAC0 dans l'obscurite) [Luke (EEex)]~ // Removed ~« Impose » l'utilisation des arcs a l'Archer [Luke]~
 
 @269000 = "Concentration avancee [Luke (EEex)]"
 @269001 = "v1 (Echec du sort si (1d20-1) + Chance  ≤ Niveau du sort + Degats reçus)"
@@ -502,7 +502,7 @@ Les messages de desinstallation ci-dessus sont normaux et attendus.
 
 @270000 = "Revison de la regeneration des Trolls [Luke (EEex)]"
 
-@271000 = "NWN-Style. Summons (Les invocations d'une creature disparaissent apres sa mort) [Luke (EEex)]"
+@271000 = "NWN-Style. Summons (Les invocations disparaissent apres la mort de leur createur) [Luke (EEex)]"
 
 @272000 = ~Imoen recupere l'experience de Yoshimo a Spellhold [dark0dave]~
 
@@ -578,7 +578,7 @@ Les messages de desinstallation ci-dessus sont normaux et attendus.
 @313000 = ~Pas de pieges ni de verrous (Weimer)~
 @313001 = ~Retirez les pieges completement (Pas de pieges pas d'XP non plus)~
 @313010 = ~Retirez uniquement les effets nefastes des pieges~
-@313020 = ~Retirez les effets nefastes des pieges et les creatures invoquees par des alarmes~
+@313020 = ~Retirez les effets nefastes des pieges et les creatures invoquees par des alarmes (Peut avoir des effets secondaires pour les mods generant des creatures en relation avec leurs quetes.)~
 
 @314000 = ~Cinematiques et reves des chapitres 1 et 2 acceleres~
 @314001 = ~Version originale d'Ease of Use (Karzak, Blucher)~
@@ -743,21 +743,21 @@ Utiliser les parametres de Baldur.lua :      a7_interval_ini
 @341000 = ~Annoncer les sorts en cours d'incantation dans la barre de dialogue~
 @341001 = ~Uniquement pour les sorts des Mage et des pretres~
 @341100 = ~Uniquement pour les sorts des Mage, des pretres et les capacites speciales~
-@341200 = ~Tous les sorts (Verifier les repercussion dans le readme)~
+@341200 = ~Tous les sorts (Verifier les repercussion dans le readme "Explicit Cast Warnings")~
 
-@342000 = "Mages cagoules plus rationnels [Luke (EEex)]"
+@342000 = "Mages cagoules plus rationnels (Les sorts provenant de certains objets ne provoqueront plus leur apparition) [Luke (EEex)]"
 
-@343000 = "Informations supplementaires sur le nombre de Peaux de pierre dans la barre de dialogue [Luke (EEex)]"
+@343000 = "Informations supplementaires sur le nombre de peaux de pierre dans la barre de dialogue [Luke (EEex)]"
 
 @344000 = "Informations supplementaires sur la dissipation des effets dans la barre de dialogue [Luke (EEex)]"
 
 @345000 = "Bouclier de feu plus raisonnable [Luke (EEex)]"
 
-@346000 = "Barriere de lames et les sorts similaire sont affectes par Arret du temps [Luke (EEex)]"
+@346000 = "Barriere de lames et les sorts similaire seront affectes par Arret du temps [Luke (EEex)]"
 
-@347000 = ~Ajustement dynamique des FPS (images par seconde) [Luke (EEex)]~
+@347000 = ~Ajustement dynamique des FPS (Images par seconde) [Luke (EEex)]~
 
-@348000 = "Morentherene plus rationnelle [Luke (EEex)]"
+@348000 = "Morentherene plus rationnelle (Les sorts passifs provenant de certains objets ne provoqueront son reveil) [Luke (EEex)]"
 
 @349000 = ~Commencer les Ombres d'Amn du bon pied [dark0dave]~
 @349001 = ~Commencer avec 300 000 points d’experience et choisir les objets accessibles~
@@ -905,7 +905,7 @@ Utiliser les parametres de Baldur.lua :      a7_interval_ini
 
 @621000 = "Duplicite : Capacite de classe passive pour les Moines [Luke (EEex)]"
 
-@622000 = "Parade : Capacite de kit pour les Maître-lames et les bretteurs [Luke (EEex)]"
+@622000 = "Parade : Capacite de kit pour les Maître-lames et les Bretteurs [Luke (EEex)]"
 
 @623000 = "Lancement des sorts en armure legere : Capacite de classe pour les Bardes [Luke (EEex)]"
 
@@ -923,9 +923,9 @@ Utiliser les parametres de Baldur.lua :      a7_interval_ini
 
 @630000 = "Chatier le malveillant / bienveillant : Capacite de classe / kit pour les Paladins / Chevalier noir [Luke]"
 
-@631000 = "Arpenter les sentiers (Niveau 2 : immunite à Glisse, Toile et Enchevetrement) : Capacite de classe passive pour les Druides [Luke (EEex)]"
+@631000 = "Arpenter les sentiers (Niveau 2 : Immunite à Glisse, Toile et Enchevetrement) : Capacite de classe passive pour les Druides [Luke (EEex)]"
 
-@632000 = "Fleau pour les ennemis (bonus de 2 au toucher et 2d6 points de degats supplementaires contre la race ennemie): Capacite de classe passive pour les Rodeurs [Luke (EEex)]"
+@632000 = "Fleau pour les ennemis (Bonus de 2 au toucher et 2d6 points de degats supplementaires contre la race ennemie): Capacite de classe passive pour les Rodeurs [Luke (EEex)]"
 
 @633000 = "Cantrips : Capacite de classe pour les jeteurs de sorts [Luke (EEex)]"
 

@@ -153,8 +153,8 @@ Statistiques de base :
 – Capacités de Combat : 3 attaques par round, 1d1 points de dégâts perforants (bonus de 1 aux dégâts au niveau 10, 15 et 20)
 
 Capacités Spéciales :
-– La créature ciblée doit réussir un jet de sauvegarde contre les souffles ou être aveuglé pendant 1d10 rounds (25 % chance à chaque attaque réussie)
 – Champ de vision accru
+– La créature ciblée doit réussir un jet de sauvegarde contre les souffles ou être aveuglé pendant 1d10 rounds (25 % chance à chaque attaque réussie)
 "
 
 @3 = "Un compagnon animal est déjà à vos côtés"
@@ -163,8 +163,8 @@ Capacités Spéciales :
 @100 = "Convoquer un ours des cavernes"
 @101 = "Convoquer un scarabée bombardier"
 @102 = "Convoquer un sanglier noir"
-@103 = "Convoquer un Faucon"
-@104 = "Convoquer un Léopard"
+@103 = "Convoquer un faucon"
+@104 = "Convoquer un léopard"
 @105 = "Convoquer un serpent constricteur géant"
 @106 = "Convoquer un araignée-sabre"
 @107 = "Convoquer un loup des glaces"
