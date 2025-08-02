@@ -1,7 +1,9 @@
 IF
   HotKey(S)
   CombatCounter(0)
-  !Class(Myself,Monk)
+  OR(2)
+    !Class(Myself,Monk)
+    Global("ikmorph_monk_allowed","GLOBAL",1)
 THEN
   RESPONSE #100
     ReallyForceSpellRES("IKMorph",Myself)
@@ -19,6 +21,7 @@ IF
   HotKey(S)
   CombatCounter(0)
   Class(Myself,Monk)
+  !Global("ikmorph_monk_allowed","GLOBAL",1)
 THEN
   RESPONSE #100
     DisplayString(Myself,@1)

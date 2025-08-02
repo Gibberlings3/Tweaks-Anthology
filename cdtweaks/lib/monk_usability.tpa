@@ -16,6 +16,16 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
 
 ACTION_IF ((!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~10~) OR
            (monk_staves  = 1)) THEN BEGIN // skip only if 'no helmet animations' installed AND we're only enabling helmets
+           
+  ACTION_IF FILE_EXISTS ~scripts/0ikmorph.bs~ BEGIN // avatar morphing script
+    
+    COPY ~scripts/0ikmorph.bs~ ~scripts/0ikmorph.bs~
+      DECOMPILE_AND_PATCH BEGIN 
+        APPEND_FILE ~cdtweaks/baf/0ikmorph_monk.baf~
+      END
+      BUT_ONLY
+
+  END       
 
   // helmets don't work on monk animation, so replace with cleric animation
   ACTION_CLEAR_ARRAY cd_new_anims
