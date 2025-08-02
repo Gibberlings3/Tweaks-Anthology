@@ -59,14 +59,14 @@
 @106001 = ~Votre armure s'est brisée~
 @106002 = ~Votre bouclier s'est brisé~
 @106003 = ~Votre casque s'est brisé~
-@106005 = ~Qualité~
+@106005 = ~Indemne :~ // ~ItemName indemne~
 
 @106201 = ~Votre armure a été endommagée~
 @106202 = ~^\([ %TAB%]*Classe d'armure[ %TAB%]*:?[ %TAB%]*\)[0-9]+~
 @106203 = ~^\([ %TAB%]*PARAMÈTRES[ %TAB%]*:?[ %TAB%]*\)~
-@106204 = ~Le fer de mauvaise qualité a provoqué une dégradation de cette armure.~
+@106204 = ~La mauvaise qualité du fer a provoqué une dégradation de cette armure.~
 @106205 = ~\(-?[0-9]+\)\([ %TAB%]*vs\.[ %TAB%]*\(tranchant\|contondant\|perforant et projectile\)\)~
-@106206 = ~Endommagée :~
+@106206 = ~Endommagée :~ // ~ArmorName endommagée~
 
 @107001 = ~Va nous attendre à l'auberge du Bras Amical. Si les choses changent, nous irons te chercher là-bas.~
 @107002 = ~Rejoins le groupe s'il te plaît.~
