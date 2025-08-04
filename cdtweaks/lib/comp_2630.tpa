@@ -497,7 +497,7 @@ END
 										// clear save type if healing subspell
 										LPF "ALTER_EFFECT" INT_VAR "silent" = 1 "check_globals" = 0 "check_headers" = "%key_4%" == 1 ? 1 : 0 "header" = "%ab_ind%" "savingthrow" = 0 END
 										// GENERAL!=UNDEAD are unaffected
-										LPF "CLONE_EFFECT" INT_VAR "multi_match" = 1 "check_globals" = 0 "header" = "%ab_ind%" "match_opcode" = "%key_4%" == 0 ? 12 : 17 "opcode" = 318 "parameter1" = 0 "parameter2" = 2 "probability1" = 100 "probability2" = 0 "special" = 0 STR_VAR "resource" = "%DEST_RES%" "insert" = "first" END
+										LPF "CLONE_EFFECT" INT_VAR "multi_match" = 1 "check_globals" = 0 "header" = "%ab_ind%" "match_opcode" = "%key_4%" == 0 ? 12 : 17 "opcode" = 318 power = 0 "parameter1" = 0 "parameter2" = 2 "probability1" = 100 "probability2" = 0 "special" = 0 savingthrow = 0 dicenumber = 0 dicesize = 0 STR_VAR "resource" = "%DEST_RES%" "insert" = "first" END
 										// Clean up
 										LPF "DELETE_EFFECT" INT_VAR "check_globals" = 0 "header" = "%ab_ind%" "match_opcode" = 999 END
 									END
