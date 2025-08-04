@@ -394,6 +394,9 @@ END
 														"#cure[a-z][a-z][a-z]" BEGIN
 															WRITE_SHORT "%fx_off%" 999
 														END
+														"%DEST_RES%" BEGIN
+															WRITE_SHORT "%fx_off%" 999
+														END
 														DEFAULT
 													END
 												END
@@ -482,15 +485,6 @@ END
 													END
 												END
 												//
-												146 BEGIN
-													READ_ASCII ("%fx_off%" + 0x14) "ITMSPL_effect_resource"
-													PATCH_MATCH "%ITMSPL_effect_resource%" WITH
-														"%DEST_RES%" BEGIN
-															WRITE_SHORT "%fx_off%" 999
-														END
-														DEFAULT
-													END
-												END
 												DEFAULT
 											END
 										END
