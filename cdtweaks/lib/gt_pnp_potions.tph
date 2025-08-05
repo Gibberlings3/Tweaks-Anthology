@@ -46,10 +46,10 @@ BEGIN
 
 	WITH_SCOPE BEGIN
 		ACTION_MATCH 1 WITH
-			(GAME_IS "iwdee") BEGIN
+			(game_is_iwdee) BEGIN
 				OUTER_TEXT_SPRINT "pro_res" "IDPRO335"
 			END
-			(GAME_IS "bgee bg2ee eet") BEGIN
+			(game_is_bgee OR game_is_bg2ee OR game_is_eet) BEGIN
 				OUTER_TEXT_SPRINT "pro_res" "FIREBALL"
 			END
 			DEFAULT
@@ -86,7 +86,7 @@ BEGIN
 				//
 				LPF "ALTER_SPELL_HEADER" INT_VAR "new_header_type" = 1 "target" = 5 "min_level" = 1 "range" = 0x7FFF "projectile" = IDS_OF_SYMBOL ("missile" "GT_Fireball_5_ft_Radius") STR_VAR "icon" = "spwi304b" END
 				//
-				PATCH_IF (GAME_IS "iwdee") BEGIN
+				PATCH_IF (game_is_iwdee) BEGIN
 					LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 318 "target" = 2 "parameter2" = 63 STR_VAR "resource" = "%DEST_RES%" END // Protection from resource => Evasion check
 				END
 				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 12 "target" = 2 "parameter2" = IDS_OF_SYMBOL ("dmgtype" "FIRE") "timing" = 1 "dicenumber" = 1 "dicesize" = 10 "savingthrow" = BIT24 END // 1d10 fire damage (bypass mirror image)
@@ -373,7 +373,7 @@ BEGIN
 					61 141 BEGIN END // do not keep track of these visual effects
 					174 215 WHEN ("%fx_duration%" < 5) BEGIN END // do not keep track of these (short-duration) cosmetic effects
 					139 BEGIN
-						LPF "GT_GET_STRING" INT_VAR "strref" = "%fx_parameter1%" RET "string" END
+            GET_STRREF "%fx_parameter1%" string 
 						PATCH_MATCH "%string%" WITH
 							"\*gulp\*" "gulp!" BEGIN END // do not keep track of these feedback strings
 							DEFAULT

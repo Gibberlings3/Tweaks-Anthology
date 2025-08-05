@@ -29,13 +29,13 @@ WITH_SCOPE BEGIN
 			WRITE_LONG 0x18 (BIT14 BOR BIT25 BOR BIT9 BOR BIT10) // Ignore dead/wild magic, Castable when silenced, Break sanctuary/invisibility
 			WRITE_SHORT 0x1C 4 // Type: Innate
 			WRITE_LONG 0x34 1 // Level
-			PATCH_IF GAME_IS "iwdee" BEGIN
+			PATCH_IF game_is_iwdee BEGIN
 				WRITE_ASCII 0x3A ~%INNATE_WAR_CRY%B~ #8 // Icon
 			END ELSE BEGIN
 				WRITE_ASCII 0x3A ~%MINSC_BERSERK%B~ #8 // Icon
 			END
 			/* Extended Header */
-			PATCH_IF GAME_IS "iwdee" BEGIN
+			PATCH_IF game_is_iwdee BEGIN
 				LPF ~ADD_SPELL_HEADER~ INT_VAR "range" = 30 "target" = 5 STR_VAR "icon" = ~%INNATE_WAR_CRY%B~ END
 			END ELSE BEGIN
 				LPF ~ADD_SPELL_HEADER~ INT_VAR "range" = 30 "target" = 5 STR_VAR "icon" = ~%MINSC_BERSERK%B~ END
