@@ -42,3 +42,20 @@ function GTSW2HD1(CGameEffect, CGameSprite)
 		end
 	end
 end
+
+EEex_Action_AddSpriteStartedActionListener(function(sprite, action)
+	if EEex_Sprite_GetLocalInt(sprite, "ohdornsw") ~= 0 then
+		if action.m_actionID == 21 then
+			EEex_Sprite_SetLocalInt(sprite, "ohdornsw", 0)
+			--
+			EEex_GameObject_ApplyEffect(sprite,
+			{
+				["effectID"] = 146, -- Cast spell
+				["dwFlags"] = 1, -- Cast instantly (caster level)
+				["res"] = "OHDSW0",
+				["sourceID"] = sprite.m_id,
+				["sourceTarget"] = sprite.m_id,
+			})
+		end
+	end
+end)
