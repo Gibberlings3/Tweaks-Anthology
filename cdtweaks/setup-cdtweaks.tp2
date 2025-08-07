@@ -4669,7 +4669,7 @@ LABEL ~cd_tweaks_chapter_saves_in_pstee~
 
 BEGIN @338000 DESIGNATED 3380
 GROUP @4
-REQUIRE_PREDICATE NOT GAME_IS ~iwd bg1 totsc pst~ @25 // lack scripting triggers or other nonsense
+REQUIRE_PREDICATE NOT GAME_IS ~iwd iwd2 bg1 totsc pst~ @25 // lack scripting triggers or other nonsense; exclude iwd2 since nothing qualifies
 LABEL ~cd_tweaks_sensible_regeneration_when_traveling~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
