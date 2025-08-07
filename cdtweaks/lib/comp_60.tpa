@@ -30,7 +30,7 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~ // animation adjustments
     SET overhead = 0
     PATCH_IF (((flags & BIT1) = 0) AND                                   // one-handed...
               (("%anim%" STRING_COMPARE_CASE "cl" = 0) OR                // club
-               ("%anim%" STRING_COMPARE_REGEXP "[Mm][CcSs2]" = 0)) BEGIN // or mace or morningstar
+               ("%anim%" STRING_COMPARE_REGEXP "[Mm][CcSs2]" = 0))) BEGIN // or mace or morningstar
       SET overhead  = 50
       SET backhand  = 50
       SET thrusting =  0
@@ -47,7 +47,7 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~ // animation adjustments
     END ELSE
     PATCH_IF (((flags & BIT1) = BIT1) AND                                // two-handed...
               (("%anim%" STRING_COMPARE_CASE "gs" = 0) OR                // glowing staff
-               ("%anim%" STRING_COMPARE_REGEXP "[Qq][Ss234]" = 0)) BEGIN // or other staff
+               ("%anim%" STRING_COMPARE_REGEXP "[Qq][Ss234]" = 0))) BEGIN // or other staff
       SET overhead  = 20
       SET backhand  = 10
       SET thrusting = 70
