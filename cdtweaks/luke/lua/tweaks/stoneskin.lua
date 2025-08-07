@@ -82,7 +82,7 @@ function GTSTNSKN(CGameEffect, CGameSprite)
 			--
 			GT_Sprite_DisplayMessage(CGameSprite,
 				string.format("%s : %d %s",
-					Infinity_FetchString(%feedback_strref_stoneskin_hit%), GT_Utility_FindGreatestInt(skins), Infinity_FetchString(%feedback_strref_skins_left%)),
+					Infinity_FetchString(%feedback_strref_stoneskin%), GT_Utility_FindGreatestInt(skins), Infinity_FetchString(%feedback_strref_skins_left%)),
 				0x808080 -- Grey
 			)
 		end
