@@ -13,37 +13,8 @@ BEGIN
 			//
 			DECOMPILE_AND_PATCH BEGIN
 				// first relevant block
-				SET "found" = INDEX_BUFFER (CASE_SENSITIVE EXACT_MATCH ~CreateCreatureObjectDoor("COWENF2",LastTrigger,0,0,0)~)
-				//
-				PATCH_IF ("%found%" >= 0) BEGIN
-					SET "start" = RINDEX_BUFFER (CASE_SENSITIVE EXACT_MATCH ~SpellCast([PC],0)~ "%found%")
-					SET "end" = INDEX_BUFFER (CASE_INSENSITIVE EVALUATE_REGEXP ~$~ "%start%")
-					//
-					DELETE_BYTES "%start%" ("%end%" - "%start%")
-					//
-					INSERT_BYTES "%start%" STRING_LENGTH ~Global("gtCowledWizardsTriggered","GLOBAL",1)~
-					WRITE_ASCII "%start%" ~Global("gtCowledWizardsTriggered","GLOBAL",1)~
-					//
-					SET "found" = INDEX_BUFFER (CASE_SENSITIVE EXACT_MATCH ~CreateCreatureObjectDoor("COWENF2",LastTrigger,0,0,0)~)
-					INSERT_BYTES "%found%" STRING_LENGTH ~SetGlobal("gtCowledWizardsTriggered","GLOBAL",0)~
-					WRITE_ASCII "%found%" ~SetGlobal("gtCowledWizardsTriggered","GLOBAL",0)~
-				END
-				// second relevant block
-				SET "found" = INDEX_BUFFER (CASE_SENSITIVE EVALUATE_REGEXP ~[ %TAB%]*GlobalTimerNotExpired("SpellsBad","GLOBAL")~)
-				//
-				PATCH_IF ("%found%" >= 0) BEGIN
-					SET "start" = RINDEX_BUFFER (CASE_SENSITIVE EXACT_MATCH ~SpellCast([PC],0)~)
-					SET "end" = INDEX_BUFFER (CASE_INSENSITIVE EVALUATE_REGEXP ~$~ "%start%")
-					//
-					DELETE_BYTES "%start%" ("%end%" - "%start%")
-					//
-					INSERT_BYTES "%start%" STRING_LENGTH ~Global("gtCowledWizardsTriggered","GLOBAL",1)~
-					WRITE_ASCII "%start%" ~Global("gtCowledWizardsTriggered","GLOBAL",1)~
-					//
-					SET "found" = INDEX_BUFFER (CASE_SENSITIVE EXACT_MATCH ~Wait(1)~ "%start%")
-					INSERT_BYTES "%found%" STRING_LENGTH ~SetGlobal("gtCowledWizardsTriggered","GLOBAL",0)~
-					WRITE_ASCII "%found%" ~SetGlobal("gtCowledWizardsTriggered","GLOBAL",0)~
-				END
+        REPLACE_TEXTUALLY ~SpellCast(\[PC\],0)~ ~Global("gtCowledWizardsTriggered","GLOBAL",1)~
+        REPLACE_TEXTUALLY ~\(CreateCreatureObjectDoor("COWENF2",LastTrigger,0,0,0)\)~ ~SetGlobal("gtCowledWizardsTriggered","GLOBAL",0) \1~
 			END
 		BUT_ONLY_IF_IT_CHANGES
 	END
