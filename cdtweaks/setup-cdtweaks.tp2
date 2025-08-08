@@ -4076,7 +4076,7 @@ LABEL ~cd_tweaks_sensible_entrance_points~
 BEGIN @323000 DESIGNATED 3230
 GROUP @4
 REQUIRE_PREDICATE GAME_IS ~bgee bg1 totsc tutu tutu_totsc eet bgt~ @25
-REQUIRE_PREDICATE !MOD_IS_INSTALLED ~tnt/tnt.tp2~ ~58~ @16
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~tnt/tnt.tp2~ ~60~ @16
 LABEL ~cd_tweaks_taerom_makes_multiple_ankheg_armor~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
