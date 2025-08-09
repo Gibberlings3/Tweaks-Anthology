@@ -10,5 +10,6 @@
 ///// planar sphere (mage)                             \\\\\
 /////                                                  \\\\\
 
-COMPILE ~cdtweaks/dlg/stronghold1.d~       // removes stronghold var
-        ~cdtweaks/dlg/stronghold_sphere.d~ // removes class check
+COMPILE ~cdtweaks/dlg/stronghold1.d~              // removes stronghold var
+        ~cdtweaks/dlg/stronghold_sphere.d~        // removes class check
+        ~cdtweaks/dlg/stronghold_sphere_choice.d~ // allows choice for mage stronghold

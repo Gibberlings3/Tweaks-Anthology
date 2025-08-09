@@ -14,6 +14,7 @@ COMPILE EVALUATE_BUFFER ~cdtweaks/dlg/stronghold1.d~                 // removes 
                         ~cdtweaks/dlg/stronghold_cabin_choice.d~     // allows choice for ranger stronghold
                         ~cdtweaks/dlg/stronghold_grove_choice.d~     // allows choice for druid stronghold
                         ~cdtweaks/dlg/stronghold_playhouse_choice.d~ // allows choice for bard stronghold
+                        ~cdtweaks/dlg/stronghold_sphere_choice.d~    // allows choice for mage stronghold
                         ~cdtweaks/dlg/stronghold_cabin.d~            // removes class check: ranger
                         ~cdtweaks/dlg/stronghold_dearnise.d~         // removes class check: fighter, blackguard
                         ~cdtweaks/dlg/stronghold_grove.d~            // removes class check: druid
