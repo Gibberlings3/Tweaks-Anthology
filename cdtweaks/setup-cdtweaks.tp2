@@ -3281,6 +3281,21 @@ LABEL ~cd_tweaks_nwn_summons~
 
 // 2720 is the Yoshimo > Imoen XP transfer component, placed earlier in this group
 
+// 2730-9 are for the druid XP/spell progression variants
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
+///// Allow Shapeshifter Armor, Prevent Shapeshifting While Worn \\\\\
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @274000 DESIGNATED 2740
+GROUP @9
+REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet iwdee~ @25
+LABEL ~cd_tweaks_shapeshifter_armor~
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\

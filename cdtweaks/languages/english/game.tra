@@ -977,6 +977,8 @@ This ability allows a rogue to create low and mid level spell scrolls. The scrol
 // get @244003 from string 32117 (bg2ee/iwdee) or 24220 (bgee)
 @244003 = ~(for warriors only)~
 
+@274001 = ~Cannot use armor while shapeshifted~
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\

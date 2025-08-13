@@ -1,0 +1,61 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
+///// Allow Shapeshifter Armor, Prevent Shapeshifting While Worn \\\\\
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+ACTION_CLEAR_ARRAY cd_shapeshifter_paws
+COPY_EXISTING ~brbrp.itm~    ~override~ // werewolf (bg)
+              ~brbrp2.itm~   ~override~ // greater werewolf (bg)
+              ~cdbrbrp.itm~  ~override~ // werewolf (bg2)
+              ~cdbrbrp2.itm~ ~override~ // greater werewolf (bg2)
+              ~werewlf1.itm~ ~override~ // werewolf (iwd)
+              ~werewlf2.itm~ ~override~ // greater werewolf (iwd)
+              ~wwwere.itm~   ~override~ // werewolf (shapeshifter rebalancing)
+              ~wwweregr.itm~ ~override~ // greater werewolf (shapeshifter rebalancing)
+  LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 181 target = 1 parameter1 = 2 timing = 2 special = RESOLVE_STR_REF(@274001) END // block all items of type 2 (armor)
+  SET droppable = 0 
+  READ_LONG 0x18 flags
+  PATCH_IF ((flags & BIT2) = BIT2) BEGIN SET droppable = 1 END // droppable
+  DEFINE_ASSOCIATIVE_ARRAY cd_shapeshifter_paws BEGIN "%SOURCE_RES%" => "%droppable%" END // log all found paws 
+  BUT_ONLY IF_EXISTS
+
+ACTION_CLEAR_ARRAY cd_shapeshifter_flag
+COPY_EXISTING ~kitlist.2da~ ~override~
+  COUNT_2DA_ROWS 10 rows
+  FOR (index = 1 ; index < rows ; ++index) BEGIN // skip reserve row
+    READ_2DA_ENTRY index 7 10 unusable
+    PATCH_IF ((unusable & BIT28) = BIT28) BEGIN // if using shapeshifter unusable flag
+      READ_2DA_ENTRY index 1 10 name
+      PATCH_IF (("%name%" STRING_COMPARE_CASE "SHAPESHIFTER") AND 
+                ("%name%" STRING_COMPARE_CASE "GRIZZLY_BEAR")) BEGIN // omit shapeshifter and wilson's kit
+        READ_2DA_ENTRY index 9 10 ids   // kit.ids value
+        READ_2DA_ENTRY index 3 10 mixed // grab 'mixed' string for unusable text
+        DEFINE_ASSOCIATIVE_ARRAY cd_shapeshifter_flag BEGIN "%ids%" => "%mixed%" END // log all kits using shapeshifter flag
+      END  
+    END  
+  END
+  BUT_ONLY
+
+PRINT @1
+COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
+  READ_SHORT 0x1c type
+  PATCH_IF type = 2 BEGIN 
+    READ_BYTE 0x29 unusable
+    PATCH_IF ((unusable & BIT4) = BIT4) BEGIN // if shapeshifter unusable flag set
+      WRITE_BYTE 0x29 (THIS BAND `BIT4) // removes shapeshifter flag
+      LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 206 target = 1 timing = 2 STR_VAR resource = spcl643 END // block werewolf ability
+      LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 206 target = 1 timing = 2 STR_VAR resource = spcl644 END // block greater werewolf ability
+      PATCH_PHP_EACH cd_shapeshifter_paws AS item => droppable BEGIN // block equippable paws
+        PATCH_IF droppable BEGIN 
+          LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 180 target = 1 parameter1 = RESOLVE_STR_REF(@274001) timing = 2 STR_VAR resource = EVAL "%item%" END
+        END   
+      END  
+      PATCH_PHP_EACH cd_shapeshifter_flag AS kit => name BEGIN // other kits using the shapeshifter flag get 319s instead
+        LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 319 target = 1 parameter1 = kit parameter2 = 9 timing = 2 special = name END
+      END
+    END
+  END
+  BUT_ONLY
