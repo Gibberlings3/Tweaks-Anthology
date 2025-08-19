@@ -94,7 +94,6 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 			--
 			for _, attributes in ipairs(effectCodes) do
 				sprite:applyEffect({
-          ["m_scriptName"] = "gtAnimalBypassOp208", 
 					["effectID"] = attributes["op"] or EEex_Error("opcode number not specified"),
 					["effectAmount"] = attributes["p1"] or 0,
 					["dwFlags"] = attributes["p2"] or 0,
