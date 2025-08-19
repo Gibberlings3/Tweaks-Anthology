@@ -2,7 +2,7 @@
 
 // first, turn baeloth's existing departure to a simple 'stay here'; move already handled above
 ALTER_TRANS baelothp BEGIN 3 END BEGIN 0 END BEGIN ~REPLY~ ~@20850~ END 
-REPLACE_ACTION_TEXT ~baelothp~ ~EscapeAreaMove("%FriendlyArmInn%",4721,3045,S)~ ~~
+REPLACE_ACTION_TEXT ~baelothp~ ~EscapeAreaMove("%FriendlyArmInn%",[0-9]+,[0-9]+,[0-9NSEW]+)~ ~~
 
 // more or less copied from depart.d, but using custom replies since he's not quite going to the same places
 EXTEND_BOTTOM baelothp 0

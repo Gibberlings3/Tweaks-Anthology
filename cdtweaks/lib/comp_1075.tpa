@@ -7,10 +7,10 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 ACTION_IF game_is_totsc BEGIN
-   INCLUDE ~cdtweaks/lib/BG1areacheck_emulation.tpa~ // clever bit of code from Zed that allows us to check areas; should also work on IWD
-   INCLUDE ~cdtweaks/lib/inns.tpa~
+  INCLUDE ~cdtweaks/lib/BG1areacheck_emulation.tpa~ // clever bit of code from Zed that allows us to check areas; should also work on IWD
+  INCLUDE ~cdtweaks/lib/inns.tpa~
 END ELSE BEGIN
-    WITH_TRA "%tra_location%/english/dw_components.tra" "%tra_location%/%LANGUAGE%/dw_components.tra" BEGIN
+  WITH_TRA "%tra_location%/english/dw_components.tra" "%tra_location%/%LANGUAGE%/dw_components.tra" BEGIN
     INCLUDE ~cdtweaks/lib/inns_nonbg.tpa~
   END
 END
