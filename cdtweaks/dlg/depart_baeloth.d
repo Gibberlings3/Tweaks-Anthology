@@ -6,7 +6,8 @@ REPLACE_ACTION_TEXT ~baelothp~ ~EscapeAreaMove("%FriendlyArmInn%",4721,3045,S)~ 
 
 // more or less copied from depart.d, but using custom replies since he's not quite going to the same places
 EXTEND_BOTTOM baelothp 0
-IF ~Global("EnteredArmInn","GLOBAL",1)
+IF ~Global("BD0120_START","GLOBAL",0)
+    Global("EnteredArmInn","GLOBAL",1)
     Global("cd_no_travel_fai_all","GLOBAL",0)
     Global("cd_no_travel_fai_baeloth","GLOBAL",0)
     !Global("IslandTravel","GLOBAL",1) // not on Werewolf Isle
@@ -28,7 +29,8 @@ IF ~Global("EnteredArmInn","GLOBAL",1)
     !AreaCheck("%FriendlyArmInn%")~                  // not in the area where the NPC will be sent
 THEN REPLY #%baelothreply% GOTO dmww_fai
 
-IF ~Global("EnteredBeregost","GLOBAL",1)
+IF ~Global("BD0120_START","GLOBAL",0)
+    Global("EnteredBeregost","GLOBAL",1)
     Global("cd_no_travel_jugg_all","GLOBAL",0)
     Global("cd_no_travel_jugg_baeloth","GLOBAL",0)
     !Global("IslandTravel","GLOBAL",1)
@@ -50,7 +52,8 @@ IF ~Global("EnteredBeregost","GLOBAL",1)
     !AreaCheck("%Beregost%")~                        // not in the area where the NPC will be sent
 THEN REPLY @20848  GOTO dmww_beregost
 
-IF ~GlobalGT("Chapter","GLOBAL",1)
+IF ~Global("BD0120_START","GLOBAL",0)
+    GlobalGT("Chapter","GLOBAL",1)
     Global("cd_no_travel_nashi_all","GLOBAL",0)
     Global("cd_no_travel_nashi_baeloth","GLOBAL",0)
     !Global("IslandTravel","GLOBAL",1)
@@ -72,7 +75,8 @@ IF ~GlobalGT("Chapter","GLOBAL",1)
     !AreaCheck("%Nashkel%")~                         // not in the area where the NPC will be sent
 THEN REPLY @20847  GOTO dmww_nash
 
-IF ~OR(2)
+IF ~Global("BD0120_START","GLOBAL",0)
+    OR(2)
       !Global("Chapter","GLOBAL",7)     // you're not wanted in the Gate for murder
       GlobalGT("DukeThanks","GLOBAL",0) // or you've been cleared by the Duke
     Global("cd_no_travel_esong_all","GLOBAL",0)
