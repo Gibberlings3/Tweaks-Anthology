@@ -5290,7 +5290,10 @@ LABEL ~cd_tweaks_move_boo_into_inventory~
 
 BEGIN @504000 DESIGNATED 4160
 GROUP @0
-REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25 // BG content games
+REQUIRE_PREDICATE ((GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~) OR  // BG content games
+                   (FILE_EXISTS_IN_GAME ~lk#yesl.cre~) OR                 // pixel drain/kaeloree/lava yeslick bg2 npc mod
+                   (FILE_EXISTS_IN_GAME ~lk#yes25.cre~) OR                // pixel drain/kaeloree/lava yeslick bg2 npc mod
+                   (FILE_EXISTS_IN_GAME ~lk#7xcre2.cre~)) @25             // bg1 npcs in soa yeslick
 LABEL ~cd_tweaks_yeslick_can_use_axes~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\

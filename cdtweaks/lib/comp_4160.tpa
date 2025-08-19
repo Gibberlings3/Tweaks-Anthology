@@ -52,15 +52,47 @@ END ELSE BEGIN
           OUTER_SET "profmax" = 5 // multiclass grandmastery
         END
         
-        //
-        LAF "ADD_KIT_EX"
-        INT_VAR
-          "kit_class" = IDS_OF_SYMBOL ("class" "FIGHTER_CLERIC")
-          "mixed" = RESOLVE_STR_REF (@1)
-          "visible" = 0 // not available to PCs
-        STR_VAR
-          "kit_name" = "CDTWEAKS_YESLICK_AXES"
-        END
+        OUTER_SET ykit = 0
+        // put lk# versions first since they come with a custom kit as an install option; on eet this means it'll backport to bgee yeslick
+        COPY_EXISTING ~lk#yesl.cre~  ~override~ // pixel drain/kaeloree/lava yeslick bg2 npc mod
+                      ~lk#yes25.cre~ ~override~ // pixel drain/kaeloree/lava yeslick bg2 npc mod
+                      ~7xcre2.cre~   ~override~ // bg1 npcs in soa yeslick
+                      ~yeslid.cre~   ~override~ // bgee yeslick
+                      ~yeslic.cre~   ~override~ // bgee yeslick
+                      ~yeslic5.cre~  ~override~ // bgee yeslick
+          PATCH_IF IS_AN_INT ykit BEGIN // if we haven't already found a kit
+            READ_SHORT 0x246 yeslick_kit
+            PATCH_IF ((yeslick_kit != 0) AND (yeslick_kit != 0x4000)) BEGIN 
+              LOOKUP_IDS_SYMBOL_OF_INT ykit ~kit~ "%yeslick_kit%"
+            END
+          END           
+          BUT_ONLY IF_EXISTS
+        
+        ACTION_IF IS_AN_INT ykit BEGIN // unkitted yeslick - clone base f/c into new yeslick-only kit
+                
+          //
+          LAF "ADD_KIT_EX"
+          INT_VAR
+            "kit_class" = IDS_OF_SYMBOL ("class" "FIGHTER_CLERIC")
+            "mixed" = RESOLVE_STR_REF (@1)
+            "visible" = 0 // not available to PCs
+          STR_VAR
+            "kit_name" = "CDTWEAKS_YESLICK_AXES"
+          END
+          
+        END ELSE BEGIN // kitted yeslick - clone existing yeslick kit into new axe-wielding yeslick kit
+        
+          LAF "ADD_KIT_EX"
+          INT_VAR
+            //"kit_class" = IDS_OF_SYMBOL ("class" "FIGHTER_CLERIC")
+            //"mixed" = RESOLVE_STR_REF (@1)
+            "visible" = 0 // not available to PCs
+          STR_VAR
+            "source_kit" = EVAL ~%ykit%~
+            "kit_name" = "CDTWEAKS_YESLICK_AXES"
+          END
+          
+        END   
         
         //
         COPY_EXISTING - "kitlist.2da" "override"
@@ -88,13 +120,18 @@ END ELSE BEGIN
           BUT_ONLY
           
       END // WITH_SCOPE
+      
       // update CREs
-      COPY_EXISTING "yeslic.cre" "override"
-                    "yeslic5.cre" "override"
-                    "yeslid.cre" "override"
+      COPY_EXISTING ~lk#yesl.cre~  ~override~ // pixel drain/kaeloree/lava yeslick bg2 npc mod
+                    ~lk#yes25.cre~ ~override~ // pixel drain/kaeloree/lava yeslick bg2 npc moc
+                    ~7xcre2.cre~   ~override~ // bg1 npcs in soa yeslick
+                    ~yeslic.cre~   ~override~ // bgee yeslick
+                    ~yeslic5.cre~  ~override~ // bgee yeslick
+                    ~yeslid.cre~   ~override~ // bgee yeslick
         WRITE_SHORT 0x244 (IDS_OF_SYMBOL ("kit" "CDTWEAKS_YESLICK_AXES") >> 16) & 0xFFFF
         WRITE_SHORT 0x246 (IDS_OF_SYMBOL ("kit" "CDTWEAKS_YESLICK_AXES") & 0xFFFF)
         BUT_ONLY IF_EXISTS
+        
     END // WITH_SCOPE
   END // WITH_TRA
 END // eeex
