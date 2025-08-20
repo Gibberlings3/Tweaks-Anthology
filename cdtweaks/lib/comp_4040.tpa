@@ -17,10 +17,7 @@ ACTION_PHP_EACH JOINABLE_NPC_ARRAY AS file => dv BEGIN
   ACTION_IF ("%dv%" STRING_COMPARE_CASE "jaheira" = 0) BEGIN
 
     COPY_EXISTING ~%file%~ ~override~
-      READ_LONG 0x08 "strref" ELSE 0
-      PATCH_IF (("%strref%" = 9456) OR ("%strref%" = 9475)) THEN BEGIN // exclude harper cre files
-        WRITE_BYTE 0x23c 14 // 14 DEX
-      END
+      WRITE_BYTE 0x23c 14 // 14 DEX
       BUT_ONLY
 
   END
