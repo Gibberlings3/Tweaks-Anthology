@@ -7,7 +7,12 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 COPY_EXISTING ~%tutu_var%montar.cre~ ~override~
-  READ_ASCII 0x0a4 soundset (396) // read soundset from existing cre file
+  READ_ASCII 0x08 name (8)       // name fields
+  READ_ASCII 0x34 port (16)      // portraits
+  READ_ASCII 0xa4 soundset (396) // read soundset from existing cre file
+  READ_ASCII 0x248 scripts (40)  // five script slots
+  READ_ASCII 0x280 dv (32)       // Death Variable
+  READ_ASCII 0x2cc dlg (8)       // Dialogue file
   // detect if walking speed altered
   READ_BYTE  0x033 fx_type
   READ_LONG  0x2c4 fx_off
@@ -25,42 +30,19 @@ COPY ~cdtweaks/cre/_montar.cre~  ~override/%tutu_var%montar.cre~
      ~cdtweaks/cre/_montar2.cre~ ~override/%tutu_var%montar2.cre~
      ~cdtweaks/cre/_montar4.cre~ ~override/%tutu_var%montar4.cre~
      ~cdtweaks/cre/_montar6.cre~ ~override/%tutu_var%montar6.cre~
-  SAY NAME1 #2425
-  SAY NAME2 #2425
-  WRITE_EVALUATED_ASCII 0xa4 "%soundset%" #396
-  WRITE_ASCIIE 0x34  ~%tutu_scriptm%ontars~ #8   // small portrait
-  WRITE_ASCIIE 0x248 ~%tutu_scriptm%ontaron~  // Override Script
-  WRITE_ASCIIE 0x250 ~%tutu_var%shout~        // Class Script
-  WRITE_ASCII  0x258 ~~ #8                    // Race Script
-  WRITE_ASCIIE 0x260 ~%tutu_scriptw%tasight~  // General Script
-  WRITE_ASCIIE 0x268 ~%tutu_var%dplayer~ #8   // default Script
-  WRITE_ASCII  0x280 ~montaron~ #18           // Death Variable
-  WRITE_ASCIIE 0x2cc ~%tutu_var%montar~ #8    // Dialogue file
-  PATCH_IF tutu_gen BEGIN
-    WRITE_ASCII 0x3c ~_ontarl~   // large portrait
-  END ELSE BEGIN
-    WRITE_ASCII 0x3c  ~montarm~ #8   // large portrait
-    // use BGT item references instead of Tutu
-    READ_LONG  0x2bc "itm_off" ELSE 0
-    READ_LONG  0x2c0 "itm_num" ELSE 0
-    FOR (index = 0 ; index < itm_num ; index = index + 1) BEGIN // searches through items
-      READ_ASCII ("%itm_off%" + (0x14 * "%index%")) "item"
-      PATCH_IF ("%item%" STRING_COMPARE_CASE "_leat04" = 0) BEGIN // find invalid resref
-        WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) "leat04" #8 // corrected resref
-      END ELSE
-      PATCH_IF ("%item%" STRING_COMPARE_CASE "_sw1h07" = 0) BEGIN // find invalid resref
-        WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) "sw1h07" #8 // corrected resref
-      END ELSE
-      PATCH_IF ("%item%" STRING_COMPARE_CASE "_potn08" = 0) BEGIN // find invalid resref
-        WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) "potn08" #8 // corrected resref
-      END ELSE
-      PATCH_IF ("%item%" STRING_COMPARE_CASE "_dagg05" = 0) BEGIN // find invalid resref
-        WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) "dagg05" #8 // corrected resref
-      END ELSE
-      PATCH_IF ("%item%" STRING_COMPARE_CASE "_potn14" = 0) BEGIN // find invalid resref
-        WRITE_ASCII ("%itm_off%" + (0x14 * "%index%")) "potn14" #8 // corrected resref
-      END
-    END
+  WRITE_ASCIIE 0x08 "%name%" #8
+  WRITE_ASCIIE 0x34 "%port%" #16
+  WRITE_ASCIIE 0xa4 "%soundset%" #396
+  WRITE_ASCIIE 0x248 "%scripts%" #40 // scripts
+  WRITE_ASCIIE 0x280 "%dv%" #32           // Death Variable
+  WRITE_ASCIIE 0x2cc "%dlg%" #8    // Dialogue file
+  READ_BYTE 0x234 level
+  ADD_CRE_ITEM ~%tutu_var%leat04~  #0 #0 #0 ~IDENTIFIED~ ~armor~
+  ADD_CRE_ITEM ~%tutu_var%sw1h07~  #0 #0 #0 ~IDENTIFIED~ ~weapon1~ EQUIP
+  ADD_CRE_ITEM ~%tutu_var%potn08~  #1 #0 #0 ~IDENTIFIED~ ~qitem~
+  ADD_CRE_ITEM ~%tutu_var%potn14~  #1 #0 #0 ~IDENTIFIED~ ~qitem~
+  PATCH_IF level > 2 BEGIN 
+    ADD_CRE_ITEM ~%tutu_var%dagg05~ #25 #0 #0 ~IDENTIFIED~ ~inv~
   END
   PATCH_IF fx_type = 4 BEGIN
     LPF ADD_CRE_EFFECT INT_VAR opcode = 176 target = 1 parameter1 = 0xfffffffd timing = 9 END
@@ -73,22 +55,11 @@ ACTION_IF ((MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2161~) OR (MOD_IS_IN
                 ~%tutu_var%montar2.cre~ ~override~
                 ~%tutu_var%montar4.cre~ ~override~
                 ~%tutu_var%montar6.cre~ ~override~
-    PATCH_IF (SOURCE_SIZE > 0x2d3) BEGIN
-      LPF DELETE_EFFECT INT_VAR match_opcode = 233 END
-      LPF ADD_CRE_EFFECT INT_VAR opcode = 233 parameter1 = 1 parameter2 = 102 timing = 9 END // 1* dagger > 1* small sword
-      LPF ADD_CRE_EFFECT INT_VAR opcode = 233 parameter1 = 1 parameter2 = 103 timing = 9 END // 1* short sword > 1* large sword
-    END
-    BUT_ONLY
-
-  COPY_EXISTING ~%tutu_var%montar4.cre~ ~override~
-                ~%tutu_var%montar6.cre~ ~override~
-    PATCH_IF (SOURCE_SIZE > 0x2d3) BEGIN
-      PATCH_IF (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2162~) BEGIN // no weapon styles
-        LPF ADD_CRE_EFFECT INT_VAR opcode = 233 parameter1 = 1 parameter2 = 105 timing = 9 END // 1* single weapon > 1* blunt
-      END ELSE BEGIN
-        LPF ADD_CRE_EFFECT INT_VAR opcode = 233 parameter1 = 1 parameter2 = 113 timing = 9 END // 1* single weapon
-      END
-    END
+    LPF ALTER_EFFECT INT_VAR match_opcode = 233 match_parameter2 = 91 parameter2 = 103 END // 1* short sword > 1* large sword
+    LPF ALTER_EFFECT INT_VAR match_opcode = 233 match_parameter2 = 96 parameter2 = 102 END // 1* dagger > 1* small sword
+    PATCH_IF (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2162~) BEGIN // no weapon styles
+      LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 233 match_parameter2 = 113 parameter2 = 105 END // 1* single weapon > 1* blunt
+    END   
     BUT_ONLY
 
 END
@@ -100,22 +71,11 @@ ACTION_IF ((MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2163~) OR (MOD_IS_IN
                 ~%tutu_var%montar2.cre~ ~override~
                 ~%tutu_var%montar4.cre~ ~override~
                 ~%tutu_var%montar6.cre~ ~override~
-    PATCH_IF (SOURCE_SIZE > 0x2d3) BEGIN
-      LPF DELETE_EFFECT INT_VAR match_opcode = 233 END
-      LPF ADD_CRE_EFFECT INT_VAR opcode = 233 parameter1 = 1 parameter2 = 115 timing = 9 END // 1* dagger
-      LPF ADD_CRE_EFFECT INT_VAR opcode = 233 parameter1 = 1 parameter2 = 105 timing = 9 END // 1* short sword
-    END
-    BUT_ONLY
-
-  COPY_EXISTING ~%tutu_var%montar4.cre~ ~override~
-                ~%tutu_var%montar6.cre~ ~override~
-    PATCH_IF (SOURCE_SIZE > 0x2d3) BEGIN
-      PATCH_IF (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2164~) BEGIN // no weapon styles
-        LPF ADD_CRE_EFFECT INT_VAR opcode = 233 parameter1 = 1 parameter2 = 102 timing = 9 END // 1* single weapon > 1* large sword
-      END ELSE BEGIN
-        LPF ADD_CRE_EFFECT INT_VAR opcode = 233 parameter1 = 1 parameter2 = 113 timing = 9 END // 1* single weapon
-      END
-    END
+    LPF ALTER_EFFECT INT_VAR match_opcode = 233 match_parameter2 = 91 parameter2 = 150 END // 1* short sword
+    LPF ALTER_EFFECT INT_VAR match_opcode = 233 match_parameter2 = 96 parameter2 = 115 END // 1* dagger
+    PATCH_IF (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2164~) BEGIN // no weapon styles
+      LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 233 match_parameter2 = 113 parameter2 = 102 END // 1* single weapon > 1* large sword
+    END   
     BUT_ONLY
 
 END
