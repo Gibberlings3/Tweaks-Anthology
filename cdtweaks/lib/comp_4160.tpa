@@ -30,7 +30,11 @@ END ELSE BEGIN
   WITH_SCOPE BEGIN
 
     INCLUDE "cdtweaks\argent\add_kit_ex.tph"
-    INCLUDE "cdtweaks\luke\lib\install.tph"
+    INCLUDE "cdtweaks\luke\lib\install.tph"	
+    
+    ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
+  	  COPY "cdtweaks\luke\lib\resource\tables.lua" "override\m_gttbls.lua"
+	  END
     //
     WITH_TRA "cdtweaks\languages\english\gt_yeslick_axes.tra" "cdtweaks\languages\%LANGUAGE%\gt_yeslick_axes.tra" BEGIN
       // lua magic
