@@ -5223,7 +5223,8 @@ LABEL ~cd_tweaks_coran_legal_dex~
 
 BEGIN @413000 DESIGNATED 4130
 GROUP @0
-REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25 // Tutu or BGT only
+REQUIRE_PREDICATE ((GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~) OR // Tutu or BGT only
+                   (FILE_EXISTS_IN_GAME ~o#xan09.cre~)) @25              // kulyok's bg2 xan
 LABEL ~cd_tweaks_make_xan_generic_mage~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -5236,7 +5237,8 @@ LABEL ~cd_tweaks_make_xan_generic_mage~
 
 BEGIN @413100 DESIGNATED 4131
 GROUP @0
-REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25 // Tutu or BGT only
+REQUIRE_PREDICATE ((GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~) OR // Tutu or BGT only
+                   (FILE_EXISTS_IN_GAME ~l#dyn.cre~)) @25                // lava's bg2 dynaheir
 LABEL ~cd_tweaks_make_dynaheir_generic_mage~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -5249,7 +5251,9 @@ LABEL ~cd_tweaks_make_dynaheir_generic_mage~
 
 BEGIN @413200 DESIGNATED 4132
 GROUP @0
-REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25 // Tutu or BGT only
+REQUIRE_PREDICATE ((GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~) OR // Tutu or BGT only
+                   (FILE_EXISTS_IN_GAME ~l#xza.cre~) OR                  // lava's bg2 xzar
+                   (FILE_EXISTS_IN_GAME ~7xcre75.cre~)) @25              // smiling imp's bg2 xzar
 LABEL ~cd_tweaks_make_xzar_generic_mage~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\

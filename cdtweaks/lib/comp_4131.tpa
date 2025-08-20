@@ -8,6 +8,17 @@
 
 ACTION_INCLUDE "%MOD_FOLDER%/lib/make_generalist.tpa"
 
-COPY_EXISTING_REGEXP "^_?dynahe[0-9]*.cre$" "override"
-  LAUNCH_PATCH_MACRO mh_make_generalist
-  BUT_ONLY
+INCLUDE ~cdtweaks/lib/joinable_npc_array.tpa~
+
+ACTION_PHP_EACH JOINABLE_NPC_ARRAY AS file => dv BEGIN
+
+  ACTION_IF (("%dv%" STRING_COMPARE_CASE "dynaheir"  = 0) OR  // regular ole dynaheir
+             ("%dv%" STRING_COMPARE_CASE "l#dyn"  = 0)) BEGIN // lava's bg2 dynaheir mod
+
+    COPY_EXISTING ~%file%~ ~override~
+      LAUNCH_PATCH_MACRO mh_make_generalist
+      BUT_ONLY IF_EXISTS
+      
+  END
+
+END

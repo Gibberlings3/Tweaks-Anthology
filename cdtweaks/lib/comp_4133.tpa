@@ -8,6 +8,16 @@
 
 ACTION_INCLUDE "%MOD_FOLDER%/lib/make_generalist.tpa"
 
-COPY_EXISTING_REGEXP "^_?edwin[0-9_]*.cre$" "override"
-  LAUNCH_PATCH_MACRO mh_make_generalist
-  BUT_ONLY
+INCLUDE ~cdtweaks/lib/joinable_npc_array.tpa~
+
+ACTION_PHP_EACH JOINABLE_NPC_ARRAY AS file => dv BEGIN
+
+  ACTION_IF ("%dv%" STRING_COMPARE_CASE "edwin"  = 0) BEGIN
+
+    COPY_EXISTING ~%file%~ ~override~
+      LAUNCH_PATCH_MACRO mh_make_generalist
+      BUT_ONLY IF_EXISTS
+      
+  END
+
+END  
