@@ -48,35 +48,50 @@ COPY ~cdtweaks/cre/_montar.cre~  ~override/%tutu_var%montar.cre~
     LPF ADD_CRE_EFFECT INT_VAR opcode = 176 target = 1 parameter1 = 0xfffffffd timing = 9 END
   END
 
-// if bg-style proficiencies are installed, adjust proficiencies to match new system
-ACTION_IF ((MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2161~) OR (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2162~)) THEN BEGIN
+// if bg-style or iwd-style proficiencies are installed, adjust proficiencies to match new system
+ACTION_IF (((MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2161~) OR (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2162~)) OR // bg-style profs
+           ((MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2163~) OR (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2164~))) THEN BEGIN // iwd-style profs
+
+  ACTION_IF ((MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2161~) OR (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2162~)) THEN BEGIN // bg-style profs
+
+    ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_montaron_profs BEGIN
+      91 => 103 // 1* short sword > 1* large sword
+      96 => 102 // 1* dagger > 1* small sword
+    END
+    
+    ACTION_IF MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2162~ THEN BEGIN // no wep style
+
+      ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_montaron_profs BEGIN
+        113 => 105 // 1* single weapon > 1* blunt
+      END
+      
+    END   
+
+  END ELSE BEGIN // iwd-style profs
+
+    ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_montaron_profs BEGIN
+      91 => 105 // short sword
+      96 => 115 // dagger
+    END
+    
+    ACTION_IF MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2164~ THEN BEGIN // no wep style
+
+      ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_montaron_profs BEGIN
+        113 => 102 // 1* single weapon > 1* large sword
+      END
+      
+    END   
+
+  END
 
   COPY_EXISTING ~%tutu_var%montar.cre~  ~override~
                 ~%tutu_var%montar2.cre~ ~override~
                 ~%tutu_var%montar4.cre~ ~override~
                 ~%tutu_var%montar6.cre~ ~override~
-    LPF ALTER_EFFECT INT_VAR match_opcode = 233 match_parameter2 = 91 parameter2 = 103 END // 1* short sword > 1* large sword
-    LPF ALTER_EFFECT INT_VAR match_opcode = 233 match_parameter2 = 96 parameter2 = 102 END // 1* dagger > 1* small sword
-    PATCH_IF (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2162~) BEGIN // no weapon styles
-      LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 233 match_parameter2 = 113 parameter2 = 105 END // 1* single weapon > 1* blunt
-    END   
-    BUT_ONLY
-
-END
-
-// if iwd-style proficiencies are installed, adjust proficiencies to match new system
-ACTION_IF ((MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2163~) OR (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2164~)) THEN BEGIN
-
-  COPY_EXISTING ~%tutu_var%montar.cre~  ~override~
-                ~%tutu_var%montar2.cre~ ~override~
-                ~%tutu_var%montar4.cre~ ~override~
-                ~%tutu_var%montar6.cre~ ~override~
-    LPF ALTER_EFFECT INT_VAR match_opcode = 233 match_parameter2 = 91 parameter2 = 150 END // 1* short sword
-    LPF ALTER_EFFECT INT_VAR match_opcode = 233 match_parameter2 = 96 parameter2 = 115 END // 1* dagger
-    PATCH_IF (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2164~) BEGIN // no weapon styles
-      LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 233 match_parameter2 = 113 parameter2 = 102 END // 1* single weapon > 1* large sword
-    END   
-    BUT_ONLY
+    PATCH_PHP_EACH cd_montaron_profs AS old => new BEGIN
+      LPF ALTER_EFFECT INT_VAR match_opcode = 233 match_parameter2 = old parameter2 = new silent = 1 END
+    END
+    BUT_ONLY IF_EXISTS
 
 END
 
