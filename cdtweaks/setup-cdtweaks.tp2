@@ -5464,6 +5464,54 @@ LABEL ~cd_tweaks_dorns_sword~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                            \\\\\
+///// Adjust Nalia's Thief level                                 \\\\\
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+/////                                                            \\\\\
+///// To Thief level 5                                           \\\\\
+/////                                                            \\\\\
+
+BEGIN @421001 DESIGNATED 4210 // To Thief level 5
+SUBCOMPONENT @421000 // Adjust Nalia's Thief level
+GROUP @0
+REQUIRE_PREDICATE GAME_IS ~soa tob bgt bg2ee eet~ @25
+LABEL ~cd_tweaks_nalia_thief_level_5~
+
+/////                                                            \\\\\
+///// To Thief level 6                                           \\\\\
+/////                                                            \\\\\
+
+BEGIN @421002 DESIGNATED 4211 // To Thief level 6
+SUBCOMPONENT @421000 // Adjust Nalia's Thief level
+GROUP @0
+REQUIRE_PREDICATE GAME_IS ~soa tob bgt bg2ee eet~ @25
+LABEL ~cd_tweaks_nalia_thief_level_6~
+
+/////                                                            \\\\\
+///// To Thief level 7                                           \\\\\
+/////                                                            \\\\\
+
+BEGIN @421003 DESIGNATED 4212 // To Thief level 7
+SUBCOMPONENT @421000 // Adjust Nalia's Thief level
+GROUP @0
+REQUIRE_PREDICATE GAME_IS ~soa tob bgt bg2ee eet~ @25
+LABEL ~cd_tweaks_nalia_thief_level_7~
+
+/////                                                            \\\\\
+///// To Thief level 8                                           \\\\\
+/////                                                            \\\\\
+
+BEGIN @421004 DESIGNATED 4213 // To Thief level 8
+SUBCOMPONENT @421000 // Adjust Nalia's Thief level
+GROUP @0
+REQUIRE_PREDICATE GAME_IS ~soa tob bgt bg2ee eet~ @25
+LABEL ~cd_tweaks_nalia_thief_level_8~
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
 ///// Disarm class feat for Rogues                               \\\\\
 /////                                                            \\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\

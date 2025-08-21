@@ -1,0 +1,150 @@
+/** Installs the full set of Nalia's cre resources for the specified thief level. */
+DEFINE_ACTION_FUNCTION a7#install_nalia_cre
+INT_VAR
+  level = 0 // thief level
+STR_VAR
+  folder_prefix = ~nalia_lvl~
+BEGIN
+  OUTER_SPRINT src_path ~cdtweaks/cre/%folder_prefix%%level%~
+  ACTION_IF (DIRECTORY_EXISTS ~%src_path%~) BEGIN
+    ACTION_FOR_EACH cre_resref IN ~nalia8~ ~nalia10~ ~nalia11~ ~nalia13~ ~nalia15~ ~nalia18~ BEGIN
+      COPY_EXISTING ~%cre_resref%.cre~ ~override~
+        LPF a7#fetch_cre_attributes RET_ARRAY cre_numbers cre_strings END
+      BUT_ONLY
+
+      COPY ~%src_path%/%cre_resref%.cre~ ~override~
+        LPF a7#apply_cre_attributes END
+    END
+  END ELSE BEGIN
+    WARN ~Unsupported creature level: %level%~
+  END
+END
+
+// Definitions for numeric cre fields
+ACTION_DEFINE_ASSOCIATIVE_ARRAY cre_number_fields BEGIN
+  // offset => field_size OR (field_count << 16 | field_size)
+  0x08 => 4   // Name
+  0x0c => 4   // Tooltip
+  0x10 => 4   // Flags
+  0x14 => 4   // XP value
+  0x18 => 4   // XP
+  0x1c => 4   // Gold
+  0x20 => 4   // Status
+  0x28 => 4   // Animation
+  0x2c => 0x070001  // creature colors (7)
+  0x44 => 1   // Reputation
+  0x59 => 0x0b0001  // resistances (11)
+  0x66 => 1   // Lore
+  0xa4 => 0x640004  // sound slots (100)
+  0x23f => 1  // Morale
+  0x240 => 1  // Morale break
+  0x242 => 2  // Morale recovery
+  0x244 => 4  // Kit
+  0x270 => 0x060001 // basic creature attributes (6)
+  0x27b => 1  // Alignment
+END
+
+// Definitions for cre text fields
+ACTION_DEFINE_ASSOCIATIVE_ARRAY cre_string_fields BEGIN
+  // offset => field_size OR (field_count << 16 | field_size)
+  0x034 => 8  // Small portrait
+  0x03c => 8  // Large portrait
+  0x248 => 0x050008 // script slots (5)
+  0x280 => 32 // Script name
+  0x2cc => 8  // Dialog
+END
+
+/** Initializes two arrays with selected attributes from the active CRE resource. */
+DEFINE_PATCH_FUNCTION a7#fetch_cre_attributes
+RET_ARRAY
+  cre_numbers   // array of "offset -> numeric value" pairs
+  cre_strings   // array of "offset -> string value" pairs
+BEGIN
+  PATCH_PHP_EACH cre_number_fields AS offset => size BEGIN
+    SET offset = offset // hex -> dec conversion
+    PATCH_IF (size <= 0xffff) BEGIN
+      // single value
+      SET count = 1
+    END ELSE BEGIN
+      // sequence of values
+      SET count = size >> 16
+      SET size &= 0xffff
+    END
+
+    FOR (i = 0; i < count; ++i) BEGIN
+      SET ofs = offset + i * size
+      PATCH_MATCH size WITH
+        1 BEGIN SET $cre_numbers(~%ofs%~) = BYTE_AT ofs END
+        2 BEGIN SET $cre_numbers(~%ofs%~) = SHORT_AT ofs END
+        4 BEGIN SET $cre_numbers(~%ofs%~) = LONG_AT ofs END
+        DEFAULT
+      END
+    END
+  END
+
+  PATCH_PHP_EACH cre_string_fields AS offset => size BEGIN
+    SET offset = offset // hex -> dec conversion
+    PATCH_IF (size <= 0xffff) BEGIN
+      // single value
+      SET count = 1
+    END ELSE BEGIN
+      // sequence of values
+      SET count = size >> 16
+      SET size &= 0xffff
+    END
+
+    FOR (i = 0; i < count; ++i) BEGIN
+      SET ofs = offset + i * size
+      READ_ASCII ofs value (size) NULL
+      SPRINT $cre_strings(~%ofs%~) ~%value%~
+    END
+  END
+END
+
+/** Applies selected attributes to the active CRE resource. */
+DEFINE_PATCH_FUNCTION a7#apply_cre_attributes
+STR_VAR
+  cre_numbers = ~cre_numbers~ // name of the array with "offset -> numeric value" pairs
+  cre_strings = ~cre_strings~ // name of the array with "offset -> string value" pairs
+BEGIN
+  PATCH_PHP_EACH cre_number_fields AS offset => size BEGIN
+    SET offset = offset // hex -> dec conversion
+    PATCH_IF (size <= 0xffff) BEGIN
+      // single value
+      SET count = 1
+    END ELSE BEGIN
+      // sequence of values
+      SET count = size >> 16
+      SET size &= 0xffff
+    END
+
+    FOR (i = 0; i < count; ++i) BEGIN
+      SET ofs = offset + i * size
+      SET value = $EVAL ~%cre_numbers%~(~%ofs%~)
+      PATCH_MATCH size WITH
+        1 BEGIN WRITE_BYTE ofs value END
+        2 BEGIN WRITE_SHORT ofs value END
+        4 BEGIN WRITE_LONG ofs value END
+        DEFAULT
+      END
+    END
+  END
+
+  PATCH_PHP_EACH cre_string_fields AS offset => size BEGIN
+    SET offset = offset // hex -> dec conversion
+    PATCH_IF (size <= 0xffff) BEGIN
+      // single value
+      SET count = 1
+    END ELSE BEGIN
+      // sequence of values
+      SET count = size >> 16
+      SET size &= 0xffff
+    END
+
+    FOR (i = 0; i < count; ++i) BEGIN
+      SET ofs = offset + i * size
+      SPRINT value $EVAL ~%cre_strings%~(~%ofs%~)
+      WRITE_ASCIIE ofs ~%value%~ (size)
+    END
+  END
+END
