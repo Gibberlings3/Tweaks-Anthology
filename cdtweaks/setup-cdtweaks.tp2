@@ -35,7 +35,7 @@ ALWAYS
 
 END
 
-VERSION ~v17~
+VERSION ~v18~
 
 README ~cdtweaks/languages/%LANGUAGE%/readme-cdtweaks.html~ ~cdtweaks/readme-cdtweaks.html~
 
