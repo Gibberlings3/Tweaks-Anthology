@@ -876,6 +876,10 @@ Use Baldur.lua options: a7_interval_ini
 @421003 = ~To Thief level 7~
 @421004 = ~To Thief level 8~
 
+@422000 = ~Delay Neera's Appearance in Beregost~
+@422001 = ~Delay until the Nashkel mines are cleared~
+@422100 = ~Delay until PC has 5000 XP~
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
