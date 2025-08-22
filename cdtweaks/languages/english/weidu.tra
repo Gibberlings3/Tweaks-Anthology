@@ -880,6 +880,8 @@ Use Baldur.lua options: a7_interval_ini
 @422001 = ~Delay until the Nashkel mines are cleared~
 @422100 = ~Delay until PC has 5000 XP~
 
+@423000 = ~Increase Yoshimo's Trapsetting Ability~
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
