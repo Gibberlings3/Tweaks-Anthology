@@ -870,7 +870,7 @@ Use Baldur.lua options: a7_interval_ini
 
 @420000 = "Make Rancor +1 a Bit More Reliable"
 
-@421000 = ~Adjust Nalia's Thief level~
+@421000 = ~Adjust Nalia's Thief Level~
 @421001 = ~To Thief level 5~
 @421002 = ~To Thief level 6~
 @421003 = ~To Thief level 7~
