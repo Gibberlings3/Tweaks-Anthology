@@ -8,12 +8,12 @@
 
 ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_yoshimo_traps BEGIN 
 
-  // locks, find traps, pickpocket, MS, HiS, DI, set traps => creature file
-        65,         95,         25, 40,  40,  0,        70 => yoshi7  // moving 5 find traps/20 MS/10 HiS > +35 set traps
-        65,         95,         25, 40,  40,  0,        70 => yoshi8  // ^^ same
-        65,         95,         25, 40,  40,  0,        70 => yoshi10 // ^^ same
-        70,         95,         25, 45,  45,  0,        75 => yoshi11 // level up was +5 HiS, +10 locks, +5 MS => 10 in locks changed to 5 locks, 5 set traps
-        75,         95,         25, 50,  50,  0,        80 => yoshi12 // level up was +5 HiS, +10 locks, +5 MS => 10 in locks changed to 5 locks, 5 set traps
+  // locks, find traps, pickpocket, MS, HiS, DI, set traps, unique  => creature file
+        65,         95,         25, 40,  40,  0,        70, yoshi7  => yoshi7  // moving 5 find traps/20 MS/10 HiS > +35 set traps
+        65,         95,         25, 40,  40,  0,        70, yoshi8  => yoshi8  // ^^ same
+        65,         95,         25, 40,  40,  0,        70, yoshi10 => yoshi10 // ^^ same
+        70,         95,         25, 45,  45,  0,        75, yoshi11 => yoshi11 // level up was +5 HiS, +10 locks, +5 MS => 10 in locks changed to 5 locks, 5 set traps
+        75,         95,         25, 50,  50,  0,        80, yoshi12 => yoshi12 // level up was +5 HiS, +10 locks, +5 MS => 10 in locks changed to 5 locks, 5 set traps
   
 END
 
