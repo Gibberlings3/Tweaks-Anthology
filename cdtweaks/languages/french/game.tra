@@ -393,6 +393,8 @@ Capacités spéciales :
 @116021 = ~Mon amie a été kidnappée. Bien que ça me fasse mal de refuser, je ne peux pas mettre de côté mes recherches pour aider le bosquet.~
 @116022 = ~Vous avez gagné la bénédiction du Bosquet, et je vous offre le Bâton de Foudre et Tonnerre.~
 @116023 = ~Très bien. Je vais continuer de faire office de Maître des Défis et de Grand Druide jusqu'à ce que les rituels de l'Ascension soient accomplis.~
+@116024 = ~Merci, Lavok. Vous pouvez compter sur moi pour veiller sur la sphère.~
+@116025 = ~Je dois malheureusement refuser. Mes autres engagements sont prioritaires.~
 
 @122001 = ~Ah, un Étui d'Abondance. Je peux l'enchanter pour produire des carreaux encore plus puissants, mais il me faudra 5 000 pièces d'or pour ce travail.~
 @122002 = ~Bon, voyons ce que vous avez d'autres.~
@@ -947,6 +949,8 @@ Cette capacité permet au mage de créer des parchemins de faible et moyen nivea
 @244002 = ~Table des niveaux de compétence~ // line before <DOTS1>, exclude the * if present
 //get @244003 from string 32117-32120 (bg2ee/iwdee) or 24220-24223 (bgee)
 @244003 = ~(\. S'il a une classe de combattant|s'il appartient à une classe de combattant)~
+
+@274001 = ~Une créature métamorphosée ne peut équiper d'armure~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\

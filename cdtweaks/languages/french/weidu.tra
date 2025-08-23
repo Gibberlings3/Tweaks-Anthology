@@ -387,14 +387,16 @@ Les messages de desinstallation ci-dessus sont normaux et attendus.
 
 @228000 = ~Alterer la table de progression des sorts du clerc~
 
-@229000 = ~Alterer les tables de progression des sorts et de niveaux du druide~
-@229001 = ~Pas de modification de la progression, table debridee des sorts des druides uniquement (Blucher)~
-@229100 = ~Pas de modification de la progression, table P&P des sorts des clercs et druides uniquement~
-@229200 = ~Utiliser la table de progression des clercs et la table normale des sorts des druides~
-@229300 = ~Utiliser la table de progression des clercs et la table debridee des sorts des druides (Blucher)~
-@229400 = ~Utiliser la table de progression des clercs et la table P&P des sorts des clercs et druides~
-@229500 = ~Utiliser la table de progression des clercs et la table normale des sorts des clercs~
-@229600 = ~Utiliser la table de progression des clercs et la table debridee des sorts des clercs (Blucher)~
+@228800 = ~Pas de modification de la progression, table normale des sorts de clerc~
+@228900 = ~Pas de modification de la progression, table debridee des sorts de clerc [Blucher]~
+@229000 = ~Alterer les tables de progression des sorts et de niveaux pour les druides~
+@229001 = ~Pas de modification de la progression, table debridee des sorts de druide uniquement (Blucher)~
+@229100 = ~Pas de modification de la progression, table P&P des sorts de clerc et druide uniquement~
+@229200 = ~Utiliser la table de progression des clercs et la table normale des sorts de druide~
+@229300 = ~Utiliser la table de progression des clercs et la table debridee des sorts de druide (Blucher)~
+@229400 = ~Utiliser la table de progression des clercs et la table P&P des sorts de clerc et druide~
+@229500 = ~Utiliser la table de progression des clercs et la table normale des sorts de clerc~
+@229600 = ~Utiliser la table de progression des clercs et la table debridee des sorts de clerc (Blucher)~
 
 @230000 = ~Tables de capacites de haut niveau pour les triclasses~
 
@@ -506,6 +508,18 @@ Les messages de desinstallation ci-dessus sont normaux et attendus.
 
 @272000 = ~Imoen recupere l'experience de Yoshimo a Spellhold [dark0dave]~
 
+@273000 = ~Utiliser la table de progression de IWD pour les druides avec la table normale des sorts de druide~
+@273100 = ~Utiliser la table de progression de IWD pour les druides avec la table debridee des sorts de druide [Blucher]~
+@273200 = ~Utiliser la table de progression de IWD pour les druides avec la table P&P des sorts de clerc et druide~
+@273300 = ~Utiliser la table de progression de IWD pour les druides avec la table normale des sorts de clerc~
+@273400 = ~Utiliser la table de progression de IWD pour les druides avec la table debridee des sorts de clerc [Blucher]~
+@273500 = ~Utiliser la table de progression de BG / BG2 pour les druides avec la table normale des sorts de druide~
+@273600 = ~Utiliser la table de progression de BG / BG2 pour les druides avec la table debridee des sorts de druide [Blucher]~
+@273700 = ~Utiliser la table de progression de BG / BG2 pour les druides avec la table P&P des sorts de clercs et druide~
+@273800 = ~Utiliser la table de progression de BG / BG2 pour les druides avec la table normale des sorts de clerc~
+@273900 = ~Utiliser la table de progression de BG / BG2 pour les druides avec la table debridee des sorts de clerc [Blucher]~
+
+@274000 = ~Permettre aux metamorphes de porter une armure, mais empecher la metamorphose lorsqu'une armure est equipee.~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -830,6 +844,18 @@ Utiliser les parametres de Baldur.lua :      a7_interval_ini
 @419800 = ~Coloriser le nom du personnage principal : Orange~
 
 @420000 = "Rendre Rancœur +1 (l'arme de Dorn) un peu plus fiable"
+
+@421000 = ~Ajuster le niveau de voleuse de Nalia~
+@421001 = ~Voleuse de niveau 5 (Augmente la competence Crochetage de serrures)~
+@421002 = ~Voleuse de niveau 6 (Augmente la competence Détection des pieges et Vol a la tire)~
+@421003 = ~Voleuse de niveau 7 (Augmente la competence Crochetage de serrures et Vol a la tire)~
+@421004 = ~Voleuse de niveau 8 (Augmente la competence Vol a la tire et ajoute un point de competence pour les armes a une main)~
+
+@422000 = ~Retarder la rencontre avec Neera a Beregost~
+@422001 = ~Apres la quete des mines de Nashkel~
+@422100 = ~Une fois que Charname atteint 5000 points d'experience~
+
+@423000 = ~Augmenter la capacite Pose de piege de Yoshimo (Au detriment des autres capacites de voleur)~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
