@@ -21,6 +21,8 @@ DEFINE_ACTION_MACRO cd_tweaks_install BEGIN
 
 END
 
+INCLUDE ~cdtweaks/lib/game_checks.tpa~ // sets game_is_foo vars, others
+
 ACTION_IF FILE_EXISTS ~cdtweaks/cdtweaks.txt~ THEN BEGIN
 
   INCLUDE ~cdtweaks/cdtweaks.txt~ // config file
