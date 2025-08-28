@@ -1,0 +1,50 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Summoned Creatures Clear Fog of War              \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+COPY ~cdtweaks/spl/cdtfow.spl~ ~override~ // adds the 'clear fow' effect if ea = ally
+
+COPY_EXISTING_REGEXP GLOB ~^.+\.cre$~ ~override~ // all the regular summons
+  READ_BYTE 0x275 gender
+  PATCH_IF gender = 6 BEGIN // gender = summon
+    LPF ADD_CRE_EFFECT INT_VAR opcode = 146 target = 1 parameter2 = 1 timing = 1 STR_VAR resource = cdtfow END 
+  END
+  BUT_ONLY
+  
+// celestials
+COPY_EXISTING ~devagood.cre~ ~override~
+              ~devaevil.cre~ ~override~
+              ~plangood.cre~ ~override~
+              ~planevil.cre~ ~override~
+              ~planwish.cre~ ~override~
+  LPF ADD_CRE_EFFECT INT_VAR opcode = 146 target = 1 parameter2 = 1 timing = 1 STR_VAR resource = cdtfow END 
+  IF_EXISTS  
+  
+// stupid elemental summoning and its stupid mental combat nonsense
+ACTION_FOR_EACH script IN wizelsum wizelsu2 BEGIN
+  ACTION_IF FILE_EXISTS_IN_GAME ~%script%.bcs~ BEGIN 
+    EXTEND_BOTTOM ~%script%.bcs~ ~cdtweaks/baf/elem_fow.baf~
+  END
+END
+  
+// korax
+ACTION_IF FILE_EXISTS_IN_GAME korax.bcs BEGIN   
+
+  COPY ~cdtweaks/spl/cdtfowkx.spl~ ~override~ // removes spwi996
+  COPY_EXISTING ~spwi996.spl~ ~override~ // spell that charms korax
+    LPF CLONE_EFFECT INT_VAR match_opcode = 5 opcode = 268 END // clone charm into 'clear fow'
+    
+  COPY_EXISTING ~korax.bcs~ ~override~
+    DECOMPILE_AND_PATCH BEGIN 
+      REPLACE_TEXTUALLY ~\(Enemy()\)~ ~ApplySpellRES("cdtfowkx",Myself) \1~
+      APPEND_FILE ~cdtweaks/baf/korax_fow.baf~
+    END 
+    BUT_ONLY    
+
+END   
+    
+    

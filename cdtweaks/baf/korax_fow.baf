@@ -1,0 +1,8 @@
+IF
+  Allegiance(Myself,ENEMY)
+  Global("cdtfowkx","LOCALS",0)
+THEN
+  RESPONSE #100  
+    ApplySpellRES("cdtfowkx",Myself) // spell sets cdtfowkx = 1
+    Continue()
+END     
