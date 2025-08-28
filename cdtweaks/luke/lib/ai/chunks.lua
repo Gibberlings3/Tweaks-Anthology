@@ -55,10 +55,10 @@ GT_AI_LuaChunks = {
 	["default"] = {
 		['targetIDS'] = {'0'},
 		['extra'] = {
-			{['mirrorImage'] = {true, true}, ['stoneSkins'] = {true, true}, ['eyeOfTheSword'] = {true, true}, ["sneakAttack"] = {true, true}},
-			{['mirrorImage'] = {true, true}, ['stoneSkins'] = {true, true}, ["sneakAttack"] = {true, true}},
-			{['mirrorImage'] = {true, true}, ["sneakAttack"] = {true, true}},
-			{["sneakAttack"] = {true, true}},
+			{['mirrorImage'] = {true, true}, ['stoneSkins'] = {true, true}, ['eyeOfTheSword'] = {true, true}, ['sneakAttack'] = {true, true}},
+			{['mirrorImage'] = {true, true}, ['stoneSkins'] = {true, true}, ['sneakAttack'] = {true, true}},
+			{['mirrorImage'] = {true, true}, ['sneakAttack'] = {true, true}},
+			{['sneakAttack'] = {true, true}},
 			{['default'] = {false, false}},
 		},
 		['opcode'] = {-1},
@@ -66,10 +66,10 @@ GT_AI_LuaChunks = {
 	["webbedPreferringWeak"] = {
 		['targetIDS'] = {'0.0.MAGE', '0.0.MAGE_THIEF', '0.0.MAGE_ALL', '0.0.THIEF', '0.0.BARD_ALL', '0.0.THIEF_ALL', '0.0.SHAMAN', '0.0.DRUID', '0.0.CLERIC', '0'},
 		['extra'] = {
-			{['mirrorImage'] = {true, true}, ['stoneSkins'] = {true, true}, ['eyeOfTheSword'] = {true, true}, ["webbed"] = {false, false}},
-			{['mirrorImage'] = {true, true}, ['stoneSkins'] = {true, true}, ["webbed"] = {false, false}},
-			{['mirrorImage'] = {true, true}, ["webbed"] = {false, false}},
-			{["webbed"] = {false, false}},
+			{['mirrorImage'] = {true, true}, ['stoneSkins'] = {true, true}, ['eyeOfTheSword'] = {true, true}, ['webbed'] = {false, false}},
+			{['mirrorImage'] = {true, true}, ['stoneSkins'] = {true, true}, ['webbed'] = {false, false}},
+			{['mirrorImage'] = {true, true}, ['webbed'] = {false, false}},
+			{['webbed'] = {false, false}},
 			{['default'] = {false, false}},
 		},
 		['opcode'] = {-1},

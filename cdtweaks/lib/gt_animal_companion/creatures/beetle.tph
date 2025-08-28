@@ -32,8 +32,9 @@ WITH_SCOPE BEGIN
 			/* Extended Header */
 			LPF ~ADD_SPELL_HEADER~ INT_VAR "target" = 5 "range" = 30 END
 			/* Feature Blocks */
-			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 318 "target" = 1 "parameter1" = IDS_OF_SYMBOL ("state" "STATE_IMMOBILE") BOR IDS_OF_SYMBOL ("state" "STATE_FEEBLEMINDED") "parameter2" = 138 STR_VAR "resource" = "%DEST_RES%" END
-			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 146 "target" = 1 "parameter2" = 1 "probability1" = 50 "probability2" = 1 STR_VAR "resource" = "%DEST_RES%B" END
+			//LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 318 "target" = 1 "parameter1" = IDS_OF_SYMBOL ("state" "STATE_IMMOBILE") BOR IDS_OF_SYMBOL ("state" "STATE_FEEBLEMINDED") "parameter2" = 138 STR_VAR "resource" = "%DEST_RES%" END
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 326 "target" = 1 "parameter1" = IDS_OF_SYMBOL ("state" "STATE_IMMOBILE") BOR IDS_OF_SYMBOL ("state" "STATE_FEEBLEMINDED") "parameter2" = 139 "probability1" = 50 "probability2" = 1 STR_VAR "resource" = "%DEST_RES%B" END
+			//LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 146 "target" = 1 "parameter2" = 1 "probability1" = 50 "probability2" = 1 STR_VAR "resource" = "%DEST_RES%B" END
 			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 206 "target" = 1 "parameter1" = "-1" "duration" = 6 STR_VAR "resource" = "%DEST_RES%" END
 		BUT_ONLY
 		//
