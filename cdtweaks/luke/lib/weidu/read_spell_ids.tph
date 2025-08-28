@@ -1,0 +1,48 @@
+/*
++-----------------------------------------+
+| Set a var for each entry in "spell.ids" |
++-----------------------------------------+
+*/
+
+DEFINE_ACTION_MACRO "READ_SPELL_IDS"
+BEGIN
+	LOCAL_SET "cols" = 0
+	LOCAL_SET "read_spell" = 0
+	LOCAL_SET "i" = 0
+	LOCAL_SPRINT "identifier" ""
+	LOCAL_SPRINT "spell_res" ""
+	// The following variables are all set by `COPY_EXISTING`
+	LOCAL_SPRINT "SOURCE_DIRECTORY" ""
+	LOCAL_SPRINT "SOURCE_FILESPEC" ""
+	LOCAL_SPRINT "SOURCE_FILE" ""
+	LOCAL_SPRINT "SOURCE_RES" ""
+	LOCAL_SPRINT "SOURCE_EXT" ""
+	LOCAL_SET "SOURCE_SIZE" = 0
+	LOCAL_SPRINT "DEST_DIRECTORY" ""
+	LOCAL_SPRINT "DEST_FILESPEC" ""
+	LOCAL_SPRINT "DEST_FILE" ""
+	LOCAL_SPRINT "DEST_RES" ""
+	LOCAL_SPRINT "DEST_EXT" ""
+	// Main
+	COPY_EXISTING - "spell.ids" "override"
+		COUNT_2DA_COLS "cols"
+		READ_2DA_ENTRIES_NOW "read_spell" "%cols%"
+		FOR ("i" = 0; "%i%" < "%read_spell%"; "i" += 1) BEGIN
+			READ_2DA_ENTRY_FORMER "read_spell" "%i%" 1 "identifier"
+			PATCH_IF IDS_OF_SYMBOL (~SPELL~ ~%identifier%~) != "-1" BEGIN // skip 1st row ~IDS V1.0~ if needed (so as to avoid checking "spell_num" = "-1")
+				LPF "RES_NAME_OF_SPELL_NUM"
+				INT_VAR
+					"spell_num" = IDS_OF_SYMBOL (~SPELL~ ~%identifier%~)
+				RET
+					"spell_res"
+				END
+				// BG(2):EE => we'd like to discard false positive such as `2610 WIZARD_MONSTER_SUMMONING_4`, where the corresponding file ~SPWI610.SPL~ does not exist
+				// That is, make sure that ~%spell_res%.spl~ does exist as a game resource
+				PATCH_IF (FILE_EXISTS_IN_GAME ~%spell_res%.spl~) BEGIN
+					TEXT_SPRINT "%identifier%" "%spell_res%"
+				END
+			END
+		END
+	BUT_ONLY_IF_IT_CHANGES
+END
+

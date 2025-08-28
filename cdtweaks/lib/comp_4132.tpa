@@ -8,7 +8,18 @@
 
 ACTION_INCLUDE "%MOD_FOLDER%/lib/make_generalist.tpa"
 
-COPY_EXISTING_REGEXP "^%tutu_scriptbg%xzar.cre$" "override"
-                     "^_?xzar[0-9_]*.cre$" "override"
-  LAUNCH_PATCH_MACRO mh_make_generalist
-  BUT_ONLY
+INCLUDE ~cdtweaks/lib/joinable_npc_array.tpa~
+
+ACTION_PHP_EACH JOINABLE_NPC_ARRAY AS file => dv BEGIN
+
+  ACTION_IF (("%dv%" STRING_COMPARE_CASE "xzar"  = 0) OR       // regular ole xzar
+             ("%dv%" STRING_COMPARE_CASE "l#xza"  = 0) OR      // lava's bg2 xzar mod
+             ("%dv%" STRING_COMPARE_CASE "7xxzar"  = 0)) BEGIN // smiling imp's bg2 xzar mod
+
+    COPY_EXISTING ~%file%~ ~override~
+      LAUNCH_PATCH_MACRO mh_make_generalist
+      BUT_ONLY IF_EXISTS
+      
+  END
+
+END  

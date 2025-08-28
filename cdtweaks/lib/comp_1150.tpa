@@ -17,16 +17,13 @@ ACTION_IF tutu_gen THEN BEGIN // Tutu
                 ~_s1-12.itm~   ~override~
                 ~_s2-16.itm~   ~override~
                 ~_sarevo.itm~  ~override~
-    PATCH_IF (SOURCE_SIZE > 0x71) THEN BEGIN // protects against invalid files
-      READ_BYTE  0x18 "flags"
-      WRITE_BYTE 0x18 ("%flags%" BOR 0b01000000)
-    END
-    BUT_ONLY
+    WRITE_LONG 0x18 (THIS BOR BIT6) // adds magical flag
+    BUT_ONLY IF_EXISTS
 
 END
 
 COPY_EXISTING ~sppr604.spl~ ~override~
-  WRITE_SHORT 0x20 16384
+  WRITE_LONG 0x1e (THIS BOR BIT30) // adds cleric/paladin flag
   SAY IDENTIFIED_DESC @115001
   BUT_ONLY
 
@@ -40,8 +37,9 @@ COPY ~cdtweaks/cre/wwbear.cre~ ~override~
 
 COPY_EXISTING ~wwbearwe.cre~ ~override~
               ~wwbear.cre~   ~override~
-  PATCH_IF ((IDS_OF_SYMBOL (~animate~ ~WEREBEAR_D2~)) >= 0) BEGIN // if werebear animation from Infinity animations available...
-    WRITE_LONG 0x28 (IDS_OF_SYMBOL (~animate~ ~WEREBEAR_D2~))     // then use it
+  SET werebear = IDS_OF_SYMBOL (~animate~ ~WEREBEAR_D2~)
+  PATCH_IF (werebear >= 0) BEGIN // if werebear animation from Infinity animations available...
+    WRITE_LONG 0x28 werebear     // then use it
   END ELSE BEGIN
     PATCH_IF game_is_iwdee OR game_is_iwd-in-bg2 BEGIN // if not, use polar bears for IWD games
       WRITE_LONG 0x28 29187 // bear_polar
@@ -164,43 +162,44 @@ COPY_EXISTING ~alignmnt.2da~ ~override~
   READ_2DA_ENTRY 42 7 10 "cg"
   READ_2DA_ENTRY 42 8 10 "cn"
   READ_2DA_ENTRY 42 9 10 "ce"
-
-ACTION_IF (("%lg%" = 1) OR ("%ln%" = 1) OR ("%le%" = 1)) THEN BEGIN // remove lawful flag
-
-  COPY_EXISTING ~wwwere.itm~   ~override~
-                ~wwweregr.itm~ ~override~
-    READ_BYTE  0x1e "use"
-    WRITE_BYTE 0x1e ("%use%" BAND 0b11101111) // removes lawful flag
-    BUT_ONLY
-
-END
-
-ACTION_IF (("%cg%" = 1) OR ("%cn%" = 1) OR ("%ce%" = 1)) THEN BEGIN // remove chaotic flag
+  BUT_ONLY
+  
+ACTION_IF lg OR ln OR le OR ng OR ne OR cg OR cn OR ce BEGIN // if any non-zero values, adjust alignment usability 
 
   COPY_EXISTING ~wwwere.itm~   ~override~
                 ~wwweregr.itm~ ~override~
-    READ_BYTE  0x1e "use"
-    WRITE_BYTE 0x1e ("%use%" BAND 0b11111110) // removes chaotic flag
+    PATCH_IF (("%lg%" = 1) OR ("%ln%" = 1) OR ("%le%" = 1)) THEN BEGIN // remove lawful flag
+      WRITE_LONG 0x1e (THIS BAND `BIT4)
+    END   
+    PATCH_IF (("%cg%" = 1) OR ("%cn%" = 1) OR ("%ce%" = 1)) THEN BEGIN // remove chaotic flag
+      WRITE_LONG 0x1e (THIS BAND `BIT0)
+    END   
+    PATCH_IF (("%lg%" = 1) OR ("%ng%" = 1) OR ("%cg%" = 1)) THEN BEGIN // remove good flag
+      WRITE_LONG 0x1e (THIS BAND `BIT2)
+    END   
+    PATCH_IF (("%le%" = 1) OR ("%ne%" = 1) OR ("%ce%" = 1)) THEN BEGIN // remove evil flag
+      WRITE_LONG 0x1e (THIS BAND `BIT1)
+    END   
     BUT_ONLY
+    
+END 
 
-END
-
-ACTION_IF (("%lg%" = 1) OR ("%ng%" = 1) OR ("%cg%" = 1)) THEN BEGIN // remove good flag
+ACTION_IF MOD_IS_INSTALLED ~cdtweaks.tp2~ ~2740~ BEGIN 
 
   COPY_EXISTING ~wwwere.itm~   ~override~
                 ~wwweregr.itm~ ~override~
-    READ_BYTE  0x1e "use"
-    WRITE_BYTE 0x1e ("%use%" BAND 0b11111011) // removes good flag
+    LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 181 target = 1 parameter1 = 2 timing = 2 special = RESOLVE_STR_REF(@274001) END // block all items of type 2
     BUT_ONLY
 
-END
-
-ACTION_IF (("%le%" = 1) OR ("%ne%" = 1) OR ("%ce%" = 1)) THEN BEGIN // remove evil flag
-
-  COPY_EXISTING ~wwwere.itm~   ~override~
-                ~wwweregr.itm~ ~override~
-    READ_BYTE  0x1e "use"
-    WRITE_BYTE 0x1e ("%use%" BAND 0b11111101) // removes evil flag
+  PRINT @1
+  COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
+    READ_SHORT 0x1c type
+    PATCH_IF type = 2 BEGIN // clone block of spcl643/644 abilities to 180 item blocks vs. equippable paws
+      LPF CLONE_EFFECT INT_VAR silent = 1 match_opcode = 206 match_target = 1 match_timing = 2 
+        opcode = 180 parameter1 = RESOLVE_STR_REF(@274001) STR_VAR match_resource = spcl643 resource = wwwere END
+      LPF CLONE_EFFECT INT_VAR silent = 1 match_opcode = 206 match_target = 1 match_timing = 2 
+        opcode = 180 parameter1 = RESOLVE_STR_REF(@274001) STR_VAR match_resource = spcl644 resource = wwweregr END
+    END
     BUT_ONLY
-
-END
+    
+END 

@@ -9,33 +9,44 @@
 INCLUDE ~cdtweaks/lib/arcane_descripts.tpa~  // text replacement macros
 INCLUDE ~cdtweaks/lib/common_armor_list.tpa~
 
-// do miscast via EFFs so that they can be blocked via 318 on the EEs, e.g. for artisan's eldritch knight or
-// armored casting for bards. use normal op 60s on oBG2
-ACTION_FOR_EACH val IN 5 10 15 20 25 30 35 40 50 BEGIN
+ACTION_IF enhanced_edition BEGIN // compat code for artisan and SD; all mods are EE-only
 
-  COPY ~cdtweaks/eff/cdtmis5.eff~ ~override/cdtmis%val%.eff~ // create miscast magic EFFs
-    WRITE_LONG 0x1c val
-    WRITE_ASCIIE 0x94 ~%DEST_RES%~ #8
+  OUTER_SET eff_dupe = 0
+  ACTION_IF FILE_EXISTS_IN_GAME ~c0arcas3.eff~ BEGIN
+    OUTER_SET eff_dupe = 3
+  END
+  ACTION_IF FILE_EXISTS_IN_GAME ~c0arcas4.eff~ BEGIN
+    OUTER_SET eff_dupe = 4
+  END
+
+  // do miscast via EFFs so that they can be blocked via 318 on the EEs, e.g. for artisan's eldritch knight or
+  // armored casting for bards. use normal op 60s on oBG2
+  ACTION_FOR_EACH val IN 5 10 15 20 25 30 35 40 50 BEGIN
+
+    COPY ~cdtweaks/eff/cdtmis5.eff~ ~override/cdtmis%val%.eff~ // create miscast magic EFFs
+      WRITE_LONG 0x1c val
+      WRITE_ASCIIE 0x94 ~%DEST_RES%~ #8
+
+    ACTION_IF eff_dupe BEGIN
+
+      COPY_EXISTING ~c0arcas%eff_dupe%.eff~ ~override/cdtxms%val%.eff~ // create miscast magic EFFs
+        WRITE_ASCIIE 0x30 ~cdtmis%val%~ #8
+
+    END
+
+  END
+
+  // eldritch knight is allowed to cast in armor, so artisan farms all of the 'disable cast button' op145s into an eff
+  // file (c0arcas2). The Eldritch Knight is then made immune via op318 to said eff, allowing them to cast. Working together
+  // Tweaks will now impose the normal miscast penalties, but keep the EK immune to them via an EFF system.
+  COPY_EXISTING ~c0ekarm.spl~ ~override~ // add new effs to EK's immunity spell
+                ~c0ska00.spl~ ~override~ // bardic wonder's armored casting
+    PATCH_FOR_EACH val IN 5 10 15 20 25 30 35 40 50 BEGIN
+      LPF CLONE_EFFECT INT_VAR match_opcode = 318 multi_match = 1 STR_VAR resource = EVAL ~cdtmis%val%~ END
+    END
+    IF_EXISTS
     
 END 
-
-// eldritch knight is allowed to cast in armor, so artisan farms all of the 'disable cast button' op145s into an eff
-// file (c0arcas2). The Eldritch Knight is then made immune via op318 to said eff, allowing them to cast. Working together
-// Tweaks will now impose the normal miscast penalties, but keep the EK immune to them via an EFF system.
-COPY_EXISTING ~c0ekarm.spl~ ~override~ // add new effs to EK's immunity spell
-              ~c0ska00.spl~ ~override~ // bardic wonder's armored casting
-  PATCH_FOR_EACH val IN 5 10 15 20 25 30 35 40 50 BEGIN
-    LPF CLONE_EFFECT INT_VAR match_opcode = 318 multi_match = 1 STR_VAR resource = EVAL ~cdtmis%val%~ END
-  END  
-  IF_EXISTS 
-
-// don't bother running DELETE_EFFECTs vs. these EFFs unless they're present in game
-ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_del_effs BEGIN END
-ACTION_FOR_EACH eff IN d5arcal d5arcac d5arcap c0arcas1 c0arcas2 BEGIN // compat with subtledoctor, artisan
-  ACTION_IF FILE_EXISTS_IN_GAME ~%eff%.eff~ BEGIN 
-    ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_del_effs BEGIN ~%eff%~ => 1 END
-  END
-END  
 
 ACTION_PHP_EACH cd_common_armor_list AS params => item BEGIN
 
@@ -44,16 +55,60 @@ ACTION_PHP_EACH cd_common_armor_list AS params => item BEGIN
     COPY_EXISTING ~%item%.itm~ ~override~
       READ_SHORT 0x1c type
       PATCH_IF ((type = 2) OR (type = 12) OR (type = 41) OR (type = 47) OR (type = 49) OR (type = 53)) BEGIN // 12 is bg shield type, all others are iwd; 2 is armor
-        LPF DELETE_ITEM_EQEFFECT INT_VAR opcode_to_delete =  60 END
-        LPF DELETE_ITEM_EQEFFECT INT_VAR opcode_to_delete = 145 END
-        PATCH_PHP_EACH cd_del_effs AS res => foo BEGIN 
-          LPF DELETE_EFFECT INT_VAR match_opcode = 177 STR_VAR match_resource = EVAL ~%res%~ END
+        // loop through global fx to delete miscast/spellcast blocking
+        READ_LONG  0x64 abil_off
+        READ_SHORT 0x68 abil_num
+        READ_LONG  0x6a fx_off
+        READ_SHORT 0x70 fx_num
+        SET fx_insert = 0 // add as first global effect unless it needs to be moved down for artisan effects
+        SET fx_delta = 0
+        FOR (index = 0 ; index < fx_num ; ++index) BEGIN
+          READ_SHORT (fx_off + 0x00 + (0x30 * index)) op
+          READ_LONG  (fx_off + 0x08 + (0x30 * index)) param2
+          READ_ASCII (fx_off + 0x14 + (0x30 * index)) resref
+          PATCH_IF ((((op = 60) OR (op = 145)) AND (param2 = 0)) OR                      // miscast arcane/disable arcane
+                    ((op = 318) AND ("%resref%" STRING_COMPARE_CASE "c0arcas1" = 0)) OR  // 318 for non-humanoids vs. c0arcas1
+                    ((op = 177) AND (("%resref%" STRING_COMPARE_CASE "c0arcas1" = 0) OR
+                                     ("%resref%" STRING_COMPARE_CASE "c0arcas2" = 0) OR
+                                     ("%resref%" STRING_COMPARE_CASE "d5arcal"  = 0) OR
+                                     ("%resref%" STRING_COMPARE_CASE "d5arcac"  = 0) OR
+                                     ("%resref%" STRING_COMPARE_CASE "d5arcap"  = 0)))) BEGIN // sd/artisan disable spellcasting via eff
+            DELETE_BYTES (fx_off + 0x00 + (0x30 * index)) 0x30
+            SET index -= 1
+            SET fx_num -= 1
+            SET fx_delta -= 1
+          END
+          PATCH_IF ((op = 177) AND 
+                   (("%resref%" STRING_COMPARE_CASE "c0arcas3" = 0) OR
+                    ("%resref%" STRING_COMPARE_CASE "c0arcas4" = 0))) BEGIN // eff that blocks c0arcas1/2 respectively
+            READ_ASCII (fx_off + 0x00 + (0x30 * index)) clone_fx (48)       // so dupe into eff that blocks new miscast eff
+            INSERT_BYTES (fx_off + 0x00 + (0x30 * index)) 0x30
+            WRITE_ASCIIE (fx_off + 0x00 + (0x30 * index)) "%clone_fx%"
+            WRITE_ASCIIE (fx_off + 0x14 + (0x30 * index)) "cdtxms%params_3%" #8
+            SET index += 1
+            SET fx_num += 1
+            SET fx_delta += 1
+            SET fx_insert += 2 // account for original eff and its dupe
+          END
+        END // global fx loop
+        // insert actual miscast effect
+        INSERT_BYTES (fx_off + 0x00 + (0x30 * fx_insert)) 0x30
+        WRITE_BYTE   (fx_off + 0x0c + (0x30 * fx_insert)) 2   // timing: while equipped
+        WRITE_BYTE   (fx_off + 0x12 + (0x30 * fx_insert)) 100 // probability
+        PATCH_IF enhanced_edition BEGIN // via eff for EEs
+          WRITE_SHORT  (fx_off + 0x00 + (0x30 * fx_insert)) 177 // op: apply eff
+          WRITE_LONG   (fx_off + 0x08 + (0x30 * fx_insert)) 2   // anyone
+          WRITE_ASCIIE (fx_off + 0x14 + (0x30 * fx_insert)) "cdtmis%params_3%" #8
+        END ELSE BEGIN // direct op 60 for obg2
+          WRITE_SHORT  (fx_off + 0x00 + (0x30 * fx_insert)) 60 // miscast magic
+          WRITE_LONG   (fx_off + 0x04 + (0x30 * fx_insert)) params_3 // x%
         END
-        PATCH_IF enhanced_edition BEGIN
-          LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 177 target = 1 parameter2 = 2 timing = 2 STR_VAR resource = EVAL ~cdtmis%params_3%~ END
-        END ELSE BEGIN
-          LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 60 target = 1 parameter1 = params_3 timing = 2 END
+        SET fx_num += 1
+        SET fx_delta += 1
+        FOR (index = 0 ; index < abil_num ; ++index) BEGIN // now loop through abilities and fix fx indices
+          WRITE_SHORT (abil_off + 0x20 + (index * 0x38)) THIS + fx_delta
         END
+        WRITE_SHORT 0x70 fx_num
         // adjust descriptions
         PATCH_FOR_EACH offset IN 0x50 0x54 BEGIN
           READ_STRREF ~%offset%~ desc
@@ -70,3 +125,5 @@ ACTION_PHP_EACH cd_common_armor_list AS params => item BEGIN
   END // miscast check
 
 END // php_each
+
+LAM cdtweaks_helper_email

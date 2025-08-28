@@ -124,8 +124,12 @@ ACTION_IF original_bg1 BEGIN
 END ELSE BEGIN // tutu, bgt, bgee
 
   COPY_EXISTING ~%tutu_var%khalid2.cre~ ~override~
-    READ_ASCII 0x034 portrait (16) // read portrait from existing cre file
-    READ_ASCII 0x0a4 soundset (396) // read soundset from existing cre file
+    READ_ASCII 0x08 name (8)       // name fields
+    READ_ASCII 0x34 port (16)      // portraits
+    READ_ASCII 0xa4 soundset (396) // read soundset from existing cre file
+    READ_ASCII 0x248 scripts (40)  // five script slots
+    READ_ASCII 0x280 dv (32)       // Death Variable
+    READ_ASCII 0x2cc dlg (8)       // Dialogue file
     // detect if walking speed altered
     READ_BYTE  0x033 fx_type
     READ_LONG  0x2c4 fx_off
@@ -143,14 +147,13 @@ END ELSE BEGIN // tutu, bgt, bgee
        ~cdtweaks/cre/khalid2.cre~ ~override/%tutu_var%khalid2.cre~
        ~cdtweaks/cre/khalid4.cre~ ~override/%tutu_var%khalid4.cre~
        ~cdtweaks/cre/khalid6.cre~ ~override/%tutu_var%khalid6.cre~
-    WRITE_EVALUATED_ASCII 0x34 "%portrait%" #16
-    WRITE_EVALUATED_ASCII 0xa4 "%soundset%" #396
+    WRITE_ASCIIE 0x08 "%name%" #8
+    WRITE_ASCIIE 0x34 "%port%" #16
+    WRITE_ASCIIE 0xa4 "%soundset%" #396
+    WRITE_ASCIIE 0x248 "%scripts%" #40 // scripts
+    WRITE_ASCIIE 0x280 "%dv%" #32           // Death Variable
+    WRITE_ASCIIE 0x2cc "%dlg%" #8    // Dialogue file
     SAY BIO @408001
-    WRITE_ASCIIE 0x248 ~%tutu_var%khalid~  // override script
-    WRITE_ASCIIE 0x250 ~%tutu_var%shout~   // class script
-    WRITE_ASCIIE 0x260 ~%tutu_scriptw%tasight~// general script
-    WRITE_ASCIIE 0x268 ~%tutu_var%dplayer~ // default script
-    WRITE_ASCIIE 0x2cc ~%tutu_var%khalid~  // dialogue file
     ADD_CRE_ITEM ~%tutu_var%BOW03~  #0  #0 #0 ~IDENTIFIED~ ~WEAPON2~ EQUIP TWOHANDED
     ADD_CRE_ITEM ~%tutu_var%AROW01~ #40 #0 #0 ~IDENTIFIED~ ~QUIVER1~
     ADD_CRE_ITEM ~%tutu_var%HELM01~ #0  #0 #0 ~IDENTIFIED~ ~HELMET~

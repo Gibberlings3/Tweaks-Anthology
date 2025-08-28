@@ -1,0 +1,34 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
+///// Increase Yoshimo's Trapsetting Ability                     \\\\\
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_yoshimo_traps BEGIN 
+
+  // locks, find traps, pickpocket, MS, HiS, DI, set traps, unique  => creature file
+        65,         95,         25, 40,  40,  0,        70, yoshi7  => yoshi7  // moving 5 find traps/20 MS/10 HiS > +35 set traps
+        65,         95,         25, 40,  40,  0,        70, yoshi8  => yoshi8  // ^^ same
+        65,         95,         25, 40,  40,  0,        70, yoshi10 => yoshi10 // ^^ same
+        70,         95,         25, 45,  45,  0,        75, yoshi11 => yoshi11 // level up was +5 HiS, +10 locks, +5 MS => 10 in locks changed to 5 locks, 5 set traps
+        75,         95,         25, 50,  50,  0,        80, yoshi12 => yoshi12 // level up was +5 HiS, +10 locks, +5 MS => 10 in locks changed to 5 locks, 5 set traps
+  
+END
+
+ACTION_PHP_EACH cd_yoshimo_traps AS params => file BEGIN
+
+  // the array has *final* values - we need to adjust the actual scores in the creature files to account for racial/dex bonuses
+  COPY_EXISTING ~%file%.cre~ ~override~
+    WRITE_BYTE 0x67 (params_0 -                             25) // locks (10 human, 15 for 18 DEX)
+    WRITE_BYTE 0x69 (params_1 -                             10) // find traps (5 human, 5 for 18 DEX)
+    WRITE_BYTE 0x6a (params_2 -                             25) // pickpocket (15 human, 10 for 18 DEX)
+    WRITE_BYTE 0x68 (params_3 -                             20) // MS (10 human, 10 for 18 DEX)
+    WRITE_BYTE 0x45 (params_4 -                             15) // HiS (5 human, 10 for 18 DEX)
+    WRITE_BYTE 0x64 (params_5 -                              0) // detect illusion (0 human, 0 for 18 DEX)
+    // obg2 applies spcl417 for +15 set trap bonus, whereas ee applies it directly, so we have to account for it:
+    WRITE_BYTE 0x65 (params_6 - (20 - (15 * enhanced_edition))) // set traps (0 human, 5 for 18 DEX, 15 for oBG2 for spcl417): net is -5 bg2ee, -20 obg2
+    BUT_ONLY IF_EXISTS
+    
+END

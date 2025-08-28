@@ -42,14 +42,22 @@ END ELSE BEGIN
 
 END
 
-COPY_EXISTING ~%tutu_var%sharte.cre~  ~override~
-              ~%tutu_var%sharte4.cre~ ~override~
-              ~%tutu_var%sharte6.cre~ ~override~
-  PATCH_IF original_bg1 BEGIN
-    WRITE_BYTE 0x24 ((THIS * 3) / 2) // increase by 50%
-    WRITE_BYTE 0x26 ((THIS * 3) / 2) // increase by 50%
-  END ELSE BEGIN
-    ADD_CRE_ITEM monhp1 #0 #0 #0 none ~RRING LRING AMULET BELT BOOTS CLOAK GLOVES ARMOR HELMET~
+INCLUDE ~cdtweaks/lib/joinable_npc_array.tpa~
+
+ACTION_PHP_EACH JOINABLE_NPC_ARRAY AS file => dv BEGIN
+
+  ACTION_IF ("%dv%" STRING_COMPARE_CASE "sharteel"  = 0) BEGIN
+
+    COPY_EXISTING ~%file%~ ~override~
+      PATCH_IF original_bg1 BEGIN
+        WRITE_BYTE 0x24 ((THIS * 3) / 2) // increase by 50%
+        WRITE_BYTE 0x26 ((THIS * 3) / 2) // increase by 50%
+      END ELSE BEGIN
+        ADD_CRE_ITEM monhp1 #0 #0 #0 none ~RRING LRING AMULET BELT BOOTS CLOAK GLOVES ARMOR HELMET~
+      END
+      
   END
+
+END  
 
 EXTEND_TOP ~%tutu_scripts%harteel.bcs~ ~./inline/cdsharteel.baf~

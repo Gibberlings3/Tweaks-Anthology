@@ -200,8 +200,8 @@ function %ROGUE_SNEAK_ATTACK%(CGameEffect, CGameSprite)
 			if not GT_EvalConditional["parseConditionalString"](CGameSprite, nil, isImmuneToParalysis) then
 				effectCodes = {
 					{["op"] = 0x6D, ["p2"] = 2, ["dur"] = 6 * roll, ["effsource"] = "%ROGUE_SNEAK_ATTACK%B"}, -- Paralyze (109) (EA=ANYONE)
-					{["op"] = 0x8E, ["p2"] = 13, ["dur"] = 6 * roll, ["effsource"] = "%ROGUE_SNEAK_ATTACK%B"} -- Display portrait icon (142): held
-					{["op"] = 0x8B, ["p1"] = %feedback_strref_paralyzed%, ["effsource"] = "%ROGUE_SNEAK_ATTACK%B"} -- Display string (139): paralyzed
+					{["op"] = 0x8E, ["p2"] = 13, ["dur"] = 6 * roll, ["effsource"] = "%ROGUE_SNEAK_ATTACK%B"}, -- Display portrait icon (142): held
+					{["op"] = 0x8B, ["p1"] = %feedback_strref_paralyzed%, ["effsource"] = "%ROGUE_SNEAK_ATTACK%B"}, -- Display string (139): paralyzed
 					{["op"] = 0xCE, ["res"] = "%ROGUE_SNEAK_ATTACK%B", ["p1"] = %feedback_strref_already_paralyzed%, ["effsource"] = "%ROGUE_SNEAK_ATTACK%B", ["dur"] = 6 * roll}, -- Protection from spell (206) (already paralyzed)
 				}
 			else
@@ -215,8 +215,8 @@ function %ROGUE_SNEAK_ATTACK%(CGameEffect, CGameSprite)
 			if not GT_EvalConditional["parseConditionalString"](CGameSprite, nil, isImmuneToSilence) then
 				effectCodes = {
 					{["op"] = 0x26, ["dur"] = 6 * roll, ["effsource"] = "%ROGUE_SNEAK_ATTACK%C"}, -- Silence (38)
-					{["op"] = 0x8E, ["p2"] = 34, ["dur"] = 6 * roll, ["effsource"] = "%ROGUE_SNEAK_ATTACK%C"} -- Display portrait icon (142): silenced
-					{["op"] = 0x8B, ["p1"] = %feedback_strref_silenced%, ["effsource"] = "%ROGUE_SNEAK_ATTACK%C"} -- Display string (139): silenced
+					{["op"] = 0x8E, ["p2"] = 34, ["dur"] = 6 * roll, ["effsource"] = "%ROGUE_SNEAK_ATTACK%C"}, -- Display portrait icon (142): silenced
+					{["op"] = 0x8B, ["p1"] = %feedback_strref_silenced%, ["effsource"] = "%ROGUE_SNEAK_ATTACK%C"}, -- Display string (139): silenced
 					{["op"] = 0xCE, ["res"] = "%ROGUE_SNEAK_ATTACK%C", ["p1"] = %feedback_strref_already_silenced%, ["effsource"] = "%ROGUE_SNEAK_ATTACK%C", ["dur"] = 6 * roll}, -- Protection from spell (206) (already silenced)
 				}
 			else

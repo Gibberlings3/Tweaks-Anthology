@@ -319,7 +319,7 @@ BEGIN
   BUT_ONLY
 
   // patching irregular NPC names
-  ACTION_IF (GAME_IS ~bg2ee eet~) BEGIN
+  ACTION_IF (game_is_bg2ee OR game_is_eet) BEGIN
     // Anomen
     // Anomen's promoted name: SPIN678.SPL > op103 > strref 30532
     OUTER_SPRINT color ~~

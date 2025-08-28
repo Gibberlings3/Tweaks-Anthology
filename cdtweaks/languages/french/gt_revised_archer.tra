@@ -1,0 +1,44 @@
+@0 = "ARCHER : Maître au tir à l'arc, il est capable de réussir les tirs les plus précis et les plus difficiles. Mais pour devenir aussi efficace avec un arc, il doit négliger certaines capacités de port d'armure et de maniement des armes de mêlée.
+
+Avantages :
+– Bonus de 1 aux jets d'attaque et de dégâts avec les arcs tous les 3 niveaux d'expérience.
+– Peut atteindre la grande maîtrise (5 étoiles) dans les arcs courts et les arcs longs.
+– Peut utiliser la capacité « Tir ajusté » (avec les arcs).
+
+TIR AJUSTÉ : Cette capacité donne à l'archer la possibilité de blesser ses adversaires aux bras et aux jambes.
+- Un Tir ajusté réussi au niveau des jambes inflige un malus cumulatif de 2 à la dextérité et réduit de 20 % la vitesse de déplacement.
+- Un Tir ajusté réussi au niveau des bras inflige un malus cumulatif de 2 aux jets d'attaque.
+
+– Gagne la capacité passive « À bout portant ».
+
+À BOUT PORTANT : Lorsqu'il utilise un arc. L'archer n'écope plus d'une pénalité de 8 à son TAC0 dans les combats en mêlée.
+
+Désavantages :
+- Peut porter uniquement une armure de cuir, une besantine ou une armure de peau.
+- Ne peut être que compétent (une étoile) dans le maniement des armes de mêlée.
+- Ne peut utiliser « Charme-animal »."
+
+@1 = "Tir ajusté (Aux niveau des bras)"
+@2 = "Tir ajusté (Aux niveau des bras)
+
+Un Tir ajusté réussi au niveau des bras inflige un malus cumulatif de 2 au TAC0"
+
+@3 = "Tir ajusté (Aux niveau des jambes)"
+@4 = "Tir ajusté (Aux niveau des jambes)
+
+Un Tir ajusté réussi au niveau des jambes inflige un malus cumulatif de 2 à la dextérité et réduit de 20 % la vitesse de déplacement."
+
+// @100 = "La créature sélectionnée est hors de portée"
+@101 = "Modification du TAC0 "
+@102 = "Modification de la Dextérité"
+@103 = "Cette capacité ne peut être utilisée qu'avec les arcs."
+
+// @200 = "Le personnage ne peut pas effectuer plus d'une action par round"
+@200 = "Insensible aux effets du Tir ajusté"
+
+@300 = "Le personnage ne peut pas utiliser cette capacité avec des munitions effectives sur une zone."
+
+// @400 = "Insensible aux effets du Tir ajusté"
+@400 = "Touché"
+@401 = "Manqué"
+@402 = "Arme inefficace"

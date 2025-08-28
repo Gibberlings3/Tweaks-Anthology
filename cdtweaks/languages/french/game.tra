@@ -59,6 +59,14 @@
 @106001 = ~Votre armure s'est brisée~
 @106002 = ~Votre bouclier s'est brisé~
 @106003 = ~Votre casque s'est brisé~
+@106005 = ~Indemne :~ // ~ItemName indemne~
+
+@106201 = ~Votre armure a été endommagée~
+@106202 = ~^\([ %TAB%]*Classe d'armure[ %TAB%]*:?[ %TAB%]*\)[0-9]+~
+@106203 = ~^\([ %TAB%]*PARAMÈTRES[ %TAB%]*:?[ %TAB%]*\)~
+@106204 = ~La mauvaise qualité du fer a provoqué une dégradation de cette armure.~
+@106205 = ~\(-?[0-9]+\)\([ %TAB%]*vs\.[ %TAB%]*\(tranchant\|contondant\|perforant et projectile\)\)~
+@106206 = ~Endommagée :~ // ~ArmorName endommagée~
 
 @107001 = ~Va nous attendre à l'auberge du Bras Amical. Si les choses changent, nous irons te chercher là-bas.~
 @107002 = ~Rejoins le groupe s'il te plaît.~
@@ -385,6 +393,8 @@ Capacités spéciales :
 @116021 = ~Mon amie a été kidnappée. Bien que ça me fasse mal de refuser, je ne peux pas mettre de côté mes recherches pour aider le bosquet.~
 @116022 = ~Vous avez gagné la bénédiction du Bosquet, et je vous offre le Bâton de Foudre et Tonnerre.~
 @116023 = ~Très bien. Je vais continuer de faire office de Maître des Défis et de Grand Druide jusqu'à ce que les rituels de l'Ascension soient accomplis.~
+@116024 = ~Merci, Lavok. Vous pouvez compter sur moi pour veiller sur la sphère.~
+@116025 = ~Je dois malheureusement refuser. Mes autres engagements sont prioritaires.~
 
 @122001 = ~Ah, un Étui d'Abondance. Je peux l'enchanter pour produire des carreaux encore plus puissants, mais il me faudra 5 000 pièces d'or pour ce travail.~
 @122002 = ~Bon, voyons ce que vous avez d'autres.~
@@ -496,6 +506,18 @@ Capacités spéciales :
 @126005 = ~Willy le Poète Lakiste~
 @126006 = ~Willy~
 
+@137001 = ~Poing poignardant~ 
+@137002 = ~Griffes tranchantes~ 
+@137003 = ~Gants matelassés~ 
+@137004 = ~Équiper poing poignardant~ 
+@137005 = ~Équiper le poing poignardant permet d'effectuer des attaques perforantes avec les poings.~ 
+@137006 = ~Mains nues~ 
+@137007 = ~À mains nues les poings du personnage infligent des dégâts contondants.~
+@137008 = ~Équiper griffes tranchantes~ 
+@137009 = ~Équiper les griffes tranchantes permet d'infliger des dégâts tranchants avec les poings.~ 
+@137010 = ~Équiper gants matelassés~ 
+@137011 = ~Équiper les gants matelassés pour assommer des adversaires sans les tuer.~ 
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -591,26 +613,244 @@ AVERTISSEMENT : Les katanas magiques sont très rares en dehors de Kara-Tur !
 @216011 = ~Masse/Étoile du matin~
 
 @216101 = ~Petite épée~
+@216102 = ~ et shamans~ // leading space is required
+@216103 = ~PETITE ÉPÉE : cette classe d'armes permet au personnage d'utiliser les dagues et les épées courtes.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216104 = ~GRANDE ÉPÉE : cette classe d'armes permet au personnage d'utiliser les épées bâtardes, les épées larges, les épées à deux mains, les épées longues, les katanas, les wakizashis, les ninja-tos et les cimeterres. Les druides%cd_shaman% peuvent également choisir cette classe, mais seront limitée aux cimeterres. Les moines ne pourront utiliser les épées bâtardes et les épées à deux mains.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216105 = ~ARC : cette classe d'armes permet au personnage d'utiliser les arcs longs, les arcs longs composites et les arcs courts. Les voleurs%cd_shaman% peuvent choisir cette catégorie, mais ne peuvent se servir que des arcs courts.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216106 = ~ARMES À POINTES : cette classe d'armes permet au personnage d'utiliser les étoiles du matin et les fléaux d'armes.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216107 = ~HACHE : cette classe d'armes permet au personnage d'utiliser les haches d'armes et les haches de jet.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216108 = ~ARMES CONTONDANTES : cette classe d'armes permet au personnage d'utiliser les masses d'armes, les gourdins, les marteaux et les bâtons. Les druides%cd_shaman% et les voleurs peuvent choisir cette catégorie, mais ne peuvent utiliser que les bâtons. Les moines seront limités aux gourdins.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216109 = ~LANCE : cette classe d'armes permet au personnage d'utiliser les lances%cd_javelins% et les hallebardes. Les druides peuvent sélectionner cette classe, mais ne peuvent se servir des hallebardes.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216110 = ~ARMES À PROJECTILES : cette classe d'armes permet au personnage d'utiliser les frondes, les fléchettes et les arbalètes. Les druides%cd_shaman% et les moines peuvent sélectionner cette compétence, mais sont limités aux frondes et aux fléchettes. Quant aux clercs, ils ne peuvent se servir que des frondes dans cette catégorie.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216111 = ~, javelots,~
 
 @216301 = ~Épée de grande taille~
 @216302 = ~ÉPÉE DE GRANDE TAILLE : cette compétence permet d'utiliser l'épée à deux mains et l'épée bâtarde.
+
 <DOTS1>
+
 <DOTS2>
+
 <DOTS3>
+
 <DOTS4>
+
 <DOTS5>~
-@216303 = ~GRANDE ÉPÉE : cette compétence permet au personnage de manier l'épée longue, l'épée large et le cimeterre. Les voleurs peuvent choisir cette compétence, mais ils n'ont le droit de manier que l'épée longue. Les druides peuvent également la choisir, mais ils sont limités au cimeterre.
+@216303 = ~GRANDE ÉPÉE : cette compétence permet au personnage de manier l'épée longue, l'épée large, le katana, le wakizashi, le ninja-tos, et le cimeterre. Les voleurs peuvent choisir cette compétence, mais ils n'ont le droit de manier que l'épée longue. Les druides%cd_shaman% peuvent également la choisir, mais ils sont limités au cimeterre.
+
 <DOTS1>
+
 <DOTS2>
+
 <DOTS3>
+
 <DOTS4>
+
 <DOTS5>~
 @216304 = ~ARMES À PROJECTILES : cette compétence permet de manier frondes et fléchettes. Les clercs peuvent la choisir, mais ils sont limités à la fronde.
 <DOTS1>
+
 <DOTS2>
+
 <DOTS3>
+
 <DOTS4>
+
 <DOTS5>~
+@216305 = ~GOURDINS : cette classe d'armes permet au personnage d'utiliser les gourdins.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216306 = ~ARBALÈTES : cette classe d'armes permet au personnage d'utiliser les arbalètes légères et les arbalètes lourdes.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216305 = ~DAGUES : cette classe d'armes permet au personnage d'utiliser les dagues et les dagues de jet.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216306 = ~HALLEBARDES : cette classe d'armes permet au personnage d'utiliser les hallebardes.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216307 = ~FLÉAUX : cette classe d'armes permet au personnage d'utiliser les fléaux.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216308 = ~Marteau~
+@216309 = ~MARTEAUX : Cette classe d'arme permet au personnage d'utiliser les marteaux et les massues.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216310 = ~Masse d'armes~
+@216311 = ~MASSES D'ARMES : cette classe d'armes permet au personnage d'utiliser les masses et les étoiles du matin.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216312 = ~PETITES ÉPÉES : cette classe d'armes permet au personnage d'utiliser les épées courtes.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216313 = ~LANCES : cette classe d'armes permet au personnage d'utiliser les lances%cd_javelins%.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216314 = ~BÂTONS : cette classe d'armes permet au personnage d'utiliser les bâtons.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+// keep the leading space
+@216315 = ~ et javelots~
 
 // this component deprecated, but the strings below still needed for the components that replace it
 @218001 = ~Alchimie (Mage)~
@@ -710,6 +950,8 @@ Cette capacité permet au mage de créer des parchemins de faible et moyen nivea
 //get @244003 from string 32117-32120 (bg2ee/iwdee) or 24220-24223 (bgee)
 @244003 = ~(\. S'il a une classe de combattant|s'il appartient à une classe de combattant)~
 
+@274001 = ~Une créature métamorphosée ne peut équiper d'armure~
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -783,27 +1025,31 @@ Cette capacité permet au mage de créer des parchemins de faible et moyen nivea
 @325001 = ~En fait, pouvons-nous voir les objets que vous proposiez lorsque nous sommes arrivés à Kuldahar ?~
 @325002 = ~Pouvons-nous jeter un nouveau coup d'?il aux objets que vous proposiez au milieu de notre séjour ici ?~
 
-@333050 = ~Désactiver la Hâte automatique~
-@333051 = ~Désactiver la Hâte automatique
+@333050 = ~Désactiver la Hâte en dehors des combats~
+@333051 = ~Désactiver la Hâte en dehors des combats
 
 Cette compétence permet aux membres du groupe de se déplacer plus rapidement en dehors des combats. Cliquez sur la compétence pour la désactiver.~
-@333052 = ~Désactiver la Hâte automatique
+@333052 = ~Désactiver la Hâte en dehors des combats
 
 Cette compétence permet aux membres du groupe de se déplacer et d'incanter des sorts plus rapidement en dehors des combats. Cliquez sur la compétence pour la désactiver.~
-@333053 = ~Désactiver la Hâte automatique
+@333053 = ~Désactiver la Hâte en dehors des combats
 
 Cette compétence permet aux membres du groupe d'incanter des sorts plus rapidement en dehors des combats. Cliquez sur la compétence pour la désactiver.~
-@333060 = ~Activer la Hâte automatique~
-@333061 = ~Activer la Hâte automatique
+@333054 = ~Hâte en dehors des combats~
+// @333055 = ~Improved Alacrity~ // bg2 strref #63217
+@333056 = ~Vitesse de déplacement en dehors des combats~
+@333057 = ~Temps d'incantation en dehors des combats~
+@333060 = ~Activer la Hâte en dehors des combats~
+@333061 = ~Activer la Hâte en dehors des combats
 
 Cette compétence permet aux membres du groupe de se déplacer plus rapidement en dehors des combats. Cliquez sur la compétence pour l'activer.~
-@333062 = ~Activer la Hâte automatique
+@333062 = ~Activer la Hâte en dehors des combats
 
 Cette compétence permet aux membres du groupe de se déplacer et d'incanter des sorts plus rapidement en dehors des combats. Cliquez sur la compétence pour l'activer.~
-@333063 = ~Activer la Hâte automatique
+@333063 = ~Activer la Hâte en dehors des combats
 
 Cette compétence permet aux membres du groupe d'incanter des sorts plus rapidement en dehors des combats. Cliquez sur la compétence pour l'activer.~
-@333070 = ~Bonus de la Hâte automatique désactivé~
+@333070 = ~Bonus de la Hâte en dehors des combats désactivé~
 
 @335100 = ~Sauvegarde-Périodique~
 @335101 = ~Sauvegarde périodique créée~

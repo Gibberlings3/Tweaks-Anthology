@@ -54,7 +54,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	local spriteLevel1 = sprite.m_derivedStats.m_nLevel1
 	local spriteLevel2 = sprite.m_derivedStats.m_nLevel2
 	-- Check if F/C (all but Yeslick)
-	local applyCondition = spriteClassStr == "FIGHTER_CLERIC" and (EEex_IsBitUnset(spriteFlags, 0x5) or spriteLevel1 > spriteLevel2) and not (string.upper(sprite.m_scriptName:get()) == "YESLICK")
+	local applyCondition = spriteClassStr == "FIGHTER_CLERIC" and (EEex_IsBitUnset(spriteFlags, 0x5) or spriteLevel1 > spriteLevel2) and not ((string.upper(sprite.m_scriptName:get()) == "YESLICK") or (string.upper(sprite.m_scriptName:get()) == "LK#YESLK") or (string.upper(sprite.m_scriptName:get()) == "7XYES"))
 	--
 	if sprite:getLocalInt("cdtweaksYeslickAxes") == 0 then
 		if applyCondition then

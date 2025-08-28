@@ -8,7 +8,17 @@
 
 ACTION_INCLUDE "%MOD_FOLDER%/lib/make_generalist.tpa"
 
-COPY_EXISTING_REGEXP "^%tutu_scriptbg%xan.cre$" "override"
-                     "^_?xan[0-9_]*.cre$" "override"
-  LAUNCH_PATCH_MACRO mh_make_generalist
-  BUT_ONLY IF_EXISTS
+INCLUDE ~cdtweaks/lib/joinable_npc_array.tpa~
+
+ACTION_PHP_EACH JOINABLE_NPC_ARRAY AS file => dv BEGIN
+
+  ACTION_IF (("%dv%" STRING_COMPARE_CASE "xan"   = 0) OR     // regular happy xan
+             ("%dv%" STRING_COMPARE_CASE "o#xan" = 0)) BEGIN // kulyok's bg2 xan
+
+    COPY_EXISTING ~%file%~ ~override~
+      LAUNCH_PATCH_MACRO mh_make_generalist
+      BUT_ONLY IF_EXISTS
+      
+  END
+
+END  

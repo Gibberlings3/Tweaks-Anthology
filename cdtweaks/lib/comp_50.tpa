@@ -6,11 +6,16 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-COMPILE ~cdtweaks/baf/0ikmorph.baf~
-        ~cdtweaks/baf/ikmorph.baf~
+COMPILE ~cdtweaks/baf/ikmorph.baf~
         ~cdtweaks/dlg/ikmorph.d~
-
-MOVE ~override/0ikmorph.bcs~ ~scripts/0ikmorph.bs~
+        
+COPY ~cdtweaks/baf/0ikmorph.baf~ ~scripts/0ikmorph.bs~
+  // if monk animation has been swapped to cleric, allow them to use the morphing script
+  PATCH_IF (((MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2560~) AND (!MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~10~)) OR // monks allowed helmets but helmets not removed
+            (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2561~) OR (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2562~)) BEGIN // monks allwoed staves
+    APPEND_FILE ~cdtweaks/baf/0ikmorph_monk.baf~
+  END
+  COMPILE_BAF_TO_BCS
 
 APPEND ~scrpdesc.2da~ ~0IKMorph IKMorph1 IKMorph2~
 

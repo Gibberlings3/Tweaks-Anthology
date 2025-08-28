@@ -1,0 +1,45 @@
+/*
++----------------------------------------------------------------------------------------+
+| APPEND_LUA_CHUNK                                                                       |
++----------------------------------------------------------------------------------------+
+| Appends the specified lua chunk to a new or existing lua file (if not already present) |
++----------------------------------------------------------------------------------------+
+*/
+
+DEFINE_DIMORPHIC_FUNCTION "APPEND_LUA_CHUNK"
+STR_VAR
+	"description" = "<MISSING DESCRIPTION ...>"
+	"sourceFileSpec" = "" // full path to lua file
+	"destRes" = "" // max 8-character string (must start with "m_")
+BEGIN
+	<<<<<<<< .../%MOD_FOLDER%-inlined/empty
+	>>>>>>>>
+	// sanity check
+	ACTION_IF (STRING_LENGTH "%destRes%" > 8) OR ("%destRes%" STRING_CONTAINS_REGEXP "^m_") BEGIN
+		FAIL "APPEND_LUA_CHUNK: invalid ``destRes`` parameter (%destRes%)"
+	END
+	//
+	ACTION_IF !(FILE_EXISTS_IN_GAME "%destRes%.lua") BEGIN
+		COPY ".../%MOD_FOLDER%-inlined/empty" "override\%destRes%.lua"
+			DELETE_BYTES 0x0 BUFFER_LENGTH
+			INSERT_BYTES 0x0 STRING_LENGTH "-- ***%description%*** --%WNL%%WNL%"
+			WRITE_ASCII 0x0 "-- ***%description%*** --%WNL%%WNL%"
+		BUT_ONLY_IF_IT_CHANGES
+	END
+	//
+	COPY - "%sourceFileSpec%" "override"
+		EVALUATE_BUFFER
+		READ_ASCII 0x0 "fileContent" (BUFFER_LENGTH)
+	BUT_ONLY
+	//
+	COPY_EXISTING "%destRes%.lua" "override"
+		// check if the file already contains the chunk
+		SET "found" = INDEX_BUFFER (CASE_SENSITIVE EXACT_MATCH "%fileContent%")
+		PATCH_IF "%found%" == "-1" BEGIN
+			SET "eof" = RINDEX_BUFFER (CASE_INSENSITIVE EVALUATE_REGEXP "$")
+			INSERT_BYTES "%eof%" STRING_LENGTH "%fileContent%%WNL%"
+			WRITE_EVALUATED_ASCII "%eof%" "%fileContent%%WNL%"
+		END
+	BUT_ONLY
+END
+

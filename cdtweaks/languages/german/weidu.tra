@@ -298,6 +298,12 @@ Aktiviere Zauberrate:          a7_casting_speed_enable
 @410000 = ~Aendere Korgan zu Neutral Boese~
 @411000 = ~Kagain ein zulaessiges Konstitutionsergebnis von 19 geben~
 
+@421000 = ~Aendere Nalias Diebesstufe~
+@421001 = ~Auf Diebesstufe 5~
+@421002 = ~Auf Diebesstufe 6~
+@421003 = ~Auf Diebesstufe 7~
+@421004 = ~Auf Diebesstufe 8~
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\

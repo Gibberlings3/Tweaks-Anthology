@@ -1,0 +1,6 @@
+IF
+  Global("ikmorph_monk_allowed","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("ikmorph_monk_allowed","GLOBAL",1)
+END

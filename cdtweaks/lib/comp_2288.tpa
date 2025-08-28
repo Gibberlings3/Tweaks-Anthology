@@ -1,0 +1,21 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
+///// Alter druid Spell/level Progression Table                  \\\\\
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+/////                                                            \\\\\
+///// druid level, normal cleric spells                          \\\\\
+/////                                                            \\\\\
+
+ACTION_IF game_is_iwd2 THEN BEGIN
+
+  COPY_EXISTING ~mxsplclr.2da~ ~override/mxspldrd.2da~
+
+END ELSE BEGIN
+
+  COPY_EXISTING ~mxsplprs.2da~ ~override/mxspldru.2da~
+
+END

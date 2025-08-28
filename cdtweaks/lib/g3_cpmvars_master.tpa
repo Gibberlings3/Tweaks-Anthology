@@ -1,8 +1,12 @@
 /*
-For anyone interested in using these: check out BG1 NPC instead. They'll have more
-examples and the most updated version of these libraries. These are also modified
-libraries in that I remove the GAME_IS checks from the individual libraries, since
-I do the game checks here instead.
+For anyone interested in using these: check out the modding-respirces repo at G3's 
+github:
+
+https://github.com/Gibberlings3/modding-resources/tree/master/code/cam
+
+They'll have more examples and the most updated version of these libraries. These 
+are also modified libraries in that I remove the GAME_IS checks from the individual libraries, 
+since I do the game checks here instead.
 
 I mainly use these for the handful of times I need to patch specific BG areas or their
 scripts; this is why I can do things like use the BGEE vars for oBG, which is something
@@ -38,7 +42,7 @@ END ELSE BEGIN
     COPY_EXISTING ~%area%.are~ ~override~
       READ_ASCII 0x94 a_script
       PATCH_IF ("%script%" STRING_COMPARE_CASE ~~ = 0) BEGIN // if blank
-        PATCH_IF GAME_IS ~tutu tutu_totsc~ BEGIN // if Tutu
+        PATCH_IF tutu_gen BEGIN // if Tutu
           WRITE_ASCIIE 0x95 ~%SOURCE_RES%~ #7
           WRITE_ASCII  0x94 ~_ar~
         END ELSE BEGIN // bgt

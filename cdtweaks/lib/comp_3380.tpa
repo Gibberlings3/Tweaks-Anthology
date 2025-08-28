@@ -19,7 +19,7 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
       PATCH_IF opcode = 98 BEGIN
         READ_LONG  (fx_off + 0x04 + (index * 0x30)) parameter1
         READ_LONG  (fx_off + 0x08 + (index * 0x30)) parameter2
-        PATCH_IF ((parameter2 < 3) OR                             // any HP per second OR
+        PATCH_IF ((parameter2 != 3) OR                             // any HP per second OR
                   ((parameter2 = 3) AND (parameter1 < 10))) BEGIN // 1 HP per 9 seconds or better
           SET regen_items += 1 // up the count
           DEFINE_ASSOCIATIVE_ARRAY cd_regen_items BEGIN ~%SOURCE_RES%~ => 0 END

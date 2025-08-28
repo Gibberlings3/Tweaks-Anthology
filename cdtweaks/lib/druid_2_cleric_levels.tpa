@@ -1,18 +1,32 @@
-COPY_EXISTING ~xplevel.2da~ ~override~
+COPY_EXISTING ~xplevel.2da~ ~override~ // if this code changes, update xpcommon.tpa
   REPLACE_TEXTUALLY ~CLERIC\([ %TAB%].*\)[%LNL%%MNL%%WNL%]+DRUID\([ %TAB%].*\)~
 ~CLERIC\1
 DRUID\1~
+  PRETTY_PRINT_2DA
   BUT_ONLY
 
-ACTION_IF FILE_EXISTS_IN_GAME ~lunumab.2da~ THEN BEGIN
+ACTION_IF FILE_EXISTS_IN_GAME ~lunumab.2da~ AND !MOD_IS_INSTALLED ~cdtweaks.tp2~ 2080 THEN BEGIN // if not fixed level 21 HLAs
 
   COPY_EXISTING ~lunumab.2da~ ~override~
-    READ_2DA_ENTRY  2 1 5 "cleric"   // read trueclass cleric value for initial HLA level
-    SET_2DA_ENTRY   6 1 5 "%cleric%" // write trueclass cleric value for initial HLA level into druid slot
-    READ_2DA_ENTRY  9 1 5 "f_c"      // read dual f/c value for initial HLA level
-    SET_2DA_ENTRY  15 1 5 "%f_c%"    // write dual f/c cleric value for initial HLA level into dual f/d slot
-    READ_2DA_ENTRY 22 1 5 "multic"   // read multiclass cleric value for initial HLA level
-    SET_2DA_ENTRY  24 1 5 "%multic%" // write multiclass cleric value for initial HLA level into multiclass druid slot
+    PATCH_FOR_EACH prefix IN ~~ ~MULTI2~ ~FIGHTER_~ BEGIN 
+      REPLACE_EVALUATE ~^\(%prefix%CLERIC[ %TAB%]+\)\([0-9]+\)~ BEGIN
+        SET druidlevel = MATCH2
+      END ~%MATCH1%%MATCH2%~  
+      REPLACE_TEXTUALLY ~^\(%prefix%DRUID[ %TAB%]+\)\([0-9]+\)~ ~\1%druidlevel%~
+    END   
+    BUT_ONLY
+
+END
+
+ACTION_IF FILE_EXISTS_IN_GAME ~xpcap.2da~ THEN BEGIN // mainly for iwd, where the multis do have different caps
+
+  COPY_EXISTING ~xpcap.2da~ ~override~
+    PATCH_FOR_EACH prefix IN ~~ ~FIGHTER_~ BEGIN 
+      REPLACE_EVALUATE ~^\(%prefix%CLERIC[ %TAB%]+\)\([0-9]+\)~ BEGIN
+        SET druidlevel = MATCH2
+      END ~%MATCH1%%MATCH2%~  
+      REPLACE_TEXTUALLY ~^\(%prefix%DRUID[ %TAB%]+\)\([0-9]+\)~ ~\1%druidlevel%~
+    END   
     BUT_ONLY
 
 END

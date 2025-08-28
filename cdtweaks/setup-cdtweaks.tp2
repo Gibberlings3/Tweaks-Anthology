@@ -35,7 +35,7 @@ ALWAYS
 
 END
 
-VERSION ~v16~
+VERSION ~v18~
 
 README ~cdtweaks/languages/%LANGUAGE%/readme-cdtweaks.html~ ~cdtweaks/readme-cdtweaks.html~
 
@@ -103,7 +103,7 @@ LANGUAGE
   ~cdtweaks/languages/spanish/game.tra~
   ~cdtweaks/languages/spanish/weidu.tra~
 LANGUAGE
-  ~Simplified Chinese (Translation by c4_angel, distance20; oriignal BG2 Tweaks by Miranda; new string trans by Lewis Liu)~
+  ~Simplified Chinese (Translation by c4_angel, distance20; original BG2 Tweaks by Miranda; new string trans by Lewis Liu)~
   ~schinese~
   ~cdtweaks/languages/english/game.tra~
   ~cdtweaks/languages/english/weidu.tra~
@@ -2252,6 +2252,36 @@ LABEL ~cd_tweaks_cleric_spell_progression_pnp~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 /////                                                            \\\\\
+///// druid level, cleric spells                                 \\\\\
+/////                                                            \\\\\
+
+BEGIN @228800 DESIGNATED 2288
+GROUP @9
+SUBCOMPONENT @229000 // alter druid progression
+REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
+REQUIRE_PREDICATE NOT FILE_EXISTS_IN_GAME ~bpduearc.spl~ @16      // non-BP
+REQUIRE_PREDICATE NOT (GAME_IS ~bg2 tob bgt~ AND FILE_EXISTS ~data/rot-rule.bif~) @16 // non-RoT
+REQUIRE_PREDICATE NOT FILE_EXISTS         ~data/tdd-rule.bif~ @16 // non-TDD
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2~ @25
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~dw_talents/dw_talents.tp2~ 40610 @24 // Druids Use Cleric XP and Spell Tables
+LABEL ~cd_tweaks_druid_spell_progression_cleric_druid_level~
+
+/////                                                            \\\\\
+///// druid level, un-nerfed cleric spells                        \\\\\
+/////                                                            \\\\\
+
+BEGIN @228900 DESIGNATED 2289
+GROUP @9
+SUBCOMPONENT @229000 // alter druid progression
+REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
+REQUIRE_PREDICATE NOT FILE_EXISTS_IN_GAME ~bpduearc.spl~ @16      // non-BP
+REQUIRE_PREDICATE NOT (GAME_IS ~bg2 tob bgt~ AND FILE_EXISTS ~data/rot-rule.bif~) @16 // non-RoT
+REQUIRE_PREDICATE NOT FILE_EXISTS         ~data/tdd-rule.bif~ @16 // non-TDD
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2~ @25
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~dw_talents/dw_talents.tp2~ 40610 @24 // Druids Use Cleric XP and Spell Tables
+LABEL ~cd_tweaks_druid_spell_progression_cleric_unnerfed_druid_level~
+
+/////                                                            \\\\\
 ///// druid level, un-nerfed druid spells                        \\\\\
 /////                                                            \\\\\
 
@@ -2337,6 +2367,126 @@ REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME 
 REQUIRE_PREDICATE NOT GAME_IS ~iwd2~ @25
 REQUIRE_PREDICATE !MOD_IS_INSTALLED ~dw_talents/dw_talents.tp2~ 40610 @24 // Druids Use Cleric XP and Spell Tables
 LABEL ~cd_tweaks_druid_spell_progression_cleric_unnerfed_cleric_level~
+
+/////                                                            \\\\\
+///// iwd druid level, normal druid spells                       \\\\\
+/////                                                            \\\\\
+
+BEGIN @273000 DESIGNATED 2730
+GROUP @9
+SUBCOMPONENT @229000 // alter druid progression
+REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2 iwd how totlm iwdee~ @25
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~dw_talents/dw_talents.tp2~ 40610 @24 // Druids Use Cleric XP and Spell Tables
+LABEL ~cd_tweaks_druid_spell_progression_unchanged_iwd_druid_level~
+
+/////                                                            \\\\\
+///// iwd druid level, un-nerfed druid spells                    \\\\\
+/////                                                            \\\\\
+
+BEGIN @273100 DESIGNATED 2731
+GROUP @9
+SUBCOMPONENT @229000 // alter druid progression
+REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2 iwd how totlm iwdee~ @25
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~dw_talents/dw_talents.tp2~ 40610 @24 // Druids Use Cleric XP and Spell Tables
+LABEL ~cd_tweaks_druid_spell_progression_unnerfed_iwd_druid_level~
+
+/////                                                            \\\\\
+///// iwd druid level, pnp cleric/druid spells                   \\\\\
+/////                                                            \\\\\
+
+BEGIN @273200 DESIGNATED 2732
+GROUP @9
+SUBCOMPONENT @229000 // alter druid progression
+REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2 iwd how totlm iwdee~ @25
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~dw_talents/dw_talents.tp2~ 40610 @24 // Druids Use Cleric XP and Spell Tables
+LABEL ~cd_tweaks_druid_spell_progression_pnp_iwd_druid_level~
+
+/////                                                            \\\\\
+///// iwd druid level, normal cleric spells                      \\\\\
+/////                                                            \\\\\
+
+BEGIN @273300 DESIGNATED 2733
+GROUP @9
+SUBCOMPONENT @229000 // alter druid progression
+REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2 iwd how totlm iwdee~ @25
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~dw_talents/dw_talents.tp2~ 40610 @24 // Druids Use Cleric XP and Spell Tables
+LABEL ~cd_tweaks_druid_spell_progression_cleric_normal_iwd_druid_level~
+
+/////                                                            \\\\\
+///// iwd druid level, un-nerfed cleric spells                   \\\\\
+/////                                                            \\\\\
+
+BEGIN @273400 DESIGNATED 2734
+GROUP @9
+SUBCOMPONENT @229000 // alter druid progression
+REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2 iwd how totlm iwdee~ @25
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~dw_talents/dw_talents.tp2~ 40610 @24 // Druids Use Cleric XP and Spell Tables
+LABEL ~cd_tweaks_druid_spell_progression_cleric_unnerfed_iwd_druid_level~
+
+/////                                                            \\\\\
+///// bg2 druid level, normal druid spells                       \\\\\
+/////                                                            \\\\\
+
+BEGIN @273500 DESIGNATED 2735
+GROUP @9
+SUBCOMPONENT @229000 // alter druid progression
+REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2 bg1 totsc bgee bg2ee bg2 tob eet bgt tutu tutu_totsc~ @25
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~dw_talents/dw_talents.tp2~ 40610 @24 // Druids Use Cleric XP and Spell Tables
+LABEL ~cd_tweaks_druid_spell_progression_unchanged_bg2_druid_level~
+
+/////                                                            \\\\\
+///// bg2 druid level, un-nerfed druid spells                    \\\\\
+/////                                                            \\\\\
+
+BEGIN @273600 DESIGNATED 2736
+GROUP @9
+SUBCOMPONENT @229000 // alter druid progression
+REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2 bg1 totsc bgee bg2ee bg2 tob eet bgt tutu tutu_totsc~ @25
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~dw_talents/dw_talents.tp2~ 40610 @24 // Druids Use Cleric XP and Spell Tables
+LABEL ~cd_tweaks_druid_spell_progression_unnerfed_bg2_druid_level~
+
+/////                                                            \\\\\
+///// bg2 druid level, pnp cleric/druid spells                   \\\\\
+/////                                                            \\\\\
+
+BEGIN @273700 DESIGNATED 2737
+GROUP @9
+SUBCOMPONENT @229000 // alter druid progression
+REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2 bg1 totsc bgee bg2ee bg2 tob eet bgt tutu tutu_totsc~ @25
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~dw_talents/dw_talents.tp2~ 40610 @24 // Druids Use Cleric XP and Spell Tables
+LABEL ~cd_tweaks_druid_spell_progression_pnp_bg2_druid_level~
+
+/////                                                            \\\\\
+///// bg2 druid level, normal cleric spells                      \\\\\
+/////                                                            \\\\\
+
+BEGIN @273800 DESIGNATED 2738
+GROUP @9
+SUBCOMPONENT @229000 // alter druid progression
+REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2 bg1 totsc bgee bg2ee bg2 tob eet bgt tutu tutu_totsc~ @25
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~dw_talents/dw_talents.tp2~ 40610 @24 // Druids Use Cleric XP and Spell Tables
+LABEL ~cd_tweaks_druid_spell_progression_cleric_normal_bg2_druid_level~
+
+/////                                                            \\\\\
+///// bg2 druid level, un-nerfed cleric spells                   \\\\\
+/////                                                            \\\\\
+
+BEGIN @273900 DESIGNATED 2739
+GROUP @9
+SUBCOMPONENT @229000 // alter druid progression
+REQUIRE_PREDICATE ((FILE_EXISTS_IN_GAME ~mxspldrd.2da~) OR (FILE_EXISTS_IN_GAME ~mxspldru.2da~)) @25
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2 bg1 totsc bgee bg2ee bg2 tob eet bgt tutu tutu_totsc~ @25
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~dw_talents/dw_talents.tp2~ 40610 @24 // Druids Use Cleric XP and Spell Tables
+LABEL ~cd_tweaks_druid_spell_progression_cleric_unnerfed_bg2_druid_level~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -2991,6 +3141,7 @@ LABEL ~cd_tweaks_pnp_potions~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
 /////                                                            \\\\\/////
+/////                                                            \\\\\/////
 ///// Make Grease ignitable                                           \\\\\
 /////                                                            \\\\\/////
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
@@ -3128,6 +3279,23 @@ GROUP @9
 REQUIRE_PREDICATE GAME_IS "bgee bg2ee eet iwdee" @25
 REQUIRE_PREDICATE MOD_IS_INSTALLED ~EEex.tp2~ 0 @29
 LABEL ~cd_tweaks_nwn_summons~
+
+// 2720 is the Yoshimo > Imoen XP transfer component, placed earlier in this group
+
+// 2730-9 are for the druid XP/spell progression variants
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
+///// Allow Shapeshifter Armor, Prevent Shapeshifting While Worn \\\\\
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @274000 DESIGNATED 2740
+GROUP @9
+REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet iwdee~ @25
+LABEL ~cd_tweaks_shapeshifter_armor~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -3924,7 +4092,7 @@ LABEL ~cd_tweaks_sensible_entrance_points~
 BEGIN @323000 DESIGNATED 3230
 GROUP @4
 REQUIRE_PREDICATE GAME_IS ~bgee bg1 totsc tutu tutu_totsc eet bgt~ @25
-REQUIRE_PREDICATE !MOD_IS_INSTALLED ~tnt/tnt.tp2~ ~58~ @16
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~tnt/tnt.tp2~ ~60~ @16
 LABEL ~cd_tweaks_taerom_makes_multiple_ankheg_armor~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -4517,7 +4685,7 @@ LABEL ~cd_tweaks_chapter_saves_in_pstee~
 
 BEGIN @338000 DESIGNATED 3380
 GROUP @4
-REQUIRE_PREDICATE NOT GAME_IS ~iwd bg1 totsc pst~ @25 // lack scripting triggers or other nonsense
+REQUIRE_PREDICATE NOT GAME_IS ~iwd iwd2 bg1 totsc pst~ @25 // lack scripting triggers or other nonsense; exclude iwd2 since nothing qualifies
 LABEL ~cd_tweaks_sensible_regeneration_when_traveling~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -4805,6 +4973,20 @@ LABEL ~cd_tweaks_more_sensible_morentherene~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
+///// Summoned Creatures Clear Fog of War              \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @350000 DESIGNATED 3500
+GROUP @4
+REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet iwdee~ @25
+REQUIRE_PREDICATE MOD_IS_INSTALLED "EEex.tp2" 0 @29
+LABEL ~cd_tweaks_summons_clear_fow~
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
 ///// Adjust Evil joinable NPC reaction rolls          \\\\\
 /////                                                  \\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -5056,7 +5238,8 @@ LABEL ~cd_tweaks_coran_legal_dex~
 
 BEGIN @413000 DESIGNATED 4130
 GROUP @0
-REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25 // Tutu or BGT only
+REQUIRE_PREDICATE ((GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~) OR // Tutu or BGT only
+                   (FILE_EXISTS_IN_GAME ~o#xan09.cre~)) @25              // kulyok's bg2 xan
 LABEL ~cd_tweaks_make_xan_generic_mage~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -5069,7 +5252,8 @@ LABEL ~cd_tweaks_make_xan_generic_mage~
 
 BEGIN @413100 DESIGNATED 4131
 GROUP @0
-REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25 // Tutu or BGT only
+REQUIRE_PREDICATE ((GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~) OR // Tutu or BGT only
+                   (FILE_EXISTS_IN_GAME ~l#dyn.cre~)) @25                // lava's bg2 dynaheir
 LABEL ~cd_tweaks_make_dynaheir_generic_mage~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -5082,7 +5266,9 @@ LABEL ~cd_tweaks_make_dynaheir_generic_mage~
 
 BEGIN @413200 DESIGNATED 4132
 GROUP @0
-REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25 // Tutu or BGT only
+REQUIRE_PREDICATE ((GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~) OR // Tutu or BGT only
+                   (FILE_EXISTS_IN_GAME ~l#xza.cre~) OR                  // lava's bg2 xzar
+                   (FILE_EXISTS_IN_GAME ~7xcre75.cre~)) @25              // smiling imp's bg2 xzar
 LABEL ~cd_tweaks_make_xzar_generic_mage~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -5123,7 +5309,10 @@ LABEL ~cd_tweaks_move_boo_into_inventory~
 
 BEGIN @504000 DESIGNATED 4160
 GROUP @0
-REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~ @25 // BG content games
+REQUIRE_PREDICATE ((GAME_IS ~bg1 totsc tutu tutu_totsc bgt eet bgee~) OR  // BG content games
+                   (FILE_EXISTS_IN_GAME ~lk#yesl.cre~) OR                 // pixel drain/kaeloree/lava yeslick bg2 npc mod
+                   (FILE_EXISTS_IN_GAME ~lk#yes25.cre~) OR                // pixel drain/kaeloree/lava yeslick bg2 npc mod
+                   (FILE_EXISTS_IN_GAME ~lk#7xcre2.cre~)) @25             // bg1 npcs in soa yeslick
 LABEL ~cd_tweaks_yeslick_can_use_axes~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -5286,6 +5475,95 @@ GROUP @0
 REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet~ @25
 REQUIRE_PREDICATE MOD_IS_INSTALLED "EEex.tp2" 0 @29
 LABEL ~cd_tweaks_dorns_sword~
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
+///// Adjust Nalia's Thief level                                 \\\\\
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+/////                                                            \\\\\
+///// To Thief level 5                                           \\\\\
+/////                                                            \\\\\
+
+BEGIN @421001 DESIGNATED 4210 // To Thief level 5
+SUBCOMPONENT @421000 // Adjust Nalia's Thief level
+GROUP @0
+REQUIRE_PREDICATE GAME_IS ~soa tob bgt bg2ee eet~ @25
+LABEL ~cd_tweaks_nalia_thief_level_5~
+
+/////                                                            \\\\\
+///// To Thief level 6                                           \\\\\
+/////                                                            \\\\\
+
+BEGIN @421002 DESIGNATED 4211 // To Thief level 6
+SUBCOMPONENT @421000 // Adjust Nalia's Thief level
+GROUP @0
+REQUIRE_PREDICATE GAME_IS ~soa tob bgt bg2ee eet~ @25
+LABEL ~cd_tweaks_nalia_thief_level_6~
+
+/////                                                            \\\\\
+///// To Thief level 7                                           \\\\\
+/////                                                            \\\\\
+
+BEGIN @421003 DESIGNATED 4212 // To Thief level 7
+SUBCOMPONENT @421000 // Adjust Nalia's Thief level
+GROUP @0
+REQUIRE_PREDICATE GAME_IS ~soa tob bgt bg2ee eet~ @25
+LABEL ~cd_tweaks_nalia_thief_level_7~
+
+/////                                                            \\\\\
+///// To Thief level 8                                           \\\\\
+/////                                                            \\\\\
+
+BEGIN @421004 DESIGNATED 4213 // To Thief level 8
+SUBCOMPONENT @421000 // Adjust Nalia's Thief level
+GROUP @0
+REQUIRE_PREDICATE GAME_IS ~soa tob bgt bg2ee eet~ @25
+LABEL ~cd_tweaks_nalia_thief_level_8~
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
+///// Delay Neera's appearance in Beregost                       \\\\\
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+/////                                                            \\\\\
+///// after nashkel mines                                        \\\\\
+/////                                                            \\\\\
+
+BEGIN @422001 DESIGNATED 4220 // after nashkel mines
+SUBCOMPONENT @422000 // delay neera
+GROUP @0
+REQUIRE_PREDICATE GAME_IS ~bgee eet~ @25
+LABEL ~cd_tweaks_neera_delay_till_mines~
+
+/////                                                            \\\\\
+///// after 5000 xp                                              \\\\\
+/////                                                            \\\\\
+
+BEGIN @422100 DESIGNATED 4221 // 5k xp
+SUBCOMPONENT @422000 // delay neera
+GROUP @0
+REQUIRE_PREDICATE GAME_IS ~bgee eet~ @25
+LABEL ~cd_tweaks_neera_delay_till_5k_xp~
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                            \\\\\
+///// Increase Yoshimo's Trapsetting Ability                     \\\\\
+/////                                                            \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @423000 DESIGNATED 4230
+GROUP @0
+REQUIRE_PREDICATE GAME_IS ~soa tob bgt bg2ee eet~ @25
+LABEL ~cd_tweaks_yoshimo_better_trapsetting~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\

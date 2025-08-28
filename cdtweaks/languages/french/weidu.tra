@@ -35,12 +35,20 @@ ou rendues obsoletes par un autre mod deja installe.~
 @26 = ~Utilisation des valeurs du fichier de config cdtweaks.txt pour ce composant...~
 @27 = ~Il est necessaire d'utiliser Modmerge avant d'installer des mods pour ce jeu. Consultez le readme pour plus d'informations et pour trouver un lien pour telecharger Modmerge.~
 @28 = ~Nombre d'emplacements disponibles de "spellstates" ou d'ecoles de magie secondaire insuffisant pour installer ce composant (trop de mods installes).~
-@29 = ~Requires EEex: https://github.com/Bubb13/EEex ~
-@30 = ~NWN-Style Feats~
+@29 = ~Necessite EEex : https://github.com/Bubb13/EEex ~
+@30 = ~Capacites dans le style de Never Winter Night~
+@31 = ~Necessite l'option de jeu "Attaque sournoise 3e Édition" (https://github.com/Argent77/A7-HiddenGameplayOptions).~
+@32 = ~Necessite LuaJIT : Composant #1 de https://github.com/Bubb13/EEex~
+@33 = ~Pas assez d'emplacements de sorts libres~
 
-// this component is not ready, you can skip translating this block
-//@100 = ~Automated Installer~
-//@101 = ~Automated install file not found, skipping...~
+@100 = ~Batch Installer (Installation groupee) -- EXPERIMENTAL, utilisez à vos propres risques et perils. Vérifiez le readme.~
+@101 = ~
+
+Enregistrement du composant pour l'installation batch.
+
+Les messages de desinstallation ci-dessus sont normaux et attendus.
+
+~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -136,7 +144,13 @@ ou rendues obsoletes par un autre mod deja installe.~
 @25400 = ~Luminosite moderement reduite~
 @25500 = ~Couleurs fidele au personnage (Plus naturel, mais peut etre tres fonce ou tres clair dans certains cas.)~
 
-@26000 = "Hide VFX from invisible enemies [Luke, EEex]"
+@26000 = "Masquer les effets visuels (Bouclier de feu, Globe d'invulnerabilite, ...) des ennemis invisibles [Luke (EEex)]"
+
+@27000 = ~Portraits statiques pour les NPCs de PsT~
+@27001 = ~Conserver les changements lies a la sante et au statut~
+@27100 = ~Ne pas conserver les changements lies a la sante et au statut~
+
+@28000 = ~Ajouter des indicateurs visuels pour les PNJ qui n'ont pas encore ete abordes~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -161,6 +175,10 @@ ou rendues obsoletes par un autre mod deja installe.~
 @105000 = ~Transformation progressive des objets des Elfes Noirs en poussiere~
 
 @106000 = ~Casques, Boucliers et Armures de fer cassables~
+@106004 = ~Casques, Boucliers et Armures se brise de la meme maniere~
+
+@106100 = ~Casques, Boucliers cassables, les Armures se degraderont une fois avant de se briser~
+@106200 = ~Casques, Boucliers cassables, les Armures se degraderont progressivement avant de se briser~
 
 @107000 = ~Amelioration du dialogue d'ejection pour les PNJs multijoueurs~
 
@@ -233,6 +251,8 @@ ou rendues obsoletes par un autre mod deja installe.~
 
 @125600 = ~Deplacer les PNJ a des endroits plus accessibles : Deplacer Viconia sur la route au Sud de Beregost~
 
+@125700 = ~Deplacer les PNJ a des endroits plus accessibles : Deplacer Alora, Eldoth, Quayle, Shar-Teel, Tiax, et Viconia~
+
 @126000 = ~Ajustement de reputation grace a des bardes~
 
 @127000 = ~Changer le declencheur de fin de chapitre des mines de Bois-Manteau pour la methode sans TotSC (plainab)~
@@ -277,9 +297,11 @@ ou rendues obsoletes par un autre mod deja installe.~
 
 @135400 = ~Options 2 et 3~
 
-@136000 = ~Automatic transition to "Heart of Winter" expansion~
-@136001 = ~Don't change the main game~
-@136100 = ~Remove Hjollder from Kuldahar~
+@136000 = ~Transition automatique vers l'extension "Heart of Winter" apres le combat final de IWD1~
+@136001 = ~Le deroule du jeu reste inchange (l'extension sera toujours accessible avant le combat final)~
+@136100 = ~Hjollder n'apparaitra plus à Kuldahar~
+
+@137000 = ~Permettre aux moines de changer de types de degats en equipant leurs poings au moyen de capacites speciales~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -365,14 +387,16 @@ ou rendues obsoletes par un autre mod deja installe.~
 
 @228000 = ~Alterer la table de progression des sorts du clerc~
 
-@229000 = ~Alterer les tables de progression des sorts et de niveaux du druide~
-@229001 = ~Pas de modification de la progression, table debridee des sorts des druides uniquement (Blucher)~
-@229100 = ~Pas de modification de la progression, table P&P des sorts des clercs et druides uniquement~
-@229200 = ~Utiliser la table de progression des clercs et la table normale des sorts des druides~
-@229300 = ~Utiliser la table de progression des clercs et la table debridee des sorts des druides (Blucher)~
-@229400 = ~Utiliser la table de progression des clercs et la table P&P des sorts des clercs et druides~
-@229500 = ~Utiliser la table de progression des clercs et la table normale des sorts des clercs~
-@229600 = ~Utiliser la table de progression des clercs et la table debridee des sorts des clercs (Blucher)~
+@228800 = ~Pas de modification de la progression, table normale des sorts de clerc~
+@228900 = ~Pas de modification de la progression, table debridee des sorts de clerc [Blucher]~
+@229000 = ~Alterer les tables de progression des sorts et de niveaux pour les druides~
+@229001 = ~Pas de modification de la progression, table debridee des sorts de druide uniquement (Blucher)~
+@229100 = ~Pas de modification de la progression, table P&P des sorts de clerc et druide uniquement~
+@229200 = ~Utiliser la table de progression des clercs et la table normale des sorts de druide~
+@229300 = ~Utiliser la table de progression des clercs et la table debridee des sorts de druide (Blucher)~
+@229400 = ~Utiliser la table de progression des clercs et la table P&P des sorts de clerc et druide~
+@229500 = ~Utiliser la table de progression des clercs et la table normale des sorts de clerc~
+@229600 = ~Utiliser la table de progression des clercs et la table debridee des sorts de clerc (Blucher)~
 
 @230000 = ~Tables de capacites de haut niveau pour les triclasses~
 
@@ -389,7 +413,7 @@ ou rendues obsoletes par un autre mod deja installe.~
 
 @234000 = ~Suppression de la limite de convocation des creatures celestes (Ardanis/GeN1e)~
 
-@235000 = ~Alterer les restrictions des multi-classses~
+@235000 = ~Alterer les restrictions des multi-classes~
 @235001 = ~Autoriser les humains a se multi-classer~
 @235100 = ~Autoriser aux non-humains l'acces a toutes les combinaisons multi-classes~
 @235200 = ~Installer les options une et deux (tout le monde a acces aux multi-classes sans contrainte)~
@@ -417,9 +441,9 @@ ou rendues obsoletes par un autre mod deja installe.~
 
 @242000 = ~Attenuer les restrictions d'equipement pour les clercs multi-classes~
 
-@243000 = ~Attenuer les restrictions d'equipement pour les druides multi-classes~
+@243000 = ~Attenuer les restrictions d'equipement~ // Removed  pour les druides multi-classes
 @243001 = ~Modifier les restrictions d'equipement pour les druides multi-classes~
-@243100 = ~Accentuer les restrictions d'equipement pour les druides multi-classes (Angel)~
+@243100 = ~Accentuer les restrictions d'equipement (Angel)~ // Removed  pour les druides multi-classes
 
 @244000 = ~Tout le monde obtient le bonus d'attaque par round de specialisation~
 
@@ -441,6 +465,11 @@ ou rendues obsoletes par un autre mod deja installe.~
 @255200 = ~Mage generique pour les gnome multi-classes, autorise tous les kits pour les mono-classes~
 
 @256000 = ~Autorise le port du casque pour les moines~
+@256001 = ~Equipment utilisable supplementaire pour les moines~
+
+@256100 = ~Permettre aux moines d'utiliser les batons~
+
+@256200 = ~Permettre aux moines de porter les casques et d'utiliser les batons~
 
 // these components were abandoned due to bugs with dual-classes
 // @257000 = ~BGT : Limite d'experience supplementaire au cours de BG~
@@ -457,22 +486,40 @@ ou rendues obsoletes par un autre mod deja installe.~
 
 @263000 = "Ameliore les sorts « Soins des blessures » / « Blessures » [Luke]"
 
-@264000 = "PnP Potions [Luke]"
+@264000 = "Potions PnP [Luke]"
 
-@265000 = "Make Grease ignitable [Luke (EEex)]"
+@265000 = "Rendre le sort de Glisse inflammable [Luke (EEex)]"
 
-@266000 = "Donner aux ours et aux sangliers un baroud d'honneur lorsqu'ils atteignent 0 point de vie [Luke]"
+@266000 = "Donner aux ours et aux sangliers un baroud d'honneur lorsqu'ils atteignent 0 point de vie [Luke (EEex)]"
 
-@267000 = "Limit Resting Mechanic [Luke (EEex)]"
+@267000 = "Mecanique limitant la possibilite de repos [Luke (EEex)]"
 
-@268000 = ~« Impose » l'utilisation des arcs a l'Archer [Luke]~
+@268000 = ~Rendre Infravision utile (Malus de 4 au THAC0 dans l'obscurite) [Luke (EEex)]~ // Removed ~« Impose » l'utilisation des arcs a l'Archer [Luke]~
 
-@269000 = "Alternate Concentration Check [Luke (EEex)]"
-@269001 = "v1 (check readme)"
-@269002 = "v2 (check readme)"
-@269003 = "v3 (check readme)"
-@269004 = "v4 (check readme)"
+@269000 = "Concentration avancee [Luke (EEex)]"
+@269001 = "v1 (Echec du sort si (1d20-1) + Chance  ≤ Niveau du sort + Degats reçus)"
+@269002 = "v2 (Echec du sort si (1d20-1) + (Constitution / 2) - 5  ≤ Niveau du sort + 15)"
+@269003 = "v3 (Echec du sort si (1d20-1) + Chance  ≤ Niveau du sort + 15)"
+@269004 = "v4 (Echec du sort si (1d20-1) + (Constitution / 2) - 5  ≤ Niveau du sort + Degats reçus)"
 
+@270000 = "Revison de la regeneration des Trolls [Luke (EEex)]"
+
+@271000 = "NWN-Style. Summons (Les invocations disparaissent apres la mort de leur createur) [Luke (EEex)]"
+
+@272000 = ~Imoen recupere l'experience de Yoshimo a Spellhold [dark0dave]~
+
+@273000 = ~Utiliser la table de progression de IWD pour les druides avec la table normale des sorts de druide~
+@273100 = ~Utiliser la table de progression de IWD pour les druides avec la table debridee des sorts de druide [Blucher]~
+@273200 = ~Utiliser la table de progression de IWD pour les druides avec la table P&P des sorts de clerc et druide~
+@273300 = ~Utiliser la table de progression de IWD pour les druides avec la table normale des sorts de clerc~
+@273400 = ~Utiliser la table de progression de IWD pour les druides avec la table debridee des sorts de clerc [Blucher]~
+@273500 = ~Utiliser la table de progression de BG / BG2 pour les druides avec la table normale des sorts de druide~
+@273600 = ~Utiliser la table de progression de BG / BG2 pour les druides avec la table debridee des sorts de druide [Blucher]~
+@273700 = ~Utiliser la table de progression de BG / BG2 pour les druides avec la table P&P des sorts de clercs et druide~
+@273800 = ~Utiliser la table de progression de BG / BG2 pour les druides avec la table normale des sorts de clerc~
+@273900 = ~Utiliser la table de progression de BG / BG2 pour les druides avec la table debridee des sorts de clerc [Blucher]~
+
+@274000 = ~Permettre aux metamorphes de porter une armure, mais empecher la metamorphose lorsqu'une armure est equipee.~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -543,6 +590,9 @@ ou rendues obsoletes par un autre mod deja installe.~
 @312500 = ~Rendre heureux les personnages neutres lorsque la reputation est moyenne~
 
 @313000 = ~Pas de pieges ni de verrous (Weimer)~
+@313001 = ~Retirez les pieges completement (Pas de pieges pas d'XP non plus)~
+@313010 = ~Retirez uniquement les effets nefastes des pieges~
+@313020 = ~Retirez les effets nefastes des pieges et les creatures invoquees par des alarmes (Peut avoir des effets secondaires pour les mods generant des creatures en relation avec leurs quetes.)~
 
 @314000 = ~Cinematiques et reves des chapitres 1 et 2 acceleres~
 @314001 = ~Version originale d'Ease of Use (Karzak, Blucher)~
@@ -656,7 +706,7 @@ Indiquez un pourcentage entre 20 et 500 : ~
 
 @332000 = ~Pas de depreciation dans les magasins~
 
-@333000 = ~Augmenter la vitesse de deplacement et/ou la vitesse d'incantation des sorts du groupe en dehors des combats~
+@333000 = ~Augmenter la vitesse de deplacement et / ou la vitesse d'incantation des sorts du groupe en dehors des combats~
 @333001 = ~Vitesse de deplacement de 50 pour cent~
 @333002 = ~Vitesse de deplacement de 100 pour cent~
 @333003 = ~Vitesse de deplacement de 150 pour cent~
@@ -669,6 +719,7 @@ Indiquez un pourcentage entre 20 et 500 : ~
 Vitesse de deplacement activee : a7_movement_speed_enable
 Pourcentage de la vitesse de deplacement : a7_movement_speed_value
 Vitesse d'incantation activee :  a7_casting_speed_enable
+Afficher les icones de portrait : a7_display_portrait_icons
 ~
 
 @335000 = ~Creer des sauvegardes periodiques~
@@ -698,19 +749,39 @@ Utiliser les parametres de Baldur.lua :      a7_interval_ini
 @338000 = ~Regeneration plus intelligente lors des voyages~
 @338001 = ~Aucun objet aux proprietes regeneratrices n'a ete trouve : le composant a ete installe mais aucune modification n'a ete realisee.~
 
-@339000 = ~Compétence de pistage utilisee automatiquement par les Rodeurs~
+@339000 = ~Competence de pistage utilisee automatiquement par les Rodeurs~
 @339001 = ~Impossible de lire la table des sorts de pistage : le composant a ete installe mais aucune modification n'a ete realisee..~
 
-@340000 = ~Restaure les astuces des ecrans de chargements~
+@340000 = ~Restaurer les astuces des ecrans de chargements~
 
-@341000 = ~Annonce les sorts en cours d'incantation dans la barre de dialogue~
+@341000 = ~Annoncer les sorts en cours d'incantation dans la barre de dialogue~
 @341001 = ~Uniquement pour les sorts des Mage et des pretres~
 @341100 = ~Uniquement pour les sorts des Mage, des pretres et les capacites speciales~
-@341200 = ~Tous les sorts (Verifier les repercussion dans le readme)~
+@341200 = ~Tous les sorts (Verifier les repercussion dans le readme "Explicit Cast Warnings")~
 
-@342000 = "More Sensible Cowled Wizards [Luke (EEex)]"
+@342000 = "Mages cagoules plus rationnels (Les sorts provenant de certains objets ne provoqueront plus leur apparition) [Luke (EEex)]"
 
-@343000 = "More Stoneskin Feedback [Luke (EEex)]"
+@343000 = "Informations supplementaires sur le nombre de peaux de pierre dans la barre de dialogue [Luke (EEex)]"
+
+@344000 = "Informations supplementaires sur la dissipation des effets dans la barre de dialogue [Luke (EEex)]"
+
+@345000 = "Bouclier de feu plus raisonnable [Luke (EEex)]"
+
+@346000 = "Barriere de lames et les sorts similaire seront affectes par Arret du temps [Luke (EEex)]"
+
+@347000 = ~Ajustement dynamique des FPS (Images par seconde) [Luke (EEex)]~
+
+@348000 = "Morentherene plus rationnelle (Les sorts passifs provenant de certains objets ne provoqueront son reveil) [Luke (EEex)]"
+
+@349000 = ~Commencer les Ombres d'Amn du bon pied [dark0dave]~
+@349001 = ~Commencer avec 300 000 points d’experience et choisir les objets accessibles~
+@349100 = ~Commencer avec 500 000 points d’experience et choisir les objets accessibles~
+@349200 = ~Commencer avec 300 000 points d’experience et tous les objets~
+@349300 = ~Commencer avec 500 000 points d’experience et tous les objets~
+@349400 = ~Placer les traites et manuels de BG1 dans le donjon d'Irenicus~
+@349500 = ~Recuperer les Pantalons dores dans le donjon d'Irenicus~
+@349600 = ~L'equipement de Drizzt est present dans le donjon d'Irenicus~
+@349700 = ~La cape de Baldurien se trouve dans le donjon d'Irenicus~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -762,7 +833,7 @@ Utiliser les parametres de Baldur.lua :      a7_interval_ini
 
 @419000 = ~Coloriser les noms de PNJ joignables dans les dialogues, les entrees de journal, etc.~
 @419001 = ~Ne pas coloriser le nom du personnage principal~
-@419002 = ~Traitement de la chaîne de caractères %index% de %final_strref%...~
+@419002 = ~Traitement de la chaîne de caracteres %index% de %final_strref%...~
 @419100 = ~Coloriser le nom du personnage principal : Gris~
 @419200 = ~Coloriser le nom du personnage principal : Marron~
 @419300 = ~Coloriser le nom du personnage principal : Rouge~
@@ -773,6 +844,18 @@ Utiliser les parametres de Baldur.lua :      a7_interval_ini
 @419800 = ~Coloriser le nom du personnage principal : Orange~
 
 @420000 = "Rendre Rancœur +1 (l'arme de Dorn) un peu plus fiable"
+
+@421000 = ~Ajuster le niveau de voleuse de Nalia~
+@421001 = ~Voleuse de niveau 5 (Augmente la competence Crochetage de serrures)~
+@421002 = ~Voleuse de niveau 6 (Augmente la competence Détection des pieges et Vol a la tire)~
+@421003 = ~Voleuse de niveau 7 (Augmente la competence Crochetage de serrures et Vol a la tire)~
+@421004 = ~Voleuse de niveau 8 (Augmente la competence Vol a la tire et ajoute un point de competence pour les armes a une main)~
+
+@422000 = ~Retarder la rencontre avec Neera a Beregost~
+@422001 = ~Apres la quete des mines de Nashkel~
+@422100 = ~Une fois que Charname atteint 5000 points d'experience~
+
+@423000 = ~Augmenter la capacite Pose de piege de Yoshimo (Au detriment des autres capacites de voleur)~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -799,64 +882,82 @@ Utiliser les parametres de Baldur.lua :      a7_interval_ini
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
-///// NWN-ish feats collection                         \\\\\
+///// NWN-Style feats collection                    \\\\\
 /////                                                  \\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-@600000 = "Disarm class feat for Rogues [Luke (EEex)]"
+@600000 = "Desarmer : Capacite de classe pour les Voleurs [Luke (EEex)]"
 
-@601000 = "Knockdown class feat for Fighters and Monks [Luke (EEex)]"
+@601000 = "Assommer : Capacite de classe pour les Guerriers et les Moines [Luke (EEex)]"
 
-@602000 = "Spellcaster Skill / Counterspell Class Talent [Luke (EEex)]"
+@602000 = "Analyse de sortileges / Contre-sort : Capacite de classe pour les Mages [Luke (EEex)]"
 
-@603000 = "Incantation spontanee pour les Clercs [Luke]"
+@603000 = "Incantation spontanee pour les Clercs [Luke (EEex)]"
 
-@604000 = "Fine lame : Capacite de classe pour les Voleurs [Luke]"
+@604000 = "Fine lame : Capacite de classe pour les Voleurs [Luke (EEex)]"
 
-@605000 = "Deux-armes : Capacite de classe pour les Rodeurs [Luke]"
+@605000 = "Deux-armes : Capacite de classe pour les Rodeurs [Luke (EEex)]"
 
-@606000 = "Porter une armure penalise le bonus de Dexterite [Luke]"
+@606000 = "NWN-Style. Porter une armure penalise le bonus de Dexterite [Luke (EEex)]"
 
-@607000 = "Roule-boule : Capacite de classe pour les Voleurs [Luke]"
+@607000 = "Roule-boule : Capacite de classe pour les Voleurs [Luke (EEex)]"
 
-@608000 = "Grace divine / Sombre benediction : Capacite de classe pour les Paladins / Chevalier noir [Luke]"
+@608000 = "Grace divine / Sombre benediction : Capacite de classe pour les Paladins / Chevalier noir [Luke (EEex)]"
 
-@609000 = "Œil de lynx : Capacite de race pour les Petites-personnes [Luke]"
+@609000 = "Œil de lynx (Bonus de 1 au THAC0 avec les armes de jets) : Capacite de race pour les Petites-personnes [Luke (EEex)]"
 
-@610000 = "Enchainement : Capacite de classe pour les Guerriers [Luke]"
+@610000 = "Enchainement : Capacite de classe passive pour les Guerriers et les Moines [Luke (EEex)]"
 
-@611000 = "Attaque sournoise : Capacite de classe pour les Chevalier noir [Luke]"
+@611000 = "Attaque sournoise : Capacite de kit passive pour les Chevalier noir [Luke (EEex)]"
 
-@612000 = "Intrepide : Capacite de race pour les Petites-personnes [Luke]"
+@612000 = "Intrepide (Bonus de 2 aux jets de sauvegarde contre la peur) : Capacite de race pour les Petites-personnes [Luke (EEex)]"
 
-@613000 = "Tolerance aux poisons : Capacite de classe pour les Assassins [Luke]"
+@613000 = "Tolerance aux poisons : Capacite de kit pour les Assassins [Luke (EEex)]"
 
-@614000 = "Repousser les creatures planaires : Capacite de classe pour les Clercs / Paladins [Luke]"
+@614000 = "Repousser les creatures planaires : Capacite de classe pour les Clercs / Paladins [Luke (EEex)]"
 
-@615000 = "Coup de pied circulaire : Capacite de classe pour les moines [Luke]"
+@615000 = "Coup de pied circulaire : Capacite de classe passive pour les Moines [Luke (EEex)]"
 
-@616000 = "NWN-ish Barbarian Rage [Luke]"
+@616000 = "NWN-Style. Fureur du barbare [Luke (EEex)]"
 
-@617000 = ~"Force" the Archer kit to use bows [Luke (EEex)]~
+@617000 = ~"Forcer" les Archers a utiliser des arcs [Luke (EEex)]~
 
-@618000 = "Blind Fight innate feat for Berserkers [Luke (EEex)]"
+@618000 = "A l'aveugle : Capacite de kit passive pour les Berserkers [Luke (EEex)]"
 
-@619000 = "Dirty Fighting class feat for Chaotic-aligned Rogues [Luke (EEex)]"
+@619000 = "Coup bas : Capacite de classe passive pour les Voleurs d'alignement Chaotique [Luke (EEex)]"
 
-@620000 = "Overwhelming/Devastating Critical Class Feat for Trueclass Fighters [Luke]"
+@620000 = "Coup critique Colossal / Devastateur : Capacite de classe passive pour les pures Guerriers [Luke (EEex)]"
 
-@621000 = "Self Concealment class feat for Monks [Luke (EEex)]"
+@621000 = "Duplicite : Capacite de classe passive pour les Moines [Luke (EEex)]"
 
-@622000 = "Parry Mode kit feat for Blades e Swashbucklers [Luke (EEex)]"
+@622000 = "Parade : Capacite de kit pour les Maître-lames et les Bretteurs [Luke (EEex)]"
 
-@623000 = "Armored Caster class feat for Bards [Luke (EEex)]"
+@623000 = "Lancement des sorts en armure legere : Capacite de classe pour les Bardes [Luke (EEex)]"
 
-@624000 = "Trackless Step class feat for Rangers [Luke (EEex)]"
+@624000 = "Un avec Mere Nature (Deplacement silencieux bonus de 25 % dans la nature) : Capacite de classe passive pour les Rodeurs [Luke (EEex)]"
 
-@625000 = "Nature Sense class feat for Druids [Luke (EEex)]"
+@625000 = "Ardeur de Mere Nature (Bonus de 2 aux jets d'attaque dans la nature) : Capacite de classe passive pour les Druides [Luke (EEex)]"
 
-@626000 = "Uncanny Dodge class feat for Barbarians and Rogues [Luke (EEex)]"
+@626000 = "Pirouette (Bonus de 2 aux jets de sauvegarde contre les pieges) : Capacite de classe passive pour les Barbares et les Voleurs [Luke (EEex)]"
+
+@627000 = "NWN-Style. Attaque sournoise / Attaque handicapante : Capacite de classe passive pour les Voleurs et Traqueurs [Luke (EEex)]"
+
+@628000 = "Derobade (NWN Evasion) : Capacite de classe passive pour les Moines et les Voleurs [Luke (EEex)]"
+
+@629000 = "Sortilege perforant : Capacite de classe passive pour les jeteurs de sorts [Luke (EEex)]"
+
+@630000 = "Chatier le malveillant / bienveillant : Capacite de classe / kit pour les Paladins / Chevalier noir [Luke]"
+
+@631000 = "Arpenter les sentiers (Niveau 2 : Immunite à Glisse, Toile et Enchevetrement) : Capacite de classe passive pour les Druides [Luke (EEex)]"
+
+@632000 = "Fleau pour les ennemis (Bonus de 2 au toucher et 2d6 points de degats supplementaires contre la race ennemie): Capacite de classe passive pour les Rodeurs [Luke (EEex)]"
+
+@633000 = "Cantrips : Capacite de classe pour les jeteurs de sorts [Luke (EEex)]"
+
+@634000 = "Compagnon animal : Capacite de kit pour les Belluaires [Luke (EEex)]"
+
+@635000 = "Opportuniste : Capacite de classe passive pour les Voleurs d'alignement Chaotique [Luke (EEex)]"
 
 //WeiDU prompts
 @-1000= "Le mod %TP2_FILE_NAME% contient"

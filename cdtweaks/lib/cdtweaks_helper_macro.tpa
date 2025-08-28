@@ -1,0 +1,269 @@
+DEFINE_ACTION_MACRO ~cdtweaks_helper_email~ BEGIN   
+
+  ACTION_IF email = 1 BEGIN
+  
+    OUTER_SET email = 2
+
+    COPY ~./inline/install.tpa~ ~weidu_external/cdtweaks_helper/email_to_cam/install.tpa~ EVALUATE_BUFFER
+    COPY ~./inline/helper.csv~  ~weidu_external/cdtweaks_helper/email_to_cam/helper.csv~  EVALUATE_BUFFER
+      REPLACE_TEXTUALLY ~"~ ~\"~ // escape any legit quotes in names
+      REPLACE_TEXTUALLY ~CDQUOTE~ ~"~ // wrap in quotes for import
+
+    PRINT @34
+
+  END
+  
+END
+
+DEFINE_PATCH_MACRO ~cdtweaks_helper~ BEGIN   
+
+  SET email = 1
+  SPRINT old_class  ~999~
+  SPRINT appearance ~unknown~
+  SET miscast = 0
+  PATCH_IF type != 2 BEGIN // shield
+    SET pick    = 255
+    SET locks   = 255
+    SET traps   = 255
+    SET move    = 255
+    SET hide    = 255
+    SET stealth = 255
+  END ELSE BEGIN // armor
+    SET pick    = 0
+    SET locks   = 0
+    SET traps   = 0
+    SET move    = 0
+    SET hide    = 0
+    SET stealth = 0
+  END  
+  WRITE_SHORT 0x1c THIS + 100 // make an arbitrary change to force the copy
+  SET name_spc_exists = 0
+  READ_STRREF 0x0c name_spc
+  PATCH_IF ("%name_spc%" STRING_COMPARE_REGEXP ~<Invalid Strref -?[0-9]+>~) BEGIN // checking for valid content in string
+    READ_STRREF 0x08 name_gen ELSE ""
+    SET name_spc_exists = 1
+  END ELSE BEGIN
+    READ_STRREF 0x08 name_gen ELSE "no name"
+    SPRINT name_spc ""
+  END
+  SET desc_spc_exists = 0
+  READ_STRREF 0x54 desc_spc
+  PATCH_IF ("%desc_spc%" STRING_COMPARE_REGEXP ~<Invalid Strref -?[0-9]+>~) BEGIN // checking for valid content in string
+    READ_STRREF 0x50 desc_gen ELSE ""
+    READ_STRREF 0x54 desc_spc
+    SET desc_spc_exists = 1
+  END ELSE BEGIN
+    READ_STRREF 0x50 desc_gen ELSE "no desc"
+    SPRINT desc_spc ""
+  END
+  READ_LONG  0x6a fx_off
+  READ_SHORT 0x70 fx_num
+  SPRINT stlth  "Yes"
+  SPRINT thving "Yes"
+  SPRINT arcne  "Yes"
+  FOR (index = 0 ; index < fx_num ; ++index) BEGIN
+    READ_SHORT (fx_off +        (index * 0x30)) opcode
+    READ_LONG  (fx_off + 0x04 + (index * 0x30)) param1
+    READ_LONG  (fx_off + 0x08 + (index * 0x30)) param2
+    READ_ASCII (fx_off + 0x14 + (index * 0x30)) resref
+    PATCH_IF ((opcode = 144) AND (param2 = 0)) BEGIN
+      SPRINT stlth  "No"
+    END
+    PATCH_IF ((opcode = 144) AND (param2 = 1)) BEGIN
+      SPRINT thving  "No"
+    END
+    PATCH_IF (((opcode = 145) AND (param2 = 0)) OR
+              ((opcode = 177) AND (("%resref%" STRING_COMPARE_REGEXP "[Cc]0{Aa][Rr][Cc][Aa][Ss][12]" = 0) OR       // artisan's disable spellcasting effs
+                                   ("%resref%" STRING_COMPARE_REGEXP "[Dd]5[Aa][Rr][Cc][Aa][CcLlPp]" = 0)))) BEGIN // sd's disable spellcasting effs
+      SPRINT arcne  "No"
+      SET miscast = 255
+    END
+    PATCH_IF opcode = 59 BEGIN
+      PATCH_IF param1 > 0 BEGIN SET move = 255 SET stealth = 255 END
+    END  
+    PATCH_IF opcode = 90 BEGIN
+      PATCH_IF param1 > 0 BEGIN SET locks = 255 END
+    END  
+    PATCH_IF opcode = 91 BEGIN
+      PATCH_IF param1 > 0 BEGIN SET traps = 255 END
+    END  
+    PATCH_IF opcode = 92 BEGIN
+      PATCH_IF param1 > 0 BEGIN SET pick = 255 END
+    END  
+    PATCH_IF opcode = 275 BEGIN
+      PATCH_IF param1 > 0 BEGIN SET hide = 255 END
+    END  
+  END
+  READ_LONG  0x1e usability
+  READ_ASCII 0x22 icon (2)
+  READ_LONG  0x26 min_str
+  PATCH_IF ("%icon%" STRING_COMPARE_CASE "2A" = 0) BEGIN
+    SPRINT "appear" "Leather armor"
+    PATCH_IF min_str = 4 BEGIN // assume leather
+      SPRINT old_class  ~200~
+      SPRINT appearance ~leather~
+      PATCH_IF !miscast BEGIN SET miscast = 10 END
+      PATCH_IF !locks BEGIN SET locks = 255 END
+      PATCH_IF !traps BEGIN SET traps = 255 END
+    END ELSE BEGIN             // studded leather (could be hide)
+      SPRINT old_class  ~201~
+      SPRINT appearance ~leather_studded~
+      PATCH_IF !miscast BEGIN SET miscast = 15 END
+      PATCH_IF !pick    BEGIN SET pick    = 30 END
+      PATCH_IF !locks   BEGIN SET locks   = 10 END
+      PATCH_IF !traps   BEGIN SET traps   = 10 END
+      PATCH_IF !move    BEGIN SET move    = 20 END
+      PATCH_IF !hide    BEGIN SET hide    = 20 END
+      PATCH_IF !stealth BEGIN SET stealth = 20 END
+    END  
+  END ELSE
+  PATCH_IF ("%icon%" STRING_COMPARE_CASE "3A" = 0) BEGIN
+    SPRINT "appear" "Chain mail"
+    PATCH_IF min_str = 5 BEGIN // assume elven chain
+      SPRINT old_class  ~304~
+      SPRINT appearance ~chain_elven~
+      PATCH_IF !pick    BEGIN SET pick    = 20 END
+      PATCH_IF !locks   BEGIN SET locks   =  5 END
+      PATCH_IF !traps   BEGIN SET traps   =  5 END
+      PATCH_IF !move    BEGIN SET move    = 10 END
+      PATCH_IF !hide    BEGIN SET hide    = 10 END
+      PATCH_IF !stealth BEGIN SET stealth = 10 END
+    END ELSE BEGIN             // chain
+      PATCH_IF ((usability & BIT6) = 0) BEGIN // usable by bards, assume generic chain
+        SPRINT old_class  ~203~
+        SPRINT appearance ~chain~
+        PATCH_IF !miscast BEGIN SET miscast = 30 END
+        PATCH_IF !pick    BEGIN SET pick    = 40 END
+        PATCH_IF !locks   BEGIN SET locks   = 15 END
+        PATCH_IF !traps   BEGIN SET traps   = 15 END
+        PATCH_IF !move    BEGIN SET move    = 40 END
+        PATCH_IF !hide    BEGIN SET hide    = 30 END
+        PATCH_IF !stealth BEGIN SET stealth = 30 END
+      END ELSE BEGIN // unusable by bards, assume splint  
+        SPRINT old_class  ~206~
+        SPRINT appearance ~splint~
+        PATCH_IF !miscast BEGIN SET miscast = 40 END
+        PATCH_IF !pick    BEGIN SET pick    = 40 END
+        PATCH_IF !locks   BEGIN SET locks   = 15 END
+        PATCH_IF !traps   BEGIN SET traps   = 25 END
+        PATCH_IF !move    BEGIN SET move    = 40 END
+        PATCH_IF !hide    BEGIN SET hide    = 30 END
+        PATCH_IF !stealth BEGIN SET stealth = 30 END
+      END  
+    END   
+  END ELSE
+  PATCH_IF ("%icon%" STRING_COMPARE_CASE "4A" = 0) BEGIN
+    SPRINT "appear" "Plate mail"
+    PATCH_IF min_str = 15 BEGIN // assume full plate
+      SPRINT old_class  ~209~
+      SPRINT appearance ~plate_full~
+      PATCH_IF !miscast BEGIN SET miscast = 35 END
+      PATCH_IF !pick    BEGIN SET pick    = 95 END
+      PATCH_IF !locks   BEGIN SET locks   = 80 END
+      PATCH_IF !traps   BEGIN SET traps   = 80 END
+      PATCH_IF !move    BEGIN SET move    = 95 END
+      PATCH_IF !hide    BEGIN SET hide    = 95 END
+      PATCH_IF !stealth BEGIN SET stealth = 95 END
+    END ELSE BEGIN // otherwise assume plate                
+      SPRINT old_class  ~208~
+      SPRINT appearance ~plate~
+      PATCH_IF !miscast BEGIN SET miscast = 40 END
+      PATCH_IF !pick    BEGIN SET pick    = 75 END
+      PATCH_IF !locks   BEGIN SET locks   = 40 END
+      PATCH_IF !traps   BEGIN SET traps   = 40 END
+      PATCH_IF !move    BEGIN SET move    = 80 END
+      PATCH_IF !hide    BEGIN SET hide    = 75 END
+      PATCH_IF !stealth BEGIN SET stealth = 75 END
+    END  
+  END ELSE
+  PATCH_IF ("%icon%" STRING_COMPARE_REGEXP "[234]W" = 0) BEGIN
+    SPRINT "appear" "Robe"     
+    SPRINT old_class  ~001~
+    SPRINT appearance ~robe~
+    PATCH_IF !miscast BEGIN SET miscast = 255 END
+    PATCH_IF !pick    BEGIN SET pick    = 255 END
+    PATCH_IF !locks   BEGIN SET locks   = 255 END
+    PATCH_IF !traps   BEGIN SET traps   = 255 END
+    PATCH_IF !move    BEGIN SET move    = 255 END
+    PATCH_IF !hide    BEGIN SET hide    = 255 END
+    PATCH_IF !stealth BEGIN SET stealth = 255 END
+  END ELSE
+  PATCH_IF ("%icon%" STRING_COMPARE_CASE "D1" = 0) BEGIN
+    SPRINT "appear" "Buckler"     
+    SPRINT old_class  ~100~
+    SPRINT appearance ~shield_buckler~     
+    PATCH_IF !miscast BEGIN SET miscast = 5 END  
+  END ELSE
+  PATCH_IF (("%icon%" STRING_COMPARE_CASE "C0" = 0) OR
+            ("%icon%" STRING_COMPARE_CASE "C4" = 0) OR
+            ("%icon%" STRING_COMPARE_CASE "D2" = 0)) BEGIN
+    SPRINT "appear" "Small shield"
+    SPRINT old_class  ~101~
+    SPRINT appearance ~shield_small~     
+    PATCH_IF !miscast BEGIN SET miscast = 5 END  
+  END ELSE
+  PATCH_IF (("%icon%" STRING_COMPARE_CASE "C1" = 0) OR
+            ("%icon%" STRING_COMPARE_CASE "C3" = 0) OR
+            ("%icon%" STRING_COMPARE_CASE "C7" = 0) OR
+            ("%icon%" STRING_COMPARE_CASE "D3" = 0)) BEGIN
+    SPRINT "appear" "Medium shield"
+    SPRINT old_class  ~102~
+    SPRINT appearance ~shield_medium~     
+    PATCH_IF !miscast BEGIN SET miscast = 15 END  
+  END ELSE
+  PATCH_IF (("%icon%" STRING_COMPARE_CASE "C2" = 0) OR
+            ("%icon%" STRING_COMPARE_CASE "C5" = 0) OR
+            ("%icon%" STRING_COMPARE_CASE "C6" = 0) OR
+            ("%icon%" STRING_COMPARE_CASE "D4" = 0)) BEGIN
+    SPRINT "appear" "Large/Tower shield"
+    SPRINT old_class  ~104~
+    SPRINT appearance ~shield_large~     
+    PATCH_IF !miscast BEGIN SET miscast = 50 END  
+  END ELSE BEGIN
+    SPRINT "appear" "Unknown"
+  END
+  // prep strings for install/csv depending on whether name2/desc2 is set
+  PATCH_IF name_spc_exists BEGIN SPRINT name2 "SAY 0x0c ~%name_spc%~" SPRINT name_csv ~%name_spc% (%name_gen%)~ END ELSE BEGIN 
+                                 SPRINT name2 ~WRITE_LONG 0x0c "-1"~  SPRINT name_csv ~%name_gen%~ END
+  PATCH_IF desc_spc_exists BEGIN SPRINT desc2 "SAY 0x54 ~%summary%%desc_spc%~" END ELSE BEGIN 
+                                 SPRINT desc2 ~  WRITE_LONG 0x54 "-1"~ END
+                                   
+  // compile summary to be prepended to the item description
+  SPRINT summary ~Equipped appearance: %appear%
+Cast arcane? %arcne%  
+Stealth? %stlth%  
+Thieving? %thving%
+
+old class: %old_class%
+new class: %appearance%
+
+Recommended penalties:
+  miscast magic:   %miscast%
+  pickpocket:      %pick%
+  lock picking:    %locks%
+  disarm traps:    %traps%
+  move silently:   %move%
+  hide in shadows: %hide%
+  stealth:         %stealth%%WNL%%WNL%~
+  
+  // update csv for import
+  SPRINT csv ~%csv%%WNL%CDQUOTE%item%CDQUOTE,CDQUOTE%old_class%CDQUOTE,CDQUOTE%appearance%CDQUOTE,CDQUOTE%miscast%CDQUOTE,CDQUOTE%pick%CDQUOTE,CDQUOTE%locks%CDQUOTE,CDQUOTE%traps%CDQUOTE,CDQUOTE%move%CDQUOTE,CDQUOTE%hide%CDQUOTE,CDQUOTE%stealth%CDQUOTE,CDQUOTE%name_csv%CDQUOTE~
+
+  // now install for import
+  PATCH_IF name_spc_exists BEGIN SPRINT name2 "SAY 0x0c ~%name_spc%~" END ELSE BEGIN 
+                                 SPRINT name2 ~WRITE_LONG 0x0c "-1"~ END
+  PATCH_IF desc_spc_exists BEGIN SPRINT desc2 "SAY 0x54 ~%summary%%desc_spc%~" END ELSE BEGIN 
+                                 SPRINT desc2 ~  WRITE_LONG 0x54 "-1"~ END
+  SPRINT install "%install%%WNL%%WNL%
+ACTION_IF !FILE_EXISTS_IN_GAME ~%item%.itm~ BEGIN 
+
+  COPY ~%path%/%item%.itm~ ~override~
+    WRITE_SHORT 0x1c THIS - 100 // undo arbitrary change
+    SAY 0x08 ~%name_gen%~
+    %name2%
+    SAY 0x50 ~%summary%%desc_gen%~
+    %desc2%
+    
+END"
+
+END

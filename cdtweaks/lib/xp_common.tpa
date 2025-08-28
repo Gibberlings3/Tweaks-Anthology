@@ -20,14 +20,47 @@ ACTION_IF dump_shaman THEN BEGIN
 
 END
 
-ACTION_IF MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2070~ THEN BEGIN // if druid/cleric xp progression installed
+ACTION_IF ((MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2292~) OR
+           (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2293~) OR
+           (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2294~) OR
+           (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2295~) OR
+           (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2296~)) THEN BEGIN // if druid/cleric xp progression installed
 
   COPY_EXISTING ~xplevel.2da~ ~override~
-    REPLACE_TEXTUALLY
-~CLERIC \(.*\)
-DRUID \(.*\)~
-~CLERIC \1
-DRUID  \1~
+    REPLACE_TEXTUALLY ~CLERIC\([ %TAB%].*\)[%LNL%%MNL%%WNL%]+DRUID\([ %TAB%].*\)~
+~CLERIC\1
+DRUID\1~
+    PRETTY_PRINT_2DA
     BUT_ONLY
+
+END
+
+ACTION_IF ((MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2730~) OR
+           (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2731~) OR
+           (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2732~) OR
+           (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2733~) OR
+           (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2734~)) THEN BEGIN // if iwd druid xp progression installed
+           
+  OUTER_SET hla_druid = 21 // where xp> 3M
+  OUTER_SET hla_multi = 14 // where XP > 1.5M
+  OUTER_SET druidcap = 9775000 // last entry + 100k
+  OUTER_SPRINT druidxp ~0 2000 4000 7500 12500 20000 35000 60000 90000 125000 200000 300000	750000	1500000	1800000	2025000	2250000	2475000	2700000	2925000	3150000	3375000	3600000	3825000	4050000	4275000	4500000	4725000	4950000 5175000 5400000 5625000 5850000 6075000 6300000 6525000 6750000 6975000 7200000 7425000 7650000 7875000 8100000 8325000 8550000 8770000 9000000 9225000 9450000 9675000 CDEND~
+
+  INCLUDE ~cdtweaks/lib/druid_2_iwd_bg_druid_levels.tpa~
+
+END
+
+ACTION_IF ((MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2735~) OR
+           (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2736~) OR
+           (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2737~) OR
+           (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2738~) OR
+           (MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2739~)) THEN BEGIN // if bg2 druid xp progression installed
+           
+  OUTER_SET hla_druid = 15 // where xp> 3M
+  OUTER_SET hla_multi = 14 // where XP > 1.5M
+  OUTER_SET druidcap = 17600000 // last entry + 100k
+  OUTER_SPRINT druidxp ~0 2000 4000 7500 12500 20000 35000 60000 90000 125000 200000 300000 750000 1500000 3000000 3150000 3300000 3450000 3600000 3750000 3900000 4150000 4400000 4700000 5000000 5500000 6000000 6500000 7000000 7500000 8000000 8500000 9000000 9500000 10000000 10500000 11000000 11500000 12000000 12500000 13000000 13500000 14000000 14500000 15000000 15500000 16000000 16500000 17000000 17500000 CDEND~
+
+  INCLUDE ~cdtweaks/lib/druid_2_iwd_bg_druid_levels.tpa~
 
 END

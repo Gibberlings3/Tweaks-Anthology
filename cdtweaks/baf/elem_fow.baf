@@ -1,0 +1,10 @@
+IF
+  Global("Elementalcontrol","LOCALS",1)
+  Allegiance(Myself,ALLY)
+  Global("cdtfow","LOCALS",0)
+THEN
+  RESPONSE #100  
+    SetGlobal("cdtfow","LOCALS",1)
+    ApplySpellRES("cdtfow",Myself)
+    Continue()
+END     

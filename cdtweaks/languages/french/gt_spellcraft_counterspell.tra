@@ -1,0 +1,17 @@
+@1 = "Contre-sort (Abjuration)"
+@2 = "Contre-sort (Conjuration)"
+@3 = "Contre-sort (Divination)"
+@4 = "Contre-sort (Enchantement/Charme)"
+@5 = "Contre-sort (Illusion/Phantasme)"
+@6 = "Contre-sort (Évocation)"
+@7 = "Contre-sort (Nécromancie)"
+@8 = "Contre-sort (Altération)"
+
+@100 = "Contrer le sortilège"
+@101 = "Contre-sort"
+@102 = "Contre-sort activé"
+@103 = "Contre-sort désactivé"
+
+// NB.: the leading/trailing spaces are not a typo
+@200 = "Analyse le sortilège" // sortilège
+@201 = "est sur le point de lancer"

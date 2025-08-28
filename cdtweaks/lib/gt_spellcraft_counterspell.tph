@@ -37,7 +37,7 @@ BEGIN
 				//
 				LPF "ADD_SPELL_HEADER" INT_VAR "range" = 30 END
 				//
-				PATCH_IF (GAME_IS "iwdee") BEGIN
+				PATCH_IF (game_is_iwdee) BEGIN
 					LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 174 "target" = 2 STR_VAR "resource" = "#EFF_P13" END // play sound
 					LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 215 "target" = 2 "timing" = 1 STR_VAR "resource" = "MMAGICH" END // play visual effect
 				END ELSE BEGIN

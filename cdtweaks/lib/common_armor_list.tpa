@@ -1,17 +1,60 @@
 ACTION_IF !VARIABLE_IS_SET cd_read_cal BEGIN
 
-  OUTER_SET cd_read_cal = 1
+  OUTER_SET cd_read_cal = 1  
+  
+  OUTER_SET use_stealth = 0
+  ACTION_IF original_bg1 OR original_iwd OR game_is_pst OR game_is_pstee BEGIN // games that use stealth
+    OUTER_SET use_stealth = 1
+  END
+
+<<<<<<<<./inline/install.tpa
+//%MOD_FOLDER% version: %MOD_VERSION%%install%
+>>>>>>>>
+
+<<<<<<<<./inline/helper.csv
+%csv%
+>>>>>>>>
+
+  ACTION_IF FILE_EXISTS ~weidu-bgee.log~ BEGIN
+
+    COPY ~weidu-bgee.log~ ~weidu_external/cdtweaks_helper/email_to_cam/weidu-bgee.log~
+    
+  END  
+
+  COPY ~weidu.log~ ~weidu_external/cdtweaks_helper/email_to_cam/weidu.log~
 
   INCLUDE ~cdtweaks/lib/common_armor_array.tpa~ // builds all items into cd_common_armor_list_full array
-
-  ACTION_PHP_EACH cd_common_armor_list_full AS p => item BEGIN // pare it down to working array
-
-    ACTION_IF FILE_EXISTS_IN_GAME ~%item%.itm~ BEGIN
-
-      ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_common_armor_list BEGIN "%item%","%p_1%","%p_2%","%p_3%","%p_4%","%p_5%","%p_6%","%p_7%","%p_8%","%p_9%" => "%item%" END
-
-    END
-
-  END
+  COPY ~cdtweaks/lib/common_armor_array.tpa~ ~weidu_external/cdtweaks_helper/email_to_cam/common_armor_array_cdtweaks.tpa~
+  
+  INCLUDE ~cdtweaks/lib/cdtweaks_helper_macro.tpa~
+  
+  OUTER_SET email = 0
+  OUTER_SPRINT install ~~
+  OUTER_SPRINT csv ~~
+  COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~weidu_external/cdtweaks_helper/email_to_cam~
+    READ_SHORT 0x1c type  ELSE 0
+    READ_BYTE  0x18 flags ELSE 0
+    SPRINT item ~%SOURCE_RES%~
+    TO_LOWER item
+    PATCH_IF (((type = 2) OR (type = 12) OR (type = 41) OR (type = 47) OR (type = 49) OR (type = 53)) AND // type is armor (2) or shield (12 in bg, rest are iwd values)
+              ((flags & BIT2) = BIT2)) BEGIN // and is droppable
+      SET match = 0        
+      PATCH_PHP_EACH cd_common_armor_list_full AS p => item_check BEGIN
+        PATCH_IF !match BEGIN 
+          PATCH_IF ("%item%" STRING_COMPARE_CASE "%item_check%" = 0) BEGIN // if it already has an entry
+            SET match = 1        
+            PATCH_IF use_stealth = 0 BEGIN 
+              DEFINE_ASSOCIATIVE_ARRAY cd_common_armor_list BEGIN "%item%","%p_1%","%p_2%","%p_3%","%p_4%","%p_5%","%p_6%","%p_7%","%p_8%" => "%item%" END
+            END ELSE BEGIN // use stealth as move silently, ignore HiS  
+              DEFINE_ASSOCIATIVE_ARRAY cd_common_armor_list BEGIN "%item%","%p_1%","%p_2%","%p_3%","%p_4%","%p_5%","%p_6%","%p_9%","255" => "%item%" END
+            END 
+          END
+        END  
+      END  
+      PATCH_IF !match BEGIN // if new armor/shield, process as cdtweaks_helper
+        LPM cdtweaks_helper
+      END
+    END // type/droppable check
+    BUT_ONLY 
 
 END

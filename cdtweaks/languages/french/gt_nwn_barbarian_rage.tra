@@ -1,0 +1,19 @@
+@0 = "Fureur du barbare
+
+Pendant 7 rounds (auxquels s'ajouteront son bonus de Constitution) le personnage sera enragé , il bénéficie d'un bonus de 4 à la force et la Constitution et d'un bonus de 2 au jets de sauvegarde contre les sorts, ainsi que d'un malus de 2 à la classe d'armure
+
+Terreur du barbare : Lorsque le barbare est furieux, tout ennemi (ayant moins de dés de vie que lui) qui s'approche doit réussir un jet de sauvegarde contre la mort ou être en proie à la panique pendant 1d3 rounds. Les adversaires avec un nombre de dés de vie similaire ne paniqueront pas, mais subiront une pénalité de 2 aux jets d'attaque et de sauvegarde. Les créatures détenant plus de dés de vie que le barbare ne sont pas affectées.
+
+Barbare tonitruant : Toute arme brandie par le barbare lorsqu'il est en rage inflige 2d6 points de dégâts supplémentaires lors d'un coup critique. Une créature touchée a 25 % de chances d'être frapper de surdité pendant 3 rounds.
+"
+
+@1 = "Terreur du barbare"
+
+@2 = "Barbare tonitruant (Coup critique)"
+@3 = "Barbare tonitruant (Surdité)"
+@4 = "Surdité"
+
+@5 = "Le personnage sélectionné est déjà sous l'effet de la rage barbare la fureur du barbare"
+@6 = "Terrifié(e)"
+@7 = "Paniqué(e)"
+@8 = "Inébranlable face à la terreur du barbare"

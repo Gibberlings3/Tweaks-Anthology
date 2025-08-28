@@ -49,7 +49,7 @@ BEGIN
 		// remove passive trait + Called Shot from CLAB file
 		WITH_SCOPE BEGIN
 			COPY_EXISTING "%clabfile%.2da" "override"
-				PATCH_IF (GAME_IS "bgee bg2ee eet") BEGIN
+				PATCH_IF (game_is_bgee OR game_is_bg2ee OR game_is_eet) BEGIN
 					REPLACE_TEXTUALLY CASE_INSENSITIVE EXACT_MATCH "AP_SPCL122" "****" // Missile thac0/damage bonus
 				END ELSE BEGIN
 					REPLACE_TEXTUALLY CASE_INSENSITIVE EXACT_MATCH "AP_SPCL124" "****" // Missile thac0/damage bonus

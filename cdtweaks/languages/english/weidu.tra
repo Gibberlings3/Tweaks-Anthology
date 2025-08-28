@@ -40,6 +40,31 @@
 @31 = ~Requires in-game option "3E Sneak Attack" (https://github.com/Argent77/A7-HiddenGameplayOptions).~
 @32 = ~Requires LuaJIT: https://github.com/Bubb13/EEex, component #1~
 @33 = ~Not enough free spell states~ 
+@34 = ~
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+Tweaks Anthology found armor and/or shields that are not covered
+by some of the armor components. Anthology has automatically
+gathered information about these items for future inclusion.
+To help future development, please zip/rar the contents of the
+
+(game folder)/weidu_external/cdtweaks_helper/email_to_cam 
+
+folder and send this file to CamDawg via:
+
+  * email: pcamagna@yahoo.com
+  * Discord: send to user camdawg_g3 or the G3 Discord at https://discord.gg/yTzjMTb
+  * G3 forum: Private message user CamDawg or post at 
+      https://www.gibberlings3.net/forums/topic/30082-tweaks-anthology-helper-tool-updated/
+
+Thanks!
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+~
 
 @100 = ~Batch Installer -- EXPERIMENTAL, use at own risk. Check the readme.~
 @101 = ~
@@ -145,7 +170,7 @@ The uninstall messages above are normal and expected.
 @25400 = ~Moderately decreased brightness~
 @25500 = ~Original color~
 
-@26000 = "Hide Visual Effects from Invisible Enemies [Luke, EEex]"
+@26000 = "Hide Visual Effects from Invisible Enemies [Luke]"
 
 @27000 = ~Static PsT Character Portraits~
 @27001 = ~Visualize health and status changes~
@@ -388,6 +413,8 @@ The uninstall messages above are normal and expected.
 
 @228000 = ~Alter Cleric Spell Progression Table~
 
+@228800 = ~No level progression changes, normal cleric spell table~
+@228900 = ~No level progression changes, un-nerfed cleric spell table [Blucher]~
 @229000 = ~Alter Druid Spell and Level Progression Tables~
 @229001 = ~No level progression changes, un-nerfed druid spell table only [Blucher]~
 @229100 = ~No level progression changes, PnP druid/cleric spell table only~
@@ -486,25 +513,38 @@ The uninstall messages above are normal and expected.
 
 @264000 = "PnP Potions [Luke]"
 
-@265000 = "Make Grease ignitable [Luke (EEex)]"
+@265000 = "Make Grease ignitable [Luke]"
 
-@266000 = "Make Bears and Boars Continue Fighting after Reaching 0 Hit Points [Luke (EEex)]"
+@266000 = "Make Bears and Boars Continue Fighting after Reaching 0 Hit Points [Luke]"
 
-@267000 = "Limit Resting Mechanic [Luke (EEex)]"
+@267000 = "Limit Resting Mechanic [Luke]"
 
-@268000 = ~Make Infravision Useful [Luke (EEex)]~
+@268000 = ~Make Infravision Useful [Luke]~
 
-@269000 = "Alternate Concentration Check [Luke (EEex)]"
+@269000 = "Alternate Concentration Check [Luke]"
 @269001 = "v1 (check readme)"
 @269002 = "v2 (check readme)"
 @269003 = "v3 (check readme)"
 @269004 = "v4 (check readme)"
 
-@270000 = "Revised Troll Regeneration [Luke (EEex)]"
+@270000 = "Revised Troll Regeneration [Luke]"
 
-@271000 = "NWN-style Summons [Luke (EEex)]"
+@271000 = "NWN-Style Summons [Luke]"
 
-@272000 = ~Yoshimo to Imoen Experience Transfer~
+@272000 = ~Yoshimo to Imoen Experience Transfer [dark0dave]~
+
+@273000 = ~Use IWD druid level progression changes with normal druid spell table~
+@273100 = ~Use IWD druid level progression changes with un-nerfed druid spell table [Blucher]~
+@273200 = ~Use IWD druid level progression changes with pnp druid/cleric spell table~
+@273300 = ~Use IWD druid level progression changes with normal cleric spell table~
+@273400 = ~Use IWD druid level progression changes with un-nerfed cleric spell table [Blucher]~
+@273500 = ~Use BG/BG2 druid level progression changes with normal druid spell table~
+@273600 = ~Use BG/BG2 druid level progression changes with un-nerfed druid spell table [Blucher]~
+@273700 = ~Use BG/BG2 druid level progression changes with pnp druid/cleric spell table~
+@273800 = ~Use BG/BG2 druid level progression changes with normal cleric spell table~
+@273900 = ~Use BG/BG2 druid level progression changes with un-nerfed cleric spell table [Blucher]~
+
+@274000 = ~Allow Shapeshifters to Wear Armor But Prevent Shapeshifting While Worn~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -744,29 +784,31 @@ Use Baldur.lua options: a7_interval_ini
 @341100 = ~Mage, priest, and innate spells only~
 @341200 = ~All spells (check readme)~
 
-@342000 = "More Sensible Cowled Wizards [Luke (EEex)]"
+@342000 = "More Sensible Cowled Wizards [Luke]"
 
-@343000 = "More Stoneskin Feedback [Luke (EEex)]"
+@343000 = "More Stoneskin Feedback [Luke]"
 
-@344000 = "Extra Dispel Feedback [Luke (EEex)]"
+@344000 = "Extra Dispel Feedback [Luke]"
 
-@345000 = "More Sensible Fireshield [Luke (EEex)]"
+@345000 = "More Sensible Fireshield [Luke]"
 
-@346000 = "More Sensible Blade Barrier [Luke (EEex)]"
+@346000 = "More Sensible Blade Barrier [Luke]"
 
-@347000 = ~Dynamic FPS Change [Luke (EEex)]~
+@347000 = ~Dynamic FPS Change [Luke]~
 
-@348000 = "More Sensible Morentherene [Luke (EEex)]"
+@348000 = "More Sensible Morentherene [Luke]"
 
-@349000 = ~Better Shadows of Amn Start~
-@349001 = ~Start Player1 at 300k XP, select items below~
-@349100 = ~Start Player1 at 500k XP, select items below~
-@349200 = ~Start Player1 at 300k XP plus all items~
-@349300 = ~Start Player1 at 500k XP plus all items~
+@349000 = ~Better Shadows of Amn Start [dark0dave]~
+@349001 = ~Start at 300k XP, select items below~
+@349100 = ~Start at 500k XP, select items below~
+@349200 = ~Start at 300k XP plus all items~
+@349300 = ~Start at 500k XP plus all items~
 @349400 = ~Better Shadows of Amn Start: Add All BG Tomes~
 @349500 = ~Better Shadows of Amn Start: Add Golden Pantaloons~
 @349600 = ~Better Shadows of Amn Start: Add Drizzt Items~
 @349700 = ~Better Shadows of Amn Start: Add Balduran's Cloak~
+
+@350000 = ~Summoned Creatures Clear Fog of War~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -830,6 +872,18 @@ Use Baldur.lua options: a7_interval_ini
 
 @420000 = "Make Rancor +1 a Bit More Reliable"
 
+@421000 = ~Adjust Nalia's Thief Level~
+@421001 = ~To Thief level 5~
+@421002 = ~To Thief level 6~
+@421003 = ~To Thief level 7~
+@421004 = ~To Thief level 8~
+
+@422000 = ~Delay Neera's Appearance in Beregost~
+@422001 = ~Delay until the Nashkel mines are cleared~
+@422100 = ~Delay until PC has 5000 XP~
+
+@423000 = ~Increase Yoshimo's Trapsetting Ability~
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -860,74 +914,74 @@ Use Baldur.lua options: a7_interval_ini
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-@600000 = "Disarm Class Feat for Rogues [Luke (EEex)]"
+@600000 = "Disarm Class Feat for Rogues [Luke]"
 
-@601000 = "Knockdown Class Feat for Fighters and Monks [Luke (EEex)]"
+@601000 = "Knockdown Class Feat for Fighters and Monks [Luke]"
 
-@602000 = "Spellcaster Skill/Counterspell Class Talent [Luke (EEex)]"
+@602000 = "Spellcaster Skill/Counterspell Class Talent [Luke]"
 
-@603000 = "Spontaneous Casting for Clerics [Luke (EEex)]"
+@603000 = "Spontaneous Casting for Clerics [Luke]"
 
-@604000 = "Weapon Finesse Class Feat for Thieves [Luke (EEex)]"
+@604000 = "Weapon Finesse Class Feat for Thieves [Luke]"
 
-@605000 = "Dual-Wield Class Feat for Rangers [Luke (EEex)]"
+@605000 = "Dual-Wield Class Feat for Rangers [Luke]"
 
-@606000 = "NWN-style Armor vs. Dexterity [Luke (EEex)]"
+@606000 = "NWN-Style Armor vs. Dexterity [Luke]"
 
-@607000 = "Defensive Roll Class Feat for Thieves [Luke (EEex)]"
+@607000 = "Defensive Roll Class Feat for Thieves [Luke]"
 
-@608000 = "Divine Grace/Dark Blessing Feat for Paladins/Blackguards [Luke (EEex)]"
+@608000 = "Divine Grace/Dark Blessing Feat for Paladins/Blackguards [Luke]"
 
-@609000 = "Good Aim Racial Feat for Halflings [Luke (EEex)]"
+@609000 = "Good Aim Racial Feat for Halflings [Luke]"
 
-@610000 = "Cleave Class Feat for Fighters [Luke (EEex)]"
+@610000 = "Cleave Class Feat for Fighters and Monks [Luke]"
 
-@611000 = "Sneak Attack Class Feat for Blackguards [Luke (EEex)]"
+@611000 = "Sneak Attack Class Feat for Blackguards [Luke]"
 
-@612000 = "Fearless Racial Feat for Halflings [Luke (EEex)]"
+@612000 = "Fearless Racial Feat for Halflings [Luke]"
 
-@613000 = "Poison Save Class Feat for Assassins [Luke (EEex)]"
+@613000 = "Poison Save Class Feat for Assassins [Luke]"
 
-@614000 = "Planar Turning Class Feat for Clerics/Paladins [Luke (EEex)]"
+@614000 = "Planar Turning Class Feat for Clerics/Paladins [Luke]"
 
-@615000 = "Circle Kick Class Feat for Monks [Luke (EEex)]"
+@615000 = "Circle Kick Class Feat for Monks [Luke]"
 
-@616000 = "NWN-style Barbarian Rage [Luke (EEex)]"
+@616000 = "NWN-style Barbarian Rage [Luke]"
 
-@617000 = ~"Force" the Archer Kit to Use Bows [Luke (EEex)]~
+@617000 = ~"Force" the Archer Kit to Use Bows [Luke]~
 
-@618000 = "Blind Fight Innate Feat for Berserkers [Luke (EEex)]"
+@618000 = "Blind Fight Innate Feat for Berserkers [Luke]"
 
-@619000 = "Dirty Fighting Class Feat for Chaotic-Aligned Rogues [Luke (EEex)]"
+@619000 = "Dirty Fighting Class Feat for Chaotic-Aligned Rogues [Luke]"
 
 @620000 = "Overwhelming/Devastating Critical Class Feat for Trueclass Fighters [Luke]"
 
-@621000 = "Self Concealment Class Feat for Monks [Luke (EEex)]"
+@621000 = "Self Concealment Class Feat for Monks [Luke]"
 
-@622000 = "Parry Mode Kit Feat for Blades and Swashbucklers [Luke (EEex)]"
+@622000 = "Parry Mode Kit Feat for Blades and Swashbucklers [Luke]"
 
-@623000 = "Armored Caster Class Feat for Bards [Luke (EEex)]"
+@623000 = "Armored Caster Class Feat for Bards [Luke]"
 
-@624000 = "Trackless Step Class Feat for Rangers [Luke (EEex)]"
+@624000 = "Trackless Step Class Feat for Rangers [Luke]"
 
-@625000 = "Nature Sense Class Feat for Druids [Luke (EEex)]"
+@625000 = "Nature Sense Class Feat for Druids [Luke]"
 
-@626000 = "Uncanny Dodge Class Feat for Barbarians and Rogues [Luke (EEex)]"
+@626000 = "Uncanny Dodge Class Feat for Barbarians and Rogues [Luke]"
 
-@627000 = "NWN-style Sneak Attack/Crippling Strike Class Feat for Thieves and Stalkers [Luke (EEex)]"
+@627000 = "NWN-style Sneak Attack/Crippling Strike Class Feat for Thieves and Stalkers [Luke]"
 
-@628000 = "Evasion Class Feat for Monks and Rogues [Luke (EEex)]"
+@628000 = "Evasion Class Feat for Monks and Rogues [Luke]"
 
-@629000 = "Spell Penetration Class Feat for Spellcasters [Luke (EEex)]"
+@629000 = "Spell Penetration Class Feat for Spellcasters [Luke]"
 
-@630000 = "Smite Evil/Good Class Feat for Paladins/Blackguards [Luke (EEex)]"
+@630000 = "Smite Evil/Good Class Feat for Paladins/Blackguards [Luke]"
 
-@631000 = "Woodland Stride Class Feat for Druids [Luke (EEex)]"
+@631000 = "Woodland Stride Class Feat for Druids [Luke]"
 
-@632000 = "Bane of Enemies Class Feat for Rangers [Luke (EEex)]"
+@632000 = "Bane of Enemies Class Feat for Rangers [Luke]"
 
-@633000 = "Cantrips Class Feat for Spellcasters [Luke (EEex)]"
+@633000 = "Cantrips Class Feat for Spellcasters [Luke]"
 
-@634000 = "Animal Companion Class Feat for Beastmasters [Luke (EEex)]"
+@634000 = "Animal Companion Class Feat for Beastmasters [Luke]"
 
-@635000 = "Opportunist class feat for Chaotic-Aligned Rogues [Luke (EEex)]"
+@635000 = "Opportunist Class Feat for Chaotic-Aligned Rogues [Luke]"

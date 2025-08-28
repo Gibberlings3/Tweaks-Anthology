@@ -171,7 +171,7 @@ BUT_ONLY
 // Generating scripts
 COMPILE ~.../inlined/cdtweaks/3400/a7-ldhnt.baf~
 
-ACTION_IF (GAME_IS ~bgee eet~) BEGIN
+ACTION_IF (game_is_bgee OR game_is_eet) BEGIN
   LAF INSTALL_HINTS
     INT_VAR
       col_weight = 1  // loading_hints.2da column index for BGEE
@@ -179,7 +179,7 @@ ACTION_IF (GAME_IS ~bgee eet~) BEGIN
       campaign_check = ~Global("BD_HAVE_SOD","GLOBAL",0) GlobalLT("chapter","GLOBAL",8)~
   END
 
-  ACTION_IF (GAME_INCLUDES ~sod~) BEGIN
+  ACTION_IF (game_includes_sod) BEGIN
     LAF INSTALL_HINTS
       INT_VAR
         col_weight = 2  // loading_hints.2da column index for SoD
@@ -189,7 +189,7 @@ ACTION_IF (GAME_IS ~bgee eet~) BEGIN
   END
 END
 
-ACTION_IF (GAME_IS ~bg2ee eet~) BEGIN
+ACTION_IF (game_is_bg2ee OR game_is_eet) BEGIN
   OUTER_SET bg2_chapter_0 = bg2_chapter_1 - 1
   LAF INSTALL_HINTS
     INT_VAR
@@ -205,7 +205,7 @@ ACTION_IF (GAME_IS ~bg2ee eet~) BEGIN
   END
 END
 
-ACTION_IF (GAME_IS ~iwdee~) BEGIN
+ACTION_IF (game_is_iwdee) BEGIN
   LAF INSTALL_HINTS
     INT_VAR
       col_weight = 5  // loading_hints.2da column index for IWDEE

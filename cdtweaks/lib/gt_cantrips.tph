@@ -334,7 +334,7 @@ BEGIN
 				END
 				//
 				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 17 "target" = 2 "resist_dispel" = BIT1 "parameter1" = 4 END // current hp bonus
-				PATCH_IF GAME_IS "iwdee" BEGIN
+				PATCH_IF game_is_iwdee BEGIN
 					LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 61 "target" = 2 "resist_dispel" = BIT1 "parameter1" = (0 << 8) + (126 << 16) + (255 << 24) "parameter2" = 0 + (30 << 16) "timing" = 1 END // rgb fade
 					LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 215 "target" = 2 "resist_dispel" = BIT1 "timing" = 1 STR_VAR "resource" = "CLWOUNH" END // play vfx
 				END ELSE BEGIN
@@ -352,7 +352,7 @@ BEGIN
 				LPF "DELETE_EFFECT" INT_VAR "check_headers" = 0 END
 				//
 				LPF "ALTER_EFFECT" INT_VAR "match_opcode" = 17 "parameter2" = IDS_OF_SYMBOL ("dmgtype" "MAGIC") "savingthrow" = BIT0 "special" = BIT8 "opcode" = 12 END // save vs. spell for half damage
-				PATCH_IF GAME_IS "iwdee" BEGIN
+				PATCH_IF game_is_iwdee BEGIN
 					LPF "ALTER_EFFECT" INT_VAR "match_opcode" = 61 "parameter1" = (255 << 8) + (0 << 16) + (0 << 24) END // rgb fade
 					LPF "ALTER_EFFECT" INT_VAR "match_opcode" = 215 STR_VAR "resource" = "CLDAMAH" END // play vfx
 				END ELSE BEGIN
@@ -414,7 +414,7 @@ BEGIN
 				END
 				//
 				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 12 "parameter2" = IDS_OF_SYMBOL ("dmgtype" "MAGIC") "savingthrow" = BIT0 "special" = BIT8 "target" = 2 "resist_dispel" = BIT0 "parameter1" = 4 END // damage (save vs. spell for half damage)
-				PATCH_IF GAME_IS "iwdee" BEGIN
+				PATCH_IF game_is_iwdee BEGIN
 					LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 61 "target" = 2 "resist_dispel" = BIT0 "parameter1" = (255 << 8) + (0 << 16) + (0 << 24) "parameter2" = 0 + (30 << 16) "timing" = 1 END // rgb fade
 					LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 215 "target" = 2 "resist_dispel" = BIT0 "timing" = 1 STR_VAR "resource" = "CLDAMAH" END // play vfx
 				END ELSE BEGIN
@@ -432,7 +432,7 @@ BEGIN
 				LPF "DELETE_EFFECT" INT_VAR "check_headers" = 0 END
 				//
 				LPF "ALTER_EFFECT" INT_VAR "match_opcode" = 12 "parameter2" = 0 "special" = 0 "opcode" = 17 END // current hp bonus
-				PATCH_IF GAME_IS "iwdee" BEGIN
+				PATCH_IF game_is_iwdee BEGIN
 					LPF "ALTER_EFFECT" INT_VAR "match_opcode" = 61 "parameter1" = (0 << 8) + (126 << 16) + (255 << 24) END // rgb fade
 					LPF "ALTER_EFFECT" INT_VAR "match_opcode" = 215 STR_VAR "resource" = "CLWOUNH" END // play vfx
 				END ELSE BEGIN

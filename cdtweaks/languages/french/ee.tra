@@ -1,5 +1,39 @@
 // this file is used to override strings in game.tra for EE games
 // it will NOT be re-encoded for EE games, so put it in the correct charset for your language
+@216001 = ~PETITE ÉPÉE/NINJATŌ : Arme préférée de nombreux voleurs et petite-personne, les épées courtes et les ninjatōs sont des armes légères mais utiles.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216009 = ~Petite épée/Ninjatō~
+@216104 = ~GRANDE ÉPÉE : Cette classe d'armes permet au personnage d'utiliser les épées bâtardes, les épées larges, les épées à deux mains, les épées longues, les katanas, les wakizashis, les ninjatōs et les cimeterres. Les druides%cd_shaman% peuvent choisir cette classe, mais seront limités aux cimeterres. Les moines peuvent également choisir cette classe, mais ne pourront pas utiliser les épées bâtardes ou les épées à deux mains.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216303 = ~GRANDE ÉPÉE : Cette classe d'armes permet au personnage d'utiliser les épées larges, les épées longues, les katanas, les wakizashis, les ninjatōs et les cimeterres. Les druides%cd_shaman% peuvent choisir cette classe, mais seront limités aux cimeterres.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
 
 //#50818 in obg2
 @418002 = ~Cet anneau a été donné à Nalia par son père lors de son passage à l'âge adulte. Lié à son sang, l'anneau ne peut être utilisé par personne d'autre. L'anneau confère un bonus de +2 à tous les jets de sauvegarde, un bonus de +2 à la classe d'armure et un bonus de 50% à la résistance au feu.

@@ -6,8 +6,6 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-LAM cd_tweaks_install
-
 COPY_EXISTING ~dhjollde.dlg~ ~override~
   DECOMPILE_AND_PATCH BEGIN
     REPLACE_TEXTUALLY ~LevelPartyGT(8)~      ~True()~  // iwd-in-bg2, also converts inverse to !True

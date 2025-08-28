@@ -5,11 +5,12 @@
 --]]
 
 function %INNATE_ANIMAL_LAST_STAND%(op403CGameEffect, CGameEffect, CGameSprite)
-	if CGameEffect.m_effectId == 0xD then -- kill target (op13)
+	 if CGameEffect.m_effectId == 0xD and CGameEffect.m_scriptName:get() ~= "gtAnimalBypassOp208" then  -- kill target (op13)
 		if not GT_Sprite_HasBounceEffects(CGameSprite, CGameEffect.m_spellLevel, CGameEffect.m_projectileType, CGameEffect.m_school, CGameEffect.m_secondaryType, CGameEffect.m_sourceRes:get(), {13}, CGameEffect.m_flags, false) then
 			if not GT_Sprite_HasImmunityEffects(CGameSprite, CGameEffect.m_spellLevel, CGameEffect.m_projectileType, CGameEffect.m_school, CGameEffect.m_secondaryType, CGameEffect.m_sourceRes:get(), {13}, CGameEffect.m_flags, CGameEffect.m_savingThrow, 0x0, false) then
 				if not GT_Sprite_HasTrapEffect(CGameSprite, CGameEffect.m_spellLevel, CGameEffect.m_secondaryType, CGameEffect.m_flags, false) then
 					CGameSprite:applyEffect({
+            ["m_scriptName"] = "gtAnimalBypassOp208", 
 						["effectID"] = CGameEffect.m_effectId, -- Kill target
 						["dwFlags"] = CGameEffect.m_dWFlags,
 						["effectAmount"] = CGameEffect.m_effectAmount,
