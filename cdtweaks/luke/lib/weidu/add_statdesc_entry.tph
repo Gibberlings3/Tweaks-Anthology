@@ -29,7 +29,7 @@ BEGIN
 	BUT_ONLY
 	//
 	ACTION_IF ("%index%" == "-1") BEGIN
-		OUTER_SET "index" = "%i%" + 1
+		OUTER_SET "index" = "%i%"
 		APPEND ~statdesc.2da~ ~%i% %description% %bam_file%~
 		// Prettify
 		COPY_EXISTING ~statdesc.2da~ ~override~
