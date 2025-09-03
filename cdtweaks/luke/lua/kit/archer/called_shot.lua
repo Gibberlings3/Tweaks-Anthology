@@ -396,7 +396,7 @@ end)
 
 EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- Sanity check
-	if not EEex_GameObject_IsSprite(sprite) or Infinity_GetCurrentScreenName() == 'CHARGEN' then
+	if not EEex_GameObject_IsSprite(sprite) or GT_Globals_IsChargenOrStartMenu[Infinity_GetCurrentScreenName()] then
 		return
 	end
 	-- internal function that grants the ability

@@ -284,6 +284,9 @@ BEGIN
 	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Eval Conditional" "sourceFileSpec" = "cdtweaks\luke\lib\misc\eval_conditional.lua" "destRes" = "m_gteval" END
 	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Execute Response" "sourceFileSpec" = "cdtweaks\luke\lib\misc\execute_response.lua" "destRes" = "m_gtexec" END
 
+	//
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Misc Global Stuff" "sourceFileSpec" = "cdtweaks\luke\lib\misc\globals.lua" "destRes" = "m_gtmisc" END
+
 	// crypto library (https://github.com/Egor-Skriptunoff/pure_lua_SHA)
 	ACTION_IF !DIRECTORY_EXISTS "lua\gt" BEGIN
 		MKDIR "lua\gt"
