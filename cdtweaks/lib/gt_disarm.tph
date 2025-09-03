@@ -67,6 +67,8 @@ BEGIN
 		//
 		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Eval Conditional" "sourceFileSpec" = "cdtweaks\luke\lib\misc\eval_conditional.lua" "destRes" = "m_gteval" END
 		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Execute Response" "sourceFileSpec" = "cdtweaks\luke\lib\misc\execute_response.lua" "destRes" = "m_gtexec" END
+		//
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Misc Global Stuff" "sourceFileSpec" = "cdtweaks\luke\lib\misc\globals.lua" "destRes" = "m_gtmisc" END
 	END
 	//
 	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN

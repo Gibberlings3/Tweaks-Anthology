@@ -120,6 +120,8 @@ BEGIN
 	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lib\utility\decode_spell.lua" "destRes" = "m_gtutil" END
 	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lib\utility\array_contains.lua" "destRes" = "m_gtutil" END
 
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Misc Global Stuff" "sourceFileSpec" = "cdtweaks\luke\lib\misc\globals.lua" "destRes" = "m_gtmisc" END
+
 	//LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Lua Tools" "sourceFileSpec" = "cdtweaks\luke\lua\tool\wrap_userdata.lua" "destRes" = "m_gttool" END
 	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "AI-related stuff" "sourceFileSpec" = "cdtweaks\luke\lib\ai\object_type.lua" "destRes" = "m_gt#ai" END
 	//

@@ -47,6 +47,8 @@ BEGIN
 		//
 		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Innate Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\innate\knockdown.lua" "destRes" = "m_gtspin" END
 		//
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Misc Global Stuff" "sourceFileSpec" = "cdtweaks\luke\lib\misc\globals.lua" "destRes" = "m_gtmisc" END
+		//
 		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\damage_type.lua" "destRes" = "m_gtsprt" END
 		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\display_message.lua" "destRes" = "m_gtsprt" END
 		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\check_ids.lua" "destRes" = "m_gtsprt" END

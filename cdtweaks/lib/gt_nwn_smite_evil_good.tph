@@ -117,6 +117,8 @@ BEGIN
 	//
 	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Eval Conditional" "sourceFileSpec" = "cdtweaks\luke\lib\misc\eval_conditional.lua" "destRes" = "m_gteval" END
 	//
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Misc Global Stuff" "sourceFileSpec" = "cdtweaks\luke\lib\misc\globals.lua" "destRes" = "m_gtmisc" END
+	//
 	WITH_SCOPE BEGIN
 		OUTER_SET "feedback_strref_invalid_weapon" = RESOLVE_STR_REF (@10)
 		OUTER_SET "feedback_strref_weapon_ineffective" = RESOLVE_STR_REF (@11)
