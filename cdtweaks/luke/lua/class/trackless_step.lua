@@ -25,8 +25,8 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		sprite:applyEffect({
 			["effectID"] = 59, -- Move silently bonus
 			["durationType"] = 9,
-			["dwFlags"] = 2, -- Percentage Modifier
-			["effectAmount"] = 25, -- +25%
+			--["dwFlags"] = 2, -- Percentage Modifier
+			["effectAmount"] = 25, -- +25
 			["m_sourceRes"] = "%RANGER_TRACKLESS_STEP%",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
@@ -34,8 +34,8 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		sprite:applyEffect({
 			["effectID"] = 275, -- Hide in shadows bonus
 			["durationType"] = 9,
-			["dwFlags"] = 2, -- Percentage Modifier
-			["effectAmount"] = 25, -- +25%
+			--["dwFlags"] = 2, -- Percentage Modifier
+			["effectAmount"] = 25, -- +25
 			["m_sourceRes"] = "%RANGER_TRACKLESS_STEP%",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
