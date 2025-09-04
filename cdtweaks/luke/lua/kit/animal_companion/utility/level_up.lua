@@ -222,4 +222,17 @@ function GT_NWN_AnmlComp_LevelUp()
 			end
 		end
 	end
+	-- Immunity to critical hits
+	if summonerBaseLevel >= 20 then
+		EEex_LuaAction_Object:applyEffect({
+			["effectID"] = 143, -- Create item in slot
+			["durationType"] = 1,
+			["effectAmount"] = 6, -- SLOT_HELMET
+			["res"] = "HELMNOAN",
+			["noSave"] = true,
+			["sourceID"] = EEex_LuaAction_Object.m_id,
+			["sourceTarget"] = EEex_LuaAction_Object.m_id,
+		})
+	end
 end
+
