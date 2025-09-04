@@ -25,7 +25,8 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		sprite:applyEffect({
 			["effectID"] = 59, -- Move silently bonus
 			["durationType"] = 9,
-			["effectAmount"] = 0x7FFFFFFF, -- max signed value
+			["dwFlags"] = 0x2, -- Percentage Modifier
+			["effectAmount"] = 300, -- +300% bonus
 			["m_sourceRes"] = "%INNATE_CAT_STEALTH_BONUS%",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
@@ -33,7 +34,8 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		sprite:applyEffect({
 			["effectID"] = 275, -- Hide in shadows bonus
 			["durationType"] = 9,
-			["effectAmount"] = 0x7FFFFFFF, -- max signed value
+			["dwFlags"] = 0x2, -- Percentage Modifier
+			["effectAmount"] = 300, -- +300% bonus
 			["m_sourceRes"] = "%INNATE_CAT_STEALTH_BONUS%",
 			["sourceID"] = sprite.m_id,
 			["sourceTarget"] = sprite.m_id,
