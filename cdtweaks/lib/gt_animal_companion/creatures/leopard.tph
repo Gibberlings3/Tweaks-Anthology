@@ -79,6 +79,15 @@ END
 */
 
 LAF "GT_ADD_SPELL"
+STR_VAR
+	"idsName" = "INNATE_CAT_STEALTH_BONUS"
+RET
+	"INNATE_CAT_STEALTH_BONUS" = "resName"
+END
+
+//
+
+LAF "GT_ADD_SPELL"
 INT_VAR
 	"type" = 3
 	"level" = 2
@@ -171,3 +180,5 @@ END
 */
 
 LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Innate Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\kit\animal_companion\leopard\sneak_attack.lua" "destRes" = "m_gtspin" END
+LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Innate Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\kit\animal_companion\leopard\stealth.lua" "destRes" = "m_gtspin" END
+

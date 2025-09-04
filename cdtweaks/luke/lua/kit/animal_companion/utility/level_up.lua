@@ -120,7 +120,7 @@ function GT_NWN_AnmlComp_LevelUp()
 		["gtNWNAnmlCompSpider"] = {"07B", "07C", "07D", "07E"},
 		["gtNWNAnmlCompWolf"] = {"08B", "08C", "08D", "08E"},
 	}
-	for i = 35, 38 do -- WEAPON[1-4]
+	for i = 38, 35, -1 do -- WEAPON[1-4]. NOTE (Leopard): we start from 38 (WEAPON4) and go backwards so that WEAPON1 ends up equipped (instead of WEAPON4)
 		local item = items:get(i) -- CItem
 		if item then
 			local newItemResRef = item.pRes.resref:get()
@@ -222,4 +222,17 @@ function GT_NWN_AnmlComp_LevelUp()
 			end
 		end
 	end
+	-- Immunity to critical hits
+	if summonerBaseLevel >= 20 then
+		EEex_LuaAction_Object:applyEffect({
+			["effectID"] = 143, -- Create item in slot
+			["durationType"] = 1,
+			["effectAmount"] = 6, -- SLOT_HELMET
+			["res"] = "HELMNOAN",
+			["noSave"] = true,
+			["sourceID"] = EEex_LuaAction_Object.m_id,
+			["sourceTarget"] = EEex_LuaAction_Object.m_id,
+		})
+	end
 end
+
