@@ -524,10 +524,24 @@ BEGIN
   // Apply to familiars and selected familiar-type followers
   ACTION_DEFINE_ASSOCIATIVE_ARRAY cre_defs BEGIN
     // CRE resref => CRE script name
-    ~a7afaaq~  => ~a7afaaq~
-    ~c#bran01~ => ~c#brandock~
-    ~c#grey02~ => ~c#grey~
-    ~c#sola12~ => ~c#solaufein~
+    ~_!barb01~ => ~_!BARB01~      // Barbarian Companion: Overpowered Edition
+    ~_!sbz1~   => ~_!SBZ1~        // Sub-Zero Companion
+    ~a7afaaq~  => ~a7afaaq~       // Djinni Companion
+    ~c#bran01~ => ~c#brandock~    // Brandock the Mage NPC
+    ~c#grey02~ => ~c#grey~        // Grey the Dog
+    ~c#sola12~ => ~c#solaufein~   // Solaufein's Rescue
+    ~clfwlf~   => ~clfwlf~        // Every Mods and Dogs
+    ~haiass1~  => ~HAIASS~        // Haiass the Wolf
+    ~korax~    => ~Korax~         // Korax the Ghoul NPC
+    ~metbae~   => ~BAENWULD~      // The Tortured Soul Quest
+    ~nq#shuk~  => ~NQ#SHUK~       // Goblinmod Shuk
+    ~pxjjazon~ => ~PXJJAZON~      // Jazon the revenant
+    ~pxkribin~ => ~PXKRIBIN~      // Kri'binn the semi-mechanical spider
+    ~pxkrotan~ => ~PXKROBAN~      // Kri'binn the semi-mechanical spider
+    ~rjfay1~   => ~RJFAY1~        // Jini NPNPC MOD
+    ~sharo~    => ~sharo~         // Azure NPC
+    ~z_moddy~  => ~Z_MODDY~       // Moddy the vixen
+    ~zarix~    => ~zarix~         // Worgas the NPC
   END
 
   // Include additions from NPC Generator
