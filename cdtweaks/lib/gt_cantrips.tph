@@ -317,6 +317,7 @@ BEGIN
 						// [monster]
 						REPLACE_TEXTUALLY CASE_SENSITIVE EXACT_MATCH "resref=MDSW" "resref=gtdd"
 					BUT_ONLY
+					ACTION_TO_UPPER "hexNumber"
 					APPEND "animate.ids" "0x%hexNumber% GT_NWN_SHELGARNS_PERSISTENT_BLADE"
 				END
 			END
@@ -382,6 +383,8 @@ BEGIN
 					"crushing_resistance" = 25
 					"piercing_resistance" = 25
 					"missile_resistance" = 25
+					//
+					"level_first_class" = 1
 					//
 					"sex" = IDS_OF_SYMBOL ("gender" "NIETHER")
 					// abilities

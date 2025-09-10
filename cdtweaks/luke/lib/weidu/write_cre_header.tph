@@ -39,6 +39,10 @@ INT_VAR
 	"piercing_resistance" = BYTE_AT 0x62
 	"missile_resistance" = BYTE_AT 0x63
 	//
+	"level_first_class" = BYTE_AT 0x234
+	"level_second_class" = BYTE_AT 0x235
+	"level_third_class" = BYTE_AT 0x236
+	//
 	"sex" = BYTE_AT 0x237
 	// abilities
 	"STR" = BYTE_AT 0x238
@@ -100,6 +104,10 @@ BEGIN
 	WRITE_BYTE 0x61 "%crushing_resistance%"
 	WRITE_BYTE 0x62 "%piercing_resistance%"
 	WRITE_BYTE 0x63 "%missile_resistance%"
+	//
+	WRITE_BYTE 0x234 "%level_first_class%"
+	WRITE_BYTE 0x235 "%level_second_class%"
+	WRITE_BYTE 0x236 "%level_third_class%"
 	//
 	WRITE_BYTE 0x237 "%sex%"
 	// abilities

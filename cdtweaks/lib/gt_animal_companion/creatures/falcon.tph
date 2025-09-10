@@ -29,6 +29,7 @@ WITH_SCOPE BEGIN
 			REPLACE_TEXTUALLY CASE_SENSITIVE EXACT_MATCH "attack_jab=" "attack_jab=amb_e43a,blank,blank"
 			REPLACE_TEXTUALLY CASE_SENSITIVE EXACT_MATCH "battle_cry=" "battle_cry=amb_e43a"
 		BUT_ONLY
+		ACTION_TO_UPPER "hexNumber"
 		APPEND "animate.ids" "0x%hexNumber% GT_NWN_FALCON"
 	END
 END

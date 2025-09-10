@@ -1,19 +1,20 @@
 2DA V1.0
 ****
-                                  ResRef                             Type
-CLERIC_BLADE_WARD                 %CLERIC_BLADE_WARD%                3
-CLERIC_THORN_WHIP                 %CLERIC_THORN_WHIP%                3
-CLERIC_CAUSE_MINOR_WOUNDS         %CLERIC_CAUSE_MINOR_WOUNDS%        3
-CLERIC_CURE_MINOR_WOUNDS          %CLERIC_CURE_MINOR_WOUNDS%         3
-CLERIC_FLARE                      %CLERIC_FLARE%                     3
-CLERIC_POISON_SPRAY               %CLERIC_POISON_SPRAY%              3
-CLERIC_RESISTANCE                 %CLERIC_RESISTANCE%                3
-CLERIC_VIRTUE                     %CLERIC_VIRTUE%                    3
-CLERIC_SACRED_FLAME               %CLERIC_SACRED_FLAME%              3
-WIZARD_FLARE                      %WIZARD_FLARE%                     3
-WIZARD_ELECTRIC_JOLT              %WIZARD_ELECTRIC_JOLT%             3
-WIZARD_RAY_OF_FROST               %WIZARD_RAY_OF_FROST%              3
-WIZARD_ACID_SPLASH                %WIZARD_ACID_SPLASH%               3
-WIZARD_FIRE_BOLT                  %WIZARD_FIRE_BOLT%                 3
-WIZARD_POISON_SPRAY               %WIZARD_POISON_SPRAY%              3
-WIZARD_TRUE_STRIKE                %WIZARD_TRUE_STRIKE%               3
+                                    ResRef                                Type
+CLERIC_BLADE_WARD                   %CLERIC_BLADE_WARD%                   3
+CLERIC_THORN_WHIP                   %CLERIC_THORN_WHIP%                   3
+CLERIC_CAUSE_MINOR_WOUNDS           %CLERIC_CAUSE_MINOR_WOUNDS%           3
+CLERIC_CURE_MINOR_WOUNDS            %CLERIC_CURE_MINOR_WOUNDS%            3
+CLERIC_FLARE                        %CLERIC_FLARE%                        3
+CLERIC_POISON_SPRAY                 %CLERIC_POISON_SPRAY%                 3
+CLERIC_RESISTANCE                   %CLERIC_RESISTANCE%                   3
+CLERIC_VIRTUE                       %CLERIC_VIRTUE%                       3
+CLERIC_SACRED_FLAME                 %CLERIC_SACRED_FLAME%                 3
+WIZARD_FLARE                        %WIZARD_FLARE%                        3
+WIZARD_ELECTRIC_JOLT                %WIZARD_ELECTRIC_JOLT%                3
+WIZARD_RAY_OF_FROST                 %WIZARD_RAY_OF_FROST%                 3
+WIZARD_ACID_SPLASH                  %WIZARD_ACID_SPLASH%                  3
+WIZARD_FIRE_BOLT                    %WIZARD_FIRE_BOLT%                    3
+WIZARD_POISON_SPRAY                 %WIZARD_POISON_SPRAY%                 3
+WIZARD_TRUE_STRIKE                  %WIZARD_TRUE_STRIKE%                  3
+WIZARD_SHELGARNS_PERSISTENT_BLADE   %WIZARD_SHELGARNS_PERSISTENT_BLADE%   3
