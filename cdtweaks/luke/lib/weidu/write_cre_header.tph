@@ -27,12 +27,17 @@ INT_VAR
 	"hide_in_shadows" = BYTE_AT 0x45
 	"move_silently" = BYTE_AT 0x68
 	//
-	"AC" = SHORT_AT 0x48
+	"AC" = SSHORT_AT 0x48
 	//
 	"apr" = BYTE_AT 0x53 // # attacks/round
 	//
-	"fire_resistance" = BYTE_AT 0x59
-	"cold_resistance" = BYTE_AT 0x5A
+	"fire_resistance" = SBYTE_AT 0x59
+	"cold_resistance" = SBYTE_AT 0x5A
+	//
+	"slashing_resistance" = BYTE_AT 0x60
+	"crushing_resistance" = BYTE_AT 0x61
+	"piercing_resistance" = BYTE_AT 0x62
+	"missile_resistance" = BYTE_AT 0x63
 	//
 	"sex" = BYTE_AT 0x237
 	// abilities
@@ -90,6 +95,11 @@ BEGIN
 	//
 	WRITE_BYTE 0x59 "%fire_resistance%"
 	WRITE_BYTE 0x5A "%cold_resistance%"
+	//
+	WRITE_BYTE 0x60 "%slashing_resistance%"
+	WRITE_BYTE 0x61 "%crushing_resistance%"
+	WRITE_BYTE 0x62 "%piercing_resistance%"
+	WRITE_BYTE 0x63 "%missile_resistance%"
 	//
 	WRITE_BYTE 0x237 "%sex%"
 	// abilities
