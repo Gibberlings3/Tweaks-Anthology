@@ -528,12 +528,16 @@ BEGIN
     ~_!sbz1~   => ~_!SBZ1~        // Sub-Zero Companion
     ~a7afaaq~  => ~a7afaaq~       // Djinni Companion
     ~c#bran01~ => ~c#brandock~    // Brandock the Mage NPC
+    ~c#bran03~ => ~c#brandock~    // Brandock the Mage NPC
     ~c#grey02~ => ~c#grey~        // Grey the Dog
+    ~c#husam1~ => ~C#Husam1~      // Husam_NPC
     ~c#sola12~ => ~c#solaufein~   // Solaufein's Rescue
     ~clfwlf~   => ~clfwlf~        // Every Mods and Dogs
     ~haiass1~  => ~HAIASS~        // Haiass the Wolf
     ~korax~    => ~Korax~         // Korax the Ghoul NPC
     ~metbae~   => ~BAENWULD~      // The Tortured Soul Quest
+    ~nq#cop1~  => ~NQ#COP1~       // Genwas Tierbegleiter
+    ~nq#gre1~  => ~NQ#GRE1~       // Genwas Tierbegleiter
     ~nq#shuk~  => ~NQ#SHUK~       // Goblinmod Shuk
     ~pxjjazon~ => ~PXJJAZON~      // Jazon the revenant
     ~pxkribin~ => ~PXKRIBIN~      // Kri'binn the semi-mechanical spider
