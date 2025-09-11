@@ -9,6 +9,7 @@
 WITH_SCOPE BEGIN
   INCLUDE "cdtweaks\luke\lib\install.tph"
   INCLUDE "cdtweaks\ardanis\functions.tph"
+  INCLUDE "cdtweaks\argent\find_free_anim_slot.tph"
   //
   INCLUDE "cdtweaks\lib\gt_cantrips.tph"
   //

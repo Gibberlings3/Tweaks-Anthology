@@ -123,7 +123,7 @@ local function isBlockableOrRemovableEffect(CGameEffectBase, table, language, di
 	if stored_duration == -1 and parent_duration == -1 then
 		if CGameEffectBase.m_effectId == table["opcode"][1] then
 			if table["opcode"][2] == -1 or CGameEffectBase.m_dWFlags == table["opcode"][2] then
-				if not (table["opcode"][1] == 12 and bit == 36) or (EEex_IsMaskSet(CGameEffectBase.m_dWFlags, 0x400000) and (EEex_IsBitSet(CGameEffectBase.m_special, 0x0) or EEex_IsBitSet(CGameEffectBase.m_special, 0x1) or EEex_IsBitSet(CGameEffectBase.m_special, 0x3) or EEex_IsBitSet(CGameEffectBase.m_special, 0x4))) then
+				if not (table["opcode"][1] == 12 and bit == 40) or (EEex_IsMaskSet(CGameEffectBase.m_dWFlags, 0x400000) and (EEex_IsBitSet(CGameEffectBase.m_special, 0x0) or EEex_IsBitSet(CGameEffectBase.m_special, 0x1) or EEex_IsBitSet(CGameEffectBase.m_special, 0x3) or EEex_IsBitSet(CGameEffectBase.m_special, 0x4))) then
 					if not (table["opcode"][1] == 12 and bit == 2) or EEex_IsMaskSet(CGameEffectBase.m_dWFlags, 0x200000) then
 						if EEex_IsBitUnset(CGameEffectBase.m_savingThrow, 23) then
 							-- check if polymorph weapon

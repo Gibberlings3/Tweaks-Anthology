@@ -287,6 +287,154 @@ BEGIN
 		END
 	END
 
+	//
+	LAF "GT_ADD_SPELL"
+	INT_VAR
+		"type" = 2
+	STR_VAR
+		"idsName" = "WIZARD_SHELGARNS_PERSISTENT_BLADE"
+	RET
+		"WIZARD_SHELGARNS_PERSISTENT_BLADE" = "resName"
+	END
+	//
+	WITH_SCOPE BEGIN
+		ACTION_IF !(FILE_EXISTS_IN_GAME "%WIZARD_SHELGARNS_PERSISTENT_BLADE%.spl") BEGIN
+			// creature animation files
+			WITH_SCOPE BEGIN
+				ACTION_IF IDS_OF_SYMBOL ("animate" "GT_NWN_SHELGARNS_PERSISTENT_BLADE") == "-1" BEGIN
+					COPY "cdtweaks\luke\animation\shelgarns_persistent_blade" "override"
+					LAF "FIND_FREE_ANIM_SLOT" INT_VAR "slotMin" = 0x7F00 RET "slot" END
+					OUTER_PATCH "" BEGIN
+						SPRINTF "hexNumber" "%x" ("%slot%")
+					END
+					OUTER_PATCH_SAVE "hexNumber" "%hexNumber%" BEGIN
+						REPLACE_TEXTUALLY CASE_SENSITIVE EVALUATE_REGEXP "^0x" ""
+					END
+					COPY_EXISTING "7f19.ini" "override\%hexNumber%.ini"
+						REPLACE_TEXTUALLY CASE_SENSITIVE EXACT_MATCH "MDSW dancing_sword" "GTDD shelgarns_persistent_blade"
+						// [general]
+						REPLACE_TEXTUALLY CASE_SENSITIVE EXACT_MATCH "personal_space=3" "personal_space=2"
+						// [monster]
+						REPLACE_TEXTUALLY CASE_SENSITIVE EXACT_MATCH "resref=MDSW" "resref=gtdd"
+					BUT_ONLY
+					ACTION_TO_UPPER "hexNumber"
+					APPEND "animate.ids" "0x%hexNumber% GT_NWN_SHELGARNS_PERSISTENT_BLADE"
+				END
+			END
+			//
+			ACTION_TO_LOWER "WIZARD_SHELGARNS_PERSISTENT_BLADE"
+			//
+			COPY "cdtweaks\luke\bam\class\cantrips\shelgarns_persistent_blade\ability_icon.bam" "override\%WIZARD_SHELGARNS_PERSISTENT_BLADE%b.bam"
+			//
+			CREATE "spl" "%WIZARD_SHELGARNS_PERSISTENT_BLADE%"
+			COPY_EXISTING "%WIZARD_SHELGARNS_PERSISTENT_BLADE%.spl" "override"
+				WRITE_LONG NAME1 RESOLVE_STR_REF (@70)
+				WRITE_ASCII 0x10 "CAS_M03" #8 // casting sound
+				WRITE_LONG UNIDENTIFIED_DESC "-1"
+				WRITE_ASCII 0x3A "%DEST_RES%b" #8 // icon
+				WRITE_LONG DESC "-1"
+				WRITE_LONG NAME2 "-1"
+				WRITE_LONG 0x18 BIT10 // Hostile
+				WRITE_SHORT 0x1C 1 // type: wizard
+				WRITE_BYTE 0x25 2 // CONJURER
+				WRITE_BYTE 0x27 6 // CONJURATION
+				WRITE_SHORT 0x22 14 // Conjuration
+				//
+				LPF "ADD_SPELL_HEADER" INT_VAR "target" = 4 "range" = 20 "speed" = 4 STR_VAR "icon" = "%DEST_RES%b" END
+				//
+				LPF "ADD_SPELL_CFEFFECT" INT_VAR "opcode" = 177 "target" = 1 "timing" = 1 "parameter2" = 2 STR_VAR "resource" = "GT#CNTRP" END // Use EFF file
+				//
+				LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 177 "target" = 1 "parameter2" = 2 "resist_dispel" = BIT1 "duration" = 120 STR_VAR "resource" = "%DEST_RES%" END // Use EFF file
+			BUT_ONLY_IF_IT_CHANGES
+			//
+			CREATE "eff" "%WIZARD_SHELGARNS_PERSISTENT_BLADE%"
+				WRITE_LONG 0x10 0x43 // Summon creature (67)
+				WRITE_SHORT 0x2C 100 // prob1
+				WRITE_ASCII 0x30 "%WIZARD_SHELGARNS_PERSISTENT_BLADE%" #8 // CRE resref
+				WRITE_ASCII 0x70 "SPFLMBLD" #8 // res2
+			//
+			CREATE "cre" "%WIZARD_SHELGARNS_PERSISTENT_BLADE%"
+			COPY_EXISTING "%WIZARD_SHELGARNS_PERSISTENT_BLADE%.cre" "override"
+				LPF "WRITE_CRE_HEADER"
+				INT_VAR
+					"name" = RESOLVE_STR_REF (@70)
+					"tooltip" = RESOLVE_STR_REF (@70)
+					//
+					"flags" = BIT1 // no corpse
+					//
+					"curHP" = 4
+					"maxHP" = 4
+					//
+					"animation" = IDS_OF_SYMBOL ("animate" "GT_NWN_SHELGARNS_PERSISTENT_BLADE")
+					//
+					"metal_color" = 30
+					"minor_color" = 37
+					"major_color" = 1
+					"skin_color" = 9
+					"leather_color" = 23
+					"armor_color" = 30
+					"hair_color" = 1
+					//
+					"AC" = 6
+					//
+					"apr" = 1 // # attacks/round
+					//
+					"slashing_resistance" = 25
+					"crushing_resistance" = 25
+					"piercing_resistance" = 25
+					"missile_resistance" = 25
+					//
+					"level_first_class" = 1
+					//
+					"sex" = IDS_OF_SYMBOL ("gender" "NIETHER")
+					// abilities
+					"STR" = 9
+					"INT" = 9
+					"WIS" = 9
+					"DEX" = 16
+					"CON" = 9
+					"CHR" = 9
+					//
+					"morale" = 10
+					"morale_break" = 5
+					"morale_recovery" = 60
+					// IDS
+					"allegiance" = IDS_OF_SYMBOL ("ea" "NEUTRAL")
+					"general" = IDS_OF_SYMBOL ("general" "WEAPON")
+					"race" = IDS_OF_SYMBOL ("race" "DAGGER")
+					"class" = IDS_OF_SYMBOL ("class" "NO_CLASS")
+					"gender" = IDS_OF_SYMBOL ("gender" "SUMMONED")
+					"alignment" = IDS_OF_SYMBOL ("align" "NEUTRAL")
+				STR_VAR
+					"script_default" = "BDSUM00"
+				END
+				// equipment
+				ADD_CRE_ITEM "%WIZARD_SHELGARNS_PERSISTENT_BLADE%" #0 #0 #0 "identified&unstealable&undroppable" "weapon" EQUIP
+				ADD_CRE_ITEM "helmnoan" #0 #0 #0 "identified&unstealable&undroppable" "helmet"
+				// passive traits
+				PATCH_WITH_SCOPE BEGIN
+					LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 292 "target" = 1 "timing" = 9 "parameter2" = 1 END // immunity to backstab
+					//
+					PATCH_FOR_EACH "op" IN 3 5 24 39 45 55 76 78 109 128 134 135 154 157 158 175 209 210 216 217 BEGIN
+						LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 101 "target" = 1 "timing" = 9 "parameter2" = "%op%" END // immunity to effect
+					END
+					//
+					LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 101 "target" = 1 "timing" = 9 "parameter2" = 25 END // immunity to effect (poison)
+					LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 173 "target" = 1 "timing" = 9 "parameter1" = 100 END // poison damage resistance
+					//
+					LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 403 "target" = 1 "timing" = 9 "parameter1" = BIT0 | BIT1 | BIT2 | BIT6 | BIT7 | BIT9 | BIT11 | BIT12 | BIT15 | BIT16 | BIT19 | BIT21 | BIT22 | BIT23 | BIT25 | BIT26 | BIT27 | BIT29 | BIT31 "parameter2" = BIT0 | BIT3 | BIT4 | BIT5 | BIT6 | BIT7 | BIT8 STR_VAR "resource" = "GTIMMUNE" END // screen effects (immunity)
+				END
+				// dynamically set saves and THAC0
+				LPF "ADD_CRE_EFFECT" INT_VAR "opcode" = 402 "target" = 1 "timing" = 4 STR_VAR "resource" = "GTSETCRE" END // invoke lua
+			BUT_ONLY_IF_IT_CHANGES
+			//
+			COPY_EXISTING "p1-4.itm" "override\%WIZARD_SHELGARNS_PERSISTENT_BLADE%.itm"
+				/* Extended Header */
+				LPF ~ALTER_ITEM_HEADER~ INT_VAR "range" = 0 "speed" = 0 "dicenumber" = 1 "dicesize" = 4 "thac0_bonus" = 0 "damage_bonus" = 0 "damage_type" = 1 END // 1d4 (piercing)
+			BUT_ONLY_IF_IT_CHANGES
+		END
+	END
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//// priest /////
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -770,9 +918,15 @@ BEGIN
 
 	//////////////////////////////
 
+	// immunities via 403
+	LAF "IMMUNITY_REMOVAL" STR_VAR "path" = "cdtweaks\luke\lib" END
+
 	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\spellcasting_disabled.lua" "destRes" = "m_gtsprt" END
 	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\check_ids.lua" "destRes" = "m_gtsprt" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\setup.lua" "destRes" = "m_gtsprt" END
+	//
 	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lib\utility\find_greatest_int.lua" "destRes" = "m_gtutil" END
+	//
 	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Cantrips" "sourceFileSpec" = "cdtweaks\luke\lua\class\cantrips.lua" "destRes" = "m_gtctrp" END
 
 	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
