@@ -1,0 +1,38 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Add Ribald's special stock to regular store      \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+COMPILE ~cdtweaks/dlg/ribald.d~
+
+OUTER_SPRINT ribald_items ~~
+COPY_EXISTING - ~ribald3.sto~ ~override~
+  READ_LONG 0x34 itm_off
+  READ_LONG 0x38 itm_num
+  FOR (index = 0 ; index < itm_num ; ++index) BEGIN 
+    READ_ASCII (itm_off + 0x00 + (index * 0x1c)) item (8) NULL
+    READ_LONG  (itm_off + 0x10 + (index * 0x1c)) flags
+    READ_LONG  (itm_off + 0x14 + (index * 0x1c)) count
+    SPRINT ribald_items ~%ribald_items%%WNL%AddStoreItem("ribald","%item%",%count%,%flags%)~
+  END   
+  BUT_ONLY
+  
+// if someone's adding items to ribald outside of these three scripts, have to add later
+COPY_EXISTING ~ar0702.bcs~ ~override~ // adventurer's mart
+              ~ribald.bcs~ ~override~ // ribald
+              ~baldur.bcs~ ~override~ // global script
+  DECOMPILE_AND_PATCH BEGIN 
+    REPLACE_TEXTUALLY ~\(Remove\|Add\)StoreItem("ribald3"~ ~\1StoreItem("ribald"~  // general replace
+    // compat: test your mettle's spacewarp
+    REPLACE_TEXTUALLY ~\(Global("A7#Spacewarp_ribald","GLOBAL",0)\)~ ~\1 Global("CDRibaldStore","GLOBAL",100)~ // add condition
+  END
+  BUT_ONLY IF_EXISTS
+  
+OUTER_FOR (index = 1 ; index < 7 ; ++index) BEGIN
+  EXTEND_BOTTOM ~ar0702.bcs~ ~cdtweaks/baf/ar0702_ribald2.baf~ EVALUATE_BUFFER
+END  
+  
+EXTEND_BOTTOM ~ar0702.bcs~ ~cdtweaks/baf/ar0702_ribald.baf~ EVALUATE_BUFFER

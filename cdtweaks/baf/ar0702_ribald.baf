@@ -1,0 +1,22 @@
+IF
+  GlobalGT("CDRibaldStore","GLOBAL",5)
+  GlobalLT("CDRibaldStore","GLOBAL",13)
+THEN
+  RESPONSE #100
+    CutSceneId("ribald")
+    StartCutSceneMode()
+    IncrementGlobal("CDRibaldStore","GLOBAL",-6)
+    DisplayStringHead("ribald",@351002)
+    %ribald_items%
+    Wait(3)
+    ActionOverride("ribald",MoveToPoint([695.633]))
+    DisplayStringHead("ribald",@351003)
+    Wait(3)
+    ActionOverride("ribald",MoveToPoint([763.607]))
+    DisplayStringHead("ribald",@351004)
+    Wait(3)
+    ActionOverride("ribald",MoveToPoint([710.610]))
+    Wait(3)
+    EndCutSceneMode()
+END
+

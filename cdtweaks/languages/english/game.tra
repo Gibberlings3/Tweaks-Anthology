@@ -1092,6 +1092,11 @@ This ability controls whether casting speed is increased for party members outsi
 @341002 = ~Casting ~
 @341003 = ~...~
 
+@351001 = ~Just give me a moment to gather it all.~
+@351002 = ~Now where did I put that ... ?~
+@351003 = ~Is it... ah, here it is.~
+@351004 = ~...and one last... there.~
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
