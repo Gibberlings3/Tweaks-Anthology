@@ -13,7 +13,7 @@ GT_Resource_SymbolToIDS = {}
 EEex_GameState_AddInitializedListener(function()
 	-- 2DA
 	EEex_Utility_NewScope(function()
-		local resources = { "STRMOD", "STRMODEX", "DEXMOD", "STYLBONU", "SNEAKATT", "RACEFEAT", "GTABMOD", "MXSPLWIZ", "MXSPLPRS", "MXSPLSHM", "MXSPLDD", "MXSPLSRC", "MXSPLDRU", "THAC0", "SAVEWAR", "GTINTMOD", "HPCLASS" }
+		local resources = { "STRMOD", "STRMODEX", "DEXMOD", "STYLBONU", "SNEAKATT", "RACEFEAT", "GTABMOD", "MXSPLWIZ", "MXSPLPRS", "MXSPLSHM", "MXSPLDD", "MXSPLSRC", "MXSPLDRU", "THAC0", "SAVEWAR", "GTINTMOD", "HPCLASS", "XPLEVEL" }
 		--
 		for _, v in ipairs(resources) do
 			local data = EEex_Resource_Load2DA(v)

@@ -675,6 +675,8 @@ Usa opzioni di Baldur.lua:           a7_interval_ini
 
 @348000 = "Rendi più accurata la meccanica che regola il risveglio di Morentherene [Luke (EEex)]"
 
+@352000 = ~Fai in modo che i PE non vadano "persi" quando si biclassa [Luke (EEex)]~
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
