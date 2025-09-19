@@ -1,0 +1,17 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\
+/////                                                            \\\\\////\\\\
+///// Make sure you are getting back what Yoshimo has "taken" from you   \\\\\
+/////                                                            \\\\\////\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\////\\\\
+
+WITH_SCOPE BEGIN
+  INCLUDE "cdtweaks\luke\lib\install.tph"
+  //
+  INCLUDE "cdtweaks\lib\gt_yoshimo.tph"
+  //
+  WITH_TRA "cdtweaks\languages\english\gt_yoshimo.tra" "cdtweaks\languages\%LANGUAGE%\gt_yoshimo.tra" BEGIN
+    LAF "YOSHIMO" END
+  END
+END

@@ -1,0 +1,8 @@
+DEFINE_ACTION_FUNCTION "YOSHIMO"
+BEGIN
+	OUTER_SET "feedback_strref" = RESOLVE_STR_REF (@0)
+	//
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Execute Response" "sourceFileSpec" = "cdtweaks\luke\lib\misc\execute_response.lua" "destRes" = "m_gtexec" END
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Joinable NPC Tweaks" "sourceFileSpec" = "cdtweaks\luke\lua\npc\yoshimo.lua" "destRes" = "m_gt#npc" END
+END
+
