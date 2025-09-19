@@ -15,8 +15,8 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	local spriteAux = EEex_GetUDAux(sprite)
 	--
 	local found = false
-	EEex_Utility_IterateCPtrList(sprite.m_timedEffectList, function(effect)
-		if effect.m_effectId == 142 and effect.m_dWFlags == %feedback_icon% then
+	EEex_Utility_IterateCPtrList(sprite.m_portraitIcons, function(portraitIcon)
+		if portraitIcon.icon == %feedback_icon% then
 			found = true
 			return true -- break
 		end

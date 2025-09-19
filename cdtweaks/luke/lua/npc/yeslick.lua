@@ -25,6 +25,10 @@ end)
 -- make sure only Yeslick can equip axes --
 
 EEex_Opcode_AddListsResolvedListener(function(sprite)
+	-- sanity check
+	if not EEex_GameObject_IsSprite(sprite) then
+		return
+	end
 	-- internal function that applies the actual restriction
 	local apply = function()
 		-- Mark the creature as 'condition applied'

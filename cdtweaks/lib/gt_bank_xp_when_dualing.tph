@@ -1,0 +1,9 @@
+DEFINE_ACTION_FUNCTION "BANK_XP_WHEN_DUALING"
+BEGIN
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Misc Tweaks" "sourceFileSpec" = "cdtweaks\luke\lua\tweaks\bank_xp_when_dualing.lua" "destRes" = "m_gttwks" END
+	//
+	ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
+		COPY "cdtweaks\luke\lib\resource\tables.lua" "override\m_gttbls.lua"
+	END
+END
+
