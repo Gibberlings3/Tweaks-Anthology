@@ -1122,15 +1122,20 @@
 @335101 = ~存档时间间隔已创建~
 @335102 = ~存档时间间隔（位置 %slot_index%）已创建~
 
-@337001 = ~000000003-Mortuary~
-@337002 = ~000000004-Lower Ward~
-@337003 = ~000000005-To Ravel's Maze~
+@337001 = ~000000003-停尸间~
+@337002 = ~000000004-下城区~
+@337003 = ~000000005-前往瑞佛迷宫~
 
 // these two strings will be combined as a prefix and suffix to write "Casting Grease..." to the combat log
 // adjust as needed for your grammar, e.g. if you don't need a prefix then make @341002 = ~~
 // note that you need to include spaces, if needed
 @341002 = ~施法中~
 @341003 = ~……~
+
+@351001 = ~稍等片刻，我收拾一下。~
+@351002 = ~我把它放哪儿来着……？~
+@351003 = ~是不是……啊，找到了。~
+@351004 = ~……还有最后一件……好了。~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
