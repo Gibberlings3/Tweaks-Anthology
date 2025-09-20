@@ -128,6 +128,9 @@ END
 // bg fights
 ACTION_IF game_includes_bg1 THEN BEGIN
 
+  // ajantis randomly attacking evil party members via banter engine
+  COMPILE ~cdtweaks/dlg/ajantis_evil.d~ EVALUATE_BUFFER 
+
   EXTEND_TOP ~%EDWIN_BCS%.bcs~    ~cdtweaks/baf/edwin.baf~
   EXTEND_TOP ~%MINSC_BCS%.bcs~    ~cdtweaks/baf/edwin.baf~
   EXTEND_TOP ~%DYNAHEIR_BCS%.bcs~ ~cdtweaks/baf/edwin.baf~
