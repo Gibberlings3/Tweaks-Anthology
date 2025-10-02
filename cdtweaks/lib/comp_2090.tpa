@@ -13,6 +13,19 @@
 COPY ~cdtweaks/2da/xplevel.2da~ ~override/xplevel.2da~
 INCLUDE ~cdtweaks/lib/xp_common.tpa~
 
+// fix borked tables if monastic orders is installed
+ACTION_IF MOD_IS_INSTALLED ~monasticorders.tp2~ ~0~ BEGIN 
+
+  COPY_EXISTING ~backstab.2da~ ~override~
+                ~crippstr.2da~ ~override~
+                ~sneakatt.2da~ ~override~
+    REPLACE_TEXTUALLY 
+      ~^\(QD\(MONK\|MONKSS\|MONKDM\)\)\([ %TAB%]+[0-9]+\)\([ %TAB%]+[0-9]+[ %TAB%]+[0-9]+[ %TAB%]+[0-9]+[ %TAB%]+[0-9]+[ %TAB%]+[0-9]+[ %TAB%]+[0-9]+[ %TAB%]+[0-9]+[ %TAB%]+[0-9]+[ %TAB%]+[0-9]+[ %TAB%]+[0-9]+[ %TAB%]+[0-9]+[ %TAB%]+[0-9]+[ %TAB%]+[0-9]+[ %TAB%]+[0-9]+[ %TAB%]+[0-9]+[ %TAB%]+[0-9]+[ %TAB%]+[0-9]+[ %TAB%]+[0-9]+[ %TAB%]+[0-9]+[ %TAB%]+[0-9]+[ %TAB%]+[0-9]+[ %TAB%]+[0-9]+[ %TAB%]+[0-9]+[ %TAB%]+[0-9]+[ %TAB%]+[0-9]+[ %TAB%]+[0-9]+[ %TAB%]+[0-9]+[ %TAB%]+[0-9]+[ %TAB%]+[0-9]+[ %TAB%]+[0-9]+[ %TAB%]+[0-9]+[ %TAB%]+[0-9]+[ %TAB%]+[0-9]+[ %TAB%]+[0-9]+[ %TAB%]+[0-9]+[ %TAB%]+[0-9]+[ %TAB%]+[0-9]+[ %TAB%]+[0-9]+[ %TAB%]+[0-9]+\)[ %TAB%]*$~
+      ~\1\3\3\4~ // duplicate column zero entry to complete columns
+    BUT_ONLY IF_EXISTS
+
+END  
+
 // extend bard, ranger pickpocketing to 200 and levels to 50
 INCLUDE ~cdtweaks/lib/thieving_to_50.tpa~
 
