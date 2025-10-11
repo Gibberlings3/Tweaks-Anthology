@@ -542,6 +542,9 @@ BEGIN
     ~pxjjazon~ => ~PXJJAZON~      // Jazon the revenant
     ~pxkribin~ => ~PXKRIBIN~      // Kri'binn the semi-mechanical spider
     ~pxkrotan~ => ~PXKROBAN~      // Kri'binn the semi-mechanical spider
+    ~pxl2gdco~ => ~pxl2gdco~
+    ~pxl2clem~ => ~pxl2clem~
+    ~pxl2aors~ => ~pxl2aors~
     ~rjfay1~   => ~RJFAY1~        // Jini NPNPC MOD
     ~sharo~    => ~sharo~         // Azure NPC
     ~z_moddy~  => ~Z_MODDY~       // Moddy the vixen
