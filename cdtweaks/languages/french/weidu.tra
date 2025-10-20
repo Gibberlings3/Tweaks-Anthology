@@ -783,6 +783,12 @@ Utiliser les parametres de Baldur.lua :      a7_interval_ini
 @349600 = ~L'equipement de Drizzt est present dans le donjon d'Irenicus~
 @349700 = ~La cape de Baldurien se trouve dans le donjon d'Irenicus~
 
+@350000 = ~Les creatures convoquees beneficient d'un champ de vision, a l'instar de l'œil de magicien~
+
+@351000 = ~Ajouter la reserve secrete de Ribald a son magasin habituel~
+
+@352000 = ~Ne pas perdre l'experience exedentaire lors d'un jumelage [Luke (EEex)]~
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -856,6 +862,8 @@ Utiliser les parametres de Baldur.lua :      a7_interval_ini
 @422100 = ~Une fois que Charname atteint 5000 points d'experience~
 
 @423000 = ~Augmenter la capacite Pose de piege de Yoshimo (Au detriment des autres capacites de voleur)~
+
+@424000 = ~Recuperer l'experience acquise par Yoshimo en tant que membre du groupe (via le Coeur de Yoshimo) [Luke (EEex)]~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
