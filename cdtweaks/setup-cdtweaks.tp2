@@ -5047,6 +5047,7 @@ LABEL ~cd_tweaks_improved_fate_spirit_summoning~
 
 BEGIN @402000 DESIGNATED 4020
 GROUP @0
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~stratagems.tp2~ 4100 @24 // [scs] Improved NPC customization and management
 REQUIRE_PREDICATE NOT GAME_IS ~iwd2 iwd how totlm pst pstee~ @25 // no joinables in iwd/iwd2; at least possible in iwdee/iwd-in-bg2; pst only uses one creature file per
 LABEL ~cd_tweaks_tob_style_npcs~
 
