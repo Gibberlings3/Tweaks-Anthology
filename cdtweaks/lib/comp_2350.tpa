@@ -10,24 +10,12 @@
 ///// Allow humans to multiclass                                 \\\\\
 /////                                                            \\\\\
 
-COPY_EXISTING ~clsrcreq.2da~ ~override~
-  COUNT_2DA_ROWS 8 rows
-  FOR (row = 0 ; row < rows ; ++row) BEGIN
-    READ_2DA_ENTRY row 0 8 entry
-    PATCH_IF (("%entry%" STRING_COMPARE_CASE "FIGHTER_MAGE"        = 0) OR
-              ("%entry%" STRING_COMPARE_CASE "FIGHTER_CLERIC"      = 0) OR
-              ("%entry%" STRING_COMPARE_CASE "FIGHTER_THIEF"       = 0) OR
-              ("%entry%" STRING_COMPARE_CASE "FIGHTER_MAGE_THIEF"  = 0) OR
-              ("%entry%" STRING_COMPARE_CASE "MAGE_THIEF"          = 0) OR
-              ("%entry%" STRING_COMPARE_CASE "CLERIC_MAGE"         = 0) OR
-              ("%entry%" STRING_COMPARE_CASE "CLERIC_THIEF"        = 0) OR
-              ("%entry%" STRING_COMPARE_CASE "FIGHTER_DRUID"       = 0) OR
-              ("%entry%" STRING_COMPARE_CASE "FIGHTER_MAGE_CLERIC" = 0) OR
-              ("%entry%" STRING_COMPARE_CASE "CLERIC_RANGER"       = 0)) BEGIN // allow human multi-classes in these by default
-      SET_2DA_ENTRY  row 1 8 1
-    END
-  END
-  PRETTY_PRINT_2DA
-  BUT_ONLY
+INCLUDE ~cdtweaks/lib/multiclass_enable.tpa~
+LAF cd_enable_multiclass
+  INT_VAR
+    enable_humans = 1
+    enable_non_humans = 0
+    restrict_single = 0
+END
 
 INCLUDE ~cdtweaks/lib/multiclass_text.tpa~
