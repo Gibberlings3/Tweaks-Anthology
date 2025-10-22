@@ -1,0 +1,117 @@
+/**
+ * Removes multi-class restrictions based on the specified parameters.
+ *
+ * INT_VAR enable_humans        Specify 1 to allow humans to select multi-classes.
+ * INT_VAR enable_non_humans    Specify 1 to allow non-humans to select multi-classes.
+ * INT_VAR restrict_single      Use this parameter to further refine multiclass support for humans or non-humans.
+ *                              Specify 1 to allow only multi-classes if the race has access to all single-classes
+ *                              that make up the multiclass combination. Specify 0 to ignore this restriction.
+ */
+DEFINE_ACTION_FUNCTION cd_enable_multiclass
+INT_VAR
+  enable_humans = 0
+  enable_non_humans = 0
+  restrict_single = 0
+BEGIN
+  // Preparing set of available multiclasses
+  ACTION_FOR_EACH class_label IN
+    ~FIGHTER_MAGE~
+    ~FIGHTER_CLERIC~
+    ~FIGHTER_THIEF~
+    ~FIGHTER_MAGE_THIEF~
+    ~MAGE_THIEF~
+    ~CLERIC_MAGE~
+    ~CLERIC_THIEF~
+    ~FIGHTER_DRUID~
+    ~FIGHTER_MAGE_CLERIC~
+    ~CLERIC_RANGER~
+  BEGIN
+    OUTER_SET class_id = IDS_OF_SYMBOL(~class~ ~%class_label%~)
+    ACTION_IF (class_id > 0) BEGIN
+      // map of (class id => class label) entries
+      OUTER_SPRINT $mc_by_id(~%class_id%~) ~%class_label%~
+      // map of (class label => class id) entries
+      OUTER_SET $mc_by_label(~%class_label%~) = class_id
+    END
+  END
+
+  // collecting multiclass kits
+  COPY_EXISTING ~kitlist.2da~ ~override~
+    READ_2DA_ENTRIES_NOW kitlist_table 1
+    FOR (row = 4; row < kitlist_table; ++row) BEGIN
+      READ_2DA_ENTRY_FORMER kitlist_table row 8 class_id
+      PATCH_IF (VARIABLE_IS_SET $mc_by_id(~%class_id%~)) BEGIN
+        READ_2DA_ENTRY_FORMER kitlist_table row 1 kit_label
+        // map of (kit label => parent class id) entries
+        SET $mc_by_label(~%kit_label%~) = class_id
+      END
+    END
+  BUT_ONLY
+
+  // patching multi-class restrictions
+  COPY_EXISTING ~clsrcreq.2da~ ~override~
+    READ_2DA_ENTRIES_NOW clsrcreq_table 1
+
+    FOR (col = 1; col < 8; ++col) BEGIN
+      SET race_match = (col == 1 && enable_humans) || (col > 1 && enable_non_humans)
+      PATCH_IF (race_match) BEGIN
+        // initializing single-class restrictions
+        SET fighter = (restrict_single == 0)
+        SET mage = (restrict_single == 0)
+        SET cleric = (restrict_single == 0)
+        SET thief = (restrict_single == 0)
+        SET druid = (restrict_single == 0)
+        SET ranger = (restrict_single == 0)
+        PATCH_IF (restrict_single) BEGIN
+          FOR (row = 3; row < clsrcreq_table; ++row) BEGIN
+            READ_2DA_ENTRY_FORMER clsrcreq_table row col value
+            SET value = IS_AN_INT ~value~ ? (value != 0) : 0
+            PATCH_IF (value) BEGIN
+              READ_2DA_ENTRY_FORMER clsrcreq_table row 0 label
+              PATCH_MATCH ~%label%~ WITH
+                ~^FIGHTER$~ BEGIN SET fighter = 1 END
+                ~^MAGE$~    BEGIN SET mage    = 1 END
+                ~^CLERIC$~  BEGIN SET cleric  = 1 END
+                ~^THIEF$~   BEGIN SET thief   = 1 END
+                ~^DRUID$~   BEGIN SET druid   = 1 END
+                ~^RANGER$~  BEGIN SET ranger  = 1 END
+                DEFAULT
+              END
+            END
+          END
+        END
+
+        // updating multi-class/kit restrictions
+        FOR (row = 3; row < clsrcreq_table; ++row) BEGIN
+          READ_2DA_ENTRY_FORMER clsrcreq_table row 0 label
+          SET class_id = VARIABLE_IS_SET $mc_by_label(~%label%~) ? $mc_by_label(~%label%~) : 0
+
+          PATCH_IF (VARIABLE_IS_SET $mc_by_id(~%class_id%~)) BEGIN
+            SPRINT class_label $mc_by_id(~%class_id%~)
+            PATCH_MATCH ~%class_label%~ WITH
+              ~^FIGHTER_MAGE$~        BEGIN SET enable = fighter AND mage            END
+              ~^FIGHTER_CLERIC$~      BEGIN SET enable = fighter AND cleric          END
+              ~^FIGHTER_THIEF$~       BEGIN SET enable = fighter AND thief           END
+              ~^FIGHTER_MAGE_THIEF$~  BEGIN SET enable = fighter AND mage AND thief  END
+              ~^MAGE_THIEF$~          BEGIN SET enable = mage    AND thief           END
+              ~^CLERIC_MAGE$~         BEGIN SET enable = cleric  AND mage            END
+              ~^CLERIC_THIEF$~        BEGIN SET enable = cleric  AND thief           END
+              ~^FIGHTER_DRUID$~       BEGIN SET enable = fighter AND druid           END
+              ~^FIGHTER_MAGE_CLERIC$~ BEGIN SET enable = fighter AND mage AND cleric END
+              ~^CLERIC_RANGER$~       BEGIN SET enable = cleric  AND ranger          END
+              DEFAULT                       SET enable = "-1" // no change
+            END
+
+            PATCH_IF (enable >= 0) BEGIN
+              SET_2DA_ENTRY_LATER clsrcreq_table_out row col enable
+            END
+          END
+        END
+
+        // flushing changes
+        SET_2DA_ENTRIES_NOW clsrcreq_table_out 1
+        PRETTY_PRINT_2DA
+      END
+    END
+  BUT_ONLY
+END

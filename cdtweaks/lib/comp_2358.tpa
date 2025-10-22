@@ -10,48 +10,12 @@
 ///// multiclass semimadness                                     \\\\\
 /////                                                            \\\\\
 
-COPY_EXISTING ~clsrcreq.2da~ ~override~
-  COUNT_2DA_ROWS 8 rows
-  FOR (col = 1; col < 8 ; ++col) BEGIN // since humans get all of these classes, starting at 1 will open them all up
-    SET fighter = 0
-    SET mage = 0
-    SET cleric = 0
-    SET thief = 0
-    SET druid = 0
-    SET ranger = 0
-    FOR (row = 0 ; row < rows ; ++row) BEGIN
-      READ_2DA_ENTRY row 0 8 entry
-      READ_2DA_ENTRY row col 8 value
-      PATCH_IF value = 1 BEGIN
-        PATCH_MATCH ~%entry%~ WITH
-        ~^FIGHTER$~ BEGIN SET fighter = 1 END
-        ~^MAGE$~    BEGIN SET mage = 1 END
-        ~^CLERIC$~  BEGIN SET cleric = 1 END
-        ~^THIEF$~   BEGIN SET thief = 1 END
-        ~^DRUID$~   BEGIN SET druid = 1 END
-        ~^RANGER$~  BEGIN SET ranger = 1 END
-        DEFAULT
-        END
-      END
-    END
-    FOR (row = 0 ; row < rows ; ++row) BEGIN
-      READ_2DA_ENTRY row 0 8 entry
-      PATCH_MATCH ~%entry%~ WITH
-        ~^FIGHTER_MAGE$~        BEGIN PATCH_IF fighter AND mage            BEGIN SET_2DA_ENTRY row col 8 1 END END
-        ~^FIGHTER_CLERIC$~      BEGIN PATCH_IF fighter AND cleric          BEGIN SET_2DA_ENTRY row col 8 1 END END
-        ~^FIGHTER_THIEF$~       BEGIN PATCH_IF fighter AND thief           BEGIN SET_2DA_ENTRY row col 8 1 END END
-        ~^FIGHTER_MAGE_THIEF$~  BEGIN PATCH_IF fighter AND mage AND thief  BEGIN SET_2DA_ENTRY row col 8 1 END END
-        ~^MAGE_THIEF$~          BEGIN PATCH_IF mage AND thief              BEGIN SET_2DA_ENTRY row col 8 1 END END
-        ~^CLERIC_MAGE$~         BEGIN PATCH_IF cleric AND mage             BEGIN SET_2DA_ENTRY row col 8 1 END END
-        ~^CLERIC_THIEF$~        BEGIN PATCH_IF cleric AND thief            BEGIN SET_2DA_ENTRY row col 8 1 END END
-        ~^FIGHTER_DRUID$~       BEGIN PATCH_IF fighter AND druid           BEGIN SET_2DA_ENTRY row col 8 1 END END
-        ~^FIGHTER_MAGE_CLERIC$~ BEGIN PATCH_IF fighter AND mage AND cleric BEGIN SET_2DA_ENTRY row col 8 1 END END
-        ~^CLERIC_RANGER$~       BEGIN PATCH_IF cleric AND ranger           BEGIN SET_2DA_ENTRY row col 8 1 END END
-      DEFAULT
-      END
-    END
-  END
-  PRETTY_PRINT_2DA
-  BUT_ONLY
+INCLUDE ~cdtweaks/lib/multiclass_enable.tpa~
+LAF cd_enable_multiclass
+  INT_VAR
+    enable_humans = 1
+    enable_non_humans = 1
+    restrict_single = 1
+END
 
 INCLUDE ~cdtweaks/lib/multiclass_text.tpa~
