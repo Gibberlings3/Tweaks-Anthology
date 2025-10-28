@@ -6,32 +6,22 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-ACTION_IF enhanced_edition BEGIN
-
-  COPY_EXISTING_REGEXP GLOB ~^[56][01235][0-9A-Fa-f][0-9A-Fa-f]\.ini$~ ~override~
-    REPLACE_TEXTUALLY ~equip_helmet[ %TAB%]*=[ %TAB%]*1~ ~equip_helmet=0~
-    BUT_ONLY
-
+ACTION_IF game_includes_soa OR game_is_ca OR tutu_gen OR game_is_iwd-in-bg2 BEGIN
+  OUTER_SET check_anim = 1
 END ELSE BEGIN
+  OUTER_SET check_anim = 0
+END
 
-  ACTION_IF game_includes_soa OR game_is_ca OR tutu_gen OR game_is_iwd-in-bg2 BEGIN
-    OUTER_SET check_anim = 1
-  END ELSE BEGIN
-    OUTER_SET check_anim = 0
-  END
-
-  COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
-    READ_SHORT 0x1c itemtype ELSE 0
-    PATCH_IF (itemtype = 7) BEGIN
-      PATCH_IF check_anim = 1 BEGIN
-        READ_SHORT 0x22 anim ELSE 0
-        PATCH_IF NOT ((anim = 0x5759) OR (anim = 0x575a)) BEGIN // exclude zw, yw for 1pp Wings
-          WRITE_SHORT 0x22 0
-        END
-      END ELSE BEGIN
+COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
+  READ_SHORT 0x1c itemtype ELSE 0
+  PATCH_IF (itemtype = 7) BEGIN
+    PATCH_IF check_anim = 1 BEGIN
+      READ_SHORT 0x22 anim ELSE 0
+      PATCH_IF NOT ((anim = 0x5759) OR (anim = 0x575a)) BEGIN // exclude zw, yw for 1pp Wings
         WRITE_SHORT 0x22 0
       END
+    END ELSE BEGIN
+      WRITE_SHORT 0x22 0
     END
-    BUT_ONLY
-
-END
+  END
+  BUT_ONLY
