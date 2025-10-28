@@ -25,6 +25,12 @@ END ELSE BEGIN
 END
 
 // rangers are hardcoded to use their level - 7 as their caster level
+ACTION_IF ("%MOD_FOLDER%" STRING_COMPARE_CASE "cdtweaks" = 0) BEGIN // iwdification loads this in ALWAYS
+
+  INCLUDE ~cdtweaks/lib/clab_reindex.tpa~
+  
+END 
+
 // since we're moving up their first spell 2 levels, we increase their casting level manually by 2
 ACTION_IF FILE_EXISTS_IN_GAME ~kitlist.2da~ BEGIN
 
@@ -49,7 +55,7 @@ ACTION_IF FILE_EXISTS_IN_GAME ~kitlist.2da~ BEGIN
 
     ACTION_IF FILE_EXISTS_IN_GAME ~%clab%.2da~ BEGIN
 
-      APPEND ~%clab%.2da~ ~ABILITYY   ****       ****       ****       ****       ****       AP_cdtarans CDREPLACE~
+      APPEND ~%clab%.2da~ ~ABILITY0   ****       ****       ****       ****       ****       AP_cdtarans CDREPLACE~
    
       COPY_EXISTING ~%clab%.2da~ ~override~
         COUNT_2DA_COLS cols
@@ -57,6 +63,7 @@ ACTION_IF FILE_EXISTS_IN_GAME ~kitlist.2da~ BEGIN
           REPLACE_TEXTUALLY ~CDREPLACE~ ~**** CDREPLACE~
         END
         REPLACE_TEXTUALLY ~CDREPLACE~ ~****~
+        LPM ~reindex_clab~
         PRETTY_PRINT_2DA
         BUT_ONLY
         

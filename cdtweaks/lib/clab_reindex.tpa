@@ -1,0 +1,33 @@
+/////                                                  \\\\\
+///// reindex_clab                                     \\\\\
+/////                                                  \\\\\
+
+/*
+A simple macro for renaming rows so that they're unique in a CLAB file.
+Rows don't actually need to have unique names, but some mods (SCS e.g)
+expect them to, so I made this simple macro to rename rows after any 
+kind of APPEND action. Note that it only matches stuff of the form
+ABILITYx where x is a number or letter. 'newline' is also grandfathered
+in as that's what Divine Remix uses for appends.
+
+Originally built for DR but now also used by IWDification and Anthology.
+
+used:
+
+  * (currently secret project) as xxx/lib/clone_header.tpa [symbolic link]
+
+platform:
+  all, but only useful on games with kits and CLAB files
+ 
+version history: 
+  unknown creation
+
+*/
+
+DEFINE_PATCH_MACRO ~reindex_clab~ BEGIN
+  SET "ability" = 0
+  REPLACE_EVALUATE ~^\(newline\)\|\(ABILITY[0-9A-Z]*\)[ %TAB%]~ BEGIN
+    SET "ability" = ("%ability%" + 1)
+  END
+  ~ABILITY%ability% ~
+END
