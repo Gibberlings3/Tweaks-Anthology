@@ -2,6 +2,8 @@ IF
   Global("cd_auto_track","%area%",0)
   TriggerOverride(Player%index%,HaveSpell(4922))
   TriggerOverride(Player%index%,ActionListEmpty())
+  CombatCounter(0)
+  TriggerOverride(Player%index%,!Range(NearestEnemyOf(Myself),30))
 THEN
   RESPONSE #100
     SetGlobal("cd_auto_track","%area%",1)

@@ -2,6 +2,8 @@ IF
   Global("cd_auto_track","MYAREA",1)
   HaveSpell(3139)
   ActionListEmpty()
+  CombatCounter(0)
+  !Range(NearestEnemyOf(Myself),30)
 THEN
   RESPONSE #100
     SetGlobal("cd_auto_track","MYAREA",2)

@@ -2,6 +2,8 @@ IF
   Global("cd_auto_track","MYAREA",0)
   HaveSpell(4922)
   ActionListEmpty()
+  CombatCounter(0)
+  !Range(NearestEnemyOf(Myself),30)
   %tracking_or%
   %areas%
 THEN
