@@ -5,7 +5,8 @@
 --]]
 
 EEex_Opcode_AddListsResolvedListener(function(sprite)
-	if not EEex_GameObject_IsSprite(sprite) or sprite.m_typeAI.m_EnemyAlly ~= 2 then
+	-- Sanity check
+	if not (EEex_GameObject_IsSprite(sprite) and GT_Sprite_IsPartyMember(sprite)) then
 		return
 	end
 	-- Check creature's class / flags

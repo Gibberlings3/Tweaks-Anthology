@@ -12,6 +12,9 @@ COPY_EXISTING ~numwslot.2da~ ~override~
 
 ACTION_IF MOD_IS_INSTALLED "EEex.tp2" 0 BEGIN
   INCLUDE "cdtweaks\luke\lib\install.tph"
+  //
+  LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Misc Global Stuff" "sourceFileSpec" = "cdtweaks\luke\lib\misc\globals.lua" "destRes" = "m_gtmisc" END
+  //
   WITH_SCOPE BEGIN
     LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Misc Tweaks" "sourceFileSpec" = "cdtweaks\luke\lua\tweaks\universal_four_weapon_slots.lua" "destRes" = "m_gttwks" END
   END

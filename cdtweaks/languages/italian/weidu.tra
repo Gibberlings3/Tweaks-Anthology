@@ -438,6 +438,9 @@ o rimpiazzata da - un'altra facente parte di uno dei mods installati.~
 
 @270000 = "Modifica la meccanica della Rigenerazione dei Troll [Luke (EEex)]"
 @271000 = "Evocazioni in stile NWN [Luke (EEex)]"
+
+@275000 = "Fai in modo che l'IA lanci gli incantesimi ad area (AoE) sul terreno [Luke]"
+
 /*
 @258000 = ~Modifica tabella degli incantesimi divini divini basati sulla saggezza~
 @258001 = ~Usa tabella PnP/PsT~

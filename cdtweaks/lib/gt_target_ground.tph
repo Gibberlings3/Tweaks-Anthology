@@ -1,0 +1,7 @@
+DEFINE_ACTION_FUNCTION "FORCE_THE_AI_TO_CAST_AOE_SPELLS_ON_THE_GROUND"
+BEGIN
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Rule Changes" "sourceFileSpec" = "cdtweaks\luke\lua\rule_changes\target_ground.lua" "destRes" = "m_gtrule" END
+	//
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lib\utility\decode_spell.lua" "destRes" = "m_gtutil" END
+END
+
