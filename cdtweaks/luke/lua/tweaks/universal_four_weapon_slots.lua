@@ -15,7 +15,7 @@ EEex_Key_AddPressedListener(function(key)
 
 	local state = EEex_Actionbar_GetState()
 
-	if sprite.m_typeAI.m_EnemyAlly == 2 then -- if [PC]
+	if GT_Sprite_IsPartyMember(sprite) then -- if party member
 		if key == EEex_Key_GetFromName("Left Ctrl") then
 			if GT_Globals_ClassToWeaponSlotsMap[state] == 2 then
 				-- replace weapon 1 and 2 with 3 and 4
@@ -49,7 +49,7 @@ EEex_Key_AddReleasedListener(function(key)
 
 	local state = EEex_Actionbar_GetState()
 
-	if sprite.m_typeAI.m_EnemyAlly == 2 then -- if [PC]
+	if GT_Sprite_IsPartyMember(sprite) then -- if party member
 		if key == EEex_Key_GetFromName("Left Ctrl") then
 			if GT_Globals_ClassToWeaponSlotsMap[state] == 2 then
 				-- replace weapon 3 and 4 with 1 and 2
