@@ -24,7 +24,7 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 		["res"] = "GTRULE02",
 		["sourceID"] = sprite.m_id,
 		["sourceTarget"] = sprite.m_id,
-		["noSave"] = true, -- just in case
+		["noSave"] = true, -- just in case...
 	})
 end)
 
@@ -78,7 +78,7 @@ function GTRULE02(CGameEffect, CGameSprite)
 					["m_sourceRes"] = "GTRULE02",
 					["sourceID"] = CGameSprite.m_id,
 					["sourceTarget"] = CGameSprite.m_id,
-					["noSave"] = true, -- just in case
+					["noSave"] = true, -- just in case...
 				})
 			end
 		end
@@ -90,11 +90,11 @@ function GTRULE02(CGameEffect, CGameSprite)
 			CGameSprite:setLocalInt("gtMakeInfravisionUseful", 0)
 			--
 			CGameSprite:applyEffect({
-				["effectID"] = 321, -- Remove effects by resource
+				["effectID"] = 0x141, -- Remove effects by resource (321)
 				["res"] = "GTRULE02",
 				["sourceID"] = CGameSprite.m_id,
 				["sourceTarget"] = CGameSprite.m_id,
-				["noSave"] = true, -- just in case
+				["noSave"] = true, -- just in case...
 			})
 		end
 	end
