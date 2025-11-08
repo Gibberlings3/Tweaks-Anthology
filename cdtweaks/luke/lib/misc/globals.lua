@@ -8,6 +8,8 @@
 
 GT_Globals_IsChargenOrStartMenu = {
 	['START'] = true,
+	['CHARACTER_SELECT'] = true,
+	['IMPORTPARTY'] = true,
 	--
 	['CHARGEN'] = true,
 	['CHARGEN_GENDER'] = true,

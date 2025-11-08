@@ -8,10 +8,31 @@ BEGIN
 		LAF "ADD_STATDESC_ENTRY" INT_VAR "description" = RESOLVE_STR_REF (@0) STR_VAR "bam_file" = "gtrule02" RET "feedback_icon" = "index" END
 		// Listener: run 'func' each time a sprite has finished evaluating its effects
 		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Rule Changes" "sourceFileSpec" = "cdtweaks\luke\lua\rule_changes\infravision.lua" "destRes" = "m_gtrule" END
-		//LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Lua Tools" "sourceFileSpec" = "cdtweaks/luke/lua/tool/key_exists.lua" "destRes" = "m_gttool" END
+		//
+		//LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\is_party_member.lua" "destRes" = "m_gtsprt" END
+		//
+		//LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "AI-related stuff" "sourceFileSpec" = "cdtweaks\luke\lib\ai\object_type.lua" "destRes" = "m_gt#ai" END
 		//
 		ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
 			COPY "cdtweaks\luke\lib\resource\tables.lua" "override\m_gttbls.lua"
 		END
 	END
+	//
+	WITH_SCOPE BEGIN
+		CREATE "spl" "gtrule02"
+		COPY_EXISTING "gtrule02.spl" "override"
+			WRITE_LONG NAME1 "-1"
+			WRITE_LONG UNIDENTIFIED_DESC "-1"
+			WRITE_LONG DESC "-1"
+			WRITE_LONG NAME2 "-1"
+			WRITE_LONG 0x18 (BIT14 BOR BIT25) // ignore dead/wild magic, castable when silenced
+			WRITE_SHORT 0x1C 4 // innate
+			WRITE_LONG 0x34 1 // level
+			//
+			LPF "ADD_SPELL_HEADER" INT_VAR "range" = 30 END
+			//
+			LPF "ADD_SPELL_EFFECT" INT_VAR "opcode" = 0x192 "target" = 4 STR_VAR "resource" = "GTRULE02" END // invoke lua (402)
+		BUT_ONLY_IF_IT_CHANGES
+	END
 END
+

@@ -546,6 +546,8 @@ The uninstall messages above are normal and expected.
 
 @274000 = ~Allow Shapeshifters to Wear Armor But Prevent Shapeshifting While Worn~
 
+@275000 = "Force the AI to cast AoE spells on the ground [Luke]"
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
