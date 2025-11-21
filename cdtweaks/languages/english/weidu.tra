@@ -548,6 +548,8 @@ The uninstall messages above are normal and expected.
 
 @275000 = "Force the AI to cast AoE spells on the ground [Luke]"
 
+@276000 = "Disable stealing at fences [Luke]"
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\

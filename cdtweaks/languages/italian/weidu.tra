@@ -441,6 +441,8 @@ o rimpiazzata da - un'altra facente parte di uno dei mods installati.~
 
 @275000 = "Fai in modo che l'IA lanci gli incantesimi ad area (AoE) sul terreno [Luke]"
 
+@276000 = "Fai in modo che non sia possibile rubare merce ai ricettatori [Luke]"
+
 /*
 @258000 = ~Modifica tabella degli incantesimi divini divini basati sulla saggezza~
 @258001 = ~Usa tabella PnP/PsT~
