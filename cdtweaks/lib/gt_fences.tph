@@ -1,0 +1,5 @@
+DEFINE_ACTION_FUNCTION "FENCES"
+BEGIN
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Rule Changes" "sourceFileSpec" = "cdtweaks\luke\lua\rule_changes\fences.lua" "destRes" = "m_gtrule" END
+END
+
