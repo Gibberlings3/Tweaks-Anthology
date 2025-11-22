@@ -1,0 +1,16 @@
+DEFINE_ACTION_FUNCTION "FENCES"
+BEGIN
+	ACTION_IF MOD_IS_INSTALLED ~EEex.tp2~ 0 BEGIN
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Rule Changes" "sourceFileSpec" = "cdtweaks\luke\lua\rule_changes\fences.lua" "destRes" = "m_gtrule" END
+	END ELSE BEGIN
+		COPY_EXISTING_REGEXP GLOB "^.+\.sto$" "override"
+			PATCH_IF (SOURCE_SIZE >= 0x9C) BEGIN // sanity check
+				PATCH_IF (((LONG_AT 0x10) BAND BIT12) == BIT12) BEGIN // if can buy fenced goods...
+					WRITE_LONG 0x10 (THIS BAND BNOT BIT3) // disable stealing
+					WRITE_LONG 0x10 (THIS BOR BIT13) // make sure reputation does not affect prices
+				END
+			END
+		BUT_ONLY_IF_IT_CHANGES
+	END
+END
+
