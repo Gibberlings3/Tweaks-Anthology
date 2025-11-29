@@ -73,7 +73,7 @@ BEGIN
       LPF ADD_SPELL_EFFECT
         INT_VAR
           opcode = 321  // Remove effect by resource
-          target = 1    // Self
+          target = 2    // Preset target
           timing = 1
           insert_point = 0
         STR_VAR
@@ -83,14 +83,14 @@ BEGIN
       LPF ADD_SPELL_EFFECT
         INT_VAR
           opcode = 79   // Cure disease
-          target = 1    // Self
+          target = 2    // Preset target
           timing = 1
           insert_point = 0
       END
       LPF ADD_SPELL_EFFECT
         INT_VAR
           opcode = 240  // Remove portrait icon
-          target = 1    // Self
+          target = 2    // Preset target
           timing = 1
           parameter2 = 7  // Diseased
           insert_point = 1
