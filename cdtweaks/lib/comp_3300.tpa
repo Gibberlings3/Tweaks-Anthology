@@ -21,3 +21,15 @@ ACTION_FOR_EACH script IN baldur baldur25 bdbaldur BEGIN
   END
 
 END
+
+// for cutscenes which kill the player, need to end the cutscenes for game over
+ACTION_IF game_includes_sod BEGIN 
+
+  COPY_EXISTING ~bd3000.bcs~   ~override~
+                ~bdboarb2.bcs~ ~override~
+    DECOMPILE_AND_PATCH BEGIN 
+      REPLACE_TEXTUALLY ~Kill(Player6)~ ~\0 EndCutSceneMode()~
+    END
+    BUT_ONLY
+    
+END
