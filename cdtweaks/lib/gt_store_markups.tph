@@ -11,15 +11,15 @@ BEGIN
 		END
 		// sanity check
 		ACTION_IF !(IS_AN_INT "%key%" AND "%%key%%" > 0) BEGIN
-			"%key%" = RANDOM (1, 4294967295)
+			OUTER_SET "%key%" = RANDOM (1 4294967295)
 		END
 	END
 	// sanity check (min <= max)
 	ACTION_IF "%sell_markup_min%" > "%sell_markup_max%" BEGIN
-		"sell_markup_max" = "%sell_markup_min%"
+		OUTER_SET "sell_markup_max" = "%sell_markup_min%"
 	END
 	ACTION_IF "%buy_markup_min%" > "%buy_markup_max%" BEGIN
-		"buy_markup_max" = "%buy_markup_min%"
+		OUTER_SET "buy_markup_max" = "%buy_markup_min%"
 	END
 	// check if one of the two markups are different
 	OUTER_TEXT_SPRINT "random_mode" "false"
