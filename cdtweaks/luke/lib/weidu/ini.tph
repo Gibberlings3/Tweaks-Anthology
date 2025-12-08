@@ -11,7 +11,7 @@ BEGIN
 	OUTER_TEXT_SPRINT "value" ""
 	//
 	COPY - "%filename%" ~override~
-		REPLACE_EVALUATE ~\[%section%\][^\[\]]*[%WNL%]+%key%[ %TAB%]*=[ %TAB%]*\([^%WNL%]+\)~ BEGIN
+		REPLACE_EVALUATE ~\[%section%\][^][]*[%WNL%]+%key%[ %TAB%]*=[ %TAB%]*\([^%WNL%]*\)~ BEGIN
 			TEXT_SPRINT "value" "%MATCH1%"
 		END
 		""
