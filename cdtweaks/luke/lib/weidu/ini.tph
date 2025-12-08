@@ -1,0 +1,20 @@
+// Generic INI manipulation functions //
+
+DEFINE_DIMORPHIC_FUNCTION "GET_INI_VALUE"
+STR_VAR
+	"section" = ~~
+	"key" = ~~
+	"filename" = "" // full filepath to ini filename to load and process
+RET
+	"value"
+BEGIN
+	OUTER_TEXT_SPRINT "value" ""
+	//
+	COPY - "%filename%" ~override~
+		REPLACE_EVALUATE ~\[%section%\][^\[\]]*[%WNL%]+%key%[ %TAB%]*=[ %TAB%]*\([^%WNL%]+\)~ BEGIN
+			TEXT_SPRINT "value" "%MATCH1%"
+		END
+		""
+	BUT_ONLY_IF_IT_CHANGES
+END
+
