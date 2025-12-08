@@ -1117,6 +1117,31 @@ div.quote {
         This component simply makes it impossible to steal from fences. It also makes sure reputation doesn't affect prices.
       </p>
 
+      <p> <a id="contents_2770" name="contents_2770"></a><strong>Standardize buying/selling markups for all stores [Luke]</strong> <a href="#contents_2770" rel=""><img alt="Link to this component" height="9" width="14" src="style/link.png" /></a><br />
+        <em>EEex required (LuaJIT); available for <abbr title="Baldur's Gate: Enhanced Edition">BGEE</abbr>, <abbr title="Baldur's Gate II: Enhanced Edition">BG2EE</abbr>, <abbr title="Icewind Dale: Enhanced Edition">IWDEE</abbr>, <abbr title="Enhanced Edition Trilogy">EET</abbr></em></p>
+      <p>
+        This component standardizes buying/selling markups for all stores. Before installing this component, the player may want to open the <code>gttweaks.ini</code> file (located in <code>\cdtweaks\gttweaks.ini</code>) and adjust the values (<code>sell_markup_min</code>, <code>sell_markup_max</code>, <code>buy_markup_min</code>, <code>buy_markup_max</code>) to their liking. The default values are as follows:
+        <ul>
+          <li>
+            <i>Sell markup</i>: a random integer between <code>100</code> and <code>150</code>.</li>
+            <ul>
+              <li>This value may or may not be different for each store (and will most likely change each time the player starts a new game).</li>
+            </ul>
+          </li>
+          <li>
+            <i>Buy markup</i>: a random integer between <code>25</code> and <code>50</code>.</li>
+            <ul>
+              <li>This value may or may not be different for each store (and will most likely change each time the player starts a new game).</li>
+            </ul>
+          </li>
+        </ul>
+      </p>
+
+      <p>
+        NB.: If you want the exact same value for all stores, set both minimum and maximum thresholds to the same number. If the two thresholds are different, a random value between them will be chosen for each store.<br />
+        The minimum threshold cannot be smaller than <code>1</code>. The maximum threshold cannot be greater than <code>4294967295</code>.
+      </p>
+
     </div>
     <div class="ribbon_rectangle_h3">
       <h3> <a id="contents_convenience" name="contents_convenience"></a>Convenience Tweaks and/or Cheats </h3>

@@ -17,6 +17,11 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 	if sprite.m_id ~= EEex_Area_GetVariableInt(sprite.m_pArea, "gtRandomAreaSpriteID") then
 		return
 	end
+	-- Ensure not in cutscene or dialog mode (apparently, the game might crash when in dialog mode...)
+	local inputMode = EngineGlobals.g_pBaldurChitin.m_pObjectGame.m_gameSave.m_inputMode
+	if not (EEex_BAnd(inputMode - 0x1016E, 0xFFFDFFFF) ~= 0 and EEex_BAnd(inputMode, 0x801) ~= 0) then
+		return
+	end
 	--
 	sprite:applyEffect({
 		["effectID"] = 0x92, -- Cast spell (146)

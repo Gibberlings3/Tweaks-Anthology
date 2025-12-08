@@ -3324,6 +3324,21 @@ GROUP @9
 REQUIRE_PREDICATE GAME_IS "bgee bg2ee eet iwdee" @25
 LABEL ~cd_tweaks_disable_stealing_at_fences~
 
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                                                          \\\\\
+///// Standardize buying/selling markups for all stores                                        \\\\\
+/////                                                                                          \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @277000 DESIGNATED 2770
+GROUP @9
+REQUIRE_PREDICATE GAME_IS "bgee bg2ee eet iwdee" @25
+REQUIRE_PREDICATE MOD_IS_INSTALLED ~EEex.tp2~ 0 @29
+REQUIRE_PREDICATE MOD_IS_INSTALLED "EEex.tp2" 1 @32
+LABEL ~cd_tweaks_standardize_buying_selling_markups_for_all_stores~
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\

@@ -62,3 +62,19 @@ GT_Globals_ClassToWeaponSlotsMap = {
 	[21] = 2, -- Shaman
 }
 
+--[[
++-------------------------+
+| Random Master Game Seed |
++-------------------------+
+--]]
+
+EEex_Opcode_AddListsResolvedListener(function(sprite)
+	-- Sanity check
+	if not (EEex_GameObject_IsSprite(sprite) and GT_Sprite_IsPartyMember(sprite) and sprite.m_pArea and EEex_GameState_GetGlobalInt("gtMasterGameSeed") == 0) then
+		return
+	end
+	-- Set the master game seed
+	local seed = Infinity_RandomNumber(1, 2147483647)
+	EEex_GameState_SetGlobalInt("gtMasterGameSeed", seed)
+end)
+
