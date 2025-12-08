@@ -11,7 +11,7 @@ BEGIN
 		END
 		// sanity check
 		ACTION_IF !(IS_AN_INT "%key%" AND "%%key%%" > 0) BEGIN
-			OUTER_SET "%key%" = RANDOM (1 4294967295)
+			OUTER_SET EVAL "%key%" = RANDOM (1 4294967295)
 		END
 	END
 	// sanity check (min <= max)
