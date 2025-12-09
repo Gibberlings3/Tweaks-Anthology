@@ -7,6 +7,7 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 INCLUDE ~cdtweaks/lib/remove_lines.tpa~
+INCLUDE ~cdtweaks/lib/clab_reindex.tpa~
 
 COPY ~cdtweaks/spl/d5_numat.spl~ ~override/d5_numat.spl~
      ~cdtweaks/spl/d5_numat.spl~ ~override/d5_numa2.spl~
@@ -16,11 +17,19 @@ COPY ~cdtweaks/spl/d5_numat.spl~ ~override/d5_numat.spl~
 COPY_EXISTING ~clswpbon.2da~ ~override~
   COUNT_2DA_ROWS 4 rows
   FOR (index = 0 ; index < rows ; ++index) BEGIN
-    SET_2DA_ENTRY index 1 4 1
+    READ_2DA_ENTRY index 1 4 apr
+    PATCH_IF apr BEGIN // if already set to 1, log so we can add APR bumps to CLAB table
+      READ_2DA_ENTRY index 0 4 kitname
+      TO_UPPER kitname
+      SET $cd_apr_kits("%kitname%") = 1
+    END ELSE BEGIN // set to 1 if 0
+      SET_2DA_ENTRY index 1 4 1
+    END   
   END
   PRETTY_PRINT_2DA
   BUT_ONLY
 
+// if this changes for any reason, mirror the changes in comp_2210, comp_2211, and comp_2440
 COPY_EXISTING ~wspatck.2da~ ~override~
   COUNT_2DA_COLS col_num
   READ_2DA_ENTRY 0 1 col_num row0 // read in level 1 bonuses
@@ -90,22 +99,54 @@ ACTION_PHP_EACH cd_prof_strings AS prof => strref BEGIN
 END
 
 ACTION_CLEAR_ARRAY mod_kit_clabs
-ACTION_DEFINE_ASSOCIATIVE_ARRAY mod_kit_clabs BEGIN
-  clabfi01 =>  2 // generic fighter
-  clabpa01 =>  6 // generic paladin
-  clabpa05 =>  6 // fallen paladin
-  clabrn01 => 12 // generic ranger
-  clabrn05 => 12 // fallen ranger
-  clabmo01 => 20 // monk
-END
+
+// add class CLABs - realistically only expect fighter/ranger/paladin/monk here, but check all for compat
+// should also do this as an array process, but lazy
+ACTION_IF VARIABLE_IS_SET $cd_apr_kits(MAGE) BEGIN 
+  OUTER_SPRINT $mod_kit_clabs(clabma01) ~MAGE~
+END   
+ACTION_IF VARIABLE_IS_SET $cd_apr_kits(FIGHTER) BEGIN 
+  OUTER_SPRINT $mod_kit_clabs(clabfi01) ~FIGHTER~
+END   
+ACTION_IF VARIABLE_IS_SET $cd_apr_kits(CLERIC) BEGIN 
+  OUTER_SPRINT $mod_kit_clabs(clabpr01) ~CLERIC~
+END   
+ACTION_IF VARIABLE_IS_SET $cd_apr_kits(THIEF) BEGIN 
+  OUTER_SPRINT $mod_kit_clabs(clabth01) ~THIEF~
+END   
+ACTION_IF VARIABLE_IS_SET $cd_apr_kits(BARD) BEGIN 
+  OUTER_SPRINT $mod_kit_clabs(clabba01) ~BARD~
+END   
+ACTION_IF VARIABLE_IS_SET $cd_apr_kits(PALADIN) BEGIN 
+  OUTER_SPRINT $mod_kit_clabs(clabpa01) ~PALADIN~
+  OUTER_SPRINT $mod_kit_clabs(clabpa05) ~FALLEN_PALADIN~
+END    
+ACTION_IF VARIABLE_IS_SET $cd_apr_kits(DRUID) BEGIN 
+  OUTER_SPRINT $mod_kit_clabs(clabdr01) ~DRUID~
+END   
+ACTION_IF VARIABLE_IS_SET $cd_apr_kits(RANGER) BEGIN 
+  OUTER_SPRINT $mod_kit_clabs(clabrn01) ~RANGER~
+  OUTER_SPRINT $mod_kit_clabs(clabrn05) ~FALLEN_RANGER~
+END   
+ACTION_IF VARIABLE_IS_SET $cd_apr_kits(SORCERER) BEGIN 
+  OUTER_SPRINT $mod_kit_clabs(clabso01) ~SORCERER~
+END   
+ACTION_IF VARIABLE_IS_SET $cd_apr_kits(MONK) BEGIN 
+  OUTER_SPRINT $mod_kit_clabs(clabmo01) ~MONK~
+END   
+ACTION_IF VARIABLE_IS_SET $cd_apr_kits(SHAMAN) BEGIN 
+  OUTER_SPRINT $mod_kit_clabs(clabsh01) ~SHAMAN~
+END   
 
 COPY_EXISTING ~kitlist.2da~ ~override~
   COUNT_2DA_ROWS ~10~ "rows"
   FOR ( index = 1 ; index < rows ; index = index + 1 ) BEGIN
-    READ_2DA_ENTRY %index% 8 10 modclass
-    PATCH_IF ((modclass = 2) OR (modclass = 6) OR (modclass = 12) OR (modclass = 20)) BEGIN
+    READ_2DA_ENTRY %index% 1 10 kitname
+    TO_UPPER kitname
+    //PATCH_IF ((modclass = 2) OR (modclass = 6) OR (modclass = 12) OR (modclass = 20)) BEGIN
+    PATCH_IF VARIABLE_IS_SET $cd_apr_kits("%kitname%") BEGIN 
       READ_2DA_ENTRY %index% 5 10 modclab
-      SPRINT $mod_kit_clabs(~%modclab%~)~%modclass%~
+      SPRINT $mod_kit_clabs(~%modclab%~) ~%kitname%~
     END
   END
 BUT_ONLY
@@ -119,6 +160,7 @@ ACTION_PHP_EACH mod_kit_clabs AS clab => clas BEGIN
         REPLACE_TEXTUALLY ~D5REPLACE~ ~**** D5REPLACE~
       END
       REPLACE_TEXTUALLY ~D5REPLACE~ ~****~
+      LPM ~reindex_clab~
       PRETTY_PRINT_2DA
     BUT_ONLY
   END
