@@ -7,29 +7,33 @@
 A library to declare variabes to allow unified installations of BG content
 across all platforms: oBG, BGEE or the conversions BGT, EET, and Tutu.
 
-This particular library is for BGT games.
+This particular library is for BGT games. 
 
-One of these four libraries (EET is in the local EET folder) should be called
+One of these four libraries (EET is in the local EET folder) should be called 
 from a GAME_IS check, for example Tweaks:
 
 https://github.com/Gibberlings3/Tweaks-Anthology/blob/master/cdtweaks/lib/g3_cpmvars_master.tpa
 
 used:
+  Amaurea's BG Portraits, as amaureasbg1portraits/g3_bgt_cpmvars.tpa [symbolic link]
+  Dragon Age Portraits, as da_portraits/g3_bgt_cpmvars.tpa [symbolic link]
   gavin, as gavin/lib/g3_bgt_cpmvars.tpa [symbolic link]
   Glam's NPC Pack, as glamnpcpack/libraries/g3_bgt_cpmvars.tph [local symlink]
   IWDification, as iwdification/tpa/g3_bgt_cpmvars.tpa [symbolic link]
   Lore from Learning, as cdlore/lib/g3_bgt_cpmvars.tpa [symbolic link]
   mur'neth, as mur'neth/lib/g3_bgt_cpmvars.tpa [symbolic link]
   Plasmocat's BG NPC Portraits in BG2 Style, as plasmobg1bg2/lib/g3_bgt_cpmvars.tph [local symlink]
+  Project Javelin, as cd_project_javelin/lib/g3_bgt_cpmvars.tpa [symbolic link]
   RoorenArt's Portrait Pack, as roorenart_bg2/lib/g3_bgt_cpmvars.tpa [local symlink]
   The Calling, as thecalling/lib/g3_bgt_cpmvars.tpa [symbolic link]
   Tweaks Anthology, as cdtweaks/lib/g3_bgt_cpmvars.tpa [symbolic link]
 
 platform:
   bgt
-
-version history:
-  unknown
+ 
+version history: 
+  unknown - creation
+  12/4/25 - added bg_rndtre0X variables
 
 */
 
@@ -268,6 +272,13 @@ version history:
 	OUTER_SPRINT "tutu_chapter_5" "6"
 	OUTER_SPRINT "tutu_chapter_6" "7"
 	OUTER_SPRINT "tutu_chapter_7" "8"
+
+	/* random treasures */
+	OUTER_SPRINT bg_rndtre01 "rndtre01"
+	OUTER_SPRINT bg_rndtre02 "rndtre06"
+	OUTER_SPRINT bg_rndtre03 "rndtre07"
+	OUTER_SPRINT bg_rndtre04 "rndtre08"
+	OUTER_SPRINT bg_rndtre05 "rndtre09"
 
 	/* NPC override script compilation */
 	OUTER_SPRINT "AJANTIS_BCS" "AJANTIS"
