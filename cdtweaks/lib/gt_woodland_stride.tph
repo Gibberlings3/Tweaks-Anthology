@@ -24,6 +24,8 @@ BEGIN
 		// immunities via 403
 		LAF "IMMUNITY_REMOVAL" STR_VAR "path" = "cdtweaks\luke\lib" END
 		//
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Eval Conditional" "sourceFileSpec" = "cdtweaks\luke\lib\misc\eval_conditional.lua" "destRes" = "m_gteval" END
+		//
 		ACTION_IF !(FILE_EXISTS_IN_GAME "m_gttbls.lua") BEGIN
 			COPY "cdtweaks\luke\lib\resource\tables.lua" "override\m_gttbls.lua"
 		END
