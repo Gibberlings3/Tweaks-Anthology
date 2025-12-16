@@ -36,19 +36,21 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 				["durationType"] = 9,
 				["m_sourceRes"] = "%DRUID_WOODLAND_STRIDE%",
 				["m_sourceType"] = 1,
+				["noSave"] = true, -- just in case
 				["sourceID"] = sprite.m_id,
 				["sourceTarget"] = sprite.m_id,
 			})
 		end
 	end
 	-- Check creature's class / flags
-	local class = GT_Resource_SymbolToIDS["class"]
+	--local class = GT_Resource_SymbolToIDS["class"]
 	-- any lvl 2+ druid (single/multi/(complete)dual)
-	local isDruidAll = GT_Sprite_CheckIDS(sprite, class["DRUID_ALL"], 5)
+	local triggerList = {"Class(Myself,DRUID_ALL)", "ClassLevelGT(Myself,PRIEST,1)"}
+	local applyAbility = true
 	--
-	local string = "ClassLevelGT(Myself,PRIEST,1)"
-	--
-	local applyAbility = isDruidAll and GT_EvalConditional["parseConditionalString"](sprite, nil, string)
+	for _, trigger in ipairs(triggerList) do
+		applyAbility = applyAbility and GT_EvalConditional["parseConditionalString"](sprite, nil, trigger)
+	end
 	--
 	if sprite:getLocalInt("gtNWNWoodlandStride") == 0 then
 		if applyAbility then
@@ -66,7 +68,9 @@ EEex_Opcode_AddListsResolvedListener(function(sprite)
 				["res"] = "%DRUID_WOODLAND_STRIDE%",
 				["sourceID"] = sprite.m_id,
 				["sourceTarget"] = sprite.m_id,
+				["noSave"] = true, -- just in case
 			})
 		end
 	end
 end)
+
