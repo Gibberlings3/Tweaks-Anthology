@@ -28,3 +28,27 @@ END
 COPY_EXISTING ~blakblad.itm~ ~override~
   LPF ALTER_EFFECT INT_VAR silent = 1 check_headers = 0 match_opcode = 1 parameter1 = 7 END // +1.5 APR
   BUT_ONLY IF_EXISTS
+  
+ACTION_IF MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2440~ BEGIN   
+
+  // if this changes for any reason, mirror the changes in comp_2210, comp_2211, and comp_2440
+  COPY_EXISTING ~wspatck.2da~ ~override~
+    COUNT_2DA_COLS col_num
+    READ_2DA_ENTRY 0 1 col_num row0 // read in level 1 bonuses
+    READ_2DA_ENTRY 1 1 col_num row1
+    READ_2DA_ENTRY 2 1 col_num row2
+    READ_2DA_ENTRY 3 1 col_num row3
+    READ_2DA_ENTRY 4 1 col_num row4
+    READ_2DA_ENTRY 5 1 col_num row5
+    FOR (index = 2 ; index < col_num ; ++index) BEGIN // write level 1 bonuses to all other levels (no apr from levelling)
+      SET_2DA_ENTRY 0 index col_num row0
+      SET_2DA_ENTRY 1 index col_num row1
+      SET_2DA_ENTRY 2 index col_num row2
+      SET_2DA_ENTRY 3 index col_num row3
+      SET_2DA_ENTRY 4 index col_num row4
+      SET_2DA_ENTRY 5 index col_num row5
+    END
+    PRETTY_PRINT_2DA
+    BUT_ONLY
+
+END
