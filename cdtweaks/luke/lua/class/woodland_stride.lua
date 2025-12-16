@@ -8,7 +8,7 @@
 
 EEex_Opcode_AddListsResolvedListener(function(sprite)
 	-- Sanity check
-	if not EEex_GameObject_IsSprite(sprite) then
+	if not (EEex_GameObject_IsSprite(sprite) and sprite.m_pArea) then
 		return
 	end
 	-- internal function that applies the actual feat
