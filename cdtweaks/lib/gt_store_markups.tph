@@ -1,0 +1,38 @@
+DEFINE_ACTION_FUNCTION "STORE_MARKUPS"
+BEGIN
+	ACTION_FOR_EACH "key" IN "sell_markup_min" "sell_markup_max" "buy_markup_min" "buy_markup_max" BEGIN
+		LAF "GET_INI_VALUE"
+		STR_VAR
+			"section" = "Rule Changes"
+			"key"
+			"filename" = "cdtweaks\gttweaks.ini"
+		RET
+			"%key%" = "value"
+		END
+		// sanity check
+		ACTION_IF !(IS_AN_INT "%key%" AND "%%key%%" > 0) BEGIN
+			OUTER_SET EVAL "%key%" = RANDOM (1 4294967295)
+		END
+	END
+	// sanity check (min <= max)
+	ACTION_IF "%sell_markup_min%" > "%sell_markup_max%" BEGIN
+		OUTER_SET "sell_markup_max" = "%sell_markup_min%"
+	END
+	ACTION_IF "%buy_markup_min%" > "%buy_markup_max%" BEGIN
+		OUTER_SET "buy_markup_max" = "%buy_markup_min%"
+	END
+	// check if one of the two markups are different
+	OUTER_TEXT_SPRINT "random_mode" "false"
+	ACTION_IF ("%sell_markup_min%" != "%sell_markup_max%") OR ("%buy_markup_min%" != "%buy_markup_max%") BEGIN
+		OUTER_TEXT_SPRINT "random_mode" "true"
+	END
+	//
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Sprites" "sourceFileSpec" = "cdtweaks\luke\lib\sprite\is_party_member.lua" "destRes" = "m_gtsprt" END
+	//
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Misc Global Stuff" "sourceFileSpec" = "cdtweaks\luke\lib\misc\globals.lua" "destRes" = "m_gtmisc" END
+	//
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Rule Changes" "sourceFileSpec" = "cdtweaks\luke\lua\rule_changes\store_markups.lua" "destRes" = "m_gtrule" END
+	//
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Utility Functions / Listeners" "sourceFileSpec" = "cdtweaks\luke\lib\utility\djb2.lua" "destRes" = "m_gtutil" END
+END
+
