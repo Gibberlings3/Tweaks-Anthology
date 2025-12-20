@@ -4,7 +4,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobal("cdt_spawn_viconia","GLOBAL",1)
-		CreateCreature("VICONI",[1455.253],7)  // Viconia
+		CreateCreature("VICONI",[%x_coord%.%y_coord%],%orient%)  // Viconia
 END
 
 IF
@@ -15,7 +15,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobal("cdt_spawn_viconia","GLOBAL",1)
-		CreateCreature("VICONI4",[1455.253],7)  // Viconia
+		CreateCreature("VICONI4",[%x_coord%.%y_coord%],%orient%)  // Viconia
 END
 
 IF

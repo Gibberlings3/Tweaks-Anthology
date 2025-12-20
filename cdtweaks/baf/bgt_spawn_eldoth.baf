@@ -4,7 +4,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobal("cdt_spawn_eldoth","MYAREA",1)
-		CreateCreature("ELDOTH",[1064.2086],6)  // Eldoth
+		CreateCreature("ELDOTH",[%x_coord%.%y_coord%],%orient%)  // Eldoth
 END
 
 IF
@@ -13,5 +13,5 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobal("cdt_spawn_eldoth","MYAREA",1)
-		CreateCreature("ELDOTH5",[1064.2086],6)  // Eldoth
+		CreateCreature("ELDOTH5",[%x_coord%.%y_coord%],%orient%)  // Eldoth
 END

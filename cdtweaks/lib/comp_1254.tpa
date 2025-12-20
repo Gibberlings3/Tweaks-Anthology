@@ -10,6 +10,10 @@
 ///// Move NPCs From Baldur's Gate: shar-teel          \\\\\
 /////                                                  \\\\\
 
+OUTER_SET x_coord = 1391
+OUTER_SET y_coord = 2524
+OUTER_SET orient  =    9
+
 COPY_EXISTING ~%SHARTEEL_BCS%.bcs~ ~override~ // catching and updating area variables
               ~shartel2.bcs~       ~override~
   DECOMPILE_AND_PATCH BEGIN
@@ -26,8 +30,9 @@ ACTION_IF !game_is_bgt THEN BEGIN // all other platforms use GAM file
       READ_ASCII (npc_off + 0x0c + (index * 0x160)) ~CREName~
       PATCH_IF (~%CREName%~ STRING_COMPARE_CASE ~%tutu_var%SHARTE~ = 0) BEGIN // Quayle Starts at the Nashkel Carnival
         WRITE_ASCIIE (npc_off + 0x18 + (index * 0x160)) ~%NorthNashkelRoad%~ #8
-        WRITE_SHORT  (npc_off + 0x20 + (index * 0x160)) 1391
-        WRITE_SHORT  (npc_off + 0x22 + (index * 0x160)) 2524
+        WRITE_LONG   (npc_off + 0x14 + (index * 0x160)) orient
+        WRITE_SHORT  (npc_off + 0x20 + (index * 0x160)) x_coord
+        WRITE_SHORT  (npc_off + 0x22 + (index * 0x160)) y_coord
       END
     END
     BUT_ONLY
@@ -59,6 +64,6 @@ END ELSE BEGIN // bgt
     END
     BUT_ONLY
 
-  EXTEND_BOTTOM ~%NorthNashkelRoad_BCS%.bcs~           ~cdtweaks/baf/bgt_spawn_sharteel.baf~
+  EXTEND_BOTTOM ~%NorthNashkelRoad_BCS%.bcs~ ~cdtweaks/baf/bgt_spawn_sharteel.baf~ EVALUATE_BUFFER
 
 END

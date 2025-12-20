@@ -10,6 +10,10 @@
 ///// Move NPCs From Baldur's Gate: viconia            \\\\\
 /////                                                  \\\\\
 
+OUTER_SET x_coord = 1455
+OUTER_SET y_coord =  253
+OUTER_SET orient  =    7
+
 COPY_EXISTING ~%VICONIA_BCS%.bcs~ ~override~ // catching and updating area variables
   DECOMPILE_AND_PATCH BEGIN
     REPLACE_TEXTUALLY ~,"%Peldvale%",~ ~,"%SouthBeregostRoad%",~
@@ -25,8 +29,9 @@ ACTION_IF !game_is_bgt THEN BEGIN // all other platforms use GAM file
       READ_ASCII (npc_off + 0x0c + (index * 0x160)) ~CREName~
       PATCH_IF (~%CREName%~ STRING_COMPARE_CASE ~%tutu_var%VICONI~ = 0) BEGIN // Quayle Starts at the Nashkel Carnival
         WRITE_ASCIIE (npc_off + 0x18 + (index * 0x160)) ~%SouthBeregostRoad%~ #8
-        WRITE_SHORT  (npc_off + 0x20 + (index * 0x160)) 1455
-        WRITE_SHORT  (npc_off + 0x22 + (index * 0x160)) 253
+        WRITE_LONG   (npc_off + 0x14 + (index * 0x160)) orient
+        WRITE_SHORT  (npc_off + 0x20 + (index * 0x160)) x_coord
+        WRITE_SHORT  (npc_off + 0x22 + (index * 0x160)) y_coord
       END
     END
     BUT_ONLY
@@ -40,7 +45,7 @@ END ELSE BEGIN // bgt
     END
     BUT_ONLY
 
-  EXTEND_BOTTOM ~%SouthBeregostRoad_BCS%.bcs~           ~cdtweaks/baf/bgt_spawn_viconia.baf~
+  EXTEND_BOTTOM ~%SouthBeregostRoad_BCS%.bcs~ ~cdtweaks/baf/bgt_spawn_viconia.baf~ EVALUATE_BUFFER
 
 END
 

@@ -14,6 +14,12 @@ OUTER_SET x_coord =  704
 OUTER_SET y_coord = 3291
 OUTER_SET orient  =   11
 
+COPY_EXISTING ~%AJANTIS_BCS%.bcs~ ~override~ // catching and updating area variables
+  DECOMPILE_AND_PATCH BEGIN
+    REPLACE_TEXTUALLY ~,"%FishingVillage%",~ ~,"%FriendlyArmInn%",~
+  END
+  BUT_ONLY
+
 ACTION_IF !game_is_bgt THEN BEGIN
 
   COPY_EXISTING ~baldur.gam~ ~override~
@@ -35,8 +41,7 @@ END ELSE BEGIN // bgt
   // disable spawns
   COPY_EXISTING ~%FishingVillage_BCS%.bcs~ ~override~ // ar8300
     DECOMPILE_AND_PATCH BEGIN
-      REPLACE_TEXTUALLY 
-        ~Global("BGTNPC8300","GLOBAL",0)~ ~False()~
+      REPLACE_TEXTUALLY ~Global("BGTNPC[0-9]+","GLOBAL",0)~ ~False()~
     END
     BUT_ONLY
 

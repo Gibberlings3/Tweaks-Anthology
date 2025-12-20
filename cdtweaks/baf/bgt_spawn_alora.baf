@@ -4,7 +4,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobal("cdt_spawn_alora","GLOBAL",1)
-		CreateCreature("ALORA",[553.506],5) // Alora
+		CreateCreature("ALORA",[%x_coord%.%y_coord%],%orient%) // Alora
 END
 
 IF
@@ -13,5 +13,5 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobal("cdt_spawn_alora","GLOBAL",1)
-		CreateCreature("ALORA6",[553.506],5) // Alora
+		CreateCreature("ALORA6",[%x_coord%.%y_coord%],%orient%) // Alora
 END

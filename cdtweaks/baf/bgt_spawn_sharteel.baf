@@ -4,7 +4,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobal("cdt_spawn_sharteel","GLOBAL",1)
-		CreateCreature("SHARTE",[1391.2524],9)  // Shar-Teel
+		CreateCreature("SHARTE",[%x_coord%.%y_coord%],%orient%)  // Shar-Teel
 END
 
 IF
@@ -15,7 +15,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobal("cdt_spawn_sharteel","GLOBAL",1)
-		CreateCreature("SHARTE4",[1391.2524],9)  // Shar-Teel
+		CreateCreature("SHARTE4",[%x_coord%.%y_coord%],%orient%)  // Shar-Teel
 END
 
 IF
@@ -24,6 +24,6 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobal("cdt_spawn_sharteel","GLOBAL",1)
-		CreateCreature("SHARTE6",[1391.2524],9)  // Shar-Teel
+		CreateCreature("SHARTE6",[%x_coord%.%y_coord%],%orient%)  // Shar-Teel
 END
 

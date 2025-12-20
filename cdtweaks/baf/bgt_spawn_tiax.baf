@@ -4,7 +4,7 @@ IF
 THEN
   RESPONSE #100
     SetGlobal("cdt_spawn_tiax","GLOBAL",1)
-    CreateCreature("TIAX",[500.630],12) // Tiax
+    CreateCreature("TIAX",[%x_coord%.%y_coord%],%orient%) // Tiax
 END
 
 IF
@@ -15,7 +15,7 @@ IF
 THEN
   RESPONSE #100
     SetGlobal("cdt_spawn_tiax","GLOBAL",1)
-    CreateCreature("TIAX4",[500.630],12) // Tiax
+    CreateCreature("TIAX4",[%x_coord%.%y_coord%],%orient%) // Tiax
 END
 
 IF
@@ -24,5 +24,5 @@ IF
 THEN
   RESPONSE #100
     SetGlobal("cdt_spawn_tiax","GLOBAL",1)
-    CreateCreature("TIAX6",[500.630],12) // Tiax
+    CreateCreature("TIAX6",[%x_coord%.%y_coord%],%orient%) // Tiax
 END

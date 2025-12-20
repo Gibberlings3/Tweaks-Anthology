@@ -10,6 +10,10 @@
 ///// Move NPCs From Baldur's Gate: tiax               \\\\\
 /////                                                  \\\\\
 
+OUTER_SET x_coord =  500
+OUTER_SET y_coord =  630
+OUTER_SET orient  =   12
+
 COPY_EXISTING ~%TIAX_BCS%.bcs~ ~override~ // catching and updating area variables
   DECOMPILE_AND_PATCH BEGIN
     REPLACE_TEXTUALLY ~,"%SWBaldursGate%",~ ~,"%Beregost_FeldepostsInn_L1%",~
@@ -25,8 +29,9 @@ ACTION_IF !game_is_bgt THEN BEGIN // all other platforms use GAM file
       READ_ASCII (npc_off + 0x0c + (index * 0x160)) ~CREName~
       PATCH_IF (~%CREName%~ STRING_COMPARE_CASE ~%tutu_var%TIAX~ = 0) BEGIN // Tiax Starts in Beregost
         WRITE_ASCIIE (npc_off + 0x18 + (index * 0x160)) ~%Beregost_FeldepostsInn_L1%~ #8
-        WRITE_SHORT  (npc_off + 0x20 + (index * 0x160)) 500
-        WRITE_SHORT  (npc_off + 0x22 + (index * 0x160)) 630
+        WRITE_LONG   (npc_off + 0x14 + (index * 0x160)) orient
+        WRITE_SHORT  (npc_off + 0x20 + (index * 0x160)) x_coord
+        WRITE_SHORT  (npc_off + 0x22 + (index * 0x160)) y_coord
       END
     END
     BUT_ONLY
@@ -40,6 +45,6 @@ END ELSE BEGIN // bgt
     END
     BUT_ONLY
 
-  EXTEND_BOTTOM ~%Beregost_FeldepostsInn_L1_BCS%.bcs~ ~cdtweaks/baf/bgt_spawn_tiax.baf~
+  EXTEND_BOTTOM ~%Beregost_FeldepostsInn_L1_BCS%.bcs~ ~cdtweaks/baf/bgt_spawn_tiax.baf~ EVALUATE_BUFFER
 
 END

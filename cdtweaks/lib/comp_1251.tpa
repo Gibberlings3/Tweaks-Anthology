@@ -10,6 +10,10 @@
 ///// Move NPCs From Baldur's Gate: alora              \\\\\
 /////                                                  \\\\\
 
+OUTER_SET x_coord =  553
+OUTER_SET y_coord =  506
+OUTER_SET orient  =    5
+
 COPY_EXISTING ~%ALORA_BCS%.bcs~ ~override~ // catching and updating area variables
   DECOMPILE_AND_PATCH BEGIN
     REPLACE_TEXTUALLY ~,"%WBaldursGate_HallofWonders%",~ ~,"%Gullykin%",~
@@ -49,8 +53,9 @@ ACTION_IF !game_is_bgt THEN BEGIN // all other platforms use GAM file
       READ_ASCII (npc_off + 0x0c + (index * 0x160)) ~CREName~
       PATCH_IF (~%CREName%~ STRING_COMPARE_CASE ~%tutu_var%ALORA~ = 0) BEGIN // move alora to gullykin
         WRITE_ASCIIE (npc_off + 0x18 + (index * 0x160)) ~%Gullykin%~ #8
-        WRITE_SHORT  (npc_off + 0x20 + (index * 0x160)) 553
-        WRITE_SHORT  (npc_off + 0x22 + (index * 0x160)) 506
+        WRITE_LONG   (npc_off + 0x14 + (index * 0x160)) orient
+        WRITE_SHORT  (npc_off + 0x20 + (index * 0x160)) x_coord
+        WRITE_SHORT  (npc_off + 0x22 + (index * 0x160)) y_coord
       END
     END
     BUT_ONLY
@@ -64,6 +69,6 @@ END ELSE BEGIN // bgt
     END
     BUT_ONLY
 
-  EXTEND_BOTTOM ~%Gullykin_BCS%.bcs~                  ~cdtweaks/baf/bgt_spawn_alora.baf~
+  EXTEND_BOTTOM ~%Gullykin_BCS%.bcs~ ~cdtweaks/baf/bgt_spawn_alora.baf~ EVALUATE_BUFFER
 
 END
