@@ -1,0 +1,28 @@
+IF
+  Global("cdt_spawn_ajantis","GLOBAL",0)
+  LevelLT(Player1,4)
+THEN
+  RESPONSE #100
+    SetGlobal("cdt_spawn_ajantis","GLOBAL",1)
+    CreateCreature("AJANTI",[%x_coord%.%y_coord%],%orient%) // Ajantis
+END
+
+IF
+  Global("cdt_spawn_ajantis","GLOBAL",0)
+  OR(2)
+    Level(Player1,4)
+    Level(Player1,5)
+THEN
+  RESPONSE #100
+    SetGlobal("cdt_spawn_ajantis","GLOBAL",1)
+    CreateCreature("AJANTI4",[%x_coord%.%y_coord%],%orient%) // Ajantis
+END
+
+IF
+  Global("cdt_spawn_ajantis","GLOBAL",0)
+  LevelGT(Player1,5)
+THEN
+  RESPONSE #100
+    SetGlobal("cdt_spawn_ajantis","GLOBAL",1)
+    CreateCreature("AJANTI6",[%x_coord%.%y_coord%],%orient%) // Ajantis
+END

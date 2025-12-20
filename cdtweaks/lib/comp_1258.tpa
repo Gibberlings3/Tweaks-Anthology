@@ -10,6 +10,10 @@
 ///// Move NPCs From Baldur's Gate: Ajantis            \\\\\
 /////                                                  \\\\\
 
+OUTER_SET x_coord =  704
+OUTER_SET y_coord = 3291
+OUTER_SET orient  =   11
+
 ACTION_IF !game_is_bgt THEN BEGIN
 
   COPY_EXISTING ~baldur.gam~ ~override~
@@ -18,19 +22,24 @@ ACTION_IF !game_is_bgt THEN BEGIN
     FOR (index = 0; index < npc_num; ++index) BEGIN
       READ_ASCII (npc_off + 0x0c + (index * 0x160)) ~CREName~
       PATCH_IF (~%CREName%~ STRING_COMPARE_CASE ~%tutu_var%AJANTI~ = 0) BEGIN
-        WRITE_SHORT  (npc_off + 0x20 + (index * 0x160)) 1274
-        WRITE_SHORT  (npc_off + 0x22 + (index * 0x160)) 3504
+        WRITE_ASCIIE (npc_off + 0x18 + (index * 0x160)) ~%FriendlyArmInn%~ #8
+        WRITE_LONG   (npc_off + 0x14 + (index * 0x160)) orient
+        WRITE_SHORT  (npc_off + 0x20 + (index * 0x160)) x_coord
+        WRITE_SHORT  (npc_off + 0x22 + (index * 0x160)) y_coord
       END
     END
     BUT_ONLY
 
 END ELSE BEGIN // bgt
 
+  // disable spawns
   COPY_EXISTING ~%FishingVillage_BCS%.bcs~ ~override~ // ar8300
     DECOMPILE_AND_PATCH BEGIN
       REPLACE_TEXTUALLY 
-        ~\(CreateCreature("AJANTI[46]?",\)\[1572\.3141\]~ ~\1[1274.3504]~ // change spawn coordinates in script
+        ~Global("BGTNPC8300","GLOBAL",0)~ ~False()~
     END
     BUT_ONLY
+
+  EXTEND_BOTTOM ~%FriendlyArmInn_BCS%.bcs~ ~cdtweaks/baf/bgt_spawn_ajantis.baf~ EVALUATE_BUFFER
 
 END
