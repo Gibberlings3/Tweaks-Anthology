@@ -1,0 +1,27 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Move NPCs From Baldur's Gate                     \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+/////                                                  \\\\\
+///// Move NPCs From Baldur's Gate: Ajantis            \\\\\
+/////                                                  \\\\\
+
+ACTION_IF !game_is_bgt THEN BEGIN
+
+  COPY_EXISTING ~baldur.gam~ ~override~
+    READ_LONG 0x30 npc_off
+    READ_LONG 0x34 npc_num
+    FOR (index = 0; index < npc_num; ++index) BEGIN
+      READ_ASCII (npc_off + 0x0c + (index * 0x160)) ~CREName~
+      PATCH_IF (~%CREName%~ STRING_COMPARE_CASE ~%tutu_var%AJANTI~ = 0) BEGIN
+        WRITE_SHORT  (npc_off + 0x20 + (index * 0x160)) 1274
+        WRITE_SHORT  (npc_off + 0x22 + (index * 0x160)) 3504
+      END
+    END
+    BUT_ONLY
+
+END
