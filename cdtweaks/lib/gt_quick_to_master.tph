@@ -1,0 +1,8 @@
+DEFINE_ACTION_FUNCTION "QUICK_TO_MASTER"
+BEGIN
+	// Listener(s)
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Innate Abilities" "sourceFileSpec" = "cdtweaks\luke\lua\race\quick_to_master.lua" "destRes" = "m_gtspin" END
+	//
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Eval Conditional" "sourceFileSpec" = "cdtweaks\luke\lib\misc\eval_conditional.lua" "destRes" = "m_gteval" END
+END
+
