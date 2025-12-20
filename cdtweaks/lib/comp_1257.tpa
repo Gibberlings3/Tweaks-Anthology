@@ -6,9 +6,10 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-INCLUDE ~cdtweaks/lib/comp_1251.tpa~
-INCLUDE ~cdtweaks/lib/comp_1252.tpa~
-INCLUDE ~cdtweaks/lib/comp_1253.tpa~
-INCLUDE ~cdtweaks/lib/comp_1254.tpa~
-INCLUDE ~cdtweaks/lib/comp_1255.tpa~
-INCLUDE ~cdtweaks/lib/comp_1256.tpa~
+INCLUDE ~cdtweaks/lib/comp_1251.tpa~ // alora
+INCLUDE ~cdtweaks/lib/comp_1252.tpa~ // eldoth
+INCLUDE ~cdtweaks/lib/comp_1253.tpa~ // quayle
+INCLUDE ~cdtweaks/lib/comp_1254.tpa~ // shar-teel
+INCLUDE ~cdtweaks/lib/comp_1255.tpa~ // tiax
+INCLUDE ~cdtweaks/lib/comp_1256.tpa~ // viconia
+INCLUDE ~cdtweaks/lib/comp_1258.tpa~ // ajantis

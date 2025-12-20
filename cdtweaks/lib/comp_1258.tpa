@@ -24,4 +24,13 @@ ACTION_IF !game_is_bgt THEN BEGIN
     END
     BUT_ONLY
 
+END ELSE BEGIN // bgt
+
+  COPY_EXISTING ~%FishingVillage_BCS%.bcs~ ~override~ // ar8300
+    DECOMPILE_AND_PATCH BEGIN
+      REPLACE_TEXTUALLY 
+        ~\(CreateCreature("AJANTI[46]?",\)\[1572\.3141\]~ ~\1[1274.3504]~ // change spawn coordinates in script
+    END
+    BUT_ONLY
+
 END
