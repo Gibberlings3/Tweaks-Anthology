@@ -1,0 +1,177 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// PnP free action                                  \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+// we're going to be using the immnity batch arrays from BG2FP for most of this work
+ACTION_CLEAR_ARRAY cd_immunity_batches_key
+ACTION_CLEAR_ARRAY cd_immunity_batches_extras
+ACTION_CLEAR_ARRAY cd_immunity_batches_delete
+
+ACTION_IF game_is_bgee BEGIN 
+  OUTER_SET strref_hasted = 26019
+  OUTER_SET strref_haste  = 26018
+END ELSE BEGIN 
+  OUTER_SET strref_hasted = 14023
+  OUTER_SET strref_haste  = 12080
+END
+
+// iterate through the blocked spells in free action to generate list of potential haste spells
+COPY_EXISTING ~sppr403.spl~ ~override~
+  READ_LONG  0x64 abil_off
+  READ_SHORT 0x68 abil_num
+  READ_LONG 0x6a fx_off
+  FOR (index = 0 ; index < abil_num ; ++index) BEGIN 
+    READ_SHORT (abil_off + 0x1e + (index * 0x28)) abil_fx_num
+    READ_SHORT (abil_off + 0x20 + (index * 0x28)) abil_fx_idx
+    FOR (index2 = 0 ; index2 < abil_fx_num ; ++index2) BEGIN 
+      READ_SHORT (fx_off + 0x00 + (0x30 * (abil_fx_idx + index2))) op
+      PATCH_IF ((op = 206) OR (op = 318) OR (op = 324)) BEGIN 
+        READ_ASCII (fx_off + 0x14 + (0x30 * (abil_fx_idx + index2))) resref
+        SET $cd_haste_spells("%resref%") = 0
+      END
+    END
+  END
+  BUT_ONLY
+
+ACTION_PHP_EACH cd_haste_spells AS spell => haste BEGIN
+
+  COPY_EXISTING ~%spell%.spl~ ~override~ // since spells blocked by FA could also be slow spells, check for haste opcode
+    READ_LONG  0x64 abil_off
+    READ_SHORT 0x68 abil_num
+    READ_LONG 0x6a fx_off
+    FOR (index = 0 ; index < abil_num ; ++index) BEGIN 
+      READ_SHORT (abil_off + 0x1e + (index * 0x28)) abil_fx_num
+      READ_SHORT (abil_off + 0x20 + (index * 0x28)) abil_fx_idx
+      FOR (index2 = 0 ; index2 < abil_fx_num ; ++index2) BEGIN 
+        READ_SHORT (fx_off + 0x00 + (0x30 * (abil_fx_idx + index2))) op
+        PATCH_IF (op = 16) BEGIN 
+          SET $cd_haste_spells("%spell%") = 1
+        END
+      END
+    END
+    BUT_ONLY IF_EXISTS
+    
+END 
+
+COPY ~cdtweaks/lib/free_action_arrays.tph~ ~weidu_external/cdtweaks/free_action_arrays.tph~
+  REPLACE_TEXTUALLY ~//replace_delete~ 
+    ~267, %strref_haste%, "-10", "same", "-10", "-10", "same" => 1 // prevent haste string%WNL%    \0~
+  REPLACE_TEXTUALLY ~//replace_delete~ 
+    ~267, %strref_hasted%, "-10", "same", "-10", "-10", "same" => 1 // prevent hasted string%WNL%    \0~
+  PATCH_IF enhanced_edition BEGIN 
+    REPLACE_TEXTUALLY ~//replace_delete~ 
+      ~337,  "-10",   16,    "same", "-10", "-10", "same" => 1 // remove effects by opcode: haste (16) [ee only]
+    240,  "-10",  195,    "same", "-10", "-10", "same" => 1 // remove 'increased movement speed' icon [ee only]
+    169,  "-10",  195,    "same", "-10", "-10", "same" => 1 // prevent 'increased movement speed' icon [ee only]%WNL%    \0~
+    SET haste_immunity     = IDS_OF_SYMBOL (~splstate~ ~HASTE_IMMUNITY~) 
+    PATCH_IF haste_immunity != "-1" BEGIN  // if we're on an EEFP with haste_immunity spell states
+      REPLACE_TEXTUALLY ~//replace_delete~ 
+        ~328, "-10", %haste_immunity%, "same", "-10", "-10", "same" => 1 // set spell state: haste immunity%WNL%    \0~
+    END
+  END  
+  PATCH_PHP_EACH cd_haste_spells AS spell => haste BEGIN
+    PATCH_IF haste BEGIN 
+      REPLACE_TEXTUALLY ~//replace_delete~ 
+        ~206,"-10",  "-10", "%spell%", "-10", "-10", "same"  => 1 // immunity to haste spell%WNL%    \0~
+    END    
+  END
+  
+INCLUDE ~weidu_external/cdtweaks/free_action_arrays.tph~
+INCLUDE ~cdtweaks/lib/cd_apply_batch.tph~  
+
+OUTER_SET nws = 9 // normal walking speed
+ACTION_IF original_bg1 OR original_iwd OR (MOD_IS_INSTALLED ~cdtweaks.tp2~ ~1210~) BEGIN
+  OUTER_SET nws = 7 // adjust for obg speeds
+END
+
+PRINT @1
+// this steps finds and alters any effect which provides a positive speed boost to use op 176
+COPY_EXISTING_REGEXP GLOB ~^.+\.\(cre\|itm\|spl\)~ ~override~
+  LPF cd_apply_batch INT_VAR debug = 0 STR_VAR array_name = cd_pnp_free_action all_or = "all" END 
+  SET debug = 0
+  SET pnp_fa_altered = 0
+  SET min_size = 0
+  PATCH_IF ("%SOURCE_EXT%" STRING_COMPARE_CASE "spl" = 0) BEGIN
+    READ_LONG  0x64 abil_off ELSE 0
+    READ_SHORT 0x68 abil_num ELSE 0
+    READ_LONG  0x6a fx_off   ELSE 0
+    SET counter_offset = 0x70
+    SET abil_length    = 0x28
+    SET global_loop    = 0
+    SET fx_type        = 0
+    SET min_size       = 0x72
+  END ELSE
+  PATCH_IF ("%SOURCE_EXT%" STRING_COMPARE_CASE "itm" = 0) BEGIN
+    READ_LONG  0x64 abil_off ELSE 0
+    READ_SHORT 0x68 abil_num ELSE 0
+    READ_LONG  0x6a fx_off   ELSE 0
+    SET counter_offset = 0x70
+    SET abil_length    = 0x38
+    SET global_loop    = 1
+    SET fx_type        = 0
+    SET min_size       = 0x72
+  END ELSE
+  PATCH_IF ("%SOURCE_EXT%" STRING_COMPARE_CASE "cre" = 0) BEGIN
+    READ_LONG  0x2c4 fx_off ELSE 0
+    READ_BYTE 0x33 fx_type ELSE 2
+    SET abil_off       = 0
+    SET abil_num       = 0
+    SET counter_offset = 0x2c8
+    SET abil_length    = 0
+    SET global_loop    = 1
+    SET min_size       = 0x2d4
+  END ELSE BEGIN
+    PATCH_PRINT ~Warning: macro halting; file type not recognized (%SOURCE_EXT%)~
+  END
+  PATCH_IF ((SOURCE_SIZE >= min_size) AND (min_size != 0)) BEGIN // min_size must get set by file type detection
+    FOR (index = (0 - global_loop) ; index < abil_num ; ++index) BEGIN
+      PATCH_IF (index < 0) BEGIN // if loop through globals needed
+        SET abil_fx_idx = 0
+      END ELSE BEGIN // otherwise normal ability
+        SET counter_offset = (abil_off + 0x1e + (abil_length * index))
+        READ_SHORT  (abil_off + 0x20 + (abil_length * index)) abil_fx_idx
+      END
+      READ_SHORT counter_offset counter // fx_num on global loop, otherwise abil_fx_num
+      // run one pass purely looking for keys
+      FOR (index2 = 0 ; index2 < counter ; ++index2) BEGIN
+        READ_SHORT (fx_off        + (0x08 * fx_type) + ((abil_fx_idx + index2) * (0x30 + (0xd8 * fx_type)))) opcode
+        PATCH_IF opcode = 126 BEGIN 
+          READ_LONG  (fx_off + 0x04 + (0x10 * fx_type) + ((abil_fx_idx + index2) * (0x30 + (0xd8 * fx_type)))) param1
+          READ_LONG  (fx_off + 0x08 + (0x10 * fx_type) + ((abil_fx_idx + index2) * (0x30 + (0xd8 * fx_type)))) param2
+          // need to calculate if this is a positive speed increase; change to op176 if so
+          PATCH_IF (((param2 = 0) AND (param1 >   0)) OR     // increment a positive value
+                    ((param2 = 1) AND (param1 > nws)) OR     // setting a speed > normal walking speed
+                    ((param2 = 2) AND (param1 > 100)) OR     // setting a speed > 100%
+                    ((param2 = 5) AND (param1 > 100))) BEGIN // multiplying a speed > 100%
+            WRITE_SHORT (fx_off        + (0x08 * fx_type) + ((abil_fx_idx + index2) * (0x30 + (0xd8 * fx_type)))) 176
+            SET pnp_fa_altered += 1
+          END
+        END // op 126 check
+      END // abil fx loop        
+    END // abil loop  
+    
+    // debug message
+    PATCH_IF ((debug != 0) AND (pnp_fa_altered > 0)) BEGIN
+      READ_LONG 0x0c name
+      PATCH_IF (name > 0) AND (name < 999999) BEGIN
+        READ_STRREF 0x0c name
+      END ELSE BEGIN
+        READ_STRREF 0x08 name
+      END
+      PATCH_IF ("%SOURCE_RES%" STRING_COMPARE_REGEXP "^........$" = 0) BEGIN SPRINT spc " " END ELSE
+      PATCH_IF ("%SOURCE_RES%" STRING_COMPARE_REGEXP "^.......$" = 0) BEGIN SPRINT spc "  " END ELSE
+      PATCH_IF ("%SOURCE_RES%" STRING_COMPARE_REGEXP "^......$" = 0) BEGIN SPRINT spc "   " END ELSE
+      PATCH_IF ("%SOURCE_RES%" STRING_COMPARE_REGEXP "^.....$" = 0) BEGIN SPRINT spc "    " END ELSE
+      PATCH_IF ("%SOURCE_RES%" STRING_COMPARE_REGEXP "^....$" = 0) BEGIN SPRINT spc "     " END ELSE
+      PATCH_IF ("%SOURCE_RES%" STRING_COMPARE_REGEXP "^...$" = 0) BEGIN SPRINT spc "      " END ELSE
+      PATCH_IF ("%SOURCE_RES%" STRING_COMPARE_REGEXP "^..$" = 0) BEGIN SPRINT spc "       " END ELSE
+                                                                BEGIN SPRINT spc "        " END
+      PATCH_PRINT "              ~%SOURCE_FILE%~%spc%~override~ // %name%, had %pnp_fa_altered% opcodes altered"
+    END 
+  END // end file size check
+  BUT_ONLY
+  

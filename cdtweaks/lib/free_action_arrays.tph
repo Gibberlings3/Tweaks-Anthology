@@ -1,0 +1,26 @@
+// universal array - will be added to dynamically for addt'l effects to delete
+DEFINE_PATCH_MACRO ~cd_pnp_free_action~ BEGIN
+
+  // these are the effects that *must* be present for something to be considered as providing free action
+  DEFINE_ASSOCIATIVE_ARRAY cd_immunity_batches_key BEGIN
+    101,  "-10",  16, "same",  "-10",  "-10", "same" => 1 // immunity to haste
+    101,  "-10",  40, "same",  "-10",  "-10", "same" => 1 // immunity to slow
+    101,  "-10", 109, "same",  "-10",  "-10", "same" => 1 // immunity to paralyzation
+    101,  "-10", 126, "same",  "-10",  "-10", "last" => 1 // immunity to movement rate bonus
+    101,  "-10", 154, "same",  "-10",  "-10", "same" => 1 // immunity to entangle
+    101,  "-10", 157, "same",  "-10",  "-10", "same" => 1 // immunity to web
+    101,  "-10", 158, "same",  "-10",  "-10", "same" => 1 // immunity to grease
+    101,  "-10", 175, "same",  "-10",  "-10", "same" => 1 // immunity to hold
+  END
+  
+  DEFINE_ASSOCIATIVE_ARRAY cd_immunity_batches_extras BEGIN END 
+
+  // this is the array of effects to delete if free action is present
+  DEFINE_ASSOCIATIVE_ARRAY cd_immunity_batches_delete BEGIN
+    101, "-10",    16,    "same", "-10", "-10", "same" => 1 // immunity to haste
+    240, "-10",    38,    "same", "-10", "-10", "same" => 1 // remove 'haste' icon
+    169, "-10",    38,    "same", "-10", "-10", "same" => 1 // prevent haste icon
+    //replace_delete
+  END
+    
+END  

@@ -1,0 +1,215 @@
+/////                                                  \\\\\
+///// the batch... err... patch                        \\\\\
+/////                                                  \\\\\
+
+// batch effects
+DEFINE_PATCH_FUNCTION ~cd_apply_batch~ 
+  INT_VAR debug          = 0 // 1 - spit out C_E list, 2 same w/ additional info, 3 lists effects as they're added
+          force_cosmetic = "-1"
+          bonus_var_1    = "-1" // bonus vars for use in setting arrays
+          bonus_var_2    = "-1"
+          bonus_var_3    = "-1"
+  STR_VAR array_name     = "same"
+          all_or         = "or"
+  BEGIN
+
+  SET debug_message = 0
+  // formerly the immunity post array
+  SET min_size = 0
+  PATCH_IF ("%SOURCE_EXT%" STRING_COMPARE_CASE "spl" = 0) BEGIN
+    READ_LONG  0x64 abil_off ELSE 0
+    READ_SHORT 0x68 abil_num ELSE 0
+    READ_LONG  0x6a fx_off   ELSE 0
+    SET counter_offset = 0x70
+    SET abil_length    = 0x28
+    SET global_loop    = 0
+    SET fx_type        = 0
+    SET min_size       = 0x72
+    SET cosmetic       = 1
+  END ELSE
+  PATCH_IF ("%SOURCE_EXT%" STRING_COMPARE_CASE "itm" = 0) BEGIN
+    READ_LONG  0x64 abil_off ELSE 0
+    READ_SHORT 0x68 abil_num ELSE 0
+    READ_LONG  0x6a fx_off   ELSE 0
+    SET counter_offset = 0x70
+    SET abil_length    = 0x38
+    SET global_loop    = 1
+    SET fx_type        = 0
+    SET min_size       = 0x72
+    READ_BYTE 0x18 flags ELSE 0
+    PATCH_IF ((flags BAND BIT2) = BIT2) BEGIN // if droppable, add portrait icons and whatnot
+      SET cosmetic = 1
+    END ELSE BEGIN
+      SET cosmetic = 0
+    END
+  END ELSE
+  PATCH_IF ("%SOURCE_EXT%" STRING_COMPARE_CASE "cre" = 0) BEGIN
+    READ_LONG  0x2c4 fx_off ELSE 0
+    READ_BYTE 0x33 fx_type ELSE 2
+    SET abil_off       = 0
+    SET abil_num       = 0
+    SET counter_offset = 0x2c8
+    SET abil_length    = 0
+    SET global_loop    = 1
+    SET min_size       = 0x2d4
+    SET cosmetic       = 0
+  END ELSE BEGIN
+    PATCH_PRINT ~Warning: %macro_name% macro halting; file type not recognized (%SOURCE_EXT%)~
+  END
+  // if user overrides normal cosmetic stuff with function var
+  PATCH_IF force_cosmetic = 1 BEGIN 
+    SET cosmetic = 1 
+  END ELSE
+  PATCH_IF force_cosmetic = 0 BEGIN 
+    SET cosmetic = 0 
+  END
+  PATCH_IF ((SOURCE_SIZE >= min_size) AND (min_size != 0)) BEGIN // min_size must get set by file type detection
+    SET new_fx = 0
+    FOR (index = (0 - global_loop) ; index < abil_num ; ++index) BEGIN
+      SPRINT template "" // replaced if key match found
+      // always clear your arrays
+      CLEAR_ARRAY cd_immunity_batches_key
+      CLEAR_ARRAY cd_immunity_batches_extras
+      CLEAR_ARRAY cd_immunity_batches_deletes
+      LAUNCH_PATCH_MACRO ~%array_name%~ // loads up arrays with effects to match
+      PATCH_IF (index < 0) BEGIN // if loop through globals needed
+        SET abil_fx_idx = 0
+      END ELSE BEGIN // otherwise normal ability
+        SET counter_offset = (abil_off + 0x1e + (abil_length * index))
+        READ_SHORT  (abil_off + 0x20 + (abil_length * index)) abil_fx_idx
+        SET abil_fx_idx += new_fx
+        WRITE_SHORT (abil_off + 0x20 + (abil_length * index)) (abil_fx_idx)
+      END
+      READ_SHORT counter_offset counter // fx_num on global loop, otherwise abil_fx_num
+      // run one pass purely looking for keys
+      FOR (index2 = 0 ; index2 < counter ; ++index2) BEGIN
+        READ_SHORT (fx_off        + (0x08 * fx_type) + ((abil_fx_idx + index2) * (0x30 + (0xd8 * fx_type)))) opcode
+        READ_LONG  (fx_off + 0x04 + (0x10 * fx_type) + ((abil_fx_idx + index2) * (0x30 + (0xd8 * fx_type)))) param1
+        READ_LONG  (fx_off + 0x08 + (0x10 * fx_type) + ((abil_fx_idx + index2) * (0x30 + (0xd8 * fx_type)))) param2
+        READ_ASCII (fx_off + 0x14 + (0x14 * fx_type) + ((abil_fx_idx + index2) * (0x30 + (0xd8 * fx_type)))) resref
+        // look through key array for matches
+        PHP_EACH cd_immunity_batches_key AS matches => value BEGIN
+          PATCH_IF ((value != 0) AND
+                    ((matches_0 = opcode) OR (matches_0 < "-9")) AND // opcode matches and/or isn't set
+                    ((matches_1 = param1) OR (matches_1 < "-9")) AND // param1 matches and/or isn't set
+                    ((matches_2 = param2) OR (matches_2 < "-9")) AND // param2 matches and/or isn't set
+                    (("%matches_3%" STRING_COMPARE_CASE "%resref%" = 0) OR ("%matches_3%" STRING_COMPARE_CASE "same" = 0))) BEGIN // match found
+            SET value -= 1
+            DEFINE_ASSOCIATIVE_ARRAY cd_immunity_batches_key BEGIN "%matches_0%", "%matches_1%", "%matches_2%", "%matches_3%", "%matches_4%", "%matches_5%", "%matches_6%" => "%value%" END // update array to indicate match present
+            READ_ASCII (fx_off + ((abil_fx_idx + index2) * (0x30 + (0xd8 * fx_type)))) template ((0x30 + (0xd8 * fx_type))) // read whole effect into a template
+            SET insert_point = index2
+          END
+        END
+      END
+      PATCH_IF ("%all_or%" STRING_COMPARE_CASE "all" = 0) BEGIN // if an all clause, clear template if any is not matched
+        PHP_EACH cd_immunity_batches_key AS matches => value BEGIN
+          PATCH_IF value != 0 BEGIN
+            SPRINT template "" // clear template, prevents advancement
+          END
+        END
+      END
+      // if we have a key match, run second pass looking for extras and deleting targeted effects
+      PATCH_IF ("%template%" STRING_COMPARE_CASE "") BEGIN // if key found, template is set and we look for associated/delete effects
+        SET last_adj = 0
+        FOR (index2 = 0 ; index2 < counter ; ++index2) BEGIN
+          READ_SHORT (fx_off        + (0x08 * fx_type) + ((abil_fx_idx + index2) * (0x30 + (0xd8 * fx_type)))) opcode
+          READ_LONG  (fx_off + 0x04 + (0x10 * fx_type) + ((abil_fx_idx + index2) * (0x30 + (0xd8 * fx_type)))) param1
+          READ_LONG  (fx_off + 0x08 + (0x10 * fx_type) + ((abil_fx_idx + index2) * (0x30 + (0xd8 * fx_type)))) param2
+          READ_ASCII (fx_off + 0x14 + (0x14 * fx_type) + ((abil_fx_idx + index2) * (0x30 + (0xd8 * fx_type)))) resref
+          PATCH_IF index2 = (counter - 1) BEGIN                                                     // on final loop
+            PATCH_IF ((opcode = 206) AND ("%SOURCE_RES%" STRING_COMPARE_CASE "%resref%" = 0)) BEGIN // special check to make sure last effect isn't immunity to self
+              SET last_adj = "-1"                                                                   // if it is, "last" effects need to go one effect before it
+            END
+          END
+          // look through associated array for matches
+          PHP_EACH cd_immunity_batches_extras AS matches => value BEGIN
+            PATCH_IF ((value != 0) AND
+                      ((matches_0 = opcode) OR (matches_0 < "-9")) AND // opcode matches and/or isn't set
+                      ((matches_1 = param1) OR (matches_1 < "-9")) AND // param1 matches and/or isn't set
+                      ((matches_2 = param2) OR (matches_2 < "-9")) AND // param2 matches and/or isn't set
+                      (("%matches_3%" STRING_COMPARE_CASE "%resref%" = 0) OR ("%matches_3%" STRING_COMPARE_CASE "same" = 0))) BEGIN // match found
+              SET value -= 1
+              DEFINE_ASSOCIATIVE_ARRAY cd_immunity_batches_extras BEGIN "%matches_0%", "%matches_1%", "%matches_2%", "%matches_3%", "%matches_4%", "%matches_5%", "%matches_6%" => "%value%" END // update array to indicate match present
+            END
+          END
+          // look through delete array
+          PHP_EACH cd_immunity_batches_delete AS matches => value BEGIN
+            PATCH_IF (((matches_0 = opcode) OR (matches_0 < "-9")) AND // opcode matches and/or isn't set
+                      ((matches_1 = param1) OR (matches_1 < "-9")) AND // param1 matches and/or isn't set
+                      ((matches_2 = param2) OR (matches_2 < "-9")) AND // param2 matches and/or isn't set
+                      (("%matches_3%" STRING_COMPARE_CASE "%resref%" = 0) OR ("%matches_3%" STRING_COMPARE_CASE "same" = 0))) BEGIN // match found
+              DELETE_BYTES (fx_off        + (0x08 * fx_type) + ((abil_fx_idx + index2) * (0x30 + (0xd8 * fx_type)))) ((0x30 + (0xd8 * fx_type))) // delete effect
+              PATCH_IF insert_point > index2 BEGIN SET insert_point -= 1 END // move insert point up if we're deleting an effect in front of it
+              SET new_fx  -= 1
+              SET counter -= 1
+              SET index2  -= 1
+              SET debug_message = 1 // something's changed!
+            END
+          END
+        END // end second effects pass
+
+        // with a completed second pass, start adding needed effects
+        PATCH_FOR_EACH array IN cd_immunity_batches_key cd_immunity_batches_extras BEGIN
+          PHP_EACH ~%array%~ AS matches => value BEGIN
+            PATCH_IF debug > 2 BEGIN PATCH_PRINT ~%array% array: %matches_0%, %matches_1%, %matches_2%, %matches_3%, %matches_4%, %matches_5%, %matches_6% => %value%~ END
+            WHILE (value > 0) BEGIN
+              SET base = (fx_off + ((abil_fx_idx + insert_point) * (0x30 + (0xd8 * fx_type))))
+              PATCH_IF ("%matches_6%" STRING_COMPARE_CASE "first" = 0) BEGIN SET base = (fx_off + ((abil_fx_idx                     ) * (0x30 + (0xd8 * fx_type)))) END
+              PATCH_IF ("%matches_6%" STRING_COMPARE_CASE "last" = 0)  BEGIN SET base = (fx_off + ((abil_fx_idx + counter + last_adj) * (0x30 + (0xd8 * fx_type)))) END
+              INSERT_BYTES                                                             (base) (0x30 + (0xd8 * fx_type))
+                WRITE_ASCIIE                                                           (base                          ) "%template%"  // clones immunity effect
+                PATCH_IF (matches_0 >= "-9") BEGIN WRITE_SHORT                         (base        + (0x08 * fx_type)) matches_0 END // opcode
+                PATCH_IF (matches_1 >= "-9") BEGIN WRITE_LONG                          (base + 0x04 + (0x10 * fx_type)) matches_1 END // parameter1
+                PATCH_IF (matches_2 >= "-9") BEGIN WRITE_LONG                          (base + 0x08 + (0x10 * fx_type)) matches_2 END // parameter2
+                PATCH_IF ("%matches_3%" STRING_COMPARE_CASE "same") BEGIN WRITE_ASCIIE (base + 0x14 + (0x14 * fx_type)) ~%matches_3%~ #8 END // resref
+                PATCH_IF (matches_4 >= "-9") BEGIN WRITE_BYTE                          (base + 0x0c + (0x10 * fx_type)) matches_4 END // timing
+                PATCH_IF (matches_5 >= "-9") BEGIN WRITE_BYTE                          (base + 0x0e + (0x13 * fx_type)) matches_5 END // duration
+              SET new_fx  += 1
+              SET counter += 1
+              SET debug_message = 1 // something's changed!
+              SET value -= 1
+            END
+          END
+        END
+      END
+      WRITE_SHORT counter_offset counter
+    END
+
+    // formerly the immunity post array
+    PATCH_IF (("%type%" STRING_COMPARE_CASE "cre" = 0) AND (new_fx > 0)) BEGIN // fix offsets for cre files if fx inserted
+      PATCH_FOR_EACH offset IN 0x2a0 0x2a8 0x2b0 0x2b8 0x2bc BEGIN
+        READ_LONG offset curr_off
+        PATCH_IF (fx_off < curr_off) BEGIN
+          WRITE_LONG offset (THIS + ((0x30 + (0xd8 * fx_type)) * new_fx))
+        END
+      END
+    END
+    
+    // debug message
+    PATCH_IF debug > 0 BEGIN
+      READ_LONG 0x0c name
+      PATCH_IF (name > 0) AND (name < 999999) BEGIN
+        READ_STRREF 0x0c name
+      END ELSE BEGIN
+        READ_STRREF 0x08 name
+      END
+      PATCH_IF (debug_message != 0) BEGIN
+        PATCH_IF ("%SOURCE_RES%" STRING_COMPARE_REGEXP "^........$" = 0) BEGIN SPRINT spc " " END ELSE
+        PATCH_IF ("%SOURCE_RES%" STRING_COMPARE_REGEXP "^.......$" = 0) BEGIN SPRINT spc "  " END ELSE
+        PATCH_IF ("%SOURCE_RES%" STRING_COMPARE_REGEXP "^......$" = 0) BEGIN SPRINT spc "   " END ELSE
+        PATCH_IF ("%SOURCE_RES%" STRING_COMPARE_REGEXP "^.....$" = 0) BEGIN SPRINT spc "    " END ELSE
+        PATCH_IF ("%SOURCE_RES%" STRING_COMPARE_REGEXP "^....$" = 0) BEGIN SPRINT spc "     " END ELSE
+        PATCH_IF ("%SOURCE_RES%" STRING_COMPARE_REGEXP "^...$" = 0) BEGIN SPRINT spc "      " END ELSE
+        PATCH_IF ("%SOURCE_RES%" STRING_COMPARE_REGEXP "^..$" = 0) BEGIN SPRINT spc "       " END ELSE
+                                                                  BEGIN SPRINT spc "        " END
+        PATCH_PRINT "              ~%SOURCE_FILE%~%spc%~override~ // %name%, %new_fx% new effects from %array_name%"
+      END ELSE BEGIN
+        PATCH_IF (debug > 1) BEGIN
+          PATCH_PRINT " // %SOURCE_FILE% had no new effects from %array_name%"
+        END
+      END
+    END 
+
+  END // end file size check
+
+END
