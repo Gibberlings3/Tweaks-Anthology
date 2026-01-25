@@ -1454,10 +1454,14 @@ div.quote {
       <p> Due to the way the game engine works, Blade Barrier and similar spells interact very oddly with time stop effects.</p>
       <p> Freeze two characters in melee range, one with a Blade Barrier (or Globe of Blades, or Circle of Bones, or any mod spell that uses the same mechanics), and the spell triggers several times to no immediate effect... until stopped time wears off. Then all of those suspended triggers hit at once, for a potential massive burst of damage (this is especially noticeable if the characters are hasted). </p>
       <p> This component adds a workaround to prevent the aforementioned issue. In particular, it makes sure that such spells are properly &quot;paused&quot; during Time Stop and are triggered only once per round (regardless of Haste/Slow). </p>
-      <p> <a id="contents_3470" name="contents_3470"></a><strong>Dynamic FPS Change</strong> <a href="#contents_3470" rel=""><img alt="Link to this component" height="9" width="14" src="style/link.png" /></a><br />
-        <em>EEex required; available for <abbr title="Baldur's Gate: Enhanced Edition">BGEE</abbr>, <abbr title="Baldur's Gate II: Enhanced Edition">BG2EE</abbr>, <abbr title="Icewind Dale: Enhanced Edition">IWDEE</abbr>, <abbr title="Enhanced Edition Trilogy">EET</abbr></em></p>
-      <p> This component will automatically adjust FPS during playthrough. 
-        When in combat or cutscene, it will lock FPS to 30, otherwise it will set them to 60. </p>
+      <p class="deprecated"> <strong>Dynamic FPS Change</strong> </p>
+      <p class="deprecated"> Deprecated. This component is no longer recommended for use. As noted by some players, it has nothing to do with smoothness, it simply speeds up the game.
+        Please consider either:
+        <ul>
+          <li><p class="deprecated"><a href="https://github.com/Bubb13/EEex">EEex</a> (smoother viewport scrolling, but the game logic will still run at 30 FPS).</p></li>
+          <li><p class="deprecated"><a href="https://store.steampowered.com/app/993090/Lossless_Scaling/">Lossless Scaling</a> (if you truly want to play the game at 60 or 90 FPS without it being in "fast forward" mode).</p></li>
+        </ul>
+      </p>
       <p> <a id="contents_3480" name="contents_3480"></a><strong>More Sensible Morentherene</strong> <a href="#contents_3480" rel=""><img alt="Link to this component" height="9" width="14" src="style/link.png" /></a><br />
         <em>EEex required; available for <abbr title="Siege of Dragonspear">SoD</abbr>, <abbr title="Enhanced Edition Trilogy">EET</abbr></em></p>
       <p>Due to the way the game engine works, party items that cast spell effects might awake Morentherene - even if the player didn't intend to actually cast an ordinary spell.
