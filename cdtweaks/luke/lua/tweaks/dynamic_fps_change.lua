@@ -23,14 +23,15 @@ end)
 
 function GT_LuaAction_DynamicFPSChange()
 	-- [Bubb] Each area has its own combat counter. You can check the global script runner's area in this way...
-	local globalScriptRunnerId = EngineGlobals.g_pBaldurChitin.m_pObjectGame.m_nAIIndex
-	local globalScriptRunner = EEex_GameObject_Get(globalScriptRunnerId) -- CGameSprite
-	local globalScriptRunnerArea = globalScriptRunner.m_pArea -- CGameArea
+	--local globalScriptRunnerId = EngineGlobals.g_pBaldurChitin.m_pObjectGame.m_nAIIndex
+	--local globalScriptRunner = EEex_GameObject_Get(globalScriptRunnerId) -- CGameSprite
+	--local globalScriptRunnerArea = globalScriptRunner.m_pArea -- CGameArea
 	--local globalScriptRunnerAreaResref = globalScriptRunnerArea and globalScriptRunnerArea.m_resref:get() or "nil"
 	--Infinity_DisplayString(string.format("Global script runner area resref: \"%s\"", globalScriptRunnerAreaResref))
+	local currentlyVisibleArea = EEex_Area_GetVisible() -- CGameArea
 	--
-	if globalScriptRunnerArea then
-		if globalScriptRunnerArea.m_nBattleSongCounter > 0 then
+	if currentlyVisibleArea then -- Sanity check
+		if currentlyVisibleArea.m_nBattleSongCounter > 0 then
 			if EEex_CChitin.TIMER_UPDATES_PER_SECOND ~= 30 then
 				EEex_CChitin.TIMER_UPDATES_PER_SECOND = 30
 			end

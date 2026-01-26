@@ -5043,6 +5043,7 @@ BEGIN @347000 DESIGNATED 3470
 GROUP @4
 REQUIRE_PREDICATE GAME_IS ~bgee bg2ee eet iwdee~ @25
 REQUIRE_PREDICATE MOD_IS_INSTALLED "EEex.tp2" 0 @29
+DEPRECATED @18
 LABEL ~cd_tweaks_dynamic_fps_change~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
