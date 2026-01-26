@@ -59,6 +59,14 @@
 @106001 = ~La tua armatura si è distrutta~
 @106002 = ~Il tuo scudo si è distrutto~
 @106003 = ~Il tuo elmo si è distrutto~
+@106005 = ~Qualità~
+
+@106201 = ~La tua armatura è stata danneggiata~
+@106202 = ~^\([ %TAB%]*Classe Armatura[ %TAB%]*:?[ %TAB%]*\)[0-9]+~
+@106203 = ~^\([ %TAB%]*STATISTICHE[ %TAB%]*:?[ %TAB%]*\)~
+@106204 = ~Il ferro scadente di questa armatura ha causato danni.~
+@106205 = ~\(-?[0-9]+\)\([ %TAB%]*vs\.[ %TAB%]*\(tagliente\|contundente\|perforazione e proiettile\)\)~
+@106206 = ~Danneggiato~
 
 @107001 = ~Va ad aspettarci alla Locanda di Braccio Amico. Se le cose dovessero cambiare, ci incontreremo là.~
 @107002 = ~Torna a viaggiare con noi.~
@@ -192,7 +200,7 @@ Peso: 10~
 @108524 = ~Si sta aprendo la Borsa Conservante. Attendi un momento.~
 @108525 = ~Si sta aprendo l'Astuccio delle Pergamene. Attendi un momento.~
 
-
+// @109001 through 109026 have been removed, as this component has moved to The Calling
 
 @111001 = ~Locanda di Candlekeep~
 @111002 = ~Alloggi dei Sacerdoti~
@@ -311,7 +319,7 @@ Peso: 10~
 @111115 = ~Locanda dell'Ombra della Sera~
 @111116 = ~Casa dello Sciamano Barbarico~
 @111117 = ~Tempio di Ilmater~
-@111118 = ~L'aeronave~
+@111118 = ~Aeronave di Oswald Fiddlebender~
 @111119 = ~Statua di Tolben~
 @111120 = ~Capanna dei Cacciatori~
 @111121 = ~Dimora del Fabbricante di Carri~
@@ -319,6 +327,8 @@ Peso: 10~
 @111123 = ~Barche~
 @111124 = ~Il Patibolo Fischiettante~
 @111125 = ~Baracca del Becchino~
+@111126 = ~Ripostiglio~
+@111127 = ~Arcata~
 
 @114001 = ~Una gemma è un minerale che, se intagliato e levigato, può essere collezionato o usato come gioiello.~
 
@@ -422,8 +432,10 @@ Abilità speciali:
 @116021 = ~Una mia amica è stata rapita. Per quanto mi dispiaccia, non posso lasciarla perdere per curarmi del bosco.~
 @116022 = ~Vi siete guadagnati la benedizione del Bosco e, da parte mia, il Bastone dei Tuoni e dei Fulmini.~
 @116023 = ~D'accordo. Continuerà a fungere da maestro di sfida e da Grande Druido finché i riti di ascensione non saranno portati a termine.~
+@116024 = ~Grazie, Lavok. Mi prenderò cura della sfera.~
+@116025 = ~Devo rifiutare. Ho altri impegni.~
 
-@122001 = ~Ah, una Custodia dell'Abbondanza. Posso incantarla affinché produca quadrelli ancora più potenti, ma vi costerà. 5.000 monete, per la precisione.~
+@122001 = ~Ah, un Astuccio dell'Abbondanza. Posso incantarlo affinché produca quadrelli ancora più potenti, ma vi costerà. 5.000 monete, per la precisione.~
 @122002 = ~Beh, vediamo che altro avete.~
 @122003 = ~Un cappuccio da ladro, eh?~
 @122004 = ~Con una fiala di antidoto e un anello di invisibilità, posso renderlo molto utile.~
@@ -470,7 +482,7 @@ Abilità speciali:
 @122045 = ~Oooh! Hai quattro teste e volendo posso aggiungergli la testa finale... Proprio velenosa questa. 5.000 mo e ci penso io. Ti va?~
 @122046 = ~Questa è una fionda gnomica. Ho qualche asso nella manica che può renderla più precisa.~
 @122047 = ~Se vi imbattete in un Anello dell'Energia, posso aggiustarvelo.~
-@122048 = ~Dammi il tuo Anello dell'Energia e 5.000 gold e possiamo iniziare.~
+@122048 = ~Dammi il tuo Anello dell'Energia e 5.000 monete e possiamo iniziare.~
 
 @123001 = ~Oh, sono lucenti scaglie rosse? Posso fare un'ottima armatura, per proteggerti dal mordente fuoco.~
 @123002 = ~Cos'è quell'oggetto scintillante? Ooh, illitium!~
@@ -480,7 +492,7 @@ Abilità speciali:
 @123006 = ~Wow, un mucchio di argento lucido e scintillante.~
 @123007 = ~Ow! Argento, lucido e tagliente. Ti serve un'elsa e posso creare una magnifica spada d'argento.~
 @123008 = ~Una impugnatura bella e brillante, ma ora ti serve la punta affilata.~
-@123009 = ~Possiedi una punta affilata che combacia con un'elsa d'argento. Per 7.500 monete d'oro posso forgiarle in una splendida spada.~
+@123009 = ~Possedete una punta affilata che combacia con un'elsa d'argento. Per 7.500 monete d'oro posso forgiarle in una splendida spada.~
 @123010 = ~Va bene, continuo a cercare.~
 @123011 = ~Ciao! Onda su Onda!~
 @123012 = ~Hai un'ottima lama per alabarda, ma serve il resto.~
@@ -532,6 +544,18 @@ Abilità speciali:
 @126004  = ~Rob~
 @126005  = ~Poeta del Lago Willy~
 @126006  = ~Willy~
+
+@137001 = ~Pugnale Perforante~
+@137002 = ~Artigli~
+@137003 = ~Guanti Imbottiti~
+@137004 = ~Equipaggia Pugnali Perforanti~
+@137005 = ~Equipaggiare Pugnali Perforanti cambierà i tuoi attacchi a mani nude in danni perforanti.~
+@137006 = ~Usa Pugno Nudo~
+@137007 = ~Usare Pugni Nudi trasformerà i tuoi attacchi a mani nude in danni contundenti.~
+@137008 = ~Equipaggia Artigli~
+@137009 = ~Equipaggiare Artigli cambierà i tuoi attacchi a mani nude in danni taglienti.~
+@137010 = ~Equipaggia Guanti Imbottiti~
+@137011 = ~Equipaggiare Guanti Imbottiti cambierà i tuoi attacchi a mani nude in danni da pugno normali, così potrai colpire gli avversari privi di sensi senza ucciderli.~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -596,6 +620,11 @@ Abilità speciali:
 <DOTS3>
 <DOTS4>
 <DOTS5>~
+
+
+
+
+
 @216002 = ~KATANA/WAKIZASHI: Le katane e i wakizashi sono la più elevata manifestazione manifatturiera in campo di spade e il loro impiego richiede grande cura. A mano a mano che sviluppa la sua maestria, il proprietario e la lama diventano una cosa sola, interamente dedicata all'arte della guerra. Queste armi sono difficili da reperire al di fuori di Kara-Tur, perciò occorre ponderare oculatamente la scelta di tale competenza. Dopo tutto, essere abili nell'utilizzo di una katana o di un wakizashi è utile solo se si riesce a trovarli.
 ATTENZIONE: le katane magiche sono molto rare in Baldur's Gate 2!
 <DOTS1>
@@ -621,6 +650,27 @@ ATTENZIONE: le katane magiche sono molto rare in Baldur's Gate 2!
 <DOTS3>
 <DOTS4>
 <DOTS5>~
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @216007 = ~Competenza\( Tipo\)?[:-] *~
 @216008 = ~Tipo di Competenza:~
 @216009 = ~Spada Corta/Ninja-To~
@@ -628,6 +678,97 @@ ATTENZIONE: le katane magiche sono molto rare in Baldur's Gate 2!
 @216011 = ~Mazza/Morning Star~
 
 @216101 = ~Spada Corta~
+@216102 = ~ e sciamani~ // leading space is required
+@216103 = ~SPADE CORTE: Questa classe di armi consente al personaggio di usare spade corte e pugnali.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216104 = ~SPADE GRANDI: Questa classe di armi consente al personaggio di usare spade bastarde, spade larghe, spade a due mani, spade lunghe, katana, wakizashi, ninja-to e scimitarre. I druidi%cd_shaman% possono selezionare questa classe, ma sono limitati alle sole scimitarre. I monaci possono selezionare questa classe, ma non possono usare spade bastarde o spade a due mani.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216105 = ~ARCHI: Questa classe di armi consente al personaggio di usare archi lunghi, archi lunghi compositi e archi corti. I ladri%cd_shaman% possono scegliere questa categoria, ma sono limitati ai soli archi corti.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216106 = ~ARMI APPUNTITE: questa classe di armi consente al personaggio di usare mazze ferrate e flagelli.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216107 = ~ASCE: Questa classe di armi consente al personaggio di utilizzare asce da battaglia e asce da lancio.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216108 = ~ARMI CONTUNDENTI: Questa classe di armi consente al personaggio di usare mazze, clave, martelli da guerra e bastoni. Druidi%cd_shaman% e ladri possono scegliere questa categoria, ma sono limitati solo alla clave e al bastone. I maghi possono scegliere questa categoria, ma sono limitati solo al bastone. I monaci possono scegliere questa categoria, ma sono limitati solo alla clave.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216109 = ~LANCE: Questa classe di armi consente al personaggio di usare lance%cd_giavellotti% e alabarde. I druidi%cd_shaman% possono scegliere questa categoria, ma non possono usare alabarde.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216110 = ~ARMI DA LANCIO: Questa classe di armi consente al personaggio di usare balestre, fionde e dardi. Druidi%cd_shaman% e monaci possono scegliere questa categoria, ma sono limitati solo a fionde e dardi. I chierici possono scegliere questa competenza, ma sono limitati solo alle fionde.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216111 = ~, giavellotti,~ 
+
 
 @216301 = ~Spadone~
 @216302 = ~SPADONE: Questa classe di armi permette al personaggio di usare le Spade a Due Mani e le Spade Bastarde.
@@ -650,6 +791,134 @@ ATTENZIONE: le katane magiche sono molto rare in Baldur's Gate 2!
 <DOTS5>~
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+@216305 = ~CLAVE: Questa classe di armi consente al personaggio di usare le clave.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216306 = ~BALESTRE: Questa classe di armi consente al personaggio di usare balestre leggere e balestre pesanti.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216305 = ~DAGGERS:  This weapon class allows the character to use daggers and throwing daggers.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216306 = ~ALABARDE: Questa classe di armi consente al personaggio di usare le alabarde.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216307 = ~MAZZAFRUSTI: Questa classe di armi consente al personaggio di usare i mazzafrusti.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216308 = ~Martello~
+@216309 = ~MARTELLI: Questa classe di armi consente al personaggio di usare martelli e magli.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216310 = ~Mazza~
+@216311 = ~MAZZE: Questa classe di armi consente al personaggio di usare mazze e mazze ferrate.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216312 = ~SPADE PICCOLE: Questa classe di armi consente al personaggio di usare le spade corte.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216313 = ~LANCE: Questa classe di armi consente al personaggio di usare lance%cd_javelins%.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216314 = ~BASTONI RINFORZATI: Questa classe di armi consente al personaggio di usare I bastoni.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+// keep the leading space
+@216315 = ~ e giavellotti~ 
+
+// this component deprecated, but the strings below still needed for the components that replace it
 @218001 = ~Alchimia (Mago)~
 @218002 = ~Alchimia (Sacerdote)~
 @218003 = ~Alchimia (Vagabondo)~
@@ -747,6 +1016,8 @@ Questa abilità consente a un vagabondo di creare pergamene di incantesimi di ba
 // get @244003 from string 32117 (bg2ee/iwdee) or 24220 (bgee)
 @244003 = ~(solo per classi combattenti)~
 
+@274001 = ~Non puoi usare l'armatura mentre sei trasformato~
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -831,7 +1102,9 @@ Questa abilità controlla se la velocità di movimento e la velocità di lancio 
 
 Questa abilità controlla se la velocità di lancio viene aumentata per i membri del gruppo al di fuori del combattimento. Fare clic sull'abilità per disattivarla.~
 @333054 = ~Fretta automatica~
-@333055 = ~Alacrità Potenziata~
+// @333055 = ~Alacrità Potenziata~ // bg2 strref #63217
+@333056 = ~Velocità Movimento Automatico~
+@333057 = ~Lancio Velocità Movimento Automatico~
 @333060 = ~Abilita rapidità automatica~
 @333061 = ~Abilita rapidità automatica
 
@@ -847,6 +1120,16 @@ Questa abilità controlla se la velocità di lancio viene aumentata per i membri
 @335100 = ~Intervallo-Salvataggio~
 @335101 = ~Salvataggio intervallo creato~
 @335102 = ~Salvataggio intervallo (slot %slot_index%) creato~
+
+@337001 = ~000000003-Mortuario~
+@337002 = ~000000004-Distretto Inferiore~
+@337003 = ~000000005-Al Labirinto di Ravel~
+
+// queste due stringhe verranno combinate come prefisso e suffisso per scrivere "Casting Grease..." nel registro di combattimento
+// adattalo secondo le tue esigenze grammaticali, ad esempio se non ti serve un prefisso, scrivi @341002 = ~~
+// nota che devi includere spazi, se necessario
+@341002 = ~Lancio di ~
+@341003 = ~...~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
@@ -868,4 +1151,4 @@ Peso: 1~
 // in inglese, questo è sovrascritto in ee.tra
 @418002 = ~Anello con sigillo de'Arnise
 
-Questo anello è stato donato a Nalia da suo padre al momento della sua ascesa all'età adulta. Legato al suo sangue non può essere usato da nessun altro. L'anello garantisce bonus +2 a tutti i tiri salvezza, bonus di classe armatura +2 e resistenza al fuoco del 50%.~
+Questo anello venne dato a Nalia da suo padre quando raggiunse la maggiore età. Legato al suo sangue, l'anello non può essere rimosso da Nalia ed il suo potere non può essere sfruttato da nessun altro. L'anello conferisce un bonus pari +2 a tutti i tiri-salvezza e alla Classe Armatura, oltre al 50% di Resistenza al Fuoco.~

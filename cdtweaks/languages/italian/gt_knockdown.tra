@@ -1,10 +1,10 @@
-@0 = "Buttare a Terra"
+@0 = "Atterrare"
 
-@1 = "Buttare a Terra
+@1 = "Atterrare
 
 Un personaggio con questo talento può tentare di far cadere a terra i suoi avversari. Il personaggio effettua uno speciale attacco in mischia con una penalità pari a -4. Se colpito, l'avversario viene buttato a terra."
 
-@50 = "Steso a Terra"
+@50 = "Atterrato"
 
 //@100 = "Il bersaglio selezionato è fuori portata"
 @101 = "Il bersaglio selezionato è già a terra"
@@ -13,7 +13,7 @@ Un personaggio con questo talento può tentare di far cadere a terra i suoi avve
 
 @104 = "La creatura selezionata non può essere buttata a terra"
 
-//@105 = "Non soggetto agli effetti di Buttare a Terra"
+//@105 = "Non soggetto agli effetti di Atterrare"
 
 @105 = "Colpito"
 @106 = "Mancato"

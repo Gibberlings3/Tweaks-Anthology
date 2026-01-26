@@ -2,9 +2,8 @@
 @1 = ~Se ti sono stati risucchiati dei livelli, usa una pergamena o un incantesimo di ristorazione per recuperare i livelli persi. Anche i templi possono aiutarti.~
 @2 = ~Premi il tasto 'Q' per effettuare un Salvataggio Veloce. Fallo spesso.~
 @3 = ~Puoi usare il tasto 'H' per nascondere i pannelli d'interfaccia. Mettere in pausa o premere di nuovo 'H' li farà ricomparire.~
-// Replaced hint
-// @4 = ~Puoi giocare a Baldur's Gate con risoluzione 640 per 480, oppure con 800 per 600.~
-@5 = ~Se una battaglia è troppo difficile per te, vai alle opzioni del gioco e abbassa la difficolta per la durata del combattimento.~
+@4 = ~Il pulsante a forma di diamante sulla barra degli strumenti del personaggio attiva/disattiva la visibilità della barra del bottino rapido. Può essere utilizzato per raccogliere rapidamente oggetti e oro a terra vicino al personaggio selezionato.~
+@5 = ~Se una battaglia è troppo difficile per te, vai alle opzioni del gioco e abbassa la difficoltà per la durata del combattimento.~
 @6 = ~Gli oggetti che possono essere usati una volta al giorno come il Corno Distruttore spariranno dalla Barra degli oggetti Veloci una volta che verranno usati. L'icona sulla barra riapparirà il giorno seguente, quando l'oggetto potrà venire usato di nuovo.~
 @7 = ~Puoi assegnare ai tuoi personaggi nuovi script. Va' nella pagina "Registro" e premi il pulsante "Personalizza".~
 @8 = ~Quando hai più di un personaggio selezionato, puoi accedere a più formazioni facendo click col tasto destro su qualunque pulsante della formazione.~
@@ -19,8 +18,7 @@
 @17 = ~La partita viene salvata automaticamente quando lasci un'area col tuo gruppo. Se dovessi morire, controlla il Salvataggio Automatico.~
 @18 = ~Se sei un mago e possiedi un famiglio, prova a parlarci. Potrebbe avere qualcosa da dire.~
 @19 = ~Alcune creature sono immuni a certi tipi di magia e di armi. Controlla sempre il testo della battaglia nella finestra di dialogo.~
-// Updated hint
-// @20 = ~Per giocare con un gruppo creato interamente da te, devi iniziare una partita multigiocatore e assegnare il controllo di tutti i personaggi a te.~
+@20 = ~[Tutti tranne IWDEE]Per giocare con un gruppo creato interamente da te, avvia semplicemente una nuova partita e premi il pulsante "Crea gruppo" nella schermata di generazione del personaggio.~
 @21 = ~Nella Pagina delle Opzioni all'interno della sezione di Gioco, puoi attivare  l'opzione per riposare fino alla guarigione.~
 @22 = ~Ora hai la possibilità di modificare la tua Biografia. Vai alla Pagina delle Registrazioni e scegli Personalizza, poi Biografia.~
 @23 = ~Se preferisci giocare in Modalità a Turni, vai alla  sezione Auto-pausa nelle Opzioni di Gioco.~
@@ -33,20 +31,16 @@
 @30 = ~Cambiare la tattica può trasformare una battaglia "impossibile" in una semplice scaramuccia. Esplora tutte le opzioni e abilità~
 @31 = ~Nessun personaggio da solo può destreggiarsi in tutte le situazioni. Usa i punti di forza e le abilità di tutti i membri del tuo gruppo.~
 @32 = ~Alcuni mostri sono immuni o resistenti alla magia.~
-// Replaced hint
-// @33 = ~I tempi di caricamento saranno MOLTO più rapidi se hai eseguito l'installazione completa.~
-// Replaced hint
-// @34 = ~Per aumentare il frame rate, controlla la tabella delle performance nel tuo programma di configurazione.~
-// Replaced hint
-// @35 = ~Alcuni incantesimi sono cambiati da BG1. Controlla la descrizione degli incantesimi.~
+@33 = ~Puoi premere il pulsante "?" sul lato sinistro della schermata principale per saperne di più sui controlli dell'interfaccia utente.~
+@34 = ~Puoi abilitare o disabilitare vari miglioramenti visivi nella sezione Grafica della pagina Opzioni, come Contorni Sprite, Evidenzia Sprite Selezionati o Scala di Grigi in Pausa.~
+@35 = ~Nella sezione Gioco della schermata Opzioni puoi aprire una pagina per assegnare scorciatoie da tastiera a molti comandi, azioni e incantesimi utili.~
 @36 = ~Ci sono vari incantesimi che possono essere usati per neutralizzare l'invisibilità e le illusioni (come ad esempio immagini illusorie). Controlla il manuale.~
 @37 = ~Puoi aggiungere i tuoi suoni ad un personaggio. Controlla il file Leggimi per vedere come fare.~
 @38 = ~Nel gioco sono nascosti pezzi di artefatti. Il nano di nome Cromwell può forgiarteli in oggetti completi.~
 @39 = ~Mentre il cursore è sopra ad un mostro, puoi premere il tasto tab per controllare lo stato generale dei punti-ferita del mostro.~
 @40 = ~Puoi premere il tasto tab nello schermo principale per far apparire sopra alla testa dei tuoi personaggi i loro punti ferita.~
 @41 = ~Puoi disattivare l'I.A. del gruppo premendo il pulsante 'lanterna' nella parte bassa destra dello schermo principale.~
-// Replaced hint
-// @42 = ~L'avventura non deve necessariamente finire una volta che hai terminato BG2.~
+@42 = ~[Solo BGEE/IWDEE]Il tuo personaggio sarà piuttosto fragile ai livelli più bassi. Dovresti distrarre i nemici prima di affrontarli in mischia, o usare armi a distanza per tenerti fuori pericolo.~
 @43 = ~La tua mappa reca diverse note e locazioni. Se ti dovessi perdere, usarla è il modo più sicuro per ritrovare la strada.~
 @44 = ~Assicurati di usare i tuoi slot per armi e incantesimi rapidi. Questi slot ti permettono di essere più efficiente in combattimento.~
 @45 = ~Prova ad usare diverse formazioni per proteggere i membri più "deboli" del gruppo.~
@@ -60,8 +54,7 @@
 @53 = ~Gli incantesimi possono essere immagazzinati in un Innesca Incantesimo (Minore) in modo che possano essere usati più rapidamente e senza interruzioni durante il combattimento.~
 @54 = ~L'incantesimo dei maghi Respingi Incantesimo (Minore) può essere usato per riflettere gli incantesimi contro maghi o sacerdoti nemici.~
 @55 = ~Protezione dal Male nel Raggio di 3 Metri dovrebbe essere lanciato sul gruppo prima di qualsiasi incantesimo di evocazione demoniaca.~
-// Replaced hint
-// @56 = ~La durata degli incantesimi di charme, dominio e confusione è stata ridotta in Baldur's Gate II.~
+@56 = ~[Solo IWDEE]Orrick il Grigio rifornirà il suo negozio con nuove pergamene magiche e oggetti più volte nel corso della storia principale. Potrebbe valere la pena tornare a Kuldahar ogni tanto.~
 @57 = ~L'incantesimo di terzo livello dei sacerdoti Zona di Aria Fresca rimuove tutti gli incantesimi ad area d'effetto a nube come la Nube Maleodorante.~
 @58 = ~Quando lancia la versione invertita degli incantesimi di cura (come Infliggi Ferite) il sacerdote deve tirare per colpire il bersaglio, altrimenti l'incantesimo è sprecato.~
 @59 = ~Un mago perde permanentemente 1 punto di Costituzione se il suo Famiglio muore.~
@@ -72,3 +65,10 @@
 @64 = ~Non cercare di vendere un oggetto scarico; il venditore penserà che non ha alcuna utilità e ti offrirà 1 moneta d'oro. NOTA: questo include anche oggetti che sono ricaricati dopo un periodo di riposo.~
 @65 = ~L'Imp Cespenar è in grado di costruire o migliorare molti oggetti. Puoi trovarlo nel tuo piano extradimensionale.~
 @66 = ~L'accesso all'enorme dungeon della Fortezza dell'Osservatore può avvenire sia da Baldur's Gate II: Shadows of Amn che da Throne of Bhaal.~
+@67 = ~[Solo IWDEE]Parla con Hjollder a Kuldahar se vuoi iniziare la campagna Cuore d'Inverno nel corso della storia principale. Il tuo personaggio deve aver raggiunto 250.000 punti esperienza, tuttavia.~
+@68 = ~Premi il pulsante "Lente d'ingrandimento" in basso a destra nella schermata principale per evidenziare tutti gli oggetti sullo schermo che possono essere manipolati e per visualizzare i Punti Ferita dei membri del tuo gruppo, nonché lo stato di salute generale dei mostri.~
+@69 = ~Il tuo diario ti consente di aggiungere note personalizzate. Usa questa funzione per registrare dettagli non inclusi nelle voci di missione.~
+@70 = ~[Tutti tranne IWDEE]Ricorda che, a differenza dell'uso dell'incantesimo Scassinare o della forza bruta, fare scassinare le serrature da un ladro ti garantisce esperienza.~
+
+// Stringhe varie
+@500 = ~SUGGERIMENTO: ~

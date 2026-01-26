@@ -1,7 +1,7 @@
 @0 = "Modalità Parata"
 @1 = "Modalità Parata
 
-La Modalità Parata consente al personaggio di bloccare gli attacchi ed effettuare spettacolari controattacchi.
+La Modalità Parata consente al personaggio di bloccare gli attacchi ed effettuare spettacolari contrattacchi.
 Se un attacco viene parato con successo (tiro-salvezza contro Soffio), esso non danneggerà il personaggio."
 
 @2 = "Modalità Parata Attivata"
@@ -10,7 +10,7 @@ Se un attacco viene parato con successo (tiro-salvezza contro Soffio), esso non 
 
 @4 = "Parata"
 
-@5 = "Controattacco"
+@5 = "Contrattacco"
 
 @6 = "Successo"
 

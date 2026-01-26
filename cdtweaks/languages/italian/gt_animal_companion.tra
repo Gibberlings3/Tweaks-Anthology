@@ -232,9 +232,9 @@ La creatura selezionata deve effettuare un tiro-salvezza contro Soffio o rimaner
 @7002 = "Ragno Spadaccino"
 
 //
-@8000 = "Respiro Ghiacciato"
-@8001 = "Respiro Ghiacciato
+@8000 = "Soffio Gelido"
+@8001 = "Soffio Gelido
 
-La creatura può emettere un soffio di gelo che provoca 6d4 danni da freddo (il soffio ha origine dalla creatura e si estende verso l'esterno in un cono lungo 17 piedi con un arco di 90 gradi). Coloro che effettuano con successo un tiro-salvezza contro Soffio subiscono solo metà del danno.
+La creatura può emettere un soffio glaciale che provoca 6d4 danni da freddo (il soffio ha origine dalla creatura e si estende verso l'esterno in un cono lungo 17 piedi con un arco di 90 gradi). Coloro che effettuano con successo un tiro-salvezza contro Soffio subiscono solo metà del danno.
 "
 @8002 = "Lupo Invernale"

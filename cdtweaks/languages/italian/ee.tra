@@ -1,5 +1,39 @@
 // this file is used to override strings in game.tra for EE games
 // it will NOT be re-encoded for EE games, so put it in the correct charset for your language
+@216001 = ~SPADA CORTA/NINJATO: L'arma preferita dalla maggior parte dei ladri e halfling, apade corte e ninjato sono leggeri e molto efficaci.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216009 = ~Spada Corta/Ninjato~
+@216104 = ~SPADE GRANDI: Questa classe di armi consente al personaggio di usare spade bastarde, spade larghe, spade a due mani, spade lunghe, katana, wakizashi, ninjatō e scimitarre. I druidi%cd_shaman% possono selezionare questa classe, ma sono limitati alle sole scimitarre. I monaci possono selezionare questa classe, ma non possono usare spade bastarde o spade a due mani.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216303 = ~SPADE GRANDI: Questa classe di armi consente al personaggio di usare spade bastarde, spade larghe, spade a due mani, spade lunghe, katana, wakizashi, ninjatō e scimitarre. I druidi%cd_shaman% possono selezionare questa classe, ma sono limitati alle sole scimitarre.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
 
 //#50818 in obg2
 @418002 = ~Questo anello è stato donato a Nalia da suo padre dopo che aver raggiunto l'età adulta. Legato al suo sangue, l'anello non può essere usato da nessun altro. Garantisce un bonus di +2 a tutti i Tiri Salvezza, un bonus di +2 alla Classe Armatura e un bonus del 50% alla Resistenza al fuoco.
