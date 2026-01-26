@@ -10,48 +10,14 @@
 ///// bg2 grandmastery                                 \\\\\
 /////                                                  \\\\\
 
-ACTION_IF FILE_CONTAINS_EVALUATED (~wspecial.2da~ ~[ %TAB%]*SPEED[ %TAB%]*~) THEN BEGIN OUTER_SET dump_speed = 0 END ELSE BEGIN OUTER_SET dump_speed = 1 END
-
-COPY ~cdtweaks/2da/bg2_wspatck.2da~  ~override/wspatck.2da~
-     ~cdtweaks/2da/bg2_wspecial.2da~ ~override/wspecial.2da~
-
-ACTION_IF dump_speed THEN BEGIN
-
-  COPY_EXISTING ~wspecial.2da~ ~override~ // remove speed column
-    REPLACE_TEXTUALLY ~[ %TAB%]*SPEED[ %TAB%]*~ ~~
-    REPLACE_TEXTUALLY ~^\([0-5]+[ %TAB%]+-?[0-9]+[ %TAB%]+-?[0-9]+\)[ %TAB%]+-?[0-9]+~ ~\1~
-    BUT_ONLY
-
+INCLUDE ~cdtweaks/lib/grandmastery.tpa~
+LAF cdtweaks_grandmastery 
+  INT_VAR     
+    tohit_3pip  =    2 // 2 for oBG2, 3 everywhere else
+    tohit_4pip  =    2 // 2 for oBG2, 3 everywhere else
+    tohit_5pip  =    2 // 2 for oBG2, 3 everywhere else
+    damage_3pip =    2 // 2 for oBG2, 3 everywhere else
+    damage_4pip =    3 // 5 for oBG, oIWD; 3 for oBG2; 4 for oIWD-HoW, EEs
+    damage_5pip =    4 // 4 for oBG2, 5 everywhere else
+    apr_5pip    = "-1" // +0.5 APR for oBG2; +1 APR for EEs; +1.5APR oBG and oIWD
 END
-
-// if grandmastery has been moved directly to BBoD
-INCLUDE ~cdtweaks/lib/alter_header.tpa~
-COPY_EXISTING ~blakblad.itm~ ~override~
-  LPF ALTER_EFFECT INT_VAR silent = 1 check_headers = 0 match_opcode = 1 parameter1 = 6 END // +0.5 APR
-  LPF ALTER_HEADER INT_VAR silent = 1 match_damage = 10 match_to_hit = 8 speed = 0 damage = 9 to_hit = 7 END // from +3 to-hit, +5 damage > +2 to-hit, +4 damage
-  BUT_ONLY IF_EXISTS
-  
-ACTION_IF MOD_IS_INSTALLED ~cdtweaks/setup-cdtweaks.tp2~ ~2440~ BEGIN    
-
-  // if this changes for any reason, mirror the changes in comp_2210, comp_2211, and comp_2440
-  COPY_EXISTING ~wspatck.2da~ ~override~
-    COUNT_2DA_COLS col_num
-    READ_2DA_ENTRY 0 1 col_num row0 // read in level 1 bonuses
-    READ_2DA_ENTRY 1 1 col_num row1
-    READ_2DA_ENTRY 2 1 col_num row2
-    READ_2DA_ENTRY 3 1 col_num row3
-    READ_2DA_ENTRY 4 1 col_num row4
-    READ_2DA_ENTRY 5 1 col_num row5
-    FOR (index = 2 ; index < col_num ; ++index) BEGIN // write level 1 bonuses to all other levels (no apr from levelling)
-      SET_2DA_ENTRY 0 index col_num row0
-      SET_2DA_ENTRY 1 index col_num row1
-      SET_2DA_ENTRY 2 index col_num row2
-      SET_2DA_ENTRY 3 index col_num row3
-      SET_2DA_ENTRY 4 index col_num row4
-      SET_2DA_ENTRY 5 index col_num row5
-    END
-    PRETTY_PRINT_2DA
-    BUT_ONLY
-
-END
-

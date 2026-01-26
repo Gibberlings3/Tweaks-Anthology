@@ -1,0 +1,9 @@
+2DA V1.0
+0
+X HIT DAMAGE SPEED
+0 0 0 0
+1 %tohit_1pip% %damage_1pip% 0
+2 %tohit_2pip% %damage_2pip% 0
+3 %tohit_3pip% %damage_3pip% 0
+4 %tohit_4pip% %damage_4pip% -1
+5 %tohit_5pip% %damage_5pip% -3

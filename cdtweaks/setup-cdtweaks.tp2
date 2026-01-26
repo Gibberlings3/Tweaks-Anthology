@@ -2077,6 +2077,26 @@ REQUIRE_PREDICATE NOT GAME_IS ~iwd2~ @25
 LABEL ~cd_tweaks_grandmastery_bonus_true~
 
 /////                                                  \\\\\
+///// iwd grandmastery                                 \\\\\
+/////                                                  \\\\\
+
+BEGIN @221300 DESIGNATED 2213
+GROUP @9
+SUBCOMPONENT @221001 // Change Grandmastery Bonuses
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2~ @25
+LABEL ~cd_tweaks_grandmastery_bonus_iwd~
+
+/////                                                  \\\\\
+///// bgee/bg2ee grandmastery                          \\\\\
+/////                                                  \\\\\
+
+BEGIN @221200 DESIGNATED 2212
+GROUP @9
+SUBCOMPONENT @221001 // Change Grandmastery Bonuses
+REQUIRE_PREDICATE NOT GAME_IS ~iwd2~ @25
+LABEL ~cd_tweaks_grandmastery_bonus_bg2ee~
+
+/////                                                  \\\\\
 ///// bg2 grandmastery                                 \\\\\
 /////                                                  \\\\\
 

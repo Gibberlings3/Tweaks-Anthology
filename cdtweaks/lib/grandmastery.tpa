@@ -1,0 +1,91 @@
+DEFINE_ACTION_FUNCTION cdtweaks_grandmastery
+  INT_VAR              // defaults are set to "true" (aka obg) grandmastery
+    tohit_1pip  =    0 // 0 for all
+    tohit_2pip  =    1 // 1 for all
+    tohit_3pip  =    3 // 2 for oBG2, 3 everywhere else
+    tohit_4pip  =    3 // 2 for oBG2, 3 everywhere else
+    tohit_5pip  =    3 // 2 for oBG2, 3 everywhere else
+    damage_1pip =    0 // 0 for all
+    damage_2pip =    2 // 2 for all
+    damage_3pip =    3 // 2 for oBG2, 3 everywhere else
+    damage_4pip =    5 // 5 for oBG, oIWD; 3 for oBG2; 4 for oIWD-HoW, EEs
+    damage_5pip =    5 // 4 for oBG2, 5 everywhere else
+    apr_1pip    =    0 // 0 for all
+    apr_2pip    = "-1" // +0.5 APR for all
+    apr_3pip    = "-1" // +0.5 APR for all
+    apr_4pip    = "-1" // +0.5 APR for all
+    apr_5pip    = "-2" // +0.5 APR for oBG2; +1 APR for EEs; +1.5APR oBG and oIWD
+BEGIN     
+
+  ACTION_IF MOD_IS_INSTALLED ~cdtweaks.tp2~ ~2440~ BEGIN // APR bumps moved to CLABS
+    OUTER_SET apr_0pip_7  = 0
+    OUTER_SET apr_0pip_13 = 0
+    OUTER_SET apr_1pip_7  = apr_1pip
+    OUTER_SET apr_1pip_13 = apr_1pip
+    OUTER_SET apr_2pip_7  = apr_2pip
+    OUTER_SET apr_2pip_13 = apr_2pip
+    OUTER_SET apr_3pip_7  = apr_3pip
+    OUTER_SET apr_3pip_13 = apr_3pip
+    OUTER_SET apr_4pip_7  = apr_4pip
+    OUTER_SET apr_4pip_13 = apr_4pip
+    OUTER_SET apr_5pip_7  = apr_5pip
+    OUTER_SET apr_5pip_13 = apr_5pip
+  END ELSE BEGIN 
+    OUTER_SET apr_0pip_7  = "-1"
+    OUTER_SET apr_0pip_13 = 1
+    ACTION_IF apr_1pip   < 0 BEGIN OUTER_SET apr_1pip_7  = (apr_1pip   * "-1") END ELSE BEGIN OUTER_SET apr_1pip_7  = ((apr_1pip   + 1) * "-1") END
+    ACTION_IF apr_1pip_7 < 0 BEGIN OUTER_SET apr_1pip_13 = (apr_1pip_7 * "-1") END ELSE BEGIN OUTER_SET apr_1pip_13 = ((apr_1pip_7 + 1) * "-1") END
+    ACTION_IF apr_2pip   < 0 BEGIN OUTER_SET apr_2pip_7  = (apr_2pip   * "-1") END ELSE BEGIN OUTER_SET apr_2pip_7  = ((apr_2pip   + 1) * "-1") END
+    ACTION_IF apr_2pip_7 < 0 BEGIN OUTER_SET apr_2pip_13 = (apr_2pip_7 * "-1") END ELSE BEGIN OUTER_SET apr_2pip_13 = ((apr_2pip_7 + 1) * "-1") END
+    ACTION_IF apr_3pip   < 0 BEGIN OUTER_SET apr_3pip_7  = (apr_3pip   * "-1") END ELSE BEGIN OUTER_SET apr_3pip_7  = ((apr_3pip   + 1) * "-1") END
+    ACTION_IF apr_3pip_7 < 0 BEGIN OUTER_SET apr_3pip_13 = (apr_3pip_7 * "-1") END ELSE BEGIN OUTER_SET apr_3pip_13 = ((apr_3pip_7 + 1) * "-1") END
+    ACTION_IF apr_4pip   < 0 BEGIN OUTER_SET apr_4pip_7  = (apr_4pip   * "-1") END ELSE BEGIN OUTER_SET apr_4pip_7  = ((apr_4pip   + 1) * "-1") END
+    ACTION_IF apr_4pip_7 < 0 BEGIN OUTER_SET apr_4pip_13 = (apr_4pip_7 * "-1") END ELSE BEGIN OUTER_SET apr_4pip_13 = ((apr_4pip_7 + 1) * "-1") END
+    ACTION_IF apr_5pip   < 0 BEGIN OUTER_SET apr_5pip_7  = (apr_5pip   * "-1") END ELSE BEGIN OUTER_SET apr_5pip_7  = ((apr_5pip   + 1) * "-1") END
+    ACTION_IF apr_5pip_7 < 0 BEGIN OUTER_SET apr_5pip_13 = (apr_5pip_7 * "-1") END ELSE BEGIN OUTER_SET apr_5pip_13 = ((apr_5pip_7 + 1) * "-1") END
+  END 
+  
+  OUTER_SET dump_speed = 1  
+  ACTION_IF FILE_CONTAINS_EVALUATED (~wspecial.2da~ ~[ %TAB%]*SPEED[ %TAB%]*~) THEN BEGIN OUTER_SET dump_speed = 0 END
+
+  COPY ~cdtweaks/2da/wspatck_template.2da~  ~override/wspatck2.2da~ 
+    EVALUATE_BUFFER
+    REPLACE_TEXTUALLY ~X~ ~ ~
+    PRETTY_PRINT_2DA
+    
+  COPY ~cdtweaks/2da/wspecial_template.2da~ ~override/wspecial2.2da~ 
+    EVALUATE_BUFFER
+    PATCH_IF dump_speed THEN BEGIN // remove speed column
+      REPLACE_TEXTUALLY ~[ %TAB%]*SPEED[ %TAB%]*~ ~~
+      REPLACE_TEXTUALLY ~^\([0-5]+[ %TAB%]+-?[0-9]+[ %TAB%]+-?[0-9]+\)[ %TAB%]+-?[0-9]+~ ~\1~
+    END
+    REPLACE_TEXTUALLY ~X~ ~ ~
+    PRETTY_PRINT_2DA
+
+  ACTION_IF FILE_EXISTS_IN_GAME ~blakblad.itm~ BEGIN 
+    
+    ACTION_IF apr_5pip < 0 BEGIN OUTER_SET apr_bbod = ((apr_5pip * "-1") + 5) END ELSE BEGIN OUTER_SET apr_bbod = apr_5pip END
+    
+    INCLUDE ~cdtweaks/lib/alter_header.tpa~
+    COPY_EXISTING ~blakblad.itm~ ~override~
+      READ_LONG  0x6a fx_off
+      READ_SHORT 0x70 fx_num
+      SET gm = 0
+      FOR (index = 0 ; index < fx_num ; ++index) BEGIN
+        READ_SHORT (fx_off + 0x00 + (index * 0x30)) opcode
+        READ_SHORT (fx_off + 0x00 + (index * 0x30)) opcode
+        PATCH_IF opcode = 233 BEGIN
+          SET gm = 1
+          SET index = fx_num // kill loop
+        END
+      END 
+      PATCH_IF gm = 0 BEGIN     
+        LPF DELETE_EFFECT INT_VAR silent = 1 check_headers = 0 match_opcode = 1 END // GM APR
+        LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 1 target = 1 timing = 2 parameter1 = apr_bbod END // GM APR
+        LPF ALTER_HEADER INT_VAR silent = 1 match_type = 1 damage = (damage_5pip + 5) to_hit = (tohit_5pip + 5) END // GM APR, damage bonuses on top of base +5 bonuses
+      END
+      BUT_ONLY
+
+  END  
+  
+END   

@@ -392,7 +392,9 @@ The uninstall messages above are normal and expected.
 
 @221000 = ~True grandmastery [Baldurdash]~
 @221001 = ~Change Grandmastery Bonuses~
-@221100 = ~BG2 grandmastery rules~
+@221100 = ~BG2 grandmastery bonuses~
+@221200 = ~EE-style grandmastery bonuses~
+@221300 = ~IWD grandmastery bonuses~
 
 @222000 = ~Change Magically Created Weapons to Zero Weight~
 

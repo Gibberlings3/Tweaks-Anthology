@@ -7,8 +7,11 @@
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
 /////                                                  \\\\\
-///// true grandmastery                                \\\\\
+///// iwd grandmastery                                 \\\\\
 /////                                                  \\\\\
 
 INCLUDE ~cdtweaks/lib/grandmastery.tpa~
-LAF cdtweaks_grandmastery END // defaults are "true" grandmastery
+LAF cdtweaks_grandmastery 
+  INT_VAR     
+    damage_4pip =    4 // 5 for oBG, oIWD; 3 for oBG2; 4 for oIWD-HoW, EEs
+END
