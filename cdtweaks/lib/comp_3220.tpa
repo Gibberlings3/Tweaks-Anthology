@@ -145,190 +145,266 @@ ACTION_IF game_includes_bg1 THEN BEGIN // BGT/Tutu/obg changes
   END
 
 END
+  
+ACTION_IF game_includes_soa BEGIN
 
-ACTION_IF game_includes_soa THEN BEGIN // flipping the NORH in BG2/BGT; already flipped in bg2ee/eet
+  // add southern entrance to bridge district
+  
+  COPY_EXISTING ~ar0500.are~ ~override~
+    LPF fj_are_structure // add region for aegis teleport
+      INT_VAR
+        fj_type        = 0     // trap
+        fj_box_left    = 124
+        fj_box_top     = 3529
+        fj_box_right   = 324
+        fj_box_bottom  = 3729
+        fj_vertex_0    = 124 + (3529 << 16)
+        fj_vertex_1    = 324 + (3529 << 16)
+        fj_vertex_2    = 324 + (3729 << 16)
+        fj_vertex_3    = 124 + (3729 << 16)
+        fj_flags       = (BIT7)
+        fj_trap_active = 1
+      STR_VAR
+        fj_structure_type = region
+        fj_name           = cd0500tp
+        fj_reg_script     = cd0500tp
+    END
+    PATCH_IF enhanced_edition BEGIN // ees already have a sw entrance point
+      SPRINT bridge_entrance ExitSW
+    END ELSE BEGIN   
+      SPRINT bridge_entrance CDExitSW
+      LPF fj_are_structure
+        INT_VAR
+        fj_loc_x       = 224
+        fj_loc_y       = 3629
+        fj_orientation = 10  // NE
+        STR_VAR
+        fj_structure_type = entrance
+        fj_name           = CDExitSW
+      END
+    END 
+    BUT_ONLY  
 
-  DECOMPRESS_BIFF AREA090A.BIF
+  // now alter worldmap links to point to new entrance
+  COPY_EXISTING ~worldmap.wmp~ ~override~
+    READ_LONG 0x0c mos_off
+    READ_LONG (mos_off + 0x20) area_num
+    READ_LONG (mos_off + 0x24) area_off
+    READ_LONG (mos_off + 0x28) link_off
+    FOR (index = 0 ; index < area_num ; ++index) BEGIN // loop through areas and capture bridge info
+      READ_ASCII (area_off + 0x08 + (index * 0xf0)) "area"
+      PATCH_IF ("%area%" STRING_COMPARE_CASE "ar0500" = 0) BEGIN // bridge
+        READ_LONG (area_off + 0x3c + (index * 0xf0)) bridge_y
+        SET bridge_idx = index
+        SET index = area_num // kill loop
+      END
+    END
+    // now loop through areas and alter bridge links *if* area is south of the bridge
+    FOR (index = 0 ; index < area_num ; ++index) BEGIN
+      READ_LONG (area_off + 0x3c + (index * 0xf0)) current_y
+      PATCH_IF current_y > bridge_y BEGIN // south check
+        FOR (index2 = 0 ; index2 < 4 ; ++index2) BEGIN // four directional links
+          READ_LONG (area_off + 0x50 + (index * 0xf0) + (index2 * 0x08)) link_idx
+          READ_LONG (area_off + 0x54 + (index * 0xf0) + (index2 * 0x08)) link_num
+          FOR (index3 = 0 ; index3 < link_num ; ++index3) BEGIN // loop through links
+            READ_LONG (link_off +        ((index3 + link_idx) * 0xd8)) target
+            PATCH_IF (target = bridge_idx) BEGIN // if travel link to bridge
+              WRITE_ASCIIE (link_off + 0x04 + ((index3 + link_idx) * 0xd8)) ~%bridge_entrance%~ #32
+              WRITE_LONG   (link_off + 0x28 + ((index3 + link_idx) * 0xd8)) BIT2
+            END
+          END // link loop
+        END // loop of four directional links
+      END // south check  
+    END // area loop
+    BUT_ONLY 
+  
+  COMPILE ~cdtweaks/baf/cd0500tp.baf~ // teleport aegis to south if first bridge visit 
 
-  OUTER_SET width = 2368
-  OUTER_SET sm_width = 148
+  ACTION_IF !enhanced_edition THEN BEGIN // flipping the NORH in BG2/BGT; already flipped in bg2ee/eet
 
-  COPY_EXISTING ~ar0900.are~ ~override~
-    LPF ALTER_AREA_ENTRANCE INT_VAR x_coord = 3259 y_coord = 3451 orient =  2 STR_VAR entrance_name = "Exit0903" END // exchange entrances
-    LPF ALTER_AREA_ENTRANCE INT_VAR x_coord = 4147 y_coord = 3342 orient = 14 STR_VAR entrance_name = "Exi0903b" END
+    DECOMPRESS_BIFF AREA090A.BIF
 
-  ACTION_FOR_EACH file IN ar0903 BEGIN // in case other mods clone ar0903, we can drop them in this list
+    OUTER_SET width = 2368
+    OUTER_SET sm_width = 148
 
-    ACTION_IF FILE_EXISTS_IN_GAME ~%file%.are~ THEN BEGIN
+    COPY_EXISTING ~ar0900.are~ ~override~
+      LPF ALTER_AREA_ENTRANCE INT_VAR x_coord = 3259 y_coord = 3451 orient =  2 STR_VAR entrance_name = "Exit0903" END // exchange entrances
+      LPF ALTER_AREA_ENTRANCE INT_VAR x_coord = 4147 y_coord = 3342 orient = 14 STR_VAR entrance_name = "Exi0903b" END
 
-      COPY_EXISTING ~%file%.are~ ~override~
-        LPF ALTER_AREA_ENTRANCE INT_VAR x_coord = 1964 y_coord = 1520 orient =  6 STR_VAR entrance_name = "Exit0900" END // exchange entrances
-        LPF ALTER_AREA_ENTRANCE INT_VAR x_coord =  476 y_coord = 1581 orient = 10 STR_VAR entrance_name = "Exi0900b" END
-        READ_LONG  0x54 act_off
-        READ_SHORT 0x58 act_num
-        FOR (index = 0 ; index < act_num ; ++index) BEGIN
-          WRITE_SHORT (act_off + 0x20 + (index * 0x110)) (width - THIS) // current x
-          WRITE_SHORT (act_off + 0x24 + (index * 0x110)) (width - THIS) // travel x
-          WRITE_SHORT (act_off + 0x34 + (index * 0x110)) (16 - THIS)   // orientation
-        END
-        READ_SHORT 0x5a trig_num
-        READ_LONG  0x5c trig_off
-        FOR (index = 0 ; index < trig_num ; ++index) BEGIN
-          READ_SHORT  (trig_off + 0x22 + (index * 0xc4)) left  // flip bounding box
-          READ_SHORT  (trig_off + 0x26 + (index * 0xc4)) right // flip bounding box
-          WRITE_SHORT (trig_off + 0x22 + (index * 0xc4)) (width - right) // flip bounding box
-          WRITE_SHORT (trig_off + 0x26 + (index * 0xc4)) (width - left)  // flip bounding box
-          WRITE_SHORT (trig_off + 0x70 + (index * 0xc4)) (width - THIS) // launch point
-          WRITE_SHORT (trig_off + 0x84 + (index * 0xc4)) (width - THIS) // activation point
-        END
-        READ_LONG  0x70 cont_off
-        READ_SHORT 0x74 cont_num
-        FOR (index = 0 ; index < cont_num ; ++index) BEGIN
-          WRITE_SHORT (cont_off + 0x20 + (index * 0xc0)) (width - THIS) // location
-          WRITE_SHORT (cont_off + 0x34 + (index * 0xc0)) (width - THIS) // launch point
-          READ_SHORT  (cont_off + 0x38 + (index * 0xc0)) left  // flip bounding box
-          READ_SHORT  (cont_off + 0x3c + (index * 0xc0)) right // flip bounding box
-          WRITE_SHORT (cont_off + 0x38 + (index * 0xc0)) (width - right) // flip bounding box
-          WRITE_SHORT (cont_off + 0x3c + (index * 0xc0)) (width - left)  // flip bounding box
-        END
-        READ_SHORT 0x82 amb_num
-        READ_LONG  0x84 amb_off
-        FOR (index = 0 ; index < amb_num ; ++index) BEGIN
-          WRITE_SHORT (amb_off + 0x20 + (index * 0xd4)) (width - THIS) // location
-          // go ahead and enable horse ambient while we're here
-          READ_ASCII  (amb_off +        (index * 0xd4)) name //
-          PATCH_IF ("%name%" STRING_COMPARE_CASE "SS_Horse" = 0) BEGIN
-            WRITE_BYTE (amb_off + 0x90 + (index * 0xd4)) (THIS | (BIT0 + BIT3)) // enabled, random order
+    ACTION_FOR_EACH file IN ar0903 BEGIN // in case other mods clone ar0903, we can drop them in this list
+
+      ACTION_IF FILE_EXISTS_IN_GAME ~%file%.are~ THEN BEGIN
+
+        COPY_EXISTING ~%file%.are~ ~override~
+          LPF ALTER_AREA_ENTRANCE INT_VAR x_coord = 1964 y_coord = 1520 orient =  6 STR_VAR entrance_name = "Exit0900" END // exchange entrances
+          LPF ALTER_AREA_ENTRANCE INT_VAR x_coord =  476 y_coord = 1581 orient = 10 STR_VAR entrance_name = "Exi0900b" END
+          READ_LONG  0x54 act_off
+          READ_SHORT 0x58 act_num
+          FOR (index = 0 ; index < act_num ; ++index) BEGIN
+            WRITE_SHORT (act_off + 0x20 + (index * 0x110)) (width - THIS) // current x
+            WRITE_SHORT (act_off + 0x24 + (index * 0x110)) (width - THIS) // travel x
+            WRITE_SHORT (act_off + 0x34 + (index * 0x110)) (16 - THIS)   // orientation
           END
-        END
+          READ_SHORT 0x5a trig_num
+          READ_LONG  0x5c trig_off
+          FOR (index = 0 ; index < trig_num ; ++index) BEGIN
+            READ_SHORT  (trig_off + 0x22 + (index * 0xc4)) left  // flip bounding box
+            READ_SHORT  (trig_off + 0x26 + (index * 0xc4)) right // flip bounding box
+            WRITE_SHORT (trig_off + 0x22 + (index * 0xc4)) (width - right) // flip bounding box
+            WRITE_SHORT (trig_off + 0x26 + (index * 0xc4)) (width - left)  // flip bounding box
+            WRITE_SHORT (trig_off + 0x70 + (index * 0xc4)) (width - THIS) // launch point
+            WRITE_SHORT (trig_off + 0x84 + (index * 0xc4)) (width - THIS) // activation point
+          END
+          READ_LONG  0x70 cont_off
+          READ_SHORT 0x74 cont_num
+          FOR (index = 0 ; index < cont_num ; ++index) BEGIN
+            WRITE_SHORT (cont_off + 0x20 + (index * 0xc0)) (width - THIS) // location
+            WRITE_SHORT (cont_off + 0x34 + (index * 0xc0)) (width - THIS) // launch point
+            READ_SHORT  (cont_off + 0x38 + (index * 0xc0)) left  // flip bounding box
+            READ_SHORT  (cont_off + 0x3c + (index * 0xc0)) right // flip bounding box
+            WRITE_SHORT (cont_off + 0x38 + (index * 0xc0)) (width - right) // flip bounding box
+            WRITE_SHORT (cont_off + 0x3c + (index * 0xc0)) (width - left)  // flip bounding box
+          END
+          READ_SHORT 0x82 amb_num
+          READ_LONG  0x84 amb_off
+          FOR (index = 0 ; index < amb_num ; ++index) BEGIN
+            WRITE_SHORT (amb_off + 0x20 + (index * 0xd4)) (width - THIS) // location
+            // go ahead and enable horse ambient while we're here
+            READ_ASCII  (amb_off +        (index * 0xd4)) name //
+            PATCH_IF ("%name%" STRING_COMPARE_CASE "SS_Horse" = 0) BEGIN
+              WRITE_BYTE (amb_off + 0x90 + (index * 0xd4)) (THIS | (BIT0 + BIT3)) // enabled, random order
+            END
+          END
+          READ_LONG  0xac anim_num
+          READ_LONG  0xb0 anim_off
+          FOR (index = 0 ; index < anim_num ; ++index) BEGIN
+            WRITE_SHORT (anim_off + 0x20 + (index * 0x4c)) (width - THIS) // location
+          END
+          READ_SHORT 0x80 vert_num
+          READ_LONG  0x7c vert_off
+          FOR (index = 0 ; index < vert_num ; ++index) BEGIN
+            WRITE_SHORT (vert_off +        (index * 0x04)) (width - THIS) // location
+          END
+          READ_LONG  0x64 spwn_num
+          READ_LONG  0x60 spwn_off
+          FOR (index = 0 ; index < spwn_num ; ++index) BEGIN
+            WRITE_SHORT (spwn_off + 0x20 + (index * 0xc8)) (width - THIS) // location
+          END
+          READ_LONG  0xc8 note_num
+          READ_LONG  0xc4 note_off
+          FOR (index = 0 ; index < note_num ; ++index) BEGIN
+            WRITE_SHORT (note_off +        (index * 0x34)) (width - THIS) // location
+          END
+          READ_LONG  0xd0 proj_num
+          READ_LONG  0xcc proj_off
+          FOR (index = 0 ; index < proj_num ; ++index) BEGIN
+            WRITE_SHORT (proj_off + 0x14 + (index * 0x1c)) (width - THIS) // location
+          END
+          // doors get special treatment
+          READ_LONG 0xa4 door_num
+          READ_LONG 0xa8 door_off
+          FOR (index = 0 ; index < door_num ; ++index) BEGIN
+            READ_SHORT  (door_off + 0x38 + (index * 0xc8)) left  // flip bounding box (open)
+            READ_SHORT  (door_off + 0x3c + (index * 0xc8)) right // flip bounding box (open)
+            WRITE_SHORT (door_off + 0x38 + (index * 0xc8)) (width - right) // flip bounding box (open)
+            WRITE_SHORT (door_off + 0x3c + (index * 0xc8)) (width - left)  // flip bounding box (open)
+            READ_SHORT  (door_off + 0x40 + (index * 0xc8)) left  // flip bounding box (closed)
+            READ_SHORT  (door_off + 0x44 + (index * 0xc8)) right // flip bounding box (closed)
+            WRITE_SHORT (door_off + 0x40 + (index * 0xc8)) (width - right) // flip bounding box (closed)
+            WRITE_SHORT (door_off + 0x44 + (index * 0xc8)) (width - left)  // flip bounding box (closed)
+            WRITE_SHORT (door_off + 0x74 + (index * 0xc8)) (width - THIS) // launch point
+            WRITE_SHORT (door_off + 0x90 + (index * 0xc8)) (width - THIS) // open location
+            WRITE_SHORT (door_off + 0x94 + (index * 0xc8)) (width - THIS) // closed location
+            // since impeded vertices use search map coordinates, need to undo the adjustment above and re-do
+            READ_LONG  (door_off + 0x48 + (index * 0xc8)) vert_idx  // impeded/open
+            READ_SHORT (door_off + 0x4c + (index * 0xc8)) vert_num  // impeded/open
+            FOR (index2 = vert_idx ; index2 < (vert_idx + vert_num) ; ++index2) BEGIN
+              WRITE_SHORT (vert_off +        (index2 * 0x04)) (sm_width - (width - THIS)) // location
+            END
+            READ_LONG  (door_off + 0x50 + (index * 0xc8)) vert_idx  // impeded/closed
+            READ_SHORT (door_off + 0x4e + (index * 0xc8)) vert_num  // impeded/closed
+            FOR (index2 = vert_idx ; index2 < (vert_idx + vert_num) ; ++index2) BEGIN
+              WRITE_SHORT (vert_off +        (index2 * 0x04)) (sm_width - (width - THIS)) // location
+            END
+          END
+          LPF fj_are_structure
+            INT_VAR
+            fj_loc_x          = 1723
+            fj_loc_y          = 1553
+            fj_dest_x         = 1723
+            fj_dest_y         = 1553
+            fj_animation      = 45312 // horse
+            fj_orientation    = 6      //SSE
+            STR_VAR
+            fj_structure_type = actor
+            fj_name           = "Atta Girl"
+            fj_cre_resref     = cdhorse1
+          END
+          LPF fj_are_structure
+            INT_VAR
+            fj_loc_x          = 2000
+            fj_loc_y          = 1349
+            fj_dest_x         = 2000
+            fj_dest_y         = 1349
+            fj_animation      = 45312 //horse
+            fj_orientation    = 6      //SSE
+            STR_VAR
+            fj_structure_type = actor
+            fj_name           = Angel
+            fj_cre_resref     = cdhorse2
+          END
+
+      END
+
+    END
+
+    COPY_EXISTING ~horse.cre~ ~override/cdhorse1.cre~
+      SAY 0x08 @322001
+      SAY 0x0c @322001
+
+    COPY_EXISTING ~horse.cre~ ~override/cdhorse2.cre~
+      SAY 0x08 @322002
+      SAY 0x0c @322002
+
+    ACTION_FOR_EACH file IN ar0903 cut11a c6spwn1 c6spwn2 c#bjcut1 BEGIN // compatibility
+
+      ACTION_IF FILE_EXISTS_IN_GAME ~%file%.bcs~ THEN BEGIN
+
+        COPY_EXISTING ~%file%.bcs~ ~override~
+          DECOMPILE_AND_PATCH BEGIN
+            REPLACE_EVALUATE ~\[\([0-9]+\)\.\([0-9]+\)\]~
+              BEGIN SET "RESULT" = (width - %MATCH1%) END
+              ~[%RESULT%.%MATCH2%]~
+            REPLACE_EVALUATE ~Color(\[\([0-9]+\)\.\([0-9]+\)\]~ // don't mess up area fades
+              BEGIN SET "RESULT" = (width - %MATCH1%) END
+              ~Color([%RESULT%.%MATCH2%]~
+          END
+      END
+
+    END
+
+    // re compatibiity
+    ACTION_IF FILE_EXISTS_IN_GAME ~arre07.are~ THEN BEGIN
+
+      COPY_EXISTING ~arre07.are~ ~override~
         READ_LONG  0xac anim_num
         READ_LONG  0xb0 anim_off
         FOR (index = 0 ; index < anim_num ; ++index) BEGIN
           WRITE_SHORT (anim_off + 0x20 + (index * 0x4c)) (width - THIS) // location
         END
-        READ_SHORT 0x80 vert_num
-        READ_LONG  0x7c vert_off
-        FOR (index = 0 ; index < vert_num ; ++index) BEGIN
-          WRITE_SHORT (vert_off +        (index * 0x04)) (width - THIS) // location
-        END
-        READ_LONG  0x64 spwn_num
-        READ_LONG  0x60 spwn_off
-        FOR (index = 0 ; index < spwn_num ; ++index) BEGIN
-          WRITE_SHORT (spwn_off + 0x20 + (index * 0xc8)) (width - THIS) // location
-        END
-        READ_LONG  0xc8 note_num
-        READ_LONG  0xc4 note_off
-        FOR (index = 0 ; index < note_num ; ++index) BEGIN
-          WRITE_SHORT (note_off +        (index * 0x34)) (width - THIS) // location
-        END
-        READ_LONG  0xd0 proj_num
-        READ_LONG  0xcc proj_off
-        FOR (index = 0 ; index < proj_num ; ++index) BEGIN
-          WRITE_SHORT (proj_off + 0x14 + (index * 0x1c)) (width - THIS) // location
-        END
-        // doors get special treatment
-        READ_LONG 0xa4 door_num
-        READ_LONG 0xa8 door_off
-        FOR (index = 0 ; index < door_num ; ++index) BEGIN
-          READ_SHORT  (door_off + 0x38 + (index * 0xc8)) left  // flip bounding box (open)
-          READ_SHORT  (door_off + 0x3c + (index * 0xc8)) right // flip bounding box (open)
-          WRITE_SHORT (door_off + 0x38 + (index * 0xc8)) (width - right) // flip bounding box (open)
-          WRITE_SHORT (door_off + 0x3c + (index * 0xc8)) (width - left)  // flip bounding box (open)
-          READ_SHORT  (door_off + 0x40 + (index * 0xc8)) left  // flip bounding box (closed)
-          READ_SHORT  (door_off + 0x44 + (index * 0xc8)) right // flip bounding box (closed)
-          WRITE_SHORT (door_off + 0x40 + (index * 0xc8)) (width - right) // flip bounding box (closed)
-          WRITE_SHORT (door_off + 0x44 + (index * 0xc8)) (width - left)  // flip bounding box (closed)
-          WRITE_SHORT (door_off + 0x74 + (index * 0xc8)) (width - THIS) // launch point
-          WRITE_SHORT (door_off + 0x90 + (index * 0xc8)) (width - THIS) // open location
-          WRITE_SHORT (door_off + 0x94 + (index * 0xc8)) (width - THIS) // closed location
-          // since impeded vertices use search map coordinates, need to undo the adjustment above and re-do
-          READ_LONG  (door_off + 0x48 + (index * 0xc8)) vert_idx  // impeded/open
-          READ_SHORT (door_off + 0x4c + (index * 0xc8)) vert_num  // impeded/open
-          FOR (index2 = vert_idx ; index2 < (vert_idx + vert_num) ; ++index2) BEGIN
-            WRITE_SHORT (vert_off +        (index2 * 0x04)) (sm_width - (width - THIS)) // location
-          END
-          READ_LONG  (door_off + 0x50 + (index * 0xc8)) vert_idx  // impeded/closed
-          READ_SHORT (door_off + 0x4e + (index * 0xc8)) vert_num  // impeded/closed
-          FOR (index2 = vert_idx ; index2 < (vert_idx + vert_num) ; ++index2) BEGIN
-            WRITE_SHORT (vert_off +        (index2 * 0x04)) (sm_width - (width - THIS)) // location
-          END
-        END
-        LPF fj_are_structure
-          INT_VAR
-          fj_loc_x          = 1723
-          fj_loc_y          = 1553
-          fj_dest_x         = 1723
-          fj_dest_y         = 1553
-          fj_animation      = 45312 // horse
-          fj_orientation    = 6      //SSE
-          STR_VAR
-          fj_structure_type = actor
-          fj_name           = "Atta Girl"
-          fj_cre_resref     = cdhorse1
-        END
-        LPF fj_are_structure
-          INT_VAR
-          fj_loc_x          = 2000
-          fj_loc_y          = 1349
-          fj_dest_x         = 2000
-          fj_dest_y         = 1349
-          fj_animation      = 45312 //horse
-          fj_orientation    = 6      //SSE
-          STR_VAR
-          fj_structure_type = actor
-          fj_name           = Angel
-          fj_cre_resref     = cdhorse2
-        END
 
     END
 
-  END
+    COMPILE ~cdtweaks/dlg/ar0903.d~
 
-  COPY_EXISTING ~horse.cre~ ~override/cdhorse1.cre~
-    SAY 0x08 @322001
-    SAY 0x0c @322001
+    LAF HANDLE_TILESETS END // decompresses ar0903.tiz from cdtweaks/tiz to the override (only one tiz and paths are defaults, so no need to specify parameters)
 
-  COPY_EXISTING ~horse.cre~ ~override/cdhorse2.cre~
-    SAY 0x08 @322002
-    SAY 0x0c @322002
-
-  ACTION_FOR_EACH file IN ar0903 cut11a c6spwn1 c6spwn2 c#bjcut1 BEGIN // compatibility
-
-    ACTION_IF FILE_EXISTS_IN_GAME ~%file%.bcs~ THEN BEGIN
-
-      COPY_EXISTING ~%file%.bcs~ ~override~
-        DECOMPILE_AND_PATCH BEGIN
-          REPLACE_EVALUATE ~\[\([0-9]+\)\.\([0-9]+\)\]~
-            BEGIN SET "RESULT" = (width - %MATCH1%) END
-            ~[%RESULT%.%MATCH2%]~
-          REPLACE_EVALUATE ~Color(\[\([0-9]+\)\.\([0-9]+\)\]~ // don't mess up area fades
-            BEGIN SET "RESULT" = (width - %MATCH1%) END
-            ~Color([%RESULT%.%MATCH2%]~
-        END
-    END
+    COPY ~cdtweaks/bmp/ar0903ht.bmp~ ~override~
+         ~cdtweaks/bmp/ar0903lm.bmp~ ~override~
+         ~cdtweaks/bmp/ar0903sr.bmp~ ~override~
+         ~cdtweaks/mos/ar0903.mos~   ~override~
+         ~cdtweaks/wed/ar0903.wed~   ~override~
 
   END
 
-  // re compatibiity
-  ACTION_IF FILE_EXISTS_IN_GAME ~arre07.are~ THEN BEGIN
-
-    COPY_EXISTING ~arre07.are~ ~override~
-      READ_LONG  0xac anim_num
-      READ_LONG  0xb0 anim_off
-      FOR (index = 0 ; index < anim_num ; ++index) BEGIN
-        WRITE_SHORT (anim_off + 0x20 + (index * 0x4c)) (width - THIS) // location
-      END
-
-  END
-
-  COMPILE ~cdtweaks/dlg/ar0903.d~
-
-  LAF HANDLE_TILESETS END // decompresses ar0903.tiz from cdtweaks/tiz to the override (only one tiz and paths are defaults, so no need to specify parameters)
-
-  COPY ~cdtweaks/bmp/ar0903ht.bmp~ ~override~
-       ~cdtweaks/bmp/ar0903lm.bmp~ ~override~
-       ~cdtweaks/bmp/ar0903sr.bmp~ ~override~
-       ~cdtweaks/mos/ar0903.mos~   ~override~
-       ~cdtweaks/wed/ar0903.wed~   ~override~
-
-END
+END 

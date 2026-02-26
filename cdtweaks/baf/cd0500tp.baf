@@ -1,0 +1,18 @@
+IF
+  IsOverMe([PC]) // if party member is at south entrance
+  Global("knowsmurders","GLOBAL",0) // and  quest not started
+THEN
+  RESPONSE #100
+    ActionOverride("inspect",Face(2)) // move aegisfield to the south entrance
+    ActionOverride("inspect",JumpToPoint([324.3529]))
+    TriggerActivation("cd0500tp",FALSE) // and disable region
+END
+
+IF
+  !Global("knowsmurders","GLOBAL",0) // if quest started without the above, it means we entered from the north 
+THEN
+  RESPONSE #100
+    TriggerActivation("cd0500tp",FALSE) // disable region
+END
+  
+  

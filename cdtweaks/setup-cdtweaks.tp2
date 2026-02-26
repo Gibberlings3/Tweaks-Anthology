@@ -4167,7 +4167,7 @@ LABEL ~cd_tweaks_minimum_stats~
 
 BEGIN @322000 DESIGNATED 3220
 GROUP @4
-REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt soa tob~ @25
+REQUIRE_PREDICATE GAME_IS ~bg1 totsc tutu tutu_totsc bgt soa tob bg2ee eet~ @25
 LABEL ~cd_tweaks_sensible_entrance_points~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
