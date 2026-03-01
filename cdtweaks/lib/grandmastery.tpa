@@ -48,12 +48,12 @@ BEGIN
   OUTER_SET dump_speed = 1  
   ACTION_IF FILE_CONTAINS_EVALUATED (~wspecial.2da~ ~[ %TAB%]*SPEED[ %TAB%]*~) THEN BEGIN OUTER_SET dump_speed = 0 END
 
-  COPY ~cdtweaks/2da/wspatck_template.2da~  ~override/wspatck2.2da~ 
+  COPY ~cdtweaks/2da/wspatck_template.2da~  ~override/wspatck.2da~ 
     EVALUATE_BUFFER
     REPLACE_TEXTUALLY ~X~ ~ ~
     PRETTY_PRINT_2DA
     
-  COPY ~cdtweaks/2da/wspecial_template.2da~ ~override/wspecial2.2da~ 
+  COPY ~cdtweaks/2da/wspecial_template.2da~ ~override/wspecial.2da~ 
     EVALUATE_BUFFER
     PATCH_IF dump_speed THEN BEGIN // remove speed column
       REPLACE_TEXTUALLY ~[ %TAB%]*SPEED[ %TAB%]*~ ~~
