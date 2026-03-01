@@ -2,13 +2,16 @@
 
 IF
   Global("A7_AutoHasteAbility","GLOBAL",0)
-  !HaveSpellRES("a7_hst1")
-  !HaveSpellRES("a7_hst2")
   !StateCheck(Player1,CD_STATE_NOTVALID)
+  !TriggerOverride(Player1,HaveSpellRES("a7_hst1"))
+  !TriggerOverride(Player1,HaveSpellRES("a7_hst2"))
 THEN
   RESPONSE #100
+    StartCutSceneMode()
     SetGlobal("A7_AutoHasteAbility","GLOBAL",1)
     SetGlobal("A7_AutoHasteActive","GLOBAL",1)
+    ClearActions(Player1)
     ActionOverride(Player1,AddSpecialAbility("a7_hst1"))
+    EndCutSceneMode()
     Continue()
 END
