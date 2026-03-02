@@ -5104,6 +5104,36 @@ LABEL ~cd_tweaks_bank_xp_when_dualing~
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
+///// Always Import SoD Items                          \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+/////                                                  \\\\\
+///// Voidsword                                        \\\\\
+/////                                                  \\\\\
+
+BEGIN @353001 DESIGNATED 3530
+GROUP @4
+SUBCOMPONENT @353000 // Always Import SoD Items
+REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ @25
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~sod2bg2_iu.tp2~ 0 @24 // SoD to BG2:EE Item upgrade
+LABEL ~cd_tweaks_import_sod_all_but_voidhammer~
+
+/////                                                  \\\\\
+///// Voidhammer                                       \\\\\
+/////                                                  \\\\\
+
+BEGIN @353100 DESIGNATED 3531
+GROUP @4
+SUBCOMPONENT @353000 // Always Import SoD Items
+REQUIRE_PREDICATE GAME_IS ~bg2ee eet~ @25
+REQUIRE_PREDICATE !MOD_IS_INSTALLED ~sod2bg2_iu.tp2~ 0 @24 // SoD to BG2:EE Item upgrade
+LABEL ~cd_tweaks_import_sod_all_but_voidsword~
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
 ///// Adjust Evil joinable NPC reaction rolls          \\\\\
 /////                                                  \\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\

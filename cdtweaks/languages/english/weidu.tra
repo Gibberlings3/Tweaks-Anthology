@@ -826,6 +826,10 @@ Use Baldur.lua options: a7_interval_ini
 
 @352000 = ~"Bank" XP when dualing a character [Luke (EEex)]~
 
+@353000 = ~Always Import SoD Items~
+@353001 = ~Import all items except Voidhammer +3~
+@353100 = ~Import all items except Voidsword +3~
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
