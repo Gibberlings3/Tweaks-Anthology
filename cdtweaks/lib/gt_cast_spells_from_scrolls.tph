@@ -1,0 +1,5 @@
+DEFINE_ACTION_FUNCTION "CAST_SPELLS_FROM_SCROLLS"
+BEGIN
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Rule Changes" "sourceFileSpec" = "cdtweaks\luke\lua\rule_changes\cast_spells_from_scrolls.lua" "destRes" = "m_gtrule" END
+END
+
