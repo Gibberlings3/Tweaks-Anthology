@@ -1,6 +1,6 @@
 MKDIR ~weidu_external/cdtweaks~
 
-INCLUDE ~cdtweaks/lib/fj_spl_itm_reindex.tpa~ // wisp functions
+INCLUDE ~cdtweaks/ardanis/functions.tph~ // functions
 
 INCLUDE ~cdtweaks/lib/game_checks.tpa~ // sets game_is_foo vars, others
 
