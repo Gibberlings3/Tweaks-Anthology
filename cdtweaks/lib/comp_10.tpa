@@ -18,10 +18,10 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~
     PATCH_IF check_anim = 1 BEGIN
       READ_SHORT 0x22 anim ELSE 0
       PATCH_IF NOT ((anim = 0x5759) OR (anim = 0x575a)) BEGIN // exclude zw, yw for 1pp Wings
-        WRITE_SHORT 0x22 0
+        WRITE_ASCII 0x22 ~c7~ #2
       END
     END ELSE BEGIN
-      WRITE_SHORT 0x22 0
+      WRITE_ASCII 0x22 ~c7~ #2
     END
   END
   BUT_ONLY
