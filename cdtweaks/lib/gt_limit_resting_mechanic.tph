@@ -1,6 +1,28 @@
 DEFINE_ACTION_FUNCTION "LIMIT_RESTING_MECHANIC"
 BEGIN
-	OUTER_SET "feedback_strref" = RESOLVE_STR_REF (@0)
+	WITH_SCOPE BEGIN
+		OUTER_SET "feedback_strref" = RESOLVE_STR_REF (@0)
+		//
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Rule Changes" "sourceFileSpec" = "cdtweaks\luke\lua\rule_changes\limit_resting_mechanic.lua" "destRes" = "m_gtrule" END
+		//
+	END
 	//
-	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Rule Changes" "sourceFileSpec" = "cdtweaks\luke\lua\rule_changes\limit_resting_mechanic.lua" "destRes" = "m_gtrule" END
+	<<<<<<<< .../cdtweaks-inlined/limit_resting_mechanic.baf
+	IF
+		PartyRested()
+		EEex_LuaTrigger("GT_TweaksAnthology_LimitRestingMechanic(0x1)")
+	THEN
+		RESPONSE #100
+			EEex_LuaAction("GT_TweaksAnthology_LimitRestingMechanic(0x2)")
+			Continue()
+	END
+	>>>>>>>>
+	// getting and patching list of world scripts
+	LAF "GET_WORLD_SCRIPTS" RET_ARRAY "world_scripts" = "toReturn" END
+	ACTION_PHP_EACH "world_scripts" AS "resref" => "" BEGIN
+		ACTION_IF (FILE_EXISTS_IN_GAME "%resref%.bcs") BEGIN
+			EXTEND_TOP "%resref%.bcs" ".../cdtweaks-inlined/limit_resting_mechanic.baf"
+		END
+	END
 END
+
