@@ -39,7 +39,7 @@ function GT_TweaksAnthology_LimitRestingMechanic(mode)
 				partyMember:applyEffect({
 					["effectID"] = 0x152, -- Disable rest or save (338)
 					["effectAmount"] = %feedback_strref%,
-					["duration"] = 7200,
+					["duration"] = 4800, -- SIXTEEN_HOURS (as per gtimes.ids)
 					["m_sourceRes"] = "GTRULE01",
 					["noSave"] = true, -- just in case...
 					["sourceID"] = partyMember.m_id,

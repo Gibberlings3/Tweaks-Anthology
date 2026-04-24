@@ -7,6 +7,8 @@ BEGIN
 		//
 	END
 	//
+	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Rule Changes" "sourceFileSpec" = "cdtweaks\luke\lua\rule_changes\override_heal_on_rest.lua" "destRes" = "m_gtrule" END
+	//
 	<<<<<<<< .../cdtweaks-inlined/limit_resting_mechanic.baf
 	IF
 		PartyRested()
