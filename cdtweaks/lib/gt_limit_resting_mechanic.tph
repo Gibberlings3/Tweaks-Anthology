@@ -10,7 +10,7 @@ BEGIN
 	<<<<<<<< .../cdtweaks-inlined/limit_resting_mechanic.baf
 	IF
 		PartyRested()
-		EEex_LuaTrigger("GT_TweaksAnthology_LimitRestingMechanic(0x1)")
+		EEex_LuaTrigger("return GT_TweaksAnthology_LimitRestingMechanic(0x1)")
 	THEN
 		RESPONSE #100
 			EEex_LuaAction("GT_TweaksAnthology_LimitRestingMechanic(0x2)")
