@@ -1,0 +1,29 @@
+/*
++----------------------------------------------------------------------------------------+
+| GET_WORLD_SCRIPTS                                                                      |
++----------------------------------------------------------------------------------------+
+| Retrieves the list of world scripts in the game                                        |
++----------------------------------------------------------------------------------------+
+*/
+
+DEFINE_DIMORPHIC_FUNCTION "GET_WORLD_SCRIPTS"
+RET_ARRAY
+	"toReturn"
+BEGIN
+	// default list of world scripts
+	ACTION_DEFINE_ASSOCIATIVE_ARRAY "toReturn" BEGIN
+		"baldur" => 1
+		"baldur25" => 1
+		"bdbaldur" => 1
+	END
+	// from campaign.2da
+	COPY_EXISTING - ~campaign.2da~ ~override~
+		COUNT_2DA_COLS "cols"
+		READ_2DA_ENTRIES_NOW "table" "%cols%"
+		FOR ("row" = 0; "%row%" < "%table%"; "row" += 1) BEGIN
+			READ_2DA_ENTRY_FORMER "table" "%row%" 1 "resref"
+			SET $"toReturn"(~%resref%~) = 1
+		END
+	BUT_ONLY IF_EXISTS
+END
+
