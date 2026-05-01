@@ -62,7 +62,7 @@ EEex_GameState_AddInitializedListener(function()
 		C:AddGold(-diff) -- op105 is associated with a feedback message. We use the cheat command to remove gold without triggering any message
 		old(...) -- subtract base cost / trigger popup error messages (insufficient gold or whatever)
 		-- If an error message was triggered, then the transaction did not go through and we should refund the party for the gold we removed to adjust the cost
-		if Infinity_GetCurrentScreenName() == "" then -- no popup error message triggered, so we can apply the bonuses and restore the gold that was removed for the base cost
+		if Infinity_GetCurrentScreenName() == "" then -- no popup error message triggered, so we can store the room type for later use in the current world script
 			EEex_GameState_SetGlobalInt("gtTweaksRevisedInnsRoomType", roomType)
 		else
 			C:AddGold(canAfford and diff or partyGold)
