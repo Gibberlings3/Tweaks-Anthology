@@ -66,6 +66,9 @@ Grazie!
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 ~
 
+@35 = ~Questo componente richiede l'installazione del componente "Limita la meccanica del Riposo".~
+@36 = ~Questo componente richiede la versione v251.00 o superiore di WeiDU.~
+
 @100 = ~Programma di installazione automatizzato~
 @101 = ~
 
@@ -545,6 +548,8 @@ I messaggi di disinstallazione sopra riportati sono normali e previsti.
 @273900 = ~Usa le modifiche alla progressione di livello del druido BG/BG2 con la tabella degli incantesimi per chierico non nerfata [Blucher]~
 
 @274000 = ~Consenti ai mutaforma di indossare armature ma impedisci la mutazione mentre le indossi~
+
+@281000 = ~Locande Rivisitate [Luke]~
 
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
