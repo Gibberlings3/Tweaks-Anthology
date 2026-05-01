@@ -8,8 +8,6 @@ BEGIN
 		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Rule Changes" "sourceFileSpec" = "cdtweaks\luke\lua\rule_changes\revised_inns.lua" "destRes" = "m_gtrule" END
 	END
 	//
-	LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Rule Changes" "sourceFileSpec" = "cdtweaks\luke\lua\rule_changes\override_heal_on_rest.lua" "destRes" = "m_gtrule" END
-	//
 	<<<<<<<< .../cdtweaks-inlined/revised_inns.baf
 	IF
 		GlobalGT("gtTweaksRevisedInnsRoomType","GLOBAL",0)
