@@ -11,6 +11,8 @@ WITH_SCOPE BEGIN
   //
   INCLUDE "cdtweaks\lib\gt_revised_inns.tph"
   //
-  LAF "REVISED_INNS" END
+  WITH_TRA "cdtweaks\languages\english\gt_revised_inns.tra" "cdtweaks\languages\%LANGUAGE%\gt_revised_inns.tra" BEGIN
+    LAF "REVISED_INNS" END
+  END
 END
 
