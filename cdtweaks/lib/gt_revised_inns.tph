@@ -22,9 +22,7 @@ BEGIN
 	// getting and patching list of world scripts
 	LAF "GET_WORLD_SCRIPTS" RET_ARRAY "world_scripts" = "toReturn" END
 	ACTION_PHP_EACH "world_scripts" AS "resref" => "" BEGIN
-		ACTION_IF (FILE_EXISTS_IN_GAME "%resref%.bcs") BEGIN
-			EXTEND_TOP "%resref%.bcs" ".../cdtweaks-inlined/revised_inns.baf"
-		END
+		EXTEND_TOP "%resref%.bcs" ".../cdtweaks-inlined/revised_inns.baf" BUT_ONLY IF_EXISTS
 	END
 END
 
