@@ -1,3 +1,6 @@
+ACTION_CLEAR_ARRAY cd_new_art_anthology
+ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_new_art_anthology BEGIN END
+
 ACTION_IF original_bg1 OR original_iwd BEGIN // old helmet animations
   OUTER_SPRINT h4 ~h3~
   OUTER_SPRINT h5 ~h3~
@@ -16,6 +19,12 @@ END
 ACTION_IF game_includes_iwd BEGIN
 
   INCLUDE ~cdtweaks/lib/unique_icons_iwd.tpa~ // load reference array
+  
+  ACTION_IF MOD_IS_INSTALLED ~cd_iwd_desc.tp2~ ~1~ THEN BEGIN 
+
+    INCLUDE ~cd_iwd_desc/lib/new_icons_anthology.tpa~
+
+  END     
 
 END ELSE BEGIN
 
@@ -40,6 +49,11 @@ ACTION_PHP_EACH cd_unique_icons AS params => item BEGIN
         PATCH_IF ("%params_3%" STRING_COMPARE_CASE "null") BEGIN // if animation
           WRITE_ASCIIE 0x22 ~%params_3%~
         END
+        PATCH_IF VARIABLE_IS_SET $cd_new_art_anthology("%params_0%") BEGIN
+          WRITE_ASCIIE 0x58 $cd_new_art_anthology("%params_0%") #8
+          READ_ASCII 0x58 new_desc (8) NULL
+          SET replaced = 2
+        END   
         READ_ASCII 0x22 anim (2)
         WRITE_ASCIIE 0x3a ~%params_0%~ #8
         READ_LONG    0x64 abil_off ELSE 0
@@ -113,9 +127,15 @@ ACTION_PHP_EACH cd_unique_icons AS params => item BEGIN
       END
       BUT_ONLY
 
-    ACTION_IF ((FILE_EXISTS ~cdtweaks/bam/%params_0%.bam~) AND (replaced = 1) AND (!FILE_EXISTS_IN_GAME ~%params_0%.bam~)) THEN BEGIN // in case it's getting an existing icon; also only copy if needed
+    ACTION_IF ((replaced > 0) AND (FILE_EXISTS ~cdtweaks/bam/%params_0%.bam~) AND (!FILE_EXISTS_IN_GAME ~%params_0%.bam~)) THEN BEGIN // in case it's getting an existing icon; also only copy if needed
 
       COPY ~cdtweaks/bam/%params_0%.bam~ ~override~
+
+    END
+
+    ACTION_IF ((replaced = 2) AND (FILE_EXISTS ~cd_iwd_desc/bams/%new_desc%.bam~) AND (!FILE_EXISTS_IN_GAME ~%new_desc%.bam~)) THEN BEGIN // in case it's getting an existing icon; also only copy if needed
+
+      COPY ~cd_iwd_desc/bams/%new_desc%.bam~ ~override~
 
     END
 
