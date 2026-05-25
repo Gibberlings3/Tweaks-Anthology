@@ -1,0 +1,18 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                                                          \\\\\
+///// Short rest / long rest                                                                   \\\\\
+/////                                                                                          \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+WITH_SCOPE BEGIN
+  INCLUDE "cdtweaks\luke\lib\install.tph"
+  //
+  INCLUDE "cdtweaks\lib\gt_short_long_rest.tph"
+  //
+  WITH_TRA "cdtweaks\languages\english\gt_short_long_rest.tra" "cdtweaks\languages\%LANGUAGE%\gt_short_long_rest.tra" BEGIN
+    LAF "SHORT_LONG_REST" END
+  END
+END
+

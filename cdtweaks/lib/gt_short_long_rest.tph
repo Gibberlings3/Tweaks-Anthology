@@ -1,0 +1,28 @@
+DEFINE_ACTION_FUNCTION "SHORT_LONG_REST"
+BEGIN
+	WITH_SCOPE BEGIN
+		OUTER_SET "strref_short_rest_limit" = RESOLVE_STR_REF (@0)
+		OUTER_SET "strref_short_rest_complete" = RESOLVE_STR_REF (@1)
+		OUTER_SET "info" = RESOLVE_STR_REF (@2)
+		OUTER_SET "midText" = RESOLVE_STR_REF (@3)
+		OUTER_SET "rightText" = RESOLVE_STR_REF (@4)
+		//
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Rule Changes" "sourceFileSpec" = "cdtweaks\luke\lua\rule_changes\short_long_rest.lua" "destRes" = "m_gtrule" END
+	END
+	//
+	<<<<<<<< .../cdtweaks-inlined/short_long_rest.baf
+	IF
+		PartyRested()
+	THEN
+		RESPONSE #100
+			EEex_LuaAction("GT_TweaksAnthology_ShortLongRest(0x3)")
+			Continue()
+	END
+	>>>>>>>>
+	// getting and patching list of world scripts
+	LAF "GET_WORLD_SCRIPTS" RET_ARRAY "world_scripts" = "toReturn" END
+	ACTION_PHP_EACH "world_scripts" AS "_" => "resref" BEGIN
+		EXTEND_TOP "%resref%.bcs" ".../cdtweaks-inlined/short_long_rest.baf" BUT_ONLY IF_EXISTS
+	END
+END
+
