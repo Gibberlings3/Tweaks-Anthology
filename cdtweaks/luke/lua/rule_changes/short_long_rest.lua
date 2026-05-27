@@ -17,7 +17,7 @@ function GT_TweaksAnthology_ShortLongRest(mode)
 		local triggerList = {
 			EEex_Trigger_ParseConditionalString("!ActuallyInCombat()"), -- out of combat
 			EEex_Trigger_ParseConditionalString("CombatCounter(0)"), -- out of combat
-			EEex_Trigger_ParseConditionalString("IsValidForPartyDialog(Myself)"), -- in control of all your party members
+			EEex_Trigger_ParseConditionalString("!StateCheck(Myself,0x801020EF)"), -- in control of all your party members
 			EEex_Trigger_ParseConditionalString('GlobalLT("gtTweaksShortRest", "LOCALS", 2)'), -- at most two short rests per long rest
 		}
 		for i = 0, 5 do
