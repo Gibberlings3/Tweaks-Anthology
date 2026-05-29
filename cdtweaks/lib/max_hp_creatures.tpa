@@ -25,6 +25,35 @@ version history:
 
 */
 
+ACTION_IF game_is_pst OR game_is_pstee OR original_bg1 OR original_iwd BEGIN 
+  
+  ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_familiars BEGIN END
+  
+END ELSE BEGIN   
+
+  ACTION_DEFINE_ASSOCIATIVE_ARRAY cd_familiars BEGIN // manually create familiar array
+    fampsd   => 1
+    famfair  => 1
+    famfer   => 1
+    famrab   => 1
+    famcat   => 1
+    famimp   => 1
+    famdust  => 1
+    famquas  => 1
+    fampsd25 => 1
+    famfai25 => 1
+    famfer25 => 1
+    famrab25 => 1
+    famcat25 => 1
+    famimp25 => 1
+    famdus25 => 1
+    famqua25 => 1
+  END   
+  
+END 
+  
+    
+
 // these two vars can be set in the cdtweaks.txt, but in case they're not or set incorrectly, set defaults
 ACTION_IF !VARIABLE_IS_SET cd_max_hp_percentage OR !IS_AN_INT cd_max_hp_percentage BEGIN
   OUTER_SET cd_max_hp_percentage = 100
@@ -134,8 +163,10 @@ END ELSE BEGIN
               hp_percent    = cd_max_hp_percentage
               hp_flat_bonus = cd_max_hp_bonus
   BEGIN
-
-    PATCH_IF (~%SOURCE_RES%~ STRING_COMPARE_CASE ~riftcr04~) BEGIN // skip creatures meant to have lower hp
+    
+    TO_LOWER SOURCE_RES
+    PATCH_IF ((~%SOURCE_RES%~ STRING_COMPARE_CASE ~riftcr04~) AND     // skip creatures meant to have lower hp
+              (!VARIABLE_IS_SET $cd_familiars("%SOURCE_RES%"))) BEGIN // familiar
       READ_ASCII 0x00 sig (4) NULL
       PATCH_IF ("%sig%" STRING_COMPARE_CASE "CHR" = 0) BEGIN SET fudge = 0x64 END ELSE BEGIN SET fudge = 0 END
       SET off_flags2 = 0x20 + fudge
