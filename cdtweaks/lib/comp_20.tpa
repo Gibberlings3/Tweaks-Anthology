@@ -24,3 +24,15 @@ ACTION_PHP_EACH JOINABLE_NPC_ARRAY AS file => dv BEGIN
   END
 
 END
+
+// Patch all cutscene and dream Imoen avatars as well
+
+	ACTION_FOR_EACH cre IN ~CSIMOEN.cre~ ~Dream1.cre~ ~PPDRIMO.cre~ ~DRIM01.cre~ ~DRIM02.cre~ ~ppdrimov.cre~ 
+				~CUIMOEN.cre~ ~CUIMOEN2.cre~ ~CUIMOEN3.cre~ ~dpimo01.cre~ ~IMOENDRM.cre~ ~OHB1IMOE.cre~ ~PPIMOEN.cre~ ~TTIMOEN.cre~
+	BEGIN
+		ACTION_IF FILE_EXISTS_IN_GAME ~%cre%~ BEGIN
+			COPY_EXISTING ~%cre%~ ~override~
+				WRITE_LONG 0x28 0x6210
+			BUT_ONLY
+		END
+	END
