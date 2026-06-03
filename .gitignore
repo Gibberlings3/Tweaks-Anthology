@@ -9,3 +9,8 @@ cdtweaks/languages/schinese_prompts/prompts-unix.tra
 cdtweaks/languages/schinese_prompts/prompts-win32.tra
 cdtweaks/languages/schinese_prompts/setup-osx.tra
 cdtweaks/languages/schinese_prompts/setup-unix.tra
+
+# Operating system files
+.DS_Store
+Thumbs.db
+desktop.ini
