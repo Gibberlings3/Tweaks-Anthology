@@ -4,6 +4,31 @@
 +----------------------------------------------------+
 --]]
 
+-- Camp supplies --
+
+GT_TweaksAnthology_CampSupplies = {
+	["GTFOOD00"] = 5, -- baguette
+	["GTFOOD01"] = 3, -- biscuit
+	["GTFOOD02"] = 12, -- boiled beholder eyestalks
+	["GTFOOD03"] = 4, -- boiled potato
+	["GTFOOD04"] = 3, -- chicken egg
+	["GTFOOD05"] = 4, -- fish fillet
+	["GTFOOD06"] = 8, -- grilled steak
+	["GTFOOD07"] = 5, -- honey comb
+	["GTFOOD08"] = 2, -- kiwi
+	["GTFOOD09"] = 40, -- owlbear egg
+	["GTFOOD10"] = 4, -- pig's head
+	["GTFOOD11"] = 10, -- pork shoulder
+	["GTFOOD12"] = 12, -- pumpkin
+	["GTFOOD13"] = 10, -- raw steak
+	["GTFOOD14"] = 15, -- roast pork
+	["GTFOOD15"] = 15, -- roast turkey
+	["GTFOOD16"] = 20, -- salmon pie
+	["GTFOOD17"] = 7, -- vegetable broth
+	["GTFOOD18"] = 5, -- vegetable soup
+	["GTFOOD19"] = 5, -- white bread
+}
+
 -- Main logic --
 
 function GT_TweaksAnthology_ShortLongRest(mode)
@@ -97,18 +122,166 @@ function GT_TweaksAnthology_ShortLongRest(mode)
 			end
 		end
 		-- advance time by 4 hours
-		C:Eval('ActionOverride(Player1,AdvanceTime(1200))')
+		C:Eval('ActionOverride(Player1Fill,AdvanceTime(1200))')
 		Infinity_DisplayString("^C" .. Infinity_FetchString(%strref_short_rest_complete%) .. "^-")
 	elseif mode == 0x2 then -- long rest
+		-- check if enough camp supplies
+		local found = false
+		local required = 0
+		local current = 0
+		local isDungeon = EEex_IsBitSet(EEex_Sprite_GetInPortrait(0).m_pArea.m_header.m_areaType, 0x5)
+		--
+		for i = 0, 5 do
+			local partyMember = EEex_Sprite_GetInPortrait(i) -- CGameSprite
+			if partyMember then -- sanity check
+				if not EEex_IsAtMostOneBitSet(partyMember:getActiveStats().m_generalState, 0xFC0) then -- !StateCheck(Myself,STATE_REALLY_DEAD)
+					required = required + 10
+				end
+				local items = partyMember.m_equipment.m_items -- Array<CItem*,39>
+				--
+				for j = 18, 33 do -- inventory slots (as per SLOTS.IDS)
+					local item = items:get(j) -- CItem
+					if item then -- sanity check
+						local resref = item.pRes.resref:get()
+						--
+						if resref == "GTSUPPAK" then
+							found = true
+						elseif GT_TweaksAnthology_CampSupplies[resref] then
+							current = current + (GT_TweaksAnthology_CampSupplies[resref] * item.m_useCount1)
+						end
+					end
+				end
+			end
+		end
+		--
+		if found then
+			local store = EEex_Resource_Demand("GTSUPPAK", "STO") -- CStoreFileHeader
+			if store then -- sanity check
+				for item in store:getItemsItr() do -- CStoreFileItem
+					if item then -- sanity check
+						local resref = item.m_itemId:get()
+						--
+						if GT_TweaksAnthology_CampSupplies[resref] then
+							current = current + (GT_TweaksAnthology_CampSupplies[resref] * item.m_usageCount:get(0))
+						end
+					end
+				end
+			end
+		end
+		--
+		if isDungeon then
+			required = required + ((required / 100) * 20) -- +20% in dungeons
+		end
+		--
+		if not (current >= required) then
+			popupInfo(%popupInfo%)
+			return
+		end
 		-- set a global flag to prevent a loop when calling again the OnRestButtonClick() engine function
-		EEex_GameState_SetGlobalInt("gtTweaksLongRest", 1)
+		EEex_GameState_SetGlobalInt("gtTweaksCampSupplies", required)
 		e:GetActiveEngine():OnRestButtonClick()
-		EEex_GameState_SetGlobalInt("gtTweaksLongRest", 0)
-	elseif mode == 0x3 then -- reset short rest attempts
+	elseif mode == 0x3 then
+		-- reset short rest attempts
 		for i = 0, 5 do
 			local partyMember = EEex_Sprite_GetInPortrait(i) -- CGameSprite
 			if partyMember then -- sanity check
 				EEex_Sprite_SetLocalInt(partyMember, "gtTweaksShortRest", 0)
+			end
+		end
+		-- consume camp supplies
+		if EEex_GameState_GetGlobalInt("gtTweaksCampSupplies") > 0 then
+			local required = EEex_GameState_GetGlobalInt("gtTweaksCampSupplies")
+			local found = false
+			local current = 0
+			EEex_GameState_SetGlobalInt("gtTweaksCampSupplies", 0)
+			--
+			for i = 0, 5 do
+				local partyMember = EEex_Sprite_GetInPortrait(i) -- CGameSprite
+				if partyMember then -- sanity check
+					local tbl = {}
+					local items = partyMember.m_equipment.m_items -- Array<CItem*,39>
+					--
+					for j = 18, 33 do -- inventory slot (as per SLOTS.IDS)
+						local item = items:get(j) -- CItem
+						if item then -- sanity check
+							local resref = item.pRes.resref:get()
+							--
+							if resref == "GTSUPPAK" then
+								found = true
+							elseif GT_TweaksAnthology_CampSupplies[resref] then
+								table.insert(tbl, {["slotID"] = j, ["singleValue"] = GT_TweaksAnthology_CampSupplies[resref]})
+							end
+						end
+					end
+					-- sort by single value
+					table.sort(tbl, function(a, b)
+						return a.singleValue < b.singleValue
+					end)
+					--
+					for _, entry in ipairs(tbl) do
+						local item = items:get(entry.slotID) -- CItem
+						if item then -- sanity check
+							while (current < required and item.m_useCount1 > 0) do
+								current = current + entry.singleValue
+								--
+								if item.m_useCount1 == 1 then
+									partyMember:applyEffect({
+										["effectID"] = 0x8F, -- Create item in slot (143)
+										["effectAmount"] = entry.slotID,
+										["res"] = "STAF01", -- some random item
+										["noSave"] = true, -- just in case...
+										["sourceID"] = partyMember.m_id,
+										["sourceTarget"] = partyMember.m_id,
+									})
+								else
+									item.m_useCount1 = item.m_useCount1 - 1
+								end
+							end
+							--
+							if current >= required then
+								goto continue
+							end
+						end
+					end
+				end
+			end
+			-- check supply pack
+			::continue::
+			if found then
+				if current < required then
+					local store = EEex_Resource_Demand("GTSUPPAK", "STO") -- CStoreFileHeader
+					if store then -- sanity check
+						local tbl = {}
+						--
+						for item in store:getItemsItr() do -- CStoreFileItem
+							if item then -- sanity check
+								local resref = item.m_itemId:get()
+								--
+								if GT_TweaksAnthology_CampSupplies[resref] then
+									table.insert(tbl, {["res"] = resref, ["singleValue"] = GT_TweaksAnthology_CampSupplies[resref], ["amount"] = item.m_usageCount:get(0)})
+								end
+							end
+						end
+						-- sort by single value
+						table.sort(tbl, function(a, b)
+							return a.singleValue < b.singleValue
+						end)
+						--
+						for _, entry in ipairs(tbl) do
+							while (entry.amount > 0 and current < required) do
+								current = current + entry.singleValue
+								--
+								--C:Eval(string.format('ActionOverride(Player1Fill, RemoveStoreItem("GTSUPPAK", "%s", 1))', entry.res))
+								--
+								entry.amount = entry.amount - 1
+							end
+							--
+							if current >= required then
+								break
+							end
+						end
+					end
+				end
 			end
 		end
 	end
@@ -120,7 +293,7 @@ EEex_GameState_AddInitializedListener(function()
 	-- CBaldurEngine
 	local old = CBaldurEngine.OnRestButtonClick
 	CBaldurEngine.OnRestButtonClick = function(...)
-		if EEex_GameState_GetGlobalInt("gtTweaksLongRest") == 0 then
+		if EEex_GameState_GetGlobalInt("gtTweaksCampSupplies") == 0 then
 			-- return to main game screen
 			e:GetActiveEngine():OnLeftPanelButtonClick(0)
 			-- pause the game
@@ -129,7 +302,7 @@ EEex_GameState_AddInitializedListener(function()
 			end
 			-- popup menu (3 buttons)
 			popup3Button(
-				%info%,
+				%popup3Button%,
 				"CANCEL_BUTTON", GT_TweaksAnthology_ShortLongRest(0x0),
 				Infinity_FetchString(%midText%), GT_TweaksAnthology_ShortLongRest(0x1),
 				Infinity_FetchString(%rightText%), GT_TweaksAnthology_ShortLongRest(0x2)
