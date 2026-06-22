@@ -160,7 +160,7 @@ ACTION_FOR_EACH file IN weapprof racethac BEGIN
         PATCH_IF (star_bast < star_2hsw) BEGIN SET star_bast = star_2hsw END // large swords
         PATCH_IF (star_bast < star_kata) BEGIN SET star_bast = star_kata END // large swords
         PATCH_IF (star_bast < star_scim) BEGIN SET star_bast = star_scim END // large swords
-        PATCH_IF (star_bast < star_lswd) BEGIN SET star_bast = star_scim END // large swords
+        PATCH_IF (star_bast < star_lswd) BEGIN SET star_bast = star_lswd END // large swords
         READ_2DA_ENTRY (skip_rows + 9) col col_num star_hamm
         READ_2DA_ENTRY (skip_rows + 10) col col_num star_club
         READ_2DA_ENTRY (skip_rows + 14) col col_num star_mace
