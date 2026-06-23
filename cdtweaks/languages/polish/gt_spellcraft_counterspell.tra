@@ -1,0 +1,16 @@
+@1 = "Przeciwzaklęcie (Odrzucanie)"
+@2 = "Przeciwzaklęcie (Sprowadzanie/Przywoływanie)"
+@3 = "Przeciwzaklęcie (Poznanie)"
+@4 = "Przeciwzaklęcie (Zaczarowania/Zauroczenia)"
+@5 = "Przeciwzaklęcie (Iluzje/Urojenia)"
+@6 = "Przeciwzaklęcie (Wywoływanie)"
+@7 = "Przeciwzaklęcie (Nekromancja)"
+@8 = "Przeciwzaklęcie (Przemiany)"
+
+@100 = "Rzucanie przeciwzaklęcia"
+@101 = "Tryb przeciwzaklęcia"
+@102 = "Tryb przeciwzaklęcia włączony"
+@103 = "Tryb przeciwzaklęcia wyłączony"
+
+@200 = "Czaroznawstwo"
+@201 = "zamierza rzucić czar"

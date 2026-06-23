@@ -1,0 +1,19 @@
+@0 = "Szał
+
+Postać wpada w szał na 7 rund plus liczbę rund równą modyfikatorowi z Kondycji. W tym czasie otrzymuje premię +4 do Siły i Kondycji, modyfikator -2 do Klasy Pancerza oraz premię +2 do rzutów obronnych przeciw czarom.
+
+Przerażający szał: Kiedy barbarzyńca jest w szale, każdy wróg, który się do niego zbliży i ma mniej PŻ niż barbarzyńca, musi wykonać rzut obronny przeciw śmierci albo ogarnie go panika na 1k3 rund. Przeciwnicy o takiej samej liczbie PŻ jak barbarzyńca nie uciekną, ale otrzymają modyfikator -2 do rzutów ataku i rzutów obronnych. Na istoty mające więcej PŻ niż barbarzyńca szał nie działa.
+
+Grzmiący szał: Każda broń, jakiej barbarzyńca używa w szale, zadaje dodatkowe 2k6 obrażeń przy trafieniu krytycznym. Istnieje 25% szans, że istota trafiona jedną z broni barbarzyńcy ogłuchnie na 3 rundy.
+"
+
+@1 = "Przerażający szał"
+
+@2 = "Grzmiący szał (trafienie krytyczne)"
+@3 = "Grzmiący szał (ogłuchnięcie)"
+@4 = "Ogłuchły"
+
+@5 = "Wybrana postać jest już pod wpływem Szału"
+@6 = "Drży ze strachu"
+@7 = "Panika"
+@8 = "Niewrażliwość na efekty Przerażającego szału"

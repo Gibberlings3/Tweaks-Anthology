@@ -1,0 +1,20 @@
+@0 = "Powalenie"
+
+@1 = "Powalenie
+
+Postać posiadająca ten atut może spróbować powalić przeciwnika w walce wręcz. Wykonuje test ataku z modyfikatorem -4, a jeśli atak się powiedzie, przeciwnik zostaje powalony na ziemię."
+
+@50 = "Powalony"
+
+//@100 = "Wybrany cel jest poza zasięgiem"
+@101 = "Wybrany cel jest już powalony"
+@102 = "Wybrany cel jest zbyt duży"
+@103 = "Tego atutu nie można użyć, gdy postać dzierży broń dystansową"
+
+@104 = "Wybranej istoty nie można powalić"
+
+//@105 = "Niewrażliwość na efekty Powalenia"
+
+@105 = "Trafienie"
+@106 = "Pudło"
+@107 = "Broń nieskuteczna"

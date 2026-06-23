@@ -1,2 +1,48 @@
 // this file is used to override strings in game.tra for EE games
 // it will NOT be re-encoded for EE games, so put it in the correct charset for your language
+@216001 = ~MIECZ KRÓTKI/NINJA-TO: Ulubiony oręż wielu złodziei i niziołków. Krótki miecz i ninja-to to lekkie lecz użyteczne bronie.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216009 = ~Miecz krótki/Ninja-To~
+@216104 = ~DUŻE MIECZE: Ta klasa broni pozwala postaci używać mieczy bękartów, mieczy szerokich, mieczy dwuręcznych, mieczy długich, katan, wakizashi, ninjato i bułatów. Druidzi%cd_shaman% mogą wybrać tę klasę, ale są ograniczeni wyłącznie do samych bułatów. Mnisi mogą wybrać tę klasę, ale nie wolno im używać mieczy bękartów ani mieczy dwuręcznych.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216303 = ~DUŻE MIECZE: Ta klasa broni pozwala postaci używać mieczy szerokich, mieczy długich, katan, wakizashi, ninjatō i bułatów. Druids%cd_shaman% mogą wybrać tę klasę, ale są ograniczeni wyłącznie do samych bułatów.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+
+//#50818 in obg2
+@418002 = ~Ten pierścień Nalia otrzymała od swojego ojca z chwilą osiągnięcia dorosłości. Jest związany z jej krwią, więc nikt inny nie może go używać. Pierścień zapewnia premię +2 do wszystkich Rzutów Obronnych, premię +2 do Klasy Pancerza oraz premię 50% do Odporności na Ogień.
+
+STATYSTYKI:
+
+Zdolności Wrodzone:
+– Klasa Pancerza: +2
+– Rzuty Obronne: +2
+– Odporność na Ogień: +50%
+
+Waga: 0~

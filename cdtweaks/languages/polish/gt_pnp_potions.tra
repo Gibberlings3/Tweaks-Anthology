@@ -1,0 +1,13 @@
+@0 = "Pod wpływem mikstury"
+
+@1 = "Krztusisz się wypitą miksturą... Siła i Zręczność zostają trwale zmniejszone o 1 punkt" [choke]
+
+@2 = "Krztusisz się wypitą miksturą... Wszystkie aktywne efekty mikstur zostają usunięte" [choke]
+
+@3 = "Wypita mikstura najwyraźniej nie przyniosła żadnego efektu..." [eff_m10]
+
+@4 = "%value% : -50% skuteczności" [eff_m29]
+
+@5 = "%value% : +50% skuteczności" [eff_hand]
+
+@6 = "%value% : +100% skuteczności / Stały czas działania" [eff_hand]

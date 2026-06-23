@@ -1,0 +1,17 @@
+@0 = "Zniszczenie dobra"
+@1 = "Zniszczenie dobra
+
+Czarny strażnik może spróbować porazić wroga o dobrym charakterze jednym specjalnym atakiem wręcz. Do testu ataku dodaje swój modyfikator z Charyzmy, a do obrażeń 1 dodatkowy punkt za każdy poziom klasy."
+
+@2 = "Porażenie zła"
+@3 = "Porażenie zła
+
+Paladyn może spróbować porazić wroga o złym charakterze jednym specjalnym atakiem wręcz. Do testu ataku dodaje swój modyfikator z Charyzmy, a do obrażeń 1 dodatkowy punkt za każdy poziom klasy."
+
+@10 = "Nieodpowiednia broń"
+@11 = "Broń nieskuteczna"
+@12 = "Trafienie"
+@13 = "Pudło"
+
+@20 = "Niewrażliwość na efekty Zniszczenia dobra"
+@30 = "Niewrażliwość na efekty Porażenia zła"

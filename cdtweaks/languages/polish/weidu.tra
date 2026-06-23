@@ -1,230 +1,904 @@
-@0      = ~Poprawki dla postaci przylaczalnych~
-@1      = ~To moze chwile potrwac...~
-@2      = ~Ten komponent wymaga komponentu 'Torby przechowywania dla BG'.~ 
-@4      = ~Poprawki udogadniajace gre/oszustwa~
-@5      = ~Ten komponent wymaga komponentu 'Zestaw egzotycznych przedmiotow'.~ 
-@7      = ~Ten komponent nie jest dostepny w tym jezyku.~
-@9      = ~Zmiany zasad~
-@11     = ~Zmiany wygladu~ 
-@13     = ~Zmiany zawartosci~
-@16     = ~Funkcjonalnosc tego komponentu jest uwzgledniona lub zastapiona przez jeden z juz zainstalowanych modow.~ 
-@17     = ~Wymagane jest zainstalowanie komponentu 'Spraw, by bronie odpowiadaly umagicznieniu +x/+y'.~
-@18     = ~Ten komponent zostal wycofany.~
-@21     = ~Wymagany jest komponent 'Zmien ograniczenie doswiadczenia: Usun ograniczenie doswiadczenia'.~ 
-@22     = ~Ten komponent jest niedostepny dla Baldur's Gate: Enhanced Edition.~
-@23     = ~Ten komponent jest tylko dla Tutu lub Baldur's Gate: Enhanced Edition.~ 
-@24     = ~Ten komponent nie jest zgodny z innym juz zainstalowanym modem.~
-@25     = ~Ten komponent nie jest dostepny dla twojej gry.~
-@1000   = ~Usun animacje helmow~
-@2000   = ~Zmien awatara Imoen na maga~ 
-@3000   = ~Zmien awatara Nalii na zlodzieja~
-@4000   = ~Zmien kolor skory Viconi na ciemnoniebieski~ 
-@5000   = ~Skrypt przemiany awatarow~ 
-@6000   = ~Poprawki animacji broni~
-@7000   = ~Grafiki rzucania zaklec z Icewind Dale (Andyr)~
-@7020   = ~Wyglad rzucania zaklec z Baldur's Gate II (Andyr)~
-@8000   = ~Przywroc ekran wczytywania z Cieni Amn (tylko dla Tronu Bhalla)~
-@8020   = ~Przywrócenie ekranów wczytywania z IWD~
-@9000   = ~Wylacz ikony w portretach postaci dodane przez uzywane przedmioty~
-@10000  = ~Zwykli ludzie uzywaja szarych kolorow~
-@11000  = ~Poprawki ikon~
-@12000  = ~Zmien awatara przy noszeniu szat i pancerzy (Galactygon)~
-@13000  = ~Wszystkie dialogi zatrzymuja gre~
-@14000  = ~Napraw pisk Boo~
-@15000  = ~Zmien nazwy rzadkich przedmiotow~
-@15001  = ~Uzyj rzadkiej nazwy (tj. Kondar)~
-@15100  = ~Uzyj rzadkiej nazwy +x (tj. Kondar +1)~
-@15200  = ~Uzyj ogolnych nazw (tj. Miecz poltorareczny +1, +3 przeciw zmiennokształtnym)	 ~
-@101000 = ~Wiecej wtracen~
-@102000 = ~Zmiana punktow zycia uruchamia uszkodzone dialogi postaci przylaczalnych~
-@103000 = ~Odslon obszary dziczy przed rozdzialem szostym~
-@103500 = ~Udostepnij Knieje Otulisko przed ukonczeniem Obozowiska bandytow~
-@103501 = ~Tylko pierwszy obszar Kniei~
-@103600 = ~Cala Knieje Otulisko oprocz kopalni~
-@104000 = ~Ulepszona gwardia miejska Athkatli~
-@105000 = ~Stopniowe rozkladanie sie przedmiotow drowow~
-@106000 = ~Latwe do zniszczenia zelazne, niemagiczne tarcze, helmy i zbroje~
-@107000 = ~Ulepszone dialogi wyrzucania z druzyny dla wielu graczy~
-@108000 = ~Dodaj Torby przechowywania~
-@109000 = ~Zestaw egzotycznych przedmiotow~
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Setup Messages                                   \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 
-@110000 = ~Odslon mapy miast przy wejsciu na nowy obszar~
-@110100 = ~Nie odslaniaj map miasta przy wejsciu na nowy obszar~
-@111000 = ~Dodaj notatki do map~
-@112000 = ~Sklepy sprzedaja wieksze ilosci przedmiotow~
-@113000 = ~Wyzerowanie reputacji w BG2 (tylko dla BGT)~
-@114000 = ~Klejnoty i mikstury wymagaja identyfikacji~
-@115000 = ~Zbalansowanie zmiennoksztaltnych~
-@116000 = ~Wiele twierdz (Baldurdash)~
-@116001 = ~Brak ograniczen (Baldurdash)~
+// gaps in the numbering in this section are from strings that are no longer needed
+// if your tra files has them, you can safely delete them
+
+@0 = ~Poprawki dla postaci przyłączalnych~
+@1 = ~To może chwilę potrwać...~
+@2 = ~Ten komponent wymaga komponentu 'Torby przechowywania dla BG'.~
+
+@4 = ~Poprawki udogadniające grę/oszustwa~
+
+@7 = ~Ten komponent nie jest dostępny w tym języku.~
+
+@9 = ~Zmiany zasad~
+
+@11 = ~Zmiany wyglądu~
+
+@13 = ~Zmiany zawartości~
+
+@16 = ~Funkcjonalność tego komponentu jest uwzględniona lub zastąpiona przez jeden z już zainstalowanych modów.~
+
+@18 = ~Ten komponent został wycofany.~
+
+@21 = ~Wymagany jest komponent 'Zmień ograniczenie doświadczenia: Usuń ograniczenie doświadczenia'.~
+
+@24 = ~Ten komponent nie jest zgodny z innym już zainstalowanym modem.~
+@25 = ~Ten komponent nie jest dostępny dla twojej gry.~
+@26 = ~Używanie wartości z pliku konfiguracyjnego cdtweaks.txt dla tego komponentu...~
+@27 = ~Przed instalacją modów do tej gry wymagany jest DLC Merger. Sprawdź readme, aby uzyskać więcej informacji oraz znaleźć link do pobrania DLC Merger.~
+@28 = ~Do zainstalowania tego komponentu brakuje wolnych stanów czarów lub miejsc na typy pomocnicze.~
+@29 = ~Wymaga EEex: https://github.com/Bubb13/EEex ~
+@30 = ~Atuty w stylu NwN~
+@31 = ~Wymaga opcji w grze "Atak z zaskoczenia 3E" (https://github.com/Argent77/A7-HiddenGameplayOptions).~
+@32 = ~Wymaga LuaJIT: https://github.com/Bubb13/EEex, komponent nr 1~
+@33 = ~Brak wolnych stanów czarów~ 
+@34 = ~
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+Tweaks Anthology wykrył pancerze i/lub tarcze, które nie są obsługiwane
+przez niektóre komponenty dotyczące pancerzy. Anthology automatycznie
+zebrał informacje o tych przedmiotach z myślą o przyszlym dodaniu ich obsługi.
+
+Aby pomóc w dalszym rozwoju moda, spakuj zawartość folderu
+
+(folder gry)/weidu_external/cdtweaks_helper/email_to_cam
+
+do archiwum zip/rar i wyślij je CamDawgowi za pomocą jednej z poniższych metod:
+
+  * e-mail: pcamagna@yahoo.com
+  * Discord: wyślij do użytkownika camdawg_g3 lub na Discord G3:
+      https://discord.gg/yTzjMTb
+  * Forum G3: wyślij prywatna wiadomość do użytkownika CamDawg
+      lub napisz w wątku:
+      https://www.gibberlings3.net/forums/topic/30082-tweaks-anthology-helper-tool-updated/
+
+Dzięki!
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+~
+
+@100 = ~Tryb instalacji zbiorczej -- EKSPERYMENTALNY, używasz na własne ryzyko. Sprawdź readme.~
+@101 = ~
+
+Rejestrowanie komponentu do instalacji zbiorczej.
+
+Powyższe komunikaty deinstalacji są normalne i oczekiwane.
+
+~
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Cosmetic Changes Components                      \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+@1000 = ~Tweaks Anthology: Usuń animacje hełmów~
+
+@2000 = ~Tweaks Anthology: Zmień awatar Imoen na maga~
+
+@3000 = ~Tweaks Anthology: Zmień awatar Nalii na złodziejkę~
+
+@4000 = ~Tweaks Anthology: Zmień kolor skóry Viconii na ciemnoniebieski~
+
+@5000 = ~Tweaks Anthology: Skrypt zmiany awatarów~
+
+@6000 = ~Tweaks Anthology: Poprawki animacji broni~
+
+@7000 = ~Tweaks Anthology: Wygląd efektów rzucania zaklęć z Icewind Dale (Andyr)~
+
+@7020 = ~Tweaks Anthology: Wygląd efektów rzucania zaklęć z Baldur's Gate II (Andyr)~
+
+@8000 = ~Tweaks Anthology: Przywróć ekran wczytywania z Cieni Amn (tylko dla Tronu Bhalla)~
+
+@8020 = ~Tweaks Anthology: Przywróć ekran ładowania z IWD [icelus]~
+
+@9000 = ~Tweaks Anthology: Wyłącz ikony w portretach postaci dodane przez używane przedmioty~
+
+@10000 = ~Tweaks Anthology: Zwykli mieszkańcy noszą ubrania w stonowanym kolorze~
+
+@11000 = ~Tweaks Anthology: Ulepszone ikony~
+
+// deprecated: you don't have to translate @12000
+@12000 = ~Tweaks Anthology: Zmień awatar przy noszeniu szat i pancerzy (Galactygon)~
+
+@13000 = ~Tweaks Anthology: Wszystkie dialogi zatrzymują grę~
+
+@14000 = ~Tweaks Anthology: Napraw pisk Boo~
+
+// this component is not ready, you can skip translating this block
+//@15000 = ~Alter Name of Unique Items~
+//@15001 = ~Use unique name (i.e. Kondar)~
+//@15100 = ~Use unique name +x (i.e. Kondar +1)~
+//@15200 = ~Use generic name (i.e. Bastard Sword +1, +3 vs. Shapeshifters)~
+
+@15002 = ~Tweaks Anthology: Usuń "+x" z nazw unikalnych przedmiotów~
+
+@16000 = ~Tweaks Anthology: Spraw, by magiczne tarcze świeciły [plainab/grogerson]~
+
+@17000 = ~Tweaks Anthology: Unikatowe ikony [Lava]~
+@17001 = ~Podmień tylko te ikony, które nie mają unikalnego wyglądu~
+@17010 = ~Podmień wszystkie ikony~
+
+@18000 = ~Tweaks Anthology: Unikalne pojemniki [Miloch]~
+@18018 = ~Tylko poprawki~
+@18019 = ~Ten komponent nie ma zastosowania w BG1~
+@18020 = ~Unikalne ikony i nazwy~
+@18021 = ~Tylko unikalne ikony~
+@18022 = ~Kolory BG2 dla NPCów z BG1/Tutu~
+@18023 = ~Ten komponent nie ma zastosowania w BG2.~
+
+@19000 = ~Dla wszystkich tarcz i hełmów~
+@19001 = ~Tweaks Anthology: Używaj kolorów postaci zamiast kolorów przedmiotów~
+@19100 = ~Dla niemagicznych tarcz i hełmów~
+@19200 = ~Dla wszystkich hełmów~
+@19300 = ~Dla niemagicznych hełmów~
+@19400 = ~Dla wszystkich tarcz~
+@19500 = ~Dla niemagicznych tarcz~
+
+@20000 = ~Usuń efekt rozmycia~
+@20001 = ~Tweaks Anthology: Usuń irytujące efekty wizualne wyposażonych przedmiotów~
+@20002 = ~Usuń efekty odbicia i pułapki na czary~
+@20003 = ~Usuń wszystkie powyższe efekty~
+
+@21000 = ~Tweaks Anthology: Rozdziel ikonę odporności na ogień/zimno na osobne ikony [Angel]~
+
+@22000 = ~Tweaks Anthology: Ulepszone nakładki dla osób z daltonizmem [Fouinto]~
+
+@23000 = ~Tweaks Anthology: Przywróć podpowiedzi IwD~
+
+@24000 = ~Tweaks Anthology: Dodaj obramowanie białym ikonom czarów dla lepszej widoczności~
+@24001 = ~Dodaj czarne obramowanie~
+@24100 = ~Dodaj szare obramowanie~
+
+@25000 = ~Tweaks Anthology: Kolorowe nazwy NPCów i podpowiedzi~
+@25001 = ~Normalną jasność~
+@25100 = ~Lekko zwiększona jasność~
+@25200 = ~Umiarkowanie zwiększona jasność~
+@25300 = ~Lekko zmniejszona jasność~
+@25400 = ~Umiarkowanie zmniejszona jasność~
+@25500 = ~Oryginalny kolor~
+
+@26000 = ~Tweaks Anthology: Ukrycie efektów wizualnych niewidzialnych przeciwników [Luke]~
+
+@27000 = ~Tweaks Anthology: Statyczne portrety postaci w PsT~
+@27001 = ~Pokazuj zmiany zdrowia i stanu~
+@27100 = ~Nie pokazuj zmian zdrowia i stanu~
+
+@28000 = ~Tweaks Anthology: Dodaj wskaźniki wizualne dla NPCów, z którymi jeszcze nie rozmawiano~
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Content Changes Components                       \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+@101000 = ~Tweaks Anthology: Więcej wtrąceń~
+
+@102000 = ~Tweaks Anthology: Zmiana progów PŻ wyzwalających dialogi rannych postaci przyłączalnych~
+
+@103000 = ~Tweaks Anthology: Odsłoń obszary dziczy przed rozdziałem szóstym~
+
+@103500 = ~Tweaks Anthology: Udostępnij Knieję Otulisko przed ukończeniem Obozowiska bandytów~
+@103501 = ~Tylko pierwszy obszar Kniei~
+@103600 = ~Cała Knieja Otulisko oprócz kopalni~
+
+@104000 = ~Tweaks Anthology: Ulepszona straż miejska Athkatli~
+
+@105000 = ~Tweaks Anthology: Stopniowe rozpadanie się przedmiotów drowów~
+
+@106000 = ~Tweaks Anthology: Łatwe do zniszczenia żelazne, niemagiczne tarcze, hełmy i zbroje~
+@106004 = ~Wszystko się niszczy~
+@106100 = ~Tarcze i hełmy niszczą się, zbroje mają jeden etap uszkodzenia~
+@106200 = ~Tarcze i hełmy niszczą się, zbroje stopniowo tracą wytrzymałość i psują się~
+
+@107000 = ~Tweaks Anthology: Ulepszone dialogi odłączania postaci w trybie wieloosobowym~
+
+@107500 = ~Tweaks Anthology: Wysyłaj NPCów dodanych przez BioWare do gospody [DavidW/Zed Nocear]~
+
+@108000 = ~Tweaks Anthology: Dodaj Torby przechowywania~
+
+@108500 = ~Tweaks Anthology: Przenośne pojemniki [Zed Nocear]~
+
+// deprecated: you don't have to translate @109000
+@109000 = ~Tweaks Anthology: Zestaw egzotycznych przedmiotów~
+
+@110000 = ~Tweaks Anthology: Odsłoń mapy miast przy wejściu na ich obszar~
+
+@110100 = ~Tweaks Anthology: Nie odsłaniaj map miast przy wejściu na ich obszar~
+
+@111000 = ~Tweaks Anthology: Dodaj notatki do map~
+
+@112000 = ~Tweaks Anthology: Sklepy sprzedają większe ilości przedmiotów~
+
+// deprecated: you don't have to translate @112500
+@112500 = ~Tweaks Anthology: Nieskończona niemagiczna amunicja do łuków, kusz i proc~
+
+@113000 = ~Tweaks Anthology: Wyzerowanie reputacji w BG2 (tylko dla BGT)~
+
+@114000 = ~Tweaks Anthology: Klejnoty i mikstury wymagają identyfikacji~
+@114002 = ~Klejnoty i mikstury~
+@114100 = ~Tylko klejnoty~
+@114200 = ~Tylko mikstury~
+
+@115000 = ~Tweaks Anthology: Zbalansowanie zmiennokształtnych~
+
+@116000 = ~Tweaks Anthology: Wiele twierdz (Baldurdash)~
+@116001 = ~Brak ograniczeń (Baldurdash)~
 @116100 = ~Zachowaj ograniczenia klasowe~
-@117000 = ~Dodatkowi kupcy (Baldurdash)~
-@118000 = ~Kobieca Edwina~
-@119000 = ~Poprawki bledow w romansach~
-@120000 = ~Poprawka do dialogow Imoen w Tronie Bhaala~
-@121000 = ~Uzyj szybkosci chodu z BG (BETA)~
-@122000 = ~Zezwol Cromwellowi na ulepszanie przedmiotow z Twierdzy Straznika~
-@123000 = ~Pozwol Cespenarowi uzywac przepisow Cromwella~
-@201000 = ~Tabele rozwoju czarow z papierowego AD&D~
-@202000 = ~Dwureczne miecze poltorareczne~
-@203000 = ~Dwureczne katany~
-@203500 = ~Dwureczne topory~
-@204000 = ~Maczugi dla wszystkich~
-@205000 = ~Uaktualnienia opisow komponentu 'Maczugi dla wszystkich'~
-@205001 = ~Wymaga instalacji 'Maczugi dla wszystkich'~
-@205002 = ~Ashes of Embers jest zainstalowane, ktore dostosowuje juz opisy dla maczug.~
-@206000 = ~Style walki dla wszystkich~
-@207000 = ~Druidzi uzywaja rozwoju czarow i poziomow kaplanow~
-@208000 = ~Opoznij pojawienie sie umiejetnosci wysokiego poziomu~
-@209000 = ~Zmien ograniczenie doswiadczenia~
-@209001 = ~Usun ograniczenie doswiadczenia~
-@209100 = ~Ograniczenie doswiadczenia do 20 poziomu~
-@209200 = ~Ograniczenie doswiadczenia do 30 poziomu~
-@210000 = ~Pozwol na uzywanie umiejetności zlodziejskich i krycia sie w cieniu ciezkich pancerzach~
-@211000 = ~Zmien opis przedmiotow dla komponentu 'Pozwol na uzywanie umiejetnosci zlodziejskich i krycia sie w cieniu w ciezkich pancerzach'~
-@212000 = ~Pozwol rzucac czary maga w ciezkich pancerzach~
-@213000 = ~Zmien opis przedmiotow dla komponentu 'Pozwol rzucac czary mistyczne maga w ciezkich pancerzach'~
-@214000 = ~Rozszerzone opcje dla dwuklasowcow~
-@215000 = ~Noszenie wielu przedmiotow ochronnych z premia do Klasy Pancerza~
+
+@117000 = ~Tweaks Anthology: Dodatkowi kupcy (Baldurdash)~
+
+@118000 = ~Tweaks Anthology: Kobieca Edwina~
+
+@119000 = ~Tweaks Anthology: Poprawki błędów w romansach~
+
+@120000 = ~Tweaks Anthology: Poprawka dialogów Imoen w Tronie Bhaala~
+
+@121000 = ~Tweaks Anthology: Użyj szybkości chodu z BG~
+
+@122000 = ~Tweaks Anthology: Zezwól Cromwellowi na ulepszanie przedmiotów z Twierdzy Strażnika~
+
+@122500 = ~Tweaks Anthology: Dopasuj czas wykuwania u Cromwella~
+@122501 = ~Natychmiastowe (ustawienie oryginalnego BG2)~
+@122600 = ~Osiem godzin~
+@122700 = ~Pełne 24 godziny (domyślne ustawienie BG2EE, obejmuje sen)~
+
+@123000 = ~Tweaks Anthology: Pozwól Cespenarowi używać przepisów Cromwella~
+
+@124000 = ~Tweaks Anthology: Przywrócenie ukrytego pojemnika w Gospodzie pod Pomocną Dłonią [plainab]~
+
+// deprecated: you don't have to translate @125000
+@125000 = ~Tweaks Anthology: Przeniesienie wybranych NPCów w dogodniejsze miejsca~
+
+@125100 = ~Tweaks Anthology: Przenieś Alorę do Gullykin~
+
+@125200 = ~Tweaks Anthology: Przenieś Eldotha na Nadbrzeżny Trakt~
+
+@125300 = ~Tweaks Anthology: Przenieś Quayle'a na jarmark w Nashkel~
+
+@125400 = ~Tweaks Anthology: Przenieś Shar-Teel na drogę na północ od Nashkel~
+
+@125500 = ~Tweaks Anthology: Przenieś Tiaxa do Beregostu~
+
+@125600 = ~Tweaks Anthology: Przenieś Viconię na drogę na południe od Beregostu~
+
+@125800 = ~Tweaks Anthology: Przenieś Ajantisa do Gospody pod Pomocną Dłonią~
+
+@125700 = ~Tweaks Anthology: Przenieś Ajantisa, Alorę, Eldotha, Quayle'a, Shar-Teel, Tiaxa i Viconię~
+
+@126000 = ~Tweaks Anthology: Bardowie rozsiewający plotki obniżające reputację~
+
+@127000 = ~Tweaks Anthology: Zmień moment zakończenia rozdziału w kopalni Kniei Otulisko na wersję bez TotSC [plainab]~
+
+@128000 = ~Tweaks Anthology: Gra kończy się po śmierci głównego bohatera~
+
+@129000 = ~Tweaks Anthology: NPCe odpowiadają głównej postaci, a nie tej, która z nimi rozmawia~
+
+@130000 = ~Tweaks Anthology: Udostępnij Serce Zimy na dowolnym poziomie~
+
+@131000 = ~Tweaks Anthology: Przywróć (większość) czarów z BG2 i udostępnij zwoje. UWAGA: Będą sprawiać wrażenie elementów niepasujących do reszty gry~
+
+@132000 = ~Tweaks Anthology: Dziennik w stylu BG2 (wersja robocza)~
+
+@133000 = ~Tweaks Anthology: NPCe nie mogą korzystać z drzwi~
+
+@134000 = ~Tweaks Anthology: Udostępnij twierdzę Kuli Sfer wszystkim klasom~
+
+@134100 = ~Tweaks Anthology: Udostępnij twierdzę d'Arnise wszystkim klasom~
+
+@134200 = ~Tweaks Anthology: Udostępnij twierdzę świątynne wszystkim klasom~
+
+@134300 = ~Tweaks Anthology: Udostępnij Gildię Złodziei wszystkim klasom~
+
+@134400 = ~Tweaks Anthology: Udostępnij Teatr wszystkim klasom~
+
+@134500 = ~Tweaks Anthology: Udostępnij twierdzę Najszlachetniejszego Zakonu Promiennego Serca wszystkim klasom~
+
+@134600 = ~Tweaks Anthology: Udostępnij Gaj Druidów wszystkim klasom~
+
+@134700 = ~Tweaks Anthology: Udostępnij chatę w Imnesvale wszystkim klasom~
+
+@135000 = ~Tweaks Anthology: Zmiany podatności Karouga na broń~
+@135001 = ~Usuń wymóg srebrnej broni do trafienia Karouga~
+@135100 = ~Usuń wymóg srebrnej broni do trafienia Karouga, ale wymagaj broni +2~
+@135200 = ~NPCe z Amuletem wilczej jagody mogą ranić Karouga~
+@135300 = ~Opcje 1 i 3~
+@135400 = ~Opcje 2 i 3~
+
+@136000 = ~Tweaks Anthology: Automatyczne przejście do dodatku "Serce Zimy"~
+@136001 = ~Nie zmieniaj głównej kampanii~
+@136100 = ~Usuń Hjolldera z Kuldahar~
+
+@137000 = ~Tweaks Anthology: Pozwól mnichom zmieniać typ obrażeń bronią ręczną~
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Rule Changes Components                          \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+@201000 = ~Tabele rozwoju czarów z papierowego AD&D~
+
+@202000 = ~Tweaks Anthology: Oburęczne miecze półtoraręczne~
+
+@203000 = ~Tweaks Anthology: Oburęczne katany~
+
+@203500 = ~Tweaks Anthology: Oburęczne topory~
+
+@204000 = ~Tweaks Anthology: Maczugi dla wszystkich~
+
+@206000 = ~Tweaks Anthology: Style walki dla wszystkich~
+
+@207000 = ~Druidzi używają rozwoju czarów i poziomów kapłanów~
+
+@208000 = ~Tweaks Anthology: Opóźnij pojawienie się umiejętności wysokiego poziomu~
+
+@209000 = ~Tweaks Anthology: Zmień ograniczenie doświadczenia~
+@209001 = ~Usuń ograniczenie doświadczenia~
+@209100 = ~Ograniczenie doświadczenia do 20 poziomu~
+@209200 = ~Ograniczenie doświadczenia do 30 poziomu~
+
+@210000 = ~Tweaks Anthology: Pozwól na używanie umiejętności złodziejskich i skradanie się w ciężkim pancerzu zgodnie z PnP~
+
+@212000 = ~Tweaks Anthology: Pozwól rzucać czary maga w ciężkich pancerzach~
+
+@214000 = ~Tweaks Anthology: Rozszerzone opcje dwuklasowania~
+
+@215000 = ~Tweaks Anthology: Noszenie wielu przedmiotów ochronnych jednocześnie~
 @215001 = ~Ograniczenia jak w papierowym AD&D~
-@215100 = ~Brak ograniczen~
-@216000 = ~Zbalansowanie bieglosci w broniach~
-@216006 = ~Zmien system bieglosci w broniach~
-@216100 = ~System bieglosci w broniach w stylu BG, ze stylami walki (the bigg)~
-@216200 = ~System bieglosci w broniach w stylu BG, bez stylow walki (the bigg)~
-@217000 = ~Rzucaj czary ze zwojow (i innych przedmiotow) na poziomie postaci~
-@218000 = ~Nieograniczona tabela TraK0, rzuty obronne, wielkie mistrzostwo, rozwoj zaklec duchowych i mistycznych (Blucher)~
-@219000 = ~Ogranicz mozliwosc sklepikarzy do identyfikacji przedmiotow~
-@219001 = ~Tylko magowie i bardowie moga identyfikowac przedmioty~
+@215100 = ~Brak ograniczeń~
+@215200 = ~Zezwól na zbroje i jeden przedmiot ochronny [Angel]~
+
+@216000 = ~Zbalansowanie biegłości w broniach~
+@216006 = ~Tweaks Anthology: Zmień system biegłości w broniach~
+@216100 = ~System biegłości w broniach w stylu BG, ze stylami walki (the bigg)~
+@216200 = ~System biegłości w broniach w stylu BG, bez stylów walki (the bigg)~
+@216300 = ~Biegłości w stylu IWD ze stylami walki~
+@216400 = ~Biegłości w stylu IWD bez stylów walki~
+
+@217000 = ~Tweaks Anthology: Rzucaj czary ze zwojów (i innych przedmiotów) na poziomie postaci~
+
+// deprecated: you don't have to translate @218000
+@218000 = ~Tweaks Anthology: Nieograniczona tabela TraK0, rzuty obronne, wielkie mistrzostwo, rozwój zaklęć duchowych i mistycznych (Blucher)~
+
+@219000 = ~Tweaks Anthology: Ogranicz możliwość sklepikarzy do identyfikacji przedmiotów~
+@219001 = ~Tylko sklepikarze magowie i bardowie mogą identyfikować~
 @219100 = ~Identyfikacja bazuje na wiedzy sklepikarza~
 @219200 = ~Hybryda obu metod~
-@220000 = ~Wielkie mistrzostwo dla wieloklasowcow (Weimer)~
+
+@220000 = ~Tweaks Anthology: Wielkie mistrzostwo dla wieloklasowców (Weimer)~
+
 @221000 = ~Prawdziwe wielkie mistrzostwo (Baldurdash)~
-@222000 = ~Zmien wage magicznie stworzonych broni do zera~
-@223000 = ~Spraw, by bronie odpowiadaly umagicznieniu +x/+y~
-// next two strings used for matching and updating item descriptions
-@223100 = ~Uaktualnienie opisow komponentu 'Spraw, by bronie odpowiadaly umagicznieniu +x/+y'~
-@224000 = ~Nieograniczona tabela TraK0~
+@221001 = ~Tweaks Anthology: Zmień premie Wielkiego mistrzostwa~
+@221100 = ~Premie Wielkiego mistrzostwa z BG2~
+@221200 = ~Premie Wielkiego mistrzostwa w stylu EE~
+@221300 = ~Premie Wielkiego mistrzostwa z IWD~
+
+@222000 = ~Tweaks Anthology: Zmień wagę magicznie stworzonych broni do zera~
+
+@223000 = ~Tweaks Anthology: Spraw, by bronie odpowiadały umagicznieniu +x, +y~
+
+// deprecated: you don't have to translate @223100
+@223100 = ~Tweaks Anthology: Uaktualnienie opisów komponentu 'Spraw, by bronie odpowiadały umagicznieniu +x, +y'~
+
+@224000 = ~Tweaks Anthology: Przywrócenie pełnej tabeli TraK0~
 @224001 = ~Ograniczenie: najlepsze TraK0 wynosi 0 (Blucher)~
-@224100 = ~Ograniczenie: najlepsze TraK0 wynosi -10 (tabela podrecznikowa/BG)~
-@225000 = ~Nieograniczona tabela w rozwoju czarow czarownika~
-@226000 = ~Zmien tabele w rowoju czarow maga~
+@224100 = ~Ograniczenie: najlepsze TraK0 wynosi -10 (tabela podręcznikowa/BG)~
+
+@225000 = ~Tweaks Anthology: Przywrócenie pełnej tabeli progresji czarów czarownika~
+
+@226000 = ~Tweaks Anthology: Zmiana tabeli progresji czarów maga~
 @226001 = ~Tabela nieograniczona (Blucher)~
-@226100 = ~Tabela podrecznikowa~
-@227000 = ~Zmien tabele w rozwoju zaklec barda~
-@228000 = ~Zmien tabele w rozwoju zaklec kaplana~
-@229000 = ~Zmien tabele w rozwoju poziomow i zaklec druida~
-@229001 = ~Brak zmian w rozwoju poziomow, tylko nieograniczona tabela zaklec druida (Blucher)~
-@229100 = ~Brak zmian w rozwoju poziomow, tylko podrecznikowa tabela zaklec druida/kaplana~
-@229200 = ~Uzyj tabeli w rozwoju poziomow kaplana z normalna tabela zaklec druida~
-@229300 = ~Uzyj tabeli w rozwoju poziomow kaplana z nieograniczona tabela zaklec druida (Blucher)~
-@229400 = ~Uzyj tabeli w rozwoju poziomow kaplana z podrecznikowa tabela zaklec druida~
-@229500 = ~Uzyj tabeli w rozwoju poziomow kaplana z normalna tabela zaklec kaplana~
-@229600 = ~Uzyj tabeli w rozwoju poziomow kaplana z nieograniczona tabela zaklec kaplana (Blucher)~
-@230000 = ~Tabele zdolnosci wysokopoziomowych dla trojklasowcow~
-@231000 = ~Dodaj kary do rzutow obronnych na czary rzucane przez wysokopoziomowych magow (BETA)~
-@231001 = ~Tylko dla zaklec mistycznych~
-@231100 = ~Tylko dla zaklec duchowych~
-@231200 = ~Dla zaklec mistycznych i duchowych~
-@232000 = ~Usuniecie limitu pulapek (Ardanis/GeN1e)~
-@233000 = ~Usun opoznienie magicznych pulapek (Ardanis/GeN1e)~
-@233900 = ~Usun ograniczenie przyzywania dla zwyklego przyzywania~
-@234000 = ~Usun ograniczenie przyzywania Niebian (Ardanis/GeN1e)~
-@235000 = ~Zmien ograniczenia dla wieloklasowcow~
-@235001 = ~Zezwol ludziom na wieloklasowosc~
-@235100 = ~Udostepnij nieludziom wszystkie kombinacje wieloklasowosci~
-@235200 = ~Zainstaluj obie z powyzszych opcji~
-@236000 = ~Usun ograniczenia rasowe dla jednoklasowcow~
-@237000 = ~Zmien ograniczenia dla dwuklasowcow~
-@237001 = ~Ludzie nie moga juz dwuklasowac~
-@237100 = ~Zezwol nieludziom na dwuklasowosc~
-@238000 = ~Usun ograniczenia rasowe dla podklas~
-@300000 = ~Wieksza ilosc punktow zycia przy awansie~
-@300001 = ~Maksymalna~
-@300100 = ~Na styl NWN ~
-@301000 = ~Maksymalna ilosc punktow zycia dla postaci przylaczalnych (the bigg)~
-@301001 = ~Dla wszystkich stworzen w grze~
-@301100 = ~Tylko dla postaci nie mogacych dolaczyc do druzyny~
-@301200 = ~Tylko dla postaci mogacych dolaczyc do druzyny~
-@302000 = ~Wszystkie przedmioty zidentyfikowane~
-@303000 = ~Latwa nauka czarow~
-@303001 = ~100% szansa na nauczenie sie czaru~
-@303100 = ~100% szansa na nauczenie sie czaru i brak maksymalnego ograniczenia ilosci czarow~
-@304000 = ~Uczyn Torby przechowywania bezdennymi~
-@305000 = ~Usun zmeczenie z czarow przywrocenie~
-@306000 = ~Usun dzwiek "Przed wyruszeniem w droge nalezy zebrac druzyne." (Weimer)~
-@307000 = ~Obnizki cen w sklepach dla druzyny o niskiej reputacji (Sabre)~
-@307001 = ~Zmiana wplywu reputacji na ceny w sklepach~
-@307100 = ~Reputacja nie ma wplywu na ceny, sa one ustalone w sklepach w wysokosci 100% (Luiz)~
-@307200 = ~Reputacja nie ma wplywu na ceny, sa one ustalone w sklepach w wysokosci 80% (Luiz)~
-@307300 = ~Reputacja nie ma wplywu na ceny, sa one ustalone w sklepach w wysokosci 60% (Luiz)~
-@308000 = ~Nieograniczone grupowanie amunicji~
-@309000 = ~Nieograniczone grupowanie klejnotow i bizuterii~
-@310000 = ~Nieograniczone grupowanie mikstur~
-@311000 = ~Nieograniczone grupowanie zwojow~
-@312000 = ~Szczesliwosc (Postacie przylaczalne w druzynie nie narzekaja na reputacje)~
-@312001 = ~Postacie przylaczalne nie sa zle wzgledem reputacji~
-@312100 = ~Postacie przylaczalne moga byc zle wzgledem reputacji, lecz nie odchodza (Salk)~
-@312200 = ~Postacie przylaczalne sa obojetne wzgledem reputacji (Anomaly)~
-@312300 = ~Postacie przylaczalne nie walcza ze soba~
-@312400 = ~Zatrzymaj romans Haer'Dalisa i Aerie ~
-@312500 = ~Neutralne postacie sa szczesliwe przy sredniej wartosci reputacji~
-@313000 = ~Brak pulapek i zamkow (Weimer)~
-@314000 = ~Szybsze przerywniki filmowe i sny z pierwszego i drugiego rozdzialu~
-@314001 = ~Oryginalna z modu Ease of Use (Karzak, Blucher)~
-@314100 = ~Wersja bez glupich odzywek~
-@315000 = ~Wylacz okropne animacje Plaszcza odwzwierciedlen, Pulapki na czary i Lustra materii~
-@316000 = ~Zatrzymywanie lupow Drizzta, wylaczenie Malchora Harpella~
-@317000 = ~Brak awatarow drowow w Podmroku~
-@317900 = ~Brak rasowych wymagan dla romansow~
-@318000 = ~Oszustwa w romansach~
-@318001 = ~Brak wymagan odnosnie rasy/plci~
-@318100 = ~Brak wymagan odnosnie rasy/plci, zezwol na wiele romansow~
-@318200 = ~Brak wymagan odnosnie rasy/plci, zezwol na wiele romansow, nic nie niszczy romansow~
-@318300 = ~Oszustwa w romansach~
-@318301 = ~Usun rasowe wymagania dla romansow (wybierz 1 lub 2)
- 1) Usun
+@226100 = ~Tabela podręcznikowa~
+
+@227000 = ~Tweaks Anthology: Zmiana tabeli progresji czarów barda~
+
+@228000 = ~Tweaks Anthology: Zmiana tabeli progresji czarów kapłana~
+
+@228800 = ~Bez zmian progresji poziomów, standardowa tabela czarów kapłana~
+@228900 = ~Bez zmian progresji poziomów, nieosłabiona tabela czarów kapłana [Blucher]~
+@229000 = ~Tweaks Anthology: Zmiana tabel progresji czarów i poziomów druida~
+@229001 = ~Brak zmian w rozwoju poziomów, tylko nieograniczona tabela zaklęć druida (Blucher)~
+@229100 = ~Brak zmian w rozwoju poziomów, tylko podręcznikowa tabela zaklęć druida/kapłana~
+@229200 = ~Użyj tabeli w rozwoju poziomów kapłana z normalną tabelą zaklęć druida~
+@229300 = ~Użyj tabeli w rozwoju poziomów kapłana z nieograniczoną tabelą zaklęć druida (Blucher)~
+@229400 = ~Użyj tabeli w rozwoju poziomów kapłana z podręcznikową tabelą zaklęć druida~
+@229500 = ~Użyj tabeli w rozwoju poziomów kapłana z normalną tabelą zaklęć kapłana~
+@229600 = ~Użyj tabeli w rozwoju poziomów kapłana z nieograniczoną tabelą zaklęć kapłana (Blucher)~
+
+@230000 = ~Tweaks Anthology: Tabele zdolności wysokopoziomowych dla trójklasowców~
+
+@231000 = ~Tweaks Anthology: Dodaj modyfikatory do rzutów obronnych przeciw czarom wysokopoziomowych czarujących~
+@231001 = ~Tylko dla zaklęć mistycznych~
+@231100 = ~Tylko dla zaklęć duchowych~
+@231200 = ~Dla zaklęć mistycznych i duchowych~
+
+@232000 = ~Tweaks Anthology: Usuniecie limitu pułapek (Ardanis/GeN1e)~
+
+@233000 = ~Tweaks Anthology: Usuń opóźnienie magicznych pułapek (Ardanis/GeN1e)~
+
+@233900 = ~Tweaks Anthology: Usuń ograniczenie przyzywania dla zwykłego przyzywania~
+
+@234000 = ~Tweaks Anthology: Usuń ograniczenie przyzywania Niebian (Ardanis/GeN1e)~
+
+@235000 = ~Tweaks Anthology: Zmień ograniczenia dla wieloklasowców~
+@235001 = ~Zezwól ludziom na wieloklasowość~
+@235100 = ~Udostępnij nieludziom wszystkie kombinacje wieloklasowości~
+@235200 = ~Zainstaluj obie powyższe opcje~
+@235300 = ~Pozwól rasom nieludzkim na wieloklasowość tylko wtedy, gdy mogą wybrać daną klasę składową osobno~
+@235800 = ~Zainstaluj opcje pierwszą i trzecią (każdy może łączyć tylko te klasy, które może wybrać osobno)~
+
+@236000 = ~Tweaks Anthology: Usuń ograniczenia rasowe dla jednoklasowców~
+
+@237000 = ~Tweaks Anthology: Zmień ograniczenia dla dwuklasowców~
+@237001 = ~Ludzie nie mogą już dwuklasować~
+@237100 = ~Pozwól nie-ludziom dwuklasować~
+@237200 = ~Obie opcje: tylko nie ludzie mogą dwuklasować ~
+
+@238000 = ~Tweaks Anthology: Usuń ograniczenia rasowe dla podklas~
+
+@239000 = ~Paladyni korzystają z tabel czarów z Icewind Dale: Heart of Winter [grogerson]~
+@239001 = ~Tweaks Anthology: Zmień tabelę progresji czarów paladyna~
+@239100 = ~Progresja w stylu BG2 (do czarów 6. poziomu) [TotoR]~
+
+@240000 = ~Łowcy korzystają z tabel czarów z Icewind Dale: Heart of Winter [grogerson]~
+@240001 = ~Tweaks Anthology: Zmień tabelę progresji czarów łowcy~
+@240100 = ~Progresja w stylu BG2 (do czarów 5. poziomu) [TotoR]~
+
+@241000 = ~Tweaks Anthology: Druidzi korzystają z ograniczeń charakteru z 3E~
+
+@242000 = ~Tweaks Anthology: Poluzuj ograniczenia ekwipunku dla dwu- i wieloklasowych kapłanów~
+
+@243000 = ~Poluzuj ograniczenia ekwipunku~
+@243001 = ~Tweaks Anthology: Zmień ograniczenia ekwipunku dla dwu- i wieloklasowych druidów~
+@243100 = ~Zaostrz ograniczenia ekwipunku [Angel]~
+
+@244000 = ~Tweaks Anthology: Każdy otrzymuje dodatkowe ataki na rundę za specjalizację [subtledoctor]~
+
+@245000 = ~Tweaks Anthology: Wymuś zasady biegłości PnP dla postaci dwuklasowanych [subtledoctor]~
+
+@250000 = ~Tweaks Anthology: Zmiany limitu udźwigu dla wyjątkowej siły [sarevok57]~
+
+@251000 = ~Tweaks Anthology: Ograniczenia poziomowe dla zwojów czarów [Angel]~
+
+@252000 = ~Tweaks Anthology: Pozwól magom używać puklerzy, a złodziejom małych tarcz [Angel]~
+
+@253000 = ~Tweaks Anthology: Błyskawice nie odbijają się od ścian ani celów [Angel]~
+
+@254000 = ~Tweaks Anthology: Przyspiesz zadania twierdzy d'Arnise~
+
+@255000 = ~Tweaks Anthology: Zmień opcje klas i wieloklasowości gnomich magów~
+@255001 = ~Zachowaj wieloklasowego gnomiego iluzjonistę, ale odblokuj wszystkie specjalizację dla jednoklasowego maga~
+@255100 = ~Mag wieloklasowy bez specjalizacji, a dla jednoklasowego maga tylko podklasa iluzjonisty~
+@255200 = ~Mag wieloklasowy bez specjalizacji, a dla jednoklasowego maga odblokuj wszystkie specjalizację~
+
+@256000 = ~Pozwól mnichom nosić hełmy~
+@256001 = ~Tweaks Anthology: Rozszerz dostępny ekwipunek mnicha~
+@256100 = ~Pozwól mnichom używać kosturów~
+@256200 = ~Pozwól mnichom nosić hełmy i używać kosturów~
+
+// these components were abandoned due to bugs with dual-classes
+// @257000 = ~BGT: Additional Experience Cap While in BG~
+// @257100 = ~BGT: Additional Experience Cap While in SoA~
+
+@258000 = ~Tweaks Anthology: Zmień tabelę dodatkowych czarów kapłańskich wynikających z Mądrości~
+@258001 = ~Użyj tabeli PnP/PsT~
+@258100 = ~Użyj tabeli z BG/BG2/IWD~
+
+@259000 = ~Tweaks Anthology: Możliwość zadawania ciosu w plecy większą liczbą broni przez złodziei z „Użyciem dowolnego przedmiotu” oraz złodziei dwu- i wieloklasowych~
+
+@262000 = ~Tweaks Anthology: Uodpornij wybrane stworzenia na cios w plecy/atak z ukrycia [Luke]~
+
+@263000 = ~Tweaks Anthology: Ulepszone Leczenie/Zadawanie ran [Luke]~
+
+@264000 = ~Tweaks Anthology: Mikstury w stylu PnP [Luke]~
+
+@265000 = ~Tweaks Anthology: Łatwopalna Śliskość [Luke]~
+
+@266000 = ~Tweaks Anthology: Niedźwiedzie i dziki walczą dalej po osiągnięciu 0 punktów życia [Luke]~
+
+@267000 = ~Tweaks Anthology: Ograniczenie mechaniki odpoczynku [Luke]~
+
+@268000 = ~Tweaks Anthology: Użyteczna infrawizja [Luke]~
+
+@269000 = ~Tweaks Anthology: Alternatywny test koncentracji [Luke]~
+@269001 = ~v1 (sprawdź readme)~
+@269002 = ~v2 (sprawdź readme)~
+@269003 = ~v3 (sprawdź readme)~
+@269004 = ~v4 (sprawdź readme)~
+
+@270000 = ~Tweaks Anthology: Zmodyfikowana regeneracja trolli [Luke]~
+
+@271000 = ~Tweaks Anthology: Przyzwania w stylu NwN [Luke]~
+
+@272000 = ~Tweaks Anthology: Przeniesienie doświadczenia z Yoshimo na Imoen [dark0dave]~
+
+@273000 = ~Użyj zmian progresji poziomów druida z IWD ze standardową tabelą czarów druida~
+@273100 = ~Użyj zmian progresji poziomów druida z IWD z nieosłabioną tabelą czarów druida [Blucher]~
+@273200 = ~Użyj zmian progresji poziomów druida z IWD z tabelą czarów druida/kapłana z PnP~
+@273300 = ~Użyj zmian progresji poziomów druida z IWD ze standardową tabelą czarów kapłana~
+@273400 = ~Użyj zmian progresji poziomów druida z IWD z nieosłabioną tabelą czarów kapłana [Blucher]~
+@273500 = ~Użyj zmian progresji poziomów druida z BG/BG2 ze standardową tabelą czarów druida~
+@273600 = ~Użyj zmian progresji poziomów druida z BG/BG2 z nieosłabioną tabelą czarów druida [Blucher]~
+@273700 = ~Użyj zmian progresji poziomów druida z BG/BG2 z tabelą czarów druida/kapłana z PnP~
+@273800 = ~Użyj zmian progresji poziomów druida z BG/BG2 ze standardową tabelą czarów kapłana~
+@273900 = ~Użyj zmian progresji poziomów druida z BG/BG2 z nieosłabioną tabelą czarów kapłana [Blucher]~
+
+@274000 = ~Tweaks Anthology: Pozwól zmiennokształtnym nosić zbroje, ale uniemożliw przemianę podczas ich noszenia~
+
+@275000 = ~Tweaks Anthology: Wymuś rzucanie czarów obszarowych w punkt na ziemi [Luke]~
+
+@276000 = ~Tweaks Anthology: Wyłącz możliwość okradania paserów [Luke]~
+
+@277000 = ~Tweaks Anthology: Ujednolicone narzuty na ceny kupna i sprzedaży we wszystkich sklepach [Luke]~
+
+@278000 = ~Tweaks Anthology: Swoboda ruchów według zasad P&P~
+
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Convenience Tweaks                               \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+@299900 = ~Tweaks Anthology: Maksymalne punkty życia na 1. poziomie~
+
+@300000 = ~Tweaks Anthology: Lepsze rzuty na liczbę punktów życia przy awansie~
+@300001 = ~Maksymalne~
+@300100 = ~W stylu NwN~
+@300200 = ~Uśrednione rzuty~
+@300300 = ~Bardziej wyrównane rzuty~
+
+@300800 = ~Tweaks Anthology: Rzuty na punkty życia rozszerzone do 20. poziomu [Angel]~
+
+@301000 = ~Tweaks Anthology: Maksymalne punkty życia stworzeń [the bigg]~
+@301001 = ~Dla wszystkich stworzeń w grze~
+@301100 = ~Tylko dla postaci niedołączalnych do drużyny~
+@301200 = ~Tylko dla postaci dołączalnych do drużyny~
+
+@302000 = ~Tweaks Anthology: Wszystkie przedmioty zidentyfikowane~
+
+@303000 = ~Tweaks Anthology: Łatwa nauka czarów~
+@303001 = ~100% szansa na nauczenie się czaru~
+@303100 = ~100% szansa na nauczenie się czaru i brak ograniczenia maksymalnej liczby czarów~
+
+@304000 = ~Tweaks Anthology: Uczyń Torby przechowywania bezdennymi~
+
+@305000 = ~Tweaks Anthology: Usuń zmęczenie z czarów przywracania~
+
+@306000 = ~Tweaks Anthology: Usuń dźwięk "Przed wyruszeniem w drogę należy zebrać drużynę." (Weimer)~
+
+@307000 = ~Obniżki cen w sklepach dla drużyny o niskiej reputacji (Sabre)~
+@307001 = ~Tweaks Anthology: Zmiana wpływu reputacji na ceny w sklepach~
+@307100 = ~Reputacja nie ma wpływu na ceny, są one ustalone w sklepach w wysokości 100% (Luiz)~
+@307200 = ~Reputacja nie ma wpływu na ceny, są one ustalone w sklepach w wysokości 80% (Luiz)~
+@307300 = ~Reputacja nie ma wpływu na ceny, są one ustalone w sklepach w wysokości 60% (Luiz)~
+
+@308000 = ~Nielimitowane grupowanie amunicji~
+@308001 = ~Tweaks Anthology: Zwiększ rozmiar stosów amunicji~
+@308100 = ~Stosy po 40~
+@308200 = ~Stosy po 80~
+@308300 = ~Stosy po 120~
+
+@309000 = ~Nielimitowane grupowanie biżuterii, klejnotów i różnych przedmiotów~
+@309001 = ~Tweaks Anthology: Zwiększ rozmiar stosów biżuterii, klejnotów i różnych przedmiotów~
+
+@310000 = ~Nielimitowane grupowanie mikstur~
+@310001 = ~Tweaks Anthology: Zwiększ rozmiar stosów mikstur~
+
+@311000 = ~Nielimitowane grupowanie zwojów~
+@311001 = ~Tweaks Anthology: Zwiększ rozmiar stosów zwojów~
+
+@312000 = ~Tweaks Anthology: Szczęśliwość – zmiana reakcji NPCów na reputację drużyny~
+@312001 = ~Postacie przyłączalne nie są złe na reputację drużyny~
+@312100 = ~Postacie przyłączalne mogą być złe na reputację drużyny, lecz nie odchodzą (Salk)~
+@312200 = ~Postacie przyłączalne są obojętne na reputację drużyny (Anomaly)~
+
+@312300 = ~Tweaks Anthology: Postacie przyłączalne nie walczą ze sobą~
+
+@312400 = ~Tweaks Anthology: Nie dopuść do rozpoczęcia romansu Haer'Dalisa z Aerie~
+
+@312500 = ~Tweaks Anthology: Neutralne postacie są szczęśliwe przy średniej wartości reputacji~
+
+@313000 = ~Tweaks Anthology: Brak pułapek i zamków [Weimer, argent77]~
+@313001 = ~Całkowicie usuń pułapki~
+@313010 = ~Usuń tylko szkodliwe efekty pułapek~
+@313020 = ~Usuń szkodliwe efekty pułapek i stworzenia przywołane przez alarmy~
+
+@314000 = ~Tweaks Anthology: Szybsze przerywniki filmowe i sny z pierwszego i drugiego rozdziału~
+@314001 = ~Oryginalna z moda Ease of Use (Karzak, Blucher, aVENGER, Weimer)~
+@314100 = ~Wersja bez głupich odzywek~
+
+@316000 = ~Tweaks Anthology: Zatrzymywanie łupów Drizzta, wyłączenie Malchora Harpella~
+
+@317000 = ~Tweaks Anthology: Brak drowich awatarów w Podmroku~
+
+@317500 = ~Tweaks Anthology: Dezaktywuj romanse~
+
+@317600 = ~Tweaks Anthology: Przyspiesz/spowolnij romanse~
+@317601 = ~Podaj procentową prędkość czasu pomiędzy rozmowami romansowymi,
+np. 50 zmniejszy obecny czas o połowę, a 300% potroi odstęp pomiędzy rozmowami.
+Wpisz wartość od 20 do 500 procent:~
+
+@317900 = ~Brak rasowych wymagań dla romansów~
+@318300 = ~Tweaks Anthology: Oszustwa w romansach~
+@318301 = ~Usuń rasowe wymagania dla romansów (wybierz 1 lub 2)
+ 1) Usuń
  2) Bez zmian~
-@318302 = ~  * Usun rasowe wymagania dla romansow~
-@318303 = ~Usun wymagania plci dla romansow (wybierz 1 lub 2)
- 1) Usun
+@318302 = ~  * Usuń rasowe wymagania dla romansów~
+@318303 = ~Usuń wymagania płci dla romansów (wybierz 1 lub 2)
+ 1) Usuń
  2) Bez zmian~
-@318304 = ~  * Usun wymagania plci dla romansow~
-@318305 = ~Zezwol na prowadzenie wielu romansow? (wybierz 1 lub 2)
- 1) Zezwol na wiele romansow
+@318304 = ~  * Usuń wymagania płci dla romansów~
+@318305 = ~Zezwól na prowadzenie wielu romansów? (wybierz 1 lub 2)
+ 1) Zezwól na wiele romansów
  2) Bez zmian~
-@318306 = ~  * Zezwol na prowadzenie wielu romansow~
-@318307 = ~Nic nie niszczy romansow? (wybierz 1 lub 2)
- 1) Nic nie niszczy romansow
- 1) Bez zmian~
-@318308 = ~  * Nic nie niszczy romansow~
-@318309 = ~Wybrales instalacje nastepujacych opcji:~
-@318310 = ~Czy ten wybor jest prawidlowy?
- 1) Tak, kontynuuj instalacje
- 2) Nie, pozwol mi wybrac ponownie~
+@318306 = ~  * Zezwól na prowadzenie wielu romansów~
+@318307 = ~Nic nie niszczy romansów? (wybierz 1 lub 2)
+ 1) Nic nie przerywa romansów
+ 2) Pozostaje bez zmian~
+@318308 = ~  * Nic nie niszczy romansów~
+@318309 = ~Wybrałeś instalację następujących opcji:~
+@318310 = ~Czy ten wybór jest prawidłowy?
+ 1) Tak, kontynuuj instalację
+ 2) Nie, pozwól mi wybrać ponownie~
 @318311 = ~Rozpocznij romanse dla nowej gry w Tronie Bhaala?
  1) Zacznij w Tronie Bhaala
  2) Bez zmian~
-@318312 = ~  * Rozpoczecie romansow dla nowej gry w Tronie Bhaala~
-@319000 = ~Odpoczywaj gdziekolwiek (Japheth)~
-@320000 = ~Moliwosc sprzedazy przedmiotow: kijow, maczug i proc (Icelus)~
-@321000 = ~Oszustwo minimalnych cech~
-@321001 = ~Wybierz minimalna wartosc dla cech z przedzialu od 6 do 15:~
-@322000 = ~Sensowaniejsze miejsca dostepu do obszarow~
-@400000 = ~Dostosuj rakcje zlych postaci przylaczalnych do rzutu~
-@401000 = ~Ulepszone przyzywanie Ducha przeznaczenia~
-@402000 = ~Postacie przylaczalne w stylu Tronu Bhaala~
-@403000 = ~Cechy zgodne z BG lub BG2: Edwin~
-@403001 = ~Uzyj wartosci z BG~
-@403100 = ~Uzyj wartosci z BG2~
-@404000 = ~Cechy zgodne z BG lub BG2: Jaheira~
-@405000 = ~Zmien charakter Jaheiry na Neutralny dobry~
-@406000 = ~Cechy zgodne z BG lub BG2: Minsc~
-@407000 = ~Cechy zgodne z BG lub BG2: Viconia~
-@408000 = ~Zmien Khalida w wojownika / maga (Domi)~
-@409000 = ~Zmien Montarona w zabojce (Andyr)~
-@410000 = ~Zmien charakter Korgana na Neutralny zly~
-@411000 = ~Obniz wartosc nielegalnej kondycji Kagaina do 19~
+@318312 = ~  * Rozpoczęcie romansów dla nowej gry w Tronie Bhaala~
+
+@319000 = ~Tweaks Anthology: Odpoczywaj gdziekolwiek (Japheth)~
+
+@319100 = ~Tweaks Anthology: Wyłącz neutralne spotkania podczas odpoczynku~
+
+@319400 = ~Tweaks Anthology: Zmień częstotliwość wrogich spotkań podczas odpoczynku~
+@319401 = ~Wyłącz całkowicie~
+@319500 = ~Zmniejsz częstotliwość o 50%~
+@319600 = ~Zwiększ częstotliwość o 50%~
+@319700 = ~Podwój częstotliwość~
+@319800 = ~Zwiększ częstotliwość czterokrotnie~
+
+@320000 = ~Tweaks Anthology: Możliwość sprzedaży wcześniej niesprzedawalnych przedmiotów (icelus)~
+
+@320500 = ~Tweaks Anthology: Sklepy kupują wszystkie typy przedmiotów~
+
+@321000 = ~Tweaks Anthology: Oszustwo minimalnych statystyk~
+@321002 = ~Wybierz minimalną wartość SIŁY, od 6 do 15, lub 0 bez minimum:~
+@321003 = ~Wybierz minimalną wartość ZRĘCZNOŚCI, od 6 do 15, lub 0 bez minimum:~
+@321004 = ~Wybierz minimalną wartość KONDYCJI, od 6 do 15, lub 0 bez minimum:~
+@321005 = ~Wybierz minimalną wartość INTELIGENCJI, od 6 do 15, lub 0 bez minimum:~
+@321006 = ~Wybierz minimalną wartość MĄDROŚCI, od 6 do 15, lub 0 bez minimum:~
+@321007 = ~Wybierz minimalną wartość CHARYZMY, od 6 do 15, lub 0 bez minimum:~
+@321008 = ~Minimalną SIŁA:~
+@321009 = ~Minimalną ZRĘCZNOŚĆ:~
+@321010 = ~Minimalną KONDYCJA:~
+@321011 = ~Minimalną INTELIGENCJA:~
+@321012 = ~Minimalną MĄDROŚĆ:~
+@321013 = ~Minimalną CHARYZMA:~
+@321014 = ~Nie wybrano żadnych zmian! Spróbuj ponownie.~
+
+@322000 = ~Tweaks Anthology: Sensowniejsze miejsca dostępu do obszarów~
+
+@323000 = ~Tweaks Anthology: Taerom wykonuje dodatkowe zbroje z ankhegów [Icendoan/grogerson]~
+
+@324000 = ~Tweaks Anthology: Przyjazne losowe łupy~
+@324001 = ~Losuj ponownie po wczytaniu~
+@324100 = ~Wybierz swój łup~
+@324200 = ~Wymieniaj u kupców~
+
+@325000 = ~Tweaks Anthology: Nigdy nie trać dostępu do towarów Orricka~
+
+@326000 = ~Tweaks Anthology: Amunicja możliwa do odzyskania [argent77]~
+@326001 = ~25% szans na odzyskanie po udanym trafieniu~
+@326100 = ~50% szans na odzyskanie po udanym trafieniu~
+@326200 = ~75% szans na odzyskanie po udanym trafieniu~
+@326300 = ~100% szans na odzyskanie po udanym trafieniu~
+@326400 = ~25% szans na odzyskanie po udanym trafieniu, tylko przeciw wrogom~
+@326500 = ~50% szans na odzyskanie po udanym trafieniu, tylko przeciw wrogom~
+@326600 = ~75% szans na odzyskanie po udanym trafieniu, tylko przeciw wrogom~
+@326700 = ~100% szans na odzyskanie po udanym trafieniu, tylko przeciw wrogom~
+
+@327000 = ~Tweaks Anthology: Bronie miotane możliwe do odzyskania [argent77]~
+
+@328000 = ~Tweaks Anthology: Daj każdej klasie/podklasie cztery miejsca na broń~
+
+@329000 = ~Tweaks Anthology: Personalizuj nazwy automatycznych zapisów~
+@329001 = ~Użyj schematu: 000000000-Bohater-Nazwa-zapisu~
+@329100 = ~Użyj schematu: 000000000-Bohater Nazwa-zapisu~
+@329200 = ~Użyj schematu: 000000000-(Bohater)-Nazwa-zapisu~
+@329300 = ~Użyj schematu: 000000000-(Bohater) Nazwa-zapisu~
+@329400 = ~Użyj schematu: 000000000-[Bohater]-Nazwa-zapisu~
+@329500 = ~Użyj schematu: 000000000-[Bohater] Nazwa-zapisu~
+
+@330000 = ~Tweaks Anthology: Kamera śmierci~
+
+@331000 = ~Tweaks Anthology: Rozpoczynaj nowe gry z wyłączoną SI drużyny~
+
+@332000 = ~Tweaks Anthology: Brak spadku wartości przedmiotów w sklepach~
+
+@333000 = ~Tweaks Anthology: Zwiększ szybkość ruchu drużyny i/lub rzucania czarów poza walką [argent77]~
+@333001 = ~Szybkość ruchu zwiększona o 50 procent~
+@333002 = ~Szybkość ruchu zwiększona o 100 procent~
+@333003 = ~Szybkość ruchu zwiększona o 150 procent~
+@333004 = ~Szybkość ruchu zwiększona o 50 procent oraz szybkość rzucania czarów~
+@333005 = ~Szybkość ruchu zwiększona o 100 procent oraz szybkość rzucania czarów~
+@333006 = ~Szybkość ruchu zwiększona o 150 procent oraz szybkość rzucania czarów~
+@333007 = ~Tylko szybkość rzucania czarów~
+@333008 = ~Własne ustawienia (przez cdtweaks.txt)~
+@333009 = ~Zastosowywane wartości:
+Szybkość ruchu włączona: a7_movement_speed_enable
+Procent szybkości ruchu: a7_movement_speed_value
+Szybkość rzucania czarów włączona: a7_casting_speed_enable
+Wyświetlaj ikony portretów: a7_display_portrait_icons
+~
+
+@335000 = ~Tweaks Anthology: Twórz zapisy interwałowe [argent77]~
+@335001 = ~Co 15 minut (tylko jeden zapis)~
+@335002 = ~Co 30 minut (tylko jeden zapis)~
+@335003 = ~Co 60 minut (tylko jeden zapis)~
+@335004 = ~Co 120 minut (tylko jeden zapis)~
+@335005 = ~Co 15 minut (rotacja czterech zapisów)~
+@335006 = ~Co 30 minut (rotacja czterech zapisów)~
+@335007 = ~Co 60 minut (rotacja czterech zapisów)~
+@335008 = ~Co 120 minut (rotacja czterech zapisów)~
+@335009 = ~Własne ustawienia (przez cdtweaks.txt)~
+@335103 = ~Opcje zapisów interwałowych:
+Włącz zapisy interwałowe: a7_interval_enable
+Odstęp pomiędzy zapisami: a7_interval_delay sekund
+Zapis podczas walki: a7_interval_combat
+Liczba slotów zapisów: a7_interval_slots
+Użyj własnej nazwy zapisu: a7_interval_custom
+Pokazuj komunikat zwrotny: a7_interval_feedback
+Użyj ustawień Baldur.lua: a7_interval_ini
+~
+
+@336000 = ~Tweaks Anthology: Resetuj mgłę wojny w PodSigil~
+
+@337000 = ~Tweaks Anthology: Automatyczne "zapisy rozdziałów" w PsT:EE~
+
+@338000 = ~Tweaks Anthology: Rozsądna regeneracja podczas podróży~
+@338001 = ~Nie znaleziono przedmiotów regenerujących: komponent zainstalowany, ale nie wprowadzono zmian.~
+
+@339000 = ~Tweaks Anthology: Automatyczne używanie umiejętności tropienia łowcy~
+@339001 = ~Nie można odczytać tabeli tropienia: komponent zainstalowany, ale nie wprowadzono zmian.~
+
+@340000 = ~Tweaks Anthology: Przywrócone podpowiedzi na ekranach wczytywania~
+
+@341000 = ~Tweaks Anthology: Wyraźne ostrzeżenia o rzucaniu czarów~
+@341001 = ~Tylko czary maga i kapłana~
+@341100 = ~Tylko czary maga, kapłana i zdolności wrodzone~
+@341200 = ~Wszystkie czary (sprawdź readme)~
+
+@342000 = ~Tweaks Anthology: Poprawione zachowanie przedmiotów względem Zakapturzonych Czarodziejów [Luke]~
+
+@343000 = ~Tweaks Anthology: Lepsza sygnalizacja Kamiennej skóry [Luke]~
+
+@344000 = ~Tweaks Anthology: Dodatkowe informacje o Rozproszeniu magii [Luke]~
+
+@345000 = ~Tweaks Anthology: Poprawione działanie Ognistej tarczy [Luke]~
+
+@346000 = ~Tweaks Anthology: Poprawione działanie Bariery ostrzy [Luke]~
+
+@347000 = ~Tweaks Anthology: Dynamiczna zmiana FPS [Luke]~
+
+@348000 = ~Tweaks Anthology: Zapobiegaj przypadkowemu wybudzaniu Morentherene [Luke]~
+
+@349000 = ~Tweaks Anthology: Ułatwiony początek Cieni Amn [dark0dave]~
+@349001 = ~Start z 300 tys. PD, wybierz przedmioty poniżej~
+@349100 = ~Start z 500 tys. PD, wybierz przedmioty poniżej~
+@349200 = ~Start z 300 tys. PD oraz wszystkimi przedmiotami~
+@349300 = ~Start z 500 tys. PD oraz wszystkimi przedmiotami~
+@349400 = ~Tweaks Anthology: Ułatwiony początek Cieni Amn - dodaj wszystkie tomy z BG~
+@349500 = ~Tweaks Anthology: Ułatwiony początek Cieni Amn - dodaj Złote pantalony~
+@349600 = ~Tweaks Anthology: Ułatwiony początek Cieni Amn - dodaj przedmioty Drizzta~
+@349700 = ~Tweaks Anthology: Ułatwiony początek Cieni Amn - dodaj Płaszcz Baldurana~
+
+@350000 = ~Tweaks Anthology: Przywołane stworzenia odsłaniają mgłę wojny~
+
+@351000 = ~Tweaks Anthology: Dodaj specjalny asortyment Ribalda do jego zwykłego sklepu~
+
+@352000 = ~Tweaks Anthology: Zachowaj nadmiarowe PD przy dwuklasowaniu postaci [Luke (EEex)]~
+
+@353000 = ~Tweaks Anthology: Zawsze importuj przedmioty z SoD~
+@353001 = ~Importuj wszystkie przedmioty poza Młotem pustki +3~
+@353100 = ~Importuj wszystkie przedmioty poza Mieczem pustki +3~
+
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// NPC Tweaks                                       \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+@400000 = ~Tweaks Anthology: Dostosuj rzuty reakcji złych NPCów dołączających do drużyny~
+
+@401000 = ~Tweaks Anthology: Ulepszone przyzywania Ducha przeznaczenia~
+
+@402000 = ~Tweaks Anthology: Postacie przyłączalne w stylu Tronu Bhaala~
+
+@403000 = ~Tweaks Anthology: Cechy zgodne z BG lub BG2: Edwin~
+@403001 = ~Użyj wartości z BG~
+@403100 = ~Użyj wartości z BG2~
+
+@404000 = ~Tweaks Anthology: Cechy zgodne z BG lub BG2: Jaheira~
+
+@405000 = ~Tweaks Anthology: Zmień charakter Jaheiry na Neutralny dobry~
+
+@406000 = ~Tweaks Anthology: Cechy zgodne z BG lub BG2: Minsc~
+
+@407000 = ~Tweaks Anthology: Cechy zgodne z BG lub BG2: Viconia~
+
+@408000 = ~Tweaks Anthology: Zrób z Khalida wojownika/maga [Domi]~
+
+@409000 = ~Tweaks Anthology: Zrób z Montarona zabójcę [Andyr]~
+
+@410000 = ~Tweaks Anthology: Zmień charakter Korgana na neutralny zły~
+
+@411000 = ~Tweaks Anthology: Daj Kagainowi zgodną z zasadami Kondycję 19~
+
+@412000 = ~Tweaks Anthology: Daj Coranowi zgodną z zasadami Zręczność 19~
+
+@413000 = ~Tweaks Anthology: Zrób z Xana maga bez specjalizacji [Mike1072]~
+
+@413100 = ~Tweaks Anthology: Zrób z Dynaheir maga bez specjalizacji [Angel]~
+
+@413200 = ~Tweaks Anthology: Zrób z Xzara maga bez specjalizacji [Angel]~
+
+@413300 = ~Tweaks Anthology: Zrób z Edwina maga bez specjalizacji [Angel]~
+
+@414000 = ~Tweaks Anthology: Bez automatycznego przypisywania zaawansowanych skryptów SI drużynie~
+
+@418000 = ~Tweaks Anthology: Usuwalne przedmioty NPCów~
+
+@419000 = ~Tweaks Anthology: Kolorowe imiona dołączających NPCów w dialogach, wpisach dziennika itd.~
+@419001 = ~Nie koloruj imienia bohatera~
+@419002 = ~Przetwarzanie tekstu %index% z %final_strref%...~
+@419100 = ~Koloruj także imię bohatera: szary~
+@419200 = ~Koloruj także imię bohatera: brązowy~
+@419300 = ~Koloruj także imię bohatera: czerwony~
+@419400 = ~Koloruj także imię bohatera: fioletowy~
+@419500 = ~Koloruj także imię bohatera: niebieski~
+@419600 = ~Koloruj także imię bohatera: zielony~
+@419700 = ~Koloruj także imię bohatera: żółty~
+@419800 = ~Koloruj także imię bohatera: pomarańczowy~
+
+@420000 = ~Tweaks Anthology: Uraza +1 działa nieco pewniej~
+
+@421000 = ~Tweaks Anthology: Zmień poziom złodziejski Nalii~
+@421001 = ~Na 5. poziom złodzieja~
+@421002 = ~Na 6. poziom złodzieja~
+@421003 = ~Na 7. poziom złodzieja~
+@421004 = ~Na 8. poziom złodzieja~
+
+@422000 = ~Tweaks Anthology: Opóźnij pojawienie się Neery w Beregoscie~
+@422001 = ~Opóźnij do oczyszczenia kopalni Nashkel~
+@422100 = ~Opóźnij do zdobycia przez bohatera 5000 PD~
+
+@423000 = ~Tweaks Anthology: Popraw umiejętność zastawiania pułapek przez Yoshimo~
+
+@424000 = ~Tweaks Anthology: Odzyskaj PD, które Yoshimo "zabrał" drużynie [Luke (EEex)]~
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
@@ -233,39 +907,98 @@
 /////                                                  \\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-@500000 = ~Mozliwosc ukladania w stosy skorup ankhegow, skor snieznych wilkow i glow wiwern~
-@501000 = ~Pozwol na rozdzielenie par postaci niezaleznych~
-@502000 = ~Spraw, by czlonkowie druzyny rzadko umierali ostatecznie~
-@503000 = ~Przesun Boo do ekwipunku Minsca~
-@504000 = ~Pozwol Yeslickowi na uzywanie toporow~
-@505000 = ~Zapewnij, by Shar-Teel nie zginela przy pierwszym wyzwaniu~
-@506000 = ~Usun animacje z Plaszcza odbicia (pozostaw ja dla pozostalych czarow i efektow, ktore korzystaja z tej samej grafiki)~
-@507001 = ~Spraw, by lochy na poczatku gry staly sie nieco trudniejsze~
-@507002 = ~Udostepnij dla wszystkich klas twierdze barda ~
-@507003 = ~Udostepnij dla wszystkich klas twierdze kaplana~
-@507004 = ~Udostepnij dla wszystkich klas twierdze druida~
-@507005 = ~Udostepnij dla wszystkich klas twierdze wojownika~
-@507006 = ~Udostepnij dla wszystkich klas twierdze paladyna~
-@507007 = ~Udostepnij dla wszystkich klas twierdze lowcy~
+
+// deprecated: you don't have to translate @500000
+@500000 = ~Tweaks Anthology: Możliwość grupowania skorup ankhegów, skór śnieżnych wilków i głów wiwern~
+
+@501000 = ~Tweaks Anthology: Pozwól na rozdzielenie par postaci niezależnych~
+
+@502000 = ~Tweaks Anthology: Spraw, by członkowie drużyny rzadko umierali ostatecznie~
+
+@503000 = ~Tweaks Anthology: Przenieś Boo do ekwipunku Minsca~
+
+@504000 = ~Tweaks Anthology: Pozwól Yeslickowi na używanie toporow~
+
+@505000 = ~Tweaks Anthology: Zapewnij, by Shar-Teel nie zginęła przy pierwszym wyzwaniu~
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
-///// Ex-SCS components                                \\\\\
-///// Automatically copied over from SCS TRA files     \\\\\
+///// NWN-style feats collection                       \\\\\
 /////                                                  \\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-@500000 = ~Mozliwosc ukladania w stosy skorup ankhegow, skor snieznych wilkow i glow wiwern~
-@501000 = ~Pozwol na rozdzielenie par postaci niezaleznych~
-@502000 = ~Spraw, by czlonkowie druzyny rzadko umierali ostatecznie~
-@503000 = ~Przesun Boo do ekwipunku Minsca~
-@504000 = ~Pozwol Yeslickowi na uzywanie toporow~
-@505000 = ~Zapewnij, by Shar-Teel nie zginela przy pierwszym wyzwaniu~
-@506000 = ~Usun animacje z Plaszcza odbicia (pozostaw ja dla pozostalych czarow i efektow, ktore korzystaja z tej samej grafiki)~
-@507001 = ~Udostepnij dla wszystkich klas twierdze barda ~
-@507002 = ~Udostepnij dla wszystkich klas twierdze kaplana~
-@507003 = ~Udostepnij dla wszystkich klas twierdze druida~
-@507004 = ~Udostepnij dla wszystkich klas twierdze wojownika~
-@507005 = ~Udostepnij dla wszystkich klas twierdze paladyna~
-@507007 = ~Udostepnij dla wszystkich klas twierdze lowcy~
-@507008 = ~Udostepnij dla wszystkich klas twierdze zlodzieja~
+
+@600000 = ~Tweaks Anthology: Atut klasowy Rozbrojenie dla złodziei [Luke]~
+
+@601000 = ~Tweaks Anthology: Atut klasowy Powalenie dla wojowników i mnichów [Luke]~
+
+@602000 = ~Tweaks Anthology: Talent klasowy Zaklinacza (Czaroznawstwo/Przeciwzaklecie) [Luke]~
+
+@603000 = ~Tweaks Anthology: Spontaniczne rzucanie czarów dla kapłanów [Luke]~
+
+@604000 = ~Tweaks Anthology: Atut klasowy Finezja w walce dla złodziei [Luke]~
+
+@605000 = ~Tweaks Anthology: Atut klasowy Walka dwiema broniami dla łowców [Luke]~
+
+@606000 = ~Tweaks Anthology: Zbroja kontra Zręczność w stylu NwN [Luke]~
+
+@607000 = ~Tweaks Anthology: Atut klasowy Uniknięcie ciosu dla złodziei [Luke]~
+
+@608000 = ~Tweaks Anthology: Atut Boska opatrzność/Mroczne błogosławieństwo dla paladynów i czarnych strażników [Luke]~
+
+@609000 = ~Tweaks Anthology: Atut rasowy Celne oko dla niziołków [Luke]~
+
+@610000 = ~Tweaks Anthology: Atut klasowy Rozpłatanie dla wojowników i mnichów [Luke]~
+
+@611000 = ~Tweaks Anthology: Atut klasowy Atak z zaskoczenia dla czarnych strażników [Luke]~
+
+@612000 = ~Tweaks Anthology: Atut rasowy Odwaga dla niziołków [Luke]~
+
+@613000 = ~Tweaks Anthology: Atut klasowy Ochrona przed trucizną dla zabójców [Luke]~
+
+@614000 = ~Tweaks Anthology: Atut klasowy Odpędzanie istot pozasferowych dla kapłanów i paladynów [Luke]~
+
+@615000 = ~Tweaks Anthology: Atut klasowy Kopnięcie z obrotu dla mnichów [Luke]~
+
+@616000 = ~Tweaks Anthology: Szał barbarzyńcy w stylu NwN [Luke]~
+
+@617000 = ~Tweaks Anthology: „Wymuś” używanie łuków przez podklasę łucznika [Luke]~
+
+@618000 = ~Tweaks Anthology: Wrodzony atut Walka na oślep dla berserkerów [Luke]~
+
+@619000 = ~Tweaks Anthology: Atut klasowy Nieczysta walka dla złodziei o charakterze dowolnym chaotycznym [Luke]~
+
+@620000 = ~Tweaks Anthology: Atut klasowy Potężne/Druzgocące trafienie krytyczne dla jednoklasowych wojowników [Luke]~
+
+@621000 = ~Tweaks Anthology: Atut klasowy Samoukrycie dla mnichów [Luke]~
+
+@622000 = ~Tweaks Anthology: Atut Tryb parowania dla podklasy zawadiaki i fechmistrza [Luke]~
+
+@623000 = ~Tweaks Anthology: Atut klasowy Czarowanie w zbroi dla bardów [Luke]~
+
+@624000 = ~Tweaks Anthology: Atut klasowy Znikający trop dla łowców [Luke]~
+
+@625000 = ~Tweaks Anthology: Atut klasowy Zmysł natury dla druidów [Luke]~
+
+@626000 = ~Tweaks Anthology: Atut klasowy Niezwykły unik dla barbarzyńców i złodziei [Luke]~
+
+@627000 = ~Tweaks Anthology: Atut klasowy Atak z zaskoczenia/Osłabiające uderzenie w stylu NwN dla złodziei i tropicieli [Luke]~
+
+@628000 = ~Tweaks Anthology: Atut klasowy Odskok dla mnichów i złodziei [Luke]~
+
+@629000 = ~Tweaks Anthology: Atut klasowy Magiczna penetracja dla rzucających czary [Luke]~
+
+@630000 = ~Tweaks Anthology: Atut klasowy Porażenie zła/Zniszczenie dobra dla paladynów i czarnych strażników [Luke]~
+
+@631000 = ~Tweaks Anthology: Atut klasowy Pewny krok dla druidów [Luke]~
+
+@632000 = ~Tweaks Anthology: Atut klasowy Zguba wrogów dla łowców [Luke]~
+
+@633000 = ~Tweaks Anthology: Atut klasowy Sztuczki (Cantrips) dla rzucających czary [Luke]~
+
+@634000 = ~Tweaks Anthology: Atut klasowy Zwierzęcy towarzysz dla władców zwierząt [Luke]~
+
+@635000 = ~Tweaks Anthology: Atut klasowy Oportunista dla złodziei o charakterze dowolnym chaotycznym [Luke]~
+
+@636000 = ~Tweaks Anthology: Atut rasowy Pojętność dla ludzi [Luke]~
