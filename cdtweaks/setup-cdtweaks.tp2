@@ -37,7 +37,10 @@ END
 
 VERSION ~v18~
 
-README ~cdtweaks/languages/%LANGUAGE%/readme-cdtweaks.html~ ~cdtweaks/readme-cdtweaks.html~
+README 
+  ~cdtweaks/%LANGUAGE%_the_tweaks_anthology.pdf~ 
+  ~cdtweaks/languages/%LANGUAGE%/readme-cdtweaks.html~ 
+  ~cdtweaks/readme-cdtweaks.html~
 
 AUTO_TRA ~%tra_location%/%s~
 
