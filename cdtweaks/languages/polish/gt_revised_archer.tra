@@ -1,0 +1,43 @@
+@0 = "ŁUCZNIK: Jest uosobieniem mistrzowskiego posługiwania się łukiem. To znakomity strzelec, umiejący oddać strzał niemal z każdej pozycji, niezależnie od stopnia trudności. Aby zyskać takie umiejętności, łucznik musiał poświęcić część swoich punktów biegłości za posługiwanie się bronią białą i zbroją.
+
+Zalety:
+– +1 do testów trafienia i obrażeń bronią strzelecką, co trzy poziomy.
+– Może osiągnąć Wielkie mistrzostwo (pięć punktów biegłości) w posługiwaniu się długimi łukami i krótkimi łukami.
+– Może skorzystać ze zdolności Specjalny strzał, kiedy używa łuku.
+
+SPECJALNY STRZAŁ: Pozwala na wykonanie ataku, który jest w stanie okaleczyć ręce albo nogi przeciwnika.
+ Udany Specjalny strzał w nogi zmniejsza prędkość poruszania się przeciwnika o 20% i dodaje mu kumulatywną karę -2 do Zręczności.
+ Udany Specjalny strzał w ręce przeciwnika powoduje karę -2 do testów na trafienie.
+
+– Korzysta z pasywnej zdolności Strzał z bliskiej odległości.
+
+STRZAŁ Z BLISKIEJ ODLEGŁOŚCI: Używając łuku podczas ataków z bliskiej odległości, Łucznik nie otrzymuje kary -8 do testów trafienia za używanie broni dystansowej w zwarciu.
+
+Wady:
+– Łucznik może nosić tylko zbroję skórzaną, zbroję skórzaną ćwiekowaną lub zbroję skórzaną grubą.
+– Łucznik może osiągnąć Wyszkolenie (jeden punkt biegłości) w broniach białych.
+– Nie może używać zdolności Zauroczenie zwierzęcia."
+
+@1 = "Specjalny strzał (ręce)"
+@2 = "Specjalny strzał (ręce)
+
+Udany Specjalny strzał w ręce nakłada kumulatywny modyfikator -2 do TraK0."
+
+@3 = "Specjalny strzał (nogi)"
+@4 = "Specjalny strzał (nogi)
+
+Udany Specjalny strzał w nogi zmniejsza szybkość poruszania się przeciwnika o 20% i nakłada kumulatywny modyfikator -2 do Zręczności."
+
+//@100 = "Wybrany cel jest poza zasięgiem"
+@101 = "Modyfikator TraK0"
+@102 = "Modyfikator Zręczności"
+@103 = "Postać musi używać łuku, aby skorzystać z tej zdolności"
+
+@200 = "Niewrażliwość na efekty Specjalnego strzału"
+
+@300 = "Postać nie może użyć tej zdolności, gdy strzela pociskami obszarowymi"
+
+//@400 = "Niewrażliwość na efekty Specjalnego strzału"
+@400 = "Trafienie"
+@401 = "Pudło"
+@402 = "Broń nieskuteczna"

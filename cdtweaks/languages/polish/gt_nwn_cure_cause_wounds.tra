@@ -1,0 +1,219 @@
+@0 = "Leczenie lekkich ran
+(Nekromancja)
+
+Poziom: 1
+Sfera: Leczenie
+Zasięg: dotyk
+Czas działania: stały
+Czas rzucania: 5
+Obszar działania: 1 istota
+Rzut obronny: brak
+
+Po rzuceniu tego czaru i położeniu rąk na wybranej istocie, kapłan przywraca jej 1k8 punktów życia (+1 punkt na poziom rzucającego, maksymalnie +5) i usuwa upojenie. Zaklęcie to nie działa na konstrukty ani istoty pozasferowe.
+
+Na nieumarłych działa odwrotnie - zadaje im obrażenia zamiast je leczyć (rzut obronny przeciw czarom zmniejsza obrażenia o połowę)."
+
+@1 = "Leczenie umiarkowanych ran
+(Nekromancja)
+
+Poziom: 2
+Sfera: Leczenie
+Zasięg: dotyk
+Czas działania: stały
+Czas rzucania: 5
+Obszar działania: 1 istota
+Rzut obronny: brak
+
+Ten czar to potężniejsza wersja zaklęcia Leczenie lekkich ran. Przywraca 2k8 punktów życia (+1 punkt na poziom rzucającego, maksymalnie +10) i usuwa upojenie. Zaklęcie to nie działa na konstrukty ani istoty pozasferowe.
+
+Na nieumarłych działa odwrotnie - zadaje im obrażenia zamiast je leczyć (rzut obronny przeciw czarom zmniejsza obrażenia o połowę)."
+
+@2 = "Leczenie średnich ran
+(Nekromancja)
+
+Poziom: 3
+Sfera: Leczenie
+Zasięg: dotyk
+Czas działania: stały
+Czas rzucania: 5
+Obszar działania: 1 istota
+Rzut obronny: brak
+
+Po rzuceniu tego czaru i położeniu rąk na wybranej istocie, kapłan przywraca jej 3k8 punktów życia (+1 punkt na poziom rzucającego, maksymalnie +15) i usuwa upojenie. Zaklęcie to nie działa na konstrukty ani istoty pozasferowe.
+
+Na nieumarłych działa odwrotnie - zadaje im obrażenia zamiast je leczyć (rzut obronny przeciw czarom zmniejsza obrażenia o połowę)."
+
+@3 = "Leczenie poważnych ran
+(Nekromancja)
+
+Poziom: 4
+Sfera: Leczenie
+Zasięg: dotyk
+Czas działania: stały
+Czas rzucania: 7
+Obszar działania: 1 istota
+Rzut obronny: brak
+
+Po rzuceniu tego czaru i położeniu rąk na wybranej istocie, kapłan przywraca jej 4k8 punktów życia (+1 punkt na poziom rzucającego, maksymalnie +20) i usuwa upojenie. Zaklęcie to nie działa na konstrukty ani istoty pozasferowe.
+
+Na nieumarłych działa odwrotnie - zadaje im obrażenia zamiast je leczyć (rzut obronny przeciw czarom zmniejsza obrażenia o połowę)."
+
+@4 = "Leczenie krytycznych ran
+(Nekromancja)
+
+Poziom: 5
+Sfera: Leczenie
+Zasięg: dotyk
+Czas działania: stały
+Czas rzucania: 8
+Obszar działania: 1 istota
+Rzut obronny: brak
+
+Po rzuceniu tego czaru i położeniu rąk na wybranej istocie, kapłan przywraca jej 5k8 punktów życia (+1 punkt na poziom rzucającego, maksymalnie +25) i usuwa upojenie. Zaklęcie to nie działa na konstrukty ani istoty pozasferowe. Nie mogą go rzucać postacie o złym charakterze.
+
+Na nieumarłych działa odwrotnie - zadaje im obrażenia zamiast je leczyć (rzut obronny przeciw czarom zmniejsza obrażenia o połowę)."
+
+@5 = "Masowe leczenie lekkich ran
+(Nekromancja)
+
+Poziom: 5
+Sfera: Leczenie
+Zasięg: 0
+Czas działania: stały
+Czas rzucania: 5
+Obszar działania: w promieniu 5 metrów
+Rzut obronny: brak
+
+Rzucając ten czar, kapłan musi wyraźnie wyobrazić sobie twarze swoich towarzyszy i skupić się na jedności grupy. Po zakończeniu rzucania wszyscy członkowie drużyny zostają uleczeni o 1k8 + 1 punkt życia na poziom rzucającego. Leczenie jest stałe, pod warunkiem jednak, że istota nie otrzyma kolejnych obrażeń. Rany spowodowane odwróconą wersją tego zaklęcia można leczyć jak zwykłe obrażenia. Zaklęcie to nie działa na konstrukty ani istoty pozasferowe. Nie mogą go rzucać postacie o złym charakterze.
+
+Na nieumarłych działa odwrotnie - zadaje im obrażenia zamiast je leczyć (rzut obronny przeciw czarom zmniejsza obrażenia o połowę)."
+
+@6 = "Uzdrowienie
+(Nekromancja)
+
+Poziom: 6
+Sfera: Leczenie
+Zasięg: dotyk
+Czas działania: stały
+Czas rzucania: 9
+Obszar działania: 1 istota
+Rzut obronny: brak
+
+Ten bardzo potężny czar usuwa z wybranej istoty choroby i rany. Leczy ślepotę, choroby, truciznę, upojenie oraz Osłabienie umysłu, a jeśli cel jest ranny, przywraca mu pełnię punktów życia. Zaklęcie to nie działa na konstrukty ani istoty pozasferowe. Nie mogą go rzucać postacie o złym charakterze.
+
+Na nieumarłych działa odwrotnie - zadaje im obrażenia zamiast je leczyć, pozostawiając im jedynie 1k4 punktów życia. Rzut obronny przeciw czarom neguje ten efekt."
+
+//////////////////////////////////////////////
+
+@100 = "Zadawanie lekkich ran
+(Nekromancja)
+
+Poziom: 1
+Sfera: Leczenie
+Zasięg: dotyk
+Czas działania: stały
+Czas rzucania: 5
+Obszar działania: 1 istota
+Rzut obronny: 1/2
+
+Po rzuceniu tego czaru i dotknięciu wybranej istoty, kapłan zadaje jej 1k8 punktów obrażeń (+1 punkt na poziom rzucającego, maksymalnie +5). Rzut obronny przeciw czarom zmniejsza obrażenia o połowę. Zaklęcie to nie działa na konstrukty ani istoty pozasferowe. Nie mogą go rzucać postacie o dobrym charakterze.
+
+Na nieumarłych działa odwrotnie - leczy ich zamiast zadawać im obrażenia."
+
+@101 = "Zadawanie umiarkowanych ran
+(Nekromancja)
+
+Poziom: 2
+Sfera: Leczenie
+Zasięg: dotyk
+Czas działania: stały
+Czas rzucania: 5
+Obszar działania: 1 istota
+Rzut obronny: 1/2
+
+Po rzuceniu tego czaru i dotknięciu wybranej istoty, kapłan zadaje jej 2k8 punktów obrażeń (+1 punkt na poziom rzucającego, maksymalnie +10). Rzut obronny przeciw czarom zmniejsza obrażenia o połowę. Zaklęcie to nie działa na konstrukty ani istoty pozasferowe. Nie mogą go rzucać postacie o dobrym charakterze.
+
+Na nieumarłych działa odwrotnie - leczy ich zamiast zadawać im obrażenia."
+
+@102 = "Zadawanie średnich ran
+(Nekromancja)
+
+Poziom: 3
+Sfera: Leczenie
+Zasięg: dotyk
+Czas działania: stały
+Czas rzucania: 5
+Obszar działania: 1 istota
+Rzut obronny: 1/2
+
+Po rzuceniu tego czaru i dotknięciu wybranej istoty, kapłan zadaje jej 3k8 punktów obrażeń (+1 punkt na poziom rzucającego, maksymalnie +15). Rzut obronny przeciw czarom zmniejsza obrażenia o połowę. Zaklęcie to nie działa na konstrukty ani istoty pozasferowe. Nie mogą go rzucać postacie o dobrym charakterze.
+
+Na nieumarłych działa odwrotnie - leczy ich zamiast zadawać im obrażenia."
+
+@103 = "Zadawanie poważnych ran
+(Nekromancja)
+
+Poziom: 4
+Sfera: Leczenie
+Zasięg: dotyk
+Czas działania: stały
+Czas rzucania: 5
+Obszar działania: 1 istota
+Rzut obronny: 1/2
+
+Po rzuceniu tego czaru i dotknięciu wybranej istoty, kapłan zadaje jej 4k8 punktów obrażeń (+1 punkt na poziom rzucającego, maksymalnie +20). Rzut obronny przeciw czarom zmniejsza obrażenia o połowę. Zaklęcie to nie działa na konstrukty ani istoty pozasferowe. Nie mogą go rzucać postacie o dobrym charakterze.
+
+Na nieumarłych działa odwrotnie - leczy ich zamiast zadawać im obrażenia."
+
+@104 = "Zadawanie krytycznych ran
+(Nekromancja)
+
+Poziom: 5
+Sfera: Leczenie
+Zasięg: dotyk
+Czas działania: stały
+Czas rzucania: 8
+Obszar działania: 1 istota
+Rzut obronny: 1/2
+
+Po rzuceniu tego czaru i dotknięciu wybranej istoty, kapłan zadaje jej 5k8 punktów obrażeń magicznych (+1 punkt na poziom rzucającego, maksymalnie +25). Rzut obronny przeciw czarom zmniejsza obrażenia o połowę. Zaklęcie to nie działa na konstrukty ani istoty pozasferowe. Mogą je rzucać wyłącznie postacie o złym charakterze.
+
+Na nieumarłych działa odwrotnie - leczy ich zamiast zadawać im obrażenia."
+
+@105 = "Masowe zadawanie lekkich ran
+(Nekromancja)
+
+Poziom: 5
+Sfera: Leczenie
+Zasięg: 0
+Czas działania: stały
+Czas rzucania: 5
+Obszar działania: w promieniu 5 metrów
+Rzut obronny: 1/2
+
+Po rzuceniu tego czaru kapłan zadaje pobliskim wrogom 1k8 + 1 punkt obrażeń na poziom rzucającego. Udany rzut obronny przeciw czarom zmniejsza obrażenia o połowę. Zaklęcie to nie działa na konstrukty ani istoty pozasferowe. Mogą je rzucać wyłącznie postacie o złym charakterze.
+
+Na nieumarłych działa odwrotnie - leczy ich zamiast zadawać im obrażenia."
+
+@106 = "Krzywda
+(Nekromancja)
+
+Poziom: 6
+Sfera: Leczenie
+Zasięg: dotyk
+Czas działania: stały
+Czas rzucania: 9
+Obszar działania: 1 istota
+Rzut obronny: neguje
+
+Po rzuceniu tego czaru kapłan zyskuje zdolność dotknięcia wybranej istoty i zadania jej straszliwych obrażeń, które pozostawiają ją z zaledwie 1k4 punktów życia. Rzut obronny przeciw czarom neguje ten efekt. Zaklęcie to nie działa na nieumarłych, konstrukty ani istoty pozasferowe. Mogą je rzucać wyłącznie postacie o złym charakterze.
+
+Na nieumarłych działa odwrotnie - całkowicie ich leczy zamiast zadawać im obrażenia."
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+@200 = "Nakładanie rąk
+
+Paladyn kieruje przez siebie pozytywną energię, aby uleczyć dotkniętą istotę, przywracając jej 2 punkty życia na każdy poziom paladyna. Zdolność ta nie działa na konstrukty ani istoty pozaplanarne.
+
+Na nieumarłych działa odwrotnie - zadaje im obrażenia zamiast je leczyć (rzut obronny przeciw czarom zmniejsza obrażenia o połowę)."

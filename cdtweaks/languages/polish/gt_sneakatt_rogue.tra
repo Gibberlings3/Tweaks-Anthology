@@ -1,0 +1,9 @@
+@0 = "Sparaliżowany"
+@1 = "Druzgocące trafienie: wybrane stworzenie jest już sparaliżowane"
+//
+@10 = "Uciszony"
+@11 = "Druzgocące trafienie: wybrane stworzenie jest już uciszone"
+//
+@20 = "Modyfikator Siły"
+//
+@100 = "Niewrażliwość na efekty Druzgocącego trafienia"

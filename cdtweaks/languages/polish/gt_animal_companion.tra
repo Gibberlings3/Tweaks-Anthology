@@ -1,0 +1,271 @@
+@0 = "WŁADCA ZWIERZĄT: Ten łowca jest wędrowcem, nie nawykłym do życia w cywilizacji i posiadającym naturalną więź ze zwierzętami. Są one jego przyjaciółmi i towarzyszami broni, on zaś dysponuje ograniczoną zdolnością telepatycznego komunikowania się z nimi.
+
+Zalety:
+– +15% do Krycia się w cieniu i Cichego chodzenia.
+– Może użyć zdolności Przywołanie zwierzęcego towarzysza, aby wezwać wyjątkowe stworzenie wspomagające go w walce lub w zwiadzie.
+– 8. poziom: może rzucić zaklęcie Przywołanie zwierząt I.
+– 10. poziom: może rzucić zaklęcie Przywołanie zwierząt II.
+– 12. poziom: może rzucić zaklęcie Przywołanie zwierząt III.
+
+Wady:
+– Nie może posługiwać się bronią metalową (np. mieczem, halabardą, młotem czy morgenszternem).
+– Nie może nosić zbroi cięższych niż skórzana ćwiekowana."
+
+@1 = "Przywołanie zwierzęcego towarzysza"
+@2 = "Przywołanie zwierzęcego towarzysza
+(Sprowadzanie/Przywoływanie)
+
+Poziom: 1
+Zasięg: 0
+Czas działania: trwały
+Czas rzucania: 1
+Obszar działania: specjalny
+Rzut obronny: brak
+
+Zaklęcie pozwala władcy zwierząt przywołać zwierzę, które stanie się jego wiernym towarzyszem i pomocnikiem. Zwierzęcy towarzysz może wspierać swojego pana w walce, przekazywać mu swoje zmysły, porozumiewać się z nim, a także służyć jako strażnik, zwiadowca lub szpieg. Władca zwierząt może mieć jednocześnie tylko jednego zwierzęcego towarzysza.
+
+Oto zwierzęcy towarzysze, których może przywołać władca zwierząt:
+
+
+
+NIEDŹWIEDŹ JASKINIOWY
+
+Podstawowe statystyki:
+– Punkty życia: jak u władcy zwierząt o tym samym poziomie
+– Klasa Pancerza: 6 (+1 co 5 poziomów)
+– TraK0: jak u łowcy o tym samym poziomie
+– Rzuty obronne: jak u łowcy o tym samym poziomie
+– Siła: 18/100
+– Inteligencja: 4
+– Mądrość: 2
+– Zręczność: 9
+– Kondycja: 16
+– Charyzma: 3
+– Walka: 3 ataki na rundę, 1k12 obrażeń siecznych (+1 co 5 poziomów, od poziomu 10, maksymalnie do +3 na poziomie 20)
+
+Specjalne:
+– Szansa na trafienie krytyczne: +10% (od poziomu 5)
+– Przy trafieniu krytycznym zadaje dodatkowe 2k8 obrażeń (od poziomu 5)
+
+ŚNIEŻNY WILK
+
+Podstawowe statystyki:
+– Punkty życia: jak u władcy zwierząt o tym samym poziomie
+– Klasa Pancerza: 5 (+1 co 5 poziomów)
+– TraK0: jak u łowcy o tym samym poziomie
+– Rzuty obronne: jak u łowcy o tym samym poziomie
+– Siła: 18
+– Inteligencja: 10
+– Mądrość: 8
+– Zręczność: 12
+– Kondycja: 16
+– Charyzma: 6
+– Walka: 1 atak na rundę, 2k4 obrażeń kłutych (+1 co 5 poziomów, od poziomu 10, maksymalnie do +3 na poziomie 20)
+– Odporność na zimno: 125%
+– Odporność na ogień: -25%
+
+Specjalne:
+– Lodowy oddech (1 użycie dziennie, +1 co 5 poziomów)
+
+PAJĄK MIECZOWIEC
+
+Podstawowe statystyki:
+– Punkty życia: jak u władcy zwierząt o tym samym poziomie
+– Klasa Pancerza: 3 (+1 co 5 poziomów)
+– TraK0: jak u łowcy o tym samym poziomie
+– Rzuty obronne: jak u łowcy o tym samym poziomie
+– Siła: 16
+– Inteligencja: 10
+– Mądrość: 2
+– Zręczność: 14
+– Kondycja: 14
+– Charyzma: 3
+– Walka: 2 ataki na rundę, 2k6 obrażeń kłutych (+1 co 5 poziomów, od poziomu 10, maksymalnie do +3 na poziomie 20)
+
+Specjalne:
+– Trwale przyspieszony
+– Niewrażliwość na Pajęczynę
+– Pajęcza sieć (1 użycie dziennie, +1 co 5 poziomów)
+
+LAMPART
+
+Podstawowe statystyki:
+– Punkty życia: jak u władcy zwierząt o tym samym poziomie
+– Klasa Pancerza: 6 (+1 co 5 poziomów)
+– TraK0: jak u łowcy o tym samym poziomie
+– Rzuty obronne: jak u łowcy o tym samym poziomie
+– Siła: 14
+– Inteligencja: 4
+– Mądrość: 12
+– Zręczność: 15 (+1 co 10 poziomów)
+– Kondycja: 13
+– Charyzma: 6
+– Krycie się w cieniu: 10 (+5 na poziom)
+– Ciche chodzenie: 10 (+5 na poziom)
+– Walka: 3 ataki na rundę, 1k6 obrażeń siecznych (+1 co 5 poziomów, od poziomu 10, maksymalnie do +3 na poziomie 20)
+
+Specjalne:
+– Może ukrywać się w cieniu
+– Może wykonywać ciosy z ukrycia
+
+OLBRZYMI DZIK
+
+Podstawowe statystyki:
+– Punkty życia: jak u władcy zwierząt o tym samym poziomie
+– Klasa Pancerza: 7 (+1 co 5 poziomów)
+– TraK0: jak u łowcy o tym samym poziomie
+– Rzuty obronne: jak u łowcy o tym samym poziomie
+– Siła: 16
+– Inteligencja: 4
+– Mądrość: 2
+– Zręczność: 10
+– Kondycja: 16
+– Charyzma: 3
+– Walka: 1 atak na rundę, 3k4 obrażeń kłutych (+1 co 5 poziomów, od poziomu 10, maksymalnie do +3 na poziomie 20)
+
+Specjalne:
+– Rozjuszenie (1 użycie dziennie, +1 co 5 poziomów)
+
+OLBRZYMI WĄŻ DUSICIEL
+
+Podstawowe statystyki:
+– Punkty życia: jak u władcy zwierząt o tym samym poziomie
+– Klasa Pancerza: 5 (+1 co 5 poziomów)
+– TraK0: jak u łowcy o tym samym poziomie
+– Rzuty obronne: jak u łowcy o tym samym poziomie
+– Siła: 3
+– Inteligencja: 1
+– Mądrość: 2
+– Zręczność: 16
+– Kondycja: 12
+– Charyzma: 3
+– Walka: 2 ataki na rundę, 2k4 obrażeń kłutych (+1 co 5 poziomów, od poziomu 10, maksymalnie do +3 na poziomie 20)
+
+Specjalne:
+– Duszący chwyt (1 użycie dziennie, +1 co 5 poziomów)
+– Otrzymuje modyfikator morale -1, gdy przeciw niemu używany jest ogień
+– Oczarowanie zwierzęcia (bez ograniczeń dziennych)
+
+ŻUK KANONIER
+
+Podstawowe statystyki:
+– Punkty życia: jak u władcy zwierząt o tym samym poziomie
+– Klasa Pancerza: 4 (+1 co 5 poziomów)
+– TraK0: jak u łowcy o tym samym poziomie
+– Rzuty obronne: jak u łowcy o tym samym poziomie
+– Siła: 3
+– Inteligencja: 1
+– Mądrość: 1
+– Zręczność: 10
+– Kondycja: 14
+– Charyzma: 1
+– Walka: 1 atak na rundę, 2k6 obrażeń siecznych (+1 co 5 poziomów, od poziomu 10, maksymalnie do +3 na poziomie 20)
+
+Specjalne:
+– Po zaatakowaniu w każdej rundzie istnieje 50% szans, że wystrzeli z odwłoka chmurę gryzących, czerwonych, kwaśnych oparów. Chmura zadaje wszystkim stworzeniom w zasięgu 3k4 obrażeń od kwasu. Dodatkowo huk towarzyszący wyrzutowi oparów ma 20% szans na ogłuszenie oraz 20% szans na ogłuchnięcie ofiary. Ogłuszenie trwa 2k4 rundy, a ogłuchnięcie 2k6 rund
+
+SOKÓŁ
+
+Podstawowe statystyki:
+– Punkty życia: jak u władcy zwierząt o tym samym poziomie
+– Klasa Pancerza: 5 (+1 co 5 poziomów)
+– TraK0: jak u łowcy o tym samym poziomie
+– Rzuty obronne: jak u łowcy o tym samym poziomie
+– Siła: 5
+– Inteligencja: 1
+– Mądrość: 14
+– Zręczność: 16
+– Kondycja: 8
+– Charyzma: 6
+– Walka: 3 ataki na rundę, 1k1 obrażeń kłutych (+1 co 5 poziomów, od poziomu 10, maksymalnie do +3 na poziomie 20)
+
+Specjalne:
+– Cel musi wykonać rzut obronny przeciw zionięciom albo zostanie oślepiony na 1k10 rund (25% szans przy trafieniu)
+– Zwiększony zasięg widzenia"
+
+@3 = "Zwierzęcy towarzysz został już przywołany"
+
+//
+@100 = "Przywołanie niedźwiedzia jaskiniowego"
+@101 = "Przywołanie żuka kanoniera"
+@102 = "Przywołanie olbrzymiego dzika"
+@103 = "Przywołanie sokoła"
+@104 = "Przywołanie lamparta"
+@105 = "Przywołanie olbrzymiego węża dusiciela"
+@106 = "Przywołanie pająka mieczowca"
+@107 = "Przywołanie śnieżnego wilka"
+
+
+//
+@200 = "Odwołanie zwierzęcego towarzysza"
+
+//
+@1000 = "Niedźwiedź jaskiniowy"
+@1001 = "Uścisk"
+
+//
+@2000 = "Wypuszcza kwasowe opary"
+@2001 = "Żuk kanonier"
+@2002 = "Ogłuszony"
+@2003 = "Ogłuchły"
+
+//
+@3000 = "Rozjuszenie"
+@3001 = "Rozjuszenie
+
+Stworzenie używające tej zdolności wpada w szał, otrzymując premię 1k6 do Siły i Kondycji oraz odporność na Zauroczenie, Ogłupienie i Zamęt.
+Czas działania: 5 rund +1 runda co 5 poziomów.
+"
+@3002 = "Olbrzymi dzik"
+@3003 = "Nie możesz użyć tej zdolności, dopóki poprzednia zdolność wciąż działa"
+
+//
+
+//
+@4000 = "Sokół"
+@4001 = "Oślepiony"
+
+//
+@5000 = "Lampart"
+@5001 = "Atak z zaskoczenia"
+@5002 = "Atak"
+
+//
+//
+@6000 = "Zauroczenie zwierzęcia"
+@6001 = "Zauroczenie zwierzęcia
+
+Ta zdolność działa na jedno zwierzę. Cel może uniknąć jej działania, wykonując udany rzut obronny przeciw czarom.
+
+Jeśli rzut obronny się nie powiedzie, zwierzę uzna rzucającego za zaufanego przyjaciela i sprzymierzeńca, którego należy słuchać i chronić. Rzucający może wydawać mu polecenia, a oczarowane zwierzę wykona je tak szybko, jak potrafi.
+
+Efekt zostaje przerwany, jeśli rzucający jawnie skrzywdzi oczarowane zwierzę albo spróbuje to zrobić. Jeśli na stworzenie działa kilka efektów zauroczenia na raz, obowiązuje ten, który został rzucony jako ostatni.
+
+Czas działania: 2k6 rund.
+"
+@6002 = "Olbrzymi wąż dusiciel"
+@6003 = "Modyfikator morale"
+@6004 = "Duszący uścisk"
+@6005 = "Duszący uścisk
+
+Wybrane stworzenie zostaje pochwycone na 5 rund (+1 runda na każde 5 poziomów). Ofiara może jednak wyrwać się z uścisku po udanym teście wyważania drzwi. Stworzenia o Sile 19 lub większej uwalniają się automatycznie. Każdy, kto próbuje oswobodzić schwytaną istotę, tnąc dusiciela bronią, ma 20% szans na trafienie ofiary zamiast węża.
+Dużych stworzeń, istot niematerialnych, szlamów, żywiołaków itp. nie można w ten sposób uwięzić.
+"
+@6006 = "Wybrane stworzenie jest już oplecione"
+@6007 = "Stworzenie uwalnia się"
+
+//
+@7000 = "Oplątanie pajęczyną"
+@7001 = "Oplątanie pajęczyną
+
+Wybrane stworzenie musi wykonać rzut obronny przeciw zionięciom. Jeśli rzut się nie powiedzie, zostaje uwięzione w sieci na 2k6 rund. Duże stworzenia, istoty niematerialne, istoty unoszące się dzięki magii, szlamy oraz żywiołaki są odporne na ten efekt.
+"
+@7002 = "Pająk mieczowiec"
+
+//
+@8000 = "Mroźny oddech"
+@8001 = "Mroźny oddech
+
+Stworzenie może wypuścić strumień mrozu, zadający 6k4 obrażeń od zimna. Oddech obejmuje stożek wychodzący z pyska stworzenia, długi na 5 metrów i szeroki pod kątem 90 stopni. Udany rzut obronny przeciw zionięciom zmniejsza obrażenia o połowę."
+@8002 = "Śnieżny wilk"
+

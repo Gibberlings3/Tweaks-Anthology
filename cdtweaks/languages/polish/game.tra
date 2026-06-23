@@ -1,32 +1,209 @@
-@5001   = ~SKRYPT PRZEMIANY AWATARÓW:~
-@5002   = ~Ten skrypt pozwala graczowi kontrolować awatara postaci. Wciśnij 'S' aby włączyć ekran wyboru awatarów. (<skrypt>)~ 
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Cosmetic Changes Components                      \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+@5001 = ~SKRYPT PRZEMIANY AWATARÓW:~
+@5002 = ~Ten skrypt pozwala graczowi kontrolować awatara postaci. Wciśnij 'S' aby włączyć ekran wyboru awatarów. (<skrypt>)~
+
+@15003 = ~Czerwona tarcza~ // adpated from bgee strref #27592
+@15004 = ~Kościana maczuga~ // adapted from bg2ee strref #35105
+
+@18001 = ~Archiwum Wiedzy Tajemnej~
+@18002 = ~Sio'chaire~
+@18003 = ~Sklep Sio'chaire~
+@18004 = ~Towary Ikerta~
+@18005 = ~Towary Jayesa~
+@18006 = ~Księgi Galoompa~
+@18007 = ~Towary Kicha~
+@18008 = ~Towary Mina~
+@18009 = ~Towary Wallace'a~
+@18010 = ~Sklep Joluva~
+@18011 = ~Sklep Deidre~
+@18012 = ~Zaopatrzenie Deli~
+@18013 = ~Magiczne przedmioty na Jarmarku~
+@18014 = ~Tanie Towary Szczęściarza Aello~
+@18015 = ~Bronie dystansowe na Jarmarku~
+@18016 = ~Zbroje na Jarmarku~
+@18017 = ~Magiczne bronie na Jarmarku~
+@18024 = ~Towary Miry~
+@18025 = ~Sklep Czarnej Lilii~
+@18026 = ~Towary Pertera~
+@18027 = ~szafka~
+@18028 = ~bezpieczne miejsce~
+@18029 = ~torba~
+@18030 = ~ta torba~
+@18031 = ~worek~
+@18032 = ~kufer~
+@18033 = ~ten kufer~
+@18034 = ~Szemrane towary Selence Gwiezdne Wzgórze~
+@18035 = ~Sprzęt obozowy~
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Content Changes Components                       \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
 @104001 = ~Amnijski żołnierz~
 @104002 = ~Sankcjonowany czarodziej~
 @104003 = ~Kapłan ze straży miejskiej~
+
 @105001 = ~Twój drowi przedmiot rozpadł się~
+
 @106001 = ~Twój pancerz rozpadł się~
 @106002 = ~Twoja tarcza rozpadła się~
 @106003 = ~Twój hełm rozpadł się~
+@106005 = ~Jakość~
+
+@106201 = ~Twój pancerz został uszkodzony~
+@106202 = ~^\([ %TAB%]*Klasa Pancerza[ %TAB%]*:?[ %TAB%]*\)[0-9]+~
+@106203 = ~^\([ %TAB%]*PARAMETRY[ %TAB%]*:?[ %TAB%]*\)~
+@106204 = ~Słaba jakość żelaza sprawiła, że ten pancerz uległ uszkodzeniu.~
+@106205 = ~\(-?[0-9]+\)\([ %TAB%]*vs\.[ %TAB%]*\(cięte\|obuchowe\|kłute i dystansowe\)\)~
+@106206 = ~Przedmiot został zniszczony~
+
 @107001 = ~Idź i poczekaj na nas w gospodzie Pod Pomocną Dłonią. Jeśli się coś zmieni, spotkamy się tam z tobą.~
-@107002 = ~Proszę, dołącz do drużyny.~
-@107003 = ~Wyślę cię spowrotem do sfery kieszonkowej... czekaj tam na mnie.~
-@107004 = ~Czekaj na nas w Zimowej Kołysce. Jeśli się coś zmieni, przyjdziemy tam po ciebie.~
-@107005 = ~Czekaj na nas w Korzennej Piwnicy. Jeśli się coś zmieni, przyjdziemy tam po ciebie.~
-@107006 = ~Czekaj na nas w Gwiżdżącej Szubienicy. Jeśli się coś zmieni, przyjdziemy tam po ciebie.~
-@108001 = ~Pasy na amunicje~
-@108002 = ~Ten pas na ramię jest idealny do przechowywania pocisków do procy, strzałek, strzał i bełtów.
+@107002 = ~Dołącz ponownie do drużyny, proszę.~
+@107003 = ~Wyślę cię z powrotem do sfery kieszonkowej... czekaj tam na mnie.~
+@107004 = ~Czekaj na nas w Zimowej Kołysce. Przyjdziemy po ciebie, jeśli coś się zmieni.~
+@107005 = ~Czekaj na nas w Korzennej Piwnicy. Przyjdziemy po ciebie, jeśli coś się zmieni.~
+@107006 = ~Czekaj na nas w Gwiżdżącej Szubienicy. Przyjdziemy po ciebie, jeśli coś się zmieni.~
+@107007 = ~Witaj ponownie. Jak zawsze miło mi cię widzieć.~
+@107008 = ~Musisz tutaj poczekać. W tej chwili nie mam dla ciebie miejsca.~ // bg2 strref 27251
+@107009 = ~Podróżowanie z tobą było przyjemnością. Żegnaj i powodzenia.~ // bg2 strref 43200
+@107010 = ~Witaj.~ [genmg05] // bg2 strref 11082
+@107011 = ~Witaj.~ [genfg12] // bg2 strref 11119
+@107012 = ~Niestety, musimy się rozstać. Do następnego razu.~ // bg2 strref 43202
+@107013 = ~Poczekaj na mnie w Nashkel. Jeśli coś się zmieni, spotkamy się w Świątyni Helma.~
+@107014 = ~Jeśli znów będę potrzebować twoich usług, spotkajmy się w tawernie Elfia Pieśń we Wrotach Baldura.~
+@107015 = ~Na razie pójdziemy osobno. Poczekaj na mnie w Wesołym Żonglerze w Beregoście.~
+
+@107501 = ~Na razie nie potrzebuję twojej pomocy, ale wkrótce znów wyruszymy razem w drogę. Do tego czasu czekaj na mnie w Gospodzie Pod Pomocną Dłonią.~
+@107502 = ~Musimy na jakiś czas się rozdzielić. Jeśli znów będę potrzebować twojej pomocy, poszukam cię w Wesołym Żonglerze w Beregoście.~
+@107503 = ~Na razie każde z nas pójdzie własną drogą. Wkrótce jednak znów będę cię potrzebować. Zatrzymaj się w gospodzie w Nashkel, a gdy będę na południu, odnajdę cię tam.~
+@107504 = ~Powinniśmy się rozdzielić. Odszukam cię następnym razem, gdy będę we Wrotach – spotkajmy się w tawernie Elfia Pieśń.~
+@107510 = ~To dla mnie zaszczyt.~
+@107511 = ~Oczywiście. Nie wpadnę w żadne tarapaty podczas twojej nieobecności, o nie.~
+@107512 = ~Tak się składa, że mam tam kilka spraw do załatwienia. Szukaj mnie tam, jeśli będziesz potrzebować nieco krasnoludzkich mięśni.~
+@107513 = ~Dobrze, zgadzam się ze względu na naszą umowę. (Lepiej im przytakiwać. Nie są dostatecznie bystrzy, żeby pojąć, czemu to zły pomysł.)~
+@107514 = ~Bezczynność będzie mnie irytować, ale wiele ci zawdzięczam. Nie każ tej bitewnej kapłance czekać zbyt długo.~
+@107515 = ~Oczywiście, kochanie. Z pewnością uda mi się tam znaleźć jakieś atrakcje pod twoją nieobecność.~
+@107516 = ~Cóż, mojej pieśni i tak przyda się kilka dni spokoju. Ale wracaj szybko. Tyle tu jeszcze do zobaczenia!~
+@107517 = ~Nawet najlepsze rzeczy kiedyś się kończą, jak powiadają. Może jednak jeszcze do nich wrócimy? Będę czekać, aż nasze drogi znów się skrzyżują.~
+@107518 = ~Uczynię to, ale wiele jeszcze zostało do zrobienia. Nie zwlekaj więc i wracaj szybko.~
+@107519 = ~Dobrze mi się z tobą podróżowało. Wierzę jednak, że postępujesz roztropnie... Ale zostało nam jeszcze wiele do zrobienia, więc wróć po mnie jak najszybciej.~
+@107520 = ~Nie ma to żadnego znaczenia. Na śmierć mogę czekać tutaj równie dobrze jak gdziekolwiek indziej.~
+@107521 = ~Oooch... naprawdę muszę? Nie chcę tam iść... ale chyba zrobię, co każesz. Będę się dąsać, dopóki nie wrócisz!~
+@107522 = ~Nie widzę sposobu, by chronić Naturę pod dachem z martwego drewna, pośród ludzkiego plugastwa. Skoro jednak tak każesz, zrobię to. Niech to będzie dowód mojego zaufania.~
+@107523 = ~To wyjątkowo głupi pomysł. Ale chyba tylko w ten sposób mogę ci to udowodnić.~
+@107524 = ~Zrobię to, lecz mam nadzieję, że wkrótce znowu dołączę do ciebie. Mój dług nie został jeszcze spłacony.~
+@107525 = ~Tiax raduje się twoją twórczą uległością. Zanim wrócisz, nędzne istoty tej gospody będą już czcić wielkość Tiaxa!~
+@107526 = ~Zrobię to, ale nie z własnej woli. Nie jestem zbyt bezpieczna w osadach naziemców.~
+@107531 = ~Tak, o wszechpotęgo i władzo.~
+@107532 = ~D-d-dobrze więc. Powodzenia w drodze.~
+@107533 = ~Jeśli taka jest twa wola, niech tak się stanie. Dowiodłeś, że jesteś godnym przywódcą, więc ufam twoim decyzjom.~ ~Jeśli taka jest twa wola, niech tak się stanie. Dowiodłaś, że jesteś godną przywódczynią, więc ufam twoim decyzjom.~
+@107534 = ~Na pewno tego chcesz? Boo uważa, że w gospodzie nie czai się zbyt wiele zła, któremu można bezlitośnie nakopać. Ale zło jest bardzo sprytne, często dobrze wykształcone i potrafi ukryć się wszędzie. Do zobaczenia wkrótce.~
+@107535 = ~Hurra! W końcu mogę przydać się naszej wesołej gromadce! I to bez znoszenia towarzystwa głupców.~
+@107536 = ~Jak sobie chcesz. Trochę rozłąki wszystkim nam dobrze zrobi.~
+@107537 = ~No cóż, to chyba też część przygody, choć niezbyt porywająca...~
+@107538 = ~Odrobina luksusu i odpoczynek od wędrówki? Nie zamierzam odmawiać.~
+
+@108001 = ~Pas na amunicje~
+@108002 = ~Ten pas przewieszany przez ramię idealnie nadaje się do trzymania pocisków do procy, strzałek, strzał lub bełtów
+
 PARAMETRY:
-Pojemność: w sumie 2,000 pocisków do procy, strzałek, strzał i bełtów.
-Waga: 2
-Nie może używać:~
+
+Specjalne:
+– Pojemność:: w sumie 2,000 pocisków do procy, strzałek, strzał i bełtów.
+
+Waga: 2~
 @108003 = ~Torba na mikstury~
-@108004 = ~Zwykle noszone przez podróżnych uzdrowicieli, to skórzana torba otwiera się i pozwala właścicielowi przypiąć buteleczki z miksturą do jego wyściełanego boku przy pomocy licznych skórzanych rzemyków, by bezpiecznie mogły być przechowywane w czasie podróży. Niezależnie od tego, ile mikstur mieści się w torbie, zawsze waży tyle samo.
+@108004 = ~Zwykle noszone przez podróżnych uzdrowicieli, to pudełko rozkłada się i pozwala właścicielowi przypiąć buteleczki z miksturą do jego wyściełanego boku przy pomocy licznych skórzanych rzemyków, by bezpiecznie mogły być przechowywane w czasie podróży. Niezależnie od tego, ile mikstur mieści się w torbie, zawsze waży tyle samo.
+
 PARAMETRY:
-Pojemność: 100 butelek
-Waga: 2
-Nie może używać:~
+
+Specjalne:
+– Pojemność: 100 butelek
+
+Waga: 2~
 @108005 = ~Torba przechowywania~
-@108006 = ~Podobnie jak w przypadku innych magicznych toreb, ta również wygląda jak zwykły zgrzebny worek o wymiarach 50 cm na metr. Wewnątrz sakwy istnieje jednak przestrzeń pozawymiarowa, dzięki czemu wewnątrz jest znacznie większa niż wskazywałyby na to jej zewnętrzne wymiary. Niezależnie co włoży się do wnętrza, sakwa zawsze waży tyle samo.~
+@108006 = ~Podobnie jak w przypadku innych magicznych toreb, ta również wygląda jak zwykły zgrzebny worek o wymiarach pół metra na metr. Wewnątrz sakwy istnieje jednak przestrzeń pozawymiarowa, dzięki czemu wewnątrz jest znacznie większa, niż wskazywałyby na to jej zewnętrzne wymiary. Niezależnie od tego, co włoży się do wnętrza, sakwa zawsze waży tyle samo.~
+
+@108501 = ~Torba~
+@108502 = ~Sakiewka na klejnoty~
+@108503 = ~Niewielka torba.~
+@108504 = ~Torba przechowywania ma nieskończoną przestrzeń na składowanie przedmiotów. Ten wytrzymały worek jest szczególnie dobrze przystosowany do trzymania wszelkiego rodzaju klejnotów i biżuterii. Wyrzuci jednak z siebie wszystko inne, co spróbujesz do niego włożyć.
+
+PARAMETRY:
+
+Specjalne: 
+– Może pomieścić klejnoty, pierścienie, amulety i naszyjniki.
+– W celu otwarcia należy włożyć do przegródki Podręcznego przedmiotu
+
+Waga: 1~
+@108505 = ~Otwieranie sakiewki na klejnoty. Proszę czekać~
+@108506 = ~Pojemnik~
+@108507 = ~Futerał na mikstury~
+@108508 = ~Prostokątny futerał.~
+@108509 = ~Torba przechowywania potrafi pomieścić nieskończoną liczbę przedmiotów. Ten skórzany futerał, używany zwykle przez wędrownych uzdrowicieli, rozkłada się i pozwala przypinać delikatne fiolki z miksturami do miękkiego wnętrza za pomocą licznych skórzanych rzemyków, dzięki czemu są bezpieczne podczas podróży. Magia przedmiotu odrzuca wszystkie inne przedmioty.
+
+
+PARAMETRY:
+
+Specjalne: 
+– Może pomieścić mikstury i butelki.
+– W celu otwarcia należy włożyć do przegródki Podręcznego przedmiotu
+
+Waga: 3~
+@108510 = ~Otwieranie futerału na mikstury. Proszę czekać~
+@108511 = ~Pojemnik~
+@108512 = ~Tuba na zwoje~
+@108513 = ~Pojemnik.~
+@108514 = ~Torba przechowywania potrafi pomieścić nieskończoną liczbę przedmiotów. Ten solidny futerał mieści dziesiątki zwojów, chroniąc je przed ogniem, deszczem i piorunami – zagrożeniami, z którymi musi liczyć się każdy podróżujący mag. Nie przyjmie żadnych innych przedmiotów.
+
+PARAMETRY:
+
+Specjalne: 
+– Może pomieścić bardzo dużą liczbę zwojów.
+– W celu otwarcia należy włożyć do przegródki Podręcznego przedmiotu
+
+Waga: 2~
+@108515 = ~Pas~
+@108516 = ~Pas z amunicją~
+@108517 = ~Pas.~
+@108518 = ~Torba przechowywania potrafi pomieścić nieskończoną liczbę przedmiotów. Dzięki licznym małym kieszonkom ten pas świetnie nadaje się do przechowywania kul do procy, strzałek, strzał i bełtów. Nie da się w nim umieścić niczego innego.
+
+PARAMETRY:
+
+Specjalne: 
+– Może pomieścić ogromną liczbę sztuk amunicji (bełtów, strzał, kul do procy i strzałek)
+– Załóż pas, aby korzystać z jego specjalnej zdolności.
+
+Waga: 2~
+@108519 = ~Otwieranie kieszonek pasa z amunicją. Proszę czekać~
+@108520 = ~Torba~
+@108521 = ~Torba przechowywania~
+@108522 = ~Torba.~
+@108523 = ~Podobnie jak inne magiczne torby, ta również wygląda jak zwykły zgrzebny worek o wymiarach pół metra na metr. Wewnątrz sakwy istnieje jednak przestrzeń pozawymiarowa, dzięki czemu wewnątrz jest znacznie większa, niż wskazywałyby na to jej zewnętrzne wymiary. Niezależnie od tego, co włoży się do wnętrza, sakwa zawsze waży tyle samo.
+
+PARAMETRY:
+
+Specjalne: 
+– Może bez ograniczeń pomieścić przedmioty dowolnej wielkości.
+– W celu otwarcia należy włożyć do przegródki Podręcznego przedmiotu
+
+Waga: 10~
+@108524 = ~Otwieranie Torby przechowywania . Proszę czekać~
+@108525 = ~Otwieranie Tuby na zwoje. Proszę czekać~
+
+// @109001 through 109026 have been removed, as this component has moved to The Calling
+
 @111001 = ~Gospoda Candlekeep~
 @111002 = ~Kwatery kapłanów~
 @111003 = ~Świątynia Oghmy~
@@ -37,12 +214,12 @@ Nie może używać:~
 @111008 = ~Baraki~
 @111009 = ~Szpital~
 @111010 = ~Posiadłość Entara Srebrnej Tarczy~
-@111011 = ~Helm i Płaszcz~
+@111011 = ~Hełm i Płaszcz~
 @111012 = ~Tawerna~
 @111013 = ~Świątynia Helma~
 @111014 = ~Brama Czarnego Smoka~
 @111015 = ~Wieża Ramazitha~
-@111016 = ~Pałac Duchalów~
+@111016 = ~Pałac Książęcy~
 @111017 = ~Pod Trzema Baryłkami~
 @111018 = ~Spłoniona Syrena~
 @111019 = ~Pod Napuszonym Jesiotrem~
@@ -52,7 +229,7 @@ Nie może używać:~
 @111023 = ~Karawana~
 @111024 = ~Gospoda Pod Pomocną Dłonią~
 @111025 = ~Świątynia Wiedzy~
-@111026 = ~Wsoły Żongler~
+@111026 = ~Wesoły Żongler~
 @111027 = ~Gospoda Feldeposta~
 @111028 = ~Kuźnia Grzmiącego Młota~
 @111029 = ~Czerwony Bukiet~
@@ -72,9 +249,9 @@ Nie może używać:~
 @111043 = ~Chata~
 @111044 = ~Rzeźba~
 @111045 = ~Opuszczony dom~
-@111046 = ~Westybuł~
+@111046 = ~Westybul~
 @111047 = ~Świątynia Pieśni Poranka~
-@111048 = ~Ruiny Ulcaster~
+@111048 = ~Ruiny Ulcastera~
 @111049 = ~Wyjście~
 @111050 = ~Zejście na następny poziom~
 @111051 = ~Wejście na wyższy poziom~
@@ -84,19 +261,19 @@ Nie może używać:~
 @111055 = ~Wrak statku~
 @111056 = ~Opuszczona latarnia morska~
 @111057 = ~Jama~
-@111058 = ~Farma~
-@111059 = ~Skrzyżowanie Żmija~
+@111058 = ~Gospodarstwo~
+@111059 = ~Żmijowa przeprawa~
 @111060 = ~Duży namiot~
 @111061 = ~Gniazdo pająków~
 @111062 = ~Domek na drzewie~
 @111063 = ~Śluza~
 @111064 = ~Winda kopalni~
-@111065 = ~Tawerna Elfia Pieśń ~
-@111066 = ~Czarodziejskie Rozmajtości~
+@111065 = ~Tawerna Elfia Pieśń~
+@111066 = ~Czarodziejskie Rozmaitości~
 @111067 = ~Tanie towary szczęściarza Aello~
 @111068 = ~Sklep z bronią Maltza~
 @111069 = ~Tawerna Keexie~
-@111070 = ~Sklep ciszy~
+@111070 = ~Sklep Ciszy~
 @111071 = ~Ostrze i Gwiazdy~
 @111072 = ~Sklep~
 @111073 = ~Gospoda~
@@ -106,7 +283,7 @@ Nie może używać:~
 @111077 = ~Żelazny Tron~
 @111078 = ~Tawerna Jopalina~
 @111079 = ~Siedem Słońc~
-@111080 = ~Płonąca Pięść~
+@111080 = ~Płomienna Pięść~
 @111081 = ~Liga Kupiecka~
 @111082 = ~Stara karczma~
 @111083 = ~Dom Pani~
@@ -116,15 +293,50 @@ Nie może używać:~
 @111087 = ~Wróżbita~
 @111088 = ~Sklep z drobiem~
 @111089 = ~Tawerna Drakon~
-@111090 = ~Reydencja Feloniusa Gista~
-@111091 = ~Gospoda Brody Ulgotha~
+@111090 = ~Rezydencja Feloniusa Gista~
+@111091 = ~Gospoda w Brodzie Ulgotha~
 @111092 = ~Opuszczona wieża~
 @111093 = ~Wejście do Wieży Durlaga~
 @111094 = ~Wyjście z kopalni~
 @111095 = ~Wyjście~
 @111096 = ~Świątynia Bhaala~
-@114001 = ~Klejnot jest to minerał, który pocięty lub oszlifowany i wypolerowny może służyć jako obiekt kolekcjonerski lub jako biżuteria.~
-@115001 = ~Sprowadzenie Zwierząt (Sprowadzenie/Przywoływanie) 
+@111097 = ~Kapliczka Waukeen~
+@111098 = ~Wytwórca łuków~
+@111099 = ~Magazyn kupiecki~
+@111100 = ~Świątynia Tempusa~
+@111101 = ~Dom Hrothgara~
+@111102 = ~Gospoda Zimowa Kołyska~
+@111103 = ~Oberża Śnieżna Zaspa~
+@111104 = ~Skład Pomaba~
+@111105 = ~Dom Starego Jeda~
+@111106 = ~Dom Apsela~
+@111107 = ~Magazyn~
+@111108 = ~Handlarz rybami~
+@111109 = ~Wieża Orricka Szarego~
+@111110 = ~Dom Arundela~
+@111111 = ~Sklep Gertha~
+@111112 = ~Garncarz~
+@111113 = ~Korzenna Piwnica~
+@111114 = ~Kowal~
+@111115 = ~Wieczorny Cień~
+@111116 = ~Dom szamana barbarzyńców~
+@111117 = ~Świątynia Ilmatera~
+@111118 = ~Statek powietrzny Oswalda Fiddlebendera~
+@111119 = ~Pomnik Tolbena~
+@111120 = ~Chata Braci~
+@111121 = ~Kołodziej~
+@111122 = ~Bednarze~
+@111123 = ~Przystań~
+@111124 = ~Gwiżdżąca Szubienica~
+@111125 = ~Chałupa Purvisa~
+@111126 = ~Zakamarek~
+@111127 = ~Sklepienie~
+
+@114001 = ~Klejnot to minerał, który po oszlifowaniu, nadaniu kształtu i wypolerowaniu może stać się przedmiotem kolekcjonerskim albo zostać wykorzystany w jubilerstwie.~
+
+@115001 = ~Sprowadzenie Zwierząt
+(Sprowadzenie/Przywoływanie) 
+
 Poziom: 6
 Sfera: Przywoływanie 
 Zasięg: 60 metrów
@@ -132,114 +344,166 @@ Czas działania: 4 tury
 Czas rzucania: 9
 Obszar działania: specjalny 
 Rzut obronny: brak 
+
 Zaklęcie to pozwala rzucającemu na przywołanie i kontrolowanie jednego lub dwóch niedźwiedziołaków. Odpowiedzą one na każdą zachciankę rzucającego w czasie działania czaru. Są wolniejsze niż większe łakowilki, ale też wytrzymalsze. Są odporne na żywioły i magię oraz szybko się regenerują.~
 @115002 = ~Większy niedźwiedziołak~
 @115003 = ~Niedźwiedziołak~
-@115004 = ~Ta symboliczna łapa reprezentuje u druida zmiennokształtnego kontrolę nad likantropią. Kiedy jest używana zmiennokształtny staje się wilkołakiem. Kiedy ją zdejmuje wraca do swojej poprzedniej formy. Łapy wilkołaka liczą się jako bronie +2.
+@115004 = ~Symboliczna łapa oznacza panowanie druida zmiennokształtnego nad likantropią. Dopóki zmiennokształtny ją dzierży, przybiera postać wilkołaka. Po zdjęciu łapy wraca do ludzkiej formy. Łapy wilkołaka traktowane są jak broń +2.
 PARAMETRY:
-Cechy: Siła 19, Zręczność 16, Kondycja 15
-Klasa Pancerza: 1
-Odporności: 20% odporności na magię, odporność na niemagiczne bronie
-Ataki na rundę: 2
+Specjalne:
+– Siła: 19
+– Zręczność: 16
+– Kondycja: 15
+– Bazowa Klasa Pancerza: 1
+– Odporność na magię: 20%
+– Niewrażliwość na broń niemagiczną
+– Ataki na rundę: 2
 Obrażenia: 1k12
 Typ obrażeń: sieczne
 Opóźnienie: 3
-Rodzaj biegłości: sztylet 
+Rodzaj biegłości: sztylet
 Typ broni: 1-ręczna~
-@115005 = ~Ta symboliczna łapa reprezentuje u druida zmiennokształtnego kontrolę nad likantropią. Kiedy jest używana zmiennokształtny staje się większym wilkołakiem. Kiedy ją zdejmuje powraca do swojej poprzedniej formy. Łapy większego wilkołaka liczą się jako bronie +3.
+@115005 = ~Symboliczna łapa oznacza pełne panowanie druida zmiennokształtnego nad likantropią. Dopóki zmiennokształtny ją dzierży, przybiera postać większego wilkołaka. Po zdjęciu łapy wraca do ludzkiej formy. Łapy większego wilkołaka traktowane są jak broń +3.
 PARAMETRY:
-Cechy: Siła 21, Zręczność 20, Kondycja 25
-Klasa Pancerza: -6
-Rzuty obronne: 1/1/1/2/1
-Odporności: 40% odporności na magię, 50% odporności na żywioły, odporność na niemagiczne bronie
-Regeneracja: 3 Punkty Życia na rundę
-Ataki na rundę: 3
-TraK0: 6 
+Specjalne:
+– Siła: 21
+– Zręczność: 20
+– Kondycja: 25
+– Bazowa Klasa Pancerza: -6
+– Bazowe rzuty obronne: 1/1/1/2/1
+– Odporność na magię: 40%
+– Odporność na żywioły: 50%
+– Niewrażliwość na broń niemagiczną
+– Regeneracja: 3 punkty życia na sekundę
+– Ataki na rundę: 3
 Obrażenia: 2k8
-Typ obrażeń:  sieczne
-Opóźnienie:  3
-Rodzaj biegłości: sztylet 
+TraK0: 6
+Typ obrażeń: sieczne
+Opóźnienie: 3
+Rodzaj biegłości: sztylet
 Typ broni: 1-ręczna~
-@116002 = ~Nadal mam akt własności sceny, być może chciałbyś spróbować swych talentów w teatrze. Samuel to dobry człowiek i uszanuje tytuł prawny, który spoczywa w twoich rękach.~
+@115006 = ~Zmiana kształtu: wilkołak
+
+Siła: 19
+Zręczność: 16
+Kondycja: 15
+
+Bazowa Klasa Pancerza: 1
+Liczba ataków: 2
+Obrażenia: 1k12, pazury traktowane jako broń +2
+Typ obrażeń: sieczne
+
+Zdolności:
+– Odporność na magię: 20%
+– Niewrażliwość na broń niemagiczną~
+@115007 = ~Zmiana kształtu: Większy wilkołak
+
+Siła: 21
+Zręczność: 20
+Kondycja: 25
+
+Bazowa Klasa Pancerza: -6
+Liczba ataków: 3
+Obrażenia: 2k8
+Typ obrażeń: sieczne
+
+Zdolności:
+– Odporność na ogień: 50%
+– Odporność na zimno: 50%
+– Odporność na elektryczność: 50%
+– Odporność na kwas: 50%
+– Odporność na magię: 40%
+– Niewrażliwość na broń niemagiczną~
+@115008 = ~Łapa wilkołaka~
+@115009 = ~Łapa większego wilkołaka~
+
+@116002 = ~Nadal mam akt własności teatru, być może chciałbyś spróbować swych talentów w teatrze. Samuel to dobry człowiek i uszanuje tytuł prawny, który spoczywa w twoich rękach.~ ~Nadal mam akt własności sceny, być może chciałabyś spróbować swych talentów w teatrze. Samuel to dobry człowiek i uszanuje tytuł prawny, który spoczywa w twoich rękach.~
 @116003 = ~Przykro mi Raelis, po prostu nie mam na to czasu.~
-@116004 = ~Dziękuję za tą hojną ofertę, ale muszę odmówić. Nie wiedziałbym nawet jak zarządzać teatrem.~
-@116005 = ~Twój teatr pod oberżą Pięć Dzbanów? Jestem zaszczycony, że będę jego właścicielem.~
-@116006 = ~Tak, zrobisz jak chcesz. Nie mogę cię zatrzymać. Jestem winna naszemu wybawcy coś więcej, niż tylko pożegnalne słowa.~
-@116007 = ~Nadal mam akt własności sceny, być może chciałbyś spróbować swych talentów w teatrze. Samuel to dobry człowiek i uszanuje tytuł prawny, który spoczywa w twoich rękach.~
+@116004 = ~Dziękuję za tą hojną ofertę, ale muszę odmówić. Nie wiedziałbym nawet, jak zarządzać teatrem.~ ~Dziękuję za tą hojną ofertę, ale muszę odmówić. Nie wiedziałabym nawet, jak zarządzać teatrem.~
+@116005 = ~Twój teatr pod oberżą Pięć Dzbanów? Jestem zaszczycony, że będę jego właścicielem.~ ~Twój teatr pod oberżą Pięć Dzbanów? Jestem zaszczycona, że będę jego właścicielką.~
+@116006 = ~Tak, zrobisz jak chcesz. Nie mogę cię zatrzymać. Jestem jednak winna naszemu wybawcy coś więcej, niż tylko pożegnalne słowa.~
+@116007 = ~Nadal mam akt własności teatru, być może chciałbyś spróbować swych talentów w teatrze. Samuel to dobry człowiek i uszanuje tytuł prawny, który spoczywa w twoich rękach.~
 @116008 = ~Zatem wystarczyły ci nasze szczere podziękowania. Chodź mój Strażniku zguby, musimy już iść. Może się jeszcze kiedyś spotkamy, <CHARNAME>.~
-@116009 = ~Przykro mi, ale nie mogę. Muszę odnaleźć moją przyjaciółkę i obawiam się, że może mnie nie być zbyt często w Athkatli.~
-@116010 = ~Nie mogę, pastorze, gdyż nie będzie mnie tu zbyt często. Poszukuję potężnego czarodzieja, a moje tropy prowadzą spowrotem do Athkatli.~
+@116009 = ~Przykro mi, ale nie mogę. Muszę odnaleźć moją przyjaciółkę i obawiam się, że mogę rzadko gościć w Athkatli.~
+@116010 = ~Nie mogę, pastorze, gdyż nie będę tu zbyt często gościł<PRO_HESHE>. Poszukuję potężnego czarodzieja, a moje tropy prowadzą z powrotem do Athkatli.~
 @116011 = ~Muszę odmówić. Wydarzenia w Athkatli wymagają mojej obecności i zwyczajnie nie mogę być daleko poza nią.~
-@116012 = ~To będzie dla mnie zaszczyt. Zgadzam się i uczynię wszystko, co tylko będę mógł dla tej wioski.~
-@116013 = ~Wybacz burmistrzu, nie jestem zainteresowany. Oczekuję zapłaty!~
+@116012 = ~To będzie dla mnie zaszczyt. Zgadzam się i uczynię dla tej wioski wszystko, co tylko będę mógł.~ ~To będzie dla mnie zaszczyt. Zgadzam się i uczynię dla tej wioski wszystko, co tylko będę mogła.~
+@116013 = ~Wybacz burmistrzu, nie jestem zainteresowany. Oczekuję zapłaty!~ ~Wybacz burmistrzu, nie jestem zainteresowana. Oczekuję zapłaty!~
 @116014 = ~Przyznam, że jestem zawiedziony, jednak rozumiem trudy towarzyszące twej profesji, <CHARNAME>. Nie zazdroszczę ci wybranej przez ciebie ścieżki.~
-@116015 = ~Ty, mój panie, jesteś prawdziwym przyjacielem tych ziem. Przy pomocy rządów silnej ręki, ziemia może zostać odnowiona.~
-@116016 = ~Czy mógłbyś przewodzić gajem przez ten czas odrodzenia?~
-@116017 = ~Uczynię co będę mógł, by przywrócić równowagę tych ziem.~
+@116015 = ~Ty, mój panie, jesteś prawdziwym przyjacielem tych ziem. Przy pomocy rządów silnej ręki ziemia może zostać odnowiona.~ ~Ty, moja pani, jesteś prawdziwą przyjaciółką tych ziem. Przy pomocy rządów silnej ręki ziemia może zostać odnowiona.~
+@116016 = ~Czy mógłbyś przewodzić gajem przez ten czas odrodzenia?~ ~Czy mogłabyś przewodzić gajem przez ten czas odrodzenia?~
+@116017 = ~Zrobię wszystko co w mojej mocy, by przywrócić równowagę tych ziem.~
 @116018 = ~Ta ziemia wiele wycierpiała, ale obiecuję usunąć szkody dokonane przez działania Faldorn.~
-@116019 = ~Byłbym nikłym zarządcą. Muszę odmówić, gdyż sprawy prowadzą mnie do Athkatli.~
-@116020 = ~Poszukuję potężnego czarodzieja i nie chcę, aby ropraszały mnie inne sprawy.~
-@116021 = ~Moja przyjaciółka została porwana. To dla mnie bardzo bolesne, ale nie mogę odłożyć tych spraw na bok i pomóc gajowi.~
-@116022 = ~Otrzymałeś błogosławieństwo gaju, ja zaś wręczam ci Kostur Gromu i Piorunów.~
+@116019 = ~Nie byłbym dobrym opiekunem. Muszę odmówić, gdyż sprawy prowadzą mnie do Athkatli.~ ~Nie byłabym dobrą opiekunką. Muszę odmówić, gdyż sprawy prowadzą mnie do Athkatli.~
+@116020 = ~Poszukuję potężnego czarodzieja i nie chcę, aby rozpraszały mnie inne sprawy.~
+@116021 = ~Moja przyjaciółka została porwana. To dla mnie bardzo bolesne, ale nie mogę odłożyć tych spraw na bok, by pomagać gajowi.~
+@116022 = ~Otrzymałeś błogosławieństwo gaju, ja zaś wręczam ci Kostur Gromu i Piorunów.~ ~Otrzymałaś błogosławieństwo gaju, ja zaś wręczam ci Kostur Gromu i Piorunów.~
 @116023 = ~Dobrze. Pozostanę mistrzem wyzwań i rządcą, do czasu kiedy dopełnią się rytuały wyniesienia.~
+@116024 = ~Dziękuję ci, Lavoku. Zajmę się sferą.~
+@116025 = ~Muszę odmówić. Mam inne zobowiązania.~
+
 @122001 = ~Ach, torba obfitości. Mogę ją umagicznić, by tworzyła jeszcze lepsze bełty, ale to będzie cię kosztować 5000 sztuk złota.~
 @122002 = ~Zobaczmy jeszcze, co my tu mamy.~
 @122003 = ~Kaptur złodziei, ta?~
-@122004 = ~Wraz z butelką antidotum i pierścieniem niewidzialności, może stać się bardzo użyteczny.~
-@122005 = ~Mamy tu pierścień niewidzialności... i antidotum. To wszystko czego mi potrzeba! Za 10000 sztuk złota zrobiłbym go znacznie potężniejszym.~
+@122004 = ~Wraz z butelką antidotum i pierścieniem niewidzialności może stać się bardzo użyteczny.~
+@122005 = ~Mamy tu pierścień niewidzialności... i antidotum. To wszystko, czego mi potrzeba! Za 10000 sztuk złota zrobiłbym go znacznie potężniejszym.~
 @122006 = ~A cóż to?~
 @122007 = ~Mam przepis, jak przymocować do Hełmu Skały dwa rogi i uczynić go jeszcze potężniejszym. Jak będziesz miał te kawałki, mogę to dla ciebie zrobić.~
 @122008 = ~Masz Hełm Skały i dwa rogi. Za 5000 sztuk złota mogę je przymocować, tworząc niezrównany hełm dla wojowników.~
 @122009 = ~A to Rękawice barda.~
-@122010 = ~Jakbyś miał pare pociętych klejnotów, mógłbym je ulepszyć. Przynieś mi diament, szmaragd, kamień łotrzyków i szafir gwiaździsty, to może coś z tego będzie.~
-@122011 = ~Ze skruszonym diamentem, szmaragdem, szafirem gwiaździstym i kamieniem łotrzyków, mogę to dla ciebie ulepszyć. Będzie cię to kosztować 5000 sztuk złota.~
+@122010 = ~Jakbyś miał parę pociętych klejnotów, mógłbym je ulepszyć. Przynieś mi diament, szmaragd, kamień łotrzyków i szafir gwiaździsty, to może coś z tego będzie.~ ~Jakbyś miała parę pociętych klejnotów, mógłbym je ulepszyć. Przynieś mi diament, szmaragd, kamień łotrzyków i szafir gwiaździsty, to może coś z tego będzie.~
+@122011 = ~Ze skruszonym diamentem, szmaragdem, szafirem gwiaździstym i kamieniem łotrzyków mogę to dla ciebie ulepszyć. Będzie cię to kosztować 5000 sztuk złota.~
 @122012 = ~To są bransolety dla paladyna.~
 @122013 = ~Za 10000 sztuk złota mogę je przekuć w coś znacznie lepszego.~
 @122014 = ~Hmm, jakiś stary podręcznik o golemach.~
-@122015 = ~Jakbyś miał jakieś nowe strony, mógłbym ulepszyć przyzwane golemy z tej książki.~
-@122016 = ~Ze stroną glinianego golema i 5000 sztuk złota, mógłbym ulepszyć tą księge tak, by przyzywała gliniane golemy.~
+@122015 = ~Mając dodatkowe stronice, da się ulepszać golemy przyzywane przez takie książki.~
+@122016 = ~Ze stroną glinianego golema i kwotą 5000 sztuk złota mógłbym ulepszyć tą księgę tak, by przyzywała gliniane golemy.~
 @122017 = ~Acha! Teraz to dopiero prawdziwy płaszcz ochrony.~
 @122018 = ~Mogę go ulepszyć, jeśli przyniesiesz mi zwoje niewidzialności i ulepszonego przyspieszenia ruchów.~
 @122019 = ~Możemy użyć zwoju niewidzialności i ulepszonego przyspieszenia ruchów i jeszcze bardziej ulepszyć ten płaszcz. To dość trudny proces, więc płacisz 20000 sztuk złota.~
 @122020 = ~Ta, łuski z białego żmija. Jeśli chcesz, mogę stworzyć z nich pancerz za jedyne 5000 sztuk złota.~
 @122021 = ~Ta elfia kolczuga jest porządnie wykonana, nawet jak na krasnoludzkie standardy.~
-@122022 = ~Ale jest wciąż pare krasnoludzkich sztuczek, których jeszcze nie znasz. Potrzeba mi zwoju ochrony przed zwykłymi broniami i mogę ją jeszcze bardziej ulepszyć.~
-@122023 = ~Ze zwojem ochrony przed zwykłymi broniami, mógłbym umagicznić pancerz tak, by oparł się każdemu magicznemu ostrzu. Nie łatwo jest wpleść krasnoludzką magię w elfią kolczugę. Będzie cię to kosztować 40000 sztuk złota.~
+@122022 = ~Ale jest wciąż parę krasnoludzkich sztuczek, których jeszcze nie znasz. Potrzeba mi zwoju ochrony przed zwykłymi broniami i mogę ją jeszcze bardziej ulepszyć.~
+@122023 = ~Ze zwojem ochrony przed zwykłymi broniami mógłbym umagicznić pancerz tak, by oparł się każdemu magicznemu ostrzu. Niełatwo jest wpleść krasnoludzką magię w elfią kolczugę. Będzie cię to kosztować 40000 sztuk złota.~
 @122024 = ~To gnomia proca. Za 5000 sztuk złota wyciągnę parę sztuczek z rękawa i mogę poprawić jej celność.~
-@122025 = ~A co to za kołczan? Ta, wytwarza nieskończoną ilość magicznych strzał.~
-@122026 = ~Jakbyś natknął się gdzieś na kamień łotrzyków, mógłbym ulepszyć jeszcze bardziej te strzały.~
+@122025 = ~A co to za kołczan? Aha, wytwarza nieskończoną ilość magicznych strzał.~
+@122026 = ~Mając kamień łotrzyków, mógłbym ulepszyć jeszcze bardziej te strzały.~
 @122027 = ~Z kamieniem łotrzyków i 10000 sztuk złota mógłbym umagicznić te strzały.~
 @122028 = ~Ach, teraz to dopiero niezły widok! Cep bojowy Wieków!~
-@122029 = ~Krążą pogłoski, że istnieje więcej kul do tego cepa. Jakbyś jakąś znalazł, to mógłbym ją tu dodać.~
-@122030 = ~Widzę, że znalazłeś następną kulę. Wygląda na jakąś z trucizną. Za 5000 sztuk złota mogę ją dołączyć do pozostałych.~
+@122029 = ~Krążą pogłoski, że istnieje więcej kul do tego cepa. Jakbyś jakąś znalazł, to mógłbym ją tu dodać.~ ~Krążą pogłoski, że istnieje więcej kul do tego cepa. Jakbyś jakąś znalazła, to mógłbym ją tu dodać.~
+@122030 = ~Widzę, że znalazłeś następną kulę. Wygląda na zatrutą. Za 5000 sztuk złota mogę ją dołączyć do pozostałych.~
 @122031 = ~Czy to nie jest... ? Ta, to maczuga wybuchu.~
-@122032 = ~Jakbyś znalazł pierścień odporności na ogień, mógłbym ulepszyć tę maczugę.~
+@122032 = ~Jakbyś znalazł pierścień odporności na ogień, mógłbym ulepszyć tę maczugę.~ ~Jakbyś znalazła pierścień odporności na ogień, mógłbym ulepszyć tę maczugę.~
 @122033 = ~Za 5000 sztuk złota mogę połączyć to z pierścieniem odporności na ogień i stworzyć jeszcze lepszą maczugę.~
 @122034 = ~Ach, to wygląda na coś od Ixila.~
-@122035 = ~To część wspaniałej włóczni Ixila. Jakbyś znalazł drugą połowę, to mógłbym ukończyć całą broń.~
-@122036 = ~Znalazłeś obie części starej włóczni Ixila. Za 5000 sztuk złota mogę połączyć gwóźdź z kolcem Ixila.~
+@122035 = ~To część wspaniałej włóczni Ixila. Gdyby odnalazła się druga połowa, to mógłbym ukończyć całą broń.~
+@122036 = ~Znalazłeś obie części starej włóczni Ixila. Za 5000 sztuk złota mogę połączyć gwóźdź z kolcem Ixila.~ ~Znalazłaś obie części starej włóczni Ixila. Za 5000 sztuk złota mogę połączyć gwóźdź z kolcem Ixila.~
 @122037 = ~Ach, toż to Sztylet Gwiazdy.~
-@122038 = ~Jeśli połączymy go z pięcioma szafirami gwiaździstymi, to możnaby go jeszcze bardziej umagicznić.~
+@122038 = ~Jeśli połączymy go z pięcioma szafirami gwiaździstymi, to można go jeszcze bardziej umagicznić.~
 @122039 = ~Z tymi pięcioma szafirami gwiaździstymi i 5000 sztuk złota mogę zrobić go jeszcze skuteczniejszym.~
 @122040 = ~Masz trzy kule... mogę od razu dodać do niego kulę z trucizną i z elektrycznością. Razem będzie pięć kul? 10000 sztuk złota i zrobię to. Chcesz?~
-@122041 = ~Mógłbyś na razie przytwierdzić tylko kulę z elektrycznością? Damy ci 5000 sztuk złota. ~
-@122042 = ~Mógłbyś na razie przytwierdzić tylko kulę z trucizną? Damy ci 5000 sztuk złota. ~
+@122041 = ~Mógłbyś na razie przytwierdzić tylko kulę z elektrycznością? Damy ci 5000 sztuk złota.~
+@122042 = ~Mógłbyś na razie przytwierdzić tylko kulę z trucizną? Damy ci 5000 sztuk złota.~
 @122043 = ~Znam przepisy na dwie kule do Cepa bojowego Wieków. Możesz dodać kulę z trucizną... albo kulę z elektrycznością. Mam tylko przepisy, wybacz.~
 @122044 = ~Masz tu trzy kule... mogę dodać do nich kulę z elektrycznością. Razem będą cztery kule? 5000 sztuk złota i sprawa załatwiona. Chcesz?~
 @122045 = ~Ooo! Masz cztery kule i mogę dodać ostatnią. Ta jest naprawdę śmiertelna. 5000 sztuk złota i sprawa załatwiona. Chcesz?~
-@123001 = ~Ach, świecące czerwone łuski, co? Zrobię ci dobrą zbroje łuskową, ochroni cię przed ogniem. ~
-@123002 = ~Co to za świecąca kupka? Ach, illith!~
-@123003 = ~Zrobię ci ładne świecuszko, pokrywając wekierę zniszczeń ilithem. Wróć, jeśli ją znajdziesz.~
+@122046 = ~To gnomia proca. Mam w zanadrzu parę sztuczek, dzięki którym będzie celniejsza.~
+@122047 = ~Jeśli natkniesz się na Pierścień Energii, to się nimi zajmę jak trzeba.~
+@122048 = ~Daj mi ten Pierścień Energii i 5000 sztuk złota i możemy zaczynać.~
+
+@123001 = ~Ach, świecące czerwone łuski, co? Zrobię ci dobrą zbroje łuskową, ochroni cię przed ogniem.~
+@123002 = ~Co to za świecąca kupka? Ach, ilit!~
+@123003 = ~Zrobię ci ładne świecuszko, pokrywając wekierę zniszczeń ilitem. Wróć, jeśli ją znajdziesz.~
 @123004 = ~Ach, wekiera zniszczeń! Zrobię ci ją jeszcze straszniejszą za jedyne 7500 sztuk złota!~
-@123005 = ~Ugh. Musisz umyć tę torbę.~
+@123005 = ~Ugh. Musisz uprać tę torbę.~
 @123006 = ~Ojej, dużo świecącego, błyszczącego srebra.~
-@123007 = ~Ał! Ostre to błyszczące srebro. Potrzebuję rekojeści i mogę wykuć ładny, świecący srebrny miecz.~
+@123007 = ~Ał! Ostre to błyszczące srebro. Potrzebuję rękojeści i mogę wykuć ładny, świecący srebrny miecz.~
 @123008 = ~Niezła ta świecąca rękojeść, ale potrzebujesz ostrza.~
-@123009 = ~Posiadasz rękojęść i osrze. Za 7500 sztuk złota mogę połączyć je w miecz.~
+@123009 = ~Posiadasz rękojeść i ostrze. Za 7500 sztuk złota mogę połączyć je w miecz.~
 @123010 = ~Dobra, szukam dalej.~
-@123011 = ~Hej! Macham do Fali!~
-@123012 = ~Posiadasz niezłe ostrze halabardy, ale potrzebuję resztę.~
-@123013 = ~Czemu trzymasz ten kij? Gdybyś znalazł do niego ostrze, mógłbyś mieć niezłą halabardę.~
+@123011 = ~Hej! Pomachaj do Fali!~
+@123012 = ~Posiadasz niezłe ostrze halabardy, ale potrzebuję reszty.~
+@123013 = ~Czemu trzymasz ten kij? Gdybyś znalazł do niego ostrze, mógłbyś mieć niezłą halabardę.~ ~Czemu trzymasz ten kij? Gdybyś znalazła do niego ostrze, mogłabyś mieć niezłą halabardę.~
 @123014 = ~Stylisko i ostrze Fali. Mógłbym je połączyć w niezłą błyszczącą halabardę za 7500 sztuk złota.~
 @123015 = ~Szukam dalej... ups. To już tak było?!~
 @123016 = ~Hę? Wygląda na coś od Gesena.~
@@ -248,77 +512,421 @@ Typ broni: 1-ręczna~
 @123019 = ~Ciekawe, czemu nazywają go krótkim? Dla mnie wciąż jest za wielki! Szukam dalej.~
 @123020 = ~Ach, świecące kawałki Wyrównywacza. Dlaczego tego nie złożysz?~
 @123021 = ~Ach, pewnie dlatego, że nie masz wszystkich części miecza. Mogę ci w tym pomóc później, jeśli je zdobędziesz.~
-@123022 = ~Może nie wiesz, jak? Cespenar wie, o tak, i to za jedyne 7500 sztuk złota.~
+@123022 = ~Może nie wiesz jak? Cespenar wie, o tak, i to za jedyne 7500 sztuk złota.~
 @123023 = ~Dobra, przeszukam ci torbę jeszcze raz.~
 @123024 = ~Ach, wielki młot gromów. Bzz! Bzz!~
-@123025 = ~Posiadasz zwój z prawdziwym imieniem młota gromów, rękawice siły ogra, pas siły lodowego olbrzyma i Cespenar znacznie go ulepszy!~
+@123025 = ~Przyniesiesz zwój z prawdziwym imieniem młota gromów, rękawice siły ogra i pas siły lodowego olbrzyma, a Cespenar znacznie go ulepszy!~
 @123026 = ~Możesz tego nie wiedzieć, ale Cespenar nie jest krasnoludem. Wciąż jednak zna kilka krasnoludzkich sztuczek.~
 @123027 = ~Daj mi ten młot, zwój, rękawice siły ogra, 10000 sztuk złota i pas siły lodowego olbrzyma, a zrobię ci Crom Fayer. Wielki, błyszczący młot!~
 @123028 = ~Cespenar wciąż szuka.~
-@123029 = ~Śmierdzące łuski ankhega! Za jedyne 5000 sztuk złota zrobię zbroję płytową, ochroni cię przed kwasem, lśniącą i bardzo zieloną. Chcesz? ~
+@123029 = ~Śmierdzące łuski ankhega! Za jedyne 5000 sztuk złota zrobię zbroję płytową, ochroni cię przed kwasem, lśniącą i bardzo zieloną. Chcesz?~
 @123030 = ~Dobra. Cespenar szuka dalej.~
-@123031 = ~Smok cienia? Zrobię niezłą torbę. Zbroję też. Oba ochranią cię przed kwasem.~
+@123031 = ~Łuski smoka cienia? Nadają się na niezłą torbę. Na zbroję też. Obie ochronią cię przed kwasem.~
 @123032 = ~O, masz łuski niebieskiego smoka. Śmierdzą, ale można z nich zrobić świetną zbroję płytową... bardzo lekką, bardzo lśniącą.~
-@123033 = ~Ach, to łuski białego smoka, co? Zrobię ci dobrą zbroje łuskową, może ochroni cię przed zimnem. ~
-@123034 = ~Chcesz jakąś zbroję ze smoka za jedyne 5000 sztuk złota. Chcesz?~
+@123033 = ~Ach, to łuski białego smoka, co? Zrobię ci dobrą zbroje łuskową, może ochroni cię przed zimnem.~
+@123034 = ~Chcesz jakąś zbroję ze smoka za jedyne 5000 sztuk złota? Chcesz?~
 @123035 = ~Zrób zbroję z łusek smoka cienia.~
 @123036 = ~Zrób zbroję z łusek czerwonego smoka.~
+
+@125002 = ~Zejdź mi z oczu, niziołku. Nie mam cierpliwości do twej paplaniny!~
+@125003 = ~W sumie to tak. Czemu pytasz?~
+@125004 = ~Byłem już w tych ruinach i muszę przyznać, że są przereklamowane.~ ~Byłam już w tych ruinach i muszę przyznać, że są przereklamowane.~
+@125005 = ~Poczekaj, aż usłyszysz, co mam do powiedzenia. Te ruiny aż się proszą, by do nich wejść i je zrabować, a przy tym można nie nabawić się zbyt wielu siniaków. Może powinniśmy współpracować. Żyjąc tu wraz z ciotką, poznałam to miejsce całkiem nieźle. Znam kilka sekretów, umiem otwierać zamki i odnajdywać pułapki. Może być ubaw. Co powiesz?~
+@125006 = ~Wspaniały pomysł! Witaj na pokładzie.~
+@125007 = ~Przykro mi, ale mamy wszystkich, których potrzebujemy.~
+@125008 = ~Śmieszne! I na cóż byś się zdała? Zabrałaś mi i tak już wystarczająco dużo czasu, teraz spadaj!~
+@125009 = ~Cóż! Nie trzeba być od razu tak niemiłym! Hmm! Nigdy nie spotykam miłych ludzi w tej branży! Nie dziw, że wszyscy nienawidzą poszukiwaczy przygód! Żegnam!~
+@125010 = ~To cud miód! Och, jak świetnie móc zagadać do kogoś po fachu! Zostałam zesłana tu do ciotki, by popracować nad sobą i w ogóle, ale zaczyna mi się tu strasznie nudzić. Może popracujemy razem. Poznałam to miejsce całkiem nieźle. Znam kilka sekretów, umiem otworzyć kilka zamków, znaleźć parę pułapek. Może być ubaw. Co powiesz?~
+@125011 = ~Święta matko kakofonio, przereklamowane?! To ci dopiero jest ekscytujące! Powinniśmy... powinniśmy razem popracować! Tia! Przydałaby mi się pomoc... eee... znaczy się, moglibyśmy sobie pomóc wzajemnie. Mogę szukać dla was błyskotek. Będziecie nawet mogli większość z nich zatrzymać! Co wy na to?~
+@125012 = ~Przyjaciele z nas, i to nie od parady! Jeden za wszystkich i tak dalej! Czeka nas setny ubaw, po prostu to WIEM!~
+@125013 = ~Niech to, a tak dobrze żarło. Ciężko nawiązać przyjaźnie w tym fachu. Szczególnie udane. Żegnaj, chyba.~
+@125014 = ~Chyba trochę się tu poszwendam, aż wróci ci rozsądek i wrócisz po mnie.~
+@125015 = ~Cóż, jeśli przez cały czas masz zamiar trzymać się mnie jak rzep psiego ogona, to może popracujemy razem.~
+@125016 = ~Nie, nie interesują mnie te ruiny.~
+@125017 = ~Hej, wy nie jesteście stąd! Taaak! Wasze buty nie są odpicowane na glanc, nosicie gatki bez szelek. Nie jesteście kupcami. Oni zawsze lepiej się prezentują. Na zwariowane zające, poszukiwacze przygód w Gullykin! Chcecie splądrować ruiny mostu Firewine?~
+
+@126001 = ~Poeta jezior Sam~
+@126002 = ~Sam~
+@126003 = ~Poeta jezior Rob~
+@126004 = ~Rob~
+@126005 = ~Poeta jezior Willy~
+@126006 = ~Willy~
+
+@137001 = ~Sztylet naręczny~ 
+@137002 = ~Pazury~ 
+@137003 = ~Wyściełane rękawice~ 
+@137004 = ~Załóż sztylety naręczne~ 
+@137005 = ~Założenie sztyletów naręcznych zmieni obrażenia twoich nieuzbrojonych ataków na kłute.~ 
+@137006 = ~Gołe pięści~ 
+@137007 = ~Użycie gołych pięści przywróci obrażenia twoich nieuzbrojonych ataków do obuchowych.~
+@137008 = ~Wyciągnij pazury~ 
+@137009 = ~Wyciągnięcie pazurów zmieni obrażenia twoich nieuzbrojonych ataków na sieczne.~ 
+@137010 = ~Załóż wyściełane rękawice~ 
+@137011 = ~Założenie wyściełanych rękawic przywróci zwykłe obrażenia obuchowe, dzięki czemu możesz nokautować przeciwników, nie zabijając ich.~ 
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Rule Changes Components                          \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
 @202001 = ~Włada jednoręcznym~
 @202002 = ~Włada dwuręcznym~
 @202003 = ~^[ %TAB%]*Rodzaj broni[ %TAB%]*:[ %TAB%]*\(1\|jedno\)[- %TAB%]*ręczna.*~
 @202004 = ~Rodzaj broni: 2-ręczna~
+@204001 = ~^[ %TAB%]*\(Może używać\|Nie może używać\).*~
+@204002 = ~Nie może używać:~
+@204003 = ~[%LNL%%MNL%%WNL%].*[ %TAB%]*Mag.*~
+
+// Moved from thieving_descripts.tpa
+// Typical weight line for an item, used for a search matching the whole line
 @210001 = ~\(Waga:[ %TAB%]*[0-9]+\)~
-@210002 = ~^[ %TAB%]*Otwieranie zamków:.+$[%MNL%%LNL%%WNL%]+~
+// Typical lock picking penalty line in original armors
+@210002 = ~^[ %TAB%]*Otwieranie zamków:.+$[%MNL%%LNL%%WNL%]+~ // lone . at front to catch EE emdash
+// Title for lock picking added after Weight line, penalty is added after this text
 @210003 = ~Otwieranie zamków:~
-@210004 = ~^[ %TAB%]*Wykrywanie pułapek:.+$[%MNL%%LNL%%WNL%]+~
+// Typical find trap penalty line in original armors
+@210004 = ~^[ %TAB%]*Wykrywanie pułapek:.+$[%MNL%%LNL%%WNL%]+~ // lone . at front to catch EE emdash
+// Title for find trap added after Weight line, penalty is added after this text
 @210005 = ~Wykrywanie pułapek:~
-@210006 = ~^[ %TAB%]*Kradzież kieszonkowa:.+$[%MNL%%LNL%%WNL%]+~
+// Typical pick pocket penalty line in original armors
+@210006 = ~^[ %TAB%]*Kradzież kieszonkowa:.+$[%MNL%%LNL%%WNL%]+~ // lone . at front to catch EE emdash
+// Title for pick pocket added after Weight line, penalty is added after this text
 @210007 = ~Kradzież kieszonkowa:~
-@210008 = ~^[ %TAB%]*Krycie się w cieniu:.+$[%MNL%%LNL%%WNL%]+~
+// Typical hide en shadow penalty line in original armors
+@210008 = ~^[ %TAB%]*Krycie się w cieniu:.+$[%MNL%%LNL%%WNL%]+~ // lone . at front to catch EE emdash
+// Title for hide in shadow added after Weight line, penalty is added after this text
 @210009 = ~Krycie się w cieniu:~
-@210010 = ~^[ %TAB%]*Ciche chodzenie:.+$[%MNL%%LNL%%WNL%]+~
+// Typical move silently penalty line in original armors
+@210010 = ~^[ %TAB%]*Ciche chodzenie:.+$[%MNL%%LNL%%WNL%]+~ // lone . at front to catch EE emdash
+// Title for move silently added after Weight line, penalty is added after this text
 @210011 = ~Ciche chodzenie:~
+// Typical move silently penalty line in original armors
+@210012 = ~^[ %TAB%]*.?.?.?[ %TAB%]*Skradanie:.+$[%MNL%%LNL%%WNL%]+~ // lone . at front to catch EE emdash
+// Title for move silently added after Weight line, penalty is added after this text
+@210013 = ~Skradanie:~
+
+// Moved from arcane_descripts.tpa
+// Typical weight line for an item, used for a search matching the whole line
 @212001 = ~\(Waga:[ %tab%]*[0-9]+\)~
+// Title for miscast chance added after Weight line, value is added after this text
 @212002 = ~Nieudane rzucenie czarów mistycznych:~
+
 @214001 = ~barbarzyńca / mag~
 @214002 = ~barbarzyńca / kapłan~
 @214003 = ~barbarzyńca / złodziej~
 @214004 = ~barbarzyńca / druid~
-@215002 = ~[%LNL%%MNL%%WNL%][ %TAB%]*\(–\)? *Klasa Pancerza[^:]*:.*~
-@216001 = ~KRÓTKI MIECZ/NINJA-TO: Ulubiony oręż wielu złodziei i niziołków. Krótki miecz i ninja-to to lekkie lecz użyteczne bronie.
+
+@215002 = ~[%LNL%%MNL%%WNL%][ %TAB%]*\(–\)? *Klasa Pancerza[^:]*:.*~ // lone . at front to catch EE emdash
+
+@216001 = ~MIECZ KRÓTKI/NINJA-TO: Ulubiony oręż wielu złodziei i niziołków. Krótki miecz i ninja-to to lekkie lecz użyteczne bronie.
+
 <DOTS1>
+
 <DOTS2>
+
 <DOTS3>
+
 <DOTS4>
+
 <DOTS5>~
 @216002 = ~KATANA/WAKIZASHI: Katany i wakizashi to najwspanialszy przykład płatnerskiego rzemiosła. Trzeba o nie dbać. Wraz z rozwojem umiejętności szermierz i klinga stają się jedną istotą, całkowicie poświęconą sztuce wojennej. Te bronie trudno znaleźć poza Kara-Tur, więc przed wyborem tej umiejętności należy się poważnie zastanowić. Przecież biegłość w katanie i wakizashi przyda ci się tylko, jeśli jakąś znajdziesz.
-Ostrzeżenie: Magiczne katany są bardzo rzadkie w Baldur`s Gate 2!
+
+UWAGA: Magiczne katany i wakizashi są niezwykle rzadkie poza Kara-Tur, dlatego wybór tej biegłości warto dobrze przemyśleć!
+
 <DOTS1>
+
 <DOTS2>
+
 <DOTS3>
+
 <DOTS4>
+
 <DOTS5>~
 @216003 = ~SEJMTAR: Ta klasa broni pozwala postaci używać zakrzywionych broni siecznych jak na przykład sejmtarów.
+
 <DOTS1>
+
 <DOTS2>
+
 <DOTS3>
+
 <DOTS4>
+
 <DOTS5>~
 @216004 = ~CEP BOJOWY: Cepy bojowe są bronią obuchową używaną do pozbawienia wroga przytomności. Są ciężkie w użyciu, ale z umiejętnościami i praktyką stają się bardzo przydatne.
+
 <DOTS1>
+
 <DOTS2>
+
 <DOTS3>
+
 <DOTS4>
+
 <DOTS5>~
 @216005 = ~WEKIERA/MORGENSZTERN: Maczuga jest najczęściej kojarzona z kapłanami. To potężna broń obuchowa podobna do maczugi lecz stworzona do zadawania poważniejszych obrażeń. Morgensztern jest podobny do wekiery, ale ma zazwyczaj kolce.
+
 <DOTS1>
+
 <DOTS2>
+
 <DOTS3>
+
 <DOTS4>
+
 <DOTS5>~
 @216007 = ~Rodzaj\( biegłości\)?[:-] *~
 @216008 = ~Rodzaj biegłości:~
+@216009 = ~Miecz krótki/Ninja-To~
+@216010 = ~Katana/Wakizashi~
+@216011 = ~Wekiera/Morgensztern~
+
 @216101 = ~Lekki miecz~
+@216102 = ~ i szamani~ // leading space is required
+@216103 = ~MIECZE LEKKIE: Bohater władający bronią z tej klasy może posługiwać się sztyletami i mieczami krótkimi.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5> ~
+@216104 = ~CIĘŻKIE MIECZE: Bohater władający bronią z tej klasy może posługiwać się mieczami półtoraręcznymi, oburęcznymi, długimi i sejmitarami. Złodzieje mogą ją wybrać, ale są ograniczeni tylko do długich mieczy. Mogą ją wybrać również druidzi%cd_shaman%, ale ograniczają się tylko do sejmitarów. Mnisi również mogą wybrać tę grupę, ale nie mogą używać mieczy półtoraręcznych ani mieczy oburęcznych.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>
+~
+@216105 = ~ŁUKI: Bohater władający bronią z tej klasy może posługiwać się łukami długimi, refleksyjnymi i krótkimi. Tylko wojownicy, łowcy i paladyni mogą używać łuków refleksyjnych. Złodzieje%cd_shaman% mogą wybrać tę kategorię, ale są ograniczeni tylko do łuków krótkich.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216106 = ~BRONIE Z KOLCAMI: Bohater władający bronią z tej klasy może posługiwać się morgenszternami i cepami bojowymi.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216107 = ~TOPORY: Bohater władający bronią z tej klasy może posługiwać się toporami bojowymi i toporkami do rzucania
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216108 = ~BRONIE OBUCHOWE: Bohater władający bronią z tej klasy może posługiwać się wekierami, maczugami, młotami bojowymi i kijami. Druidzi i złodzieje mogą ją wybrać, ale są ograniczeni tylko do maczug i kijów. Magowie mogą ją wybrać, ale są ograniczeni tylko do kijów. Mnisi również mogą ją wybrać, ale są ograniczeni tylko do maczug.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216109 = ~WŁÓCZNIE: Bohater władający bronią z tej klasy może posługiwać się włóczniami i halabardami. Druidzo%cd_shaman% mogą ją wybrać, ale nie mogą używać halabard.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216110 = ~BRONIE STRZELECKIE: Bohater władający bronią z tej klasy może posługiwać się procami, strzałkami i kuszami. Mnisi, druidzi%cd_shaman% mogą ją wybrać, ale są ograniczeni tylko do proc i strzałek. Kapłani również mogą ją wybrać, ale są ograniczeni tylko do proc.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216111 = ~, oszczepami~ 
+
+@216301 = ~Wielkie miecz~
+@216302 = ~WIELKIE MIECZE: Bohater władający bronią z tej klasy może posługiwać się mieczami dwuręcznych oraz mieczami półtoraręcznymi.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216303 = ~CIĘŻKIE MIECZE: Bohater władający bronią z tej klasy może posługiwać się mieczami szerokimi, długimi i katanami, wakizashi, ninja-to oraz sejmitarami. Druidzi%cd_shaman% mogą ją wybrać, ale są ograniczeni tylko do sejmitarów.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216304 = ~BRONIE STRZELECKIE: Bohater władający bronią z tej klasy może posługiwać się procami i strzałkami. Kapłani mogą ją wybrać, ale są ograniczeni tylko do proc.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216305 = ~CLUBS:  This weapon class allows the character to use clubs.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216306 = ~CROSSBOWS:  This weapon class allows the character to use light crossbows and heavy crossbows.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216305 = ~SZTYLETY:  Bohater władający bronią z tej klasy może posługiwać się sztyletami oraz sztyletami do rzucania.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216306 = ~HALABARDY: Bohater władający bronią z tej klasy może posługiwać się halabardami.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216307 = ~CEPY BOJOWE: Bohater władający bronią z tej klasy może posługiwać się ami bojowymi.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216308 = ~Młot~
+@216309 = ~MŁOTY: Bohater władający bronią z tej klasy może posługiwać się młotami i ciężkimi młotami.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216310 = ~Wekiera~
+@216311 = ~WEKIERY: Bohater władający bronią z tej klasy może posługiwać się wekierami.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216312 = ~MIECZE LEKKIE: Bohater władający bronią z tej klasy może posługiwać się mieczami krótkimi. 
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216313 = ~WŁÓCZNIE: Bohater władający bronią z tej klasy może posługiwać się włóczniami%cd_javelins%.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+@216314 = ~KIJE: Bohater władający bronią z tej klasy może posługiwać się kijami.
+
+<DOTS1>
+
+<DOTS2>
+
+<DOTS3>
+
+<DOTS4>
+
+<DOTS5>~
+// keep the leading space
+@216315 = ~ i oszczepami~ 
+
+// this component deprecated, but the strings below still needed for the components that replace it
 @218001 = ~Alchemia (Mag)~
 @218002 = ~Alchemia (Kapłan)~
 @218003 = ~Alchemia (Łotrzyk)~
@@ -354,7 +962,7 @@ Mikstury produkowane przez łotrzyka są wybierane losowo z poniższej listy:
 3) Mikstura niewidzialności
 4) Mikstura większego leczenia
 5) Mikstura regeneracji
-6) Antdotum
+6) Antidotum
 7) Olej szybkości
 8) Łotrzykowska mikstura siły lodowego olbrzyma~
 @218007 = ~Pisanie zwojów (Mag)~
@@ -379,7 +987,7 @@ Ta umiejętność pozwala kapłanowi tworzyć święte zwoje. Czary, które moż
 3)  Wskrzeszenie
 4)  Przywrócenie
 5)  Ochrona przed kwasem
-6)  Ochrona przed imnem
+6)  Ochrona przed zimnem
 7)  Ochrona przed elektrycznością
 8)  Ochrona przed ogniem
 9)  Siła czempiona
@@ -395,11 +1003,37 @@ Ta umiejętność pozwala łotrzykowi zapisać czary niskiego i średniego pozio
 7) Stożek zimna
 8) Przywołanie potwora II
 9) Przywołanie potwora III~
+
 // next two strings used for matching and updating item descriptions
-@223001 = ~PARAMETRY:~ // this is used for mataching in the item descripiton, so copy this from an oBG2 item description
+@223001 = ~PARAMETRY:~ // this is used for matching in the item description, so copy this from an oBG2 item description
 @223002 = ~Przy rzutach na trafienie, zawsze zachowuje się jak broń +%ench%~
 
-@315000 = ~Wylacz okropne animacje Plaszcza odwzwierciedlen, Pulapki na czary i Lustra materii~
+// the next string should match content TO BE REMOVED from the racial description of humans and the help reference for dual-classing
+@235002 = ~ Ludzie nie mogą być wieloklasowcami.~ // from strref #9550
+
+// the next two strings should match content TO BE REMOVED from the racial description of humans and the help reference for dual-classing
+// you may need to check the EEs, as oBG2 doesn't mention dual-classing in #9550 or #32540
+@237002 = ~  i są jedyną rasa mogąca wykorzystać dwuklasowość.~ // from strref #9550
+@237003 = ~Dwuklasowość to zdolność, którą posiadają tylko ludzie. ~ // from strref #10811
+@237004 = ~, jeśli twoja postać jest człowiekiem~ // BG tutorial monk dialogue monktu4 - 32540 in BGEE/SoD
+
+// translators - the next three strings are used to replace game text, so they need to be copied from the game itself
+// get @244001 and @244002 from strref 9588 in bgee/bg2ee/iwdee
+@244001 = ~\* Wszystkie dodatkowe ataki dotyczą tylko klas wojownika.~ // last line; if there's a * included then add \ in front of it
+@244002 = ~Tabela Biegłości:~ // line before <DOTS1>, exclude the * if present
+// get @244003 from string 32117 (bg2ee/iwdee) or 24220 (bgee)
+@244003 = ~(tylko dla wojowników)~
+
+@274001 = ~Nie może używać pancerza podczas przemian~
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                  \\\\\
+///// Convenience Tweaks                               \\\\\
+/////                                                  \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
 @318313 = ~Sprowadź tu moją ukochaną, Aerie.~
 @318314 = ~Sprowadź tu moją ukochaną, Jaheirę.~
 @318315 = ~Sprowadź tu mojego ukochanego Rycerza Zakonu, Sir Anomena.~
@@ -409,39 +1043,125 @@ Ta umiejętność pozwala łotrzykowi zapisać czary niskiego i średniego pozio
 @318319 = ~Sprowadź tu moją ukochaną, Hexxat.~
 @318320 = ~Sprowadź tu moją ukochaną, Neerę.~
 @318321 = ~Sprowadź tu mojego ukochanego, Rassada.~
-@321001 = ~Wybierz minimalna wartosc dla cech z przedzialu od 6 do 15:~
-@322001 = ~Dziewczynka Atta~
-@322002 = ~Angel~
-@408001 = ~Zapytany o przeszłość, KHALID nerwowym głosem wyjaśnił, iż urodził się i wychował w Calimshanie. Nie wspomniał zbyt wiele o rodzicach, masz jednak wrażenie, że ojciec - kupiec - zwracał na niego niewiele uwagi, większość czasu poświęcając jego przyrodniemu bratu. Khalid postanowił więc zająć się karierą wojskową, biorąc nauki od miejscowej straży. Nie wchodził w szczegóły spotkania z Jaheirą, ale jego zauroczenie tą kobietą wydaje się oczywiste. Zapytany o Goriona, odpowiedział tylko, że byli przyjaciółmi od dawna i że wyrazi swój żal w pieśni i muzyce harfy.~
+
+@322001 = ~Atta~
+@322002 = ~Aniołek~
+
+@324101 = ~Dżin żetonów~
+@324102 = ~Żeton~
+@324103 = ~Niepozorny żeton bez żadnych oznaczeń.~
+@324104 = ~Witaj! Wybierz przedmiot, na który chcesz wymienić swój żeton:~
+
+@324201 = ~Flynn~
+@324202 = ~Wędrowny kupiec~
+@324203 = ~Harrold~
+@324204 = ~Witajcie, podróżnicy! Mogę zająć wam chwilę?~
+@324205 = ~Wybacz, teraz nie mam czasu.~
+@324206 = ~Wybaczcie zamieszanie, ale nie mam żadnych towarów na sprzedaż. Szukam za to egzotycznych przedmiotów, choć nie płacę za nie złotem.~
+@324207 = ~Oczywiście wszystko to... za niewielką prowizję.~
+@324208 = ~Może innym razem.~
+@324209 = ~Co to za prowizja?~
+@324210 = ~Zwykle pobieram tysiąc sztuk złota, ale w zamian mogę zaoferować szeroki wybór wymian.~
+@324211 = ~To strasznie dużo!~
+@324212 = ~Dobrze więc. Mam coś, co mogłoby cię zainteresować?~
+@324213 = ~To prawda, ale moja oferta nie ma sobie równych. A samo oglądanie nic nie kosztuje.~
+@324214 = ~Żegnajcie i szerokiej drogi.~
+@324215 = ~Dobrze słyszeć, że dotarł bezpiecznie. Czyli już wiesz, jak to działa?~
+@324216 = ~Tak. Mógłbyś rzucić okiem na moje towary i sprawdzić, czy mam coś wartego wymiany?~
+@324217 = ~Nie, właściwie nie.~
+@324218 = ~Chętnie wymienię swoje egzotyczne towary na wszystko, co uda ci się znaleźć. Może mam coś bardziej przydatnego dla kogoś takiego jak ty.~
+@324219 = ~No dobrze, zobaczmy...~
+@324220 = ~Witajcie ponownie, podróżnicy.~
+@324221 = ~Niestety nie widzę tu niczego, co by mnie interesowało.~
+@324222 = ~Chciałbym zdobyć te przedmioty. Chcesz zobaczyć, co mogę zaoferować w zamian?~
+@324223 = ~Nie zamierzam wymieniać żadnej z tych rzeczy.~
+@324224 = ~Och... wygląda na to, że nie masz dość złota, by opłacić moją prowizję.~
+@324225 = ~Dobrze więc. Któryś z tych przedmiotów cię interesuje?~
+@324226 = ~Niestety nie. Co jeszcze możemy wymienić?~
+@324227 = ~Dobrze.~
+@324228 = ~Dziękuję. Żegnaj.~
+// -60 and -80 string series are identical, just with Flynn/Harrold and Lonelywood/Kuldahar exchanged
+@324260 = ~Jestem Flynn, przedstawiciel kompanii handlowej z Calimportu. Przysłano mnie tutaj, bym wyszukiwał egzotyczne i unikatowe przedmioty.~
+@324261 = ~Zdaje się, że spotkałem twojego odpowiednika, Harrolda, w Samotnej Kniei.~
+@324262 = ~Miło cię poznać, Flynnie. Mogę zobaczyć twoje towary?~
+@324263 = ~Dzięki, Flynnie. Będę o tobie pamiętać, jeśli coś znajdę.~
+@324264 = ~Witaj ponownie, Flynnie. Możemy się znowy wymienić?~
+@324265 = ~Nie, nic z tego mnie nie interesuje. Żegnaj, Flynnie.~
+@324266 = ~Dziękuję, Flynnie. Masz może jeszcze coś na wymianę?~
+@324280 = ~Jestem Harrold, przedstawiciel kompanii handlowej z Calimportu. Przysłano mnie tutaj, bym wyszukiwał egzotyczne i unikatowe przedmioty.~
+@324281 = ~Zdaje się, że spotkałem twojego odpowiednika, Flynna, w Kuldahar.~
+@324282 = ~Miło cię poznać, Harroldzie. Mogę zobaczyć twoje towary?~
+@324283 = ~Dzięki, Harroldzie. Będę o tobie pamiętać, jeśli coś znajdę.~
+@324284 = ~Witaj ponownie, Harroldzie. Chcesz coś tutaj wymienić?~
+@324285 = ~Nie, nic z tego mnie nie interesuje. Żegnaj, Harroldzie.~
+@324286 = ~Dziękuję, Harroldzie. Masz może jeszcze coś na wymianę?~
+
+@325001 = ~Właściwie, możemy jeszcze raz zobaczyć przedmioty, które oferowałeś, kiedy po raz pierwszy przybyliśmy do Kuldahar?~
+@325002 = ~Możemy jeszcze raz obejrzeć przedmioty, które oferowałeś później, podczas naszego pobytu tutaj?~
+
+@333050 = ~Wyłącz przyspieszenie poza walką~
+@333051 = ~Wyłącz przyspieszenie poza walką
+
+Ta opcja decyduje, czy szybkość ruchu członków drużyny poza walką jest zwiększona. Kliknij na tę opcję, by ją WYŁĄCZYĆ.~
+@333052 = ~Wyłącz przyspieszenie poza walką
+
+Ta opcja decyduje, czy szybkość ruchu i rzucania czarów członków drużyny poza walką jest zwiększona. Kliknij na tę opcję, by ją WYŁĄCZYĆ.~
+@333053 = ~Wyłącz przyspieszenie poza walką
+
+Ta opcja decyduje, czy szybkość rzucania czarów członków drużyny poza walką jest zwiększona. Kliknij na tę opcję, by ją WYŁĄCZYĆ.~
+@333054 = ~Przyspieszenie poza walką~
+// @333055 = ~Improved Alacrity~ // bg2 strref #63217
+@333056 = ~Szybkość ruchu poza walką~
+@333057 = ~Szybkość rzucania czarów poza walką~
+@333060 = ~Włącz przyspieszenie poza walką~
+@333061 = ~Włącz przyspieszenie poza walką
+
+Ta opcja decyduje, czy szybkość ruchu członków drużyny poza walką jest zwiększona. Kliknij na tę opcję, by ją WŁĄCZYĆ.~
+@333062 = ~Włącz przyspieszenie poza walką
+
+Ta opcja decyduje, czy szybkość ruchu i rzucania czarów członków drużyny poza walką jest zwiększona. Kliknij na tę opcję, by ją WŁĄCZYĆ.~
+@333063 = ~Włącz przyspieszenie poza walką
+
+Ta opcja decyduje, czy szybkość rzucania czarów członków drużyny poza walką jest zwiększona. Kliknij na tę opcję, by ją WŁĄCZYĆ.~
+@333070 = ~Premie za przyspieszenie poza walką usunięte~
+
+@335100 = ~Zapis automatyczny (interwałowy)~
+@335101 = ~Utworzono zapis automatyczny (interwałowy)~
+@335102 = ~Utworzono zapis automatyczny (slot %slot_index%)~
+
+@337001 = ~000000003-Kostnica~
+@337002 = ~000000004-Niższa Dzielnica~
+@337003 = ~000000005-Do Labiryntu Raveli~
+
+// these two strings will be combined as a prefix and suffix to write "Casting Grease..." to the combat log
+// adjust as needed for your grammar, e.g. if you don't need a prefix then make @341002 = ~~
+// note that you need to include spaces, if needed
+@341002 = ~Rzuca ~
+@341003 = ~...~
+
+@351001 = ~Daj mi chwilę, zaraz wszystko zbiorę.~
+@351002 = ~No dobrze, gdzie to się ukryło...?~
+@351003 = ~Tutaj...? Ach, jest.~
+@351004 = ~...i jeszcze ostatni... gotowe.~
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\
-///// Ex-SCS components                                \\\\\
-///// Automatically copied over from SCS TRA files     \\\\\
+///// NPC Tweaks                                       \\\\\
 /////                                                  \\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-@506000 = ~Usun animacje z Plaszcza odbicia (pozostaw ja dla pozostalych czarow i efektow, ktore korzystaja z tej samej grafiki)~
-@507001 = ~Spraw, by lochy na poczatku gry staly sie nieco trudniejsze~
-@507002 = ~Udostepnij dla wszystkich klas twierdze barda ~
-@507003 = ~Udostepnij dla wszystkich klas twierdze kaplana~
-@507004 = ~Udostepnij dla wszystkich klas twierdze druida~
-@507005 = ~Udostepnij dla wszystkich klas twierdze wojownika~
-@507006 = ~Udostepnij dla wszystkich klas twierdze paladyna~
-@507007 = ~Udostepnij dla wszystkich klas twierdze lowcy~
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-/////                                                  \\\\\
-///// Ex-SCS components                                \\\\\
-///// Automatically copied over from SCS TRA files     \\\\\
-/////                                                  \\\\\
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
-@506000 = ~Usun animacje z Plaszcza odbicia (pozostaw ja dla pozostalych czarow i efektow, ktore korzystaja z tej samej grafiki)~
-@507001 = ~Udostepnij dla wszystkich klas twierdze barda ~
-@507002 = ~Udostepnij dla wszystkich klas twierdze kaplana~
-@507003 = ~Udostepnij dla wszystkich klas twierdze druida~
-@507004 = ~Udostepnij dla wszystkich klas twierdze wojownika~
-@507005 = ~Udostepnij dla wszystkich klas twierdze paladyna~
-@507007 = ~Udostepnij dla wszystkich klas twierdze lowcy~
-@507008 = ~Udostepnij dla wszystkich klas twierdze zlodzieja~
+
+@408001 = ~Zapytany o przeszłość, KHALID nerwowym głosem wyjaśnił, iż urodził się i wychował w Calimshanie. Nie wspomniał zbyt wiele o rodzicach, masz jednak wrażenie, że ojciec – kupiec – zwracał na niego niewiele uwagi, większość czasu poświęcając jego przyrodniemu bratu. Bez wsparcia ojca Khalid nie był w stanie opłacić nauki u czarodzieja, więc zaciągnął się do miejskiej milicji z nadzieją, że zdoła zarobić potrzebne pieniądze. Nie wchodził w szczegóły spotkania z Jaheirą, ale jego zauroczenie tą kobietą wydaje się oczywiste. Zapytany o Goriona, odpowiedział tylko, że byli przyjaciółmi od dawna i że wyrazi swój żal w pieśni i muzyce harfy.~
+
+// translators: 418001 is strref #10232 from bgee or bg2ee without the 'equipped abilities' block.
+// This is not used on non-EE games since they don't mention equipping effects
+@418001 = ~To jest dziedzictwo Edwina; jego rodowy kamień.
+
+Waga: 1~
+// translators: 418002 is strref #50818 in obg2 with the part about
+// 'the ring may not be removed from nalia' deleted
+// in english, this is overridden in ee.tra
+@418002 = ~Sygnet rodziny d'Arnise
+
+Ten pierścień Nalia otrzymała od ojca w dniu, w którym wkraczała w wiek dorosły. Pierścień jest związany z krwią rodu i nikt inny nie potrafi skorzystać z jego mocy. Pierścień daje premię +2 do wszystkich rzutów obronnych, premię +2 do klasy pancerza oraz 50% odporności na ogień.~

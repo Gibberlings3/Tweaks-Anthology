@@ -1,0 +1,14 @@
+@0 = "Rozbrojenie"
+
+@1 = "Rozbrojenie
+
+Postać może spróbować rozbroić przeciwnika w walce wręcz. Próba rozbrojenia nakłada modyfikator -6 do rzutu ataku, a walczący większą bronią otrzymuje modyfikator +2 za każdą kategorię różnicy rozmiaru. Jeśli próba się powiedzie, broń wypada przeciwnikowi z rąk."
+
+//@100 = "Wybrany cel jest poza zasięgiem"
+@101 = "Rozbrojenie anulowane: ekwipunek jest pełny"
+@102 = "Trafienie"
+@103 = "Pudło"
+@104 = "Tej zdolności nie można użyć, gdy postać dzierży broń dystansową"
+@105 = "Wybranej istoty nie można rozbroić"
+//@106 = "Niepodatność na efekty Rozbrojenia"
+@106 = "Broń nieskuteczna"

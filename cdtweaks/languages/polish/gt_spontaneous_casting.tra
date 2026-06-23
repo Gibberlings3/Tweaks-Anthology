@@ -1,0 +1,3 @@
+//@0 = "It can only be cast by good-aligned characters"
+//@1 = "It can only be cast by evil-aligned characters"
+@0 = "Postać musi mieć zapamiętany przynajmniej jeden czar %i% poziomu, aby spontanicznie rzucić ten czar"
