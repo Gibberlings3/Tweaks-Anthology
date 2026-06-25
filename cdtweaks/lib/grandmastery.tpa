@@ -73,8 +73,9 @@ BEGIN
       SET gm = 0
       FOR (index = 0 ; index < fx_num ; ++index) BEGIN
         READ_SHORT (fx_off + 0x00 + (index * 0x30)) opcode
-        READ_SHORT (fx_off + 0x00 + (index * 0x30)) opcode
-        PATCH_IF opcode = 233 BEGIN
+        READ_ASCII (fx_off + 0x14 + (index * 0x30)) res
+        PATCH_IF (((opcode = 272) AND ("%res%" STRING_COMPARE_CASE "blakblad" = 0)) OR // gm via eefp
+                 (opcode = 233)) BEGIN                                                 // normal gm
           SET gm = 1
           SET index = fx_num // kill loop
         END
