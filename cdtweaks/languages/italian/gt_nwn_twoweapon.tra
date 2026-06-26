@@ -1,0 +1,13 @@
+@0 = "COMBATTIMENTO CON DUE ARMI: Questo stile di combattimento permette al personaggio di usare due armi da mischia contemporaneamente con penalità ridotte. Un personaggio che impugna due armi senza allenamento in questo stile di combattimento subirebbe una penalità di -6 ai tiri per colpire con l'arma principale e una penalità di -10 con l'arma secondaria.
+
+Competente (1 slot): Le penalità sono ridotte a -4 con l'arma principale e -8 con l'arma secondaria.
+
+Specializzato (2 slot): Le penalità sono ridotte a -4 con l'arma principale e -4 con l'arma secondaria.
+
+Maestro (3 slot): Il personaggio è in grado di sferrare un secondo attacco con l'arma secondaria (con una penalità di -5 al suo tiro per colpire).
+
+I migliori risultati si ottengono se l'arma secondaria è leggera (ad esempio, pugnali, spade corte, mazze, randelli), riducendo ulteriormente la penalità ai tiri per colpire per entrambe le armi di 2 (fino a -2/-2).
+
+Inoltre, l'arma secondaria ottiene solo metà (arrotondato per difetto) del modificatore di forza positivo come bonus al danno. Se il modificatore di forza è negativo, si applicherà la penalità completa (anzichè metà).
+"
+
