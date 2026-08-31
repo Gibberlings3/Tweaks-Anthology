@@ -1,0 +1,5 @@
+@0 = "The party cannot short rest more than twice per long rest"
+@1 = "You have rested for 4 hours."
+@2 = "Short rest or long rest?"
+@3 = "Short rest"
+@4 = "Long rest"

@@ -3389,6 +3389,23 @@ GROUP @9
 REQUIRE_PREDICATE !GAME_IS ~iwd2 pst pstee iwdee iwd how totlm~ @25
 LABEL ~cd_tweaks_pnp_free_action~
 
+
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////                                                                                          \\\\\
+///// Short rest / long rest                                                                   \\\\\
+/////                                                                                          \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+BEGIN @282000 DESIGNATED 2820
+GROUP @9
+REQUIRE_PREDICATE GAME_IS "bgee bg2ee eet iwdee" @25
+REQUIRE_PREDICATE MOD_IS_INSTALLED ~EEex.tp2~ 0 @29
+REQUIRE_PREDICATE WEIDU_VER >= 25100 @36
+REQUIRE_COMPONENT "cdtweaks.tp2" (ID_OF_LABEL ~cdtweaks.tp2~ ~cd_tweaks_limit_resting_mechanic~) @35
+LABEL ~cd_tweaks_short_rest_long_rest~
+
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
 /////                                                  \\\\\

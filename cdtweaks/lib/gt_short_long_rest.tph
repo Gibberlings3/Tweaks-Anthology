@@ -1,0 +1,107 @@
+DEFINE_ACTION_FUNCTION "SHORT_LONG_REST"
+BEGIN
+	WITH_SCOPE BEGIN
+		OUTER_SET "strref_short_rest_limit" = RESOLVE_STR_REF (@0)
+		OUTER_SET "strref_short_rest_complete" = RESOLVE_STR_REF (@1)
+		OUTER_SET "popup3Button" = RESOLVE_STR_REF (@2)
+		OUTER_SET "midText" = RESOLVE_STR_REF (@3)
+		OUTER_SET "rightText" = RESOLVE_STR_REF (@4)
+		OUTER_SET "popupInfo" = RESOLVE_STR_REF (@5)
+		//
+		LAF "APPEND_LUA_CHUNK" STR_VAR "description" = "Rule Changes" "sourceFileSpec" = "cdtweaks\luke\lua\rule_changes\short_long_rest.lua" "destRes" = "m_gtrule" END
+	END
+	//
+	<<<<<<<< .../cdtweaks-inlined/short_long_rest.baf
+	IF
+		PartyRested()
+	THEN
+		RESPONSE #100
+			EEex_LuaAction("GT_TweaksAnthology_ShortLongRest(0x3)")
+			Continue()
+	END
+	>>>>>>>>
+	// getting and patching list of world scripts
+	LAF "GET_WORLD_SCRIPTS" RET_ARRAY "world_scripts" = "toReturn" END
+	ACTION_PHP_EACH "world_scripts" AS "_" => "resref" BEGIN
+		EXTEND_TOP "%resref%.bcs" ".../cdtweaks-inlined/short_long_rest.baf" BUT_ONLY IF_EXISTS
+	END
+	// Camp Supplies
+	WITH_SCOPE BEGIN
+		OUTER_SET "strref" = 100
+		OUTER_SET "count" = 0
+		//
+		ACTION_BASH_FOR ~cdtweaks\luke\bam\rule_changes\wild_resting\inventory_icons~ ~^.+\.bam$~ BEGIN
+			ACTION_IF "%count%" < 10 BEGIN
+				OUTER_TEXT_SPRINT "suffix" "0%count%"
+			END ELSE BEGIN
+				OUTER_TEXT_SPRINT "suffix" "%count%"
+			END
+			//
+			COPY "%BASH_FOR_FILESPEC%" "override\gtifod%suffix%.bam"
+			COPY "cdtweaks\luke\bam\rule_changes\wild_resting\description_images\%BASH_FOR_FILE%" "override\gtcfod%suffix%.bam"
+			//
+			CREATE "itm" "gtfood%suffix%"
+			COPY_EXISTING "gtfood%suffix%.itm" "override"
+				WRITE_LONG NAME1 RESOLVE_STR_REF ((AT "%strref%"))
+				WRITE_LONG NAME2 RESOLVE_STR_REF ((AT "%strref%"))
+				//
+				SET "strref" += 1
+				WRITE_LONG UNIDENTIFIED_DESC RESOLVE_STR_REF ((AT "%strref%"))
+				WRITE_LONG IDENTIFIED_DESC RESOLVE_STR_REF ((AT "%strref%"))
+				//
+				WRITE_SHORT 0x38 10 // maximum in stack
+				//
+				INNER_PATCH "%BASH_FOR_RES%" BEGIN
+					REPLACE_EVALUATE "_\([0-9]+\)$" BEGIN
+						TEXT_SPRINT "substring" "%MATCH1%"
+					END
+					""
+				END
+				WRITE_LONG 0x4C "%substring%" // weight (WeiDU will automatically convert something like "09" into 9)
+				//
+				WRITE_ASCII 0x3A "gtifod%suffix%" #8 // inventory icon
+				WRITE_ASCII 0x58 "gtcfod%suffix%" #8 // description image
+				//
+				WRITE_SHORT 0x1C IDS_OF_SYMBOL ("ITEMCAT" "FOOD")
+				WRITE_LONG 0x18 IDS_OF_SYMBOL ("ITEMFLAG" "DROPPABLE") BOR IDS_OF_SYMBOL ("ITEMFLAG" "DISPLAYABLE") BOR IDS_OF_SYMBOL ("ITEMFLAG" "NOTCOPIABLE")
+			BUT_ONLY_IF_IT_CHANGES
+			//
+			OUTER_SET "strref" += 1
+			OUTER_SET "count" += 1
+		END
+		// special bag (item)
+		COPY "cdtweaks\luke\bam\rule_changes\wild_resting\inventory_icons\gtispack.bam" "override"
+		COPY "cdtweaks\luke\bam\rule_changes\wild_resting\description_images\gtcspack.bam" "override"
+		//
+		CREATE "itm" "gtsuppak"
+		COPY_EXISTING "gtsuppak.itm" "override"
+			WRITE_LONG NAME1 RESOLVE_STR_REF (@1000)
+			WRITE_LONG NAME2 RESOLVE_STR_REF (@1000)
+			//
+			WRITE_LONG UNIDENTIFIED_DESC RESOLVE_STR_REF (@1001)
+			WRITE_LONG IDENTIFIED_DESC RESOLVE_STR_REF (@1001)
+			//
+			WRITE_SHORT 0x38 1 // maximum in stack
+			//
+			WRITE_ASCII 0x3A "gtispack" #8 // inventory icon
+			WRITE_ASCII 0x58 "gtcspack" #8 // description image
+			//
+			WRITE_SHORT 0x1C IDS_OF_SYMBOL ("ITEMCAT" "BROKEN1") // containers
+			WRITE_LONG 0x18 IDS_OF_SYMBOL ("ITEMFLAG" "DROPPABLE") BOR IDS_OF_SYMBOL ("ITEMFLAG" "DISPLAYABLE") BOR IDS_OF_SYMBOL ("ITEMFLAG" "NOTCOPIABLE") BOR IDS_OF_SYMBOL ("ITEMFLAG" "INDESTRUCTIBLE")
+		BUT_ONLY_IF_IT_CHANGES
+		// special bag (store)
+		CREATE "sto" "gtsuppak"
+		COPY_EXISTING "gtsuppak.sto" "override"
+			WRITE_LONG 0x8 5 // container
+			WRITE_LONG NAME2 RESOLVE_STR_REF (@1000)
+			WRITE_LONG 0x10 0x3 // buy/sell
+			WRITE_SHORT 0x22 600 // capacity
+			//
+			LPF "ADD_STORE_PURCHASE"
+			INT_VAR
+				"category" = IDS_OF_SYMBOL ("ITEMCAT" "FOOD")
+			END
+		BUT_ONLY_IF_IT_CHANGES
+	END
+END
+

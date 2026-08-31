@@ -21,10 +21,8 @@ BEGIN
 	>>>>>>>>
 	// getting and patching list of world scripts
 	LAF "GET_WORLD_SCRIPTS" RET_ARRAY "world_scripts" = "toReturn" END
-	ACTION_PHP_EACH "world_scripts" AS "resref" => "" BEGIN
-		ACTION_IF (FILE_EXISTS_IN_GAME "%resref%.bcs") BEGIN
-			EXTEND_TOP "%resref%.bcs" ".../cdtweaks-inlined/limit_resting_mechanic.baf"
-		END
+	ACTION_PHP_EACH "world_scripts" AS "_" => "resref" BEGIN
+		EXTEND_TOP "%resref%.bcs" ".../cdtweaks-inlined/limit_resting_mechanic.baf" BUT_ONLY IF_EXISTS
 	END
 END
 
