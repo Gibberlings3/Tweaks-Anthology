@@ -1,0 +1,17 @@
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////                                                                                     /////
+///// NWN-style Two-Weapon Fighting                                                       \\\\\
+/////                                                                                     \\\\\
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////
+
+WITH_SCOPE BEGIN
+  INCLUDE "cdtweaks\luke\lib\install.tph"
+  //
+  INCLUDE "cdtweaks\lib\gt_nwn_twoweapon.tph"
+  //
+  WITH_TRA "cdtweaks\languages\english\gt_nwn_twoweapon.tra" "cdtweaks\languages\%LANGUAGE%\gt_nwn_twoweapon.tra" BEGIN
+    LAF "NWN_TWO-WEAPON" END
+  END
+END

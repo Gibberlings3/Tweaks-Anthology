@@ -1,0 +1,13 @@
+@0 = "TWO-WEAPON: This fighting style allows the character to use two melee weapons at the same time with fewer penalties. A character wielding two weapons without a slot in this fighting style would incur a -6 penalty to attack rolls with the main weapon and a -10 penalty with the off-hand weapon. 
+
+Proficient (1 slot): The wielder's penalties are reduced to -4 with the main weapon and -8 with the off-hand weapon.
+
+Specialized (2 slots): The wielder's penalties are reduced to -4 with the main weapon and -4 with the off-hand weapon.
+
+Master (3 slots): The wielder is able to get a second off-hand attack (at a penalty of -5 to his attack roll).
+
+Best results are achieved if the off-hand weapon is light (i.e., daggers, short swords, maces, clubs), further reducing the thac0 penalty for both the primary and off-hand by 2 (up to -2/-2).
+
+On top of that, the off-hand weapon gets only half (rounded down) of a positive strength modifier as bonus damage. If the strength modifier is negative, the full penalty (not half) will apply.
+"
+
