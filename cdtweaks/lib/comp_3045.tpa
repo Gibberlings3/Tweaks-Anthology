@@ -1,0 +1,45 @@
+// ///\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+// ///\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+// ///                                                            \\\\\
+// /// Make Bags of Holding Store All Item Types                  \\\\\
+// ///                                                            \\\\\
+// ///\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+// ///\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\/////\\\\\
+
+OUTER_SET container_index = 58  // Thankfully this is the same across all
+OUTER_SET store_match = 5
+
+ACTION_IF (game_includes_pst AND !game_is_pst) THEN BEGIN
+  OUTER_SET store_match = 4  // containers in PsTEE
+END
+
+ACTION_IF (original_iwd OR game_is_iwd2) THEN BEGIN
+  OUTER_SET store_match = 4  // container type in iwd/iwd2
+END
+
+COPY_EXISTING_REGEXP GLOB ~^.+\.sto$~ ~override~
+  READ_LONG 0x08 store_type
+  PATCH_IF (store_type == store_match) BEGIN  // match only containers
+    READ_LONG 0x2c purch_off
+    READ_LONG 0x30 purch_num
+    FOR (index = 0; index <= 73; ++index) BEGIN
+      // Overwrite existing ones to be ordered
+      PATCH_IF ((index < purch_num) AND (index != container_index)) THEN BEGIN
+        WRITE_LONG (purch_off + (index * 0x04)) index
+      END
+      // Add new ones in order
+      PATCH_IF ((index >= purch_num) AND (index != container_index)) THEN BEGIN
+        INSERT_BYTES purch_off 0x04
+        WRITE_LONG purch_off index
+      END
+    END
+    WRITE_LONG 0x30 (THIS + 72)  // update number of items purchased
+    // fix offsets for rest of file to account for new bytes
+    PATCH_FOR_EACH off IN 0x34 0x4c 0x70 BEGIN
+      READ_LONG off offset
+      PATCH_IF offset >= purch_off BEGIN
+        WRITE_LONG off (THIS + (72 * 0x04))
+      END
+    END
+  END
+BUT_ONLY
