@@ -15,20 +15,24 @@ COPY_EXISTING ~worldmap.wmp~ ~override~
   READ_LONG  0x34 "area_off"
   FOR (index = 0; index < area_num; index = index + 1) BEGIN
     READ_ASCII ("%area_off%" + 0x08 + (0xf0 * "%index%")) "area_res"
-    PATCH_IF ("%area_res%" STRING_COMPARE_CASE "%CloakwoodLodge%" = 0) BEGIN // cloakwood 1
+    PATCH_IF ("%area_res%" STRING_COMPARE_CASE "%CloakwoodLodge%" = 0) BEGIN // ar2200, cloakwood 1
       READ_BYTE  ("%area_off%" + 0x30 + (0xf0 * "%index%")) "flags"
       WRITE_BYTE ("%area_off%" + 0x30 + (0xf0 * "%index%")) ("%flags%" BOR 0b00000010) // adds 'reveal thru linked area' flag
     END ELSE
-    PATCH_IF ("%area_res%" STRING_COMPARE_CASE "%CloakwoodNest%" = 0) BEGIN // cloakwood 2
+    PATCH_IF ("%area_res%" STRING_COMPARE_CASE "%CloakwoodNest%" = 0) BEGIN // ar2100, cloakwood 2
       READ_BYTE  ("%area_off%" + 0x30 + (0xf0 * "%index%")) "flags"
       WRITE_BYTE ("%area_off%" + 0x30 + (0xf0 * "%index%")) ("%flags%" BAND 0b11111101) // removes 'reveal thru linked area' flag
     END
   END
   BUT_ONLY
 
-COPY_EXISTING ~%BanditCamp_RaemonsTent_BCS%.bcs~ ~override~ // tutu, bgt. bg
+COPY_EXISTING ~%BanditCamp_RaemonsTent_BCS%.bcs~ ~override~ // tutu, bgt, bg
               ~baldur.bcs~                       ~override~ // eet, bgee
   DECOMPILE_AND_PATCH BEGIN
     REPLACE_TEXTUALLY ~RevealAreaOnMap("%CloakwoodLodge%")~ ~RevealAreaOnMap("%CloakwoodLodge%") RevealAreaOnMap("%CloakwoodNest%")~
   END
   BUT_ONLY IF_EXISTS // obg doesn't have baldur.bcs
+
+// suspend coran's wyvern timer until chapter >3 in cloakwood
+EXTEND_BOTTOM ~%CloakwoodLodge_BCS%.bcs~ ~cdtweaks/baf/cloakwood_coran.baf~ // ar2200, cloakwood 1
+EXTEND_BOTTOM ~%CloakwoodNest_BCS%.bcs~  ~cdtweaks/baf/cloakwood_coran.baf~ // ar2100, cloakwood 2

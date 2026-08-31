@@ -1,0 +1,19 @@
+IF
+  InParty(Myself)
+  Global("CDResetCoranTimer","GLOBAL",0)
+  GlobalLT("Chapter","GLOBAL",4)
+THEN
+  RESPONSE #100
+    SetGlobal("CDResetCoranTimer","GLOBAL",1)
+    SetGlobalTimer("Coran","GLOBAL",999999) // ~139 days
+END
+
+IF
+  InParty(Myself)
+  Global("CDResetCoranTimer","GLOBAL",1)
+  GlobalGT("Chapter","GLOBAL",3)
+THEN
+  RESPONSE #100
+    SetGlobal("CDResetCoranTimer","GLOBAL",2)
+    SetGlobalTimer("Coran","GLOBAL",57600) // original timer of eight days
+END
