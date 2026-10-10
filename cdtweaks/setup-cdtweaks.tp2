@@ -4288,10 +4288,10 @@ LABEL ~cd_tweaks_recover_ammo_100~
 
 /////                                                  \\\\\
 ///// 25% chance to recover after a successful hit,    \\\\\
-///// vs. enemies only                                 \\\\\
+///// on enemies only                                  \\\\\
 /////                                                  \\\\\
 
-BEGIN @326400 DESIGNATED 3264 // 25% chance to recover after a successful hit, vs. enemies only
+BEGIN @326400 DESIGNATED 3264 // 25% chance to recover after a successful hit, on enemies only
 GROUP @4
 SUBCOMPONENT @326000 // Recoverable ammunition
 REQUIRE_PREDICATE NOT GAME_IS ~bg1 iwd how totlm iwd2 pst~ @25 // no eff files
@@ -4299,10 +4299,10 @@ LABEL ~cd_tweaks_recover_ammo_25_enemy_only~
 
 /////                                                  \\\\\
 ///// 50% chance to recover after a successful hit,    \\\\\
-///// vs. enemies only                                 \\\\\
+///// on enemies only                                  \\\\\
 /////                                                  \\\\\
 
-BEGIN @326500 DESIGNATED 3265 // 50% chance to recover after a successful hit, vs. enemies only
+BEGIN @326500 DESIGNATED 3265 // 50% chance to recover after a successful hit, on enemies only
 GROUP @4
 SUBCOMPONENT @326000 // Recoverable ammunition
 REQUIRE_PREDICATE NOT GAME_IS ~bg1 iwd how totlm iwd2 pst~ @25 // no eff files
@@ -4310,10 +4310,10 @@ LABEL ~cd_tweaks_recover_ammo_50_enemy_only~
 
 /////                                                  \\\\\
 ///// 75% chance to recover after a successful hit,    \\\\\
-///// vs. enemies only                                 \\\\\
+///// on enemies only                                  \\\\\
 /////                                                  \\\\\
 
-BEGIN @326600 DESIGNATED 3266 // 75% chance to recover after a successful hit, vs. enemies only
+BEGIN @326600 DESIGNATED 3266 // 75% chance to recover after a successful hit, on enemies only
 GROUP @4
 SUBCOMPONENT @326000 // Recoverable ammunition
 REQUIRE_PREDICATE NOT GAME_IS ~bg1 iwd how totlm iwd2 pst~ @25 // no eff files
@@ -4321,10 +4321,10 @@ LABEL ~cd_tweaks_recover_ammo_75_enemy_only~
 
 /////                                                  \\\\\
 ///// 100% chance to recover after a successful hit,   \\\\\
-///// vs. enemies only                                 \\\\\
+///// on enemies only                                  \\\\\
 /////                                                  \\\\\
 
-BEGIN @326700 DESIGNATED 3267 // 100% chance to recover after a successful hit, vs. enemies only
+BEGIN @326700 DESIGNATED 3267 // 100% chance to recover after a successful hit, on enemies only
 GROUP @4
 SUBCOMPONENT @326000 // Recoverable ammunition
 REQUIRE_PREDICATE NOT GAME_IS ~bg1 iwd how totlm iwd2 pst~ @25 // no eff files
@@ -4380,10 +4380,10 @@ LABEL ~cd_tweaks_recover_throwing_weapons_100~
 
 /////                                                  \\\\\
 ///// 25% chance to recover after a successful hit,    \\\\\
-///// vs. enemies only                                 \\\\\
+///// on enemies only                                  \\\\\
 /////                                                  \\\\\
 
-BEGIN @326400 DESIGNATED 3274 // 25% chance to recover after a successful hit, vs. enemies only
+BEGIN @326400 DESIGNATED 3274 // 25% chance to recover after a successful hit, on enemies only
 GROUP @4
 SUBCOMPONENT @327000 // Recoverable ammunition
 REQUIRE_PREDICATE NOT GAME_IS ~bg1 iwd how totlm iwd2 pst~ @25 // no eff files
@@ -4391,10 +4391,10 @@ LABEL ~cd_tweaks_recover_throwing_weapons_25_enemy_only~
 
 /////                                                  \\\\\
 ///// 50% chance to recover after a successful hit,    \\\\\
-///// vs. enemies only                                 \\\\\
+///// on enemies only                                  \\\\\
 /////                                                  \\\\\
 
-BEGIN @326500 DESIGNATED 3275 // 50% chance to recover after a successful hit, vs. enemies only
+BEGIN @326500 DESIGNATED 3275 // 50% chance to recover after a successful hit, on enemies only
 GROUP @4
 SUBCOMPONENT @327000 // Recoverable ammunition
 REQUIRE_PREDICATE NOT GAME_IS ~bg1 iwd how totlm iwd2 pst~ @25 // no eff files
@@ -4402,10 +4402,10 @@ LABEL ~cd_tweaks_recover_throwing_weapons_50_enemy_only~
 
 /////                                                  \\\\\
 ///// 75% chance to recover after a successful hit,    \\\\\
-///// vs. enemies only                                 \\\\\
+///// on enemies only                                  \\\\\
 /////                                                  \\\\\
 
-BEGIN @326600 DESIGNATED 3276 // 75% chance to recover after a successful hit, vs. enemies only
+BEGIN @326600 DESIGNATED 3276 // 75% chance to recover after a successful hit, on enemies only
 GROUP @4
 SUBCOMPONENT @327000 // Recoverable ammunition
 REQUIRE_PREDICATE NOT GAME_IS ~bg1 iwd how totlm iwd2 pst~ @25 // no eff files
@@ -4413,10 +4413,10 @@ LABEL ~cd_tweaks_recover_throwing_weapons_75_enemy_only~
 
 /////                                                  \\\\\
 ///// 100% chance to recover after a successful hit,   \\\\\
-///// vs. enemies only                                 \\\\\
+///// on enemies only                                  \\\\\
 /////                                                  \\\\\
 
-BEGIN @326700 DESIGNATED 3277 // 100% chance to recover after a successful hit, vs. enemies only
+BEGIN @326700 DESIGNATED 3277 // 100% chance to recover after a successful hit, on enemies only
 GROUP @4
 SUBCOMPONENT @327000 // Recoverable ammunition
 REQUIRE_PREDICATE NOT GAME_IS ~bg1 iwd how totlm iwd2 pst~ @25 // no eff files

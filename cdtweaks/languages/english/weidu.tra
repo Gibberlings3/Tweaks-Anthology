@@ -720,10 +720,10 @@ Enter a percentage between 20 and 500:~
 @326100 = ~50% chance to recover after a successful hit~
 @326200 = ~75% chance to recover after a successful hit~
 @326300 = ~100% chance to recover after a successful hit~
-@326400 = ~25% chance to recover after a successful hit, vs. enemies only~
-@326500 = ~50% chance to recover after a successful hit, vs. enemies only~
-@326600 = ~75% chance to recover after a successful hit, vs. enemies only~
-@326700 = ~100% chance to recover after a successful hit, vs. enemies only~
+@326400 = ~25% chance to recover after a successful hit, on enemies only~
+@326500 = ~50% chance to recover after a successful hit, on enemies only~
+@326600 = ~75% chance to recover after a successful hit, on enemies only~
+@326700 = ~100% chance to recover after a successful hit, on enemies only~
 
 @327000 = ~Recoverable Throwing Weapons [argent77]~
 
