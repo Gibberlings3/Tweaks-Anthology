@@ -8,7 +8,7 @@
 
 /////                                                  \\\\\
 ///// 25% chance to recover after a successful hit,    \\\\\
-///// vs. enemies only                                 \\\\\
+///// on enemies only                                  \\\\\
 /////                                                  \\\\\
 
 INCLUDE ~cdtweaks/lib/recoverable_weapons.tpa~
