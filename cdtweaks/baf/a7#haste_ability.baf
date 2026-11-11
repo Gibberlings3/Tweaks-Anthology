@@ -1,7 +1,18 @@
 // Adds "Auto-haste" ability to Player1 ability section
 
+// Delay adding ability to prevent issues with original game scripting
+IF
+  Global("A7_AutoHasteAbilityDelay","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("A7_AutoHasteAbilityDelay","GLOBAL",1)
+    SetGlobalTimer("A7_AutoHasteAbilityDelayTimer","GLOBAL",1)
+    Continue()
+END
+
 IF
   Global("A7_AutoHasteAbility","GLOBAL",0)
+  GlobalTimerExpired("A7_AutoHasteAbilityDelayTimer","GLOBAL")
   !StateCheck(Player1,CD_STATE_NOTVALID)
   !TriggerOverride(Player1,HaveSpellRES("a7_hst1"))
   !TriggerOverride(Player1,HaveSpellRES("a7_hst2"))
